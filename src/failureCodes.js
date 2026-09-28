@@ -624,6 +624,30 @@ const FAILURE_CODES = Object.freeze({
       forbidden: 'Never delete or rebuild this ledger to get past the error. Rebuilding it destroys exactly the evidence it exists to hold and silently converts post-hoc boundaries into pre-registered ones.',
     },
   },
+  'CRU-0050': {
+    code: 'CRU-0050',
+    category: 'authorized-repair',
+    meaning: 'The authorized cross-repository repair path rejected its authorization, command boundary, project identity, Git state, API operation, or retest condition.',
+    next: 'Read the carried repair error and verify the exact repository, pull request, head SHA, signed authorization, bounded command, token scope, Git operation, and retest evidence before retrying.',
+    remedy: {
+      kind: 'owner-decision',
+      command: null,
+      verifyWith: { tests: ['test/authorizedPrRepair.test.js'] },
+      forbidden: 'Never bypass the authorization gate, widen the command surface, accept a different commit, or treat an unverified repair as complete.',
+    },
+  },
+  'CRU-0051': {
+    code: 'CRU-0051',
+    category: 'pr-monitoring',
+    meaning: 'The Crucible PR monitor could not complete an observation because its monitored-repository configuration or GitHub API access was invalid or unavailable.',
+    next: 'Read the monitor error, verify the seven-repository configuration and read-token access, then rerun the monitor. Observed PR failures are evidence, not monitor execution failures.',
+    remedy: {
+      kind: 'guided',
+      command: 'npm run monitor:nexus-checks',
+      verifyWith: { tests: ['test/nexusCheckMonitor.test.js'] },
+      forbidden: 'Never hide an inaccessible repository, suppress a GitHub API error, or mark a blocked observation healthy merely to make the monitor green.',
+    },
+  },
   'CRU-0022': {
     code: 'CRU-0022',
     category: 'diagnosis-coverage',
