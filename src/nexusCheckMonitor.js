@@ -117,8 +117,18 @@ function loadMonitorConfig(configPath = DEFAULT_CONFIG, readFile = fs.readFileSy
   return { ...config, repositories };
 }
 
+async function githubGetCheckRuns(fetchImpl, repository, sha, token) {
+  const checkRuns = [];
+  for (let page = 1; ; page += 1) {
+    const body = await githubGet(fetchImpl, `https://api.github.com/repos/${repository}/commits/${sha}/check-runs?per_page=100&page=${page}`, token);
+    if (!body || !Array.isArray(body.check_runs)) throw new Error(`GitHub check-runs endpoint did not return check_runs: ${repository} ${sha}`);
+    checkRuns.push(...body.check_runs);
+    if (body.check_runs.length < 100) return checkRuns;
+  }
+}
+
 async function monitorPullRequest({ fetchImpl, token, repository, pr, requiredChecks = [], lockedPullRequests = [] }) {
-  const checkRuns = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/commits/${pr.head.sha}/check-runs`, token);
+  const checkRuns = await githubGetCheckRuns(fetchImpl, repository, pr.head.sha, token);
   const summary = summarizeChecks(checkRuns);
   const required = requiredCheckState(checkRuns, requiredChecks);
   const locked = isLockedPullRequest(pr, lockedPullRequests);
@@ -233,6 +243,7 @@ module.exports = {
   requiredCheckState,
   isLockedPullRequest,
   loadMonitorConfig,
+  githubGetCheckRuns,
   monitorPullRequest,
   monitorRepository,
   monitorConfiguredRepositories,
