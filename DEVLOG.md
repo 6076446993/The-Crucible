@@ -38,6 +38,41 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 - **Verification state:** `npm run test:all` 890/890 at this change. `validate`, `docs:check`, `lint:workflows`, `audit:clutter`, `audit:privacy`, `audit:security`, `audit:governance`, `audit:ai-conflict-governance`, `audit:authenticity`, `audit:coordination` (12 claims, 0 active) and `git diff --check` exit 0; `audit:failure-codes` 581 uncoded with none added, `audit:circulation` 57 direct edges with none added. Hosted `Prove R4-R8 on encrypted durable state` is red by design until R8 is demonstrated.
 - **Continuation boundary:** Oversight deleting what it refuses is the remaining half, and it is not Crucible's to do — the proposed patch is with the owner, and the delicate part is that queue and manifest hashes must move together. Also open: whether consumer-side enforcement should count for R8's `prompt-injection` behaviour (a definition call); whether to retract active knowledge `v1`; promoting `council-consult.yml` to `main`; the unused `NVIDIA_NIM_MODEL` secret; and the 45 exfiltration-pattern documents, whose bytes stay encrypted to this session.
 
+## Released mutation claim accountability
+
+This section is intentionally outside the bounded Command log archive. Released ownership records remain auditable after their original session is pruned; pruning a session does not retire or delete the mutation-claim record.
+
+- `multi-ai-coordination` — anthropic — released 2026-09-03T18:05:00Z.
+- `resolve-additive-diagnostics-conflict` — openai — released 2026-09-04T16:18:55Z.
+- `crucible-rolling-learning-release-review-20260906` — openai — released 2026-09-07T02:47:14Z.
+- `daily-google-research-and-lock-recovery-20260908` — openai — released 2026-09-08T18:28:00Z.
+- `crucible-rolling-learning-release-review-20260909` — openai — released 2026-09-09T16:12:14Z.
+- `crucible-rolling-learning-release-review-20260910-1600` — openai — released 2026-09-10T20:09:30.249Z.
+- `crucible-rolling-learning-release-review-20260910-proof-correction` — openai — released 2026-09-10T20:20:27.385Z.
+- `perplexity-r3-discovery-and-self-test-repair-20260910` — openai — released 2026-09-12T19:34:00Z.
+- `canonical-task-routing-20260912` — openai — released 2026-09-13T00:21:00Z.
+- `discovery-first-due-race-20260915` — anthropic — released 2026-09-15T08:33:50.781Z.
+- `orchestrator-continuity-upgrade-20260915` — anthropic — released 2026-09-15T19:11:49.410Z.
+- `crucible-constitution-routing-registration-20260915` — anthropic — released 2026-09-15T19:31:57.672Z.
+- `windows-java-toolchain-detection-20260916` — anthropic — released 2026-09-16T21:53:37.592Z.
+
+## Historical mutation accountability
+
+Released mutation claims remain durable facts even after their detailed session entries leave the ten-session inline command log. The full pre-prune DEVLOG snapshots are retained on Archive for at least 365 days. This compact index keeps every released claim discoverable to the coordination gate without retiring or rewriting the underlying repair/history evidence.
+
+- multi-ai-coordination
+- crucible-rolling-learning-release-review-20260906
+- daily-google-research-and-lock-recovery-20260908
+- crucible-rolling-learning-release-review-20260909
+- crucible-rolling-learning-release-review-20260910-1600
+- crucible-rolling-learning-release-review-20260910-proof-correction
+- perplexity-r3-discovery-and-self-test-repair-20260910
+- canonical-task-routing-20260912
+- discovery-first-due-race-20260915
+- orchestrator-continuity-upgrade-20260915
+- crucible-constitution-routing-registration-20260915
+- windows-java-toolchain-detection-20260916
+
 ## Command log archive
 
 ### Session: java-static-adapter-dependency-correction-20260928 — 2026-09-28T19:02:58.150Z — Codex — mode:work
