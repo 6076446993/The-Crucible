@@ -5,7 +5,10 @@ const { readAuthorization, executeAuthorizedRepair } = require('./authorizedPrRe
 const { crucibleError } = require('./failureCodes');
 
 const DEFAULT_CONFIG = path.resolve(process.env.CRUCIBLE_MONITOR_CONFIG || 'governingDocuments/crucible-monitored-repositories.json');
-const MONITOR_CHECK_NAMES = new Set(['Monitor all Crucible-monitored PRs', 'Crucible PR monitor / Monitor all Crucible-monitored PRs']);
+const MONITOR_CHECK_NAMES = new Set(['Monitor all Crucible-monitored PRs', 'Crucible PR monitor / Monitor all Crucible-monitored PRs', 'block']);
+const DEFAULT_MONITOR_WAIT_MS = 10 * 60 * 1000;
+const DEFAULT_MONITOR_POLL_MS = 10 * 1000;
+const DEFAULT_MONITOR_SETTLE_MS = 5 * 1000;
 const FAILURE_CONCLUSIONS = new Set(['failure','cancelled','timed_out','action_required','startup_failure','stale']);
 const defaultFetch = (...args) => globalThis.fetch(...args);
 
@@ -127,6 +130,27 @@ function loadMonitorConfig(configPath = DEFAULT_CONFIG, readFile = fs.readFileSy
   return { ...config, repositories };
 }
 
+async function waitForPullRequestChecks({ fetchImpl = defaultFetch, token = '', repository, sha, timeoutMs = DEFAULT_MONITOR_WAIT_MS, pollMs = DEFAULT_MONITOR_POLL_MS, settleMs = DEFAULT_MONITOR_SETTLE_MS } = {}) {
+  requireValue(repository, 'repository');
+  requireValue(sha, 'pull-request head SHA');
+  const started = Date.now();
+  let last = [];
+  let stableSince = null;
+  while (Date.now() - started < timeoutMs) {
+    last = await githubGetCheckRuns(fetchImpl, repository, sha, token);
+    const relevant = last.filter((check) => !isSelfMonitorCheck(check));
+    const pending = relevant.filter((check) => check.status !== 'completed');
+    if (relevant.length && pending.length === 0) {
+      if (stableSince === null) stableSince = Date.now();
+      if (Date.now() - stableSince >= settleMs) return { state: 'settled', checks: relevant };
+    } else {
+      stableSince = null;
+    }
+    await new Promise((resolve) => setTimeout(resolve, pollMs));
+  }
+  return { state: 'timed-out', checks: last.filter((check) => !isSelfMonitorCheck(check)) };
+}
+
 async function githubGetCheckRuns(fetchImpl, repository, sha, token) {
   const checkRuns = [];
   for (let page = 1; ; page += 1) {
@@ -154,7 +178,10 @@ async function monitorPullRequest({
   repairEnabled = false,
   repairAuthorization = null,
   repairRoot = process.cwd(),
+  waitForChecksMs = 0,
+  waitForChecksPollMs = DEFAULT_MONITOR_POLL_MS,
 } = {}) {
+  if (waitForChecksMs > 0 && pr.state === 'open') await waitForPullRequestChecks({ fetchImpl, token, repository, sha: pr.head.sha, timeoutMs: waitForChecksMs, pollMs: waitForChecksPollMs });
   const allCheckRuns = await githubGetCheckRuns(fetchImpl, repository, pr.head.sha, token);
   const checkRuns = allCheckRuns.filter((check) => !isSelfMonitorCheck(check));
   const summary = summarizeChecks(checkRuns);
@@ -232,7 +259,7 @@ async function monitorPullRequest({
   };
 }
 
-async function monitorRepository({ fetchImpl = defaultFetch, token = process.env.CRUCIBLE_MONITOR_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
+async function monitorRepository({ fetchImpl = defaultFetch, token = process.env.CRUCIBLE_MONITOR_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd(), waitForChecksMs = 0, waitForChecksPollMs = DEFAULT_MONITOR_POLL_MS }) {
   requireValue(repository, 'repository');
   const prs = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/pulls?state=open`, token);
   const pullRequests = [];
@@ -256,6 +283,9 @@ async function monitorConfiguredRepositories({
   repairEnabled = process.env.CRUCIBLE_REPAIR_ENABLED === 'true',
   repairAuthorization = null,
   repairRoot = process.cwd(),
+  waitForChecksMs = Number(process.env.CRUCIBLE_MONITOR_WAIT_FOR_CHECKS_MS || 0),
+  waitForChecksPollMs = Number(process.env.CRUCIBLE_MONITOR_POLL_MS || DEFAULT_MONITOR_POLL_MS),
+  currentPullRequestNumber = process.env.CRUCIBLE_MONITOR_PR_NUMBER || '',
 } = {}) {
   if (repairEnabled && repairAuthorization == null) {
     const authorizationFile = process.env.CRUCIBLE_REPAIR_AUTHORIZATION_FILE || 'governingDocuments/active-repair-authorization.json';
@@ -272,6 +302,8 @@ async function monitorConfiguredRepositories({
       repairEnabled,
       repairAuthorization,
       repairRoot,
+      waitForChecksMs: currentPullRequestNumber ? waitForChecksMs : 0,
+      waitForChecksPollMs,
     }));
   }
   const blockers = repositories.flatMap((repo) => repo.blockers.map((blocker) => ({ repository:repo.repository, ...blocker })));
@@ -330,6 +362,7 @@ if (require.main === module) {
 
 module.exports = {
   failureCodeFromCheck,
+  waitForPullRequestChecks,
   classifyCheck,
   summarizeChecks,
   isSelfMonitorCheck,
