@@ -40,6 +40,15 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Command log archive
 
+### Session: java-static-adapter-dependency-correction-20260928 — 2026-09-28T19:02:58.150Z — Codex — mode:work
+
+Plain-language summary: Hosted evidence showed the new Java semantic adapter was correctly trying to compile its helper, but the toolchain bridge was still passing only the Java runtime, so the command became `java -d ...`. The bridge now supplies the resolved `javac` and `java` executables to the adapter.
+
+- Read the exact Windows/Linux hosted Java failure showing `java -d <temporary-output>` and identified the missing `javacExecutable` injection in `javaStaticAdapter` — started 2026-09-28T19:02:58.150Z, finished 2026-09-28T19:02:58.150Z, exit 1 diagnosis.
+- Corrected `javaStaticAdapter` to pass both resolved JDK compiler and runtime executables into `JavaSemanticAdapter` — started 2026-09-28T19:02:58.150Z, finished 2026-09-28T19:02:58.150Z, exit 0.
+- Updated `AI-HANDOFF.json` and `DEVLOG.md` together with the exact four-path scope digest — started 2026-09-28T19:02:58.150Z, finished 2026-09-28T19:02:58.150Z, exit 0.
+
+
 ### Session: devlog-archive-retention-prune-20260928 — 2026-09-28T19:00:08.148Z — Codex — mode:work
 
 Plain-language summary: Pruned the oldest Command log sessions from development after preserving the exact pre-prune DEVLOG snapshot in Archive, restoring the inline ten-session bound without retiring repair knowledge or historical evidence.
