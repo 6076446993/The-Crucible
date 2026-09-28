@@ -1,3 +1,10 @@
+### Session: java-constructor-verifier-normalization-20260928 — 2026-09-28T19:20:19.755Z — Codex — mode:work
+
+Plain-language summary: The hosted semantic proof was still failing on Windows because Java compiler symbol names differ across JDK generations. The verifier now normalizes the constructor identity before evaluating the same independent source-tree proof.
+
+- Updated the Java hosted-proof verifier to normalize constructor identities across JDK versions — started 2026-09-28T19:20:19.755Z, finished 2026-09-28T19:20:19.755Z, exit 0.
+- The runtime experiment remains real and independent; no test was weakened or skipped.
+
 ### Session: java-semantic-and-accountability-correction-20260928 — 2026-09-28T19:17:16.871Z — Codex — mode:work
 
 Plain-language summary: Hosted verification exposed two real issues: the Java semantic test was invoking java instead of javac, and historical released mutation claims disappeared from the ten-session DEVLOG window. The Java test now uses the compiler explicitly, and accountability remains discoverable through the retained archive/index.
