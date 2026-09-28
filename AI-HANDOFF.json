@@ -233,11 +233,12 @@
       "[in progress] Generalize the Crucible PR monitor from one hard-coded Nexus PR to every repository in governingDocuments/crucible-monitored-repositories.json, discover all open PRs with pagination, and classify locked PRs as LOCKED_READ_ONLY.",
       "[in progress] Repair collision diagnostics so the standing locked CI-monitoring PR is observed but never treated as an actionable collision; do not modify PR #11.",
       "[blocked-external] CRU-0006 remains dependent on a valid repository Administration read token; source code cannot repair an invalid or unauthorized GitHub secret without bypassing the security gate.",
-      "[in progress] Re-run exact-tip tests after the monitor and locked-PR changes; preserve fail-closed behavior for any remaining external prerequisite."
+      "[in progress] Re-run exact-tip tests after the monitor and locked-PR changes; preserve fail-closed behavior for any remaining external prerequisite.",
+      "[done] Fixed the circulation ownership classification for the authorized repair coordinator and synchronized the new monitor/repair tests with the governed test cadence."
     ],
     "status": "handoff-ready",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-28T17:10:00Z",
+    "lastUpdatedAt": "2026-09-28T17:55:00Z",
     "currentStep": 20
   },
   "handoffNotes": {
