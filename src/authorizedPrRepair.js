@@ -1,0 +1,113 @@
+'use strict';
+
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const { spawnSync } = require('node:child_process');
+const { ExternalOversightReflex } = require('./oversightReflex');
+const { createProductionOrganism, submitNervousObservation } = require('./productionOrganism');
+
+const DEFAULT_AUTH_FILE = process.env.CRUCIBLE_REPAIR_AUTHORIZATION_FILE ||
+  'governingDocuments/active-repair-authorization.json';
+
+function sha256(value) {
+  return crypto.createHash('sha256')
+    .update(typeof value === 'string' ? value : JSON.stringify(value))
+    .digest('hex');
+}
+function requireText(value, name) {
+  if (typeof value !== 'string' || !value.trim()) throw new Error(`${name} is required.`);
+  return value.trim();
+}
+function readAuthorization(file = DEFAULT_AUTH_FILE, readFile = fs.readFileSync) {
+  const text = readFile(file, 'utf8');
+  if (!text) throw new Error(`Repair authorization file is empty: ${file}`);
+  const authorization = JSON.parse(text);
+  if (!authorization || authorization.schemaVersion !== 1) throw new Error('Repair authorization must use schemaVersion 1.');
+  return authorization;
+}
+function authorizationScope(a) {
+  return {
+    schemaVersion:a.schemaVersion, authorizationId:a.authorizationId, repository:a.repository,
+    pullRequest:Number(a.pullRequest), headSha:a.headSha, baseBranch:a.baseBranch,
+    allowedFailureCodes:a.allowedFailureCodes, allowedOperations:a.allowedOperations,
+    issuedAt:a.issuedAt, expiresAt:a.expiresAt,
+  };
+}
+function verifyAuthorization({authorization,repository,pullRequest,headSha,failureCode,now=new Date(),oversightPublicKey=process.env.CRUCIBLE_OVERSIGHT_PUBLIC_KEY,ownerPublicKey=process.env.CRUCIBLE_OWNER_PUBLIC_KEY}) {
+  if (!authorization || authorization.schemaVersion!==1) return {authorized:false,reason:'missing-or-invalid-authorization'};
+  if (authorization.status!=='active') return {authorized:false,reason:'authorization-not-active'};
+  const scope=authorizationScope(authorization);
+  if(scope.repository!==repository)return{authorized:false,reason:'repository-mismatch'};
+  if(Number(scope.pullRequest)!==Number(pullRequest))return{authorized:false,reason:'pull-request-mismatch'};
+  if(scope.headSha!==headSha)return{authorized:false,reason:'head-sha-mismatch'};
+  const required=['development-branch-repair','commit','push','retest'];
+  if(!Array.isArray(scope.allowedOperations)||required.some(x=>!scope.allowedOperations.includes(x)))return{authorized:false,reason:'required-operation-not-authorized'};
+  if(!Array.isArray(scope.allowedFailureCodes)||!scope.allowedFailureCodes.includes(failureCode))return{authorized:false,reason:'failure-code-not-authorized'};
+  const issued=Date.parse(scope.issuedAt),expires=Date.parse(scope.expiresAt),current=now.getTime();
+  if(!Number.isFinite(issued)||!Number.isFinite(expires)||current<issued||current>=expires)return{authorized:false,reason:'authorization-expired-or-not-yet-active'};
+  if(!/^[a-f0-9]{64}$/.test(authorization.scopeSha256)||authorization.scopeSha256!==sha256(scope))return{authorized:false,reason:'authorization-scope-hash-mismatch'};
+  if(!oversightPublicKey||!ownerPublicKey)return{authorized:false,reason:'authorization-verification-keys-unavailable'};
+  try {
+    const reflex=new ExternalOversightReflex({projectId:`github:${repository}`,oversightPublicKey,ownerPublicKey});
+    const decision=reflex.evaluate({schemaVersion:1,projectId:`github:${repository}`,decision:authorization.decision,reason:authorization.reason,issuedAt:scope.issuedAt,stateSha256:authorization.scopeSha256,oversightSignature:authorization.oversightSignature,ownerSignature:authorization.ownerSignature});
+    if(decision.decision!=='CLEAR'||!decision.ownerVerified)return{authorized:false,reason:'authorization-decision-not-clear'};
+  } catch(error) { return {authorized:false,reason:`authorization-signature-invalid: ${error.message}`}; }
+  return {authorized:true,authorizationId:requireText(authorization.authorizationId,'authorizationId'),scopeSha256:authorization.scopeSha256,expiresAt:scope.expiresAt};
+}
+function run(command,args,cwd,env) {
+  const result=spawnSync(command,args,{cwd,env,shell:false,encoding:'utf8',maxBuffer:8*1024*1024});
+  if(result.error)throw result.error;
+  if(result.status!==0)throw new Error(`${command} exited with ${result.status}: ${String(result.stderr||result.stdout||'').slice(-4000)}`);
+  return String(result.stdout||'');
+}
+function git(cwd,args,env){return run('git',args,cwd,env);}
+function parseRepairCommand(command) {
+  const match=/^npm run ([a-z0-9:_-]+)$/.exec(String(command||'').trim());
+  if(!match)throw new Error(`Repair command is outside the bounded npm-run repair surface: ${command}`);
+  return {executable:process.platform==='win32'?'npm.cmd':'npm',args:['run',match[1]]};
+}
+function createRepairActuator({token,repository,branch,baseSha,failureCode,command}) {
+  if(!token)throw new Error('CRUCIBLE_REPAIR_TOKEN is required for an authorized cross-repository repair.');
+  if(!/^\\S+\\/\\S+$/.test(repository))throw new Error('A full GitHub repository name is required.');
+  if(!/^[a-f0-9]{40}$/.test(baseSha))throw new Error('The repair actuator requires the exact PR head SHA.');
+  const parsed=parseRepairCommand(command);
+  return {async run({projectId,boundary,changeBaseSha256}) {
+    if(projectId!==`github:${repository}`)throw new Error('Repair actuator project identity mismatch.');
+    if(changeBaseSha256&&changeBaseSha256!==sha256(baseSha))throw new Error('Repair actuator base SHA does not match the authorized exact tip.');
+    const worktree=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-pr-repair-'));
+    try {
+      const env={...process.env,GIT_TERMINAL_PROMPT:'0'};
+      const url=`https://github.com/${repository}.git`;
+      git(worktree,['init','-q'],env);git(worktree,['remote','add','origin',url],env);
+      git(worktree,['-c',`http.extraheader=Authorization: Bearer ${token}`,'fetch','--depth=1','origin',baseSha],env);
+      git(worktree,['checkout','-q','-b',branch,'FETCH_HEAD'],env);
+      const before=git(worktree,['rev-parse','HEAD'],env).trim();
+      if(before!==baseSha)throw new Error(`Fetched repair tip ${before} does not equal authorized tip ${baseSha}.`);
+      const plan={command,failureCode,boundary,before};
+      run(parsed.executable,parsed.args,worktree,env);
+      const status=git(worktree,['status','--porcelain'],env);
+      if(!status.trim())return{state:'no-change',repository,branch,baseSha,failureCode,plan,applied:{resultSha256:sha256({before,status})}};
+      git(worktree,['add','--all'],env);
+      git(worktree,['-c','user.name=The Crucible','-c','user.email=crucible@users.noreply.github.com','commit','-m',`Crucible authorized repair: ${failureCode}`],env);
+      const repairSha=git(worktree,['rev-parse','HEAD'],env).trim();
+      git(worktree,['-c',`http.extraheader=Authorization: Bearer ${token}`,'push','origin',`HEAD:${branch}`],env);
+      return{state:'applied',repository,branch,baseSha,repairSha,failureCode,plan,applied:{resultSha256:sha256({before,repairSha,failureCode})}};
+    } finally { fs.rmSync(worktree,{recursive:true,force:true}); }
+  }};
+}
+async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,failure,authorization,token,diagnosticPlanner,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,learningStore,oversightReflex,root,now=()=>new Date().toISOString()}) {
+  if(failure.locked)return{state:'locked-read-only',authorized:false,reason:'locked-pull-request'};
+  const authorizationResult=verifyAuthorization({authorization,repository,pullRequest,headSha,failureCode:failure.code,now:new Date(now())});
+  if(!authorizationResult.authorized)return{state:'not-authorized',authorized:false,reason:authorizationResult.reason};
+  const remedy=failure.remedy;
+  if(!remedy||remedy.kind!=='automatic'||!remedy.command)return{state:'not-repairable-by-immune-system',authorized:true,reason:'failure-remedy-is-not-a-concrete-automatic-repair'};
+  const actuator=createRepairActuator({token,repository,branch,baseSha:headSha,failureCode:failure.code,command:remedy.command});
+  const organism=createProductionOrganism({projectId:`github:${repository}`,root,learningStore,oversightReflex,diagnosticPlanner,repairActuator:actuator,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,now});
+  const submission=await submitNervousObservation(organism,{observationId:`pr-${pullRequest}-${headSha}-${failure.code}`,boundary:`github-pr:${repository}#${pullRequest}`,finding:failure.finding,changeBaseSha256:sha256(headSha)});
+  let heartbeat=await organism.heartbeat();
+  for(let i=0;i<4&&heartbeat.results?.some(r=>r.output?.signals);i++)heartbeat=await organism.heartbeat();
+  return{state:'repair-pipeline-complete',authorized:true,authorizationId:authorizationResult.authorizationId,authorizationExpiresAt:authorizationResult.expiresAt,failureCode:failure.code,submission,heartbeat};
+}}
+module.exports={DEFAULT_AUTH_FILE,sha256,authorizationScope,readAuthorization,verifyAuthorization,parseRepairCommand,createRepairActuator,executeAuthorizedRepair};
