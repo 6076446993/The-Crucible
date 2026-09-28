@@ -1,3 +1,11 @@
+### Session: java-semantic-and-accountability-correction-20260928 — 2026-09-28T19:17:16.871Z — Codex — mode:work
+
+Plain-language summary: Hosted verification exposed two real issues: the Java semantic test was invoking java instead of javac, and historical released mutation claims disappeared from the ten-session DEVLOG window. The Java test now uses the compiler explicitly, and accountability remains discoverable through the retained archive/index.
+
+- Corrected the Java semantic test to pass the actual javac executable separately from java — started 2026-09-28T19:17:16.871Z, finished 2026-09-28T19:17:16.871Z, exit 0 correction.
+- Completed Java 8 compatibility in the semantic helper so hosted Windows JDK 8 can compile the real analyzer — started 2026-09-28T19:17:16.871Z, finished 2026-09-28T19:17:16.871Z, exit 0 correction.
+- Preserved released mutation-claim accountability across DEVLOG pruning without retiring historical evidence — started 2026-09-28T19:17:16.871Z, finished 2026-09-28T19:17:16.871Z, exit 0 correction.
+
 ### Session: historical-accountability-index-20260928 — 2026-09-28T18:57:42.851Z — Codex — mode:work
 
 Plain-language summary: Restored durable discoverability for released mutation claims after the inline DEVLOG archive was pruned. Historical claims remain indexed in the current DEVLOG, while full pre-prune snapshots remain on Archive.
