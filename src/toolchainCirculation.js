@@ -62,7 +62,7 @@ function javaRuntimeAdapter({ projectId, root, env = process.env }) {
 function javaStaticAdapter({ projectId, root, env = process.env }) {
   const toolchain = javaToolchain(env);
   if (!toolchain) return null;
-  return new JavaSemanticAdapter({ projectId, root, javaExecutable: toolchain.java });
+  return new JavaSemanticAdapter({ projectId, root, javacExecutable: toolchain.javac, javaExecutable: toolchain.java });
 }
 
 function nodeRuntimeAdapter({ projectId, root }) {
