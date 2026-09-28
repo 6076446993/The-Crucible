@@ -166,5 +166,5 @@ async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,fa
   let heartbeat=await organism.heartbeat();
   for(let i=0;i<4&&heartbeat.results?.some(r=>r.output?.signals);i++)heartbeat=await organism.heartbeat();
   return{state:'repair-pipeline-complete',authorized:true,authorizationId:authorizationResult.authorizationId,authorizationExpiresAt:authorizationResult.expiresAt,failureCode:failure.code,submission,heartbeat};
-}}
+}
 module.exports={DEFAULT_AUTH_FILE,sha256,authorizationScope,readAuthorization,verifyAuthorization,parseRepairCommand,createRepairActuator,githubJson,waitForRetest,buildDefaultPipelineDependencies,executeAuthorizedRepair};
