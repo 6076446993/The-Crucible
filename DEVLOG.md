@@ -12,6 +12,15 @@
 
 ## Command log archive
 
+### Session: crucible-pr-monitor-circulation-syntax-correction-20260928 — 2026-09-28T18:47:12.710Z — Codex — mode:work
+
+Plain-language summary: AI conflict governance caught a syntax error in the new canonical module registry. The repair was isolated to the malformed `security` entry; no governance rule was weakened.
+
+- Read the exact hosted failure: `SyntaxError: Unexpected identifier 'malwareScan'` from `src/circulationLinkage.js` — started 2026-09-28T18:47:12.710Z, finished 2026-09-28T18:47:12.710Z, exit 1 diagnosis.
+- Corrected the malformed immune-system registry entry so `authorizedPrRepair`, `nexusCheckMonitor`, and `security` are distinct module names — started 2026-09-28T18:47:12.710Z, finished 2026-09-28T18:47:12.710Z, exit 0.
+- Updated `AI-HANDOFF.json` and `DEVLOG.md` together and rebound the affected-path digest for this correction commit — started 2026-09-28T18:47:12.710Z, finished 2026-09-28T18:47:12.710Z, exit 0.
+
+
 ### Session: crucible-pr-monitor-cross-repo-token-and-wiring-20260928 — 2026-09-28T18:46:17.624Z — Codex — mode:work
 
 Plain-language summary: The Self-Test exposed that the newly ported monitor and authorized-repair modules were not yet assigned to the canonical circulation system. The monitor also correctly failed when its current workflow token could not read the two private monitored repositories. The wiring is now explicit, and the workflow uses a dedicated cross-repository monitor-read secret rather than borrowing the security-settings credential.
