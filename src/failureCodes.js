@@ -648,6 +648,19 @@ const FAILURE_CODES = Object.freeze({
       forbidden: 'Never add a fallback harness, never let one language\'s fixture stand in for another, and never weaken a negative control so an experiment passes. An experiment whose control cannot fail has isolated nothing, and a proof that does not run the claim\'s own fixture is not a proof of that claim.',
     },
   },
+  'CRU-0051': {
+    code: 'CRU-0051',
+    category: 'pr-monitoring',
+    meaning: 'The Crucible PR monitor could not complete an observation because its monitored-repository configuration or GitHub API access was invalid or unavailable.',
+    next: 'Read the monitor error, verify the seven-repository configuration and read-token access, then rerun the monitor. Observed PR failures are evidence, not monitor execution failures.',
+    remedy: {
+      kind: 'guided',
+      command: 'npm run monitor:nexus-checks',
+      verifyWith: { tests: ['test/nexusCheckMonitor.test.js'] },
+      forbidden: 'Never hide an inaccessible repository, suppress a GitHub API error, or mark a blocked observation healthy merely to make the monitor green.',
+    },
+  },
+
   'CRU-0022': {
     code: 'CRU-0022',
     category: 'diagnosis-coverage',
