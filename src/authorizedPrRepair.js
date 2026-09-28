@@ -72,7 +72,7 @@ function parseRepairCommand(command) {
 }
 function createRepairActuator({token,repository,branch,baseSha,failureCode,command}) {
   if(!token)throw new Error('CRUCIBLE_REPAIR_TOKEN is required for an authorized cross-repository repair.');
-  if(!/^\\S+\\/\\S+$/.test(repository))throw new Error('A full GitHub repository name is required.');
+  if(!/^\S+\/\S+$/.test(repository))throw new Error('A full GitHub repository name is required.');
   if(!/^[a-f0-9]{40}$/.test(baseSha))throw new Error('The repair actuator requires the exact PR head SHA.');
   const parsed=parseRepairCommand(command);
   return {async run({projectId,boundary,changeBaseSha256}) {
@@ -127,7 +127,19 @@ function buildDefaultPipelineDependencies({fetchImpl=globalThis.fetch,token,repo
   const projectId=`github:${repository}`;
   const learningStore=new DurableScientificLearningStore({root:path.join(root,'authorized-repair-learning'),projectId});
   const diagnosticPlanner={async plan(payload){return {bounded:true,nextAction:'diagnose',changeBaseSha256:payload.changeBaseSha256,testRequest:null};}};
-  const diagnosticOrgan=async payload=>diagnose(payload);
+  const diagnosticOrgan=async payload=>diagnose({
+    projectId,
+    repository,
+    commitSha: payload.commitSha || payload.headSha || payload.changeBaseSha || '0000000000000000000000000000000000000000',
+    runId: payload.runId || 'authorized-pr-repair',
+    workflow: payload.workflow || 'Crucible authorized repair',
+    job: payload.job || 'production-organism',
+    step: payload.step || 'authorized repair diagnosis',
+    os: process.platform,
+    nodeVersion: process.version,
+    conclusion: 'failure',
+    log: String(payload.errorLog || payload.finding?.output?.text || payload.finding?.output?.summary || payload.finding?.output?.title || payload.failureCode || ''),
+  });
   const experienceRecorder={async record(payload){return {recorded:true,classification:'Insufficient Evidence',promotionAuthorized:false,payloadSha256:sha256(payload)};}};
   const reporter={async report(payload){return {reported:true,payloadSha256:sha256(payload)};}};
   const digestiveWorker={async process(payload){return {observed:false,payloadSha256:sha256(payload)};}};
@@ -139,16 +151,18 @@ function buildDefaultPipelineDependencies({fetchImpl=globalThis.fetch,token,repo
   const oversightReflex=new ExternalOversightReflex({projectId,oversightPublicKey:null,ownerPublicKey:null});
   return {learningStore,diagnosticPlanner,diagnosticOrgan,experienceRecorder,reporter,digestiveWorker,testingOrgan,oversightReflex};
 }
-async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,failure,authorization,token,diagnosticPlanner,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,learningStore,oversightReflex,root,now=()=>new Date().toISOString()}) {
+async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,failure,authorization,token,fetchImpl=globalThis.fetch,diagnosticPlanner,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,learningStore,oversightReflex,root=process.cwd(),now=()=>new Date().toISOString()}) {
   if(failure.locked)return{state:'locked-read-only',authorized:false,reason:'locked-pull-request'};
   const authorizationResult=verifyAuthorization({authorization,repository,pullRequest,headSha,failureCode:failure.code,now:new Date(now())});
   if(!authorizationResult.authorized)return{state:'not-authorized',authorized:false,reason:authorizationResult.reason};
   const remedy=failure.remedy;
   if(!remedy||remedy.kind!=='automatic'||!remedy.command)return{state:'not-repairable-by-immune-system',authorized:true,reason:'failure-remedy-is-not-a-concrete-automatic-repair'};
-  const deps=pipelineDependencies||buildDefaultPipelineDependencies({fetchImpl,token,repository,root});
+  const deps={learningStore,diagnosticPlanner,diagnosticOrgan,experienceRecorder,reporter,digestiveWorker,testingOrgan,oversightReflex};
+  const defaults=buildDefaultPipelineDependencies({fetchImpl,token,repository,root});
+  for (const key of Object.keys(defaults)) if (deps[key] == null) deps[key]=defaults[key];
   const actuator=createRepairActuator({token,repository,branch,baseSha:headSha,failureCode:failure.code,command:remedy.command});
   const organism=createProductionOrganism({projectId:`github:${repository}`,root,learningStore:deps.learningStore,oversightReflex:deps.oversightReflex,diagnosticPlanner:deps.diagnosticPlanner,repairActuator:actuator,experienceRecorder:deps.experienceRecorder,reporter:deps.reporter,digestiveWorker:deps.digestiveWorker,testingOrgan:deps.testingOrgan,diagnosticOrgan:deps.diagnosticOrgan,now});
-  const submission=await submitNervousObservation(organism,{observationId:`pr-${pullRequest}-${headSha}-${failure.code}`,boundary:`github-pr:${repository}#${pullRequest}`,finding:failure.finding,changeBaseSha256:sha256(headSha)});
+  const submission=await submitNervousObservation(organism,{observationId:`pr-${pullRequest}-${headSha}-${failure.code}`,boundary:`github-pr:${repository}#${pullRequest}`,finding:failure.finding,failureCode:failure.code,commitSha:headSha,headSha,errorLog:failure.finding?.output?.text||failure.finding?.output?.summary||failure.code,changeBaseSha256:sha256(headSha)});
   let heartbeat=await organism.heartbeat();
   for(let i=0;i<4&&heartbeat.results?.some(r=>r.output?.signals);i++)heartbeat=await organism.heartbeat();
   return{state:'repair-pipeline-complete',authorized:true,authorizationId:authorizationResult.authorizationId,authorizationExpiresAt:authorizationResult.expiresAt,failureCode:failure.code,submission,heartbeat};
