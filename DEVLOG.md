@@ -1,3 +1,11 @@
+### Session: crucible-pr-monitor-gate-test-correction-20260928190500 — 2026-09-28T19:05:00.000Z — Codex — mode:work
+
+Plain-language summary: The first hosted run of the non-recursive PR monitor gate exposed stale contract tests, not an implementation failure: the test cadence registry did not yet list the newly added monitor tests, and the locked-PR workflow test still required the old immediate success message. Both assertions were updated to match the real gate design without weakening any runtime check.
+
+- Hosted failure: test/_testCadenceCore.js reported two new tests absent from the expected governed category list.
+- Hosted failure: test/workflow.test.js still asserted the removed "nothing to block" message.
+- Corrected both tests; no production gate was relaxed.
+
 ### Session: crucible-pr-monitor-required-gate-20260928190000 — 2026-09-28T19:00:00.000Z — Codex — mode:work
 
 Plain-language summary: The Crucible PR monitor is now the aggregate PR gate without a recursive monitor loop. It waits for the other PR checks to finish, ignores its own check and the required block check, and the required block check waits for the monitor's result on the exact PR head.
