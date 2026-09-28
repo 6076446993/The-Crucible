@@ -208,7 +208,7 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-28T19:20:19.755Z",
+      "selectedAt": "2026-09-28T19:24:01.592Z",
       "promptSha256": "9b43ff972fa57d05510e1ae2b7627c192b9604834d922fa8445f8cc3d79050cd",
       "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
@@ -269,11 +269,12 @@
       "[done] Preserved released mutation-claim accountability after inline DEVLOG pruning with a compact discoverability index plus full pre-prune snapshots on Archive.",
       "[done] Corrected the hosted Java semantic analyzer path: the real semantic test now supplies javac for compilation, and the helper remains Java 8-compatible on the Windows runner.",
       "[done] Made released mutation accountability retention-aware and kept the compact historical claim index discoverable after inline DEVLOG pruning.",
-      "[done] Normalized Java constructor verifier identities across JDK 8 and newer hosted runners after the cross-platform semantic proof exposed JDK-dependent constructor naming."
+      "[done] Normalized Java constructor verifier identities across JDK 8 and newer hosted runners after the cross-platform semantic proof exposed JDK-dependent constructor naming.",
+      "[done] Corrected Java hosted-proof compilation and verifier portability across JDK 8/modern runners; latest remaining hosted blocker is the owner-scoped GitHub security-settings token returning HTTP 401."
     ],
     "status": "handoff-ready",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-28T19:20:19.755Z",
+    "lastUpdatedAt": "2026-09-28T19:24:01.592Z",
     "currentStep": 46,
     "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
     "ownership": {
