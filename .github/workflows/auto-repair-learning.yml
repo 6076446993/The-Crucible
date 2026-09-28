@@ -91,7 +91,7 @@ jobs:
           retention-days: 90
 
       - name: Create a reviewable repair branch when verification passed
-        if: success() && hashFiles('.git/**') != ''
+        if: success()
         shell: bash
         run: |
           if git diff --quiet; then
