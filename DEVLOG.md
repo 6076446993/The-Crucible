@@ -3,8 +3,8 @@
 Plain-language summary: The handoff gate rejected the previous correction because its timestamp was ahead of the actual repository execution time. The record is now timestamped with the actual attended time and retains the exact two-file scope digest for this correction.
 
 - Corrected AI-HANDOFF.json and DEVLOG.md timestamps to the actual execution time — started 2026-09-28T18:57:42.851Z, finished 2026-09-28T18:57:42.851Z, exit 0.
-- Kept the affected-path digest bound to exactly AI-HANDOFF.json and DEVLOG.md.
-- No runtime gate or test was weakened.
+- Kept the affected-path digest bound to exactly AI-HANDOFF.json and DEVLOG.md — started 2026-09-28T18:59:40.327Z, finished 2026-09-28T18:59:40.327Z, exit 0.
+- No runtime gate or test was weakened — started 2026-09-28T18:59:40.327Z, finished 2026-09-28T18:59:40.327Z, exit 0.
 
 ### Session: hosted-handoff-digest-rebind-20260928191000 — 2026-09-28T19:10:00.000Z — Codex — mode:work
 
