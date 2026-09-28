@@ -208,7 +208,7 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-28T19:10:00.000Z",
+      "selectedAt": "2026-09-28T18:57:42.851Z",
       "promptSha256": "9b43ff972fa57d05510e1ae2b7627c192b9604834d922fa8445f8cc3d79050cd",
       "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
@@ -263,11 +263,12 @@
       "[done] Wired the PR monitor into the required block gate: monitor excludes its own and block checks, while block waits on the monitor result for the exact PR head SHA.",
       "[done] Removed the duplicate development-push monitor trigger and added regression coverage for the non-recursive gate.",
       "[done] Updated the governed test-cadence classification and workflow contract tests for the new monitor-to-block gate.",
-      "[done] Rebound the takeover route digest to the exact four files changed by the hosted cadence/Windows verification correction, restoring handoff-policy custody."
+      "[done] Rebound the takeover route digest to the exact four files changed by the hosted cadence/Windows verification correction, restoring handoff-policy custody.",
+      "[done] Corrected the handoff timestamps to the actual attended execution time after the hosted gate rejected a future-dated handoff record."
     ],
     "status": "handoff-ready",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-28T19:10:00.000Z",
+    "lastUpdatedAt": "2026-09-28T18:57:42.851Z",
     "currentStep": 46,
     "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
     "ownership": {
