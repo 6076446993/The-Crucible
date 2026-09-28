@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const { fixCommit } = require('./commit');
 const { scrubPrivacy } = require('./privacy');
 const { fixWorkflowPermissions } = require('./workflowLint');
-const { snapshotFiles, recordRepairObservations } = require('./repairLearning');
+const { snapshotFiles, recordRepairObservations } = require('./repairLearningGateway');
 
 // This module exists only to keep The Crucible's own repository green. It
 // must never be reachable for a project that adopts The Crucible: the guard
