@@ -91,7 +91,7 @@ function createRepairActuator({token,repository,branch,baseSha,failureCode,comma
       const status=git(worktree,['status','--porcelain'],env);
       if(!status.trim())return{state:'no-change',repository,branch,baseSha,failureCode,plan,applied:{resultSha256:sha256({before,status})}};
       git(worktree,['add','--all'],env);
-      git(worktree,['-c','user.name=The Crucible','-c','user.email=crucible@users.noreply.github.com','commit','-m',`Crucible authorized repair: ${failureCode}`],env);
+      git(worktree,['-c','user.name=The Crucible','-c','user.email=crucible','commit','-m',`Crucible authorized repair: ${failureCode}`],env);
       const repairSha=git(worktree,['rev-parse','HEAD'],env).trim();
       git(worktree,['-c',`http.extraheader=Authorization: Bearer ${token}`,'push','origin',`HEAD:${branch}`],env);
       return{state:'applied',repository,branch,baseSha,repairSha,failureCode,plan,applied:{resultSha256:sha256({before,repairSha,failureCode})}};
