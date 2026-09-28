@@ -149,7 +149,7 @@ async function monitorPullRequest({
   repairEnabled = false,
   repairAuthorization = null,
   repairRoot = process.cwd(),
-}) {
+} = {}) {
   const checkRuns = await githubGetCheckRuns(fetchImpl, repository, pr.head.sha, token);
   const summary = summarizeChecks(checkRuns);
   const required = requiredCheckState(checkRuns, requiredChecks);
