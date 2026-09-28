@@ -21,7 +21,6 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GITHUB_REPOSITORY: ${{ github.event.workflow_run.repository.full_name }}
       GITHUB_SHA: ${{ github.event.workflow_run.head_sha }}
-      CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
       CRUCIBLE_PROJECT_ID: the-crucible
     steps:
       - name: Check out the exact failed revision
@@ -39,6 +38,8 @@ jobs:
         run: npm ci
 
       - name: Apply only the Crucible's existing bounded auto-repairs
+        env:
+          CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
         run: npm run repair
 
       - name: Verify every repair before proposing it
@@ -78,6 +79,7 @@ jobs:
         env:
           FAILED_RUN_ID: ${{ github.event.workflow_run.id }}
           FAILED_SHA: ${{ github.event.workflow_run.head_sha }}
+          CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
 
       - name: Preserve repair-derived learning evidence
         if: always()
