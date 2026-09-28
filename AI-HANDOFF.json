@@ -208,9 +208,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-28T19:11:38.955Z",
+      "selectedAt": "2026-09-28T19:17:16.871Z",
       "promptSha256": "9b43ff972fa57d05510e1ae2b7627c192b9604834d922fa8445f8cc3d79050cd",
-      "affectedPathsSha256": "922119c1a09195cb8a7cdf681351c38bbdf263f82e439be3d73c39d1f9533d87"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
@@ -266,11 +266,13 @@
       "[done] Rebound the takeover route digest to the exact four files changed by the hosted cadence/Windows verification correction, restoring handoff-policy custody.",
       "[done] Corrected the handoff timestamps to the actual attended execution time after the hosted gate rejected a future-dated handoff record.",
       "[done] Added explicit started and finished timestamps to the newest handoff correction session so DEVLOG chain-of-custody validation remains executable.",
-      "[done] Preserved released mutation-claim accountability after inline DEVLOG pruning with a compact discoverability index plus full pre-prune snapshots on Archive."
+      "[done] Preserved released mutation-claim accountability after inline DEVLOG pruning with a compact discoverability index plus full pre-prune snapshots on Archive.",
+      "[done] Corrected the hosted Java semantic analyzer path: the real semantic test now supplies javac for compilation, and the helper remains Java 8-compatible on the Windows runner.",
+      "[done] Made released mutation accountability retention-aware and kept the compact historical claim index discoverable after inline DEVLOG pruning."
     ],
     "status": "handoff-ready",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-28T19:11:38.955Z",
+    "lastUpdatedAt": "2026-09-28T19:17:16.871Z",
     "currentStep": 46,
     "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
     "ownership": {
