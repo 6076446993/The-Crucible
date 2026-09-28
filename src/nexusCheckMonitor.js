@@ -248,6 +248,10 @@ async function monitorConfiguredRepositories({
   repairAuthorization = null,
   repairRoot = process.cwd(),
 }) {
+  if (repairEnabled && repairAuthorization == null) {
+    const authorizationFile = process.env.CRUCIBLE_REPAIR_AUTHORIZATION_FILE || 'governingDocuments/active-repair-authorization.json';
+    if (fs.existsSync(authorizationFile)) repairAuthorization = readAuthorization(authorizationFile);
+  }
   const repositories = [];
   for (const entry of config.repositories) {
     repositories.push(await monitorRepository({
