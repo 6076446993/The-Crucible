@@ -280,7 +280,7 @@ test('a dedicated check blocks every locked monitoring PR, past and present, and
   assert.match(workflow, /permissions:\s*\n\s*contents: read/);
   assert.match(workflow, /LOCKED_PR_NUMBERS:\s*"7 9 11"/);
   assert.match(workflow, /must never be merged/i);
-  assert.match(workflow, /Not a locked monitoring PR - nothing to block/);
+  assert.match(workflow, /Wait for the Crucible PR monitor aggregate gate/);
   const agents = fs.readFileSync(path.join(root, 'AGENTS.md'), 'utf8');
   assert.match(agents, /never merged or closed, under any circumstances/i);
   assert.match(agents, /no technical backstop/i);
