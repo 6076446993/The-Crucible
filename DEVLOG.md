@@ -6,6 +6,7 @@ Plain-language summary: Restored durable discoverability for released mutation c
 - Kept the affected-path digest bound to exactly AI-HANDOFF.json and DEVLOG.md — started 2026-09-28T18:59:40.327Z, finished 2026-09-28T18:59:40.327Z, exit 0.
 - No runtime gate or test was weakened — started 2026-09-28T18:59:40.327Z, finished 2026-09-28T18:59:40.327Z, exit 0.
 - Corrected the authorized-repair commit identity from a non-allow-listed email to the privacy-approved `git@github.com` identity so Auto Repair cannot trigger its own privacy gate — started 2026-09-28T19:09:11.948Z, finished 2026-09-28T19:09:11.948Z, exit 0.
+- Made the Java semantic helper source-compatible with the JDK 8 runner by replacing Java 9+ APIs (`Path.of`, `HexFormat`, `List.of`, Stream `toList`) with Java 8-compatible equivalents while retaining the same compiler-tree measurement — started 2026-09-28T19:11:38.955Z, finished 2026-09-28T19:11:38.955Z, exit 0.
 - Recorded the released mutation claim `resolve-additive-diagnostics-conflict` (openai) in DEVLOG.md as required by AI conflict governance — started 2026-09-28T19:01:12.326Z, finished 2026-09-28T19:01:12.326Z, exit 0.
 
 ### Session: hosted-handoff-digest-rebind-20260928191000 — 2026-09-28T19:10:00.000Z — Codex — mode:work
