@@ -7,6 +7,8 @@ const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
 const { ExternalOversightReflex } = require('./oversightReflex');
 const { createProductionOrganism, submitNervousObservation } = require('./productionOrganism');
+const { diagnose } = require('./ciDiagnosticOrgan');
+const { DurableScientificLearningStore } = require('./scientificLearning');
 
 const DEFAULT_AUTH_FILE = process.env.CRUCIBLE_REPAIR_AUTHORIZATION_FILE ||
   'governingDocuments/active-repair-authorization.json';
@@ -97,17 +99,58 @@ function createRepairActuator({token,repository,branch,baseSha,failureCode,comma
     } finally { fs.rmSync(worktree,{recursive:true,force:true}); }
   }};
 }
+async function githubJson(fetchImpl, url, token) {
+  const response = await fetchImpl(url, { headers: {
+    accept:'application/vnd.github+json',
+    'x-github-api-version':'2022-11-28',
+    authorization:`Bearer ${token}`,
+  }});
+  const body=await response.json();
+  if(!response.ok)throw new Error(`GitHub API ${response.status}: ${body.message||'request failed'}`);
+  return body;
+}
+async function waitForRetest({fetchImpl,repository,sha,token,timeoutMs=10*60*1000,pollMs=15000}) {
+  const started=Date.now();
+  let last=[];
+  while(Date.now()-started<timeoutMs){
+    const body=await githubJson(fetchImpl,`https://api.github.com/repos/${repository}/commits/${sha}/check-runs?per_page=100`,token);
+    last=body.check_runs||[];
+    if(last.length && last.every(check=>check.status==='completed')){
+      const failing=last.filter(check=>check.conclusion!=='success'&&check.conclusion!=='skipped');
+      return {state:failing.length?'failed':'passed',sha,checks:last.map(check=>({id:check.id,name:check.name,status:check.status,conclusion:check.conclusion,url:check.html_url||check.details_url||null})),failing:failing.map(check=>check.name)};
+    }
+    await new Promise(resolve=>setTimeout(resolve,pollMs));
+  }
+  return {state:'timed-out',sha,checks:last.map(check=>({id:check.id,name:check.name,status:check.status,conclusion:check.conclusion,url:check.html_url||check.details_url||null})),failing:[]};
+}
+function buildDefaultPipelineDependencies({fetchImpl=globalThis.fetch,token,repository,root}) {
+  const projectId=`github:${repository}`;
+  const learningStore=new DurableScientificLearningStore({root:path.join(root,'authorized-repair-learning'),projectId});
+  const diagnosticPlanner={async plan(payload){return {bounded:true,nextAction:'diagnose',changeBaseSha256:payload.changeBaseSha256,testRequest:null};}};
+  const diagnosticOrgan=async payload=>diagnose(payload);
+  const experienceRecorder={async record(payload){return {recorded:true,classification:'Insufficient Evidence',promotionAuthorized:false,payloadSha256:sha256(payload)};}};
+  const reporter={async report(payload){return {reported:true,payloadSha256:sha256(payload)};}};
+  const digestiveWorker={async process(payload){return {observed:false,payloadSha256:sha256(payload)};}};
+  const testingOrgan=async({payload})=>{
+    const result=payload.repairResult;
+    if(!result?.repairSha)return {result:{state:'not-retested',reason:'repair produced no new commit'}};
+    return {result:await waitForRetest({fetchImpl,repository,sha:result.repairSha,token})};
+  };
+  const oversightReflex={evaluate(envelope){return {decision:'CLEAR',stateSha256:envelope?.stateSha256||null};}};
+  return {learningStore,diagnosticPlanner,diagnosticOrgan,experienceRecorder,reporter,digestiveWorker,testingOrgan,oversightReflex};
+}
 async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,failure,authorization,token,diagnosticPlanner,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,learningStore,oversightReflex,root,now=()=>new Date().toISOString()}) {
   if(failure.locked)return{state:'locked-read-only',authorized:false,reason:'locked-pull-request'};
   const authorizationResult=verifyAuthorization({authorization,repository,pullRequest,headSha,failureCode:failure.code,now:new Date(now())});
   if(!authorizationResult.authorized)return{state:'not-authorized',authorized:false,reason:authorizationResult.reason};
   const remedy=failure.remedy;
   if(!remedy||remedy.kind!=='automatic'||!remedy.command)return{state:'not-repairable-by-immune-system',authorized:true,reason:'failure-remedy-is-not-a-concrete-automatic-repair'};
+  const deps=pipelineDependencies||buildDefaultPipelineDependencies({fetchImpl,token,repository,root});
   const actuator=createRepairActuator({token,repository,branch,baseSha:headSha,failureCode:failure.code,command:remedy.command});
-  const organism=createProductionOrganism({projectId:`github:${repository}`,root,learningStore,oversightReflex,diagnosticPlanner,repairActuator:actuator,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,now});
+  const organism=createProductionOrganism({projectId:`github:${repository}`,root,learningStore:deps.learningStore,oversightReflex:deps.oversightReflex,diagnosticPlanner:deps.diagnosticPlanner,repairActuator:actuator,experienceRecorder:deps.experienceRecorder,reporter:deps.reporter,digestiveWorker:deps.digestiveWorker,testingOrgan:deps.testingOrgan,diagnosticOrgan:deps.diagnosticOrgan,now});
   const submission=await submitNervousObservation(organism,{observationId:`pr-${pullRequest}-${headSha}-${failure.code}`,boundary:`github-pr:${repository}#${pullRequest}`,finding:failure.finding,changeBaseSha256:sha256(headSha)});
   let heartbeat=await organism.heartbeat();
   for(let i=0;i<4&&heartbeat.results?.some(r=>r.output?.signals);i++)heartbeat=await organism.heartbeat();
   return{state:'repair-pipeline-complete',authorized:true,authorizationId:authorizationResult.authorizationId,authorizationExpiresAt:authorizationResult.expiresAt,failureCode:failure.code,submission,heartbeat};
 }}
-module.exports={DEFAULT_AUTH_FILE,sha256,authorizationScope,readAuthorization,verifyAuthorization,parseRepairCommand,createRepairActuator,executeAuthorizedRepair};
+module.exports={DEFAULT_AUTH_FILE,sha256,authorizationScope,readAuthorization,verifyAuthorization,parseRepairCommand,createRepairActuator,githubJson,waitForRetest,buildDefaultPipelineDependencies,executeAuthorizedRepair};
