@@ -4,16 +4,17 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { makeCandidate, sha } = require('./scientificLearning');
+const { crucibleError } = require('./failureCodes');
 
 const KIND = 'repair-observation';
 
 function text(value, label) {
-  if (typeof value !== 'string' || !value.trim()) throw new Error(`${label} must be non-empty text.`);
+  if (typeof value !== 'string' || !value.trim()) throw crucibleError('CRU-0052', `${label} must be non-empty text.`);
   return value.trim();
 }
 
 function digest(value, label) {
-  if (!/^[a-f0-9]{64}$/.test(value || '')) throw new Error(`${label} must be a lowercase SHA-256 digest.`);
+  if (!/^[a-f0-9]{64}$/.test(value || '')) throw crucibleError('CRU-0052', `${label} must be a lowercase SHA-256 digest.`);
 }
 
 function repairObservationCandidate({ projectId, repository, commitSha, operation, file, beforeSha256, afterSha256, observedAt = new Date().toISOString() }) {
@@ -23,7 +24,7 @@ function repairObservationCandidate({ projectId, repository, commitSha, operatio
   text(file, 'file');
   digest(beforeSha256, 'beforeSha256');
   digest(afterSha256, 'afterSha256');
-  if (!Number.isFinite(Date.parse(observedAt))) throw new Error('observedAt must be an ISO timestamp.');
+  if (!Number.isFinite(Date.parse(observedAt))) throw crucibleError('CRU-0052', 'observedAt must be an ISO timestamp.');
 
   const evidence = {
     repository,
@@ -51,7 +52,6 @@ function repairObservationCandidate({ projectId, repository, commitSha, operatio
       contentSha256: evidenceSha256,
     },
     createdAt: observedAt,
-    repairEvidence: evidence,
   });
 }
 
