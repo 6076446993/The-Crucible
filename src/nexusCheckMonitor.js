@@ -1,14 +1,8 @@
-const DEFAULT_REPOSITORY = 'jonathanblunt1214-lgtm/Nexus-';
-const DEFAULT_PR = '136';
+const fs = require('node:fs');
+const path = require('node:path');
 
-const FAILURE_CONCLUSIONS = new Set([
-  'failure',
-  'cancelled',
-  'timed_out',
-  'action_required',
-  'startup_failure',
-  'stale',
-]);
+const DEFAULT_CONFIG = path.resolve(process.env.CRUCIBLE_MONITOR_CONFIG || 'governingDocuments/crucible-monitored-repositories.json');
+const FAILURE_CONCLUSIONS = new Set(['failure','cancelled','timed_out','action_required','startup_failure','stale']);
 
 function requireValue(value, name) {
   if (typeof value !== 'string' || !value.trim()) throw new Error(`${name} is required.`);
@@ -37,6 +31,17 @@ async function githubGet(fetchImpl, url, token) {
   return body;
 }
 
+async function githubGetAll(fetchImpl, url, token, pageSize = 100) {
+  const items = [];
+  for (let page = 1; ; page += 1) {
+    const separator = url.includes('?') ? '&' : '?';
+    const batch = await githubGet(fetchImpl, `${url}${separator}per_page=${pageSize}&page=${page}`, token);
+    if (!Array.isArray(batch)) throw new Error(`GitHub collection endpoint did not return an array: ${url}`);
+    items.push(...batch);
+    if (batch.length < pageSize) return items;
+  }
+}
+
 function classifyCheck(check) {
   if (check.status !== 'completed') return check.status === 'queued' ? 'queued' : 'in_progress';
   if (check.conclusion === 'success') return 'successful';
@@ -46,8 +51,8 @@ function classifyCheck(check) {
 }
 
 function summarizeChecks(checkRuns) {
-  const counts = { failing: 0, in_progress: 0, queued: 0, skipped: 0, successful: 0 };
-  const groups = { failing: [], in_progress: [], queued: [], skipped: [], successful: [] };
+  const counts = { failing:0, in_progress:0, queued:0, skipped:0, successful:0 };
+  const groups = { failing:[], in_progress:[], queued:[], skipped:[], successful:[] };
   for (const check of checkRuns) {
     const state = classifyCheck(check);
     counts[state] += 1;
@@ -63,20 +68,18 @@ function summarizeChecks(checkRuns) {
 }
 
 function normalizeRequiredNames(value) {
+  if (Array.isArray(value)) return value.map(String).map((name) => name.trim()).filter(Boolean);
   if (!value) return [];
-  return value.split(',').map((name) => name.trim()).filter(Boolean);
+  return String(value).split(',').map((name) => name.trim()).filter(Boolean);
 }
 
 function requiredCheckState(checkRuns, requiredNames) {
-  if (!requiredNames.length) return { configured: false, unknown: [], failing: [], pending: [], successful: [] };
-  const result = { configured: true, unknown: [], failing: [], pending: [], successful: [] };
+  if (!requiredNames.length) return { configured:false, unknown:[], failing:[], pending:[], successful:[] };
+  const result = { configured:true, unknown:[], failing:[], pending:[], successful:[] };
   const byName = new Map(checkRuns.map((check) => [check.name, check]));
   for (const name of requiredNames) {
     const check = byName.get(name);
-    if (!check) {
-      result.unknown.push(name);
-      continue;
-    }
+    if (!check) { result.unknown.push(name); continue; }
     const state = classifyCheck(check);
     if (state === 'successful' || state === 'skipped') result.successful.push(name);
     else if (state === 'failing') result.failing.push(name);
@@ -85,92 +88,141 @@ function requiredCheckState(checkRuns, requiredNames) {
   return result;
 }
 
-async function monitorNexusPr({
-  fetchImpl = globalThis.fetch,
-  token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '',
-  repository = process.env.NEXUS_MONITOR_REPOSITORY || DEFAULT_REPOSITORY,
-  prNumber = process.env.NEXUS_MONITOR_PR || DEFAULT_PR,
-  requiredChecks = process.env.NEXUS_MONITOR_REQUIRED_CHECKS || '',
-}) {
-  requireValue(repository, 'repository');
-  requireValue(String(prNumber), 'prNumber');
+function isLockedPullRequest(pr, configuredNumbers = []) {
+  if (configuredNumbers.map(Number).includes(Number(pr.number))) return true;
+  const title = String(pr.title || '');
+  const body = String(pr.body || '');
+  if (/\[\s*LOCKED\b/i.test(title) && /\bDO NOT MERGE\b/i.test(title)) return true;
+  if (/\bLOCKED\b/i.test(title) && /\bDO NOT MERGE\b/i.test(body)) return true;
+  return false;
+}
 
-  const apiRoot = 'https://api.github.com';
-  const pr = await githubGet(fetchImpl, `${apiRoot}/repos/${repository}/pulls/${encodeURIComponent(prNumber)}`, token);
-  const checks = await githubGet(
-    fetchImpl,
-    `${apiRoot}/repos/${repository}/commits/${pr.head.sha}/check-runs?per_page=100`,
-    token,
-  );
+function loadMonitorConfig(configPath = DEFAULT_CONFIG, readFile = fs.readFileSync) {
+  if (!readFile(configPath, 'utf8')) throw new Error(`Unable to read Crucible monitor configuration: ${configPath}`);
+  const config = JSON.parse(readFile(configPath, 'utf8'));
+  if (!config || config.schemaVersion !== 1 || !Array.isArray(config.repositories)) {
+    throw new Error('Crucible monitor configuration must use schemaVersion 1 and a repositories array.');
+  }
+  const repositories = config.repositories.filter((entry) => entry && entry.enabled !== false);
+  if (!repositories.length) throw new Error('Crucible monitor configuration contains no enabled repositories.');
+  const names = new Set();
+  for (const entry of repositories) {
+    requireValue(entry.name, 'monitored repository name');
+    if (names.has(entry.name.toLowerCase())) throw new Error(`Duplicate monitored repository: ${entry.name}`);
+    names.add(entry.name.toLowerCase());
+    if (entry.lockedPullRequests !== undefined && !Array.isArray(entry.lockedPullRequests)) {
+      throw new Error(`lockedPullRequests for ${entry.name} must be an array.`);
+    }
+  }
+  return { ...config, repositories };
+}
 
-  const summary = summarizeChecks(checks.check_runs || []);
-  const required = requiredCheckState(checks.check_runs || [], normalizeRequiredNames(requiredChecks));
+async function monitorPullRequest({ fetchImpl, token, repository, pr, requiredChecks = [], lockedPullRequests = [] }) {
+  const checkRuns = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/commits/${pr.head.sha}/check-runs`, token);
+  const summary = summarizeChecks(checkRuns);
+  const required = requiredCheckState(checkRuns, requiredChecks);
+  const locked = isLockedPullRequest(pr, lockedPullRequests);
   const blockers = [];
-
   if (summary.counts.failing) blockers.push('failing-checks');
   if (summary.counts.in_progress || summary.counts.queued) blockers.push('checks-pending');
   if (pr.mergeable_state === 'blocked') blockers.push('github-mergeable-state-blocked');
   if (required.failing.length) blockers.push('configured-required-check-failing');
   if (required.pending.length || required.unknown.length) blockers.push('configured-required-check-not-green');
-
   return {
-    schemaVersion: 1,
-    observedAt: new Date().toISOString(),
-    repository,
-    pullRequest: {
-      number: pr.number,
-      title: pr.title,
-      state: pr.state,
-      draft: pr.draft,
-      base: pr.base.ref,
-      baseSha: pr.base.sha,
-      head: pr.head.ref,
-      headSha: pr.head.sha,
-      mergeable: pr.mergeable,
-      mergeableState: pr.mergeable_state,
-      url: pr.html_url,
-    },
-    checks: {
-      total: checks.total_count || (checks.check_runs || []).length,
-      ...summary,
-    },
+    number:pr.number,
+    title:pr.title,
+    state:pr.state,
+    draft:pr.draft,
+    base:pr.base.ref,
+    baseSha:pr.base.sha,
+    head:pr.head.ref,
+    headSha:pr.head.sha,
+    mergeable:pr.mergeable,
+    mergeableState:pr.mergeable_state,
+    url:pr.html_url,
+    interactionPolicy: locked ? 'LOCKED_READ_ONLY' : 'MONITORED',
+    locked,
+    checks:{ total:checkRuns.length, ...summary },
     required,
     blockers,
-    healthy: blockers.length === 0 && pr.state === 'open',
-    evidence: {
-      checkRunApi: `${apiRoot}/repos/${repository}/commits/${pr.head.sha}/check-runs`,
-      pullRequestApi: `${apiRoot}/repos/${repository}/pulls/${pr.number}`,
+    healthy:blockers.length === 0,
+    evidence:{
+      pullRequestApi:`https://api.github.com/repos/${repository}/pulls/${pr.number}`,
+      checkRunApi:`https://api.github.com/repos/${repository}/commits/${pr.head.sha}/check-runs`,
+    },
+  };
+}
+
+async function monitorRepository({ fetchImpl = globalThis.fetch, token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [] }) {
+  requireValue(repository, 'repository');
+  const prs = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/pulls?state=open`, token);
+  const pullRequests = [];
+  for (const pr of prs) pullRequests.push(await monitorPullRequest({ fetchImpl, token, repository, pr, requiredChecks, lockedPullRequests }));
+  const blockers = pullRequests.flatMap((pr) => pr.blockers.map((blocker) => ({ pullRequest:pr.number, blocker, locked:pr.locked })));
+  return {
+    repository,
+    openPullRequests:pullRequests.length,
+    lockedPullRequests:pullRequests.filter((pr) => pr.locked).map((pr) => pr.number),
+    pullRequests,
+    blockers,
+    healthy:blockers.length === 0,
+  };
+}
+
+async function monitorConfiguredRepositories({
+  fetchImpl = globalThis.fetch,
+  token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '',
+  config = loadMonitorConfig(),
+  requiredChecks = normalizeRequiredNames(process.env.NEXUS_MONITOR_REQUIRED_CHECKS || ''),
+}) {
+  const repositories = [];
+  for (const entry of config.repositories) {
+    repositories.push(await monitorRepository({
+      fetchImpl,
+      token,
+      repository:entry.name,
+      requiredChecks,
+      lockedPullRequests:entry.lockedPullRequests || [],
+    }));
+  }
+  const blockers = repositories.flatMap((repo) => repo.blockers.map((blocker) => ({ repository:repo.repository, ...blocker })));
+  return {
+    schemaVersion:2,
+    observedAt:new Date().toISOString(),
+    monitoredRepositoryCount:repositories.length,
+    openPullRequestCount:repositories.reduce((sum, repo) => sum + repo.openPullRequests, 0),
+    lockedPullRequestCount:repositories.reduce((sum, repo) => sum + repo.lockedPullRequests.length, 0),
+    repositories,
+    blockers,
+    healthy:blockers.length === 0,
+    interactionPolicy:{
+      locked:'LOCKED_READ_ONLY',
+      unlocked:'MONITORED',
+      mutationAuthority:'NONE',
     },
   };
 }
 
 function formatReport(report) {
-  const lines = [
-    `Nexus PR #${report.pullRequest.number} monitor — ${report.pullRequest.headSha}`,
-    `Mergeable: ${report.pullRequest.mergeable} (${report.pullRequest.mergeableState})`,
-    `Checks: ${report.checks.counts.successful} successful, ${report.checks.counts.failing} failing, ${report.checks.counts.in_progress} in progress, ${report.checks.counts.queued} queued, ${report.checks.counts.skipped} skipped.`,
-  ];
-  if (report.blockers.length) lines.push(`Blockers: ${report.blockers.join(', ')}`);
-  for (const state of ['failing', 'in_progress', 'queued']) {
-    for (const check of report.checks.groups[state]) {
-      lines.push(`- [${state}] ${check.name}${check.conclusion ? ` (${check.conclusion})` : ''} — ${check.detailsUrl || 'no details URL'}`);
+  const lines = [`Crucible PR monitor — ${report.monitoredRepositoryCount} repositories, ${report.openPullRequestCount} open PRs, ${report.lockedPullRequestCount} locked PRs.`];
+  for (const repo of report.repositories) {
+    lines.push(`- ${repo.repository}: ${repo.openPullRequests} open, ${repo.lockedPullRequests.length} locked.`);
+    for (const pr of repo.pullRequests) {
+      const c = pr.checks.counts;
+      lines.push(`  - PR #${pr.number} [${pr.interactionPolicy}] ${pr.healthy ? 'healthy' : 'blocked'} — ${c.successful} successful, ${c.failing} failing, ${c.in_progress} in progress, ${c.queued} queued, ${c.skipped} skipped.`);
     }
-  }
-  if (report.required.configured) {
-    lines.push(`Configured required checks: ${report.required.successful.length} green, ${report.required.failing.length} failing, ${report.required.pending.length} pending, ${report.required.unknown.length} unknown.`);
   }
   return lines.join('\n');
 }
 
 if (require.main === module) {
-  monitorNexusPr()
+  monitorConfiguredRepositories()
     .then((report) => {
       process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
       process.stderr.write(`\n${formatReport(report)}\n`);
-      // A healthy monitor execution is itself successful; observed Nexus blockers are evidence, not a Crucible monitor failure.
     })
     .catch((error) => {
-      process.stderr.write(`[The Crucible] Nexus CI monitor failed closed: ${error.message}\n`);
+      process.stderr.write(`[The Crucible] PR monitor failed closed: ${error.message}\n`);
       process.exitCode = 1;
     });
 }
@@ -179,6 +231,10 @@ module.exports = {
   classifyCheck,
   summarizeChecks,
   requiredCheckState,
-  monitorNexusPr,
+  isLockedPullRequest,
+  loadMonitorConfig,
+  monitorPullRequest,
+  monitorRepository,
+  monitorConfiguredRepositories,
   formatReport,
 };
