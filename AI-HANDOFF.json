@@ -208,9 +208,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-28T19:05:00.000Z",
+      "selectedAt": "2026-09-28T18:55:17.649Z",
       "promptSha256": "9b43ff972fa57d05510e1ae2b7627c192b9604834d922fa8445f8cc3d79050cd",
-      "affectedPathsSha256": "17a83238344bb11967c1f2b12de048652f4d72d668b248bed9f4d7e94b5f2877"
+      "affectedPathsSha256": "97bcfed0badecad0f6f0ce3d75b7cc522c04ee0b8e125d49571c95c12570581d"
     },
     "steps": [
       "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
@@ -266,7 +266,7 @@
     ],
     "status": "handoff-ready",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-28T19:05:00.000Z",
+    "lastUpdatedAt": "2026-09-28T18:55:17.649Z",
     "currentStep": 46,
     "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
     "ownership": {
