@@ -12,6 +12,17 @@
 
 ## Command log archive
 
+### Session: crucible-pr-monitor-cross-repo-token-and-wiring-20260928 — 2026-09-28T18:46:17.624Z — Codex — mode:work
+
+Plain-language summary: The Self-Test exposed that the newly ported monitor and authorized-repair modules were not yet assigned to the canonical circulation system. The monitor also correctly failed when its current workflow token could not read the two private monitored repositories. The wiring is now explicit, and the workflow uses a dedicated cross-repository monitor-read secret rather than borrowing the security-settings credential.
+
+- Added `authorizedPrRepair` and `nexusCheckMonitor` to the canonical immune-system module registry so the circulation gate recognizes their ownership — started 2026-09-28T18:46:17.624Z, finished 2026-09-28T18:46:17.624Z, exit 0.
+- Changed the monitor to prefer `CRUCIBLE_MONITOR_READ_TOKEN`, then fall back to the current-repository workflow token; no secret value was read or written — started 2026-09-28T18:46:17.624Z, finished 2026-09-28T18:46:17.624Z, exit 0.
+- Changed the workflow to expose only the dedicated monitor-read secret to the monitor job; the existing security-settings token is no longer used as general cross-repository API authentication — started 2026-09-28T18:46:17.624Z, finished 2026-09-28T18:46:17.624Z, exit 0.
+- Verified from repository metadata that `AI-collaboration-` and `Crucible-Vetted-Learning-State` are private, so a current-repository `GITHUB_TOKEN` cannot truthfully monitor all seven repositories — started 2026-09-28T18:46:17.624Z, finished 2026-09-28T18:46:17.624Z, exit 0.
+- This leaves one external configuration requirement: an authorized read token with access to all seven monitored repositories must be stored as `CRUCIBLE_MONITOR_READ_TOKEN`. The monitor remains fail-closed until that credential exists — started 2026-09-28T18:46:17.624Z, finished 2026-09-28T18:46:17.624Z, exit 0.
+
+
 ### Session: crucible-pr-monitor-route-hash-correction-20260928 — 2026-09-28T18:44:42.424Z — Codex — mode:work
 
 Plain-language summary: The first monitor-integration correction changed the active prompt but did not refresh its prompt digest. The Self-Test caught that exact mismatch. The handoff record is now rebound to the exact current prompt, with the DEVLOG and handoff updated together.
