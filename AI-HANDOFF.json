@@ -191,7 +191,7 @@
   "activePlan": {
     "agent": "Claude",
     "objective": "Clear the blockers keeping the scientific-learning pipeline from producing evidence, without spending money: tell a refused hosted job apart from a failed one, move governed discovery onto a free provider, make governed records state what actually happened, and run the rolling release review from the literal development tip.",
-    "currentPrompt": "Pre-register the scope declaration, because the scope is the hypothesis",
+    "currentPrompt": "Generalize Crucible PR monitoring across every configured monitored repository, preserve strict locked-PR read-only handling, and clear the monitor branch's real CI failures without weakening governance.",
     "executionMode": {
       "mode": "work",
       "agent": "Claude",
@@ -229,12 +229,16 @@
       "[done] Dispatched oversight, confirmed it published a self-consistent vetted bundle, re-ran the hosted proof, and recorded the resolved custody blocker plus the two owner actions the release now turns on in the release status file.",
       "[done] Repaired evaluateR2 so an unretrieved source is no longer counted as one the extraction worker drained, with the real hosted population as a regression fixture shown failing first.",
       "[done] Switched governed discovery to nvidia/nemotron-3-nano-30b-a3b at the owner's instruction, pinning the model id in the workflow and removing the Secrets path that had masked a withdrawn model.",
-      "[done] Made the scope declaration a real pre-registration on the owner's instruction: a per-claim hash ledger against the run clock, CRU-0047 refusing a boundary that moved after a failed experiment, CRU-0048 for the ledger failing closed, and the governing document rewritten away from the post-hoc order it used to instruct."
+      "[done] Made the scope declaration a real pre-registration on the owner's instruction: a per-claim hash ledger against the run clock, CRU-0047 refusing a boundary that moved after a failed experiment, CRU-0048 for the ledger failing closed, and the governing document rewritten away from the post-hoc order it used to instruct.",
+      "[in progress] Generalize the Crucible PR monitor from one hard-coded Nexus PR to every repository in governingDocuments/crucible-monitored-repositories.json, discover all open PRs with pagination, and classify locked PRs as LOCKED_READ_ONLY.",
+      "[in progress] Repair collision diagnostics so the standing locked CI-monitoring PR is observed but never treated as an actionable collision; do not modify PR #11.",
+      "[blocked-external] CRU-0006 remains dependent on a valid repository Administration read token; source code cannot repair an invalid or unauthorized GitHub secret without bypassing the security gate.",
+      "[in progress] Re-run exact-tip tests after the monitor and locked-PR changes; preserve fail-closed behavior for any remaining external prerequisite."
     ],
     "status": "handoff-ready",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-15T10:30:00Z",
-    "currentStep": 19
+    "lastUpdatedAt": "2026-09-28T17:10:00Z",
+    "currentStep": 20
   },
   "handoffNotes": {
     "completed": [
