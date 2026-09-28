@@ -194,9 +194,12 @@ async function main() {
   }
   if (action === 'repair') {
     const ref = process.env.CRUCIBLE_COMMIT_REF || process.env.GITHUB_SHA || '--cached';
-    const result = repairInternalChecks(root, config, { ref });
+    const learningRoot = process.env.CRUCIBLE_REPAIR_LEARNING_ROOT
+      || (process.env.GITHUB_ACTIONS === 'true' ? path.join(process.env.RUNNER_TEMP || root, 'crucible-repair-learning') : null);
+    const result = repairInternalChecks(root, config, { ref, learningRoot });
     const report = formatRepairReport(result);
     console.log(report);
+    if (result.learning?.recorded) console.log(`[The Crucible] Repair learning custody: recorded ${result.learning.candidateIds.length} non-promotable repair observation(s) at ${result.learning.learningRoot}.`);
     publishRepairReport(report);
     return;
   }
