@@ -39,6 +39,9 @@ function executableIn(directory, base, platform) {
 
 function javaToolchain(env = process.env, platform = process.platform) {
   const candidates = [];
+  for (const key of ['JAVA_HOME_24_X64', 'JAVA_HOME_23_X64', 'JAVA_HOME_22_X64', 'JAVA_HOME_21_X64', 'JAVA_HOME_20_X64', 'JAVA_HOME_19_X64', 'JAVA_HOME_18_X64', 'JAVA_HOME_17_X64']) {
+    if (env[key]) candidates.push(path.join(env[key], 'bin'));
+  }
   if (env.JAVA_HOME) candidates.push(path.join(env.JAVA_HOME, 'bin'));
   for (const entry of String(env.PATH || env.Path || '').split(platform === 'win32' ? ';' : ':')) {
     const trimmed = entry.trim();
