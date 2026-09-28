@@ -136,7 +136,7 @@ function buildDefaultPipelineDependencies({fetchImpl=globalThis.fetch,token,repo
     if(!result?.repairSha)return {result:{state:'not-retested',reason:'repair produced no new commit'}};
     return {result:await waitForRetest({fetchImpl,repository,sha:result.repairSha,token})};
   };
-  const oversightReflex={evaluate(envelope){return {decision:'CLEAR',stateSha256:envelope?.stateSha256||null};}};
+  const oversightReflex=new ExternalOversightReflex({projectId,oversightPublicKey:null,ownerPublicKey:null});
   return {learningStore,diagnosticPlanner,diagnosticOrgan,experienceRecorder,reporter,digestiveWorker,testingOrgan,oversightReflex};
 }
 async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,failure,authorization,token,diagnosticPlanner,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,learningStore,oversightReflex,root,now=()=>new Date().toISOString()}) {
