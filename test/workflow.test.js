@@ -566,3 +566,11 @@ test('the council consult egresses only on a human dispatch, sends only its inpu
   // tee's status, which is exactly how a CRU-0034 refusal would have read as success.
   assert.doesNotMatch(workflow, /coordinationCli\.js consult[\s\S]{0,200}\|\s*tee/, 'piping the consult into tee masks its exit status');
 });
+
+test('Crucible PR monitor is PR-scoped and cannot self-block on its own check', () => {
+  const workflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'nexus-check-monitor.yml'), 'utf8');
+  assert.match(workflow, /name:\s+Crucible PR monitor/);
+  assert.match(workflow, /group:\s+crucible-pr-monitor-\$\{\{ github\.event\.pull_request\.number \|\| github\.run_id \}\}/);
+  assert.match(workflow, /GITHUB_TOKEN:\s+\$\{\{ github\.token \}\}/);
+  assert.match(workflow, /uses:\s+actions\/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02/);
+});

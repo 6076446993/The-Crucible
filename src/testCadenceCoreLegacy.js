@@ -8,6 +8,8 @@ const CADENCE_TIERS = ['every-push', 'daily', 'weekly', 'monthly'];
 const MAIN_CATEGORIES = ['code', 'security', 'utility', 'maintenance'];
 const TEST_MAIN_CATEGORIES = {
   code: [
+    'test/authorizedPrRepair.test.js',
+    'test/nexusCheckMonitor.test.js',
     'test/code-check.test.js',
     'test/codeSecurityOrganism.test.js',
     'test/ciDiagnosticOrgan.test.js',

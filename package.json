@@ -81,7 +81,8 @@
     "cadence:on-error": "node src/testCadence.js on-error",
     "audit:circulation": "node src/cli.js circulation",
     "audit:failure-codes": "node src/cli.js failure-codes",
-    "trace:pipeline": "node src/pipelineTracer.js"
+    "trace:pipeline": "node src/pipelineTracer.js",
+    "monitor:nexus-checks": "node src/nexusCheckMonitor.js"
   },
   "engines": {
     "node": ">=20"
