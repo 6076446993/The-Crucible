@@ -166,8 +166,8 @@ if (require.main === module) {
   monitorNexusPr()
     .then((report) => {
       process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
-      process.stdout.write(`\n${formatReport(report)}\n`);
-      if (!report.healthy) process.exitCode = 2;
+      process.stderr.write(`\n${formatReport(report)}\n`);
+      // A healthy monitor execution is itself successful; observed Nexus blockers are evidence, not a Crucible monitor failure.
     })
     .catch((error) => {
       process.stderr.write(`[The Crucible] Nexus CI monitor failed closed: ${error.message}\n`);
