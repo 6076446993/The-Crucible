@@ -1,3 +1,11 @@
+### Session: hosted-handoff-digest-rebind-20260928191000 — 2026-09-28T19:10:00.000Z — Codex — mode:work
+
+Plain-language summary: The hosted AI handoff gate correctly rejected a stale affected-path digest after the preceding cadence/Windows correction. The correction changed exactly AI-HANDOFF.json, DEVLOG.md, src/semanticAnalysis.js, and test/toolchainCirculation.test.js; the handoff record is now rebound to that exact four-file scope without weakening the handoff gate.
+
+- Confirmed the hosted failure was CRU-0045 path-custody mismatch, not a runtime test failure.
+- Rebound the route record to the exact four-file commit scope.
+- No tests or security gates were weakened.
+
 ### Session: crucible-pr-monitor-required-gate-20260928190000 — 2026-09-28T19:00:00.000Z — Codex — mode:work
 
 Plain-language summary: The Crucible PR monitor is now the aggregate PR gate without a recursive monitor loop. It waits for the other PR checks to finish, ignores its own check and the required block check, and the required block check waits for the monitor's result on the exact PR head.
