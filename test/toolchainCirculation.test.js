@@ -67,3 +67,14 @@ test('the POSIX fallbacks are not consulted on Windows, where they cannot exist'
   assert.equal(javaToolchain({ JAVA_HOME: '', Path: '' }, 'win32'), null);
   assert.equal(javaToolchain({}, 'win32'), null);
 });
+
+
+test('a versioned GitHub Actions JDK home is preferred over an older default JAVA_HOME', (t) => {
+  const modern = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-jdk-modern-'));
+  const legacy = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-jdk-legacy-'));
+  t.after(() => { fs.rmSync(modern,{recursive:true,force:true}); fs.rmSync(legacy,{recursive:true,force:true}); });
+  for (const dir of [modern, legacy]) fs.mkdirSync(path.join(dir,'bin'),{recursive:true});
+  for (const dir of [modern, legacy]) for (const name of ['javac','java']) fs.writeFileSync(path.join(dir,'bin',name),'');
+  const found=javaToolchain({JAVA_HOME:legacy,JAVA_HOME_21_X64:modern,PATH:''},'linux');
+  assert.equal(found.directory,path.join(modern,'bin'));
+});
