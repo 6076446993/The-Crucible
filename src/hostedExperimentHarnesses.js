@@ -102,8 +102,8 @@ function javaConstructorConfiguration({ projectId, root = EXPERIMENT_ROOT, env =
       const control = constructorsIn('java/OneConstructor.java');
       // Distinct signatures, so a fixture repeating one declaration could not read as several.
       const signatures = new Set(many.map((item) => String(item.id)));
-      const constructorSignatures = new Set(many.map((item) => String(item.id).replace(/#<init>\b/, `#${path.basename('java/ManyConstructors.java', '.java')}`)));
-      const controlSignatures = new Set(control.map((item) => String(item.id).replace(/#<init>\b/, `#${path.basename('java/OneConstructor.java', '.java')}`)));
+      const constructorSignatures = new Set(many.map((item) => String(item.id).replace(/#<init>/, `#${path.basename('java/ManyConstructors.java', '.java')}`)));
+      const controlSignatures = new Set(control.map((item) => String(item.id).replace(/#<init>/, `#${path.basename('java/OneConstructor.java', '.java')}`)));
       return many.length > 1 && constructorSignatures.size === many.length && control.length === 1 && controlSignatures.size === 1;
     },
   };
