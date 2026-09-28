@@ -119,3 +119,11 @@ test('this repository passes its own coordination gate', () => {
   const result = coordinationGate(path.join(__dirname, '..'));
   assert.ok(result.claims >= 0);
 });
+
+
+test('retained Devlog-Pruned history satisfies accountability after inline DEVLOG pruning', () => {
+  const claims = [claim('old-repair', 'released')];
+  const archived = '## Snapshot: 2026-09-28T18:00:00Z — pruned by attended repair\n\nold-repair was completed and released.\n';
+  const result = auditDevlogAccountability({ devlog: '# Development log\n', archivedDevlog: archived, claims });
+  assert.deepEqual(result.findings, []);
+});
