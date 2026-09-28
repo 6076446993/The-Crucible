@@ -56,6 +56,23 @@ This section is intentionally outside the bounded Command log archive. Released 
 - `crucible-constitution-routing-registration-20260915` — anthropic — released 2026-09-15T19:31:57.672Z.
 - `windows-java-toolchain-detection-20260916` — anthropic — released 2026-09-16T21:53:37.592Z.
 
+## Historical mutation accountability
+
+Released mutation claims remain durable facts even after their detailed session entries leave the ten-session inline command log. The full pre-prune DEVLOG snapshots are retained on Archive for at least 365 days. This compact index keeps every released claim discoverable to the coordination gate without retiring or rewriting the underlying repair/history evidence.
+
+- multi-ai-coordination
+- crucible-rolling-learning-release-review-20260906
+- daily-google-research-and-lock-recovery-20260908
+- crucible-rolling-learning-release-review-20260909
+- crucible-rolling-learning-release-review-20260910-1600
+- crucible-rolling-learning-release-review-20260910-proof-correction
+- perplexity-r3-discovery-and-self-test-repair-20260910
+- canonical-task-routing-20260912
+- discovery-first-due-race-20260915
+- orchestrator-continuity-upgrade-20260915
+- crucible-constitution-routing-registration-20260915
+- windows-java-toolchain-detection-20260916
+
 ## Command log archive
 
 ### Session: java-static-adapter-dependency-correction-20260928 — 2026-09-28T19:02:58.150Z — Codex — mode:work
