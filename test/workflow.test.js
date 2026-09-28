@@ -573,5 +573,16 @@ test('Crucible PR monitor is PR-scoped and cannot self-block on its own check', 
   assert.match(workflow, /group:\s+crucible-pr-monitor-\$\{\{ github\.event\.pull_request\.number \|\| github\.run_id \}\}/);
   assert.match(workflow, /GITHUB_TOKEN:\s+\$\{\{ github\.token \}\}/);
   assert.match(workflow, /CRUCIBLE_MONITOR_READ_TOKEN:\s+\$\{\{ secrets\.CRUCIBLE_MONITOR_READ_TOKEN \}\}/);
+  assert.match(workflow, /CRUCIBLE_MONITOR_WAIT_FOR_CHECKS_MS: '600000'/);
+  assert.doesNotMatch(workflow, /^\s{2}push:/m);
   assert.match(workflow, /uses:\s+actions\/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02/);
+});
+
+
+test('the required block gate delegates to the PR monitor without recursion', () => {
+  const workflow = fs.readFileSync(path.join(root,'.github','workflows','block-pr-7.yml'),'utf8');
+  assert.match(workflow,/checks: read/);
+  assert.match(workflow,/Wait for the Crucible PR monitor aggregate gate/);
+  assert.match(workflow,/Monitor all Crucible-monitored PRs/);
+  assert.match(workflow,/github\.event\.pull_request\.head\.sha/);
 });

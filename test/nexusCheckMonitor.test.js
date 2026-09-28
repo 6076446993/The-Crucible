@@ -6,6 +6,7 @@ const {
   requiredCheckState,
   isLockedPullRequest,
   monitorConfiguredRepositories,
+  waitForPullRequestChecks,
 } = require('../src/nexusCheckMonitor');
 
 test('classifies GitHub check states without treating skipped as a failure', () => {
@@ -113,4 +114,18 @@ test('excludes the monitor check itself so a PR cannot become blocked by its own
   });
   assert.equal(report.repositories[0].pullRequests[0].checks.total, 1);
   assert.equal(report.repositories[0].pullRequests[0].healthy, true);
+});
+
+
+test('waits for non-monitor checks to settle while ignoring the required block gate', async () => {
+  let first = true;
+  const fetchImpl = async () => {
+    const checkRuns = first ? [{id:1,name:'The Crucible',status:'in_progress',conclusion:null},{id:2,name:'block',status:'in_progress',conclusion:null}] : [{id:1,name:'The Crucible',status:'completed',conclusion:'success'},{id:2,name:'block',status:'in_progress',conclusion:null},{id:3,name:'Monitor all Crucible-monitored PRs',status:'in_progress',conclusion:null}];
+    first = false;
+    return new Response(JSON.stringify({check_runs:checkRuns}), {status:200});
+  };
+  const result = await waitForPullRequestChecks({fetchImpl,token:'workflow-token',repository:'example/one',sha:'head',timeoutMs:100,pollMs:1,settleMs:0});
+  assert.equal(result.state,'settled');
+  assert.equal(result.checks.some((check) => check.name === 'block'),false);
+  assert.equal(result.checks.some((check) => check.name === 'Monitor all Crucible-monitored PRs'),false);
 });

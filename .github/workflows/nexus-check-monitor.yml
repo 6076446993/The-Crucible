@@ -12,8 +12,6 @@ on:
     - cron: '*/10 * * * *'
   pull_request:
     types: [opened, reopened, synchronize, closed]
-  push:
-    branches: [main, development]
 
 permissions:
   contents: read
@@ -37,6 +35,9 @@ jobs:
       CRUCIBLE_REPAIR_TOKEN: ${{ secrets.CRUCIBLE_REPAIR_TOKEN }}
       CRUCIBLE_OVERSIGHT_PUBLIC_KEY: ${{ secrets.CRUCIBLE_OVERSIGHT_PUBLIC_KEY }}
       CRUCIBLE_OWNER_PUBLIC_KEY: ${{ secrets.CRUCIBLE_OWNER_PUBLIC_KEY }}
+      CRUCIBLE_MONITOR_PR_NUMBER: ${{ github.event.pull_request.number || '' }}
+      CRUCIBLE_MONITOR_WAIT_FOR_CHECKS_MS: '600000'
+      CRUCIBLE_MONITOR_POLL_MS: '10000'
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
