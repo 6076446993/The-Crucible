@@ -1,6 +1,7 @@
 ### Session: java-constructor-verifier-normalization-20260928 — 2026-09-28T19:20:19.755Z — Codex — mode:work
 
 Plain-language summary: The hosted semantic proof was still failing on Windows because Java compiler symbol names differ across JDK generations. The verifier now normalizes the constructor identity before evaluating the same independent source-tree proof.
+- Corrected Java hosted-proof compilation/verifier portability across the Windows JDK and modern JDK runners — started 2026-09-28T19:24:01.592Z, finished 2026-09-28T19:24:01.592Z, exit 0 correction. The remaining CRU-0006 is the owner-scoped GitHub security-settings credential returning HTTP 401.
 
 - Updated the Java hosted-proof verifier to normalize constructor identities across JDK versions — started 2026-09-28T19:20:19.755Z, finished 2026-09-28T19:20:19.755Z, exit 0.
 - The runtime experiment remains real and independent; no test was weakened or skipped.
