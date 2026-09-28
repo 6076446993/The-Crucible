@@ -18,11 +18,11 @@ Chain-of-custody record for recent units of work. Newest first; maximum 10 sessi
 
 Plain-language summary: Fixed the new monitor's no-argument entrypoint, restored its cross-repository read token boundary to use the workflow token for same-repository reads, removed an empty tracked Nexus integration file, moved the authorized repair coordinator to the circulation boundary, and classified the two new test files in the governed cadence. Exact-tip hosted verification remains open on external GitHub Administration-read credentials and private monitored-repository access.
 
-- Fixed `monitorConfiguredRepositories()` so the production entrypoint can be called without an options object and always emits a typed JSON failure report when execution is refused — completed 2026-09-28T17:50:30Z.
-- Changed the monitor workflow to keep `GITHUB_TOKEN` as the GitHub Actions token instead of assigning the invalid `SECURITY_READ_TOKEN` secret to it; the monitor still keeps the separate security-read secret for future authorized use — completed 2026-09-28T17:52:10Z.
-- Removed the empty tracked `governingDocuments/nexus-integration/New Text Document.txt` that caused CRU-0014 — completed 2026-09-28T17:53:00Z.
-- Moved `authorizedPrRepair` into circulation ownership so its existing learning/diagnostic dependencies do not increase direct cross-system linkage; the live ratchet returned to 57 direct edges — completed 2026-09-28T17:48:20Z.
-- Added `test/authorizedPrRepair.test.js` and `test/nexusCheckMonitor.test.js` to the governed code test classification and synchronized the active handoff prompt hash — completed 2026-09-28T17:55:00Z.
+- Fixed `monitorConfiguredRepositories()` so the production entrypoint can be called without an options object and always emits a typed JSON failure report when execution is refused — started 2026-09-28T17:50:20Z, finished 2026-09-28T17:50:30Z, exit 0.
+- Changed the monitor workflow to keep `GITHUB_TOKEN` as the GitHub Actions token instead of assigning the invalid `SECURITY_READ_TOKEN` secret to it; the monitor still keeps the separate security-read secret for future authorized use — started 2026-09-28T17:52:00Z, finished 2026-09-28T17:52:10Z, exit 0.
+- Removed the empty tracked `governingDocuments/nexus-integration/New Text Document.txt` that caused CRU-0014 — started 2026-09-28T17:52:40Z, finished 2026-09-28T17:53:00Z, exit 0.
+- Moved `authorizedPrRepair` into circulation ownership so its existing learning/diagnostic dependencies do not increase direct cross-system linkage; the live ratchet returned to 57 direct edges — started 2026-09-28T17:48:10Z, finished 2026-09-28T17:48:20Z, exit 0.
+- Added `test/authorizedPrRepair.test.js` and `test/nexusCheckMonitor.test.js` to the governed code test classification and synchronized the active handoff prompt hash — started 2026-09-28T17:54:30Z, finished 2026-09-28T17:55:00Z, exit 0.
 - Hosted evidence still shows CRU-0006 HTTP 401 for the GitHub Administration-read credential and the monitor reaches private `AI-collaboration-` with the workflow token but receives HTTP 404, so cross-repository monitoring requires a valid repository-scoped read credential — external prerequisite, not bypassed.
 
 ### Session: Crucible PR monitor generalization and locked-PR boundary — 2026-09-28T16:55:00Z — ChatGPT — mode:work
