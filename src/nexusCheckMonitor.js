@@ -101,20 +101,20 @@ function isLockedPullRequest(pr, configuredNumbers = []) {
 }
 
 function loadMonitorConfig(configPath = DEFAULT_CONFIG, readFile = fs.readFileSync) {
-  if (!readFile(configPath, 'utf8')) throw new Error(`Unable to read Crucible monitor configuration: ${configPath}`);
+  if (!readFile(configPath, 'utf8')) throw crucibleError('CRU-0051', `Unable to read Crucible monitor configuration: ${configPath}`);
   const config = JSON.parse(readFile(configPath, 'utf8'));
   if (!config || config.schemaVersion !== 1 || !Array.isArray(config.repositories)) {
-    throw new Error('Crucible monitor configuration must use schemaVersion 1 and a repositories array.');
+    throw crucibleError('CRU-0051', 'Crucible monitor configuration must use schemaVersion 1 and a repositories array.');
   }
   const repositories = config.repositories.filter((entry) => entry && entry.enabled !== false);
-  if (!repositories.length) throw new Error('Crucible monitor configuration contains no enabled repositories.');
+  if (!repositories.length) throw crucibleError('CRU-0051', 'Crucible monitor configuration contains no enabled repositories.');
   const names = new Set();
   for (const entry of repositories) {
     requireValue(entry.name, 'monitored repository name');
-    if (names.has(entry.name.toLowerCase())) throw new Error(`Duplicate monitored repository: ${entry.name}`);
+    if (names.has(entry.name.toLowerCase())) throw crucibleError('CRU-0051', `Duplicate monitored repository: ${entry.name}`);
     names.add(entry.name.toLowerCase());
     if (entry.lockedPullRequests !== undefined && !Array.isArray(entry.lockedPullRequests)) {
-      throw new Error(`lockedPullRequests for ${entry.name} must be an array.`);
+      throw crucibleError('CRU-0051', `lockedPullRequests for ${entry.name} must be an array.`);
     }
   }
   return { ...config, repositories };
