@@ -1,3 +1,14 @@
+### Session: crucible-pr-monitor-required-gate-20260928190000 — 2026-09-28T19:00:00.000Z — Codex — mode:work
+
+Plain-language summary: The Crucible PR monitor is now the aggregate PR gate without a recursive monitor loop. It waits for the other PR checks to finish, ignores its own check and the required block check, and the required block check waits for the monitor's result on the exact PR head.
+
+- Diagnosed the repository ruleset: block is the required status check for main.
+- Added bounded monitor settling and excluded the monitor and block checks from the aggregate.
+- Changed block-pr-7.yml to wait for the monitor result; locked monitoring PRs still fail immediately.
+- Removed the duplicate push trigger from the PR monitor.
+- Added regression tests for monitor settling and the monitor-to-block dependency.
+- No secret values were read or written. CRUCIBLE_MONITOR_READ_TOKEN remains required for cross-repository monitoring.
+
 # Development log
 
 ## Shared AI handoff
