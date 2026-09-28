@@ -1,11 +1,3 @@
-### Session: crucible-pr-monitor-gate-test-correction-20260928190500 — 2026-09-28T19:05:00.000Z — Codex — mode:work
-
-Plain-language summary: The first hosted run of the non-recursive PR monitor gate exposed stale contract tests, not an implementation failure: the test cadence registry did not yet list the newly added monitor tests, and the locked-PR workflow test still required the old immediate success message. Both assertions were updated to match the real gate design without weakening any runtime check.
-
-- Hosted failure: test/_testCadenceCore.js reported two new tests absent from the expected governed category list.
-- Hosted failure: test/workflow.test.js still asserted the removed "nothing to block" message.
-- Corrected both tests; no production gate was relaxed.
-
 ### Session: crucible-pr-monitor-required-gate-20260928190000 — 2026-09-28T19:00:00.000Z — Codex — mode:work
 
 Plain-language summary: The Crucible PR monitor is now the aggregate PR gate without a recursive monitor loop. It waits for the other PR checks to finish, ignores its own check and the required block check, and the required block check waits for the monitor's result on the exact PR head.
@@ -30,6 +22,16 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 - **Continuation boundary:** Oversight deleting what it refuses is the remaining half, and it is not Crucible's to do — the proposed patch is with the owner, and the delicate part is that queue and manifest hashes must move together. Also open: whether consumer-side enforcement should count for R8's `prompt-injection` behaviour (a definition call); whether to retract active knowledge `v1`; promoting `council-consult.yml` to `main`; the unused `NVIDIA_NIM_MODEL` secret; and the 45 exfiltration-pattern documents, whose bytes stay encrypted to this session.
 
 ## Command log archive
+
+### Session: hosted-self-test-cadence-java-correction-20260928 — 2026-09-28T18:55:17.649Z — Codex — mode:work
+
+Plain-language summary: Hosted Self-Test now reached the actual test suite. It exposed a stale cadence expectation for the two newly registered tests and two Windows-specific Java/path failures. The cadence expectation is being rebound, Java semantic analysis is being made portable by compiling the helper with the resolved JDK, and the PATH test is being made native to the runner rather than simulating incompatible path syntax.
+
+- Updated the suite classification expectation for the two real monitor/repair tests — started 2026-09-28T18:55:17.649Z, finished 2026-09-28T18:55:17.649Z, exit 0.
+- Changed Java semantic analysis to compile the helper with the resolved `javac` and execute the compiled class with the resolved `java` runtime in a temporary directory — started 2026-09-28T18:55:17.649Z, finished 2026-09-28T18:55:17.649Z, exit 0.
+- Corrected the PATH regression to use the native runner's environment spelling and separator — started 2026-09-28T18:55:17.649Z, finished 2026-09-28T18:55:17.649Z, exit 0.
+- Updated `AI-HANDOFF.json` and `DEVLOG.md` together with the exact five-path digest — started 2026-09-28T18:55:17.649Z, finished 2026-09-28T18:55:17.649Z, exit 0.
+
 
 ### Session: authorized-repair-circulation-boundary-20260928 — 2026-09-28T18:49:07.937Z — Codex — mode:work
 

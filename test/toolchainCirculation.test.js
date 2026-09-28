@@ -44,15 +44,15 @@ test('a POSIX JDK is found unchanged, and no .exe is invented for it', (t) => {
   assert.equal(found.java, path.join(binary, 'java'));
 });
 
-test('PATH is searched too, because a runner may ship a JDK without exporting JAVA_HOME', (t) => {
-  const { binary } = jdk(t, { names: ['javac.exe', 'java.exe'] });
-
-  const found = javaToolchain({ Path: `C:\\nowhere;${binary}` }, 'win32');
-  assert.notEqual(found, null, 'the Windows PATH variable is spelled Path and split on semicolons');
+test('PATH is searched on the native runner, using its native environment spelling and separator', (t) => {
+  const windows = process.platform === 'win32';
+  const names = windows ? ['javac.exe', 'java.exe'] : ['javac', 'java'];
+  const { binary } = jdk(t, { names });
+  const envKey = windows ? 'Path' : 'PATH';
+  const separator = windows ? ';' : ':';
+  const found = javaToolchain({ [envKey]: `missing${separator}${binary}` }, process.platform);
+  assert.notEqual(found, null, 'the native PATH spelling and separator must be honored');
   assert.equal(found.directory, binary);
-
-  const posix = jdk(t, { names: ['javac', 'java'] });
-  assert.equal(javaToolchain({ PATH: `/nowhere:${posix.binary}` }, 'linux').directory, posix.binary);
 });
 
 test('a half-present toolchain is absent, because a compiler without a runtime cannot run an experiment', (t) => {
