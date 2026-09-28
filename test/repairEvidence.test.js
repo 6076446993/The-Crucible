@@ -107,6 +107,26 @@ test('the wired recorder records a real repair and reports one that carried noth
 // dropped. The recorder looked for record.finding and record.plan, which never exist, so every
 // repair reported that it had observed nothing. The earlier tests missed it because they built the
 // candidate by hand in a shape no producer emits.
+test('repair knowledge evidence remains durable for later update rather than expiring', (t) => {
+  const durable = store(t);
+  const first = recordRepairEvidence({ store: durable, projectId: PROJECT, finding: FINDING, plan: PLAN, result: VERIFIED, now: () => AT });
+  assert.equal(first.recorded, true);
+  const firstRecord = durable.get(first.candidateId);
+  assert.ok(firstRecord, 'the original repair observation remains in durable custody');
+
+  const later = recordRepairEvidence({
+    store: durable,
+    projectId: PROJECT,
+    finding: { ...FINDING, boundary: 'Node.js filesystem path resolution v2' },
+    plan: { ...PLAN, after: 'resolveWithinRootV2(root, userInput)' },
+    result: { state: 'verified', applied: { resultSha256: 'g'.repeat(64), rollbackToken: 'rollback-2' } },
+    observedAt: '2026-09-28T00:00:00.000Z',
+  });
+  assert.equal(later.recorded, true);
+  assert.equal(durable.read().candidateRecords.length, 2);
+  assert.ok(durable.get(first.candidateId), 'the earlier repair evidence was not retired');
+});
+
 test('a real organism repair reaches the learning store, not just a report that it observed nothing', async (t) => {
   const { InMemoryCodeWorkspace, CodeAssistiveSecurityOrganism } = require('../src/codeSecurityOrganism');
   const durable = store(t);
