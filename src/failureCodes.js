@@ -648,6 +648,18 @@ const FAILURE_CODES = Object.freeze({
       forbidden: 'Never hide an inaccessible repository, suppress a GitHub API error, or mark a blocked observation healthy merely to make the monitor green.',
     },
   },
+  'CRU-0052': {
+    code: 'CRU-0052',
+    category: 'repair-learning',
+    meaning: 'A repair observation was malformed or lacked a required identity, hash, or timestamp, so it could not be admitted as durable candidate evidence.',
+    next: 'Read the exact validation message, correct the repair observation at its producer, and rerun the bounded repair-learning path. Do not relax the candidate schema or invent missing before/after evidence.',
+    remedy: {
+      kind: 'guided',
+      command: 'npm test',
+      verifyWith: { tests: ['test/repairLearning.test.js', 'test/repairEvidence.test.js'] },
+      forbidden: 'Never accept missing hashes, identities, or timestamps, and never add repair-specific fields to the candidate schema merely to bypass validation.',
+    },
+  },
   'CRU-0022': {
     code: 'CRU-0022',
     category: 'diagnosis-coverage',
