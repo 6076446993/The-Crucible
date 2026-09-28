@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+const { readAuthorization, executeAuthorizedRepair } = require('./authorizedPrRepair');
+
 const DEFAULT_CONFIG = path.resolve(process.env.CRUCIBLE_MONITOR_CONFIG || 'governingDocuments/crucible-monitored-repositories.json');
 const FAILURE_CONCLUSIONS = new Set(['failure','cancelled','timed_out','action_required','startup_failure','stale']);
 
@@ -127,12 +129,12 @@ async function githubGetCheckRuns(fetchImpl, repository, sha, token) {
   }
 }
 
-async function monitorPullRequest({ fetchImpl, token, repository, pr, requiredChecks = [], lockedPullRequests = [] }) {
+function failureCodeFromCheck(check) { const text=[check.name,check.output?.title,check.output?.summary,check.output?.text].filter(Boolean).join('\\n'); return (text.match(/\\bCRU-\\d{4}\\b/)||[])[0]||null; }\n\nasync function monitorPullRequest({ fetchImpl, token, repository, pr, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
   const checkRuns = await githubGetCheckRuns(fetchImpl, repository, pr.head.sha, token);
   const summary = summarizeChecks(checkRuns);
   const required = requiredCheckState(checkRuns, requiredChecks);
   const locked = isLockedPullRequest(pr, lockedPullRequests);
-  const blockers = [];
+  const blockers = [];\n  const repairEvidence = [];
   if (summary.counts.failing) blockers.push('failing-checks');
   if (summary.counts.in_progress || summary.counts.queued) blockers.push('checks-pending');
   if (pr.mergeable_state === 'blocked') blockers.push('github-mergeable-state-blocked');
@@ -163,11 +165,11 @@ async function monitorPullRequest({ fetchImpl, token, repository, pr, requiredCh
   };
 }
 
-async function monitorRepository({ fetchImpl = globalThis.fetch, token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [] }) {
+async function monitorRepository({ fetchImpl = globalThis.fetch, token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
   requireValue(repository, 'repository');
   const prs = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/pulls?state=open`, token);
   const pullRequests = [];
-  for (const pr of prs) pullRequests.push(await monitorPullRequest({ fetchImpl, token, repository, pr, requiredChecks, lockedPullRequests }));
+  for (const pr of prs) pullRequests.push(await monitorPullRequest({ fetchImpl, token, repository, pr, requiredChecks, lockedPullRequests, repairEnabled, repairAuthorization, repairRoot }));
   const blockers = pullRequests.flatMap((pr) => pr.blockers.map((blocker) => ({ pullRequest:pr.number, blocker, locked:pr.locked })));
   return {
     repository,
