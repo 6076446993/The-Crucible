@@ -2,12 +2,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const { readAuthorization, executeAuthorizedRepair } = require('./authorizedPrRepair');
+const { crucibleError } = require('./failureCodes');
 
 const DEFAULT_CONFIG = path.resolve(process.env.CRUCIBLE_MONITOR_CONFIG || 'governingDocuments/crucible-monitored-repositories.json');
 const FAILURE_CONCLUSIONS = new Set(['failure','cancelled','timed_out','action_required','startup_failure','stale']);
 
 function requireValue(value, name) {
-  if (typeof value !== 'string' || !value.trim()) throw new Error(`${name} is required.`);
+  if (typeof value !== 'string' || !value.trim()) throw crucibleError('CRU-0051', `${name} is required.`);
   return value.trim();
 }
 
@@ -38,7 +39,7 @@ async function githubGetAll(fetchImpl, url, token, pageSize = 100) {
   for (let page = 1; ; page += 1) {
     const separator = url.includes('?') ? '&' : '?';
     const batch = await githubGet(fetchImpl, `${url}${separator}per_page=${pageSize}&page=${page}`, token);
-    if (!Array.isArray(batch)) throw new Error(`GitHub collection endpoint did not return an array: ${url}`);
+    if (!Array.isArray(batch)) throw crucibleError('CRU-0051', `GitHub collection endpoint did not return an array: ${url}`);
     items.push(...batch);
     if (batch.length < pageSize) return items;
   }
@@ -123,7 +124,7 @@ async function githubGetCheckRuns(fetchImpl, repository, sha, token) {
   const checkRuns = [];
   for (let page = 1; ; page += 1) {
     const body = await githubGet(fetchImpl, `https://api.github.com/repos/${repository}/commits/${sha}/check-runs?per_page=100&page=${page}`, token);
-    if (!body || !Array.isArray(body.check_runs)) throw new Error(`GitHub check-runs endpoint did not return check_runs: ${repository} ${sha}`);
+    if (!body || !Array.isArray(body.check_runs)) throw crucibleError('CRU-0051', `GitHub check-runs endpoint did not return check_runs: ${repository} ${sha}`);
     checkRuns.push(...body.check_runs);
     if (body.check_runs.length < 100) return checkRuns;
   }
@@ -223,7 +224,7 @@ async function monitorPullRequest({
   };
 }
 
-async function monitorRepository({ fetchImpl = globalThis.fetch, token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
+async function monitorRepository({ fetchImpl = globalThis.fetch, token = process.env.CRUCIBLE_SECURITY_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
   requireValue(repository, 'repository');
   const prs = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/pulls?state=open`, token);
   const pullRequests = [];
