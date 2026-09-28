@@ -12,7 +12,15 @@
 
 ## Command log archive
 
-Chain-of-custody record for recent units of work. Newest first; maximum 10 sessions and 180 days. Older history remains available through Git history. Every entry pruned from this archive is also recorded, as a full DEVLOG.md snapshot with a plain-language summary, in `Devlog-Pruned` on `Archive`.
+### Session: repair-knowledge-retention-20260928 — 2026-09-28T18:30:08.126Z — Codex — mode:work
+
+Plain-language summary: Confirmed repair knowledge remains durable and is updated with later evidence; changed the Devlog-Pruned archive floor to a full 365 days.
+
+- Updated the Devlog-Pruned retention floor from 364 to 365 days.
+- Added regression coverage for exact one-year archive retention.
+- Added regression coverage proving earlier repair evidence remains in durable custody when later evidence is recorded.
+- No credentials or secret values were read or written.
+
 
 ### Session: free discovery, refused-run diagnosis, and truthful records — 2026-09-15T03:00:00Z — Claude — mode:work
 
@@ -90,6 +98,7 @@ Plain-language summary: The owner sent two failed-run emails and said not to spe
 - Deletion stays with Oversight, and the patch is **proposed rather than pushed**. `OVERSIGHT-POLICY.md`: *"The Crucible may not write here… change an oversight result"*. That is not a technicality to route around - the reason that refusal was worth citing is that Crucible did not produce it, so a Crucible agent patching the vetting code that polices Crucible would repair the organ by removing what made it useful. The substance handed over: after `vetRestored` and before `encrypt-vetted`, remove each quarantined source's content file and queue entry, then recompute `manifest.queueSha256` and drop the removed file from `manifest.sourceFiles`. The trap to flag: `vetRestored` itself asserts the queue hash matches the manifest and Crucible verifies the same - that mismatch blocked R4 for days earlier this session - so queue and manifest must move together, and the second `vet` call must run after enforcement so the published report describes what was actually published.
 - Repaired the Java toolchain resolver under claim `windows-java-toolchain-detection-20260916`, which had taken three matrix legs red on development. Hosted Self-Test run `35150387996` at `7b8c8bb` failed five tests on all three `windows-2022` legs with `[CRU-0050] The java toolchain is unavailable on this runner`, while every `ubuntu-latest` and `macos-latest` leg passed. The runner had a JDK. `javaToolchain` probed for extensionless `javac` and `java`, which on Windows are `javac.exe` and `java.exe`, so `fs.existsSync` was false for both and the toolchain was reported absent on a machine that had one. The resolver now probes platform-appropriate suffixes, searches `PATH` as well as `JAVA_HOME` because a runner may ship a JDK without exporting it, reads the Windows spelling `Path` and splits on `;`, and no longer offers `/usr/bin` and `/usr/local/bin` on a platform where they cannot exist. `test/toolchainCirculation.test.js` is new and builds real directories holding real files, because the defect was that a real file on disk was not seen and stubbing `fs` would have reproduced the bug as a pass: it pins the Windows resolution, the unchanged POSIX resolution, `PATH` discovery on both spellings, a compiler without a runtime staying absent, and Windows not reaching for the POSIX fallbacks. Four of its five tests fail without the repair, shown by stashing it. The new file is registered in `test/_testCadenceCore.js` and `src/testCadenceCoreLegacy.js`, taking safe test subcategories from 105 to 106. This diagnoses the Windows legs only; it makes no claim about R8 or any learning gate. `npm run test:all` 903/903, failure codes 581 with none added, circulation 57 direct edges with none added - started 2026-09-16T21:30:00Z, finished 2026-09-16T22:00:00Z, exit 0.
 
+
 ### Session: canonical orchestrator correction cycle — 2026-09-13T05:06:01Z — ChatGPT automation — mode:work
 
 Plain-language summary: Continued the owner-approved autonomous rollout from the prior verified boundary, strengthened the canonical policy so terminal verification must actually complete, reproduced AI Collaboration's pre-runner CI failure without speculative source edits, and repaired Crucible handoff/Devlog regressions only from exact hosted evidence. Final Verification then caught missing historical mutation-claim accountability references in the compact Devlog; this correction restores those references rather than weakening the coordination gate.
@@ -102,6 +111,7 @@ Plain-language summary: Continued the owner-approved autonomous rollout from the
 - Re-read the handoff workflow and validator instead of weakening them. `evaluateHandoffChanges` explicitly requires both files, and `validateHandoffPlan` requires a takeover-ready active plan plus completed/verification/remaining boundaries. Published the coherent correction in commit `a0b440ce7c9b964a491595680966fee0b514146c`; its takeover-ready handoff check passed — started 2026-09-13T05:14:05Z, finished 2026-09-13T05:22:00Z, exit 0 handoff verified.
 - Final Verification on `a0b440ce7c9b964a491595680966fee0b514146c` then exposed `CRU-0035`: conflict parsing passed, but DEVLOG accountability could not find seven released historical mutation claims that were still present in `AI-HANDOFF.json`. The missing accountability references are: `multi-ai-coordination`; `resolve-additive-diagnostics-conflict`; `crucible-rolling-learning-release-review-20260906`; `daily-google-research-and-lock-recovery-20260908`; `crucible-rolling-learning-release-review-20260909`; `crucible-rolling-learning-release-review-20260910-1600`; `crucible-rolling-learning-release-review-20260910-proof-correction`. Those claims remain released with their original ownership/provenance; this entry restores the audit linkage only — started 2026-09-13T05:21:33Z, finished 2026-09-13T05:25:00Z, exit 1 correction required.
 
+
 ### Session: canonical orchestrator policy boundary — 2026-09-13T05:02:27Z — ChatGPT automation — mode:work
 
 Plain-language summary: Established a machine-readable canonical orchestration policy in AI Collaboration, pinned AI Collaboration and Crucible as separate projects, and connected Crucible to that policy by reference rather than containment. Verification proved the Crucible handoff check passes on the exact new reference commit; AI Collaboration CI still fails before job steps begin, so the overall cross-project rollout remains Reviewed rather than Verified.
@@ -112,6 +122,7 @@ Plain-language summary: Established a machine-readable canonical orchestration p
 - Added The Crucible `governingDocuments/shared-orchestrator-policy-reference.json` on development, explicitly preserving independent identity, local stronger governance, custody/promotion authority, and non-containment. Commit `02f0d783c91328630bf48db60c89c1cc83eacaa5` — started 2026-09-13T05:04:07Z, finished 2026-09-13T05:04:18Z, exit 0.
 - Observed AI Collaboration CI fail before any job steps were emitted. Replaced invalid/unavailable `actions/checkout@v7` and `actions/setup-node@v7` references with v6 in commit `f383d338dbd8e3268a55abb10a55011edb043b5b`; rerun `34739402633` still failed before steps, so no further speculative CI mutation was made without exact diagnostics — started 2026-09-13T05:04:10Z, finished 2026-09-13T05:04:42Z, exit 1 unresolved hosted CI.
 - Final verification re-fetched the canonical policy, AI Collaboration identity, Crucible cross-project reference, exact Crucible development tip, and hosted workflow state. Crucible AI handoff policy run `34739391369` completed successfully on `02f0d783c91328630bf48db60c89c1cc83eacaa5`; AI Collaboration run `34739402633` remained failed before steps. Overall state is Reviewed, not Verified — started 2026-09-13T05:04:42Z, finished 2026-09-13T05:05:30Z, exit 1 partial verification.
+
 
 ### Session: canonical task routing and redundant branch cleanup — 2026-09-13T00:04:00Z — Codex — mode:work
 

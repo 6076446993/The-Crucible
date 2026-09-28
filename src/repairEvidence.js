@@ -20,7 +20,9 @@ const { LearningExperienceRecorder } = require('./learningExperience');
 
 const sha256 = (value) => crypto.createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
 
-// Which repair outcomes are worth recording, and what each one observed. A repair that never
+// Which repair outcomes are worth recording, and what each one observed. Repair observations are
+// durable evidence: age never expires them; later occurrences add new evidence and verified learning
+// versions are updated through the governed pipeline rather than deleting historical observations. A repair that never
 // ran - inhibited, blocked on a missing verifier - observed nothing and is not evidence.
 const RECORDABLE = Object.freeze({
   verified: { outcome: 'succeeded', observed: 'the repair applied cleanly and an independent verifier confirmed it within the same boundary' },

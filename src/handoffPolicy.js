@@ -61,7 +61,7 @@ const MAX_ARCHIVE_AGE_DAYS = 180;
 // doubling) rather than dropping anything still younger than the age floor. Only entries older
 // than the age floor are ever trimmed.
 const DEVLOG_PRUNED_MAX_ENTRIES = 50;
-const DEVLOG_PRUNED_MAX_AGE_DAYS = 364;
+const DEVLOG_PRUNED_MAX_AGE_DAYS = 365;
 const DEVLOG_PRUNED_HEADER = `# Devlog-Pruned
 
 Append-only ledger, on the reference-only \`Archive\` branch, of the *entire* DEVLOG.md content exactly as it stood immediately before each prune of its Command log archive on \`development\` (see AGENTS.md) - the full file, not just the session(s) the prune removed. Newest first. Retention floor: at least ${DEVLOG_PRUNED_MAX_AGE_DAYS} days of pruned history is always kept - a snapshot is trimmed only once it is older than that. Capacity starts at ${DEVLOG_PRUNED_MAX_ENTRIES} snapshots and doubles automatically (100, 200, ...) whenever more than that many snapshots fall within the ${DEVLOG_PRUNED_MAX_AGE_DAYS}-day floor, so the count never forces a trim on its own. Anything trimmed remains retrievable via \`git log -p Devlog-Pruned\` on \`Archive\`.
