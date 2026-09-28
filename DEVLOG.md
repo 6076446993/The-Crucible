@@ -12,6 +12,15 @@
 
 ## Command log archive
 
+### Session: authorized-repair-circulation-boundary-20260928 — 2026-09-28T18:49:07.937Z — Codex — mode:work
+
+Plain-language summary: The circulation ratchet correctly rejected the first authorized-repair implementation because that module statically imported learning and diagnostics, creating two new direct cross-system cables. The repair path is now dependency-injected through the existing governed production-organism boundary and fails closed when those dependencies are absent; no direct cross-system imports were added.
+
+- Removed the direct learning and diagnostic imports from `authorizedPrRepair.js`; the repair pipeline now requires its cross-system dependencies to be injected by its governed caller — started 2026-09-28T18:49:07.937Z, finished 2026-09-28T18:49:07.937Z, exit 0.
+- Added regression coverage that the repair path refuses execution when those dependencies are not supplied — started 2026-09-28T18:49:07.937Z, finished 2026-09-28T18:49:07.937Z, exit 0.
+- Rebound `AI-HANDOFF.json` and `DEVLOG.md` to the exact four-path correction commit — started 2026-09-28T18:49:07.937Z, finished 2026-09-28T18:49:07.937Z, exit 0.
+
+
 ### Session: crucible-pr-monitor-circulation-syntax-correction-20260928 — 2026-09-28T18:47:12.710Z — Codex — mode:work
 
 Plain-language summary: AI conflict governance caught a syntax error in the new canonical module registry. The repair was isolated to the malformed `security` entry; no governance rule was weakened.

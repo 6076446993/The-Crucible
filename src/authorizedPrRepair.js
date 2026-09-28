@@ -8,8 +8,6 @@ const { spawnSync } = require('node:child_process');
 const { crucibleError } = require('./failureCodes');
 const { ExternalOversightReflex } = require('./oversightReflex');
 const { createProductionOrganism, submitNervousObservation } = require('./productionOrganism');
-const { diagnose } = require('./ciDiagnosticOrgan');
-const { DurableScientificLearningStore } = require('./scientificLearning');
 
 const DEFAULT_AUTH_FILE = process.env.CRUCIBLE_REPAIR_AUTHORIZATION_FILE ||
   'governingDocuments/active-repair-authorization.json';
@@ -124,43 +122,20 @@ async function waitForRetest({fetchImpl,repository,sha,token,timeoutMs=10*60*100
   }
   return {state:'timed-out',sha,checks:last.map(check=>({id:check.id,name:check.name,status:check.status,conclusion:check.conclusion,url:check.html_url||check.details_url||null})),failing:[]};
 }
-function buildDefaultPipelineDependencies({fetchImpl=globalThis.fetch,token,repository,root}) {
-  const projectId=`github:${repository}`;
-  const learningStore=new DurableScientificLearningStore({root:path.join(root,'authorized-repair-learning'),projectId});
-  const diagnosticPlanner={async plan(payload){return {bounded:true,nextAction:'diagnose',changeBaseSha256:payload.changeBaseSha256,testRequest:null};}};
-  const diagnosticOrgan=async payload=>diagnose({
-    projectId,
-    repository,
-    commitSha: payload.commitSha || payload.headSha || payload.changeBaseSha || '0000000000000000000000000000000000000000',
-    runId: payload.runId || 'authorized-pr-repair',
-    workflow: payload.workflow || 'Crucible authorized repair',
-    job: payload.job || 'production-organism',
-    step: payload.step || 'authorized repair diagnosis',
-    os: process.platform,
-    nodeVersion: process.version,
-    conclusion: 'failure',
-    log: String(payload.errorLog || payload.finding?.output?.text || payload.finding?.output?.summary || payload.finding?.output?.title || payload.failureCode || ''),
-  });
-  const experienceRecorder={async record(payload){return {recorded:true,classification:'Insufficient Evidence',promotionAuthorized:false,payloadSha256:sha256(payload)};}};
-  const reporter={async report(payload){return {reported:true,payloadSha256:sha256(payload)};}};
-  const digestiveWorker={async process(payload){return {observed:false,payloadSha256:sha256(payload)};}};
-  const testingOrgan=async({payload})=>{
-    const result=payload.repairResult;
-    if(!result?.repairSha)return {result:{state:'not-retested',reason:'repair produced no new commit'}};
-    return {result:await waitForRetest({fetchImpl,repository,sha:result.repairSha,token})};
-  };
-  const oversightReflex=new ExternalOversightReflex({projectId,oversightPublicKey:null,ownerPublicKey:null});
-  return {learningStore,diagnosticPlanner,diagnosticOrgan,experienceRecorder,reporter,digestiveWorker,testingOrgan,oversightReflex};
+function requireRepairDependencies(dependencies) {
+  const required = ['learningStore','diagnosticPlanner','diagnosticOrgan','experienceRecorder','reporter','digestiveWorker','testingOrgan','oversightReflex'];
+  const missing = required.filter((name) => dependencies?.[name] == null);
+  if (missing.length) throw crucibleError('CRU-0050', `Authorized repair dependencies must be injected through the governed circulation boundary: ${missing.join(', ')}.`);
+  return dependencies;
 }
+
 async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,failure,authorization,token,fetchImpl=globalThis.fetch,diagnosticPlanner,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,learningStore,oversightReflex,root=process.cwd(),now=()=>new Date().toISOString()}) {
   if(failure.locked)return{state:'locked-read-only',authorized:false,reason:'locked-pull-request'};
   const authorizationResult=verifyAuthorization({authorization,repository,pullRequest,headSha,failureCode:failure.code,now:new Date(now())});
   if(!authorizationResult.authorized)return{state:'not-authorized',authorized:false,reason:authorizationResult.reason};
   const remedy=failure.remedy;
   if(!remedy||remedy.kind!=='automatic'||!remedy.command)return{state:'not-repairable-by-immune-system',authorized:true,reason:'failure-remedy-is-not-a-concrete-automatic-repair'};
-  const deps={learningStore,diagnosticPlanner,diagnosticOrgan,experienceRecorder,reporter,digestiveWorker,testingOrgan,oversightReflex};
-  const defaults=buildDefaultPipelineDependencies({fetchImpl,token,repository,root});
-  for (const key of Object.keys(defaults)) if (deps[key] == null) deps[key]=defaults[key];
+  const deps=requireRepairDependencies({learningStore,diagnosticPlanner,diagnosticOrgan,experienceRecorder,reporter,digestiveWorker,testingOrgan,oversightReflex});
   const actuator=createRepairActuator({token,repository,branch,baseSha:headSha,failureCode:failure.code,command:remedy.command});
   const organism=createProductionOrganism({projectId:`github:${repository}`,root,learningStore:deps.learningStore,oversightReflex:deps.oversightReflex,diagnosticPlanner:deps.diagnosticPlanner,repairActuator:actuator,experienceRecorder:deps.experienceRecorder,reporter:deps.reporter,digestiveWorker:deps.digestiveWorker,testingOrgan:deps.testingOrgan,diagnosticOrgan:deps.diagnosticOrgan,now});
   const submission=await submitNervousObservation(organism,{observationId:`pr-${pullRequest}-${headSha}-${failure.code}`,boundary:`github-pr:${repository}#${pullRequest}`,finding:failure.finding,failureCode:failure.code,commitSha:headSha,headSha,errorLog:failure.finding?.output?.text||failure.finding?.output?.summary||failure.code,changeBaseSha256:sha256(headSha)});
@@ -168,4 +143,4 @@ async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,fa
   for(let i=0;i<4&&heartbeat.results?.some(r=>r.output?.signals);i++)heartbeat=await organism.heartbeat();
   return{state:'repair-pipeline-complete',authorized:true,authorizationId:authorizationResult.authorizationId,authorizationExpiresAt:authorizationResult.expiresAt,failureCode:failure.code,submission,heartbeat};
 }
-module.exports={DEFAULT_AUTH_FILE,sha256,authorizationScope,readAuthorization,verifyAuthorization,parseRepairCommand,createRepairActuator,githubJson,waitForRetest,buildDefaultPipelineDependencies,executeAuthorizedRepair};
+module.exports={DEFAULT_AUTH_FILE,sha256,authorizationScope,readAuthorization,verifyAuthorization,parseRepairCommand,createRepairActuator,githubJson,waitForRetest,requireRepairDependencies,executeAuthorizedRepair};
