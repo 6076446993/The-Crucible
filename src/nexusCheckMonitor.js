@@ -21,6 +21,7 @@ function githubHeaders(token) {
 }
 
 async function githubGet(fetchImpl, url, token) {
+  if (typeof fetchImpl !== 'function') throw crucibleError('CRU-0051', 'A fetch implementation is required for Crucible PR monitoring.');
   const response = await fetchImpl(url, { headers: githubHeaders(token) });
   const text = await response.text();
   let body;
@@ -242,7 +243,7 @@ async function monitorRepository({ fetchImpl = globalThis.fetch, token = process
 
 async function monitorConfiguredRepositories({
   fetchImpl = globalThis.fetch,
-  token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '',
+  token = process.env.GITHUB_TOKEN || process.env.CRUCIBLE_SECURITY_READ_TOKEN || process.env.GH_TOKEN || '',
   config = loadMonitorConfig(),
   requiredChecks = normalizeRequiredNames(process.env.NEXUS_MONITOR_REQUIRED_CHECKS || ''),
   repairEnabled = process.env.CRUCIBLE_REPAIR_ENABLED === 'true',
@@ -303,6 +304,18 @@ if (require.main === module) {
       process.stderr.write(`\n${formatReport(report)}\n`);
     })
     .catch((error) => {
+      const failure = {
+        schemaVersion: 2,
+        observedAt: new Date().toISOString(),
+        monitoredRepositoryCount: 0,
+        openPullRequestCount: 0,
+        lockedPullRequestCount: 0,
+        repositories: [],
+        blockers: [{ blocker: 'monitor-execution-failed', errorCode: error.code || 'CRU-0051', reason: error.message }],
+        healthy: false,
+        interactionPolicy: { locked: 'LOCKED_READ_ONLY', unlocked: 'MONITORED', mutationAuthority: 'NONE' },
+      };
+      process.stdout.write(`${JSON.stringify(failure, null, 2)}\n`);
       process.stderr.write(`[The Crucible] PR monitor failed closed: ${error.message}\n`);
       process.exitCode = 1;
     });
