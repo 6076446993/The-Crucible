@@ -12,6 +12,15 @@
 
 ## Command log archive
 
+### Session: crucible-pr-monitor-route-hash-correction-20260928 — 2026-09-28T18:44:42.424Z — Codex — mode:work
+
+Plain-language summary: The first monitor-integration correction changed the active prompt but did not refresh its prompt digest. The Self-Test caught that exact mismatch. The handoff record is now rebound to the exact current prompt, with the DEVLOG and handoff updated together.
+
+- Read the exact hosted Self-Test failure and confirmed CRU-0045 was a prompt-digest mismatch, not a platform test failure — started 2026-09-28T18:44:42.424Z, finished 2026-09-28T18:44:42.424Z, exit 1 diagnosis.
+- Recomputed the SHA-256 binding from the exact active prompt and updated AI-HANDOFF.json — started 2026-09-28T18:44:42.424Z, finished 2026-09-28T18:44:42.424Z, exit 0.
+- Updated DEVLOG.md in the same commit and preserved the two-path affected-path digest for this correction commit — started 2026-09-28T18:44:42.424Z, finished 2026-09-28T18:44:42.424Z, exit 0.
+
+
 ### Session: crucible-pr-monitor-gate-integration-20260928 — 2026-09-28T18:42:01.672Z — Codex — mode:work
 
 Plain-language summary: Ported the Crucible PR monitor into the development gate surface without letting the monitor count its own check as a blocker, corrected its GitHub API credential precedence, and preserved the one-commit routing invariant required by the development gate.
