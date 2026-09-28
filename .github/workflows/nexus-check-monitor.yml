@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      GITHUB_TOKEN: ${{ secrets.SECURITY_READ_TOKEN }}
+      GITHUB_TOKEN: ${{ github.token }}
       CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.SECURITY_READ_TOKEN }}
       NEXUS_MONITOR_REQUIRED_CHECKS: ${{ inputs.required_checks || '' }}
       CRUCIBLE_REPAIR_ENABLED: 'true'
