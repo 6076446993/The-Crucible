@@ -1,37 +1,36 @@
-name: Nexus CI monitor
+name: Crucible PR monitor
 
 on:
   workflow_dispatch:
     inputs:
-      pull_request:
-        description: Nexus pull request number to inspect
-        required: false
-        default: '136'
-        type: string
       required_checks:
-        description: Optional comma-separated check names to treat as required
+        description: Optional comma-separated check names to treat as required for every monitored PR
         required: false
         default: ''
         type: string
   schedule:
     - cron: '*/10 * * * *'
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+  push:
+    branches: [main, development]
 
 permissions:
   contents: read
+  checks: read
+  pull-requests: read
 
 concurrency:
-  group: nexus-ci-monitor
+  group: crucible-pr-monitor
   cancel-in-progress: true
 
 jobs:
   monitor:
-    name: Monitor Nexus PR checks
+    name: Monitor all Crucible-monitored PRs
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     env:
       GITHUB_TOKEN: ${{ github.token }}
-      NEXUS_MONITOR_REPOSITORY: jonathanblunt1214-lgtm/Nexus-
-      NEXUS_MONITOR_PR: ${{ inputs.pull_request || '136' }}
       NEXUS_MONITOR_REQUIRED_CHECKS: ${{ inputs.required_checks || '' }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -40,54 +39,49 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
-      - name: Run Nexus CI monitor
-        id: monitor
+      - name: Run Crucible PR monitor
         run: |
           set -euo pipefail
           mkdir -p artifacts
-          if node src/nexusCheckMonitor.js > artifacts/nexus-ci-monitor.json 2> artifacts/nexus-ci-monitor.error.log; then
-            echo 'healthy=true' >> "$GITHUB_OUTPUT"
-          else
-            code=$?
-            echo 'healthy=false' >> "$GITHUB_OUTPUT"
-            echo "The Crucible monitor observed Nexus blockers (exit $code)."
-          fi
-          node -e "const r=require('./artifacts/nexus-ci-monitor.json'); console.log(r.checks); console.log(r.blockers)"
+          node src/nexusCheckMonitor.js > artifacts/crucible-pr-monitor.json 2> artifacts/crucible-pr-monitor.txt
       - name: Publish monitor summary
         if: always()
         env:
-          REPORT: artifacts/nexus-ci-monitor.json
+          REPORT: artifacts/crucible-pr-monitor.json
         run: |
           node <<'NODE'
           const fs = require('node:fs');
           const report = JSON.parse(fs.readFileSync(process.env.REPORT, 'utf8'));
-          const s = report.checks.counts;
           const lines = [
-            '## Nexus CI monitor',
+            '## Crucible PR monitor',
             '',
-            `Repository: ${report.repository}`,
-            `PR: #${report.pullRequest.number}`,
-            `Head: \`${report.pullRequest.headSha}\``,
-            `Mergeable: ${report.pullRequest.mergeable} (${report.pullRequest.mergeableState})`,
+            `Monitored repositories: ${report.monitoredRepositoryCount}`,
+            `Open PRs: ${report.openPullRequestCount}`,
+            `Locked PRs: ${report.lockedPullRequestCount}`,
             '',
-            `Checks: ${s.successful} successful, ${s.failing} failing, ${s.in_progress} in progress, ${s.queued} queued, ${s.skipped} skipped.`,
+            'Locked PR policy: LOCKED_READ_ONLY — observed only; no mutation authority.',
             '',
-            report.blockers.length ? `### Blockers\n\n${report.blockers.map((b) => `- ${b}`).join('\n')}` : 'No blockers observed.',
-            '',
-            '### Non-green checks',
-            '',
-            ...['failing', 'in_progress', 'queued'].flatMap((state) => report.checks.groups[state].map((c) => `- **${state}** ${c.name}${c.conclusion ? ` (${c.conclusion})` : ''} — ${c.detailsUrl || 'no URL'}`)),
           ];
+          for (const repo of report.repositories) {
+            lines.push(`### ${repo.repository}`, '');
+            if (!repo.pullRequests.length) {
+              lines.push('No open pull requests.', '');
+              continue;
+            }
+            for (const pr of repo.pullRequests) {
+              const c = pr.checks.counts;
+              lines.push(`- PR #${pr.number} — ${pr.interactionPolicy} — ${pr.healthy ? 'no blockers observed' : pr.blockers.join(', ')}`);
+              lines.push(`  Checks: ${c.successful} successful, ${c.failing} failing, ${c.in_progress} in progress, ${c.queued} queued, ${c.skipped} skipped. ${pr.url}`);
+            }
+            lines.push('');
+          }
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
           NODE
       - name: Upload monitor evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: nexus-ci-monitor
+          name: crucible-pr-monitor
           path: artifacts/
           if-no-files-found: error
           retention-days: 14
-      - name: Fail the monitor when Nexus is not healthy
-        if: steps.monitor.outputs.healthy != 'true'
-        run: exit 1
