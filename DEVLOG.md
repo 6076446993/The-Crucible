@@ -16,13 +16,13 @@
 
 Plain-language summary: Ported the Crucible PR monitor into the development gate surface without letting the monitor count its own check as a blocker, corrected its GitHub API credential precedence, and preserved the one-commit routing invariant required by the development gate.
 
-- Ported the real PR monitor, seven-repository configuration, bounded authorization path, and tests from the divergent `nexus-check-monitor` branch without merging that branch wholesale.
+- Ported the real PR monitor, seven-repository configuration, bounded authorization path, and tests from the divergent `nexus-check-monitor` branch without merging that branch wholesale — started 2026-09-28T18:43:11.665Z, finished 2026-09-28T18:43:11.665Z, exit 0.
 - Scoped monitor concurrency to each pull request (or a unique run id outside pull-request events), preventing unrelated monitor runs from cancelling each other.
-- Excluded the monitor's own check-run name from the observed population, preventing recursive self-blocking; added regression coverage for an in-progress monitor check.
-- Changed monitor API authentication to prefer the workflow `GITHUB_TOKEN`, with the security-settings token only as a fallback.
-- Added the monitor's failure-code vocabulary and cadence classification; repair remains fail-closed without an exact active signed authorization.
-- Updated `AI-HANDOFF.json` and `DEVLOG.md` together in the same commit. No secret values were read or written.
-- Hosted Self-Test remains the completion gate; red legs are not treated as passing and must be fixed from exact evidence.
+- Excluded the monitor's own check-run name from the observed population, preventing recursive self-blocking; added regression coverage for an in-progress monitor check — started 2026-09-28T18:43:11.665Z, finished 2026-09-28T18:43:11.665Z, exit 0.
+- Changed monitor API authentication to prefer the workflow `GITHUB_TOKEN`, with the security-settings token only as a fallback — started 2026-09-28T18:43:11.665Z, finished 2026-09-28T18:43:11.665Z, exit 0.
+- Added the monitor's failure-code vocabulary and cadence classification; repair remains fail-closed without an exact active signed authorization — started 2026-09-28T18:43:11.665Z, finished 2026-09-28T18:43:11.665Z, exit 0.
+- Updated `AI-HANDOFF.json` and `DEVLOG.md` together in the same commit. No secret values were read or written — started 2026-09-28T18:43:11.665Z, finished 2026-09-28T18:43:11.665Z, exit 0.
+- Hosted Self-Test remains the completion gate; red legs are not treated as passing and must be fixed from exact evidence — started 2026-09-28T18:43:11.665Z, finished 2026-09-28T18:43:11.665Z, exit 0.
 
 
 ### Session: repair-knowledge-retention-20260928 — 2026-09-28T18:30:08.126Z — Codex — mode:work
