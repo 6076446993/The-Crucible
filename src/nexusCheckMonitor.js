@@ -129,38 +129,96 @@ async function githubGetCheckRuns(fetchImpl, repository, sha, token) {
   }
 }
 
-function failureCodeFromCheck(check) { const text=[check.name,check.output?.title,check.output?.summary,check.output?.text].filter(Boolean).join('\\n'); return (text.match(/\\bCRU-\\d{4}\\b/)||[])[0]||null; }\n\nasync function monitorPullRequest({ fetchImpl, token, repository, pr, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
+function failureCodeFromCheck(check) {
+  const text = [check.name, check.output?.title, check.output?.summary, check.output?.text]
+    .filter(Boolean)
+    .join("\n");
+  return (text.match(/\bCRU-\d{4}\b/) || [])[0] || null;
+}
+
+async function monitorPullRequest({
+  fetchImpl,
+  token,
+  repository,
+  pr,
+  requiredChecks = [],
+  lockedPullRequests = [],
+  repairEnabled = false,
+  repairAuthorization = null,
+  repairRoot = process.cwd(),
+}) {
   const checkRuns = await githubGetCheckRuns(fetchImpl, repository, pr.head.sha, token);
   const summary = summarizeChecks(checkRuns);
   const required = requiredCheckState(checkRuns, requiredChecks);
   const locked = isLockedPullRequest(pr, lockedPullRequests);
-  const blockers = [];\n  const repairEvidence = [];
+  const blockers = [];
+  const repairEvidence = [];
+
   if (summary.counts.failing) blockers.push('failing-checks');
   if (summary.counts.in_progress || summary.counts.queued) blockers.push('checks-pending');
   if (pr.mergeable_state === 'blocked') blockers.push('github-mergeable-state-blocked');
   if (required.failing.length) blockers.push('configured-required-check-failing');
   if (required.pending.length || required.unknown.length) blockers.push('configured-required-check-not-green');
+
+  if (repairEnabled && !locked && summary.counts.failing && repairAuthorization) {
+    const { describeCode } = require('./failureCodes');
+    for (const check of checkRuns.filter((item) => classifyCheck(item) === 'failing')) {
+      const code = failureCodeFromCheck(check);
+      if (!code) continue;
+      const definition = describeCode(code);
+      if (!definition) continue;
+      try {
+        const result = await executeAuthorizedRepair({
+          repository,
+          pullRequest: pr.number,
+          headSha: pr.head.sha,
+          branch: pr.head.ref,
+          failure: {
+            locked: false,
+            code,
+            remedy: definition.remedy,
+            finding: {
+              checkName: check.name,
+              conclusion: check.conclusion,
+              status: check.status,
+              detailsUrl: check.details_url || check.html_url || null,
+              output: check.output || null,
+            },
+          },
+          authorization: repairAuthorization,
+          token,
+          root: repairRoot,
+          fetchImpl,
+        });
+        repairEvidence.push({ code, check: check.name, result });
+      } catch (error) {
+        repairEvidence.push({ code, check: check.name, result: { state: 'blocked', reason: error.message } });
+      }
+    }
+  }
+
   return {
-    number:pr.number,
-    title:pr.title,
-    state:pr.state,
-    draft:pr.draft,
-    base:pr.base.ref,
-    baseSha:pr.base.sha,
-    head:pr.head.ref,
-    headSha:pr.head.sha,
-    mergeable:pr.mergeable,
-    mergeableState:pr.mergeable_state,
-    url:pr.html_url,
+    number: pr.number,
+    title: pr.title,
+    state: pr.state,
+    draft: pr.draft,
+    base: pr.base.ref,
+    baseSha: pr.base.sha,
+    head: pr.head.ref,
+    headSha: pr.head.sha,
+    mergeable: pr.mergeable,
+    mergeableState: pr.mergeable_state,
+    url: pr.html_url,
     interactionPolicy: locked ? 'LOCKED_READ_ONLY' : 'MONITORED',
     locked,
-    checks:{ total:checkRuns.length, ...summary },
+    checks: { total: checkRuns.length, ...summary },
     required,
     blockers,
-    healthy:blockers.length === 0,
-    evidence:{
-      pullRequestApi:`https://api.github.com/repos/${repository}/pulls/${pr.number}`,
-      checkRunApi:`https://api.github.com/repos/${repository}/commits/${pr.head.sha}/check-runs`,
+    healthy: blockers.length === 0,
+    repairEvidence,
+    evidence: {
+      pullRequestApi: `https://api.github.com/repos/${repository}/pulls/${pr.number}`,
+      checkRunApi: `https://api.github.com/repos/${repository}/commits/${pr.head.sha}/check-runs`,
     },
   };
 }
@@ -186,6 +244,9 @@ async function monitorConfiguredRepositories({
   token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '',
   config = loadMonitorConfig(),
   requiredChecks = normalizeRequiredNames(process.env.NEXUS_MONITOR_REQUIRED_CHECKS || ''),
+  repairEnabled = process.env.CRUCIBLE_REPAIR_ENABLED === 'true',
+  repairAuthorization = null,
+  repairRoot = process.cwd(),
 }) {
   const repositories = [];
   for (const entry of config.repositories) {
@@ -195,6 +256,9 @@ async function monitorConfiguredRepositories({
       repository:entry.name,
       requiredChecks,
       lockedPullRequests:entry.lockedPullRequests || [],
+      repairEnabled,
+      repairAuthorization,
+      repairRoot,
     }));
   }
   const blockers = repositories.flatMap((repo) => repo.blockers.map((blocker) => ({ repository:repo.repository, ...blocker })));
@@ -240,6 +304,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  failureCodeFromCheck,
   classifyCheck,
   summarizeChecks,
   requiredCheckState,
