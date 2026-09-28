@@ -6,7 +6,7 @@ const { acquireDurableLock } = require('./durableLock');
 const STATES = Object.freeze(['candidate', 'hypothesis', 'experimented', 'causally-proven', 'independently-verified', 'verified', 'quarantined', 'rejected']);
 const CLASSIFICATIONS = Object.freeze(['Rejected Evidence', 'Insufficient Evidence', 'Crucible Issue']);
 const REQUIRED_GATES = Object.freeze(['falsifiableHypothesis', 'controlledReproduction', 'causalIsolation', 'controlTesting', 'independentVerification', 'negativeTesting', 'regressionTesting', 'deterministicScopeProof', 'claimBoundaryCheck', 'generalizationCheck', 'contradictionAnalysis']);
-const PROHIBITED_PROMOTION_KINDS = Object.freeze(['raw-telemetry', 'correlation', 'one-off-repair', 'repeated-observation', 'model-guess', 'incomplete-observation', 'untested-hypothesis', 'retrieval', 'experience-observation']);
+const PROHIBITED_PROMOTION_KINDS = Object.freeze(['raw-telemetry', 'correlation', 'one-off-repair', 'repeated-observation', 'model-guess', 'incomplete-observation', 'untested-hypothesis', 'retrieval', 'experience-observation', 'repair-observation']);
 const TRANSITIONS = Object.freeze({
   candidate: ['hypothesis', 'rejected', 'quarantined'],
   hypothesis: ['experimented', 'rejected', 'quarantined'],
