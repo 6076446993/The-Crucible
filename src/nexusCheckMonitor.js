@@ -232,7 +232,7 @@ async function monitorPullRequest({
   };
 }
 
-async function monitorRepository({ fetchImpl = defaultFetch, token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || process.env.CRUCIBLE_SECURITY_READ_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
+async function monitorRepository({ fetchImpl = defaultFetch, token = process.env.CRUCIBLE_MONITOR_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
   requireValue(repository, 'repository');
   const prs = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/pulls?state=open`, token);
   const pullRequests = [];
