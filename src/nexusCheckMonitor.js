@@ -6,6 +6,7 @@ const { crucibleError } = require('./failureCodes');
 
 const DEFAULT_CONFIG = path.resolve(process.env.CRUCIBLE_MONITOR_CONFIG || 'governingDocuments/crucible-monitored-repositories.json');
 const FAILURE_CONCLUSIONS = new Set(['failure','cancelled','timed_out','action_required','startup_failure','stale']);
+const defaultFetch = (...args) => globalThis.fetch(...args);
 
 function requireValue(value, name) {
   if (typeof value !== 'string' || !value.trim()) throw crucibleError('CRU-0051', `${name} is required.`);
@@ -225,7 +226,7 @@ async function monitorPullRequest({
   };
 }
 
-async function monitorRepository({ fetchImpl = globalThis.fetch, token = process.env.CRUCIBLE_SECURITY_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
+async function monitorRepository({ fetchImpl = defaultFetch, token = process.env.CRUCIBLE_SECURITY_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
   requireValue(repository, 'repository');
   const prs = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/pulls?state=open`, token);
   const pullRequests = [];
@@ -242,7 +243,7 @@ async function monitorRepository({ fetchImpl = globalThis.fetch, token = process
 }
 
 async function monitorConfiguredRepositories({
-  fetchImpl = globalThis.fetch,
+  fetchImpl = defaultFetch,
   token = process.env.GITHUB_TOKEN || process.env.CRUCIBLE_SECURITY_READ_TOKEN || process.env.GH_TOKEN || '',
   config = loadMonitorConfig(),
   requiredChecks = normalizeRequiredNames(process.env.NEXUS_MONITOR_REQUIRED_CHECKS || ''),
@@ -316,7 +317,7 @@ if (require.main === module) {
         interactionPolicy: { locked: 'LOCKED_READ_ONLY', unlocked: 'MONITORED', mutationAuthority: 'NONE' },
       };
       process.stdout.write(`${JSON.stringify(failure, null, 2)}\n`);
-      process.stderr.write(`[The Crucible] PR monitor failed closed: ${error.message}\n`);
+      process.stderr.write(`[The Crucible] PR monitor failed closed: ${error.stack || error.message}\n`);
       process.exitCode = 1;
     });
 }
