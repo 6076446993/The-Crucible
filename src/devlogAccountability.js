@@ -65,15 +65,16 @@ function materialClaims(claims) {
   return (Array.isArray(claims) ? claims : []).filter((claim) => claim && (claim.status === 'released' || claim.status === 'handed-off'));
 }
 
-function auditDevlogAccountability({ devlog = '', claims = [] } = {}) {
+function auditDevlogAccountability({ devlog = '', archivedDevlog = '', claims = [] } = {}) {
   const content = String(devlog || '');
+  const archivedContent = String(archivedDevlog || '');
   const findings = [];
   for (const claim of materialClaims(claims)) {
     if (!nonEmpty(claim.taskId)) continue;
-    if (!content.includes(claim.taskId)) {
+    if (!content.includes(claim.taskId) && !archivedContent.includes(claim.taskId)) {
       findings.push({
         type: 'DEVLOG accountability missing',
-        detail: `Mutation claim ${claim.taskId} (${claim.owner && claim.owner.provider ? claim.owner.provider : 'unknown provider'}) is ${claim.status} but does not appear in DEVLOG.md. An AI that took exclusive ownership of a scope and gave it back must record what it did there.`,
+        detail: `Mutation claim ${claim.taskId} (${claim.owner && claim.owner.provider ? claim.owner.provider : 'unknown provider'}) is ${claim.status} but does not appear in DEVLOG.md or the retained Devlog-Pruned archive. An AI that took exclusive ownership of a scope and gave it back must leave a durable record.`,
       });
     }
   }
