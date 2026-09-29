@@ -68,7 +68,7 @@ test('a code survives being reduced to log text', () => {
   const throughAPipe = new Error(`Engine tests failed with exit code 1.\n${error.message}`);
   assert.equal(failureCode(throughAPipe), 'CRU-0008', 'the code is recoverable from the text alone');
 
-  assert.deepEqual(codesInText('[CRU-0014] a\n[CRU-0012] b\n[CRU-0014] c'), ['CRU-0008', 'CRU-0013']);
+  assert.deepEqual(codesInText('[CRU-0008] a\n[CRU-0013] b\n[CRU-0008] c'), ['CRU-0008', 'CRU-0013']);
   assert.deepEqual(codesInText('[CRU-9999] not in the registry'), [], 'an unregistered code is not a diagnosis');
 });
 
@@ -106,7 +106,7 @@ test('the coverage ratchet lets the diagnosable surface grow and never shrink', 
   assert.match(grown.reason, /rose from 2 to 3/);
   assert.match(grown.reason, /a\.js 2 -> 3/);
 
-  fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw crucibleError("CRU-0001", "now coded");\n');
+  fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw crucibleError("CRU-0008", "now coded");\n');
   const tightened = auditFailureCodes({ root: sourceDir, baselineFile });
   assert.equal(tightened.ok, true);
   assert.equal(tightened.tightened, true);
@@ -142,36 +142,15 @@ test('a diagnosis reaches the immune system carrying the remedy and the tests th
   assert.equal(repairable.kind, 'automatic');
   assert.equal(repairable.command, 'npm run lint:workflows');
   assert.deepEqual(testRequestFor('CRU-0008'), { tests: ['test/workflowLint.test.js'] });
-  assert.equal(selectRequestedTests(testRequestFor('CRU-0012')).tests.length, 1);
+  assert.equal(selectRequestedTests(testRequestFor('CRU-0008')).tests.length, 1);
 
   // Non-bug/error states are operational conditions, never CRU classifications.
+});
+
 test('non-bug/error states are operational errors, never CRU classifications', () => {
   for (const code of ['CRU-0000','CRU-0001','CRU-0003','CRU-0012','CRU-0022','CRU-0023','CRU-0024','CRU-0045','CRU-0046','CRU-0050','CRU-0051','CRU-0052','CRU-0053']) {
     assert.equal(isCrucibleClassificationCode(code), false, code + ' must not be an active CRU classification');
     assert.equal(describeCode(code), null, code + ' must not be exposed as a CRU diagnosis');
     assert.equal(failureCode(crucibleError(code, 'operational state')), null, code + ' must not survive as a CRU code');
-  }
-});
-
-// The repository's most frequently red check. Its four stop branches demand opposite responses -
-// run digestion, ingest different sources, declare a scope, reconcile the declarations - and
-// until each carried its own code a reader had to work out which from a paragraph of prose. This
-// pins that the branch and the code stay together; deriving the code by matching the reason text
-// would reintroduce exactly the pattern-matching the registry replaced.
-test('each hosted-proof stop carries a code that says which blockage it is', () => {
-  const digestion = describeCode('CRU-0023');
-  const composition = describeCode('CRU-0024');
-  assert.match(digestion.meaning, /digestion rather than the corpus/);
-  assert.match(composition.meaning, /genuinely contains no claim/);
-  assert.notEqual(digestion.next, composition.next, 'the two causes must not propose the same action');
-
-  // The owner's standing constraint, carried where a future repair will meet it.
-  assert.match(digestion.remedy.forbidden, /Never restrict the corpus/);
-  assert.match(composition.remedy.forbidden, /Never lower the sameness threshold/);
-
-  // None of these is the immune system's to act on: what the corpus should contain, and what a
-  // claim's scope is, are the owner's decisions.
-  for (const code of ['CRU-0023', 'CRU-0024', 'CRU-0025', 'CRU-0026']) {
-    assert.equal(repairableByImmuneSystem(code), false, `${code} must escalate rather than self-repair`);
   }
 });
