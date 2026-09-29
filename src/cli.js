@@ -67,9 +67,8 @@ async function precheckGate(root, config) {
     const preventionFile = path.resolve(root, process.env.CRUCIBLE_PREVENTION_FILE);
     const mappings = JSON.parse(fs.readFileSync(preventionFile, 'utf8'));
     if (!process.env.CRUCIBLE_REPAIR_LEARNING_ROOT) throw new Error('CRUCIBLE_REPAIR_LEARNING_ROOT is required when CRUCIBLE_PREVENTION_FILE is configured.');
-    const { DurableScientificLearningStore } = require('./scientificLearning');
-    const store = new DurableScientificLearningStore({ root: process.env.CRUCIBLE_REPAIR_LEARNING_ROOT, projectId: config.project.name });
-    prevention = { knowledge: store.activeKnowledge(), mappings, completedChecks: (process.env.CRUCIBLE_COMPLETED_PREVENTION_CHECKS || '').split(',').map((x) => x.trim()).filter(Boolean) };
+    const { loadVettedPrevention } = require('./cruPrevention');
+    prevention = loadVettedPrevention({ root: process.env.CRUCIBLE_REPAIR_LEARNING_ROOT, projectId: config.project.name, mappings, completedChecks: (process.env.CRUCIBLE_COMPLETED_PREVENTION_CHECKS || '').split(',').map((x) => x.trim()).filter(Boolean) });
   }
   const result = await runPrecheck(root, config, { ref, prevention });
   const report = formatReport(result);
