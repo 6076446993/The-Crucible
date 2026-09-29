@@ -143,9 +143,22 @@ test('a repair fix is logged against the real CRU error code when the finding ca
   assert.equal(record.candidate.provenance.failureCode, 'CRU-0050');
 });
 
-test('a repair cannot be logged against an unregistered CRU code', () => {
-  assert.throws(
-    () => repairExperience({ projectId: PROJECT, finding: FINDING, plan: PLAN, result: VERIFIED, failureCode: 'CRU-9999', observedAt: AT }),
-    /Unknown failure code CRU-9999/
-  );
+test('an unregistered CRU code is held as pending until its fix and registry entry are attached', (t) => {
+  const durable = store(t);
+  const outcome = recordRepairEvidence({
+    store: durable,
+    projectId: PROJECT,
+    finding: FINDING,
+    plan: PLAN,
+    result: VERIFIED,
+    failureCode: 'CRU-9999',
+    now: () => AT,
+  });
+  assert.equal(outcome.recorded, true);
+  assert.equal(outcome.failureCode, 'CRU-9999');
+  assert.equal(outcome.failureCodeStatus, 'pending-registration');
+  assert.equal(outcome.promotionAuthorized, false);
+  const record = durable.read().candidateRecords.find((item) => item.candidate.id === outcome.candidateId);
+  assert.equal(record.candidate.provenance.failureCode, 'CRU-9999');
+  assert.equal(record.candidate.provenance.failureCodeStatus, 'pending-registration');
 });
