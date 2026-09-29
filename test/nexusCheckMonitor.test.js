@@ -93,8 +93,10 @@ test('monitors every configured repository and paginates open PRs and checks', a
 
 
 test('uses GITHUB_TOKEN for ordinary monitor reads before the security-read credential', async () => {
+  const previousMonitor = process.env.NEXUS_MONITOR_READ_TOKEN;
   const previousGithub = process.env.GITHUB_TOKEN;
   const previousSecurity = process.env.CRUCIBLE_SECURITY_READ_TOKEN;
+  process.env.NEXUS_MONITOR_READ_TOKEN = 'monitor-token';
   process.env.GITHUB_TOKEN = 'workflow-token';
   process.env.CRUCIBLE_SECURITY_READ_TOKEN = 'expired-security-token';
   try {
@@ -109,8 +111,10 @@ test('uses GITHUB_TOKEN for ordinary monitor reads before the security-read cred
       config: { schemaVersion: 1, repositories: [{ name: 'example/one', enabled: true }] },
     });
     assert.ok(seen.length > 0);
-    assert.ok(seen.every((header) => header === 'Bearer workflow-token'));
+    assert.ok(seen.every((header) => header === 'Bearer monitor-token'));
   } finally {
+    if (previousMonitor === undefined) delete process.env.NEXUS_MONITOR_READ_TOKEN;
+    else process.env.NEXUS_MONITOR_READ_TOKEN = previousMonitor;
     if (previousGithub === undefined) delete process.env.GITHUB_TOKEN;
     else process.env.GITHUB_TOKEN = previousGithub;
     if (previousSecurity === undefined) delete process.env.CRUCIBLE_SECURITY_READ_TOKEN;
