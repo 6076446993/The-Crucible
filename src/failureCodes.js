@@ -715,6 +715,18 @@ function operationalCodeFor(legacyCode) {
   return LEGACY_NON_CRU_CODES.has(legacyCode) ? 'OPS-' + legacyCode.slice(4) : null;
 }
 
+function operationalError(code, message, extra = {}) {
+  const normalized = String(code || '');
+  const legacyCode = normalized.startsWith('OPS-') ? 'CRU-' + normalized.slice(4) : normalized;
+  const operationalCode = operationalCodeFor(legacyCode);
+  if (!operationalCode) throw new Error(`Unknown operational code ${normalized}.`);
+  const error = new Error(`[${operationalCode}] ${message}`);
+  error.operationalCode = operationalCode;
+  error.legacyCrucibleCode = legacyCode;
+  Object.assign(error, extra);
+  return error;
+}
+
 // Build an error that carries its code. The code is also written into the message text, because
 // an error frequently has to survive a trip it cannot carry properties across: `runner.js`
 // captures a child process's stdout and stderr as a string, and CI keeps only the log. A code
@@ -722,12 +734,7 @@ function operationalCodeFor(legacyCode) {
 function crucibleError(code, message, extra = {}) {
   if (!FAILURE_CODES[code]) throw new Error(`Unknown failure code ${code}. Add it to the registry in src/failureCodes.js before throwing it, so a reader can look it up.`);
   if (!isCrucibleClassificationCode(code)) {
-    const operationalCode = operationalCodeFor(code);
-    const error = new Error(`[${operationalCode}] ${message}`);
-    error.operationalCode = operationalCode;
-    error.legacyCrucibleCode = code;
-    Object.assign(error, extra);
-    return error;
+    return operationalError(code, message, extra);
   }
   const error = new Error(`[${code}] ${message}`);
   error.crucibleCode = code;
@@ -890,7 +897,7 @@ function auditFailureCodes({ root = 'src', baselineFile = BASELINE_FILE } = {}) 
 
 module.exports = {
   UNCODED, CODE_PATTERN, FAILURE_CODES, CRU_CLASSIFICATION_CODES, LEGACY_NON_CRU_CODES, BASELINE_FILE,
-  crucibleError, failureCode, describeCode, codesInText, isCrucibleClassificationCode, operationalCodeFor,
+  crucibleError, failureCode, describeCode, codesInText, isCrucibleClassificationCode, operationalCodeFor, operationalError,
   remedyFor, testRequestFor, repairableByImmuneSystem, failureLogPath, resolveFailureLog,
   coverageReport, readBaseline, auditFailureCodes,
 };
