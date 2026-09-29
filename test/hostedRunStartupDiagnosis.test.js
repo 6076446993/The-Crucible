@@ -156,7 +156,7 @@ test('the diagnosis authorizes no gate change in any direction', () => {
 });
 
 test('malformed input fails closed with a diagnosable code instead of guessing', () => {
-  assert.throws(() => diagnoseRun({}), /CRU-0046/);
-  assert.throws(() => diagnoseRun({ jobs: 'extract' }), /CRU-0046/);
-  assert.throws(() => diagnoseJob(null, null), /CRU-0046/);
+  assert.throws(() => diagnoseRun({}), /OPS-0046/);
+  assert.throws(() => diagnoseRun({ jobs: 'extract' }), /OPS-0046/);
+  assert.throws(() => diagnoseJob(null, null), /OPS-0046/);
 });
