@@ -143,6 +143,24 @@ function queuePreventionCandidate({ learningRoot, projectId, repairCandidateId, 
   };
 }
 
+function queueMappedPreventionCandidates({ learningRoot, projectId, mappings, now = () => new Date().toISOString() }) {
+  if (!Array.isArray(mappings)) throw new Error('prevention mappings must be an array.');
+  const { DurableScientificLearningStore } = require('./scientificLearning');
+  const store = new DurableScientificLearningStore({ root: learningRoot, projectId });
+  const repairs = store.read().candidateRecords.filter((record) => record.candidate.kind === KIND && record.candidate.provenance.failureCode);
+  const queued = [];
+  for (const record of repairs) {
+    const mapping = mappings.find((item) => item.failureCode === record.candidate.provenance.failureCode);
+    if (!mapping) continue;
+    queued.push(queuePreventionCandidate({
+      learningRoot, projectId, repairCandidateId: record.candidate.id,
+      precursorPaths: mapping.precursorPaths, requiredCheck: mapping.requiredCheck,
+      rationale: mapping.rationale, action: mapping.action || 'require-check', now,
+    }));
+  }
+  return { repairEvidenceCount: repairs.length, queuedCount: queued.length, queued, promotionAuthorized: false };
+}
+
 function snapshotFiles(root) {
   const result = new Map();
   let files = [];
@@ -186,4 +204,4 @@ function recordRepairObservations({ root, learningRoot, projectId, repository, c
   };
 }
 
-module.exports = { KIND, PREVENTION_KIND, repairObservationCandidate, preventionCandidateFromRepairObservation, queuePreventionCandidate, snapshotFiles, recordRepairObservations };
+module.exports = { KIND, PREVENTION_KIND, repairObservationCandidate, preventionCandidateFromRepairObservation, queuePreventionCandidate, queueMappedPreventionCandidates, snapshotFiles, recordRepairObservations };
