@@ -37,7 +37,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
     if (!fs.existsSync(path.resolve(queue))) missing.push('CRUCIBLE_SOURCE_QUEUE');
     const ready = missing.length === 0;
     output(JSON.stringify({ ready, projectId, root:path.resolve(root), queue:path.resolve(queue), model, missing, authorizesPromotion:false }));
-    if (!ready) throw crucibleError('CRU-0033', `Perplexity discovery is not ready; missing ${missing.join(', ')}.`);
+    if (!ready) throw new Error( `Perplexity discovery is not ready; missing ${missing.join(', ')}.`);
     return;
   }
   if (command !== 'run' || !topics.length) throw crucibleError('CRU-0042', 'Usage: automatedPerplexityResearchCli.js run <approved-topic> [approved-topic ...]');
