@@ -49,8 +49,8 @@ function validateCandidate(candidate) {
   ['sourceType', 'sourceId', 'author', 'license'].forEach((key) => text(candidate.provenance[key], `candidate.provenance.${key}`));
   if (candidate.provenance.learningProvenanceId !== undefined && !/^LP-[a-f0-9]{16}$/.test(candidate.provenance.learningProvenanceId)) throw new Error('candidate.provenance.learningProvenanceId must be a Learning Provenance ID.');
   if (candidate.provenance.lifecycleStage !== undefined) text(candidate.provenance.lifecycleStage, 'candidate.provenance.lifecycleStage');
-  if (candidate.provenance.failureCode !== undefined && !/^CRU-\d{4}$/.test(candidate.provenance.failureCode)) throw crucibleError('CRU-0052', 'candidate.provenance.failureCode must be a CRU-#### code.');
-  if (candidate.provenance.failureCodeStatus !== undefined && !['registered', 'pending-registration'].includes(candidate.provenance.failureCodeStatus)) throw crucibleError('CRU-0052', 'candidate.provenance.failureCodeStatus must be registered or pending-registration.');
+  if (candidate.provenance.failureCode !== undefined && !/^CRU-\d{4}$/.test(candidate.provenance.failureCode)) throw new Error('candidate.provenance.failureCode must be a CRU-#### code.');
+  if (candidate.provenance.failureCodeStatus !== undefined && !['registered', 'pending-registration'].includes(candidate.provenance.failureCodeStatus)) throw new Error('candidate.provenance.failureCodeStatus must be registered or pending-registration.');
   iso(candidate.provenance.retrievedAt, 'candidate.provenance.retrievedAt');
   digest(candidate.provenance.contentSha256, 'candidate.provenance.contentSha256');
   iso(candidate.createdAt, 'candidate.createdAt');
@@ -70,7 +70,7 @@ function validateProof(proof) {
   if (proof.independentVerification.independent !== true) throw new Error('Independent verification is required.');
   if (proof.independentVerification.testedProperty !== proof.testedProperty) throw new Error('Verification proves only the tested property.');
   if (proof.independentVerification.experimentBoundary !== proof.experimentBoundary) throw new Error('Experimental results inherit experiment boundaries.');
-  if (proof.independentVerification.result !== 'passed') throw crucibleError('CRU-0053', 'Independent verification must pass.');
+  if (proof.independentVerification.result !== 'passed') throw new Error('Independent verification must pass.');
   iso(proof.independentVerification.verifiedAt, 'proof.independentVerification.verifiedAt'); iso(proof.completedAt, 'proof.completedAt');
   return Object.freeze(structuredClone(proof));
 }
