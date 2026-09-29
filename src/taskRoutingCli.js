@@ -6,12 +6,12 @@ const {
   routingRecord,
   verifyRecordedDecision,
 } = require('./taskRouting');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 const ZERO_SHA = /^0{40,64}$/;
 
 function fail(message) {
-  throw crucibleError('CRU-0045', message);
+  throw operationalError('OPS-0045', message);
 }
 
 function parseArgs(argv) {
