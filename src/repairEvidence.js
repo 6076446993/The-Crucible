@@ -17,7 +17,7 @@
 // evidence that the change did not hold is worth as much as evidence that it did.
 const crypto = require('node:crypto');
 const { LearningExperienceRecorder } = require('./learningExperience');
-const { describeCode } = require('./failureCodes');
+const { describeCode, crucibleError } = require('./failureCodes');
 
 const sha256 = (value) => crypto.createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
 
@@ -53,7 +53,7 @@ function repairExperience({ projectId, finding, plan, result, failureCode = find
   const recordable = RECORDABLE[result.state];
   if (!recordable) return null;
 
-  if (failureCode !== undefined && !/^CRU-\\d{4}$/.test(failureCode)) throw new Error(`Invalid failure code ${failureCode}; expected CRU-####.`);
+  if (failureCode !== undefined && !/^CRU-\d{4}$/.test(failureCode)) throw crucibleError('CRU-0052', `Invalid failure code ${failureCode}; expected CRU-####.`);
   const failureCodeStatus = failureCode && describeCode(failureCode) ? 'registered' : failureCode ? 'pending-registration' : null;
 
   const applied = result.applied || {};
