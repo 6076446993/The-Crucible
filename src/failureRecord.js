@@ -1,7 +1,7 @@
 'use strict';
 
 const crypto = require('node:crypto');
-const { describeCode, crucibleError } = require('./failureCodes');
+const { describeCode } = require('./failureCodes');
 
 const SCHEMA_VERSION = 1;
 const LIFECYCLE = Object.freeze([
@@ -44,11 +44,11 @@ function failureRecordId() {
 
 function normalizeFailureEvidence(evidence = []) {
   if (!Array.isArray(evidence)) {
-    throw crucibleError('CRU-0052', 'failure evidence must be an array.');
+    throw new Error( 'failure evidence must be an array.');
   }
   return evidence.map((item, index) => {
     if (!item || typeof item !== 'object') {
-      throw crucibleError('CRU-0052', `failure evidence entry ${index} must be an object.`);
+      throw new Error( `failure evidence entry ${index} must be an object.`);
     }
     return Object.freeze({
       kind: text(item.kind, `failure evidence[${index}].kind`),
@@ -66,7 +66,7 @@ function classifyFailureCode(failureCode) {
     return { failureCode: null, failureCodeStatus: 'pending-classification' };
   }
   if (!/^CRU-\d{4}$/.test(failureCode)) {
-    throw crucibleError('CRU-0052', `Invalid failure code ${failureCode}; expected CRU-####.`);
+    throw new Error( `Invalid failure code ${failureCode}; expected CRU-####.`);
   }
   return {
     failureCode,
@@ -135,13 +135,13 @@ function createFailureRecord(input = {}) {
 
 function attachFailureStage(record, stage, value) {
   if (!record || typeof record !== 'object') {
-    throw crucibleError('CRU-0052', 'a durable failure record is required.');
+    throw new Error( 'a durable failure record is required.');
   }
   if (!LIFECYCLE.includes(stage)) {
-    throw crucibleError('CRU-0052', `Unknown failure lifecycle stage ${stage}.`);
+    throw new Error( `Unknown failure lifecycle stage ${stage}.`);
   }
   if (!value || typeof value !== 'object') {
-    throw crucibleError('CRU-0052', `failure lifecycle stage ${stage} requires an evidence object.`);
+    throw new Error( `failure lifecycle stage ${stage} requires an evidence object.`);
   }
 
   const field = {
@@ -155,7 +155,7 @@ function attachFailureStage(record, stage, value) {
   if (stage === 'learning-candidate') {
     const id = text(value.learningProvenanceId, 'learningProvenanceId');
     if (!/^LP-[a-f0-9]{16}$/.test(id)) {
-      throw crucibleError('CRU-0052', 'learningProvenanceId must be a Learning Provenance ID.');
+      throw new Error( 'learningProvenanceId must be a Learning Provenance ID.');
     }
     return Object.freeze({ ...record, learningProvenanceId: id, lifecycleState: stage });
   }
@@ -178,17 +178,17 @@ function attachFailureStage(record, stage, value) {
 
 function classifyFailureRecord(record, classification = {}) {
   if (!record || typeof record !== 'object') {
-    throw crucibleError('CRU-0052', 'a durable failure record is required.');
+    throw new Error( 'a durable failure record is required.');
   }
   const canonicalFailureId = text(classification.canonicalFailureId, 'canonicalFailureId');
   const failureCode = text(classification.failureCode, 'failureCode');
   if (!/^CRU-\d{4}$/.test(failureCode) || !describeCode(failureCode)) {
-    throw crucibleError('CRU-0052', 'classification requires a registered CRU-#### failure code.');
+    throw new Error( 'classification requires a registered CRU-#### failure code.');
   }
 
   const duplicateOf = optionalText(classification.duplicateOf, 'duplicateOf');
   if (duplicateOf && duplicateOf === record.failureId) {
-    throw crucibleError('CRU-0052', 'a failure occurrence cannot be its own duplicate.');
+    throw new Error( 'a failure occurrence cannot be its own duplicate.');
   }
 
   return Object.freeze({
@@ -205,20 +205,19 @@ function classifyFailureRecord(record, classification = {}) {
 
 function assertCanonicalFailureCodeAssignments(records) {
   if (!Array.isArray(records)) {
-    throw crucibleError('CRU-0052', 'failure records must be an array.');
+    throw new Error( 'failure records must be an array.');
   }
   const byCanonical = new Map();
   for (const record of records) {
     if (!record || typeof record !== 'object') {
-      throw crucibleError('CRU-0052', 'every failure record must be an object.');
+      throw new Error( 'every failure record must be an object.');
     }
     const canonicalFailureId = record.classification && record.classification.canonicalFailureId;
     const failureCode = record.failureCode;
     if (!canonicalFailureId || !failureCode) continue;
     const prior = byCanonical.get(canonicalFailureId);
     if (prior && prior !== failureCode) {
-      throw crucibleError(
-        'CRU-0052',
+      throw new Error(
         `Canonical failure ${canonicalFailureId} is assigned multiple CRU codes: ${prior} and ${failureCode}.`
       );
     }
@@ -229,7 +228,7 @@ function assertCanonicalFailureCodeAssignments(records) {
 
 function authorizePromotion(record, verification) {
   if (!record || typeof record !== 'object') {
-    throw crucibleError('CRU-0052', 'a durable failure record is required.');
+    throw new Error( 'a durable failure record is required.');
   }
   if (!verification || verification.independent !== true || verification.result !== 'passed') {
     return Object.freeze({ ...record, promotionAuthorized: false });
