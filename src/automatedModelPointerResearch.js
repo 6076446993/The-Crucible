@@ -19,7 +19,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { boundedTopic, AtomicSourceQueueCandidateSink } = require('./automatedGoogleResearch');
 const { admitDiscoveryCandidateUrls } = require('./safeInformationRetrieval');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 const DEFAULT_RESEARCH_INTERVAL_MS = 24 * 60 * 60 * 1000;
 const MAXIMUM_QUERIES_PER_RUN = 50;
@@ -33,8 +33,8 @@ function emptyState(projectId, provider, topics, now) {
 
 class ModelPointerResearchStore {
   constructor(root, projectId, topics, { provider = DEFAULT_DISCOVERY_PROVIDER, now = () => new Date().toISOString() } = {}) {
-    if (typeof projectId !== 'string' || !projectId.trim()) throw crucibleError('CRU-0042', 'A repository-bound projectId is required.');
-    if (!Array.isArray(topics) || !topics.length || topics.length > MAXIMUM_QUERIES_PER_RUN) throw crucibleError('CRU-0042', `Between 1 and ${MAXIMUM_QUERIES_PER_RUN} approved research topics are required.`);
+    if (typeof projectId !== 'string' || !projectId.trim()) throw operationalError('OPS-0042', 'A repository-bound projectId is required.');
+    if (!Array.isArray(topics) || !topics.length || topics.length > MAXIMUM_QUERIES_PER_RUN) throw operationalError('OPS-0042', `Between 1 and ${MAXIMUM_QUERIES_PER_RUN} approved research topics are required.`);
     this.projectId = projectId;
     this.provider = provider;
     this.topics = [...new Set(topics.map(boundedTopic))];
@@ -47,11 +47,11 @@ class ModelPointerResearchStore {
   read() {
     if (!fs.existsSync(this.file)) return emptyState(this.projectId, this.provider, this.topics, this.now());
     const envelope = JSON.parse(fs.readFileSync(this.file, 'utf8'));
-    if (Object.keys(envelope).sort().join(',') !== 'payload,sha256' || sha256(JSON.stringify(envelope.payload)) !== envelope.sha256) throw crucibleError('CRU-0042', 'Model-pointer research store integrity check failed.');
+    if (Object.keys(envelope).sort().join(',') !== 'payload,sha256' || sha256(JSON.stringify(envelope.payload)) !== envelope.sha256) throw operationalError('OPS-0042', 'Model-pointer research store integrity check failed.');
     const state = envelope.payload;
     // The provider is part of the store's identity. Switching providers mid-history would make
     // one audit trail describe runs that two different systems produced.
-    if (state?.schemaVersion !== 1 || state.projectId !== this.projectId || state.provider !== this.provider || !Array.isArray(state.topics) || !Array.isArray(state.discoveredUrls) || !Array.isArray(state.auditLog)) throw crucibleError('CRU-0042', 'Model-pointer research store is invalid, belongs to another project, or was written by another provider.');
+    if (state?.schemaVersion !== 1 || state.projectId !== this.projectId || state.provider !== this.provider || !Array.isArray(state.topics) || !Array.isArray(state.discoveredUrls) || !Array.isArray(state.auditLog)) throw operationalError('OPS-0042', 'Model-pointer research store is invalid, belongs to another project, or was written by another provider.');
     for (const topic of this.topics) if (!state.topics.some((item) => item.topic === topic)) state.topics.push({ topic, nextRunAt:this.now(), lastRunAt:null, runs:0 });
     return structuredClone(state);
   }
@@ -65,9 +65,9 @@ class ModelPointerResearchStore {
   }
 
   due(at = this.now(), maximum = MAXIMUM_QUERIES_PER_RUN) {
-    if (!Number.isSafeInteger(maximum) || maximum < 1 || maximum > MAXIMUM_QUERIES_PER_RUN) throw crucibleError('CRU-0042', `maximum due searches must be between 1 and ${MAXIMUM_QUERIES_PER_RUN}.`);
+    if (!Number.isSafeInteger(maximum) || maximum < 1 || maximum > MAXIMUM_QUERIES_PER_RUN) throw operationalError('OPS-0042', `maximum due searches must be between 1 and ${MAXIMUM_QUERIES_PER_RUN}.`);
     const timestamp = Date.parse(at);
-    if (!Number.isFinite(timestamp)) throw crucibleError('CRU-0042', 'A valid due timestamp is required.');
+    if (!Number.isFinite(timestamp)) throw operationalError('OPS-0042', 'A valid due timestamp is required.');
     // A topic that has never run is due, full stop, without consulting its deadline. `nextRunAt`
     // for such a topic is not a schedule anybody chose: it is whatever the clock said inside the
     // `read()` below, which happens after the reading that produced `timestamp`. Comparing the two
@@ -79,12 +79,12 @@ class ModelPointerResearchStore {
 
   recordRun(topic, { searchedAt, intervalMs, candidates, state, reason = null, cited = 0, provider = this.provider, providerKind = null, model = null, promptSha256 = null, responseSha256 = null }) {
     const checked = boundedTopic(topic);
-    if (!Number.isFinite(Date.parse(searchedAt))) throw crucibleError('CRU-0042', 'A valid search timestamp is required.');
-    if (!Number.isSafeInteger(intervalMs) || intervalMs < DEFAULT_RESEARCH_INTERVAL_MS || intervalMs > 30 * DEFAULT_RESEARCH_INTERVAL_MS) throw crucibleError('CRU-0042', 'Research interval must be between 1 and 30 days.');
-    if (!Array.isArray(candidates)) throw crucibleError('CRU-0042', 'Search candidates must be an array.');
+    if (!Number.isFinite(Date.parse(searchedAt))) throw operationalError('OPS-0042', 'A valid search timestamp is required.');
+    if (!Number.isSafeInteger(intervalMs) || intervalMs < DEFAULT_RESEARCH_INTERVAL_MS || intervalMs > 30 * DEFAULT_RESEARCH_INTERVAL_MS) throw operationalError('OPS-0042', 'Research interval must be between 1 and 30 days.');
+    if (!Array.isArray(candidates)) throw operationalError('OPS-0042', 'Search candidates must be an array.');
     const data = this.read();
     const entry = data.topics.find((item) => item.topic === checked);
-    if (!entry) throw crucibleError('CRU-0042', 'Research topic is not approved.');
+    if (!entry) throw operationalError('OPS-0042', 'Research topic is not approved.');
     const known = new Set(data.discoveredUrls);
     const novel = [];
     for (const candidate of candidates) {
@@ -102,10 +102,10 @@ class ModelPointerResearchStore {
 
 class AutomatedModelPointerResearch {
   constructor({ store, client, candidateSink, scopeProvider = null, intervalMs = DEFAULT_RESEARCH_INTERVAL_MS, maximumQueriesPerRun = MAXIMUM_QUERIES_PER_RUN }) {
-    if (!store?.due || !store?.recordRun) throw crucibleError('CRU-0042', 'A model-pointer research store is required.');
-    if (!client?.search) throw crucibleError('CRU-0042', 'A bounded discovery transport is required.');
-    if (!candidateSink?.register) throw crucibleError('CRU-0042', 'A candidate URL sink is required.');
-    if (!Number.isSafeInteger(maximumQueriesPerRun) || maximumQueriesPerRun < 1 || maximumQueriesPerRun > MAXIMUM_QUERIES_PER_RUN) throw crucibleError('CRU-0042', `maximumQueriesPerRun must be between 1 and ${MAXIMUM_QUERIES_PER_RUN}.`);
+    if (!store?.due || !store?.recordRun) throw operationalError('OPS-0042', 'A model-pointer research store is required.');
+    if (!client?.search) throw operationalError('OPS-0042', 'A bounded discovery transport is required.');
+    if (!candidateSink?.register) throw operationalError('OPS-0042', 'A candidate URL sink is required.');
+    if (!Number.isSafeInteger(maximumQueriesPerRun) || maximumQueriesPerRun < 1 || maximumQueriesPerRun > MAXIMUM_QUERIES_PER_RUN) throw operationalError('OPS-0042', `maximumQueriesPerRun must be between 1 and ${MAXIMUM_QUERIES_PER_RUN}.`);
     this.store = store; this.client = client; this.candidateSink = candidateSink; this.scopeProvider = scopeProvider; this.intervalMs = intervalMs; this.maximumQueriesPerRun = maximumQueriesPerRun;
   }
 
