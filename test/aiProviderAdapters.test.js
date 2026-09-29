@@ -189,6 +189,6 @@ test('provenance survives the real adapter path end to end', async () => {
 
 test('an adapter refuses to run without a prompt, and without a credential', async () => {
   const { fetchImpl } = transport(() => ok(CHAT_PAYLOAD));
-  await assert.rejects(() => createProviderAdapter('openai', { env: FULL_ENV, fetchImpl }).run({ prompt: '' }), (error) => error.crucibleCode === 'CRU-0034');
+  await assert.rejects(() => createProviderAdapter('openai', { env: FULL_ENV, fetchImpl }).run({ prompt: '' }), (error) => error.crucibleCode === 'OPS-0034');
   await assert.rejects(() => createProviderAdapter('openai', { env: { OPENAI_MODEL: 'm' }, fetchImpl }).run({ prompt: 'q' }), /credential/);
 });
