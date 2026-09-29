@@ -69,7 +69,7 @@ function classifyFailureCode(failureCode) {
   if (failureCode === undefined || failureCode === null) {
     return { failureCode: null, failureCodeStatus: 'pending-classification' };
   }
-  if (!/^CRU-\\d{4}$/.test(failureCode)) {
+  if (!/^CRU-\d{4}$/.test(failureCode)) {
     throw crucibleError('CRU-0052', `Invalid failure code ${failureCode}; expected CRU-####.`);
   }
   return {
