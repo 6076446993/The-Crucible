@@ -111,7 +111,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-09-29T20:49:57.969Z"
+    "lastActionAt": "2026-09-29T20:54:42.659Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -206,11 +206,11 @@
       "repositoryId": 1344890806,
       "repository": "jonathanblunt1214-lgtm/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-29T20:49:57.969Z",
+      "selectedAt": "2026-09-29T20:54:42.659Z",
       "promptSha256": "078de1c11952dfeb6489dedf8da68040a1fd7154d59ea60ec029ac7e4588e256",
-      "affectedPathsSha256": "17da76f1c28db854ee4037791e1f2ddc7119ef5df71c1de2ba4773fbb697d7ca"
+      "affectedPathsSha256": "da3b9661956ce970bb29b1993efd405ca9c5ba78533c932ef5f83deb4bce610f"
     },
     "steps": [
       "[done] Snapshot dependency installation and reference scanner fixtures/symbolic HEAD repaired.",
@@ -314,7 +314,7 @@
         "owner": "user-or-oversight"
       }
     ],
-    "nextAction": "Verify hosted development checks; retain learning release blockers; await explicit production promotion.",
+    "nextAction": "Inspect final hosted checks; production promotion requires explicit owner instruction and live NIM needs service bearer secret.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -324,12 +324,13 @@
         "Pinned dependency installation added to snapshot workflow.",
         "Regression proven red before scanner repair; targeted integrity/accountability tests pass; all real branch references resolve.",
         "Workflow lint, circulation and failure-code ratchets pass.",
-        "Hosted Windows log identified native backslash file paths; real compiler-tree regression proven red, path normalization repaired; real harness suite 8/8 and full suite 925/925 pass with free temporary Temurin JDK."
+        "Hosted Windows log identified native backslash file paths; real compiler-tree regression proven red, path normalization repaired; real harness suite 8/8 and full suite 925/925 pass with free temporary Temurin JDK.",
+        "Windows hosted critical Java tests passed after path repair. Next stage exposed council-consult assertion expecting LF; normalized CRLF text without altering permission/egress assertions. All 35 workflow tests pass with injected CRLF input."
       ],
       "remaining": [
-        "Verify hosted Self-Test and CodeQL on corrected exact development tip.",
-        "Owner-authorized release promotion required for production fixes.",
-        "Live bearer secret and cross-repository Checks read permission remain external requirements; R8 corpus refusal/evidence remains pending."
+        "Final hosted exact-tip Self-Test and CodeQL verification pending this push.",
+        "Owner must authorize protected production promotion; service bearer secret and monitor Checks-read permission remain external setup.",
+        "R8 retains real published-corpus refusal and executable-content evidence gaps."
       ]
     }
   },
@@ -838,6 +839,27 @@
       "acquiredAt": "2026-09-29T20:46:43.014Z",
       "handedOffTo": null,
       "releasedAt": "2026-09-29T20:49:58.019Z"
+    },
+    {
+      "taskId": "windows-workflow-text-repair-20260929",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "test/workflow.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Correct hosted Windows CRLF workflow text comparison without relaxing permission checks",
+      "status": "released",
+      "acquiredAt": "2026-09-29T20:53:23.075Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-09-29T20:54:42.701Z"
     }
   ],
   "ownerDecisions": [

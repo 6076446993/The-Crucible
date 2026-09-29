@@ -93,6 +93,16 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: windows-workflow-text-repair-20260929 — 2026-09-29T20:54:42.659Z — Codex — mode:work
+
+Plain-language summary: Fixed the remaining Windows workflow assertion by normalizing CRLF to LF before comparing the same council permission and egress contract. No assertion, credential boundary, or gate was removed.
+
+- Held and released mutation claim windows-workflow-text-repair-20260929 (openai/Codex); route crucible-core, stable repository ID 1344890806, jonathanblunt1214-lgtm/The-Crucible, development; reason project context selects crucible-core.
+- Read Windows hosted log 109613988707: constructor proof now passed, council permissions text assertion failed on CRLF — started 2026-09-29T20:53:00Z, finished 2026-09-29T20:53:23Z, exit 0 diagnosis.
+- Normalized line endings in the one workflow-text assertion; node --require /tmp/crucible-crlf-input.cjs --test test/workflow.test.js — started 2026-09-29T20:53:30Z, finished 2026-09-29T20:54:42.659Z, exit 0, 35/35 tests, no skipped tests.
+- Nexus independent full release audit 36629189574 is green on its repaired development tip. Live Render code deployed; authenticated live NIM verification still needs the existing service bearer secret. R8 evidence gaps remain visible.
+- Final exact-tip hosted Crucible verification pending push; no production branch was changed.
+
 ### Session: windows-java-verifier-repair-20260929 — 2026-09-29T20:49:57.969Z — Codex — mode:work
 
 Plain-language summary: Fixed real Windows Java evidence rejection caused by comparing native backslash paths against forward-slash fixture paths. Real compiler/runtime proofs and negative controls remain unchanged.
