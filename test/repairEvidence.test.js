@@ -13,6 +13,7 @@ const AT = '2026-09-01T00:00:00.000Z';
 // A path-traversal finding rather than a command-execution one: the Security Gate reads
 // literal exec-shaped strings in a fixture as dynamic code execution, and it is right to.
 const FINDING = { kind: 'unvalidated-path-join', language: 'javascript', boundary: 'Node.js filesystem path resolution', file: 'src/thing.js', baseSha256: 'a'.repeat(64) };
+const CODED_FINDING = { ...FINDING, failureCode: 'CRU-0050' };
 const PLAN = { file: 'src/thing.js', baseSha256: 'a'.repeat(64), before: 'join(root, userInput)', after: 'resolveWithinRoot(root, userInput)', dependencies: [{ file: 'src/other.js', sha256: 'b'.repeat(64) }], reversibleChange: { beforeSha256: 'c'.repeat(64), afterSha256: 'd'.repeat(64) } };
 const VERIFIED = { state: 'verified', applied: { resultSha256: 'e'.repeat(64), rollbackToken: 'rollback-1' } };
 
@@ -130,4 +131,21 @@ test('a real organism repair reaches the learning store, not just a report that 
   assert.equal(outcomes[0].classification, 'Insufficient Evidence');
   assert.equal(outcomes[0].promotionAuthorized, false);
   assert.equal(outcomes[0].independentVerificationSatisfied, false);
+});
+
+
+test('a repair fix is logged against the real CRU error code when the finding carries one', (t) => {
+  const durable = store(t);
+  const outcome = recordRepairEvidence({ store: durable, projectId: PROJECT, finding: CODED_FINDING, plan: PLAN, result: VERIFIED, now: () => AT });
+  assert.equal(outcome.recorded, true);
+  assert.equal(outcome.failureCode, 'CRU-0050');
+  const record = durable.read().candidateRecords.find((item) => item.candidate.id === outcome.candidateId);
+  assert.equal(record.candidate.provenance.failureCode, 'CRU-0050');
+});
+
+test('a repair cannot be logged against an unregistered CRU code', () => {
+  assert.throws(
+    () => repairExperience({ projectId: PROJECT, finding: FINDING, plan: PLAN, result: VERIFIED, failureCode: 'CRU-9999', observedAt: AT }),
+    /Unknown failure code CRU-9999/
+  );
 });
