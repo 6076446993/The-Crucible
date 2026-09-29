@@ -4,6 +4,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { makeCandidate, sha } = require('./scientificLearning');
+const { describeCode } = require('./failureCodes');
 const { createLearningProvenance } = require('./learningProvenance');
 
 const KIND = 'repair-observation';
@@ -25,6 +26,7 @@ function repairObservationCandidate({ projectId, repository, commitSha, operatio
   digest(beforeSha256, 'beforeSha256');
   digest(afterSha256, 'afterSha256');
   if (failureCode !== null && !/^CRU-\d{4}$/.test(failureCode)) throw new Error('failureCode must be null or a CRU-#### code.');
+  if (failureCode && !describeCode(failureCode)) throw new Error(`failureCode ${failureCode} is not an active CRU bug/error classification.`);
   if (canonicalFailureId !== null) text(canonicalFailureId, 'canonicalFailureId');
   if (!Number.isFinite(Date.parse(observedAt))) throw new Error('observedAt must be an ISO timestamp.');
 
