@@ -93,6 +93,16 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: windows-java-verifier-repair-20260929 — 2026-09-29T20:49:57.969Z — Codex — mode:work
+
+Plain-language summary: Fixed real Windows Java evidence rejection caused by comparing native backslash paths against forward-slash fixture paths. Real compiler/runtime proofs and negative controls remain unchanged.
+
+- Held and released mutation claim windows-java-verifier-repair-20260929 (openai/Codex); task-routing category crucible-core, repository ID 1344890806, jonathanblunt1214-lgtm/The-Crucible, development; reason affected paths select crucible-core.
+- Read hosted Windows failure in run 36628426970 and synchronized identical published development tree — started 2026-09-29T20:46:00Z, finished 2026-09-29T20:47:00Z, exit 0.
+- Downloaded official free temporary Temurin JDK; proved native-path regression failed using real compiler evidence before fix — started 2026-09-29T20:47:00Z, finished 2026-09-29T20:48:00Z, exit 1 expected regression.
+- Normalized native file paths; ran all real hosted harness tests and npm run test:all — started 2026-09-29T20:48:00Z, finished 2026-09-29T20:49:57.969Z, exit 0: 8/8 harness and 925/925 full suite, zero skipped.
+- Hosted production learning proof still reports R8 prompt-injection and executable-content pending; no governed evidence was fabricated or gate weakened. Hosted development verification pending push.
+
 ### Session: ci-snapshot-reference-repair-20260929 — 2026-09-29T20:40:16.442Z — Codex — mode:work
 
 Plain-language summary: Repaired the snapshot job missing dependency installation and the reference scanner mistaking executable test fixtures for live dependencies. Actual declarations, documentation and runtime references remain enforced.

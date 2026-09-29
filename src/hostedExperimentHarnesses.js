@@ -96,7 +96,7 @@ function javaConstructorConfiguration({ projectId, root = EXPERIMENT_ROOT, env =
       // of the experiment rather than a second opinion from the same measurement.
       const constructorsIn = (file) => {
         const className = path.basename(file, '.java');
-        return (result.functions || []).filter((item) => item.file === file && String(item.id).includes(`#${className}(`));
+        return (result.functions || []).filter((item) => String(item.file).replaceAll('\\', '/') === file && String(item.id).includes(`#${className}(`));
       };
       const many = constructorsIn('java/ManyConstructors.java');
       const control = constructorsIn('java/OneConstructor.java');

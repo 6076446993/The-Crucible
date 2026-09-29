@@ -9,11 +9,21 @@ const {
   fixtureSha256,
   harnessesForDeclaration,
   lazyHarnessPair,
+  javaConstructorConfiguration,
 } = require('../src/hostedExperimentHarnesses');
 
 const PROJECT = 'github:jonathanblunt1214-lgtm/The-Crucible';
 const AT = '2026-09-15T15:00:00.000Z';
 const candidate = (claim) => ({ id: 'cand-1', projectId: PROJECT, claim, claimBoundary: 'as asserted by the document', generalizationBoundary: 'Does not cover other runtimes.' });
+
+test('constructor verification accepts native Windows paths from real compiler-tree evidence', async () => {
+  const config = javaConstructorConfiguration({ projectId: PROJECT });
+  assert.ok(config, 'a real JDK is required');
+  const report = await config.verifierAdapter.analyze({ files: config.fixture.files });
+  assert.equal(await config.assertVerification(report), true);
+  const windows = { ...report, functions: report.functions.map((item) => ({ ...item, file: item.file.replaceAll('/', '\\') })) };
+  assert.equal(await config.assertVerification(windows), true);
+});
 
 // Real toolchains against the real fixtures. Nothing here is stubbed on purpose: a stubbed
 // adapter would reintroduce exactly what this module removed, which was a harness that reported
