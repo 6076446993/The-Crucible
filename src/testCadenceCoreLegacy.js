@@ -47,6 +47,7 @@ const TEST_MAIN_CATEGORIES = {
     'test/intakePathways.test.js',
     'test/realCorpusSafety.test.js',
     'test/repairEvidence.test.js',
+    'test/failureRecord.test.js',
     'test/realSupersession.test.js',
     'test/realCorpusLearning.test.js',
     'test/scopePreRegistration.test.js',
