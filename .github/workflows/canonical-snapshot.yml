@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   snapshot:
-    if: github.repository == 'jonathanblunt1214-lgtm/The-Crucible'
+    if: github.repository == '6076446993/The-Crucible'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

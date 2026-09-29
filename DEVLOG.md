@@ -51,8 +51,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 - **Agent:** Codex, CI snapshot/reference repair; prior scientific-learning state is preserved.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** Evidence-proven CI repairs are ready on development; hosted exact-tip verification is pending. The dev plan in AI-HANDOFF.json records completed and remaining work.
-- **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `jonathanblunt1214-lgtm/The-Crucible`; branch `development`.
+- **Actual current step:** GitHub organization migration repair is staged on development; exact-tip hosted verification is pending. The dev plan in AI-HANDOFF.json records completed and remaining work.
+- **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
 - **Verification state:** `npm run test:all` 890/890 at this change. `validate`, `docs:check`, `lint:workflows`, `audit:clutter`, `audit:privacy`, `audit:security`, `audit:governance`, `audit:ai-conflict-governance`, `audit:authenticity`, `audit:coordination` (12 claims, 0 active) and `git diff --check` exit 0; `audit:failure-codes` 581 uncoded with none added, `audit:circulation` 57 direct edges with none added. Hosted `Prove R4-R8 on encrypted durable state` is red by design until R8 is demonstrated.
 - **Continuation boundary:** Oversight deleting what it refuses is the remaining half, and it is not Crucible's to do — the proposed patch is with the owner, and the delicate part is that queue and manifest hashes must move together. Also open: whether consumer-side enforcement should count for R8's `prompt-injection` behaviour (a definition call); whether to retract active knowledge `v1`; promoting `council-consult.yml` to `main`; the unused `NVIDIA_NIM_MODEL` secret; and the 45 exfiltration-pattern documents, whose bytes stay encrypted to this session.
 
@@ -92,6 +92,16 @@ Released mutation claims remain durable facts even after their detailed session 
 - windows-java-toolchain-detection-20260916
 
 ## Command log archive
+
+### Session: github-organization-migration-repair-20260929 — 2026-09-29T22:54:00.000Z — Codex — mode:work
+
+Plain-language summary: Rebound Crucible's operational GitHub repository locations to the new 6076446993 organization while preserving the existing encrypted learning project identity and protected promotion boundary.
+- Verified the transferred repository retains stable GitHub repository ID 1344890806 and routes core work to development — started 2026-09-29T22:54:00.000Z, finished 2026-09-29T22:54:00.000Z, exit 0.
+- Replaced old owner paths in development-hosted learning/source clone locations, repository identity guards, and the reusable Crucible checkout; no learning proof or promotion gate was weakened — started 2026-09-29T22:54:00.000Z, finished 2026-09-29T22:54:00.000Z, exit 0.
+- Updated TASK-ROUTING.json, AI-HANDOFF.json, and DEVLOG.md in the same atomic change set with route category crucible-core and exact affected-path/prompt digests — started 2026-09-29T22:54:00.000Z, finished 2026-09-29T22:54:00.000Z, exit 0.
+- Preserved `github:jonathanblunt1214-lgtm/The-Crucible` where it is the durable learning project identity rather than a GitHub repository location; migration of that identity is not inferred from an ownership transfer — started 2026-09-29T22:54:00.000Z, finished 2026-09-29T22:54:00.000Z, exit 0.
+- Main remains protected; the main-only auto-repair-learning workflow is not directly edited and must be corrected through the protected release path after verification.
+
 
 ### Session: windows-workflow-text-repair-20260929 — 2026-09-29T20:54:42.659Z — Codex — mode:work
 

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "canonical": {
     "repositoryId": 1344890806,
-    "repository": "jonathanblunt1214-lgtm/The-Crucible",
+    "repository": "6076446993/The-Crucible",
     "branch": "development",
     "path": "TASK-ROUTING.json",
     "reference": "development:TASK-ROUTING.json"
@@ -10,7 +10,7 @@
   "repositories": [
     {
       "id": 1344890806,
-      "name": "jonathanblunt1214-lgtm/The-Crucible",
+      "name": "6076446993/The-Crucible",
       "projectNames": [
         "The Crucible",
         "Crucible"
