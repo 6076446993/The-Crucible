@@ -105,7 +105,6 @@ function recordRepairEvidence({ store, projectId, finding, plan, result, failure
       candidateId: existing ? existing.candidate.id : null,
       outcome: experience.outcome,
       failureCode: experience.failureCode || null,
-    failureCodeStatus: experience.failureCodeStatus || null,
       failureCodeStatus: experience.failureCodeStatus || null,
       boundedClaim: experience.boundedClaim,
       classification: 'Insufficient Evidence',
@@ -121,6 +120,7 @@ function recordRepairEvidence({ store, projectId, finding, plan, result, failure
     candidateId: record.candidate.id,
     outcome: experience.outcome,
     failureCode: experience.failureCode || null,
+    failureCodeStatus: experience.failureCodeStatus || null,
     boundedClaim: experience.boundedClaim,
     // Evidence, never knowledge. A repair that held once still has to pass everything else.
     classification: record.candidate.classification,
