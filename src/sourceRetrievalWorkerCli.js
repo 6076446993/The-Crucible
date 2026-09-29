@@ -3,7 +3,7 @@
 
 const path = require('node:path');
 const { registerOwnerDelegatedUrl, SourceRetrievalWorker } = require('./sourceRetrievalWorker');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 function required(environment, name) {
   const value = environment[name];
@@ -19,11 +19,11 @@ async function run(argv = process.argv.slice(2), environment = process.env) {
   const auditRoot = path.join(learningRoot, 'retrieval');
   if (action === 'readiness') return { ready:true, projectId, queueFile, auditRoot, candidateOnly:true, promotionAuthorized:false };
   if (action === 'admit') {
-    if (!argv[1]) throw crucibleError('CRU-0044', 'Usage: sourceRetrievalWorkerCli.js admit <https-url>');
+    if (!argv[1]) throw operationalError('OPS-0044', 'Usage: sourceRetrievalWorkerCli.js admit <https-url>');
     const trustedDomains = String(environment.CRUCIBLE_RETRIEVAL_TRUSTED_DOMAINS || '').split(',').map((item) => item.trim()).filter(Boolean);
     return registerOwnerDelegatedUrl({ queueFile, projectId, url:argv[1], trustedDomains });
   }
-  if (action !== 'run') throw crucibleError('CRU-0044', 'Usage: sourceRetrievalWorkerCli.js [run|readiness|admit <https-url>]');
+  if (action !== 'run') throw operationalError('OPS-0044', 'Usage: sourceRetrievalWorkerCli.js [run|readiness|admit <https-url>]');
   const worker = new SourceRetrievalWorker({
     queueFile,
     projectId,
