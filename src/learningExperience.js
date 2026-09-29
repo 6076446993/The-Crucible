@@ -24,8 +24,8 @@ function validateExperience(value) {
   if (value.schemaVersion !== 1) throw new Error('experience.schemaVersion must be 1.');
   for (const key of ['projectId', 'attemptId', 'boundedClaim', 'claimBoundary', 'generalizationBoundary', 'action', 'environment', 'expectedOutcome', 'actualOutcome', 'actorId']) text(value[key], `experience.${key}`);
   if (!['succeeded', 'failed'].includes(value.outcome)) throw new Error('experience.outcome must be succeeded or failed.');
-  if (value.failureCode !== undefined && !/^CRU-\d{4}$/.test(value.failureCode)) throw crucibleError('CRU-0052', 'experience.failureCode must be a CRU-#### code.');
-  if (value.failureCodeStatus !== undefined && !['registered', 'pending-registration'].includes(value.failureCodeStatus)) throw crucibleError('CRU-0052', 'experience.failureCodeStatus must be registered or pending-registration.');
+  if (value.failureCode !== undefined && !/^CRU-\d{4}$/.test(value.failureCode)) throw new Error('experience.failureCode must be a CRU-#### code.');
+  if (value.failureCodeStatus !== undefined && !['registered', 'pending-registration'].includes(value.failureCodeStatus)) throw new Error('experience.failureCodeStatus must be registered or pending-registration.');
   for (const key of ['actionSha256', 'environmentSha256', 'resultSha256', 'artifactSha256']) digest(value[key], `experience.${key}`);
   if (!Number.isFinite(Date.parse(value.observedAt))) throw new Error('experience.observedAt must be an ISO timestamp.');
   return Object.freeze(structuredClone(value));
