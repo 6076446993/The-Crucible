@@ -116,9 +116,9 @@ function evaluatePrevention({ rules, changedPaths, completedChecks = [], outcome
       if (!projectId) throw new Error('projectId is required when prevention outcome recording is enabled.');
       outcomeRecorder.record({
         projectId,
-        outcomeId: `prevention:${rule.id}:${rule.knowledgeVersion}:${matchedPaths.join(',')}:${observedAt()}`,
+        outcomeId: `prevention-trigger:${rule.id}:${rule.knowledgeVersion}:${matchedPaths.join(',')}:${observedAt()}`,
         lifecycle: 'prevention',
-        outcome: rule.requiredCheck ? 'prevented' : 'prevented',
+        outcome: 'triggered',
         failureCode: rule.failureCode,
         canonicalFailureId: rule.canonicalFailureId,
         preventionRuleId: rule.id,
@@ -126,7 +126,7 @@ function evaluatePrevention({ rules, changedPaths, completedChecks = [], outcome
         changedPaths: matchedPaths,
         completedChecks,
         expected: rule.requiredCheck ? `${rule.requiredCheck} completes before execution` : 'proven precursor is blocked before execution',
-        actual: rule.requiredCheck ? `preflight required ${rule.requiredCheck} before execution` : 'preflight blocked the proven precursor before execution',
+        actual: rule.requiredCheck ? `preflight identified requirement for ${rule.requiredCheck}` : 'preflight identified the proven precursor',
         observedAt: observedAt(),
       });
     }
@@ -134,10 +134,28 @@ function evaluatePrevention({ rules, changedPaths, completedChecks = [], outcome
   return findings;
 }
 
+function recordOutcome(input, finding, outcome, actual) {
+  if (!input.outcomeRecorder) return;
+  if (!input.projectId) throw new Error('projectId is required when prevention outcome recording is enabled.');
+  const at = (input.observedAt || (() => new Date().toISOString()))();
+  input.outcomeRecorder.record({
+    projectId:input.projectId, outcomeId:`prevention-${outcome}:${finding.preventionRuleId}:${finding.knowledgeVersion}:${finding.paths.join(',')}:${at}`,
+    lifecycle:'prevention', outcome, failureCode:finding.failureCode, canonicalFailureId:finding.canonicalFailureId,
+    preventionRuleId:finding.preventionRuleId, knowledgeVersion:finding.knowledgeVersion, changedPaths:finding.paths,
+    completedChecks:input.completedChecks || [], expected:finding.detail, actual, observedAt:at,
+  });
+}
+
 function enforcePrevention(input) {
-  const findings = evaluatePrevention(input);
+  const evaluationInput = { ...input, outcomeRecorder:null };
+  const findings = evaluatePrevention(evaluationInput);
   const blocking = findings.filter((f) => f.action === 'block' || f.action === 'require-check');
+  if (input.bypass === true) {
+    for (const finding of blocking) recordOutcome(input, finding, 'bypassed', text(input.bypassReason, 'bypassReason'));
+    return { findings, blocked:false, bypassed:blocking.length > 0 };
+  }
   if (blocking.length) {
+    for (const finding of blocking) recordOutcome(input, finding, 'prevented', 'enforcement blocked execution before the proven precursor could proceed');
     const error = new Error(`Learned prevention blocked ${blocking.length} proven precursor condition(s):\n${blocking.map((f) => `- ${f.failureCode}: ${f.detail}`).join('\n')}`);
     error.preventionFindings = blocking;
     throw error;
@@ -145,4 +163,11 @@ function enforcePrevention(input) {
   return { findings, blocked: false };
 }
 
-module.exports = { ACTIONS, preventionRule, rulesFromVettedKnowledge, loadVettedPrevention, evaluatePrevention, enforcePrevention };
+function recordPreventionAdjudication({ outcomeRecorder, projectId, finding, outcome, actual, observedAt = () => new Date().toISOString() }) {
+  if (!['false-positive','missed','failed-prevention'].includes(outcome)) throw new Error('Prevention adjudication must be false-positive, missed, or failed-prevention.');
+  text(actual, 'actual');
+  recordOutcome({ outcomeRecorder, projectId, observedAt, completedChecks:[] }, finding, outcome, actual);
+  return outcome;
+}
+
+module.exports = { ACTIONS, preventionRule, mappingsForVettedKnowledge, rulesFromVettedKnowledge, loadVettedPrevention, evaluatePrevention, enforcePrevention, recordPreventionAdjudication };
