@@ -8,6 +8,7 @@ const CADENCE_TIERS = ['every-push', 'daily', 'weekly', 'monthly'];
 const MAIN_CATEGORIES = ['code', 'security', 'utility', 'maintenance'];
 const TEST_MAIN_CATEGORIES = {
   code: [
+    'test/adaptiveLearning.test.js',
     'test/authorizedPrRepair.test.js',
     'test/nexusCheckMonitor.test.js',
     'test/code-check.test.js',
@@ -65,6 +66,7 @@ const TEST_MAIN_CATEGORIES = {
     'test/gradedOversightResponse.test.js',
     'test/organismCirculation.test.js',
     'test/testingOrgan.test.js',
+    'test/testLifecycle.test.js',
     'test/learningRecordConcurrency.test.js',
     'test/pipelineTracer.test.js',
     'test/oversightBrakeReach.test.js',
