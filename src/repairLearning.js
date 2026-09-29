@@ -58,7 +58,7 @@ function repairObservationCandidate({ projectId, repository, commitSha, operatio
       learningProvenanceId: learningProvenance.learningProvenanceId,
       lifecycleStage: 'repair',
       ...(failureCode ? { failureCode, failureCodeStatus: 'registered' } : {}),
-      sourceId: `repair:${repository}:${commitSha || 'working-tree'}:${file}:${operation}`,
+      sourceId: `repair:${repository}:${commitSha || 'working-tree'}:${file}:${operation}${canonicalFailureId ? `:${canonicalFailureId}` : ''}`,
       retrievedAt: observedAt,
       author: 'the-crucible-auto-repair',
       license: 'project-private-repair-evidence',
