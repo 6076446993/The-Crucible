@@ -111,7 +111,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-09-29T20:42:30.406Z"
+    "lastActionAt": "2026-09-29T20:49:57.969Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -208,15 +208,16 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-29T20:40:16.442Z",
+      "selectedAt": "2026-09-29T20:49:57.969Z",
       "promptSha256": "078de1c11952dfeb6489dedf8da68040a1fd7154d59ea60ec029ac7e4588e256",
-      "affectedPathsSha256": "0c07fb75d8cfcfa3d6c03f63e1bd88e554eb8afe25a98fbce2bcd43e1d2454a5"
+      "affectedPathsSha256": "17da76f1c28db854ee4037791e1f2ddc7119ef5df71c1de2ba4773fbb697d7ca"
     },
     "steps": [
-      "[done] Repair snapshot installation and distinguish executable test fixtures from operational canonical references.",
-      "[done] Repair symbolic remote HEAD enumeration and restore accountability-message contract.",
-      "[next] Inspect exact-tip hosted Self-Test and CodeQL after development push.",
-      "[blocked-owner] Production promotion must use owner-authorized release workflow."
+      "[done] Snapshot dependency installation and reference scanner fixtures/symbolic HEAD repaired.",
+      "[done] Windows constructor verifier normalizes native paths without changing measurement.",
+      "[done] Full local test suite 925/925, zero skipped.",
+      "[next] Inspect exact-tip hosted Self-Test and CodeQL.",
+      "[blocked-owner] Preserve protected promotion and actual R8 evidence boundaries."
     ],
     "status": "handoff-ready",
     "startedAt": "2026-09-13T05:06:01Z",
@@ -322,12 +323,13 @@
       "completed": [
         "Pinned dependency installation added to snapshot workflow.",
         "Regression proven red before scanner repair; targeted integrity/accountability tests pass; all real branch references resolve.",
-        "Workflow lint, circulation and failure-code ratchets pass."
+        "Workflow lint, circulation and failure-code ratchets pass.",
+        "Hosted Windows log identified native backslash file paths; real compiler-tree regression proven red, path normalization repaired; real harness suite 8/8 and full suite 925/925 pass with free temporary Temurin JDK."
       ],
       "remaining": [
-        "Hosted Self-Test and CodeQL verification pending development push.",
-        "Production fixes are not promoted; owner must explicitly authorize release.",
-        "Cross-repository Checks read permission and live service bearer secret remain external requirements."
+        "Verify hosted Self-Test and CodeQL on corrected exact development tip.",
+        "Owner-authorized release promotion required for production fixes.",
+        "Live bearer secret and cross-repository Checks read permission remain external requirements; R8 corpus refusal/evidence remains pending."
       ]
     }
   },
@@ -814,6 +816,28 @@
       "acquiredAt": "2026-09-29T20:35:15.276Z",
       "handedOffTo": null,
       "releasedAt": "2026-09-29T20:40:16.500Z"
+    },
+    {
+      "taskId": "windows-java-verifier-repair-20260929",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/hostedExperimentHarnesses.js",
+          "test/hostedExperimentHarnesses.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair hosted Windows compiler-tree constructor verification from exact failed runner evidence",
+      "status": "released",
+      "acquiredAt": "2026-09-29T20:46:43.014Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-09-29T20:49:58.019Z"
     }
   ],
   "ownerDecisions": [
