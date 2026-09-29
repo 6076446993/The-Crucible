@@ -1,5 +1,16 @@
 # Development log
 
+### Session: vetted prevention to preflight proof — 2026-09-29T17:00:00Z — ChatGPT — mode:work
+
+Plain-language summary: Completed the executable proof path from a CRU-linked prevention candidate through the existing scientific-learning state machine into active vetted knowledge, then bound that exact knowledge version and proof hash to its governed CRU prevention declaration and required precheck to consume it without widening the tested boundary.
+
+- **Scientific proof path:** the end-to-end test uses distinct controlled-experiment and independent-verifier identities and requires every existing mandatory learning gate before the durable store commits active knowledge.
+- **Vetted mapping:** active knowledge resolves to a prevention rule only when its candidate is verified, its CRU code remains active, a governed declaration exists, and the knowledge/candidate/declaration boundaries match exactly.
+- **Actual preflight behavior:** a changed workflow path is prevented until the declared `workflow-lint` check is complete; after that check passes, the learned prevention finding clears.
+- **No trust shortcut:** repair observations remain non-promotable and the resolver cannot create vetted knowledge; it only binds already-active knowledge to an enforcement mapping.
+- **Verification remaining:** hosted multi-platform Self-Test, CodeQL, handoff policy, and repository governance checks must pass before this proof is accepted.
+
+
 ### Session: repair evidence to governed prevention pipeline — 2026-09-29T16:05:00Z — ChatGPT — mode:work
 
 Plain-language summary: Added the missing governed bridge from CRU-linked repair evidence to a separately testable prevention candidate. Repair observations remain non-promotable evidence; only an active CRU bug/error classification with an explicit declared precursor mapping can queue a prevention candidate, and the candidate still must pass the existing scientific-learning proof, independent verification, governance promotion, and vetted-knowledge checks before preflight can consume it.
