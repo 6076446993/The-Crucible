@@ -704,7 +704,7 @@ const CRU_CLASSIFICATION_CODES = Object.freeze(new Set([
 ]));
 
 const LEGACY_NON_CRU_CODES = Object.freeze(new Set(
-  Object.keys(FAILURE_CODES).filter((code) => code !== UNCODED && !CRU_CLASSIFICATION_CODES.has(code)),
+  Object.keys(FAILURE_CODES).filter((code) => !CRU_CLASSIFICATION_CODES.has(code)),
 ));
 
 function isCrucibleClassificationCode(code) {
