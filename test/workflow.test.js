@@ -232,7 +232,7 @@ test('GitHub verifies owner queue ciphertext without receiving a decryption key 
   const workflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'hosted-source-bootstrap.yml'), 'utf8');
   assert.match(workflow, /branches:\s*\n\s*- development/);
   assert.match(workflow, /CRUCIBLE_LEARNING_STATE_DEPLOY_KEY/);
-  assert.match(workflow, /git clone --depth 1 git@github\.com:jonathanblunt1214-lgtm\/Crucible-Learning-State\.git/);
+  assert.match(workflow, /git clone --depth 1 git@github\.com:6076446993\/Crucible-Learning-State\.git/);
   assert.match(workflow, /github\.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl/);
   assert.match(workflow, /node src\/hostedSourceBundle\.js join/);
   assert.match(workflow, /node src\/hostedSourceBundle\.js join/);
@@ -498,7 +498,7 @@ test('no workflow pushes to a learning state repository, so Crucible stays a con
       if (/git\s+push/.test(line)) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
     }
     // Every reference to a state repository must be a clone.
-    assert.match(text, /git clone --depth 1 git@github\.com:jonathanblunt1214-lgtm\/Crucible-(Vetted-)?Learning-State\.git/, `${file} reaches a state repository other than by cloning it`);
+    assert.match(text, /git clone --depth 1 git@github\.com:6076446993\/Crucible-(Vetted-)?Learning-State\.git/, `${file} reaches a state repository other than by cloning it`);
   }
   assert.deepEqual(offenders, [], `a workflow that reaches a state repository must never push to one:\n${offenders.join('\n')}`);
 });
