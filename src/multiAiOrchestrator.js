@@ -44,7 +44,7 @@ class MultiAiOrchestrator {
 
   register(providerId, adapter) {
     const provider = describeProvider(providerId);
-    if (!adapter || typeof adapter.run !== 'function') throw crucibleError('CRU-0033', `Adapter for ${provider.label} must expose a run({ prompt, model, signal }) function.`);
+    if (!adapter || typeof adapter.run !== 'function') throw new Error( `Adapter for ${provider.label} must expose a run({ prompt, model, signal }) function.`);
     this.adapters.set(provider.id, adapter);
     return this;
   }
