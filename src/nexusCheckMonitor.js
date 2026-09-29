@@ -244,7 +244,7 @@ async function monitorRepository({ fetchImpl = defaultFetch, token = process.env
 
 async function monitorConfiguredRepositories({
   fetchImpl = defaultFetch,
-  token = process.env.CRUCIBLE_SECURITY_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '',
+  token = process.env.GITHUB_TOKEN || process.env.CRUCIBLE_SECURITY_READ_TOKEN || process.env.GH_TOKEN || '',
   config = loadMonitorConfig(),
   requiredChecks = normalizeRequiredNames(process.env.NEXUS_MONITOR_REQUIRED_CHECKS || ''),
   repairEnabled = process.env.CRUCIBLE_REPAIR_ENABLED === 'true',
