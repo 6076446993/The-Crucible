@@ -40,7 +40,7 @@ function restrictInvocation(invocation, limits, platform = process.platform) {
 function runCommand(root, command, timeoutMs, suffix = '', maxOutputBytes = 1_048_576, limits = null, heartbeatMs = 60_000) {
   return new Promise((resolve, reject) => {
     const cwd = path.resolve(root, command.cwd);
-    if (!cwd.startsWith(`${path.resolve(root)}${path.sep}`) && cwd !== path.resolve(root)) return reject(crucibleError('CRU-0020', `${command.name} escapes the repository.`));
+    if (!cwd.startsWith(`${path.resolve(root)}${path.sep}`) && cwd !== path.resolve(root)) return reject(new Error(`${command.name} escapes the repository.`));
     const invocation = restrictInvocation(resolveSpawn(command), limits);
     const child = spawn(invocation.executable, invocation.args, { cwd, shell:false, detached:process.platform !== 'win32', windowsHide:true, stdio:['ignore', 'pipe', 'pipe'], env:{ ...process.env, CI:'true' } });
     let output = '';
