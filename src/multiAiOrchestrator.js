@@ -15,7 +15,7 @@
 //   - Nothing this module returns authorises a mutation. It reports; the owner decides, and
 //     mutation ownership is checked separately against AI-HANDOFF.json.
 const crypto = require('node:crypto');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 const { PROVIDER_IDS, describeProvider, modelFor, redact, assertNoCredentialsPersisted } = require('./aiProviderRegistry');
 const { CORROBORATION_OUTCOMES, assertConsensusDoesNotAuthorize } = require('./multiAiDeliberation');
 const { assertMutationAllowed } = require('./mutationClaims');
@@ -57,12 +57,12 @@ class MultiAiOrchestrator {
   // credentials before it leaves: the most common way a key escapes is being pasted into the
   // context an agent then sends to four different vendors.
   async distribute({ taskId, prompt, providers = this.registered(), purpose = 'multi-provider consultation' }) {
-    if (typeof taskId !== 'string' || !taskId.trim()) throw crucibleError('CRU-0034', 'A distributed task requires a taskId so every response can be traced back to the question.');
-    if (typeof prompt !== 'string' || !prompt.trim()) throw crucibleError('CRU-0034', 'A distributed task requires a prompt.');
+    if (typeof taskId !== 'string' || !taskId.trim()) throw operationalError('OPS-0034', 'A distributed task requires a taskId so every response can be traced back to the question.');
+    if (typeof prompt !== 'string' || !prompt.trim()) throw operationalError('OPS-0034', 'A distributed task requires a prompt.');
     assertNoCredentialsPersisted(prompt, { env: this.env, label: `task ${taskId} prompt` });
 
     const requested = providers.length ? providers : this.registered();
-    if (!requested.length) throw crucibleError('CRU-0034', 'No providers are registered, so this task cannot be distributed. Register at least one adapter first.');
+    if (!requested.length) throw operationalError('OPS-0034', 'No providers are registered, so this task cannot be distributed. Register at least one adapter first.');
 
     const promptSha256 = sha256(prompt);
     const responses = [];
@@ -117,7 +117,7 @@ class MultiAiOrchestrator {
   // provider that could not be reached drags the result down to insufficient-evidence, because
   // agreement among the reachable subset says nothing about the ones that were not asked.
   corroborate(distribution, { testVerified = false } = {}) {
-    if (!distribution || !Array.isArray(distribution.responses)) throw crucibleError('CRU-0034', 'Corroboration requires a distribution result with a responses array.');
+    if (!distribution || !Array.isArray(distribution.responses)) throw operationalError('OPS-0034', 'Corroboration requires a distribution result with a responses array.');
     const { responses, failures = [] } = distribution;
     const answered = responses.length;
 
