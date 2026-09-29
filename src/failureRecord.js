@@ -17,7 +17,7 @@ const LIFECYCLE = Object.freeze([
 
 function text(value, label) {
   if (typeof value !== 'string' || !value.trim()) {
-    throw crucibleError('CRU-0052', `${label} is required for a durable failure record.`);
+    throw new Error( `${label} is required for a durable failure record.`);
   }
   return value.trim();
 }
