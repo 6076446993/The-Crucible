@@ -2,6 +2,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { acquireDurableLock } = require('./durableLock');
+const { crucibleError } = require('./failureCodes');
 
 const STATES = Object.freeze(['candidate', 'hypothesis', 'experimented', 'causally-proven', 'independently-verified', 'verified', 'quarantined', 'rejected']);
 const CLASSIFICATIONS = Object.freeze(['Rejected Evidence', 'Insufficient Evidence', 'Crucible Issue']);
@@ -67,7 +68,7 @@ function validateProof(proof) {
   if (proof.independentVerification.independent !== true) throw new Error('Independent verification is required.');
   if (proof.independentVerification.testedProperty !== proof.testedProperty) throw new Error('Verification proves only the tested property.');
   if (proof.independentVerification.experimentBoundary !== proof.experimentBoundary) throw new Error('Experimental results inherit experiment boundaries.');
-  if (proof.independentVerification.result !== 'passed') throw new Error('Independent verification must pass.');
+  if (proof.independentVerification.result !== 'passed') throw crucibleError('CRU-0053', 'Independent verification must pass.');
   iso(proof.independentVerification.verifiedAt, 'proof.independentVerification.verifiedAt'); iso(proof.completedAt, 'proof.completedAt');
   return Object.freeze(structuredClone(proof));
 }
