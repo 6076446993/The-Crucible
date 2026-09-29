@@ -95,7 +95,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Correct the false third-branch integrity failure caused by an Archive-only governing artifact being represented as an unqualified main path.",
-    "currentPrompt": "Fix the remaining red third-branch integrity check for the Plug-in branch reference to the nonexistent main:Devlog-Pruned (Archive branch).",
+    "currentPrompt": "Fix the remaining red third-branch integrity check for the Plug-in branch reference to the nonexistent Archive:Devlog-Pruned (Archive branch).",
     "executionMode": {
       "mode": "regular/default",
       "agent": "Codex",
@@ -128,7 +128,7 @@
       "Pre-write branch and remote-tip verification completed at 0f66d3b05989d10580ae22b3202d22ad3cf108d0.",
       "Focused tests pass 49/49; full governed suite and the mandatory known-bug re-test pass 337/337; configuration, docs, workflow lint, clutter, privacy, security, conflict governance, general governance, design-brief, core-reference, authenticity, and diff checks pass.",
       "Exact development tip 8fd433ec and exact main merge commit 32cf371 passed Self-Test and CodeQL; PR #16 checks passed before protected merge.",
-      "The failed third-branch run 33269032123 reported only Plug-in via AI-HANDOFF.json governingDocuments -> main:Devlog-Pruned (Archive branch); the ledger is intentionally on Archive, not main."
+      "The failed third-branch run 33269032123 reported only Plug-in via AI-HANDOFF.json governingDocuments -> Archive:Devlog-Pruned (Archive branch); the ledger is intentionally on Archive, not main."
       ,"Focused reference-integrity and handoff tests pass 40/40; full governed suite passes 338/338; validation, docs, workflow lint, clutter, privacy, security, conflict governance, general governance, design-brief, core-reference, authenticity, and diff checks pass."
     ],
     "remaining": [
