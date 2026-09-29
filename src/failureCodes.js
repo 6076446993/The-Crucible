@@ -740,9 +740,9 @@ function crucibleError(code, message, extra = {}) {
 // text for an error that crossed a process boundary.
 function failureCode(error) {
   if (!error) return null;
-  if (error.crucibleCode && FAILURE_CODES[error.crucibleCode]) return error.crucibleCode;
+  if (error.crucibleCode && isCrucibleClassificationCode(error.crucibleCode)) return error.crucibleCode;
   const found = String(error.message || error).match(/CRU-\d{4}/);
-  return found && FAILURE_CODES[found[0]] ? found[0] : null;
+  return found && isCrucibleClassificationCode(found[0]) ? found[0] : null;
 }
 
 function describeCode(code) {
