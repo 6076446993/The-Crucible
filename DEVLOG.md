@@ -1,5 +1,20 @@
 # Development log
 
+### Session: PR #28 systemic-learning and provenance implementation — 2026-09-29T03:23:00Z — ChatGPT — mode:work
+
+Plain-language summary: PR #28 now treats a repair as evidence rather than a conclusion. The Crucible has a Learning Provenance ID model, mandatory significant-failure postmortem structure, automatic DEVLOG-to-learning evidence ingestion, and an explicit distinction between symptom, root cause, and systemic cause. The PR #28 monitor credential failure was investigated as a boundary defect rather than merely suppressed.
+
+- **Learning Provenance ID:** `LP-PR28-CRU0006-MONITOR` is the human-readable postmortem reference for the PR #28 monitor incident. Machine-generated provenance IDs use the `LP-<16 hex>` format.
+- **Symptom:** `src/nexusCheckMonitor.js` exited with code 1 during GitHub API observation.
+- **Root cause:** the monitor preferred `CRUCIBLE_SECURITY_READ_TOKEN` for ordinary PR/check API reads, allowing a security-gate credential failure to break ordinary monitoring.
+- **Systemic cause:** ordinary monitoring and privileged repository-security inspection had separate intended trust boundaries but the monitor's credential selection did not enforce that separation.
+- **Corrective action:** ordinary monitor reads now prefer `GITHUB_TOKEN`, with the security-read credential only as a fallback. A regression test proves the security credential cannot displace the workflow token.
+- **Learning implementation:** `src/learningProvenance.js` defines the lifecycle and postmortem contract; repair observations now carry Learning Provenance IDs; `src/learningExperience.js` ingests DEVLOG sessions as non-promotable experience evidence.
+- **Governance:** `governingDocuments/native/NEXUS-ENGINEERING-LEARNING-STANDARD.md` establishes the engineering-learning philosophy; `governingDocuments/postmortems/PR-28-nexus-monitor-credential-boundary.md` records the PR #28 postmortem.
+- **Verification:** unit/regression verification has been added for provenance, DEVLOG ingestion, repair provenance, and monitor credential separation. Hosted verification remains open until the actual PR #28 Crucible matrix is green.
+- **Promotion:** no record is promoted to vetted learning by this implementation alone. Independent verification and governance remain required.
+
+
 ## Shared AI handoff
 
 - **Agent:** Claude, free-discovery repair and scientific-learning rolling release review.
