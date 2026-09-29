@@ -18,7 +18,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 const { activeClaims, contestedScopes, auditMutationClaims, scopesOverlap, ownerLabel, sameOwner, normalizeScopePath } = require('./mutationClaims');
 const { auditAIConflictLedger } = require('./aiConflictLedger');
 
@@ -34,7 +34,7 @@ function git(root, args) {
 function readJson(file) {
   if (!fs.existsSync(file)) return null;
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
-  catch (error) { throw crucibleError('CRU-0037', `${path.basename(file)} could not be parsed, so the governed state cannot be read: ${error.message}`); }
+  catch (error) { throw operationalError('OPS-0037', `${path.basename(file)} could not be parsed, so the governed state cannot be read: ${error.message}`); }
 }
 
 function gitState(root) {
@@ -210,13 +210,13 @@ function inspectForContinuation(root, options = {}) {
 // General readiness: the actor has read the state, the gates are verified, nothing repository-wide
 // is stopping work. This does NOT authorise any particular change - see assertMutationAllowed.
 function assertReadyToContinue(report, { actor } = {}) {
-  if (!report || typeof report !== 'object') throw crucibleError('CRU-0037', 'Continuation requires an inspection report. Read the governed state before changing anything.');
-  if (!report.inspectionComplete) throw crucibleError('CRU-0037', `${ownerLabel(actor)} has not read the governed state: AI-HANDOFF.json and AI-CONFLICTS.json must both be present and readable before mutating.`);
+  if (!report || typeof report !== 'object') throw operationalError('OPS-0037', 'Continuation requires an inspection report. Read the governed state before changing anything.');
+  if (!report.inspectionComplete) throw operationalError('OPS-0037', `${ownerLabel(actor)} has not read the governed state: AI-HANDOFF.json and AI-CONFLICTS.json must both be present and readable before mutating.`);
   if (!report.governanceVerified) {
-    throw crucibleError('CRU-0037', `${ownerLabel(actor)} may not mutate: governance checks were not verified in this inspection. ${report.governance.note || 'Re-run the inspection with governance checks enabled.'} Read-only investigation, testing and review remain available.`);
+    throw operationalError('OPS-0037', `${ownerLabel(actor)} may not mutate: governance checks were not verified in this inspection. ${report.governance.note || 'Re-run the inspection with governance checks enabled.'} Read-only investigation, testing and review remain available.`);
   }
   if (report.blockers.length) {
-    throw crucibleError('CRU-0037', `${ownerLabel(actor)} may not begin mutating yet:\n${report.blockers.map((item) => `- ${item}`).join('\n')}\nRead-only investigation, testing and review remain available throughout.`);
+    throw operationalError('OPS-0037', `${ownerLabel(actor)} may not begin mutating yet:\n${report.blockers.map((item) => `- ${item}`).join('\n')}\nRead-only investigation, testing and review remain available throughout.`);
   }
   return { ready: true, resumeFrom: report.resumeFrom };
 }
@@ -226,28 +226,28 @@ function assertReadyToContinue(report, { actor } = {}) {
 function assertMutationAllowed(report, { actor, taskId, paths = [] } = {}) {
   assertReadyToContinue(report, { actor });
   const targets = (Array.isArray(paths) ? paths : []).map(normalizeScopePath).filter(Boolean);
-  if (!targets.length) throw crucibleError('CRU-0030', 'A mutation must name the paths it will change, so ownership of them can be proved.');
+  if (!targets.length) throw operationalError('OPS-0030', 'A mutation must name the paths it will change, so ownership of them can be proved.');
 
   for (const target of targets) {
     // Frozen scope: only the contested mutation stops, and only for scoped conflicts (a
     // repository-wide stop already appeared as a blocker above).
     for (const contested of report.frozenScopes) {
       if (scopesOverlap(contested.scope, { paths: [target] })) {
-        throw crucibleError('CRU-0031', `${target} is frozen by unresolved AI conflict ${contested.id}. Read, test, review and propose against it freely; do not mutate it until the owner resolves the conflict. Unrelated scopes are unaffected.`);
+        throw operationalError('OPS-0031', `${target} is frozen by unresolved AI conflict ${contested.id}. Read, test, review and propose against it freely; do not mutate it until the owner resolves the conflict. Unrelated scopes are unaffected.`);
       }
     }
 
     // A predecessor's uncommitted change to this exact path is work in progress. Overlapping it is
     // refused; unrelated uncommitted work elsewhere is left alone and does not block this change.
     if (report.uncommittedPaths.some((dirty) => scopesOverlap({ paths: [dirty] }, { paths: [target] }))) {
-      throw crucibleError('CRU-0037', `${target} has uncommitted changes from a previous agent. That is work in progress and is never discarded or reset: commit it, or coordinate a handoff, before mutating this path. Unrelated uncommitted paths do not block this change.`);
+      throw operationalError('OPS-0037', `${target} has uncommitted changes from a previous agent. That is work in progress and is never discarded or reset: commit it, or coordinate a handoff, before mutating this path. Unrelated uncommitted paths do not block this change.`);
     }
 
     // Ownership: an active claim, held by this actor, covering this path.
     const holder = activeClaims(report.handoff.claims).find((claim) => scopesOverlap(claim.scope, { paths: [target] }));
-    if (!holder) throw crucibleError('CRU-0030', `${target} is not covered by any active mutation claim. Acquire a claim for it before mutating; read, test and review need no claim.`);
-    if (!sameOwner(holder.owner, actor)) throw crucibleError('CRU-0030', `${target} is exclusively claimed by ${ownerLabel(holder.owner)} under task ${holder.taskId}. ${ownerLabel(actor)} may read, test, review, critique and propose changes to it, but may not mutate it until ownership is explicitly released or handed off.`);
-    if (taskId && holder.taskId !== taskId) throw crucibleError('CRU-0030', `${target} is claimed under task ${holder.taskId}, not ${taskId}.`);
+    if (!holder) throw operationalError('OPS-0030', `${target} is not covered by any active mutation claim. Acquire a claim for it before mutating; read, test and review need no claim.`);
+    if (!sameOwner(holder.owner, actor)) throw operationalError('OPS-0030', `${target} is exclusively claimed by ${ownerLabel(holder.owner)} under task ${holder.taskId}. ${ownerLabel(actor)} may read, test, review, critique and propose changes to it, but may not mutate it until ownership is explicitly released or handed off.`);
+    if (taskId && holder.taskId !== taskId) throw operationalError('OPS-0030', `${target} is claimed under task ${holder.taskId}, not ${taskId}.`);
   }
   return { allowed: true, paths: targets };
 }
