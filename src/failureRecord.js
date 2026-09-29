@@ -34,16 +34,12 @@ function sha256(value) {
     .digest('hex');
 }
 
-function failureRecordId(input) {
-  return `FR-${sha256({
-    repository: input.repository,
-    workflow: input.workflow,
-    runId: input.runId,
-    jobId: input.jobId,
-    check: input.check,
-    commit: input.commit,
-    failureCode: input.failureCode,
-  }).slice(0, 16)}`;
+function failureRecordId() {
+  // A failureId identifies an occurrence, not a failure class. It must therefore never
+  // be derived only from the event's descriptive fields: two independently observed
+  // occurrences can have identical repository/run/check/message/evidence values.
+  // Classification identity belongs in canonicalFailureId, not failureId.
+  return `FR-${crypto.randomBytes(8).toString('hex')}`;
 }
 
 function normalizeFailureEvidence(evidence = []) {
@@ -93,7 +89,7 @@ function createFailureRecord(input = {}) {
 
   return Object.freeze({
     schemaVersion: SCHEMA_VERSION,
-    failureId: failureRecordId({ ...input, repository, commit, failureCode: code.failureCode }),
+    failureId: failureRecordId(),
     failureCode: code.failureCode,
     failureCodeStatus: code.failureCodeStatus,
     repository,
