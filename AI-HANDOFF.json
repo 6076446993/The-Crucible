@@ -194,12 +194,12 @@
   },
   "activePlan": {
     "agent": "ChatGPT",
-    "objective": "Clear the blockers keeping the scientific-learning pipeline from producing evidence, without spending money: tell a refused hosted job apart from a failed one, move governed discovery onto a free provider, make governed records state what actually happened, and run the rolling release review from the literal development tip.",
-    "currentPrompt": "Extend Crucible repair learning so governed Third-branch main-reference integrity failures enter the same verified repair-evidence pipeline as Self-Test failures, without weakening promotion or governance gates.",
+    "objective": "Convert verified CRU-linked repair evidence into separately testable prevention candidates, preserve scientific/governance promotion gates, and prove only vetted knowledge can reach preflight prevention.",
+    "currentPrompt": "Queue repair evidence into tested prevention candidates, then vetted rules, then actual preflight prevention without automatic promotion or invented CRU classifications.",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
-      "purpose": "Governed repair-learning expansion, hosted verification repair, and implementation of a separately testable prevention-candidate bridge without weakening promotion or governance gates.",
+      "purpose": "Implement and verify the governed repair-evidence to prevention-candidate to vetted-preflight pipeline.",
       "selectionReason": "The task spans GitHub Actions behavior, repair-learning custody, prevention-rule plumbing, handoff governance, and hosted multi-platform verification.",
       "distinction": "Execution mode is separate from agent identity and workflow; Work mode changes orchestration depth, not repository identity, branch authority, governance, or promotion authority."
     },
@@ -243,11 +243,14 @@
       "[done] PR #28 now treats CRU codes as canonical failure-class identifiers: duplicate occurrences reuse the established code, uncoded occurrences remain pending classification, and one canonical failure cannot be assigned multiple CRU codes.",
       "[next] Run focused failure-record tests, then exact-tip Section 2 verification. Do not mark Section 2 passed until the hosted Crucible checks are green.",
       "[done] Connected Third-branch main-reference integrity failures to the existing auto-repair and repair-learning workflow, using the deterministic reference-branch repair path and preserving candidate-only learning custody.",
-      "[in progress] Verify PR #29 hosted checks and then implement the separately testable repair-evidence to prevention-candidate bridge without automatic promotion."
+      "[in progress] Verify PR #29 hosted checks and then implement the separately testable repair-evidence to prevention-candidate bridge without automatic promotion.",
+      "[done] Added a separate prevention-candidate type derived only from CRU-linked repair observations; operational repairs cannot enter CRU prevention.",
+      "[done] Added an explicit governed CRU prevention mapping registry and automatic post-repair queue step; no precursor path or required check is inferred.",
+      "[in progress] Run hosted verification, then exercise scientific proof/vetting and prove the resulting active knowledge is consumed by preflight prevention."
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-29T15:43:18.686Z",
+    "lastUpdatedAt": "2026-09-29T16:08:09.941Z",
     "currentStep": 26
   },
   "handoffNotes": {
