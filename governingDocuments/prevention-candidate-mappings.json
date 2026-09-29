@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "mappings": [
+    {
+      "failureCode": "CRU-0008",
+      "precursorPaths": [".github/workflows/"],
+      "requiredCheck": "workflow-lint",
+      "action": "require-check",
+      "rationale": "Workflow defects classified as CRU-0008 must be subjected to the workflow-lint preflight within the declared workflow path boundary before recurrence-prevention knowledge can be considered."
+    }
+  ]
+}
