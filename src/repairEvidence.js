@@ -17,7 +17,7 @@
 // evidence that the change did not hold is worth as much as evidence that it did.
 const crypto = require('node:crypto');
 const { LearningExperienceRecorder } = require('./learningExperience');
-const { describeCode, crucibleError } = require('./failureCodes');
+const { describeCode } = require('./failureCodes');
 
 const sha256 = (value) => crypto.createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
 
