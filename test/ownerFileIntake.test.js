@@ -63,7 +63,7 @@ test('rejects unsupported source types before changing the queue', (t) => {
   const { root, queueFile } = fixture(t);
   const before = fs.readFileSync(queueFile);
   const file = write(root, 'program.exe', 'not an executable that intake may accept');
-  assert.throws(() => ingestOwnerFiles({ queueFile, projectId: PROJECT, files: [file] }), /CRU-0043.*Unsupported owner source type/);
+  assert.throws(() => ingestOwnerFiles({ queueFile, projectId: PROJECT, files: [file] }), /OPS-0043.*Unsupported owner source type/);
   assert.equal(fs.readFileSync(queueFile).equals(before), true);
 });
 
@@ -83,6 +83,6 @@ test('refuses a non-file object at the content-addressed destination', (t) => {
   const file = write(root, 'research.txt', 'candidate material with a blocked destination');
   const digest = sha(fs.readFileSync(file));
   fs.mkdirSync(path.join(root, `${digest}.txt`));
-  assert.throws(() => ingestOwnerFiles({ queueFile, projectId: PROJECT, files: [file] }), /CRU-0043.*regular non-symbolic file/);
+  assert.throws(() => ingestOwnerFiles({ queueFile, projectId: PROJECT, files: [file] }), /OPS-0043.*regular non-symbolic file/);
   assert.equal(JSON.parse(fs.readFileSync(queueFile, 'utf8')).documents.length, 0);
 });
