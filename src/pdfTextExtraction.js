@@ -382,8 +382,8 @@ function extractPdfText(bytes) {
 function extractPdfTextRange(bytes, pageStart, pageEnd) {
   const first = Number(pageStart);
   const last = Number(pageEnd);
-  if (!Number.isSafeInteger(first) || first < 1) throw crucibleError('CRU-0041', 'pageStart must be a positive integer.');
-  if (!Number.isSafeInteger(last) || last < first) throw crucibleError('CRU-0041', 'pageEnd must be greater than or equal to pageStart.');
+  if (!Number.isSafeInteger(first) || first < 1) throw new Error('pageStart must be a positive integer.');
+  if (!Number.isSafeInteger(last) || last < first) throw new Error('pageEnd must be greater than or equal to pageStart.');
   const result = extractPdfText(bytes);
   if (!result.ok) throw crucibleError('CRU-0041', `In-process PDF extraction failed (${result.reason}): ${result.detail}`);
   const selected = result.pages.filter((page) => page.page >= first && page.page <= last);
