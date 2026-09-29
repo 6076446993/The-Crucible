@@ -30,7 +30,7 @@ const { auditAIConflictLedger, coordinationGate } = require('./aiConflictLedger'
 const { categoryEnabled } = require('./suiteSelection');
 const { auditGlobalRepositoryGovernance } = require('./globalRepositoryGovernance');
 const { auditCirculationLinkage, BASELINE_FILE } = require('./circulationLinkage');
-const { crucibleError, failureCode, describeCode, auditFailureCodes, UNCODED, resolveFailureLog } = require('./failureCodes');
+const { crucibleError, failureCode, describeCode, auditFailureCodes, UNCODED, resolveFailureLog , operationalError} = require('./failureCodes');
 
 const action = process.argv[2] || 'run';
 const root = path.resolve(process.env.CRUCIBLE_PROJECT_ROOT || process.cwd());
@@ -46,7 +46,7 @@ function designBriefGate(root) {
   const notice = formatSeveredNotice(process.env.GITHUB_REPOSITORY);
   console.error(notice);
   publishSeveredNotice(notice);
-  throw crucibleError('CRU-0001', 'The Crucible link is severed: THE-CRUCIBLE-DESIGN-BRIEF.md was deleted after being installed. See the notice above.');
+  throw operationalError('OPS-0001', 'The Crucible link is severed: THE-CRUCIBLE-DESIGN-BRIEF.md was deleted after being installed. See the notice above.');
 }
 
 async function coreRefGate() {
@@ -81,7 +81,7 @@ async function precheckGate(root, config) {
 function commitGate(root) {
   const ref = process.env.CRUCIBLE_COMMIT_REF || process.env.GITHUB_SHA || '--cached';
   const result = auditCommit(root, { ref });
-  if (result.findings.length) throw crucibleError('CRU-0004', `Commit Gate found ${result.findings.length} issue(s).`);
+  if (result.findings.length) throw operationalError('OPS-0004', `Commit Gate found ${result.findings.length} issue(s).`);
   return result;
 }
 
@@ -96,7 +96,7 @@ async function securityGate(root, config, snapshot = null) {
     throw error;
   }
   const dependencies = auditDependencyPolicy(root, config);
-  if (dependencies.findings.length) throw crucibleError('CRU-0005', `Dependency policy failed:\n${dependencies.findings.map((item) => `- ${item.type}: ${item.path}`).join('\n')}`);
+  if (dependencies.findings.length) throw operationalError('OPS-0005', `Dependency policy failed:\n${dependencies.findings.map((item) => `- ${item.type}: ${item.path}`).join('\n')}`);
   for (const command of config.security.dependencyAudit) await runCommand(root, command, config.workload.timeoutMinutes * 60_000);
   for (const command of config.security.provenanceAudit) await runCommand(root, command, config.workload.timeoutMinutes * 60_000, ' [provenance]');
   const malware = auditMalware(root, config, { snapshot });
@@ -118,7 +118,7 @@ async function githubSecurityGate(config) {
   publishGithubSecurityReport(report);
   if (result.findings.length) throw crucibleError('CRU-0006', 'GitHub repository security settings gate requires the fixes listed in the report above. See "GitHub repository security settings gate" in README.md for the full walkthrough.');
   const globalGovernance = await auditGlobalRepositoryGovernance(result.manifestSnapshot);
-  if (globalGovernance.findings.length) throw crucibleError('CRU-0007', `Global repository governance gate failed at manifest ${globalGovernance.manifestSha || 'unknown'}:\n${globalGovernance.findings.map((item) => `- ${item.repository}: ${item.type}`).join('\n')}`);
+  if (globalGovernance.findings.length) throw operationalError('OPS-0007', `Global repository governance gate failed at manifest ${globalGovernance.manifestSha || 'unknown'}:\n${globalGovernance.findings.map((item) => `- ${item.repository}: ${item.type}`).join('\n')}`);
   return result;
 }
 
@@ -144,12 +144,12 @@ async function authenticityGate(root, config) {
 }
 
 function governanceGate(root, config, suppliedSnapshot = null) {
-  if (config.governance.failOnDisabledSecurity && !config.security.enabled) throw crucibleError('CRU-0009', 'Configuration governance forbids disabling the Security Gate.');
+  if (config.governance.failOnDisabledSecurity && !config.security.enabled) throw operationalError('OPS-0009', 'Configuration governance forbids disabling the Security Gate.');
   const conflicts = auditAIConflictLedger(root);
-  if (conflicts.findings.length) throw crucibleError('CRU-0010', `AI conflict governance failed:\n${conflicts.findings.map((item) => `- ${item.type}: ${item.path} (${item.detail})`).join('\n')}`);
+  if (conflicts.findings.length) throw operationalError('OPS-0010', `AI conflict governance failed:\n${conflicts.findings.map((item) => `- ${item.type}: ${item.path} (${item.detail})`).join('\n')}`);
   const snapshot = suppliedSnapshot || stagedSnapshot(root);
   const findings = auditExceptions(snapshot, { 'clutter.allow':config.clutter.allow, 'privacy.allow':config.privacy.allow, 'security.allow':config.security.allow, 'security.allowBinaries':config.security.allowBinaries }, config.governance.requireExceptionMetadata);
-  if (findings.length) throw crucibleError('CRU-0011', `Exception governance failed:\n${findings.map((item) => `- ${item.type}: ${item.group} ${item.path}`).join('\n')}`);
+  if (findings.length) throw operationalError('OPS-0011', `Exception governance failed:\n${findings.map((item) => `- ${item.type}: ${item.group} ${item.path}`).join('\n')}`);
   return { exceptions:Object.values({ a:config.clutter.allow, b:config.privacy.allow, c:config.security.allow, d:config.security.allowBinaries }).flat().length, conflicts:conflicts.conflicts };
 }
 
@@ -161,7 +161,7 @@ async function main() {
   }
   if (action === 'docs-check') {
     const result = auditDocSync(root);
-    if (!result.inSync) throw crucibleError('CRU-0012', `README.md is out of date:\n${result.findings.map((item) => `- ${item.type}${item.detail ? ` (${item.detail})` : ''}`).join('\n')}\nRun \`npm run docs:sync\`, review the diff, and commit it.`);
+    if (!result.inSync) throw operationalError('OPS-0012', `README.md is out of date:\n${result.findings.map((item) => `- ${item.type}${item.detail ? ` (${item.detail})` : ''}`).join('\n')}\nRun \`npm run docs:sync\`, review the diff, and commit it.`);
     return console.log('[The Crucible] README.md generated sections match their source.');
   }
   if (action === 'failure-issue') {
@@ -179,7 +179,7 @@ async function main() {
   if (action === 'governance') { const result = governanceGate(root, config); return console.log(`[The Crucible] Configuration and AI conflict governance passed ${result.exceptions} exception(s) and ${result.conflicts} recorded conflict(s).`); }
   if (action === 'ai-conflicts') {
     const result = auditAIConflictLedger(root);
-    if (result.findings.length) throw crucibleError('CRU-0010', `AI conflict governance failed:\n${result.findings.map((item) => `- ${item.type}: ${item.path} (${item.detail})`).join('\n')}`);
+    if (result.findings.length) throw operationalError('OPS-0010', `AI conflict governance failed:\n${result.findings.map((item) => `- ${item.type}: ${item.path} (${item.detail})`).join('\n')}`);
     return console.log(`[The Crucible] AI conflict governance passed ${result.conflicts} recorded conflict(s).`);
   }
   if (action === 'reproducibility') { const result = await verifyReproducibility(root, config); return console.log(result.skipped ? '[The Crucible] Reproducibility Gate is not enabled.' : `[The Crucible] Reproducibility Gate passed ${result.artifacts} artifact(s).`); }
@@ -232,7 +232,7 @@ async function main() {
   }
   if (action === 'clutter') {
     const result = auditClutter(root, config);
-    if (result.findings.length) throw crucibleError('CRU-0014', `Clutter detected:\n${result.findings.map((item) => `- ${item.type}: ${item.path}`).join('\n')}`);
+    if (result.findings.length) throw operationalError('OPS-0014', `Clutter detected:\n${result.findings.map((item) => `- ${item.type}: ${item.path}`).join('\n')}`);
     return console.log(`[The Crucible] Clutter audit passed across ${result.files} tracked files.`);
   }
   if (action === 'workflow-lint') {
@@ -250,7 +250,7 @@ async function main() {
   }
   if (action === 'collisions') {
     const result = await auditCollisions();
-    if (result.findings.length) throw crucibleError('CRU-0015', `Overlapping open pull requests detected:\n${result.findings.map((item) => `- PR #${item.number} (${item.title}): ${item.paths.join(', ')}`).join('\n')}`);
+    if (result.findings.length) throw operationalError('OPS-0015', `Overlapping open pull requests detected:\n${result.findings.map((item) => `- PR #${item.number} (${item.title}): ${item.paths.join(', ')}`).join('\n')}`);
     return console.log(result.skipped ? '[The Crucible] Collision audit skipped outside a pull-request context.' : '[The Crucible] Collision audit passed with no overlapping open pull requests.');
   }
   if (action === 'authenticity') {
@@ -270,7 +270,7 @@ async function main() {
     const result = coordinationGate(root);
     return console.log(`[The Crucible] Multi-AI coordination passed ${result.claims} mutation claim(s), ${result.active} active, ${result.accountable} accounted for in DEVLOG.md.`);
   }
-  if (action !== 'run') throw crucibleError('CRU-0016', `Unknown action: ${action}`);
+  if (action !== 'run') throw operationalError('OPS-0016', `Unknown action: ${action}`);
   const snapshot = stagedSnapshot(root);
   const selected = config.suite.categories;
   if (categoryEnabled(config.suite, 'governance')) { designBriefGate(root); governanceGate(root, config, snapshot); coordinationGate(root); }
@@ -282,7 +282,7 @@ async function main() {
   }
   if (categoryEnabled(config.suite, 'hygiene')) {
     const clutter = auditClutter(root, config, snapshot);
-    if (clutter.findings.length) throw crucibleError('CRU-0014', `Clutter detected:\n${clutter.findings.map((item) => `- ${item.type}: ${item.path}`).join('\n')}`);
+    if (clutter.findings.length) throw operationalError('OPS-0014', `Clutter detected:\n${clutter.findings.map((item) => `- ${item.type}: ${item.path}`).join('\n')}`);
     workflowLintGate(root);
   }
   if (categoryEnabled(config.suite, 'security')) await securityGate(root, config, snapshot);
