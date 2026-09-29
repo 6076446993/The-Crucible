@@ -1,5 +1,14 @@
 # Development log
 
+### Session: PR #29 governed repair-learning expansion — 2026-09-29T15:34:49.707Z — ChatGPT — mode:work
+
+Plain-language summary: Extended the existing Crucible Auto-Repair and Repair Learning workflow so failures from Third-branch main-reference integrity enter the same governed repair-evidence path as Self-Test failures. Reference-integrity failures fetch the governed branch tips and invoke the deterministic reference repair command. Repair evidence remains candidate-only; this change does not promote observations into trusted knowledge or weaken independent verification and governance.
+
+- **Current work:** PR #29 adds Third-branch main-reference integrity as a repair-learning trigger and routes it through `repair:reference-branches`.
+- **Verification:** AI handoff policy initially failed because the project change did not update both DEVLOG.md and AI-HANDOFF.json; this entry and the synchronized handoff record repair that governance violation.
+- **Remaining:** hosted PR checks must pass; then implement and verify the separate evidence-to-prevention-candidate bridge and prove vetted prevention is actually consumed by precheck.
+
+
 ### Session: PR #28 systemic-learning and provenance implementation — 2026-09-29T03:23:00Z — ChatGPT — mode:work
 
 Plain-language summary: PR #28 now treats a repair as evidence rather than a conclusion. The Crucible has a Learning Provenance ID model, mandatory significant-failure postmortem structure, automatic DEVLOG-to-learning evidence ingestion, and an explicit distinction between symptom, root cause, and systemic cause. The PR #28 monitor credential failure was investigated as a boundary defect rather than merely suppressed.

@@ -193,14 +193,14 @@
     "productionBoundary": "Never touch production directly, widen authority, weaken gates, expose credentials, modify unrelated work, invent business logic, or silently resolve governance conflicts."
   },
   "activePlan": {
-    "agent": "Claude",
+    "agent": "ChatGPT",
     "objective": "Clear the blockers keeping the scientific-learning pipeline from producing evidence, without spending money: tell a refused hosted job apart from a failed one, move governed discovery onto a free provider, make governed records state what actually happened, and run the rolling release review from the literal development tip.",
-    "currentPrompt": "Enforce one canonical CRU code per distinct failure class in PR #28, audit DEVLOG.md and Devlog-Pruned for duplicate failures, and preserve every occurrence as evidence without inventing CRU-0000.",
+    "currentPrompt": "Extend Crucible repair learning so governed Third-branch main-reference integrity failures enter the same verified repair-evidence pipeline as Self-Test failures, without weakening promotion or governance gates.",
     "executionMode": {
       "mode": "work",
-      "agent": "Claude",
-      "purpose": "Multi-repository blocker diagnosis, a new governed discovery path with its tests and workflow, three governed-record repairs, and the scientific-learning rolling release review - long-running, file-heavy, and deliverable-oriented.",
-      "selectionReason": "The task spans independent repositories, policy/governance records, hosted CI evidence, multiple correction cycles, and a mandatory terminal verification boundary.",
+      "agent": "ChatGPT",
+      "purpose": "Governed repair-learning expansion, hosted verification repair, and implementation of a separately testable prevention-candidate bridge without weakening promotion or governance gates.",
+      "selectionReason": "The task spans GitHub Actions behavior, repair-learning custody, prevention-rule plumbing, handoff governance, and hosted multi-platform verification.",
       "distinction": "Execution mode is separate from agent identity and workflow; Work mode changes orchestration depth, not repository identity, branch authority, governance, or promotion authority."
     },
     "taskRouting": {
@@ -241,11 +241,13 @@
       "[done] Fixed the circulation ownership classification for the authorized repair coordinator and synchronized the new monitor/repair tests with the governed test cadence.",
       "[done] Audited the complete current DEVLOG.md and Archive:Devlog-Pruned history for duplicate failure handling, prior errors, and repairs. The repeated duplicate push trigger entries are workflow-trigger history, not duplicate CRU codes; the known-bug ledger history also records a prior attribution defect where one failing test was incorrectly reported as four failed categories.",
       "[done] PR #28 now treats CRU codes as canonical failure-class identifiers: duplicate occurrences reuse the established code, uncoded occurrences remain pending classification, and one canonical failure cannot be assigned multiple CRU codes.",
-      "[next] Run focused failure-record tests, then exact-tip Section 2 verification. Do not mark Section 2 passed until the hosted Crucible checks are green."
+      "[next] Run focused failure-record tests, then exact-tip Section 2 verification. Do not mark Section 2 passed until the hosted Crucible checks are green.",
+      "[done] Connected Third-branch main-reference integrity failures to the existing auto-repair and repair-learning workflow, using the deterministic reference-branch repair path and preserving candidate-only learning custody.",
+      "[in progress] Verify PR #29 hosted checks and then implement the separately testable repair-evidence to prevention-candidate bridge without automatic promotion."
     ],
-    "status": "handoff-ready",
+    "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-29T09:01:32.077Z",
+    "lastUpdatedAt": "2026-09-29T15:43:18.686Z",
     "currentStep": 26
   },
   "handoffNotes": {

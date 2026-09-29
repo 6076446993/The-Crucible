@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows:
       - The Crucible Self-Test
+      - Third-branch main-reference integrity
     types:
       - completed
 
@@ -37,10 +38,19 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Fetch branch tips required by governed cross-branch repair
+        if: github.event.workflow_run.name == 'Third-branch main-reference integrity'
+        run: git fetch --no-tags origin '+refs/heads/*:refs/remotes/origin/*'
+
       - name: Apply only the Crucible's existing bounded auto-repairs
         env:
           CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
-        run: npm run repair
+        run: |
+          if [ "${{ github.event.workflow_run.name }}" = "Third-branch main-reference integrity" ]; then
+            npm run repair:reference-branches
+          else
+            npm run repair
+          fi
 
       - name: Verify every repair before proposing it
         run: |
@@ -72,7 +82,7 @@ jobs:
           const changed = execFileSync('git', ['status', '--short'], { encoding: 'utf8' }).trim();
           const payload = {
             schemaVersion: 1,
-            source: 'The Crucible Auto-Repair and Repair Learning',
+            source: process.env.FAILED_WORKFLOW || 'The Crucible Auto-Repair and Repair Learning',
             failedWorkflowRunId: String(process.env.FAILED_RUN_ID),
             failedCommitSha: process.env.FAILED_SHA,
             repairResult: changed ? 'working-tree-changes-present' : 'no-working-tree-changes',
@@ -86,6 +96,7 @@ jobs:
           NODE
         env:
           FAILED_RUN_ID: ${{ github.event.workflow_run.id }}
+          FAILED_WORKFLOW: ${{ github.event.workflow_run.name }}
           FAILED_SHA: ${{ github.event.workflow_run.head_sha }}
           CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
 
