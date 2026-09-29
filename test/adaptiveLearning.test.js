@@ -21,7 +21,13 @@ test('repair and prevention outcomes are durable evidence, not CRU classificatio
     failureCode:'CRU-0008', repairCandidateId:'repair-1', changedPaths:['.github/workflows/release.yml'], completedChecks:['workflow-lint'],
     expected:'repair restores valid workflow', actual:'workflow-lint passes after repair', observedAt:'2026-09-29T17:11:00.000Z',
   });
-  assert.equal(store.read().outcomes.length, 2);
+  store.record({
+    projectId:'the-crucible', outcomeId:'o-3', lifecycle:'prevention', outcome:'triggered',
+    failureCode:'CRU-0008', preventionRuleId:'prevent-CRU-0008-v1', knowledgeVersion:1,
+    changedPaths:['.github/workflows/release.yml'], completedChecks:[],
+    expected:'prevention evaluates precursor', actual:'prevention triggered', observedAt:'2026-09-29T17:11:30.000Z',
+  });
+  assert.equal(store.read().outcomes.length, 3);
   assert.equal(store.read().outcomes[0].outcome, 'prevented');
 });
 
