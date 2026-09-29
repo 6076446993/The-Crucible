@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { preventionRule, rulesFromVettedKnowledge, evaluatePrevention, enforcePrevention } = require('../src/cruPrevention');
+const { mappingsForVettedKnowledge, preventionRule, rulesFromVettedKnowledge, evaluatePrevention, enforcePrevention } = require('../src/cruPrevention');
 
 const PROOF = 'a'.repeat(64);
 const RULE = {
@@ -39,4 +39,27 @@ test('vetted knowledge prevents the precursor until its required check has passe
 
 test('prevention stays inside the experimentally verified boundary', () => {
   assert.deepEqual(evaluatePrevention({ rules: [RULE], changedPaths: ['src/index.js'], completedChecks: [] }), []);
+});
+
+
+test('verified candidate custody resolves to a governed prevention rule without broadening its boundary', () => {
+  const knowledge = [{ version: 7, candidateId: RULE.knowledgeCandidateId, proofSha256: PROOF, boundary: RULE.boundary, status: 'active' }];
+  const candidateRecords = [{
+    state: 'verified',
+    candidate: {
+      id: RULE.knowledgeCandidateId,
+      claimBoundary: RULE.boundary,
+      provenance: { failureCode: 'CRU-0008' },
+    },
+  }];
+  const declarations = [{
+    failureCode: 'CRU-0008', precursorPaths: ['.github/workflows/'], requiredCheck: 'workflow-lint',
+    action: 'require-check', rationale: RULE.rationale,
+  }];
+  const mappings = mappingsForVettedKnowledge({ knowledge, candidateRecords, declarations });
+  assert.deepEqual(mappings, [RULE]);
+  assert.equal(rulesFromVettedKnowledge({ knowledge, mappings }).length, 1);
+  assert.throws(() => mappingsForVettedKnowledge({
+    knowledge: [{ ...knowledge[0], boundary: 'all-repository-paths' }], candidateRecords, declarations,
+  }), /boundary does not match/);
 });
