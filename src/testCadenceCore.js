@@ -1,4 +1,5 @@
 const fs = require('node:fs');
+const { executableTests } = require('./testLifecycle');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const legacy = require('./testCadenceCoreLegacy');
@@ -221,7 +222,9 @@ function npmRunInvocation(script) {
   return resolveSpawn({ run: 'npm', args: ['run', script] });
 }
 
-function runTestSelection(selection, run = spawnSync) {
+function runTestSelection(selection, run = spawnSync, lifecycleOptions = {}) {
+  const lifecycle = executableTests(selection.selected, lifecycleOptions);
+  selection = { ...selection, selected: lifecycle.selected, lifecycleSkipped: lifecycle.skipped, lifecycleChallenged: lifecycle.challenged };
   console.log(`[The Crucible] Orchestrator: ${selection.reason}.`);
   console.log(`[The Crucible] Orchestrator: selected main categories: ${selection.mainCategories.join(', ') || '(none)'}.`);
   console.log(`[The Crucible] Orchestrator: selected ${selection.tests.length}/${legacy.discoverTests().length} safe test subcategories: ${selection.categories.join(', ') || '(none)'}.`);
@@ -242,7 +245,7 @@ function runChanged(run = spawnSync, changedPaths = null) {
 function runAll(run = spawnSync) {
   const tests = legacy.discoverTests();
   validateTestClassification(tests, { allowUnresolved: true });
-  return runTestSelection(selectionResult(tests, tests, 'explicit full-system proof'), run);
+  return runTestSelection(selectionResult(tests, tests, 'explicit full-system proof'), run, { includeHistorical:true });
 }
 
 function runCategory(mainCategory, run = spawnSync) {
