@@ -1,5 +1,16 @@
 # Development log
 
+### Session: repair evidence to governed prevention pipeline — 2026-09-29T16:05:00Z — ChatGPT — mode:work
+
+Plain-language summary: Added the missing governed bridge from CRU-linked repair evidence to a separately testable prevention candidate. Repair observations remain non-promotable evidence; only an active CRU bug/error classification with an explicit declared precursor mapping can queue a prevention candidate, and the candidate still must pass the existing scientific-learning proof, independent verification, governance promotion, and vetted-knowledge checks before preflight can consume it.
+
+- **Repair evidence boundary:** operational/governance repairs without an active CRU classification cannot create CRU prevention candidates.
+- **Declared mapping boundary:** prevention paths, required checks, actions, and rationale come from `governingDocuments/prevention-candidate-mappings.json`; the learning pipeline does not infer them from repair prose.
+- **Automatic queue:** the repair-learning workflow now invokes `learning:queue-prevention` after evidence ingestion and before artifact preservation.
+- **Promotion boundary:** queued prevention candidates start in candidate state with `promotionAuthorized: false`; no workflow step promotes them automatically.
+- **Verification remaining:** hosted CI must pass, then a candidate must traverse the existing controlled experiment and independent-verification gates into vetted knowledge, and precheck must demonstrate consumption of that vetted rule.
+
+
 ### Session: PR #29 governed repair-learning expansion — 2026-09-29T15:34:49.707Z — ChatGPT — mode:work
 
 Plain-language summary: Extended the existing Crucible Auto-Repair and Repair Learning workflow so failures from Third-branch main-reference integrity enter the same governed repair-evidence path as Self-Test failures. Reference-integrity failures fetch the governed branch tips and invoke the deterministic reference repair command. Repair evidence remains candidate-only; this change does not promote observations into trusted knowledge or weaken independent verification and governance.
