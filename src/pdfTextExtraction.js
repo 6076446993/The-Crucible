@@ -388,7 +388,7 @@ function extractPdfTextRange(bytes, pageStart, pageEnd) {
   if (!result.ok) throw crucibleError('CRU-0041', `In-process PDF extraction failed (${result.reason}): ${result.detail}`);
   const selected = result.pages.filter((page) => page.page >= first && page.page <= last);
   if (!selected.length) {
-    throw crucibleError('CRU-0041', `In-process PDF extraction found no pages in range ${first}-${last} of ${result.pages.length}.`);
+    throw new Error(`In-process PDF extraction found no pages in range ${first}-${last} of ${result.pages.length}.`);
   }
   return `${selected.map((page) => page.text).join('\n\n')}\n`;
 }
