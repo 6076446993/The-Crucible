@@ -452,10 +452,10 @@ async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeD
     if (preRegistration.refused.length && !usable.length) {
       // Said first and on its own, because it is the only stop whose cause is the declaration
       // having moved rather than the corpus being short of something.
-      stopCode = 'CRU-0047';
+      stopCode = 'OPS-0047';
       reason = `no declaration is usable yet; every declaration was refused as declared after its own result was known: ${preRegistration.refused.map((item) => `"${item.claim}" - ${item.reason}`).join('; ')}`;
     } else if (selection.pairedFailures.length) {
-      stopCode = 'CRU-0026';
+      stopCode = 'OPS-0026';
       reason = `no declaration is usable yet; the owner-paired declaration(s) were not supported by the corpus: ${selection.pairedFailures.map((item) => `"${item.claim}" - ${item.reason}`).join('; ')}`;
     } else if (corroborated.length === 0) {
       // "Nothing corroborates" has two very different causes and they demand opposite responses.
@@ -476,15 +476,15 @@ async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeD
       // that look like they disagree is the same class of mistake this whole message exists to
       // undo, so each one states which population it is counting.
       const extracted = new Set(available.map((record) => record.candidate.provenance.sourceId)).size;
-      stopCode = undigested ? 'CRU-0023' : 'CRU-0024';
+      stopCode = undigested ? 'OPS-0023' : 'OPS-0024';
       reason = undigested
         ? `nothing can be corroborated yet, and digestion is the likely cause rather than the corpus: ${undigested.detail}, while only ${extracted} source(s) have produced any candidate still available to corroboration. Corroboration needs two independent sources to have been extracted, so drain the extraction backlog before concluding anything about what the corpus contains or changing what is ingested`
         : 'the real corpus contains no claim asserted by two or more independently identified sources, and every source has been digested, so this is the corpus rather than the pipeline';
     } else if (!usable.length) {
-      stopCode = 'CRU-0025';
+      stopCode = 'OPS-0025';
       reason = `${corroborated.length} corroborated claim(s) exist in the real corpus but none has an owner-declared scope, and a scope is never inferred`;
     } else {
-      stopCode = 'CRU-0026';
+      stopCode = 'OPS-0026';
       reason = `${corroborated.length} corroborated claim(s) exist in the real corpus but none matches a declaration, and no declaration nominates a pairing the corpus supports`;
     }
     return { schemaVersion: 1, projectId, corpus, learned: false, reason, stopCode, corroborated: corroborated.slice(0, 25), reviews, pairedFailures: selection.pairedFailures, scopePreRegistration: preRegistration, evaluations: [], reopenedContradictions: reopened, intake, gates: { R4: false, R5: false, R6: false }, promotionAuthorized: false };
