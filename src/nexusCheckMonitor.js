@@ -226,7 +226,7 @@ async function monitorPullRequest({
   };
 }
 
-async function monitorRepository({ fetchImpl = defaultFetch, token = process.env.GITHUB_TOKEN || process.env.CRUCIBLE_SECURITY_READ_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
+async function monitorRepository({ fetchImpl = defaultFetch, token = process.env.NEXUS_MONITOR_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd() }) {
   requireValue(repository, 'repository');
   const prs = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/pulls?state=open`, token);
   const pullRequests = [];
@@ -244,7 +244,7 @@ async function monitorRepository({ fetchImpl = defaultFetch, token = process.env
 
 async function monitorConfiguredRepositories({
   fetchImpl = defaultFetch,
-  token = process.env.GITHUB_TOKEN || process.env.CRUCIBLE_SECURITY_READ_TOKEN || process.env.GH_TOKEN || '',
+  token = process.env.NEXUS_MONITOR_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '',
   config = loadMonitorConfig(),
   requiredChecks = normalizeRequiredNames(process.env.NEXUS_MONITOR_REQUIRED_CHECKS || ''),
   repairEnabled = process.env.CRUCIBLE_REPAIR_ENABLED === 'true',
