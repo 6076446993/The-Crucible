@@ -23,7 +23,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { boundedAssertions, defaultExtractText, normalizedClaimSha256 } = require('./claimExtractionWorker');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 const { semanticallyCorroborates } = require('./semanticCorroboration');
 const { sourceIndex, independent } = require('./sourceIndependence');
 
@@ -59,7 +59,7 @@ function readSourceContent(bundleRoot, source, { extractText = defaultExtractTex
   const { bytes, resolved } = verifySourceCustody(bundleRoot, source);
   if ((source.mediaType || source.contentType) === 'application/pdf') {
     const pages = Number(source.pages);
-    if (!Number.isSafeInteger(pages) || pages < 1) throw crucibleError('CRU-0026', `PDF source ${source.id} has no bounded page count for corroboration.`);
+    if (!Number.isSafeInteger(pages) || pages < 1) throw operationalError('OPS-0026', `PDF source ${source.id} has no bounded page count for corroboration.`);
     return extractText({ ...source, durablePath: resolved, mediaType:'application/pdf' }, 1, pages);
   }
   return bytes.toString('utf8');
