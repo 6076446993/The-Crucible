@@ -13,7 +13,7 @@
 // `fetchImpl` is injectable so tests can exercise request construction and response parsing
 // without network access. The default is the real `fetch`, so the production path is the one that
 // runs unless a caller deliberately replaces it.
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 const { PROVIDER_IDS, describeProvider, credentialPresent, credentialFor, endpointFor, modelFor, redact } = require('./aiProviderRegistry');
 
 const DEFAULT_TIMEOUT_MS = 60_000;
@@ -112,7 +112,7 @@ function createProviderAdapter(providerId, {
   return {
     provider: provider.id,
     async run({ prompt, model: requestedModel } = {}) {
-      if (typeof prompt !== 'string' || !prompt.trim()) throw crucibleError('CRU-0034', `${provider.label} adapter was called with no prompt.`);
+      if (typeof prompt !== 'string' || !prompt.trim()) throw operationalError('OPS-0034', `${provider.label} adapter was called with no prompt.`);
       const apiKey = credentialFor(provider.id, env);
       const model = requestedModel || requireModel(provider.id, env);
       const endpoint = endpointFor(provider.id, env);
