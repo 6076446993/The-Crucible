@@ -839,10 +839,9 @@ function coverageReport(root = 'src') {
     // validation/governance/learning state errors deliberately remain operational. The
     // coverage ratchet measures only explicit CRU-classification attempts so it cannot force
     // operational states back into the CRU namespace.
-    const carried = [...source.matchAll(/throw crucibleError\(['"]((?:CRU-\\d{4}))['"]/g)]
-      .filter((match) => isCrucibleClassificationCode(match[1])).length;
-    const legacyOperational = [...source.matchAll(/throw crucibleError\(['"]((?:CRU-\\d{4}))['"]/g)]
-      .filter((match) => !isCrucibleClassificationCode(match[1])).length;
+    const literalCalls = [...source.matchAll(/throw\s+crucibleError\(\s*['"](CRU-\d{4})['"]/g)];
+    const carried = literalCalls.filter((match) => isCrucibleClassificationCode(match[1])).length;
+    const legacyOperational = literalCalls.filter((match) => !isCrucibleClassificationCode(match[1])).length;
     coded += carried;
     // Retired CRU calls are tracked as operational migration debt. Ordinary Error throws are
     // valid operational errors and are intentionally excluded from CRU coverage.
