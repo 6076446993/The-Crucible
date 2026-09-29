@@ -5,7 +5,7 @@ const path = require('node:path');
 
 const STATES = Object.freeze(['active', 'challenged', 'reduced-cadence', 'archived', 'superseded', 'obsolete']);
 const EVOLUTION_KIND = 'test-evolution-candidate';
-const { makeCandidate, sha } = require('./scientificLearning');
+const crypto = require('node:crypto');
 
 function text(value, label) {
   if (typeof value !== 'string' || !value.trim()) throw new Error(`${label} must be non-empty text.`);
@@ -81,6 +81,10 @@ function reactivateFromEvidence({ entry, evidence, reason, reviewedAt = new Date
   return validateEntry({ ...current, state:'challenged', evidence:[...current.evidence, evidence], reason, reviewedAt });
 }
 
+function stableSha(value) {
+  return crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
+}
+
 function testEvolutionCandidate({ projectId, test, hypothesisId, successorHypothesisId, currentCoverage, proposedCoverage, currentCost, proposedCost, evidenceOutcomeIds, claimBoundary, observedAt = new Date().toISOString() }) {
   text(projectId, 'projectId'); text(test, 'test'); text(hypothesisId, 'hypothesisId'); text(successorHypothesisId, 'successorHypothesisId'); text(claimBoundary, 'claimBoundary'); iso(observedAt, 'observedAt');
   for (const [label, value] of Object.entries({ currentCoverage, proposedCoverage, currentCost, proposedCost })) if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) throw new Error(`${label} must be a non-negative finite number.`);
@@ -88,15 +92,17 @@ function testEvolutionCandidate({ projectId, test, hypothesisId, successorHypoth
   if (proposedCoverage < currentCoverage) throw new Error('test evolution cannot reduce measured coverage within the declared boundary.');
   if (proposedCoverage === currentCoverage && proposedCost >= currentCost) throw new Error('test evolution must improve coverage or reduce execution cost without reducing coverage.');
   const evidence = { test, hypothesisId, successorHypothesisId, currentCoverage, proposedCoverage, currentCost, proposedCost, evidenceOutcomeIds:[...new Set(evidenceOutcomeIds)].sort(), claimBoundary };
-  return makeCandidate({
-    id: `test-evolution-candidate-${sha(evidence)}`, projectId,
-    claim: `Within ${claimBoundary}, successor ${successorHypothesisId} preserves or improves measured coverage (${currentCoverage} -> ${proposedCoverage}) while test execution cost changes from ${currentCost} to ${proposedCost}.`,
+  return Object.freeze({
+    schemaVersion:1,
+    id:`test-evolution-candidate-${stableSha(evidence)}`,
+    projectId,
+    claim:`Within ${claimBoundary}, successor ${successorHypothesisId} preserves or improves measured coverage (${currentCoverage} -> ${proposedCoverage}) while test execution cost changes from ${currentCost} to ${proposedCost}.`,
     claimBoundary,
-    generalizationBoundary: 'A test may be superseded only after the successor is scientifically verified within this exact boundary. Failed or incomplete replacement proof leaves the existing test active.',
-    kind: EVOLUTION_KIND,
-    provenance: {
-      sourceType:'adaptive-test-outcome-analysis', sourceId:`test-evolution:${sha(evidence)}`, retrievedAt:observedAt,
-      author:'the-crucible-adaptive-testing', license:'project-private-test-evidence', contentSha256:sha(evidence), lifecycleStage:'test-evolution-candidate',
+    generalizationBoundary:'A test may be superseded only after the successor is scientifically verified within this exact boundary. Failed or incomplete replacement proof leaves the existing test active.',
+    kind:EVOLUTION_KIND,
+    provenance:{
+      sourceType:'adaptive-test-outcome-analysis', sourceId:`test-evolution:${stableSha(evidence)}`, retrievedAt:observedAt,
+      author:'the-crucible-adaptive-testing', license:'project-private-test-evidence', contentSha256:stableSha(evidence), lifecycleStage:'test-evolution-candidate',
     },
     createdAt:observedAt,
   });
