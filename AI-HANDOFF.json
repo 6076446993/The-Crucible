@@ -210,8 +210,8 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-15T09:17:15.648Z",
-      "promptSha256": "c161330364e200e70ff43ae7f87893707e8e91166efa3355916eafa1aa0e9bab",
+      "selectedAt": "2026-09-29T16:17:11.617Z",
+      "promptSha256": "ae6877fd47d0e8a14b1723898a6e14e329892078e56eba58c7fb720f43eea3a7",
       "affectedPathsSha256": "aae43f3b0dee95c0ae5d5ed49b8212f8c5331287903b71870a26476ee5009acd"
     },
     "steps": [
@@ -250,7 +250,7 @@
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-29T16:08:09.941Z",
+    "lastUpdatedAt": "2026-09-29T16:17:11.618Z",
     "currentStep": 26
   },
   "handoffNotes": {
