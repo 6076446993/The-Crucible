@@ -63,3 +63,18 @@ test('verified candidate custody resolves to a governed prevention rule without 
     knowledge: [{ ...knowledge[0], boundary: 'all-repository-paths' }], candidateRecords, declarations,
   }), /boundary does not match/);
 });
+
+
+test('prevention execution records outcome evidence for later adaptive learning', () => {
+  const recorded = [];
+  const outcomeRecorder = { record: (value) => { recorded.push(value); return value; } };
+  const findings = evaluatePrevention({
+    rules:[RULE], changedPaths:['.github/workflows/release.yml'], completedChecks:[],
+    outcomeRecorder, projectId:'the-crucible', observedAt:() => '2026-09-29T17:15:00.000Z',
+  });
+  assert.equal(findings.length, 1);
+  assert.equal(recorded.length, 1);
+  assert.equal(recorded[0].outcome, 'prevented');
+  assert.equal(recorded[0].failureCode, 'CRU-0008');
+  assert.equal(recorded[0].knowledgeVersion, 7);
+});
