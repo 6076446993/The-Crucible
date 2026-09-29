@@ -51,6 +51,8 @@ function repairInternalChecks(root, config, options = {}) {
     commitSha: environment.GITHUB_SHA || (ref === '--cached' ? 'working-tree' : ref),
     changed,
     operation: 'internal-repair',
+    failureCode: options.failureCode || null,
+    canonicalFailureId: options.canonicalFailureId || null,
     before,
   });
   return { changed, removedPermissions: workflows.removed, remaining: commit.review || [], skipReason, learning };
