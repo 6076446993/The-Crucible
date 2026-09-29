@@ -111,7 +111,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-09-29T20:54:42.659Z"
+    "lastActionAt": "2026-09-29T22:54:00.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -192,8 +192,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Repair evidence-proven CI and live verification failures; preserve existing learning promotion gates and production branch policy.",
-    "currentPrompt": "fix both of these Live Render/NIM behavior and the broader Crucible/Nexus failures",
+    "objective": "Complete GitHub organization migration verification and repair repository-location references while preserving durable learning identity and protected release boundaries.",
+    "currentPrompt": "do all this Confirm repository secrets and variables still exist where workflows depend on them, especially `Nexus-Public-CI`, `AI-collaboration-`, Crucible, and the learning repos.\n\n1. Run/check the important cross-repository workflows once under the new organization paths.\n2. Verify branch/ruleset protections still apply as intended after transfer.\n3. Update Nexus governance/repository-map documentation if it still records the old `jonathanblunt1214-lgtm/...` repository locations.\n4. Finish the already-active **Nexus 1.0.4 release process** separately once its required Crucible/release gates are satisfied.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -204,13 +204,13 @@
     "taskRouting": {
       "category": "crucible-core",
       "repositoryId": 1344890806,
-      "repository": "jonathanblunt1214-lgtm/The-Crucible",
+      "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Project context selects crucible-core.",
+      "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-29T20:54:42.659Z",
-      "promptSha256": "078de1c11952dfeb6489dedf8da68040a1fd7154d59ea60ec029ac7e4588e256",
-      "affectedPathsSha256": "da3b9661956ce970bb29b1993efd405ca9c5ba78533c932ef5f83deb4bce610f"
+      "selectedAt": "2026-09-29T22:54:00.000Z",
+      "promptSha256": "c87d200ef371f1b28200938213541e108eb060edf7bfd1b1821453e7fbfd128b",
+      "affectedPathsSha256": "077d94f0e9611c3540f574f3555dbc79223af3415f81bb5921c83553754d347a"
     },
     "steps": [
       "[done] Snapshot dependency installation and reference scanner fixtures/symbolic HEAD repaired.",
@@ -219,10 +219,10 @@
       "[next] Inspect exact-tip hosted Self-Test and CodeQL.",
       "[blocked-owner] Preserve protected promotion and actual R8 evidence boundaries."
     ],
-    "status": "handoff-ready",
+    "status": "in-progress",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-28T19:24:01.592Z",
-    "currentStep": 46,
+    "lastUpdatedAt": "2026-09-29T22:54:00.000Z",
+    "currentStep": 47,
     "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
     "ownership": {
       "currentClaim": null,
@@ -314,7 +314,7 @@
         "owner": "user-or-oversight"
       }
     ],
-    "nextAction": "Inspect final hosted checks; production promotion requires explicit owner instruction and live NIM needs service bearer secret.",
+    "nextAction": "Verify exact-tip hosted Crucible checks and the migrated cross-repository learning paths; keep production promotion protected.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -325,12 +325,16 @@
         "Regression proven red before scanner repair; targeted integrity/accountability tests pass; all real branch references resolve.",
         "Workflow lint, circulation and failure-code ratchets pass.",
         "Hosted Windows log identified native backslash file paths; real compiler-tree regression proven red, path normalization repaired; real harness suite 8/8 and full suite 925/925 pass with free temporary Temurin JDK.",
-        "Windows hosted critical Java tests passed after path repair. Next stage exposed council-consult assertion expecting LF; normalized CRLF text without altering permission/egress assertions. All 35 workflow tests pass with injected CRLF input."
+        "Windows hosted critical Java tests passed after path repair. Next stage exposed council-consult assertion expecting LF; normalized CRLF text without altering permission/egress assertions. All 35 workflow tests pass with injected CRLF input.",
+        "GitHub ownership moved to organization 6076446993 while stable repository id 1344890806 remained unchanged.",
+        "Development migration repair updates hosted learning/source clone locations, internal/canonical repository guards, reusable Crucible checkout location, and TASK-ROUTING current repository name without changing the durable learning project identity."
       ],
       "remaining": [
         "Final hosted exact-tip Self-Test and CodeQL verification pending this push.",
         "Owner must authorize protected production promotion; service bearer secret and monitor Checks-read permission remain external setup.",
-        "R8 retains real published-corpus refusal and executable-content evidence gaps."
+        "R8 retains real published-corpus refusal and executable-content evidence gaps.",
+        "Exact-tip hosted verification must pass after the organization-path repair.",
+        "The main-only auto-repair-learning workflow still carries the legacy owner condition and must be corrected only through the protected release/promotion path."
       ]
     }
   },
