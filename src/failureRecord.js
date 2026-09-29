@@ -182,7 +182,7 @@ function classifyFailureRecord(record, classification = {}) {
   }
   const canonicalFailureId = text(classification.canonicalFailureId, 'canonicalFailureId');
   const failureCode = text(classification.failureCode, 'failureCode');
-  if (!/^CRU-\\d{4}$/.test(failureCode) || !describeCode(failureCode)) {
+  if (!/^CRU-\d{4}$/.test(failureCode) || !describeCode(failureCode)) {
     throw crucibleError('CRU-0052', 'classification requires a registered CRU-#### failure code.');
   }
 
