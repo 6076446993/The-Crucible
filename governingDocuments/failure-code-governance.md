@@ -72,3 +72,26 @@ A historical occurrence carrying a retired CRU identifier is not silently reclas
 ### One-code-per-class rule remains in force
 
 The active CRU set still obeys the canonical identity rule: one distinct bug/error class has one canonical CRU code; repeated occurrences reuse it; repair, verification, run, symptom, or learning evidence never creates another code.
+
+## CRU-linked repair learning and prevention
+
+Repair, repair-learning, and prevention are downstream relationships of a CRU classification; they never create a CRU classification themselves.
+
+A verified repair observation MAY carry its active `failureCode` into learning provenance. The linked value MUST resolve through the active CRU classification registry. Retired process-state identifiers and unknown `CRU-####` strings are rejected rather than admitted as repair-learning classification.
+
+The governed progression is:
+
+`failure occurrence -> CRU classification -> repair attempt -> independently verified repair evidence -> learning custody -> controlled proof -> independent verification -> vetted knowledge -> prevention rule -> pre-execution enforcement`.
+
+A successful repair is never sufficient to create a prevention rule. Repair observations remain non-promotable evidence. Prevention is permitted only from an active vetted knowledge version whose candidate identity, proof hash, and experimental boundary match the prevention mapping.
+
+A prevention rule MUST:
+- reference an active CRU bug/error class;
+- reference the exact active vetted knowledge version and candidate;
+- bind to the proof hash that earned promotion;
+- stay inside the experimentally verified boundary;
+- state the precursor paths/conditions it covers;
+- state whether it blocks, requires a check, or warns;
+- cease enforcement when its underlying knowledge version is rolled back, superseded, quarantined, or otherwise inactive.
+
+The preferred outcome is prevention before occurrence. When a proven precursor is encountered, The Crucible should run or require the learned preventive check before execution/merge. A prevented precursor is prevention telemetry, not a new failure occurrence and not a new CRU code.
