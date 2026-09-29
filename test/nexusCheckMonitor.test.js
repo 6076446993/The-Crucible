@@ -90,3 +90,30 @@ test('monitors every configured repository and paginates open PRs and checks', a
   assert.equal(report.repositories[0].pullRequests[0].healthy, true);
   assert.ok(calls.some((url) => url.includes('/pulls?state=open')));
 });
+
+
+test('uses GITHUB_TOKEN for ordinary monitor reads before the security-read credential', async () => {
+  const previousGithub = process.env.GITHUB_TOKEN;
+  const previousSecurity = process.env.CRUCIBLE_SECURITY_READ_TOKEN;
+  process.env.GITHUB_TOKEN = 'workflow-token';
+  process.env.CRUCIBLE_SECURITY_READ_TOKEN = 'expired-security-token';
+  try {
+    const seen = [];
+    const fetchImpl = async (url, options) => {
+      seen.push(options.headers.authorization);
+      const body = url.includes('/pulls?state=open') ? [] : { check_runs: [] };
+      return new Response(JSON.stringify(body), { status: 200 });
+    };
+    await monitorConfiguredRepositories({
+      fetchImpl,
+      config: { schemaVersion: 1, repositories: [{ name: 'example/one', enabled: true }] },
+    });
+    assert.ok(seen.length > 0);
+    assert.ok(seen.every((header) => header === 'Bearer workflow-token'));
+  } finally {
+    if (previousGithub === undefined) delete process.env.GITHUB_TOKEN;
+    else process.env.GITHUB_TOKEN = previousGithub;
+    if (previousSecurity === undefined) delete process.env.CRUCIBLE_SECURITY_READ_TOKEN;
+    else process.env.CRUCIBLE_SECURITY_READ_TOKEN = previousSecurity;
+  }
+});
