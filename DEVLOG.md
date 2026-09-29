@@ -169,3 +169,13 @@ Plain-language summary: PR #31 now distinguishes prevention observation from enf
 - Restored vetted prevention mapping export and retained exact candidate/proof/boundary custody.
 - Hosted exact-tip verification remains required before this PR is considered complete.
 
+
+## 2026-09-29 — Nexus vetted learning preflight integration
+Plain-language summary: The Crucible now treats local repair-learning as evidence only and requires independently vetted Nexus knowledge before learned prevention can affect preflight.
+
+- Added `src/vettedLearningAdapter.js` to consume active prevention knowledge from Crucible-Vetted-Learning-State.
+- Active prevention knowledge must include proof and Oversight decision custody bindings, remain inside the governed prevention boundary, and reference an active CRU bug/error classification.
+- Updated `src/cli.js` so local repair-learning state cannot authorize prevention; external vetted custody is required when prevention declarations are configured.
+- Added adapter tests and assigned the adapter to the circulation system to avoid a new cross-organ bypass.
+- PR: #32 `Consume independently vetted Nexus learning at preflight`.
+- Verification required before merge: AI handoff policy, Crucible self-test, and vetted-preflight tests all green.

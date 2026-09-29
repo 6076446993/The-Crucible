@@ -63,12 +63,16 @@ async function coreRefGate() {
 async function precheckGate(root, config) {
   const ref = process.env.CRUCIBLE_COMMIT_REF || process.env.GITHUB_SHA || '--cached';
   let prevention;
-  if (process.env.CRUCIBLE_PREVENTION_FILE) {
-    const preventionFile = path.resolve(root, process.env.CRUCIBLE_PREVENTION_FILE);
-    const mappings = JSON.parse(fs.readFileSync(preventionFile, 'utf8'));
-    if (!process.env.CRUCIBLE_REPAIR_LEARNING_ROOT) throw new Error('CRUCIBLE_REPAIR_LEARNING_ROOT is required when CRUCIBLE_PREVENTION_FILE is configured.');
-    const { loadVettedPrevention } = require('./cruPrevention');
-    prevention = loadVettedPrevention({ root: process.env.CRUCIBLE_REPAIR_LEARNING_ROOT, projectId: config.project.name, mappings, completedChecks: (process.env.CRUCIBLE_COMPLETED_PREVENTION_CHECKS || '').split(',').map((x) => x.trim()).filter(Boolean) });
+  if (process.env.CRUCIBLE_VETTED_LEARNING_ROOT) {
+    if (!process.env.CRUCIBLE_PREVENTION_FILE) throw new Error('CRUCIBLE_PREVENTION_FILE is required when external vetted learning is configured.');
+    const { loadExternalVettedPrevention } = require('./vettedLearningAdapter');
+    prevention = loadExternalVettedPrevention({
+      root: path.resolve(root, process.env.CRUCIBLE_VETTED_LEARNING_ROOT),
+      declarationsFile: path.resolve(root, process.env.CRUCIBLE_PREVENTION_FILE),
+      completedChecks: (process.env.CRUCIBLE_COMPLETED_PREVENTION_CHECKS || '').split(',').map((x) => x.trim()).filter(Boolean),
+    });
+  } else if (process.env.CRUCIBLE_PREVENTION_FILE) {
+    throw new Error('CRUCIBLE_VETTED_LEARNING_ROOT is required when CRUCIBLE_PREVENTION_FILE is configured; local repair-learning state cannot authorize prevention.');
   }
   const result = await runPrecheck(root, config, { ref, prevention });
   const report = formatReport(result);
