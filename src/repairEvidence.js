@@ -17,6 +17,7 @@
 // evidence that the change did not hold is worth as much as evidence that it did.
 const crypto = require('node:crypto');
 const { LearningExperienceRecorder } = require('./learningExperience');
+const { describeCode } = require('./failureCodes');
 
 const sha256 = (value) => crypto.createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
 
@@ -47,10 +48,12 @@ function boundedClaimFor({ finding, plan, state }) {
 // A completed repair as a strict experience the learning store will accept. Every hash is over
 // real material - the finding, the plan, the applied result - so a fabricated repair cannot
 // produce a valid record.
-function repairExperience({ projectId, finding, plan, result, actorId = 'code-security-organism', observedAt = new Date().toISOString() }) {
+function repairExperience({ projectId, finding, plan, result, failureCode = finding && finding.failureCode, actorId = 'code-security-organism', observedAt = new Date().toISOString() }) {
   if (!finding || !plan || !result) throw new Error('A finding, its plan, and the repair result are all required.');
   const recordable = RECORDABLE[result.state];
   if (!recordable) return null;
+
+  if (failureCode !== undefined && (!/^CRU-\\d{4}$/.test(failureCode) || !describeCode(failureCode))) throw new Error(`Unknown failure code ${failureCode}; a repair cannot be logged against an unregistered CRU code.`);
 
   const applied = result.applied || {};
   const resultSha256 = /^[a-f0-9]{64}$/.test(String(applied.resultSha256 || '')) ? applied.resultSha256 : sha256(result);
@@ -69,6 +72,7 @@ function repairExperience({ projectId, finding, plan, result, actorId = 'code-se
     expectedOutcome: 'an independent verifier confirms the repaired construct within the same boundary',
     actualOutcome: recordable.observed,
     outcome: recordable.outcome,
+    ...(failureCode ? { failureCode } : {}),
     actionSha256: sha256(plan),
     environmentSha256: sha256({ language: finding.language, boundary: finding.boundary, file: finding.file, baseSha256: finding.baseSha256 }),
     resultSha256,
@@ -81,8 +85,8 @@ function repairExperience({ projectId, finding, plan, result, actorId = 'code-se
 // Records a completed repair as candidate evidence. Returns what was recorded, or why nothing
 // was - a repair that was inhibited or blocked observed nothing, and silence about that would
 // be indistinguishable from a repair that succeeded.
-function recordRepairEvidence({ store, projectId, finding, plan, result, actorId, observedAt, now = () => new Date().toISOString() }) {
-  const experience = repairExperience({ projectId, finding, plan, result, actorId, observedAt: observedAt || now() });
+function recordRepairEvidence({ store, projectId, finding, plan, result, failureCode = finding && finding.failureCode, actorId, observedAt, now = () => new Date().toISOString() }) {
+  const experience = repairExperience({ projectId, finding, plan, result, failureCode, actorId, observedAt: observedAt || now() });
   if (!experience) {
     return { recorded: false, reason: `a repair in state ${result && result.state} observed nothing, so it is not evidence`, candidateId: null, promotionAuthorized: false };
   }
@@ -99,6 +103,7 @@ function recordRepairEvidence({ store, projectId, finding, plan, result, actorId
       reason: 'this exact repair is already in candidate custody; the same observation is not evidence twice',
       candidateId: existing ? existing.candidate.id : null,
       outcome: experience.outcome,
+      failureCode: experience.failureCode || null,
       boundedClaim: experience.boundedClaim,
       classification: 'Insufficient Evidence',
       proofStageSatisfied: false,
@@ -112,6 +117,7 @@ function recordRepairEvidence({ store, projectId, finding, plan, result, actorId
     reason: null,
     candidateId: record.candidate.id,
     outcome: experience.outcome,
+    failureCode: experience.failureCode || null,
     boundedClaim: experience.boundedClaim,
     // Evidence, never knowledge. A repair that held once still has to pass everything else.
     classification: record.candidate.classification,
