@@ -1,7 +1,7 @@
 const path = require('node:path');
 const { MAXIMUM_QUERIES_PER_RUN, GoogleResearchStore, BoundedGoogleSearchClient, AtomicSourceQueueCandidateSink, AutomatedGoogleResearch } = require('./automatedGoogleResearch');
 const { ClaimExtractionWorker } = require('./claimExtractionWorker');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 async function run(argv = process.argv.slice(2), env = process.env, output = console.log, options = {}) {
   const [command, ...topics] = argv;
@@ -31,7 +31,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
   catch (error) {
     const reason = String(error.message || error);
     output(JSON.stringify({ overallState:'partial', projectId, ...search, extraction:{ state:'blocked', reason, processed:0, completed:0, continuing:0, blocked:1, candidates:0 } }));
-    throw crucibleError('CRU-0040', `Automated Google research completed, but extraction failed: ${reason}`);
+    throw operationalError('OPS-0040', `Automated Google research completed, but extraction failed: ${reason}`);
   }
   output(JSON.stringify({ overallState:'completed', projectId, ...search, extraction:{ state:'completed', reason:null, processed:extraction.length, completed:extraction.filter((item) => item.state === 'claim-extraction-complete').length, continuing:extraction.filter((item) => item.state === 'claim-extraction-forced-pending').length, blocked:extraction.filter((item) => item.state === 'blocked').length, candidates:extraction.reduce((sum, item) => sum + item.candidateIds.length, 0) } }));
 }

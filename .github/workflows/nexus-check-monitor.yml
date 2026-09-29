@@ -1,0 +1,94 @@
+name: Crucible PR monitor
+
+on:
+  workflow_dispatch:
+    inputs:
+      required_checks:
+        description: Optional comma-separated check names to treat as required for every monitored PR
+        required: false
+        default: ''
+        type: string
+  schedule:
+    - cron: '*/10 * * * *'
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+  push:
+    branches: [main, development]
+
+permissions:
+  contents: read
+  checks: read
+  pull-requests: read
+
+concurrency:
+  group: crucible-pr-monitor
+  cancel-in-progress: true
+
+jobs:
+  monitor:
+    name: Monitor all Crucible-monitored PRs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      NEXUS_MONITOR_READ_TOKEN: ${{ secrets.NEXUS_MONITOR_READ_TOKEN }}
+      CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.SECURITY_READ_TOKEN }}
+      NEXUS_MONITOR_REQUIRED_CHECKS: ${{ inputs.required_checks || '' }}
+      CRUCIBLE_REPAIR_ENABLED: 'true'
+      CRUCIBLE_REPAIR_TOKEN: ${{ secrets.CRUCIBLE_REPAIR_TOKEN }}
+      CRUCIBLE_OVERSIGHT_PUBLIC_KEY: ${{ secrets.CRUCIBLE_OVERSIGHT_PUBLIC_KEY }}
+      CRUCIBLE_OWNER_PUBLIC_KEY: ${{ secrets.CRUCIBLE_OWNER_PUBLIC_KEY }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+      - name: Run Crucible PR monitor
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          node src/nexusCheckMonitor.js > artifacts/crucible-pr-monitor.json 2> artifacts/crucible-pr-monitor.txt
+      - name: Publish monitor summary
+        if: always()
+        env:
+          REPORT: artifacts/crucible-pr-monitor.json
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync(process.env.REPORT, 'utf8'));
+          const lines = [
+            '## Crucible PR monitor',
+            '',
+            `Monitored repositories: ${report.monitoredRepositoryCount}`,
+            `Open PRs: ${report.openPullRequestCount}`,
+            `Locked PRs: ${report.lockedPullRequestCount}`,
+            '',
+            'Locked PR policy: LOCKED_READ_ONLY — observed only; no mutation authority.',
+            'Authorized repair: enabled only when an active signed authorization matches the exact repository, PR, head SHA, failure code, scope, and expiry.',
+            '',
+          ];
+          for (const repo of report.repositories) {
+            lines.push(`### ${repo.repository}`, '');
+            if (!repo.pullRequests.length) {
+              lines.push('No open pull requests.', '');
+              continue;
+            }
+            for (const pr of repo.pullRequests) {
+              const c = pr.checks.counts;
+              lines.push(`- PR #${pr.number} — ${pr.interactionPolicy} — ${pr.healthy ? 'no blockers observed' : pr.blockers.join(', ')}`);
+              lines.push(`  Checks: ${c.successful} successful, ${c.failing} failing, ${c.in_progress} in progress, ${c.queued} queued, ${c.skipped} skipped. ${pr.url}`);
+            }
+            lines.push('');
+          }
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+          NODE
+      - name: Upload monitor evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: crucible-pr-monitor
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 14

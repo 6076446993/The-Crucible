@@ -6,7 +6,7 @@ const { acquireDurableLock } = require('./durableLock');
 const STATES = Object.freeze(['candidate', 'hypothesis', 'experimented', 'causally-proven', 'independently-verified', 'verified', 'quarantined', 'rejected']);
 const CLASSIFICATIONS = Object.freeze(['Rejected Evidence', 'Insufficient Evidence', 'Crucible Issue']);
 const REQUIRED_GATES = Object.freeze(['falsifiableHypothesis', 'controlledReproduction', 'causalIsolation', 'controlTesting', 'independentVerification', 'negativeTesting', 'regressionTesting', 'deterministicScopeProof', 'claimBoundaryCheck', 'generalizationCheck', 'contradictionAnalysis']);
-const PROHIBITED_PROMOTION_KINDS = Object.freeze(['raw-telemetry', 'correlation', 'one-off-repair', 'repeated-observation', 'model-guess', 'incomplete-observation', 'untested-hypothesis', 'retrieval', 'experience-observation']);
+const PROHIBITED_PROMOTION_KINDS = Object.freeze(['raw-telemetry', 'correlation', 'one-off-repair', 'repeated-observation', 'model-guess', 'incomplete-observation', 'untested-hypothesis', 'retrieval', 'experience-observation', 'repair-observation']);
 const TRANSITIONS = Object.freeze({
   candidate: ['hypothesis', 'rejected', 'quarantined'],
   hypothesis: ['experimented', 'rejected', 'quarantined'],
@@ -17,7 +17,7 @@ const TRANSITIONS = Object.freeze({
 });
 
 const CANDIDATE_KEYS = ['schemaVersion', 'id', 'projectId', 'claim', 'claimBoundary', 'generalizationBoundary', 'kind', 'provenance', 'classification', 'createdAt'];
-const PROVENANCE_KEYS = ['sourceType', 'sourceId', 'retrievedAt', 'author', 'license', 'contentSha256'];
+const PROVENANCE_KEYS = ['sourceType', 'sourceId', 'retrievedAt', 'author', 'license', 'contentSha256', 'learningProvenanceId', 'lifecycleStage', 'failureCode', 'failureCodeStatus'];
 const PROOF_KEYS = ['schemaVersion', 'candidateId', 'projectId', 'hypothesis', 'testedProperty', 'experimentBoundary', 'controls', 'causalIsolation', 'negativeTests', 'regressionTests', 'scopeProof', 'generalizationResult', 'contradictionResult', 'independentVerification', 'completedAt'];
 const EXPERIMENTAL_PROOF_KEYS = PROOF_KEYS.filter((key) => key !== 'independentVerification');
 
@@ -46,6 +46,10 @@ function validateCandidate(candidate) {
   if (!CLASSIFICATIONS.includes(candidate.classification)) throw new Error('candidate.classification is not allowed.');
   exactKeys(candidate.provenance, PROVENANCE_KEYS, 'candidate.provenance');
   ['sourceType', 'sourceId', 'author', 'license'].forEach((key) => text(candidate.provenance[key], `candidate.provenance.${key}`));
+  if (candidate.provenance.learningProvenanceId !== undefined && !/^LP-[a-f0-9]{16}$/.test(candidate.provenance.learningProvenanceId)) throw new Error('candidate.provenance.learningProvenanceId must be a Learning Provenance ID.');
+  if (candidate.provenance.lifecycleStage !== undefined) text(candidate.provenance.lifecycleStage, 'candidate.provenance.lifecycleStage');
+  if (candidate.provenance.failureCode !== undefined && !/^CRU-\d{4}$/.test(candidate.provenance.failureCode)) throw new Error('candidate.provenance.failureCode must be a CRU-#### code.');
+  if (candidate.provenance.failureCodeStatus !== undefined && !['registered', 'pending-registration'].includes(candidate.provenance.failureCodeStatus)) throw new Error('candidate.provenance.failureCodeStatus must be registered or pending-registration.');
   iso(candidate.provenance.retrievedAt, 'candidate.provenance.retrievedAt');
   digest(candidate.provenance.contentSha256, 'candidate.provenance.contentSha256');
   iso(candidate.createdAt, 'candidate.createdAt');

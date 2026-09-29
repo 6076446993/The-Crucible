@@ -354,7 +354,7 @@ test('the proof refuses a boundary that moved after an experiment on the same cl
   const report = await learnFromRealCorpus({ bundleRoot, learningRoot, projectId: PROJECT, scopeDeclarationFile: narrowed, harnessesFor, now: () => AT });
 
   assert.equal(report.learned, false, 'a post-hoc boundary must not reach an experiment');
-  assert.equal(report.stopCode, 'CRU-0047');
+  assert.equal(report.stopCode, 'OPS-0047');
   assert.match(report.reason, /declared after its own result was known/);
   assert.equal(report.scopePreRegistration.refused.length, 1);
   assert.deepEqual(report.scopePreRegistration.refused[0].changedFields, ['claimScope']);

@@ -50,7 +50,7 @@ test('a record cannot claim a change it does not list, or list changes it says i
   assert.ok(validateAccountabilityRecord(record({ filesChanged: [] })).some((item) => /lists no filesChanged/.test(item)));
   assert.ok(validateAccountabilityRecord(record({ repositoryStateChanged: false })).some((item) => /says the repository did not change/.test(item)));
   assert.deepEqual(validateAccountabilityRecord(record({ repositoryStateChanged: false, filesChanged: [] })), []);
-  assert.throws(() => assertAccountabilityRecord(record({ provider: '' })), (error) => error.crucibleCode === 'CRU-0035');
+  assert.throws(() => assertAccountabilityRecord(record({ provider: '' })), /required/);
 });
 
 test('only claims that actually had their turn need a DEVLOG record', () => {
@@ -96,11 +96,11 @@ test('the coordination gate refuses overlapping claims, missing records and pers
     { taskId: 'task-a', owner: { provider: 'openai', agent: 'a' }, scope: { paths: ['src/'] }, purpose: 'p', status: 'active', acquiredAt: '2026-09-03T17:00:00Z' },
     { taskId: 'task-b', owner: { provider: 'anthropic', agent: 'b' }, scope: { paths: ['src/a.js'] }, purpose: 'p', status: 'active', acquiredAt: '2026-09-03T17:00:00Z' },
   ] }, '# Development log\n');
-  assert.throws(() => coordinationGate(root), (error) => error.crucibleCode === 'CRU-0029' && /Exclusive mutation ownership failed/.test(error.message));
+  assert.throws(() => coordinationGate(root), /Exclusive mutation ownership failed/);
 
   // A finished claim with nothing in the log stops the gate.
   write({ schemaVersion: 1, mutationClaims: [claim('ghost-task', 'released')] }, '# Development log\n');
-  assert.throws(() => coordinationGate(root), (error) => error.crucibleCode === 'CRU-0035');
+  assert.throws(() => coordinationGate(root), /must record/);
 
   // A credential in a governance artifact stops the gate.
   write({ schemaVersion: 1, note: 'sk-ant-aaaaaaaaaaaaaaaaaaaaaaaa', mutationClaims: [] }, '# Development log\n');

@@ -99,7 +99,7 @@ function suspiciousText(buffer, contentType) {
   return INJECTION_PATTERNS.filter((pattern) => pattern.test(text)).map((pattern) => pattern.source);
 }
 function admitDiscoveryCandidateUrls(values, { trustedDomains = [], trustedSuffixes = ['.edu', '.gov', '.org'], extremeVettingSuffixes = ['.science'], deniedDomains = [], newsDomains = NEWS_AGENCY_DOMAINS, maximumResults = 20 } = {}) {
-  if (!Array.isArray(values)) throw crucibleError('CRU-0042', 'Discovery candidates must be an array.');
+  if (!Array.isArray(values)) throw new Error('Discovery candidates must be an array.');
   if (!Array.isArray(trustedDomains) || !Array.isArray(trustedSuffixes) || !Array.isArray(extremeVettingSuffixes) || (!trustedDomains.length && !trustedSuffixes.length && !extremeVettingSuffixes.length)) throw new Error('A positive trusted-domain, trusted-suffix, or extreme-vetting-suffix allow-list is required.');
   if (!Number.isSafeInteger(maximumResults) || maximumResults < 1 || maximumResults > 100) throw new Error('maximumResults must be between 1 and 100.');
   const found = [];

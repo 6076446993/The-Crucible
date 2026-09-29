@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const { fixCommit } = require('./commit');
 const { scrubPrivacy } = require('./privacy');
 const { fixWorkflowPermissions } = require('./workflowLint');
+const { snapshotFiles, recordRepairObservations } = require('./repairLearningGateway');
 
 // This module exists only to keep The Crucible's own repository green. It
 // must never be reachable for a project that adopts The Crucible: the guard
@@ -28,8 +29,10 @@ function assertInternalProject(config, environment = process.env) {
 // it never stages, commits, or pushes, and it cannot repair logic bugs,
 // failing tests, or anything requiring human judgment.
 function repairInternalChecks(root, config, options = {}) {
-  assertInternalProject(config, options.environment || process.env);
+  const environment = options.environment || process.env;
+  assertInternalProject(config, environment);
   const ref = options.ref || '--cached';
+  const before = snapshotFiles(root);
   const privacy = scrubPrivacy(root, config);
   const workflows = fixWorkflowPermissions(root, ['templates']);
   let commit = { changed: [], review: [] };
@@ -40,7 +43,19 @@ function repairInternalChecks(root, config, options = {}) {
     skipReason = 'Commit Gate auto-fix only applies to staged working-tree changes, not already-committed history. Run "npm run repair" locally, before committing, to apply it.';
   }
   const changed = [...new Set([...privacy.changed, ...workflows.changed, ...commit.changed])];
-  return { changed, removedPermissions: workflows.removed, remaining: commit.review || [], skipReason };
+  const learning = recordRepairObservations({
+    root,
+    learningRoot: options.learningRoot || null,
+    projectId: config.project.projectId,
+    repository: environment.GITHUB_REPOSITORY || ENGINE_REPOSITORY,
+    commitSha: environment.GITHUB_SHA || (ref === '--cached' ? 'working-tree' : ref),
+    changed,
+    operation: 'internal-repair',
+    failureCode: options.failureCode || null,
+    canonicalFailureId: options.canonicalFailureId || null,
+    before,
+  });
+  return { changed, removedPermissions: workflows.removed, remaining: commit.review || [], skipReason, learning };
 }
 
 function formatReport(result) {

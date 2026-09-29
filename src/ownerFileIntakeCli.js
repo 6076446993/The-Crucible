@@ -1,15 +1,15 @@
 const path = require('node:path');
 const { ingestOwnerFiles } = require('./ownerFileIntake');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 function required(environment, name) {
   const value = environment[name];
-  if (typeof value !== 'string' || !value.trim()) throw crucibleError('CRU-0043', `${name} is required.`);
+  if (typeof value !== 'string' || !value.trim()) throw operationalError('OPS-0043', `${name} is required.`);
   return value.trim();
 }
 
 function run(argv = process.argv.slice(2), environment = process.env, output = console.log) {
-  if (argv[0] !== 'ingest' || argv.length < 2) throw crucibleError('CRU-0043', 'Usage: ownerFileIntakeCli.js ingest <exact-file> [exact-file ...]');
+  if (argv[0] !== 'ingest' || argv.length < 2) throw operationalError('OPS-0043', 'Usage: ownerFileIntakeCli.js ingest <exact-file> [exact-file ...]');
   const result = ingestOwnerFiles({
     projectId: required(environment, 'CRUCIBLE_LEARNING_PROJECT_ID'),
     queueFile: path.resolve(required(environment, 'CRUCIBLE_SOURCE_QUEUE')),

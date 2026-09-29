@@ -38,6 +38,7 @@
     "learning:extract-readiness": "node src/claimExtractionWorkerCli.js readiness",
     "test:monthly-learning-refresh": "node --test test/monthlyKnowledgeRefresh.test.js",
     "learning:readiness": "node src/scientificLearningCli.js readiness",
+    "learning:devlog": "node src/learningExperience.js ingest-devlog",
     "learning:ingest": "node src/scientificLearningCli.js ingest",
     "learning:status": "node src/scientificLearningCli.js status",
     "learning:pre-soak": "node src/preSoakReadinessCli.js report",
@@ -81,7 +82,8 @@
     "cadence:on-error": "node src/testCadence.js on-error",
     "audit:circulation": "node src/cli.js circulation",
     "audit:failure-codes": "node src/cli.js failure-codes",
-    "trace:pipeline": "node src/pipelineTracer.js"
+    "trace:pipeline": "node src/pipelineTracer.js",
+    "monitor:nexus-checks": "node src/nexusCheckMonitor.js"
   },
   "engines": {
     "node": ">=20"

@@ -287,7 +287,7 @@ test('PDF custody hashes raw bytes before text extraction', (t) => {
   assert.deepEqual(extracted, { path:file, start:1, end:3 });
   assert.throws(
     () => readSourceContent(root, { id:'pdf-source', durablePath:'sources/source.pdf', mediaType:'application/pdf', contentSha256:crypto.createHash('sha256').update(bytes).digest('hex') }),
-    /^Error: \[CRU-0026\] PDF source pdf-source has no bounded page count/,
+    /^Error: \[OPS-0026\] PDF source pdf-source has no bounded page count/,
   );
 });
 

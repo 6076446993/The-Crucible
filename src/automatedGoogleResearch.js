@@ -3,7 +3,7 @@ const dns = require('node:dns').promises;
 const fs = require('node:fs');
 const path = require('node:path');
 const { parseGoogleSearchResults, privateAddress } = require('./safeInformationRetrieval');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 const DEFAULT_RESEARCH_INTERVAL_MS = 24 * 60 * 60 * 1000;
 const MAXIMUM_QUERIES_PER_RUN = 50;
@@ -156,15 +156,15 @@ class AtomicSourceQueueCandidateSink {
       'automated-perplexity-discovery': 'perplexity-research',
       'automated-model-pointer-discovery': 'model-pointer-research',
     };
-    if (!methods[method]) throw crucibleError('CRU-0042', 'Candidate discovery method is not governed.');
+    if (!methods[method]) throw operationalError('OPS-0042', 'Candidate discovery method is not governed.');
     const hash = /^[a-f0-9]{64}$/i;
-    if (method === 'automated-google-discovery' && !hash.test(String(candidate.querySha256 || ''))) throw crucibleError('CRU-0042', 'Google discovery requires its exact query hash.');
-    if (method === 'automated-perplexity-discovery' && (candidate.provider !== 'perplexity' || typeof candidate.model !== 'string' || !candidate.model.trim() || !hash.test(String(candidate.promptSha256 || '')) || !hash.test(String(candidate.responseSha256 || '')))) throw crucibleError('CRU-0042', 'Perplexity discovery requires provider, model, prompt hash, and response hash provenance.');
+    if (method === 'automated-google-discovery' && !hash.test(String(candidate.querySha256 || ''))) throw operationalError('OPS-0042', 'Google discovery requires its exact query hash.');
+    if (method === 'automated-perplexity-discovery' && (candidate.provider !== 'perplexity' || typeof candidate.model !== 'string' || !candidate.model.trim() || !hash.test(String(candidate.promptSha256 || '')) || !hash.test(String(candidate.responseSha256 || '')))) throw operationalError('OPS-0042', 'Perplexity discovery requires provider, model, prompt hash, and response hash provenance.');
     // A chat model that has no search behind it produces pointers, not citations. Recording
     // which of the two a candidate came from is mandatory rather than optional: the whole risk
     // of this discovery path is that a guess is later read as a source, and an absent field
     // would be read as "not stated" by a future consumer instead of stopping it here.
-    if (method === 'automated-model-pointer-discovery' && (typeof candidate.provider !== 'string' || !candidate.provider.trim() || !['model-proposed-pointers', 'provider-citations'].includes(candidate.providerKind) || typeof candidate.model !== 'string' || !candidate.model.trim() || !hash.test(String(candidate.promptSha256 || '')) || !hash.test(String(candidate.responseSha256 || '')))) throw crucibleError('CRU-0042', 'Model-pointer discovery requires provider, providerKind, model, prompt hash, and response hash provenance.');
+    if (method === 'automated-model-pointer-discovery' && (typeof candidate.provider !== 'string' || !candidate.provider.trim() || !['model-proposed-pointers', 'provider-citations'].includes(candidate.providerKind) || typeof candidate.model !== 'string' || !candidate.model.trim() || !hash.test(String(candidate.promptSha256 || '')) || !hash.test(String(candidate.responseSha256 || '')))) throw operationalError('OPS-0042', 'Model-pointer discovery requires provider, providerKind, model, prompt hash, and response hash provenance.');
     const queue = JSON.parse(fs.readFileSync(this.file, 'utf8'));
     if (queue?.schemaVersion !== 1 || queue.projectId !== this.projectId || !Array.isArray(queue.links)) throw new Error('Source queue is invalid or belongs to another project.');
     const existing = queue.links.find((item) => item.url === url.toString() || item.finalUrl === url.toString());

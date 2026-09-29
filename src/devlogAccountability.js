@@ -14,7 +14,7 @@
 // something - anything past `active` - must be findable in DEVLOG.md by its taskId. That is
 // checkable without parsing prose, and it closes the gap that matters: an AI took exclusive
 // ownership of a scope, changed it, released it, and left nothing behind saying so.
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 // The identifying fields a material action should carry. Not every one applies to every action -
 // a review changes no files - so the required set is small and the rest are recorded when known.
@@ -54,7 +54,7 @@ function validateAccountabilityRecord(record, label = 'accountability record') {
 
 function assertAccountabilityRecord(record, label) {
   const findings = validateAccountabilityRecord(record, label);
-  if (findings.length) throw crucibleError('CRU-0035', findings.join(' '));
+  if (findings.length) throw operationalError('OPS-0035', findings.join(' '));
   return { ok: true };
 }
 

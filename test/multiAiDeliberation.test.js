@@ -83,10 +83,10 @@ test('model consensus alone cannot mark a change owner-approved', () => {
   assert.ok(findings.some((item) => /ownerApproved must not be set by an AI/.test(item)));
   assert.throws(
     () => assertConsensusDoesNotAuthorize({ outcome: 'consensus', ownerApproved: true }),
-    (error) => error.crucibleCode === 'CRU-0032' && /evidence, not proof/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0032' && /evidence, not proof/.test(error.message),
   );
   // Even a test-verified outcome is evidence about the code, not owner approval.
-  assert.throws(() => assertConsensusDoesNotAuthorize({ outcome: 'test-verified', ownerApproved: true }), (error) => error.crucibleCode === 'CRU-0032');
+  assert.throws(() => assertConsensusDoesNotAuthorize({ outcome: 'test-verified', ownerApproved: true }), (error) => error.operationalCode === 'OPS-0032');
   assert.equal(assertConsensusDoesNotAuthorize({ outcome: 'consensus' }).authorized, false);
 });
 
@@ -105,7 +105,7 @@ test('an AI may not be the only reviewer of its own material change', () => {
   assert.deepEqual(independentReviewers({ positions: [{ provider: 'openai', position: 'mine is right' }] }, 'openai'), []);
   assert.throws(
     () => assertIndependentlyReviewed({ positions: [{ provider: 'openai', position: 'mine is right' }] }, 'openai'),
-    (error) => error.crucibleCode === 'CRU-0032' && /only recorded reviewer of its own material change/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0032' && /only recorded reviewer of its own material change/.test(error.message),
   );
   assert.deepEqual(assertIndependentlyReviewed(FULL_DELIBERATION, 'openai').reviewers.sort(), ['nvidia-nim', 'perplexity']);
 });

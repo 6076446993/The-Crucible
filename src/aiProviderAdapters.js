@@ -13,7 +13,7 @@
 // `fetchImpl` is injectable so tests can exercise request construction and response parsing
 // without network access. The default is the real `fetch`, so the production path is the one that
 // runs unless a caller deliberately replaces it.
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 const { PROVIDER_IDS, describeProvider, credentialPresent, credentialFor, endpointFor, modelFor, redact } = require('./aiProviderRegistry');
 
 const DEFAULT_TIMEOUT_MS = 60_000;
@@ -23,7 +23,7 @@ function requireModel(providerId, env) {
   const model = modelFor(providerId, env);
   if (!model) {
     const provider = describeProvider(providerId);
-    throw crucibleError('CRU-0033', `${provider.label} has no model configured. Set ${provider.modelEnv} in the environment or as a repository secret. There is deliberately no default: a stale built-in model name fails at the vendor long after anyone is watching for it.`);
+    throw new Error( `${provider.label} has no model configured. Set ${provider.modelEnv} in the environment or as a repository secret. There is deliberately no default: a stale built-in model name fails at the vendor long after anyone is watching for it.`);
   }
   return model;
 }
@@ -112,7 +112,7 @@ function createProviderAdapter(providerId, {
   return {
     provider: provider.id,
     async run({ prompt, model: requestedModel } = {}) {
-      if (typeof prompt !== 'string' || !prompt.trim()) throw crucibleError('CRU-0034', `${provider.label} adapter was called with no prompt.`);
+      if (typeof prompt !== 'string' || !prompt.trim()) throw operationalError('OPS-0034', `${provider.label} adapter was called with no prompt.`);
       const apiKey = credentialFor(provider.id, env);
       const model = requestedModel || requireModel(provider.id, env);
       const endpoint = endpointFor(provider.id, env);

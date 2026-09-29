@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
-const { crucibleError, UNCODED } = require('./failureCodes');
+const { crucibleError, operationalError, UNCODED } = require('./failureCodes');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -117,7 +117,9 @@ async function runHostedProof({ root, encryptedFile, reportFile, key, repository
       // code at all: a reader got a paragraph of prose and had to work out from it whether the
       // blockage was digestion, corpus composition, or a missing owner declaration. Those
       // demand opposite responses. The code comes from the branch that chose the reason.
-      throw crucibleError(realLearning.stopCode || UNCODED, `Hosted learning proof stopped: ${realLearning.reason}`);
+      throw String(realLearning.stopCode || '').startsWith('OPS-')
+      ? operationalError(realLearning.stopCode, `Hosted learning proof stopped: ${realLearning.reason}`)
+      : crucibleError(realLearning.stopCode || UNCODED, `Hosted learning proof stopped: ${realLearning.reason}`);
     }
   }
   // R7 on real evidence: a further independent corpus source re-tests the promoted claim,

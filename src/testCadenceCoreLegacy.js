@@ -8,6 +8,8 @@ const CADENCE_TIERS = ['every-push', 'daily', 'weekly', 'monthly'];
 const MAIN_CATEGORIES = ['code', 'security', 'utility', 'maintenance'];
 const TEST_MAIN_CATEGORIES = {
   code: [
+    'test/authorizedPrRepair.test.js',
+    'test/nexusCheckMonitor.test.js',
     'test/code-check.test.js',
     'test/codeSecurityOrganism.test.js',
     'test/ciDiagnosticOrgan.test.js',
@@ -24,6 +26,11 @@ const TEST_MAIN_CATEGORIES = {
     'test/preSoakReadiness.test.js',
     'test/learningGovernance.test.js',
     'test/learningCycle.test.js',
+    'test/learningExperience.test.js',
+    'test/learningProvenance.test.js',
+    'test/repairLearning.test.js',
+    'test/cruPrevention.test.js',
+    'test/precheckPrevention.test.js',
     'test/engine.test.js',
     'test/ecosystem.test.js',
     'test/hostedMultiRepositoryIntegration.test.js',
@@ -42,6 +49,7 @@ const TEST_MAIN_CATEGORIES = {
     'test/intakePathways.test.js',
     'test/realCorpusSafety.test.js',
     'test/repairEvidence.test.js',
+    'test/failureRecord.test.js',
     'test/realSupersession.test.js',
     'test/realCorpusLearning.test.js',
     'test/scopePreRegistration.test.js',

@@ -57,7 +57,7 @@ test('collectPruneSnapshots is a no-op for an unchanged exact tip', () => {
 test('collectPruneSnapshots refuses an untrusted range with a diagnosable code', () => {
   assert.throws(
     () => collectPruneSnapshots('development', HEAD, () => assert.fail('git must not run')),
-    (error) => error.crucibleCode === 'CRU-0038' && /exact 40-character/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0038' && /exact 40-character/.test(error.message),
   );
 });
 
@@ -93,7 +93,7 @@ test('an unreadable Devlog-Pruned is refused, never rewritten as if it were empt
   };
   assert.throws(
     () => synchronizeDevlogPrunes({ baseSha: BASE, headSha: HEAD, runGit, maxAttempts: 1 }),
-    (error) => error.crucibleCode === 'CRU-0038' && /never an empty ledger/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0038' && /never an empty ledger/.test(error.message),
   );
   // The decisive assertion: nothing was written or pushed.
   assert.ok(!attempted.some((key) => key.startsWith('hash-object')), 'no blob may be written');

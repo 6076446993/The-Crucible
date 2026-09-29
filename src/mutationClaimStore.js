@@ -9,7 +9,7 @@
 // mechanism for everyone, not just the writer.
 const fs = require('node:fs');
 const path = require('node:path');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 const { acquireClaim, releaseClaim, handOffClaim, auditMutationClaims, activeClaims, ownerLabel } = require('./mutationClaims');
 
 const HANDOFF_PATH = 'AI-HANDOFF.json';
@@ -20,16 +20,16 @@ function handoffFile(root) {
 
 function readPlan(root) {
   const file = handoffFile(root);
-  if (!fs.existsSync(file)) throw crucibleError('CRU-0029', `${HANDOFF_PATH} does not exist, so mutation ownership cannot be recorded. It is the shared state every agent reads.`);
+  if (!fs.existsSync(file)) throw operationalError('OPS-0029', `${HANDOFF_PATH} does not exist, so mutation ownership cannot be recorded. It is the shared state every agent reads.`);
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
-  catch (error) { throw crucibleError('CRU-0029', `${HANDOFF_PATH} is not valid JSON: ${error.message}`); }
+  catch (error) { throw operationalError('OPS-0029', `${HANDOFF_PATH} is not valid JSON: ${error.message}`); }
 }
 
 // Written with a trailing newline and two-space indent to match the file as it is already
 // committed, so a claim never shows up in a diff as a whole-file reformat.
 function writePlan(root, plan) {
   const audit = auditMutationClaims(plan.mutationClaims || []);
-  if (audit.findings.length) throw crucibleError('CRU-0029', `Refusing to write an inconsistent claim list: ${audit.findings.map((item) => item.detail).join(' ')}`);
+  if (audit.findings.length) throw operationalError('OPS-0029', `Refusing to write an inconsistent claim list: ${audit.findings.map((item) => item.detail).join(' ')}`);
   fs.writeFileSync(handoffFile(root), `${JSON.stringify(plan, null, 2)}\n`);
   return plan;
 }

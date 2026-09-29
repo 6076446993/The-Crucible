@@ -58,7 +58,7 @@ const CREDENTIAL_ENV_NAMES = Object.freeze(PROVIDER_IDS.map((id) => PROVIDERS[id
 
 function describeProvider(id) {
   const provider = PROVIDERS[id];
-  if (!provider) throw crucibleError('CRU-0033', `Unknown AI provider "${id}". Registered providers are ${PROVIDER_IDS.join(', ')}.`);
+  if (!provider) throw new Error( `Unknown AI provider "${id}". Registered providers are ${PROVIDER_IDS.join(', ')}.`);
   return provider;
 }
 
