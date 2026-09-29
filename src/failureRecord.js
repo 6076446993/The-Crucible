@@ -17,7 +17,7 @@ const LIFECYCLE = Object.freeze([
 
 function text(value, label) {
   if (typeof value !== 'string' || !value.trim()) {
-    throw crucibleError('CRU-0052', \`\${label} is required for a durable failure record.\`);
+    throw crucibleError('CRU-0052', `${label} is required for a durable failure record.`);
   }
   return value.trim();
 }
@@ -35,7 +35,7 @@ function sha256(value) {
 }
 
 function failureRecordId(input) {
-  return \`FR-\${sha256({
+  return `FR-${sha256({
     repository: input.repository,
     workflow: input.workflow,
     runId: input.runId,
@@ -43,7 +43,7 @@ function failureRecordId(input) {
     check: input.check,
     commit: input.commit,
     failureCode: input.failureCode,
-  }).slice(0, 16)}\`;
+  }).slice(0, 16)}`;
 }
 
 function normalizeFailureEvidence(evidence = []) {
@@ -52,12 +52,12 @@ function normalizeFailureEvidence(evidence = []) {
   }
   return evidence.map((item, index) => {
     if (!item || typeof item !== 'object') {
-      throw crucibleError('CRU-0052', \`failure evidence entry \${index} must be an object.\`);
+      throw crucibleError('CRU-0052', `failure evidence entry ${index} must be an object.`);
     }
     return Object.freeze({
-      kind: text(item.kind, \`failure evidence[\${index}].kind\`),
-      value: text(String(item.value), \`failure evidence[\${index}].value\`),
-      source: optionalText(item.source, \`failure evidence[\${index}].source\`),
+      kind: text(item.kind, `failure evidence[${index}].kind`),
+      value: text(String(item.value), `failure evidence[${index}].value`),
+      source: optionalText(item.source, `failure evidence[${index}].source`),
       sha256: /^[a-f0-9]{64}$/.test(String(item.sha256 || ''))
         ? item.sha256
         : sha256(item.value),
@@ -70,7 +70,7 @@ function classifyFailureCode(failureCode) {
     return { failureCode: null, failureCodeStatus: 'pending-classification' };
   }
   if (!/^CRU-\\d{4}$/.test(failureCode)) {
-    throw crucibleError('CRU-0052', \`Invalid failure code \${failureCode}; expected CRU-####.\`);
+    throw crucibleError('CRU-0052', `Invalid failure code ${failureCode}; expected CRU-####.`);
   }
   return {
     failureCode,
@@ -142,10 +142,10 @@ function attachFailureStage(record, stage, value) {
     throw crucibleError('CRU-0052', 'a durable failure record is required.');
   }
   if (!LIFECYCLE.includes(stage)) {
-    throw crucibleError('CRU-0052', \`Unknown failure lifecycle stage \${stage}.\`);
+    throw crucibleError('CRU-0052', `Unknown failure lifecycle stage ${stage}.`);
   }
   if (!value || typeof value !== 'object') {
-    throw crucibleError('CRU-0052', \`failure lifecycle stage \${stage} requires an evidence object.\`);
+    throw crucibleError('CRU-0052', `failure lifecycle stage ${stage} requires an evidence object.`);
   }
 
   const field = {
