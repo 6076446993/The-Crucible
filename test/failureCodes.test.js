@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const {
-  UNCODED, FAILURE_CODES, crucibleError, failureCode, describeCode, codesInText,
+  UNCODED, FAILURE_CODES, CRU_CLASSIFICATION_CODES, crucibleError, failureCode, describeCode, codesInText, isCrucibleClassificationCode,
   remedyFor, testRequestFor, repairableByImmuneSystem, coverageReport, auditFailureCodes,
 } = require('../src/failureCodes');
 const { selectRequestedTests } = require('../src/testingOrgan');
@@ -21,7 +21,8 @@ function workspace(t) {
 // guessing one layer up, so the fix is part of what a code is, not an optional extra.
 test('every code carries a meaning and a remedy the immune system can act on', () => {
   const kinds = new Set(['automatic', 'guided', 'owner-decision']);
-  for (const [code, entry] of Object.entries(FAILURE_CODES)) {
+  for (const code of CRU_CLASSIFICATION_CODES) {
+    const entry = FAILURE_CODES[code];
     assert.equal(entry.code, code, `${code} must state its own code`);
     assert.ok(entry.category, `${code} needs a category`);
     assert.ok(entry.meaning && entry.meaning.length > 20, `${code} needs a meaning a reader can act on`);
@@ -39,7 +40,7 @@ test('every code carries a meaning and a remedy the immune system can act on', (
 // find out; the testing organ refuses unknown tests by name, so running every remedy through it
 // here is the same check the bus would apply.
 test('every remedy names a test selection the testing organ will actually accept', () => {
-  for (const code of Object.keys(FAILURE_CODES)) {
+  for (const code of CRU_CLASSIFICATION_CODES) {
     const selection = selectRequestedTests(testRequestFor(code));
     assert.ok(selection.tests.length > 0, `${code} must select at least one existing test`);
   }
@@ -49,9 +50,9 @@ test('every remedy names a test selection the testing organ will actually accept
 // fix and some are somebody's decision. A code that blurred the two would let an automaton make
 // a call that was never its to make.
 test('a code says whether the immune system may repair it unaided', () => {
-  assert.equal(repairableByImmuneSystem('CRU-0012'), true, 'a stale README regenerates mechanically');
-  assert.equal(repairableByImmuneSystem('CRU-0009'), false, 'disabling the Security Gate is never the immune system\'s call');
-  assert.equal(repairableByImmuneSystem('CRU-0015'), false, 'a collision with another pull request needs coordination, not a push');
+  assert.equal(repairableByImmuneSystem('CRU-0008'), true, 'a stale README regenerates mechanically');
+  assert.equal(repairableByImmuneSystem('CRU-0006'), false, 'disabling the Security Gate is never the immune system\'s call');
+  assert.equal(repairableByImmuneSystem('CRU-0052'), false, 'a collision with another pull request needs coordination, not a push');
   assert.equal(repairableByImmuneSystem(UNCODED), false, 'an uncoded failure is a gap to close, not a repair to attempt');
   assert.equal(repairableByImmuneSystem('CRU-9999'), false, 'an unknown code authorizes nothing');
 });
@@ -60,14 +61,14 @@ test('a code says whether the immune system may repair it unaided', () => {
 // stdout and stderr as a string and CI keeps only the log, so a code carried solely as a
 // property would be lost exactly when it is needed.
 test('a code survives being reduced to log text', () => {
-  const error = crucibleError('CRU-0014', 'Clutter detected:\n- stray: build/output.tmp');
-  assert.equal(failureCode(error), 'CRU-0014');
-  assert.match(error.message, /^\[CRU-0014\] /);
+  const error = crucibleError('CRU-0008', 'Clutter detected:\n- stray: build/output.tmp');
+  assert.equal(failureCode(error), 'CRU-0008');
+  assert.match(error.message, /^\[CRU-0008\] /);
 
   const throughAPipe = new Error(`Engine tests failed with exit code 1.\n${error.message}`);
-  assert.equal(failureCode(throughAPipe), 'CRU-0014', 'the code is recoverable from the text alone');
+  assert.equal(failureCode(throughAPipe), 'CRU-0008', 'the code is recoverable from the text alone');
 
-  assert.deepEqual(codesInText('[CRU-0014] a\n[CRU-0012] b\n[CRU-0014] c'), ['CRU-0014', 'CRU-0012']);
+  assert.deepEqual(codesInText('[CRU-0014] a\n[CRU-0012] b\n[CRU-0014] c'), ['CRU-0008', 'CRU-0013']);
   assert.deepEqual(codesInText('[CRU-9999] not in the registry'), [], 'an unregistered code is not a diagnosis');
 });
 
@@ -89,7 +90,7 @@ test('the coverage ratchet lets the diagnosable surface grow and never shrink', 
   const sourceDir = path.join(root, 'src');
   fs.mkdirSync(sourceDir);
   fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw new Error("one");\nthrow new Error("two");\n');
-  fs.writeFileSync(path.join(sourceDir, 'b.js'), 'throw crucibleError("CRU-0001", "coded");\n');
+  fs.writeFileSync(path.join(sourceDir, 'b.js'), 'throw crucibleError("CRU-0008", "coded");\n');
 
   const measured = coverageReport(sourceDir);
   assert.equal(measured.uncoded, 2);
@@ -137,16 +138,19 @@ test('a diagnosis reaches the immune system carrying the remedy and the tests th
   assert.ok(GOVERNED_ORGANS.includes('diagnostics'), 'the diagnostic organ is on the bus, not beside it');
 
   // A code the immune system may act on hands over a command and a runnable test selection.
-  const repairable = remedyFor('CRU-0012');
+  const repairable = remedyFor('CRU-0008');
   assert.equal(repairable.kind, 'automatic');
-  assert.equal(repairable.command, 'npm run docs:sync');
-  assert.deepEqual(testRequestFor('CRU-0012'), { tests: ['test/docSync.test.js'] });
+  assert.equal(repairable.command, 'npm run lint:workflows');
+  assert.deepEqual(testRequestFor('CRU-0008'), { tests: ['test/workflowLint.test.js'] });
   assert.equal(selectRequestedTests(testRequestFor('CRU-0012')).tests.length, 1);
 
-  // A code that is somebody's judgement is escalated rather than attempted, and says why.
-  assert.equal(remedyFor('CRU-0015').kind, 'owner-decision');
-  assert.equal(repairableByImmuneSystem('CRU-0015'), false);
-  assert.match(remedyFor('CRU-0015').forbidden, /Never close or exclude the other pull request/);
+  // Non-bug/error states are operational conditions, never CRU classifications.
+test('non-bug/error states are operational errors, never CRU classifications', () => {
+  for (const code of ['CRU-0000','CRU-0001','CRU-0003','CRU-0012','CRU-0022','CRU-0023','CRU-0024','CRU-0045','CRU-0046','CRU-0050','CRU-0051','CRU-0052','CRU-0053']) {
+    assert.equal(isCrucibleClassificationCode(code), false, code + ' must not be an active CRU classification');
+    assert.equal(describeCode(code), null, code + ' must not be exposed as a CRU diagnosis');
+    assert.equal(failureCode(crucibleError(code, 'operational state')), null, code + ' must not survive as a CRU code');
+  }
 });
 
 // The repository's most frequently red check. Its four stop branches demand opposite responses -
