@@ -102,7 +102,7 @@ test('the coverage ratchet lets the diagnosable surface grow and never shrink', 
   fs.appendFileSync(path.join(sourceDir, 'a.js'), 'throw new Error("three");\n');
   const grown = auditFailureCodes({ root: sourceDir, baselineFile });
   assert.equal(grown.ok, false);
-  assert.equal(grown.code, 'CRU-0022');
+  assert.equal(grown.code, 'OPS-0022');
   assert.match(grown.reason, /rose from 2 to 3/);
   assert.match(grown.reason, /a\.js 2 -> 3/);
 
@@ -120,7 +120,7 @@ test('coverage cannot be ratcheted without a recorded baseline', (t) => {
   fs.mkdirSync(path.join(root, 'src'));
   const result = auditFailureCodes({ root: path.join(root, 'src'), baselineFile: path.join(root, 'missing.json') });
   assert.equal(result.ok, false);
-  assert.equal(result.code, 'CRU-0022');
+  assert.equal(result.code, 'OPS-0022');
 });
 
 // This repository's own state, checked against its own recorded baseline rather than a fixture.
@@ -148,7 +148,7 @@ test('a diagnosis reaches the immune system carrying the remedy and the tests th
 });
 
 test('non-bug/error states are operational errors, never CRU classifications', () => {
-  for (const code of ['CRU-0000','CRU-0001','CRU-0003','CRU-0012','CRU-0022','CRU-0023','CRU-0024','CRU-0045','CRU-0046','CRU-0050','CRU-0051','CRU-0052','CRU-0053']) {
+  for (const code of ['CRU-0000','CRU-0001','CRU-0003','CRU-0012','OPS-0022','CRU-0023','CRU-0024','CRU-0045','CRU-0046','CRU-0050','CRU-0051','CRU-0052','CRU-0053']) {
     assert.equal(isCrucibleClassificationCode(code), false, code + ' must not be an active CRU classification');
     assert.equal(describeCode(code), null, code + ' must not be exposed as a CRU diagnosis');
     assert.equal(failureCode(crucibleError(code, 'operational state')), null, code + ' must not survive as a CRU code');
