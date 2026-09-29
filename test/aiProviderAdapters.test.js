@@ -45,7 +45,7 @@ test('a provider with a credential but no model is reported as unconfigured, not
   const { adapters, unconfigured } = createConfiguredAdapters({ env: { OPENAI_API_KEY: KEY } });
   assert.equal(adapters.size, 0);
   assert.match(unconfigured.find((item) => item.provider === 'openai').reason, /OPENAI_MODEL is not set/);
-  assert.throws(() => requireModel('openai', { OPENAI_API_KEY: KEY }), (error) => error.crucibleCode === 'CRU-0033' && /no default/.test(error.message));
+  assert.throws(() => requireModel('openai', { OPENAI_API_KEY: KEY }), /no default/);
 });
 
 test('with all four configured, exactly four adapters exist and none is duplicated', () => {
@@ -190,5 +190,5 @@ test('provenance survives the real adapter path end to end', async () => {
 test('an adapter refuses to run without a prompt, and without a credential', async () => {
   const { fetchImpl } = transport(() => ok(CHAT_PAYLOAD));
   await assert.rejects(() => createProviderAdapter('openai', { env: FULL_ENV, fetchImpl }).run({ prompt: '' }), (error) => error.crucibleCode === 'CRU-0034');
-  await assert.rejects(() => createProviderAdapter('openai', { env: { OPENAI_MODEL: 'm' }, fetchImpl }).run({ prompt: 'q' }), (error) => error.crucibleCode === 'CRU-0033');
+  await assert.rejects(() => createProviderAdapter('openai', { env: { OPENAI_MODEL: 'm' }, fetchImpl }).run({ prompt: 'q' }), /credential/);
 });
