@@ -3,7 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const STATES = Object.freeze(['active', 'challenged', 'superseded', 'obsolete']);
+const STATES = Object.freeze(['active', 'challenged', 'reduced-cadence', 'archived', 'superseded', 'obsolete']);
 const EVOLUTION_KIND = 'test-evolution-candidate';
 const { makeCandidate, sha } = require('./scientificLearning');
 
@@ -49,10 +49,36 @@ function executableTests(tests, { registryFile = path.join('governingDocuments',
     const lifecycle = byTest.get(test);
     if (!lifecycle || lifecycle.state === 'active') selected.push(test);
     else if (lifecycle.state === 'challenged') { selected.push(test); challenged.push(lifecycle); }
+    else if (lifecycle.state === 'reduced-cadence') skipped.push(lifecycle);
     else if (includeHistorical) selected.push(test);
     else skipped.push(lifecycle);
   }
   return { selected, skipped, challenged };
+}
+
+function marginalUtilityAssessment({ test, uniqueFailures = 0, uniqueBoundaries = 0, uniquePlatforms = 0, historicalRegressions = 0, overlapRatio = 0, executionMs = 0, storageBytes = 0, flakyRate = 0 }) {
+  text(test, 'test');
+  const values = { uniqueFailures, uniqueBoundaries, uniquePlatforms, historicalRegressions, overlapRatio, executionMs, storageBytes, flakyRate };
+  for (const [label, value] of Object.entries(values)) if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) throw new Error(`${label} must be a non-negative finite number.`);
+  if (overlapRatio > 1 || flakyRate > 1) throw new Error('overlapRatio and flakyRate must be between 0 and 1.');
+  const uniqueProtection = uniqueFailures + uniqueBoundaries + uniquePlatforms + historicalRegressions;
+  return Object.freeze({ test, ...values, uniqueProtection, redundant: uniqueProtection === 0 && overlapRatio === 1 });
+}
+
+function proposeTestDisposition({ entry, assessment, preservedCoverage, reason, reviewedAt = new Date().toISOString() }) {
+  const current = validateEntry(entry); iso(reviewedAt, 'reviewedAt'); text(reason, 'reason');
+  if (typeof preservedCoverage !== 'boolean') throw new Error('preservedCoverage must be explicit.');
+  if (!assessment || assessment.test !== current.test) throw new Error('marginal utility assessment must match the test.');
+  if (!preservedCoverage) return Object.freeze({ proposedState:'active', reason:'Coverage would be lost; keep active.', current, assessment });
+  if (assessment.uniqueProtection > 0) return Object.freeze({ proposedState:'active', reason:'Unique protection remains; keep active.', current, assessment });
+  if (assessment.overlapRatio < 1) return Object.freeze({ proposedState:'reduced-cadence', reason, current, assessment, reviewedAt });
+  return Object.freeze({ proposedState:'archived', reason, current, assessment, reviewedAt });
+}
+
+function reactivateFromEvidence({ entry, evidence, reason, reviewedAt = new Date().toISOString() }) {
+  const current = validateEntry(entry); text(evidence, 'evidence'); text(reason, 'reason'); iso(reviewedAt, 'reviewedAt');
+  if (!['archived','reduced-cadence','superseded','obsolete'].includes(current.state)) throw new Error('reactivation applies only to non-routine tests.');
+  return validateEntry({ ...current, state:'challenged', evidence:[...current.evidence, evidence], reason, reviewedAt });
 }
 
 function testEvolutionCandidate({ projectId, test, hypothesisId, successorHypothesisId, currentCoverage, proposedCoverage, currentCost, proposedCost, evidenceOutcomeIds, claimBoundary, observedAt = new Date().toISOString() }) {
@@ -87,5 +113,5 @@ function transitionFromVerifiedEvolution({ current, verifiedRecord, reviewedAt =
   });
 }
 
-module.exports = { STATES, EVOLUTION_KIND, validateEntry, readTestLifecycle, executableTests, testEvolutionCandidate, transitionFromVerifiedEvolution };
+module.exports = { STATES, EVOLUTION_KIND, validateEntry, readTestLifecycle, executableTests, marginalUtilityAssessment, proposeTestDisposition, reactivateFromEvidence, testEvolutionCandidate, transitionFromVerifiedEvolution };
 
