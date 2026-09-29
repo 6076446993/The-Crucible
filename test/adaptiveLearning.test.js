@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { OutcomeStore, learningPolicyCandidate } = require('../src/adaptiveLearning');
+const { OutcomeStore, learningPolicyCandidate, LearningPolicyStore } = require('../src/adaptiveLearning');
 const { DurableScientificLearningStore } = require('../src/scientificLearning');
 
 test('repair and prevention outcomes are durable evidence, not CRU classifications', (t) => {
@@ -32,7 +32,7 @@ test('measured outcome improvement can propose but never directly activate a lea
     projectId:'the-crucible', policyArea:'workflow failure learning',
     currentStrategy:'repair-only analysis', proposedStrategy:'repair plus precursor-outcome analysis',
     metricName:'bounded prevention detection rate', baseline:0.5, proposed:0.8,
-    evidenceOutcomeIds:['o-1','o-2'], claimBoundary:'CRU-0008 within .github/workflows/',
+    evidenceOutcomeIds:['o-1','o-2','o-3'], claimBoundary:'CRU-0008 within .github/workflows/',
     observedAt:'2026-09-29T17:12:00.000Z',
   });
   const learning = new DurableScientificLearningStore({ root, projectId:'the-crucible' });
@@ -43,6 +43,45 @@ test('measured outcome improvement can propose but never directly activate a lea
   assert.throws(() => learningPolicyCandidate({
     projectId:'the-crucible', policyArea:'workflow failure learning',
     currentStrategy:'current', proposedStrategy:'worse', metricName:'detection', baseline:0.8, proposed:0.7,
-    evidenceOutcomeIds:['o-1','o-2'], claimBoundary:'workflow-only',
+    evidenceOutcomeIds:['o-1','o-2','o-3'], claimBoundary:'workflow-only',
   }), /measured improvement/);
+});
+
+
+test('lower-is-better metrics and minimum distinct evidence are enforced', () => {
+  const candidate = learningPolicyCandidate({
+    projectId:'the-crucible', policyArea:'repair efficiency', currentStrategy:'slow', proposedStrategy:'faster',
+    metricName:'mean repair latency', metricDirection:'minimize', baseline:12, proposed:8,
+    evidenceOutcomeIds:['a','b','c'], claimBoundary:'internal repair',
+  });
+  assert.equal(candidate.kind, 'learning-policy-candidate');
+  assert.throws(() => learningPolicyCandidate({
+    projectId:'the-crucible', policyArea:'repair efficiency', currentStrategy:'slow', proposedStrategy:'unsupported',
+    metricName:'mean repair latency', metricDirection:'minimize', baseline:12, proposed:8,
+    evidenceOutcomeIds:['a','a','b'], claimBoundary:'internal repair',
+  }), /distinct outcome evidence/);
+});
+
+test('learning policy activation is verified versioned and rollbackable', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-policy-'));
+  t.after(() => fs.rmSync(root, { recursive:true, force:true }));
+  const policies = new LearningPolicyStore(root, 'the-crucible');
+  const candidate = learningPolicyCandidate({
+    projectId:'the-crucible', policyArea:'workflow learning', currentStrategy:'v1', proposedStrategy:'v2',
+    metricName:'detection', baseline:0.5, proposed:0.8, evidenceOutcomeIds:['a','b','c'], claimBoundary:'workflow-only',
+    observedAt:'2026-09-29T18:10:00.000Z',
+  });
+  assert.throws(() => policies.activate({ verifiedRecord:{ state:'candidate', candidate }, knowledgeVersion:1, strategy:'v2', policyArea:'workflow learning', boundary:'workflow-only', approvedBy:'oversight' }), /scientifically verified/);
+  const verified = { state:'verified', candidate, proof:{ experimentBoundary:'workflow-only', result:'verified' } };
+  const v1 = policies.activate({ verifiedRecord:verified, knowledgeVersion:1, strategy:'v2', policyArea:'workflow learning', boundary:'workflow-only', approvedBy:'oversight', at:'2026-09-29T18:11:00.000Z' });
+  const candidate2 = learningPolicyCandidate({
+    projectId:'the-crucible', policyArea:'workflow learning', currentStrategy:'v2', proposedStrategy:'v3',
+    metricName:'detection', baseline:0.8, proposed:0.9, evidenceOutcomeIds:['d','e','f'], claimBoundary:'workflow-only',
+    observedAt:'2026-09-29T18:12:00.000Z',
+  });
+  const v2 = policies.activate({ verifiedRecord:{ state:'verified', candidate:candidate2, proof:{ experimentBoundary:'workflow-only', result:'verified-v3' } }, knowledgeVersion:2, strategy:'v3', policyArea:'workflow learning', boundary:'workflow-only', approvedBy:'oversight', at:'2026-09-29T18:13:00.000Z' });
+  assert.equal(v2.previousVersion, v1.version);
+  assert.equal(policies.active()[0].strategy, 'v3');
+  policies.rollback(v1.version, { reason:'regression evidence', approvedBy:'oversight', at:'2026-09-29T18:14:00.000Z' });
+  assert.equal(policies.active()[0].strategy, 'v2');
 });
