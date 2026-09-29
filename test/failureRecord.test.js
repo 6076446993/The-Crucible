@@ -20,7 +20,7 @@ const BASE = {
   mergeCommit: 'b'.repeat(40),
   branch: 'repair-learning',
   observedAt: '2026-09-28T12:00:00.000Z',
-  failureCode: 'CRU-0050',
+  failureCode: 'CRU-0008',
   failureName: 'AssertionError',
   failureMessage: 'actual and expected classifications differ',
   exitCode: 1,
@@ -102,10 +102,10 @@ test('a classified duplicate reuses the existing canonical CRU code instead of c
   const occurrence = createFailureRecord(BASE);
   const classified = classifyFailureRecord(occurrence, {
     canonicalFailureId: 'CF-existing-0142',
-    failureCode: 'CRU-0050',
+    failureCode: 'CRU-0008',
     duplicateOf: 'FR-existing-0142',
   });
-  assert.equal(classified.failureCode, 'CRU-0050');
+  assert.equal(classified.failureCode, 'CRU-0008');
   assert.equal(classified.failureCodeStatus, 'registered');
   assert.equal(classified.classification.status, 'duplicate');
   assert.equal(classified.classification.canonicalFailureId, 'CF-existing-0142');
@@ -115,7 +115,7 @@ test('a classified duplicate reuses the existing canonical CRU code instead of c
 test('one canonical failure cannot be assigned multiple CRU codes', () => {
   const a = classifyFailureRecord(createFailureRecord(BASE), {
     canonicalFailureId: 'CF-same',
-    failureCode: 'CRU-0050',
+    failureCode: 'CRU-0008',
   });
   const b = classifyFailureRecord(createFailureRecord({
     ...BASE,
@@ -123,11 +123,11 @@ test('one canonical failure cannot be assigned multiple CRU codes', () => {
     jobId: 457,
   }), {
     canonicalFailureId: 'CF-same',
-    failureCode: 'CRU-0051',
+    failureCode: 'CRU-0006',
   });
   assert.throws(
     () => assertCanonicalFailureCodeAssignments([a, b]),
-    /assigned multiple CRU codes: CRU-0050 and CRU-0051/
+    /assigned multiple CRU codes: CRU-0008 and CRU-0006/
   );
   assert.equal(assertCanonicalFailureCodeAssignments([a, a]), true);
 });
@@ -209,7 +209,7 @@ test('a failed or non-independent verification can never authorize promotion', (
 
 test('summary exposes the evidence state without pretending the failure is understood', () => {
   const summary = summarizeFailure(createFailureRecord(BASE));
-  assert.equal(summary.failureCode, 'CRU-0050');
+  assert.equal(summary.failureCode, 'CRU-0008');
   assert.equal(summary.hasEvidence, true);
   assert.equal(summary.hasRootCause, false);
   assert.equal(summary.hasRepair, false);
