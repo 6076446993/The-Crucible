@@ -16,9 +16,9 @@ function workspace(t) {
   return root;
 }
 
-// The owner's rule has no exceptions in it: "every error and failure must have a diagnosable
-// error code". A registry entry that names a failure but says nothing about the fix is the same
-// guessing one layer up, so the fix is part of what a code is, not an optional extra.
+// The active registry is only for actual bug/error classes. A CRU entry must name the defect and
+// the evidence-backed next action; operational/process states are tested separately and are not
+// exposed as CRU classifications.
 test('every code carries a meaning and a remedy the immune system can act on', () => {
   const kinds = new Set(['automatic', 'guided', 'owner-decision']);
   for (const code of CRU_CLASSIFICATION_CODES) {
@@ -52,7 +52,7 @@ test('every remedy names a test selection the testing organ will actually accept
 test('a code says whether the immune system may repair it unaided', () => {
   assert.equal(repairableByImmuneSystem('CRU-0008'), true, 'a stale README regenerates mechanically');
   assert.equal(repairableByImmuneSystem('CRU-0006'), false, 'disabling the Security Gate is never the immune system\'s call');
-  assert.equal(repairableByImmuneSystem('CRU-0052'), false, 'a collision with another pull request needs coordination, not a push');
+  assert.equal(repairableByImmuneSystem('CRU-0052'), false, 'retired repair-learning states are not CRU classifications');
   assert.equal(repairableByImmuneSystem(UNCODED), false, 'an uncoded failure is a gap to close, not a repair to attempt');
   assert.equal(repairableByImmuneSystem('CRU-9999'), false, 'an unknown code authorizes nothing');
 });
@@ -61,7 +61,7 @@ test('a code says whether the immune system may repair it unaided', () => {
 // stdout and stderr as a string and CI keeps only the log, so a code carried solely as a
 // property would be lost exactly when it is needed.
 test('a code survives being reduced to log text', () => {
-  const error = crucibleError('CRU-0008', 'Clutter detected:\n- stray: build/output.tmp');
+  const error = crucibleError('CRU-0008', 'Workflow permissions configuration is invalid.');
   assert.equal(failureCode(error), 'CRU-0008');
   assert.match(error.message, /^\[CRU-0008\] /);
 
