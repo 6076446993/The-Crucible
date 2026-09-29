@@ -114,9 +114,10 @@ function evaluatePrevention({ rules, changedPaths, completedChecks = [], outcome
     findings.push(finding);
     if (outcomeRecorder) {
       if (!projectId) throw new Error('projectId is required when prevention outcome recording is enabled.');
+      const outcomeAt = observedAt();
       outcomeRecorder.record({
         projectId,
-        outcomeId: `prevention-trigger:${rule.id}:${rule.knowledgeVersion}:${matchedPaths.join(',')}:${observedAt()}`,
+        outcomeId: `prevention-trigger:${rule.id}:${rule.knowledgeVersion}:${matchedPaths.join(',')}:${outcomeAt}`,
         lifecycle: 'prevention',
         outcome: 'triggered',
         failureCode: rule.failureCode,
@@ -127,7 +128,7 @@ function evaluatePrevention({ rules, changedPaths, completedChecks = [], outcome
         completedChecks,
         expected: rule.requiredCheck ? `${rule.requiredCheck} completes before execution` : 'proven precursor is blocked before execution',
         actual: rule.requiredCheck ? `preflight identified requirement for ${rule.requiredCheck}` : 'preflight identified the proven precursor',
-        observedAt: observedAt(),
+        observedAt: outcomeAt,
       });
     }
   }
