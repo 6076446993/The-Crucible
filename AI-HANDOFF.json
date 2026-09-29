@@ -211,7 +211,7 @@
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
       "selectedAt": "2026-09-29T16:38:41.720Z",
-      "promptSha256": "76c5d4562f83bcb4d7e4a787c60c36f11a282a04055966a333348d3f3b5c8ec4",
+      "promptSha256": "2924d327a192f4b742764dcee791443e37dbb05551e1e44473389d12b65a5e77",
       "affectedPathsSha256": "aae43f3b0dee95c0ae5d5ed49b8212f8c5331287903b71870a26476ee5009acd"
     },
     "steps": [
