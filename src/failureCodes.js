@@ -648,6 +648,18 @@ const FAILURE_CODES = Object.freeze({
       forbidden: 'Never hide an inaccessible repository, suppress a GitHub API error, or mark a blocked observation healthy merely to make the monitor green.',
     },
   },
+  'CRU-0053': {
+    code: 'CRU-0053',
+    category: 'scientific-learning',
+    meaning: 'A scientific learning proof failed schema or verification validation, so the evidence cannot advance in the learning lifecycle.',
+    next: 'Read the carried validation message, correct the proof producer, and rerun the scientific learning tests. Do not weaken proof validation to admit an invalid proof.',
+    remedy: {
+      kind: 'guided',
+      command: 'npm test',
+      verifyWith: { tests: ['test/scientificLearning.test.js', 'test/failureCodes.test.js'] },
+      forbidden: 'Never bypass proof validation or treat an invalid experimental or independent-verification record as evidence of knowledge.'
+    },
+  },
   'CRU-0052': {
     code: 'CRU-0052',
     category: 'repair-learning',
