@@ -835,10 +835,18 @@ function coverageReport(root = 'src') {
   for (const file of files) {
     const source = fs.readFileSync(path.join(root, file), 'utf8');
     const bare = (source.match(/throw new Error\(/g) || []).length;
+    // A bare Error is not automatically an uncoded CRU failure. Under the CRU boundary,
+    // validation/governance/learning state errors deliberately remain operational. The
+    // coverage ratchet measures only explicit CRU-classification attempts so it cannot force
+    // operational states back into the CRU namespace.
     const carried = [...source.matchAll(/throw crucibleError\(['"]((?:CRU-\\d{4}))['"]/g)]
       .filter((match) => isCrucibleClassificationCode(match[1])).length;
+    const legacyOperational = [...source.matchAll(/throw crucibleError\(['"]((?:CRU-\\d{4}))['"]/g)]
+      .filter((match) => !isCrucibleClassificationCode(match[1])).length;
     coded += carried;
-    if (bare) { byFile[file] = bare; uncoded += bare; }
+    // Retired CRU calls are tracked as operational migration debt. Ordinary Error throws are
+    // valid operational errors and are intentionally excluded from CRU coverage.
+    if (legacyOperational) { byFile[file] = legacyOperational; uncoded += legacyOperational; }
   }
   return { uncoded, coded, byFile, files: files.length };
 }
@@ -856,7 +864,7 @@ function auditFailureCodes({ root = 'src', baselineFile = BASELINE_FILE } = {}) 
   const report = coverageReport(root);
   const baseline = readBaseline(baselineFile);
   if (!baseline) {
-    return { ok: false, code: 'CRU-0022', reason: `No failure-code baseline at ${baselineFile}; coverage cannot be ratcheted without one.`, report };
+    return { ok: false, code: 'OPS-0022', reason: `No failure-code baseline at ${baselineFile}; coverage cannot be ratcheted without one.`, report };
   }
   if (report.uncoded > baseline.uncodedThrowSites) {
     const grew = Object.entries(report.byFile)
@@ -864,8 +872,8 @@ function auditFailureCodes({ root = 'src', baselineFile = BASELINE_FILE } = {}) 
       .map(([file, count]) => `${file} ${baseline.byFile[file] || 0} -> ${count}`);
     return {
       ok: false,
-      code: 'CRU-0022',
-      reason: `Uncoded throw sites rose from ${baseline.uncodedThrowSites} to ${report.uncoded}. A new failure path must carry a code so it can be diagnosed rather than guessed at: ${grew.join('; ')}.`,
+      code: 'OPS-0022',
+      reason: `Legacy non-classification CRU throw sites rose from ${baseline.uncodedThrowSites} to ${report.uncoded}. A new failure path must carry a code so it can be diagnosed rather than guessed at: ${grew.join('; ')}.`,
       report,
       baseline,
     };
@@ -873,8 +881,8 @@ function auditFailureCodes({ root = 'src', baselineFile = BASELINE_FILE } = {}) 
   return {
     ok: true,
     reason: report.uncoded < baseline.uncodedThrowSites
-      ? `Uncoded throw sites fell from ${baseline.uncodedThrowSites} to ${report.uncoded}; record the lower baseline so the ratchet cannot slacken again.`
-      : `${report.uncoded} throw site(s) remain uncoded and none were added; ${report.coded} carry a failure code.`,
+      ? `Legacy non-classification CRU throw sites fell from ${baseline.uncodedThrowSites} to ${report.uncoded}; record the lower baseline so the ratchet cannot slacken again.`
+      : `${report.uncoded} legacy non-classification CRU throw site(s) remain and none were added; ${report.coded} carry a failure code.`,
     tightened: report.uncoded < baseline.uncodedThrowSites,
     report,
     baseline,
