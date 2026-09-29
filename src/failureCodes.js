@@ -769,7 +769,7 @@ function describeCode(code) {
 // authority: it says what to do, never that it may be promoted, and R11 is untouched by any of
 // it.
 function remedyFor(code) {
-  const known = FAILURE_CODES[code];
+  const known = describeCode(code);
   return known ? known.remedy : null;
 }
 
