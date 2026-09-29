@@ -7,7 +7,7 @@ const { crucibleError } = require('./failureCodes');
 
 function required(environment, name) {
   const value = environment[name];
-  if (!value || !String(value).trim()) throw crucibleError('CRU-0044', `${name} is required.`);
+  if (!value || !String(value).trim()) throw new Error(`${name} is required.`);
   return String(value).trim();
 }
 
