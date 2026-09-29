@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const { auditCommit } = require('./commit');
 const { auditCode } = require('./code-check');
 const { formatDecision } = require('./governingDecision');
+const { rulesFromVettedKnowledge, evaluatePrevention } = require('./cruPrevention');
 
 function classifyCommit(item) {
   return {
@@ -33,7 +34,17 @@ async function runPrecheck(root, config, options = {}) {
   const ref = options.ref || '--cached';
   const commit = auditCommit(root, { ref });
   const code = await auditCode(root, config, { ref, paths:commit.paths });
-  const findings = [...commit.findings.map(classifyCommit), ...code.findings];
+  let preventionFindings = [];
+  if (options.prevention && Array.isArray(options.prevention.knowledge) && Array.isArray(options.prevention.mappings)) {
+    const rules = rulesFromVettedKnowledge(options.prevention);
+    preventionFindings = evaluatePrevention({ rules, changedPaths: commit.paths, completedChecks: options.prevention.completedChecks || [] }).map((finding) => ({
+      ...finding,
+      check: 'Learned Prevention',
+      errorCode: `PREVENT_${finding.failureCode.replace('-', '_')}`,
+      action: finding.action === 'warn' ? 'human code review required' : 'prevention required',
+    }));
+  }
+  const findings = [...preventionFindings, ...commit.findings.map(classifyCommit), ...code.findings];
   return { ref, paths:commit.paths, findings, decisions:findings.filter((item) => item.decision).map((item) => item.decision) };
 }
 
