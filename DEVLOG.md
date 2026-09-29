@@ -93,6 +93,14 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: github-security-engine-rebind-20260929 — 2026-09-29T23:44:00.000Z — Codex — mode:work
+
+Plain-language summary: Corrected the GitHub security audit's canonical engine repository location after the GitHub ownership transfer.
+- Rebound ENGINE_REPOSITORY from the pre-transfer personal namespace to 6076446993/The-Crucible.
+- Preserved the read-only Administration-token requirement, redirect refusal, and all required security-setting checks.
+- Exact-tip Self-Test and GitHub-security verification remain required.
+
+
 ### Session: functional-work-before-cleanup-20260929 — 2026-09-29T23:02:00.000Z — Codex — mode:work
 
 Plain-language summary: Owner directed that all executable development work across Nexus be completed before repository and documentation cleanup. This handoff correction restores a valid active plan state and makes cleanup the final phase rather than the current objective.
