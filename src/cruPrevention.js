@@ -51,6 +51,12 @@ function rulesFromVettedKnowledge({ knowledge, mappings }) {
   return rules;
 }
 
+function loadVettedPrevention({ root, projectId, mappings, completedChecks = [] }) {
+  const { DurableScientificLearningStore } = require('./scientificLearning');
+  const store = new DurableScientificLearningStore({ root, projectId });
+  return { knowledge: store.activeKnowledge(), mappings, completedChecks };
+}
+
 function pathMatches(rulePath, changedPath) {
   if (rulePath.endsWith('/')) return changedPath === rulePath.slice(0, -1) || changedPath.startsWith(rulePath);
   return changedPath === rulePath;
@@ -94,4 +100,4 @@ function enforcePrevention(input) {
   return { findings, blocked: false };
 }
 
-module.exports = { ACTIONS, preventionRule, rulesFromVettedKnowledge, evaluatePrevention, enforcePrevention };
+module.exports = { ACTIONS, preventionRule, rulesFromVettedKnowledge, loadVettedPrevention, evaluatePrevention, enforcePrevention };
