@@ -93,6 +93,15 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: monitor-organization-rebind-20260929 — 2026-09-29T23:46:00.000Z — Codex — mode:work
+
+Plain-language summary: Rebound the Crucible PR monitor registry to the 6076446993 organization and completed the monitored Nexus repository set.
+- Replaced all pre-transfer personal-account repository names with current organization names.
+- Added Crucible-Learning-State and Nexus-Public-CI so monitoring covers all nine Nexus repositories.
+- Preserved PR #11 as locked read-only and preserved zero mutation authority.
+- Exact-tip Self-Test and monitor execution remain required before protected promotion.
+
+
 ### Session: github-security-engine-rebind-20260929 — 2026-09-29T23:44:00.000Z — Codex — mode:work
 
 Plain-language summary: Corrected the GitHub security audit's canonical engine repository location after the GitHub ownership transfer.
