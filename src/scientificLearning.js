@@ -17,7 +17,7 @@ const TRANSITIONS = Object.freeze({
 });
 
 const CANDIDATE_KEYS = ['schemaVersion', 'id', 'projectId', 'claim', 'claimBoundary', 'generalizationBoundary', 'kind', 'provenance', 'classification', 'createdAt'];
-const PROVENANCE_KEYS = ['sourceType', 'sourceId', 'retrievedAt', 'author', 'license', 'contentSha256'];
+const PROVENANCE_KEYS = ['sourceType', 'sourceId', 'retrievedAt', 'author', 'license', 'contentSha256', 'learningProvenanceId', 'lifecycleStage'];
 const PROOF_KEYS = ['schemaVersion', 'candidateId', 'projectId', 'hypothesis', 'testedProperty', 'experimentBoundary', 'controls', 'causalIsolation', 'negativeTests', 'regressionTests', 'scopeProof', 'generalizationResult', 'contradictionResult', 'independentVerification', 'completedAt'];
 const EXPERIMENTAL_PROOF_KEYS = PROOF_KEYS.filter((key) => key !== 'independentVerification');
 
