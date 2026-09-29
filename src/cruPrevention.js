@@ -88,7 +88,7 @@ function pathMatches(rulePath, changedPath) {
   return changedPath === rulePath;
 }
 
-function evaluatePrevention({ rules, changedPaths, completedChecks = [] }) {
+function evaluatePrevention({ rules, changedPaths, completedChecks = [], outcomeRecorder = null, projectId = null, observedAt = () => new Date().toISOString() }) {
   if (!Array.isArray(rules) || !Array.isArray(changedPaths) || !Array.isArray(completedChecks)) throw new Error('rules, changedPaths, and completedChecks must be arrays.');
   const completed = new Set(completedChecks);
   const findings = [];
@@ -98,7 +98,7 @@ function evaluatePrevention({ rules, changedPaths, completedChecks = [] }) {
     const matchedPaths = changedPaths.filter((p) => rule.paths.some((rp) => pathMatches(rp, p)));
     if (!matchedPaths.length) continue;
     if (rule.requiredCheck && completed.has(rule.requiredCheck)) continue;
-    findings.push({
+    const finding = {
       type: 'learned-prevention',
       failureCode: rule.failureCode,
       canonicalFailureId: rule.canonicalFailureId,
@@ -110,7 +110,26 @@ function evaluatePrevention({ rules, changedPaths, completedChecks = [] }) {
       detail: rule.requiredCheck
         ? `Vetted learning for ${rule.failureCode} requires ${rule.requiredCheck} before this change proceeds.`
         : `Vetted learning for ${rule.failureCode} identified this change boundary as a proven precursor condition.`,
-    });
+    };
+    findings.push(finding);
+    if (outcomeRecorder) {
+      if (!projectId) throw new Error('projectId is required when prevention outcome recording is enabled.');
+      outcomeRecorder.record({
+        projectId,
+        outcomeId: `prevention:${rule.id}:${rule.knowledgeVersion}:${matchedPaths.join(',')}:${observedAt()}`,
+        lifecycle: 'prevention',
+        outcome: rule.requiredCheck ? 'prevented' : 'prevented',
+        failureCode: rule.failureCode,
+        canonicalFailureId: rule.canonicalFailureId,
+        preventionRuleId: rule.id,
+        knowledgeVersion: rule.knowledgeVersion,
+        changedPaths: matchedPaths,
+        completedChecks,
+        expected: rule.requiredCheck ? `${rule.requiredCheck} completes before execution` : 'proven precursor is blocked before execution',
+        actual: rule.requiredCheck ? `preflight required ${rule.requiredCheck} before execution` : 'preflight blocked the proven precursor before execution',
+        observedAt: observedAt(),
+      });
+    }
   }
   return findings;
 }
