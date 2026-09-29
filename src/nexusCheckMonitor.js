@@ -2,14 +2,14 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const { readAuthorization, executeAuthorizedRepair } = require('./authorizedPrRepair');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 const DEFAULT_CONFIG = path.resolve(process.env.CRUCIBLE_MONITOR_CONFIG || 'governingDocuments/crucible-monitored-repositories.json');
 const FAILURE_CONCLUSIONS = new Set(['failure','cancelled','timed_out','action_required','startup_failure','stale']);
 const defaultFetch = (...args) => globalThis.fetch(...args);
 
 function requireValue(value, name) {
-  if (typeof value !== 'string' || !value.trim()) throw crucibleError('CRU-0051', `${name} is required.`);
+  if (typeof value !== 'string' || !value.trim()) throw operationalError('OPS-0051', `${name} is required.`);
   return value.trim();
 }
 
@@ -22,7 +22,7 @@ function githubHeaders(token) {
 }
 
 async function githubGet(fetchImpl, url, token) {
-  if (typeof fetchImpl !== 'function') throw crucibleError('CRU-0051', 'A fetch implementation is required for Crucible PR monitoring.');
+  if (typeof fetchImpl !== 'function') throw operationalError('OPS-0051', 'A fetch implementation is required for Crucible PR monitoring.');
   const response = await fetchImpl(url, { headers: githubHeaders(token) });
   const text = await response.text();
   let body;
@@ -41,7 +41,7 @@ async function githubGetAll(fetchImpl, url, token, pageSize = 100) {
   for (let page = 1; ; page += 1) {
     const separator = url.includes('?') ? '&' : '?';
     const batch = await githubGet(fetchImpl, `${url}${separator}per_page=${pageSize}&page=${page}`, token);
-    if (!Array.isArray(batch)) throw crucibleError('CRU-0051', `GitHub collection endpoint did not return an array: ${url}`);
+    if (!Array.isArray(batch)) throw operationalError('OPS-0051', `GitHub collection endpoint did not return an array: ${url}`);
     items.push(...batch);
     if (batch.length < pageSize) return items;
   }
@@ -103,20 +103,20 @@ function isLockedPullRequest(pr, configuredNumbers = []) {
 }
 
 function loadMonitorConfig(configPath = DEFAULT_CONFIG, readFile = fs.readFileSync) {
-  if (!readFile(configPath, 'utf8')) throw crucibleError('CRU-0051', `Unable to read Crucible monitor configuration: ${configPath}`);
+  if (!readFile(configPath, 'utf8')) throw operationalError('OPS-0051', `Unable to read Crucible monitor configuration: ${configPath}`);
   const config = JSON.parse(readFile(configPath, 'utf8'));
   if (!config || config.schemaVersion !== 1 || !Array.isArray(config.repositories)) {
-    throw crucibleError('CRU-0051', 'Crucible monitor configuration must use schemaVersion 1 and a repositories array.');
+    throw operationalError('OPS-0051', 'Crucible monitor configuration must use schemaVersion 1 and a repositories array.');
   }
   const repositories = config.repositories.filter((entry) => entry && entry.enabled !== false);
-  if (!repositories.length) throw crucibleError('CRU-0051', 'Crucible monitor configuration contains no enabled repositories.');
+  if (!repositories.length) throw operationalError('OPS-0051', 'Crucible monitor configuration contains no enabled repositories.');
   const names = new Set();
   for (const entry of repositories) {
     requireValue(entry.name, 'monitored repository name');
-    if (names.has(entry.name.toLowerCase())) throw crucibleError('CRU-0051', `Duplicate monitored repository: ${entry.name}`);
+    if (names.has(entry.name.toLowerCase())) throw operationalError('OPS-0051', `Duplicate monitored repository: ${entry.name}`);
     names.add(entry.name.toLowerCase());
     if (entry.lockedPullRequests !== undefined && !Array.isArray(entry.lockedPullRequests)) {
-      throw crucibleError('CRU-0051', `lockedPullRequests for ${entry.name} must be an array.`);
+      throw operationalError('OPS-0051', `lockedPullRequests for ${entry.name} must be an array.`);
     }
   }
   return { ...config, repositories };
@@ -126,7 +126,7 @@ async function githubGetCheckRuns(fetchImpl, repository, sha, token) {
   const checkRuns = [];
   for (let page = 1; ; page += 1) {
     const body = await githubGet(fetchImpl, `https://api.github.com/repos/${repository}/commits/${sha}/check-runs?per_page=100&page=${page}`, token);
-    if (!body || !Array.isArray(body.check_runs)) throw crucibleError('CRU-0051', `GitHub check-runs endpoint did not return check_runs: ${repository} ${sha}`);
+    if (!body || !Array.isArray(body.check_runs)) throw operationalError('OPS-0051', `GitHub check-runs endpoint did not return check_runs: ${repository} ${sha}`);
     checkRuns.push(...body.check_runs);
     if (body.check_runs.length < 100) return checkRuns;
   }
