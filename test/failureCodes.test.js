@@ -89,8 +89,8 @@ test('the coverage ratchet lets the diagnosable surface grow and never shrink', 
   const baselineFile = path.join(root, 'baseline.json');
   const sourceDir = path.join(root, 'src');
   fs.mkdirSync(sourceDir);
-  fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw new Error("one");\nthrow new Error("two");\n');
-  fs.writeFileSync(path.join(sourceDir, 'b.js'), 'throw crucibleError("CRU-0008", "coded");\n');
+  fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw crucibleError("CRU-0052", "legacy operational one");\nthrow crucibleError("CRU-0053", "legacy operational two");\nthrow new Error("valid operational error");\n');
+  fs.writeFileSync(path.join(sourceDir, 'b.js'), 'throw crucibleError("CRU-0008", "coded bug");\n');
 
   const measured = coverageReport(sourceDir);
   assert.equal(measured.uncoded, 2);
@@ -99,14 +99,14 @@ test('the coverage ratchet lets the diagnosable surface grow and never shrink', 
   fs.writeFileSync(baselineFile, JSON.stringify({ uncodedThrowSites: 2, byFile: { 'a.js': 2 } }));
   assert.equal(auditFailureCodes({ root: sourceDir, baselineFile }).ok, true);
 
-  fs.appendFileSync(path.join(sourceDir, 'a.js'), 'throw new Error("three");\n');
+  fs.appendFileSync(path.join(sourceDir, 'a.js'), 'throw crucibleError("CRU-0050", "legacy operational three");\n');
   const grown = auditFailureCodes({ root: sourceDir, baselineFile });
   assert.equal(grown.ok, false);
   assert.equal(grown.code, 'OPS-0022');
   assert.match(grown.reason, /rose from 2 to 3/);
   assert.match(grown.reason, /a\.js 2 -> 3/);
 
-  fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw crucibleError("CRU-0008", "now coded");\n');
+  fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw new Error("valid operational error");\nthrow crucibleError("CRU-0008", "now coded bug");\n');
   const tightened = auditFailureCodes({ root: sourceDir, baselineFile });
   assert.equal(tightened.ok, true);
   assert.equal(tightened.tightened, true);
