@@ -38,11 +38,13 @@ function repairObservationCandidate({ projectId, repository, commitSha, operatio
     beforeSha256,
     afterSha256,
     observedAt,
+    failureCode,
+    canonicalFailureId,
   };
   const evidenceSha256 = sha(evidence);
   const learningProvenance = createLearningProvenance({
     repository,
-    observationId: `repair:${repository}:${commitSha || 'working-tree'}:${file}:${operation}`,
+    observationId: `repair:${repository}:${commitSha || 'working-tree'}:${file}:${operation}${canonicalFailureId ? `:${canonicalFailureId}` : ''}`,
     observedAt,
     source: 'the-crucible-repair-learning',
   });
