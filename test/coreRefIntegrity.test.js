@@ -143,7 +143,8 @@ test('handoff expansion checks repository-relative main documents but excludes e
 
 test('automatic repair rewrites only recognized main reference syntax after a canonical rename', () => {
   const renames = new Map([['governingDocuments/old.md', 'governingDocuments/new.md']]);
-  const input = 'Use main:governingDocuments/old.md and https://github.com/owner/repo/blob/main/governingDocuments/old.md. Plain governingDocuments/old.md stays descriptive.';
+  const oldPath = 'governingDocuments/old.md';
+  const input = `Use main:${oldPath} and https://github.com/owner/repo/blob/main/${oldPath}. Plain ${oldPath} stays descriptive.`;
   const output = rewriteRecognizedReferences(input, 'owner/repo', renames);
   assert.match(output, /main:governingDocuments\/new\.md/);
   assert.match(output, /blob\/main\/governingDocuments\/new\.md/);
