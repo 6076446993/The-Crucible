@@ -4,28 +4,29 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { makeCandidate, sha } = require('./scientificLearning');
-const { crucibleError } = require('./failureCodes');
 const { createLearningProvenance } = require('./learningProvenance');
 
 const KIND = 'repair-observation';
 
 function text(value, label) {
-  if (typeof value !== 'string' || !value.trim()) throw crucibleError('CRU-0052', `${label} must be non-empty text.`);
+  if (typeof value !== 'string' || !value.trim()) throw new Error(`${label} must be non-empty text.`);
   return value.trim();
 }
 
 function digest(value, label) {
-  if (!/^[a-f0-9]{64}$/.test(value || '')) throw crucibleError('CRU-0052', `${label} must be a lowercase SHA-256 digest.`);
+  if (!/^[a-f0-9]{64}$/.test(value || '')) throw new Error(`${label} must be a lowercase SHA-256 digest.`);
 }
 
-function repairObservationCandidate({ projectId, repository, commitSha, operation, file, beforeSha256, afterSha256, observedAt = new Date().toISOString() }) {
+function repairObservationCandidate({ projectId, repository, commitSha, operation, file, beforeSha256, afterSha256, failureCode = null, canonicalFailureId = null, observedAt = new Date().toISOString() }) {
   text(projectId, 'projectId');
   text(repository, 'repository');
   text(operation, 'operation');
   text(file, 'file');
   digest(beforeSha256, 'beforeSha256');
   digest(afterSha256, 'afterSha256');
-  if (!Number.isFinite(Date.parse(observedAt))) throw crucibleError('CRU-0052', 'observedAt must be an ISO timestamp.');
+  if (failureCode !== null && !/^CRU-\d{4}$/.test(failureCode)) throw new Error('failureCode must be null or a CRU-#### code.');
+  if (canonicalFailureId !== null) text(canonicalFailureId, 'canonicalFailureId');
+  if (!Number.isFinite(Date.parse(observedAt))) throw new Error('observedAt must be an ISO timestamp.');
 
   const evidence = {
     repository,
@@ -54,6 +55,7 @@ function repairObservationCandidate({ projectId, repository, commitSha, operatio
       sourceType: 'bounded-repair-observation',
       learningProvenanceId: learningProvenance.learningProvenanceId,
       lifecycleStage: 'repair',
+      ...(failureCode ? { failureCode, failureCodeStatus: 'registered' } : {}),
       sourceId: `repair:${repository}:${commitSha || 'working-tree'}:${file}:${operation}`,
       retrievedAt: observedAt,
       author: 'the-crucible-auto-repair',
@@ -81,7 +83,7 @@ function snapshotFiles(root) {
   return result;
 }
 
-function recordRepairObservations({ root, learningRoot, projectId, repository, commitSha, changed, operation = 'internal-repair', now = () => new Date().toISOString(), before }) {
+function recordRepairObservations({ root, learningRoot, projectId, repository, commitSha, changed, operation = 'internal-repair', failureCode = null, canonicalFailureId = null, now = () => new Date().toISOString(), before }) {
   if (!learningRoot) return { recorded: false, reason: 'repair learning root was not configured', candidateIds: [] };
   const { DurableScientificLearningStore } = require('./scientificLearning');
   const store = new DurableScientificLearningStore({ root: learningRoot, projectId });
@@ -91,7 +93,7 @@ function recordRepairObservations({ root, learningRoot, projectId, repository, c
     const beforeSha256 = before?.get(file);
     const afterSha256 = after.get(file);
     if (!beforeSha256 || !afterSha256 || beforeSha256 === afterSha256) continue;
-    candidates.push(repairObservationCandidate({ projectId, repository, commitSha, operation, file, beforeSha256, afterSha256, observedAt: now() }));
+    candidates.push(repairObservationCandidate({ projectId, repository, commitSha, operation, file, beforeSha256, afterSha256, failureCode, canonicalFailureId, observedAt: now() }));
   }
   if (!candidates.length) return { recorded: false, reason: 'no changed file had a verifiable before/after content hash', candidateIds: [] };
   const records = store.ingestMany(candidates);
