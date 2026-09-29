@@ -23,7 +23,7 @@ function requireModel(providerId, env) {
   const model = modelFor(providerId, env);
   if (!model) {
     const provider = describeProvider(providerId);
-    throw crucibleError('CRU-0033', `${provider.label} has no model configured. Set ${provider.modelEnv} in the environment or as a repository secret. There is deliberately no default: a stale built-in model name fails at the vendor long after anyone is watching for it.`);
+    throw new Error( `${provider.label} has no model configured. Set ${provider.modelEnv} in the environment or as a repository secret. There is deliberately no default: a stale built-in model name fails at the vendor long after anyone is watching for it.`);
   }
   return model;
 }
