@@ -43,3 +43,32 @@ src/failureRecord.js provides:
 - assertCanonicalFailureCodeAssignments() to reject conflicting CRU codes for the same canonical failure.
 
 The rule is verified by test/failureRecord.test.js and remains subject to the full Crucible Section 2 gate.
+
+## CRU boundary — mandatory
+
+CRU codes classify **actual bug/error classes only**.
+
+A CRU code MUST NOT classify:
+- a repair or repair-learning observation;
+- a learning state, learning blockage, or learning-corpus condition;
+- a governance state, policy decision, exception, or coordination state;
+- a monitoring/observation state or missing monitor evidence;
+- an authorization or routing state;
+- a lifecycle state;
+- missing evidence or a missing provenance record;
+- schema/validation mechanics merely because validation rejected a record;
+- an uncoded/pending occurrence.
+
+For an observed failure whose underlying bug/error class is not yet known, the occurrence remains `failureCode: null` with `failureCodeStatus: pending-classification`.
+
+### Historical CRU migration
+
+The pre-PR-28 registry contained CRU codes that described the non-CRU states above. Those identifiers are now historical/operational identifiers only. They are not returned by `describeCode()`, are not accepted by `classifyFailureRecord()`, are not returned by `failureCode()`, and cannot be emitted as a CRU classification. When legacy call sites still invoke the compatibility `crucibleError()` entry point with one of those identifiers, the emitted error is an `OPS-####` operational error with `legacyCrucibleCode` retained solely for migration traceability.
+
+The active CRU classification set is limited to actual defects/errors: repository integrity defects, required security-configuration defects, invalid workflow configuration, privacy exposure, unsafe generated artifacts, verification-command failures/timeouts/start failures/missing outputs, invalid workflow context/diagnostic-step defects, credential configuration/exposure defects, AI-provider transport/configuration failures, PDF extraction failures, and admitted-source retrieval failures.
+
+A historical occurrence carrying a retired CRU identifier is not silently reclassified as a new CRU class. Its original history remains auditable while new occurrences use the actual bug/error classification or remain pending.
+
+### One-code-per-class rule remains in force
+
+The active CRU set still obeys the canonical identity rule: one distinct bug/error class has one canonical CRU code; repeated occurrences reuse it; repair, verification, run, symptom, or learning evidence never creates another code.
