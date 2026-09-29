@@ -5,6 +5,8 @@ const {
   attachFailureStage,
   authorizePromotion,
   summarizeFailure,
+  classifyFailureRecord,
+  assertCanonicalFailureCodeAssignments,
 } = require('../src/failureRecord');
 
 const BASE = {
@@ -65,13 +67,80 @@ test('an unknown CRU code is retained as pending registration rather than discar
   assert.equal(record.failureCodeStatus, 'pending-registration');
 });
 
-test('an uncoded failure is explicitly represented as a diagnosis-coverage gap', () => {
+test('an uncoded failure remains pending classification without inventing a CRU code', () => {
   const record = createFailureRecord({
     ...BASE,
     failureCode: undefined,
   });
-  assert.equal(record.failureCode, 'CRU-0000');
-  assert.equal(record.failureCodeStatus, 'uncoded');
+  assert.equal(record.failureCode, null);
+  assert.equal(record.failureCodeStatus, 'pending-classification');
+  assert.equal(record.classification.status, 'pending-classification');
+  assert.match(record.failureId, /^FR-[a-f0-9]{16}$/);
+});
+
+test('different uncoded failure occurrences remain independently traceable', () => {
+  const first = createFailureRecord({
+    ...BASE,
+    failureCode: undefined,
+    failureMessage: 'first failure',
+    evidence: [{ kind: 'log', value: 'first evidence' }],
+  });
+  const second = createFailureRecord({
+    ...BASE,
+    failureCode: undefined,
+    failureMessage: 'second failure',
+    evidence: [{ kind: 'log', value: 'second evidence' }],
+  });
+  assert.equal(first.failureCode, null);
+  assert.equal(second.failureCode, null);
+  assert.notEqual(first.failureId, second.failureId);
+  assert.equal(first.failure.evidence[0].value, 'first evidence');
+  assert.equal(second.failure.evidence[0].value, 'second evidence');
+});
+
+test('a classified duplicate reuses the existing canonical CRU code instead of creating another code', () => {
+  const occurrence = createFailureRecord(BASE);
+  const classified = classifyFailureRecord(occurrence, {
+    canonicalFailureId: 'CF-existing-0142',
+    failureCode: 'CRU-0050',
+    duplicateOf: 'FR-existing-0142',
+  });
+  assert.equal(classified.failureCode, 'CRU-0050');
+  assert.equal(classified.failureCodeStatus, 'registered');
+  assert.equal(classified.classification.status, 'duplicate');
+  assert.equal(classified.classification.canonicalFailureId, 'CF-existing-0142');
+  assert.equal(classified.classification.duplicateOf, 'FR-existing-0142');
+});
+
+test('one canonical failure cannot be assigned multiple CRU codes', () => {
+  const a = classifyFailureRecord(createFailureRecord(BASE), {
+    canonicalFailureId: 'CF-same',
+    failureCode: 'CRU-0050',
+  });
+  const b = classifyFailureRecord(createFailureRecord({
+    ...BASE,
+    runId: 124,
+    jobId: 457,
+  }), {
+    canonicalFailureId: 'CF-same',
+    failureCode: 'CRU-0051',
+  });
+  assert.throws(
+    () => assertCanonicalFailureCodeAssignments([a, b]),
+    /assigned multiple CRU codes: CRU-0050 and CRU-0051/
+  );
+  assert.equal(assertCanonicalFailureCodeAssignments([a, a]), true);
+});
+
+test('classification cannot use an unregistered CRU code', () => {
+  const occurrence = createFailureRecord(BASE);
+  assert.throws(
+    () => classifyFailureRecord(occurrence, {
+      canonicalFailureId: 'CF-existing-9999',
+      failureCode: 'CRU-9999',
+    }),
+    /registered CRU-#### failure code/
+  );
 });
 
 test('root cause and repair do not authorize promotion by themselves', () => {
@@ -146,4 +215,5 @@ test('summary exposes the evidence state without pretending the failure is under
   assert.equal(summary.hasRepair, false);
   assert.equal(summary.hasVerification, false);
   assert.equal(summary.promotionAuthorized, false);
+  assert.equal(summary.classification.status, 'classified');
 });
