@@ -79,7 +79,7 @@ function testEvolutionCandidate({ projectId, test, hypothesisId, successorHypoth
 function transitionFromVerifiedEvolution({ current, verifiedRecord, reviewedAt = new Date().toISOString() }) {
   const entry = validateEntry(current);
   if (!verifiedRecord || verifiedRecord.state !== 'verified' || verifiedRecord.candidate?.kind !== EVOLUTION_KIND) throw new Error('test lifecycle evolution requires a scientifically verified test-evolution candidate.');
-  if (verifiedRecord.candidate.claimBoundary !== entry.reason && verifiedRecord.proof?.experimentBoundary !== verifiedRecord.candidate.claimBoundary) throw new Error('verified test evolution proof exceeds its declared boundary.');
+  if (verifiedRecord.proof?.experimentBoundary !== verifiedRecord.candidate.claimBoundary) throw new Error('verified test evolution proof exceeds its declared boundary.');
   return validateEntry({
     ...entry, state:'superseded', successorHypothesisId:verifiedRecord.candidate.id,
     evidence:[...entry.evidence, `verified:${verifiedRecord.candidate.id}`],
