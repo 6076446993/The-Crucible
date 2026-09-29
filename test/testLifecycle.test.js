@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { validateEntry, executableTests } = require('../src/testLifecycle');
+const { validateEntry, executableTests, testEvolutionCandidate, transitionFromVerifiedEvolution } = require('../src/testLifecycle');
 
 test('obsolete and superseded tests leave routine execution but remain available historically', (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-test-lifecycle-'));
@@ -25,4 +25,35 @@ test('age alone cannot obsolete a test and obsolescence requires evidence or a s
   assert.throws(() => validateEntry({ test:'test/old.test.js', state:'obsolete', hypothesisId:'H1', reason:'two years old', reviewedAt:'2026-09-29T17:20:00.000Z' }), /successor hypothesis or explicit evidence/);
   const active = validateEntry({ test:'test/ancient.test.js', state:'active', hypothesisId:'H-live', evidence:[], reason:'still protects active behavior', reviewedAt:'2026-09-29T17:20:00.000Z' });
   assert.equal(active.state, 'active');
+});
+
+
+test('test evolution proposes measurable improvement without retiring the current test', () => {
+  const candidate = testEvolutionCandidate({
+    projectId:'the-crucible', test:'test/workflow.test.js', hypothesisId:'H1', successorHypothesisId:'H2',
+    currentCoverage:0.92, proposedCoverage:0.92, currentCost:120, proposedCost:45,
+    evidenceOutcomeIds:['run-1','run-2'], claimBoundary:'workflow validation behavior',
+    observedAt:'2026-09-29T17:30:00.000Z',
+  });
+  assert.equal(candidate.kind, 'test-evolution-candidate');
+  assert.throws(() => testEvolutionCandidate({
+    projectId:'the-crucible', test:'test/workflow.test.js', hypothesisId:'H1', successorHypothesisId:'H2',
+    currentCoverage:0.92, proposedCoverage:0.80, currentCost:120, proposedCost:20,
+    evidenceOutcomeIds:['run-1','run-2'], claimBoundary:'workflow validation behavior',
+  }), /cannot reduce measured coverage/);
+});
+
+test('only scientifically verified test evolution can supersede the current test', () => {
+  const current = { test:'test/workflow.test.js', state:'challenged', hypothesisId:'H1', successorHypothesisId:'H2', evidence:['outcome drift'], reason:'workflow validation behavior', reviewedAt:'2026-09-29T17:30:00.000Z' };
+  const candidate = testEvolutionCandidate({
+    projectId:'the-crucible', test:current.test, hypothesisId:'H1', successorHypothesisId:'H2',
+    currentCoverage:0.92, proposedCoverage:0.96, currentCost:120, proposedCost:80,
+    evidenceOutcomeIds:['run-1','run-2'], claimBoundary:'workflow validation behavior',
+    observedAt:'2026-09-29T17:31:00.000Z',
+  });
+  assert.throws(() => transitionFromVerifiedEvolution({ current, verifiedRecord:{ state:'candidate', candidate } }), /scientifically verified/);
+  const verified = { state:'verified', candidate, proof:{ experimentBoundary:candidate.claimBoundary } };
+  const evolved = transitionFromVerifiedEvolution({ current, verifiedRecord:verified, reviewedAt:'2026-09-29T17:32:00.000Z' });
+  assert.equal(evolved.state, 'superseded');
+  assert.match(evolved.evidence.at(-1), /^verified:/);
 });
