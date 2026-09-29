@@ -519,7 +519,7 @@ test('the hosted proof reads the corpus under a read key and destroys the plaint
 // assertion to do it.
 test('the council consult egresses only on a human dispatch, sends only its input, and authorizes nothing', () => {
   const file = path.join(root, '.github', 'workflows', 'council-consult.yml');
-  const workflow = fs.readFileSync(file, 'utf8');
+  const workflow = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
 
   // Egress happens when a person asks and at no other time. The absence of an automatic trigger
   // is the offline hard stop; a schedule or a push trigger would make it continuous.
