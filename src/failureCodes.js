@@ -701,7 +701,6 @@ const CRU_CLASSIFICATION_CODES = Object.freeze(new Set([
   'CRU-0033',
   'CRU-0036',
   'CRU-0041',
-  'CRU-0044',
 ]));
 
 const LEGACY_NON_CRU_CODES = Object.freeze(new Set(
