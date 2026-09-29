@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { makeCandidate, sha } = require('./scientificLearning');
 const { crucibleError } = require('./failureCodes');
+const { createLearningProvenance } = require('./learningProvenance');
 
 const KIND = 'repair-observation';
 
@@ -36,6 +37,12 @@ function repairObservationCandidate({ projectId, repository, commitSha, operatio
     observedAt,
   };
   const evidenceSha256 = sha(evidence);
+  const learningProvenance = createLearningProvenance({
+    repository,
+    observationId: `repair:${repository}:${commitSha || 'working-tree'}:${file}:${operation}`,
+    observedAt,
+    source: 'the-crucible-repair-learning',
+  });
   return makeCandidate({
     id: `repair-observation-${evidenceSha256}`,
     projectId,
@@ -45,6 +52,8 @@ function repairObservationCandidate({ projectId, repository, commitSha, operatio
     kind: KIND,
     provenance: {
       sourceType: 'bounded-repair-observation',
+      learningProvenanceId: learningProvenance.learningProvenanceId,
+      lifecycleStage: 'repair',
       sourceId: `repair:${repository}:${commitSha || 'working-tree'}:${file}:${operation}`,
       retrievedAt: observedAt,
       author: 'the-crucible-auto-repair',
