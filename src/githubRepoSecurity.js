@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const { assertWellFormedApiUrl, assertSafeRepository } = require('./apiGuard');
 
-const ENGINE_REPOSITORY = 'jonathanblunt1214-lgtm/The-Crucible';
+const ENGINE_REPOSITORY = '6076446993/The-Crucible';
 const PROJECT_REPOSITORY_MANIFEST = '.thecrucible-repositories.json';
 const MISSING_PERMISSION_HINT = 'no token with repository-administration read access was available (GITHUB_TOKEN cannot be granted this - there is no such "permissions:" key)';
 const PERMISSION_REMEDIATION = 'GITHUB_TOKEN can never read these settings: "administration" is not a valid GitHub Actions "permissions:" key for any token, so no workflow-level permission grants it. Create a fine-grained personal access token scoped to this repository with the read-only "Administration" repository permission, store it as a repository secret, and pass it to the caller workflow as `secrets.security_read_token` (see templates/caller-workflow.yml). Without that secret this check always reports "unable to verify" rather than a false pass.';
