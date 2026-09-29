@@ -3,7 +3,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { devlogPruneSnapshot, appendToDevlogPrunedLedger } = require('./handoffPolicy');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 const SHA_PATTERN = /^[0-9a-f]{40}$/i;
 const ZERO_SHA = /^0{40}$/;
@@ -24,7 +24,7 @@ function git(args, options = {}) {
   });
   if (result.status !== 0 && !options.allowFailure) {
     const detail = (result.stderr || result.stdout || 'git command failed').trim();
-    throw crucibleError('CRU-0038', `git ${args.join(' ')}: ${detail}`);
+    throw operationalError('OPS-0038', `git ${args.join(' ')}: ${detail}`);
   }
   return result;
 }
@@ -38,7 +38,7 @@ function plainLanguageSummary(devlog) {
 
 function collectPruneSnapshots(baseSha, headSha, runGit = git) {
   if (!SHA_PATTERN.test(baseSha) || !SHA_PATTERN.test(headSha)) {
-    throw crucibleError('CRU-0038', 'DEVLOG archive synchronization requires exact 40-character base and head SHAs.');
+    throw operationalError('OPS-0038', 'DEVLOG archive synchronization requires exact 40-character base and head SHAs.');
   }
   if (ZERO_SHA.test(baseSha) || baseSha.toLowerCase() === headSha.toLowerCase()) return [];
   const commits = runGit(['rev-list', '--reverse', '--ancestry-path', `${baseSha}..${headSha}`]).stdout
@@ -70,7 +70,7 @@ function archiveLedgerAt(archiveHead, runGit = git) {
   const detail = `${result.stderr || ''}`;
   const absent = /does not exist|exists on disk, but not in|path .* does not exist/i.test(detail);
   if (absent) return '';
-  throw crucibleError('CRU-0038', `Refusing to rewrite Devlog-Pruned: reading ${archiveHead}:Devlog-Pruned failed (${(result.error && result.error.message) || detail.trim() || `git exited ${result.status}`}). An unreadable ledger is never an empty ledger.`);
+  throw operationalError('OPS-0038', `Refusing to rewrite Devlog-Pruned: reading ${archiveHead}:Devlog-Pruned failed (${(result.error && result.error.message) || detail.trim() || `git exited ${result.status}`}). An unreadable ledger is never an empty ledger.`);
 }
 
 function createArchiveCommit(archiveHead, ledger, headSha, runGit = git) {
@@ -95,7 +95,7 @@ function createArchiveCommit(archiveHead, ledger, headSha, runGit = git) {
     }).stdout.trim();
     const changed = runGit(['diff-tree', '--no-commit-id', '--name-only', '-r', commit], { env }).stdout.trim();
     if (changed !== 'Devlog-Pruned') {
-      throw crucibleError('CRU-0038', `Archive synchronization refused a commit touching anything except Devlog-Pruned: ${changed || 'no changed path'}`);
+      throw operationalError('OPS-0038', `Archive synchronization refused a commit touching anything except Devlog-Pruned: ${changed || 'no changed path'}`);
     }
     return commit;
   } finally {
@@ -122,10 +122,10 @@ function synchronizeDevlogPrunes({ baseSha, headSha, runGit = git, maxAttempts =
     }
     if (attempt === maxAttempts) {
       const detail = (pushed.stderr || pushed.stdout || 'push rejected').trim();
-      throw crucibleError('CRU-0038', `Unable to append Devlog-Pruned after ${maxAttempts} attempts: ${detail}`);
+      throw operationalError('OPS-0038', `Unable to append Devlog-Pruned after ${maxAttempts} attempts: ${detail}`);
     }
   }
-  throw crucibleError('CRU-0038', 'DEVLOG archive synchronization exhausted without a result.');
+  throw operationalError('OPS-0038', 'DEVLOG archive synchronization exhausted without a result.');
 }
 
 if (require.main === module) {
