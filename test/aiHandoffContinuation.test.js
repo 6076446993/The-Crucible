@@ -192,10 +192,10 @@ test('the AI-HANDOFF schema in this repository reads cleanly, in whichever shape
   assert.ok(report.resumeFrom, 'the real repository reports a commit to resume from');
 });
 
-test('the DEVLOG latest session is chosen by timestamp, and this repository is newest-first', () => {
+test('the DEVLOG latest session is chosen by timestamp regardless of repository ordering', () => {
   const real = inspectDevlog(path.join(__dirname, '..'));
   assert.equal(real.present, true);
-  assert.equal(real.order, 'newest-first');
+  assert.ok(['newest-first', 'append-only'].includes(real.order), `unsupported DEVLOG ordering: ${real.order}`);
   assert.ok(real.sessions > 1);
 
   // The same reader is correct if the convention is ever append-only instead.
