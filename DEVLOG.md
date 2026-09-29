@@ -157,3 +157,15 @@ Plain-language summary: PR #28 now enforces one canonical CRU code per distinct 
 - Added canonicalFailureId and duplicateOf classification, plus a fail-closed check that rejects multiple CRU codes for the same canonical failure.
 - Added regression tests for uncoded occurrence custody, independent occurrence identity, duplicate code reuse, conflicting canonical-code assignments, and unregistered classification codes.
 - No hosted Section 2 gate is claimed passed by this entry; exact-tip verification remains the next boundary.
+
+### Session: pr31-adaptive-outcome-policy-loop — 2026-09-29T17:00:00Z — ChatGPT — mode:work
+
+Plain-language summary: PR #31 now distinguishes prevention observation from enforcement, records validated repair outcomes, supports maximize/minimize learning metrics with a minimum distinct-evidence gate, and provides scientifically verified, explicitly approved, versioned learning-policy activation with rollback. Adaptive test evolution and marginal-utility lifecycle remain evidence-driven; resource cost or age alone cannot retire unique protection.
+
+- Prevention evaluation records triggered evidence only; actual blocking enforcement records prevented, explicit bypass records bypassed, and missed/false-positive/failed-prevention require explicit adjudication evidence.
+- Internal repair records repair-succeeded only when declared validation passes and repair-failed when it does not.
+- Learning-policy candidates support maximize and minimize metrics and require at least three distinct outcome evidence records by default.
+- Learning-policy activation requires a scientifically verified same-project candidate, exact proof boundary, positive knowledge version, and explicit approval identity; activations are version-linked and rollbackable.
+- Restored vetted prevention mapping export and retained exact candidate/proof/boundary custody.
+- Hosted exact-tip verification remains required before this PR is considered complete.
+
