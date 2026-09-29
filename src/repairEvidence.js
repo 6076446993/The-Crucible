@@ -54,7 +54,8 @@ function repairExperience({ projectId, finding, plan, result, failureCode = find
   if (!recordable) return null;
 
   if (failureCode !== undefined && !/^CRU-\d{4}$/.test(failureCode)) throw new Error(`Invalid failure code ${failureCode}; expected CRU-####.`);
-  const failureCodeStatus = failureCode && describeCode(failureCode) ? 'registered' : failureCode ? 'pending-registration' : null;
+  if (failureCode && !describeCode(failureCode)) throw new Error(`Repair evidence requires an active CRU bug/error classification; ${failureCode} is retired or unregistered.`);
+  const failureCodeStatus = failureCode ? 'registered' : null;
 
   const applied = result.applied || {};
   const resultSha256 = /^[a-f0-9]{64}$/.test(String(applied.resultSha256 || '')) ? applied.resultSha256 : sha256(result);
