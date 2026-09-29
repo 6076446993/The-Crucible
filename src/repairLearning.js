@@ -8,6 +8,7 @@ const { describeCode } = require('./failureCodes');
 const { createLearningProvenance } = require('./learningProvenance');
 
 const KIND = 'repair-observation';
+const PREVENTION_KIND = 'prevention-candidate';
 
 function text(value, label) {
   if (typeof value !== 'string' || !value.trim()) throw new Error(`${label} must be non-empty text.`);
@@ -70,6 +71,96 @@ function repairObservationCandidate({ projectId, repository, commitSha, operatio
   });
 }
 
+function preventionCandidateFromRepairObservation({ repairCandidate, precursorPaths, requiredCheck, rationale, action = 'require-check', observedAt = new Date().toISOString() }) {
+  if (!repairCandidate || repairCandidate.kind !== KIND) throw new Error('prevention candidates require a repair-observation source.');
+  const failureCode = repairCandidate.provenance?.failureCode;
+  if (!failureCode || !describeCode(failureCode)) throw new Error('prevention candidates require an active CRU bug/error classification.');
+  if (!Array.isArray(precursorPaths) || !precursorPaths.length || precursorPaths.some((p) => typeof p !== 'string' || !p.trim())) throw new Error('precursorPaths must be a non-empty text array.');
+  text(requiredCheck, 'requiredCheck');
+  text(rationale, 'rationale');
+  if (!['block', 'require-check', 'warn'].includes(action)) throw new Error('action must be block, require-check, or warn.');
+  if (!Number.isFinite(Date.parse(observedAt))) throw new Error('observedAt must be an ISO timestamp.');
+
+  const paths = [...new Set(precursorPaths.map((p) => p.trim()))].sort();
+  const boundary = paths.join(',');
+  const source = {
+    repairCandidateId: repairCandidate.id,
+    failureCode,
+    paths,
+    requiredCheck,
+    action,
+    rationale,
+  };
+  const sourceSha256 = sha(source);
+  return makeCandidate({
+    id: `prevention-candidate-${sourceSha256}`,
+    projectId: repairCandidate.projectId,
+    claim: `Before changes within ${boundary} proceed, the preflight must require "${requiredCheck}" to prevent recurrence of ${failureCode} within this tested boundary.`,
+    claimBoundary: boundary,
+    generalizationBoundary: 'This candidate applies only to the declared precursor paths and required check. It cannot become vetted prevention until controlled reproduction, causal isolation, negative/regression testing, independent verification, and governance promotion all pass.',
+    kind: PREVENTION_KIND,
+    provenance: {
+      sourceType: 'repair-derived-prevention-candidate',
+      learningProvenanceId: repairCandidate.provenance.learningProvenanceId,
+      lifecycleStage: 'prevention-candidate',
+      failureCode,
+      failureCodeStatus: 'registered',
+      sourceId: `prevention:${repairCandidate.id}`,
+      retrievedAt: observedAt,
+      author: 'the-crucible-repair-learning',
+      license: 'project-private-repair-evidence',
+      contentSha256: sourceSha256,
+    },
+    createdAt: observedAt,
+  });
+}
+
+function queuePreventionCandidate({ learningRoot, projectId, repairCandidateId, precursorPaths, requiredCheck, rationale, action = 'require-check', now = () => new Date().toISOString() }) {
+  if (!learningRoot) throw new Error('learningRoot is required.');
+  const { DurableScientificLearningStore } = require('./scientificLearning');
+  const store = new DurableScientificLearningStore({ root: learningRoot, projectId });
+  const repairRecord = store.get(repairCandidateId);
+  if (!repairRecord) throw new Error('repair candidate does not exist in the learning store.');
+  const candidate = preventionCandidateFromRepairObservation({
+    repairCandidate: repairRecord.candidate,
+    precursorPaths,
+    requiredCheck,
+    rationale,
+    action,
+    observedAt: now(),
+  });
+  const existing = store.get(candidate.id);
+  if (!existing) store.ingest(candidate);
+  return {
+    queued: true,
+    candidateId: candidate.id,
+    sourceRepairCandidateId: repairCandidateId,
+    failureCode: candidate.provenance.failureCode,
+    state: (store.get(candidate.id) || existing).state,
+    promotionAuthorized: false,
+    nextRequiredStage: 'hypothesis',
+    note: 'Queued prevention candidates are not vetted knowledge. They must pass the scientific-learning state machine and governance before cruPrevention can consume them.',
+  };
+}
+
+function queueMappedPreventionCandidates({ learningRoot, projectId, mappings, now = () => new Date().toISOString() }) {
+  if (!Array.isArray(mappings)) throw new Error('prevention mappings must be an array.');
+  const { DurableScientificLearningStore } = require('./scientificLearning');
+  const store = new DurableScientificLearningStore({ root: learningRoot, projectId });
+  const repairs = store.read().candidateRecords.filter((record) => record.candidate.kind === KIND && record.candidate.provenance.failureCode);
+  const queued = [];
+  for (const record of repairs) {
+    const mapping = mappings.find((item) => item.failureCode === record.candidate.provenance.failureCode);
+    if (!mapping) continue;
+    queued.push(queuePreventionCandidate({
+      learningRoot, projectId, repairCandidateId: record.candidate.id,
+      precursorPaths: mapping.precursorPaths, requiredCheck: mapping.requiredCheck,
+      rationale: mapping.rationale, action: mapping.action || 'require-check', now,
+    }));
+  }
+  return { repairEvidenceCount: repairs.length, queuedCount: queued.length, queued, promotionAuthorized: false };
+}
+
 function snapshotFiles(root) {
   const result = new Map();
   let files = [];
@@ -113,4 +204,4 @@ function recordRepairObservations({ root, learningRoot, projectId, repository, c
   };
 }
 
-module.exports = { KIND, repairObservationCandidate, snapshotFiles, recordRepairObservations };
+module.exports = { KIND, PREVENTION_KIND, repairObservationCandidate, preventionCandidateFromRepairObservation, queuePreventionCandidate, queueMappedPreventionCandidates, snapshotFiles, recordRepairObservations };

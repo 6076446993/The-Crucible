@@ -87,3 +87,53 @@ test('repair observations refuse retired CRU process codes', () => {
     beforeSha256: 'a'.repeat(64), afterSha256: 'b'.repeat(64), failureCode: 'CRU-0052',
   }), /not an active CRU/);
 });
+
+
+test('queues CRU-linked repair evidence as a separate non-vetted prevention candidate', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-prevention-queue-'));
+  const learningRoot = path.join(root, 'learning');
+  const { repairObservationCandidate, queuePreventionCandidate } = require('../src/repairLearning');
+  const store = new DurableScientificLearningStore({ root: learningRoot, projectId: 'the-crucible' });
+  const repair = repairObservationCandidate({
+    projectId: 'the-crucible', repository: 'owner/repo', commitSha: 'abc123',
+    operation: 'workflow-repair', file: '.github/workflows/release.yml',
+    beforeSha256: 'a'.repeat(64), afterSha256: 'b'.repeat(64),
+    failureCode: 'CRU-0008', canonicalFailureId: 'CF-workflow-config',
+    observedAt: '2026-09-29T16:00:00.000Z',
+  });
+  store.ingest(repair);
+
+  const queued = queuePreventionCandidate({
+    learningRoot, projectId: 'the-crucible', repairCandidateId: repair.id,
+    precursorPaths: ['.github/workflows/'], requiredCheck: 'workflow-lint',
+    rationale: 'The verified repair corrected a workflow defect that preflight lint can detect.',
+    now: () => '2026-09-29T16:01:00.000Z',
+  });
+
+  assert.equal(queued.queued, true);
+  assert.equal(queued.failureCode, 'CRU-0008');
+  assert.equal(queued.state, 'candidate');
+  assert.equal(queued.promotionAuthorized, false);
+  assert.equal(queued.nextRequiredStage, 'hypothesis');
+  const candidate = store.get(queued.candidateId);
+  assert.equal(candidate.candidate.kind, 'prevention-candidate');
+  assert.equal(candidate.candidate.provenance.sourceType, 'repair-derived-prevention-candidate');
+  assert.equal(candidate.candidate.provenance.failureCode, 'CRU-0008');
+  assert.match(candidate.candidate.claim, /workflow-lint/);
+});
+
+test('operational repair evidence cannot be converted into a CRU prevention candidate', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-prevention-no-cru-'));
+  const learningRoot = path.join(root, 'learning');
+  const { repairObservationCandidate, queuePreventionCandidate } = require('../src/repairLearning');
+  const store = new DurableScientificLearningStore({ root: learningRoot, projectId: 'the-crucible' });
+  const repair = repairObservationCandidate({
+    projectId: 'the-crucible', repository: 'owner/repo', operation: 'governance-cleanup', file: 'DEVLOG.md',
+    beforeSha256: 'c'.repeat(64), afterSha256: 'd'.repeat(64), observedAt: '2026-09-29T16:02:00.000Z',
+  });
+  store.ingest(repair);
+  assert.throws(() => queuePreventionCandidate({
+    learningRoot, projectId: 'the-crucible', repairCandidateId: repair.id,
+    precursorPaths: ['DEVLOG.md'], requiredCheck: 'audit:handoff', rationale: 'operational evidence',
+  }), /active CRU bug\/error classification/);
+});

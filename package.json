@@ -83,7 +83,8 @@
     "audit:circulation": "node src/cli.js circulation",
     "audit:failure-codes": "node src/cli.js failure-codes",
     "trace:pipeline": "node src/pipelineTracer.js",
-    "monitor:nexus-checks": "node src/nexusCheckMonitor.js"
+    "monitor:nexus-checks": "node src/nexusCheckMonitor.js",
+    "learning:queue-prevention": "node src/preventionCandidateCli.js"
   },
   "engines": {
     "node": ">=20"
