@@ -53,7 +53,8 @@ function repairExperience({ projectId, finding, plan, result, failureCode = find
   const recordable = RECORDABLE[result.state];
   if (!recordable) return null;
 
-  if (failureCode !== undefined && (!/^CRU-\\d{4}$/.test(failureCode) || !describeCode(failureCode))) throw new Error(`Unknown failure code ${failureCode}; a repair cannot be logged against an unregistered CRU code.`);
+  if (failureCode !== undefined && !/^CRU-\\d{4}$/.test(failureCode)) throw new Error(`Invalid failure code ${failureCode}; expected CRU-####.`);
+  const failureCodeStatus = failureCode && describeCode(failureCode) ? 'registered' : failureCode ? 'pending-registration' : null;
 
   const applied = result.applied || {};
   const resultSha256 = /^[a-f0-9]{64}$/.test(String(applied.resultSha256 || '')) ? applied.resultSha256 : sha256(result);
@@ -72,7 +73,7 @@ function repairExperience({ projectId, finding, plan, result, failureCode = find
     expectedOutcome: 'an independent verifier confirms the repaired construct within the same boundary',
     actualOutcome: recordable.observed,
     outcome: recordable.outcome,
-    ...(failureCode ? { failureCode } : {}),
+    ...(failureCode ? { failureCode, failureCodeStatus } : {}),
     actionSha256: sha256(plan),
     environmentSha256: sha256({ language: finding.language, boundary: finding.boundary, file: finding.file, baseSha256: finding.baseSha256 }),
     resultSha256,
@@ -104,6 +105,8 @@ function recordRepairEvidence({ store, projectId, finding, plan, result, failure
       candidateId: existing ? existing.candidate.id : null,
       outcome: experience.outcome,
       failureCode: experience.failureCode || null,
+    failureCodeStatus: experience.failureCodeStatus || null,
+      failureCodeStatus: experience.failureCodeStatus || null,
       boundedClaim: experience.boundedClaim,
       classification: 'Insufficient Evidence',
       proofStageSatisfied: false,
