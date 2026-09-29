@@ -28,7 +28,7 @@ test('activation passes only after the promoted workflow exists on the remote de
   let invocation;
   const result = checkRequiredCheckBoundary(request, (command, args, options) => { invocation = { command, args, options }; return { status: 0 }; });
   assert.equal(result.ok, true);
-  assert.deepEqual(invocation.args, ['cat-file', '-e', 'refs/remotes/origin/main:.github/workflows/policy.yml']);
+  assert.deepEqual(invocation.args, ['cat-file', '-e', `refs/remotes/origin/${request.defaultBranch}:${request.workflowPath}`]);
   assert.equal(invocation.options.shell, false);
 });
 
