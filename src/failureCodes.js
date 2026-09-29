@@ -835,7 +835,8 @@ function coverageReport(root = 'src') {
   for (const file of files) {
     const source = fs.readFileSync(path.join(root, file), 'utf8');
     const bare = (source.match(/throw new Error\(/g) || []).length;
-    const carried = (source.match(/throw crucibleError\(/g) || []).length;
+    const carried = [...source.matchAll(/throw crucibleError\(['"]((?:CRU-\\d{4}))['"]/g)]
+      .filter((match) => isCrucibleClassificationCode(match[1])).length;
     coded += carried;
     if (bare) { byFile[file] = bare; uncoded += bare; }
   }
