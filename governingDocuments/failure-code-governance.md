@@ -26,7 +26,7 @@ Findings:
 - A prior known-bug ledger defect is directly relevant: one real failing test had been represented as four failed categories and all 102 selected tests. The repair changed attribution to the actual failing test and category instead of multiplying the diagnosis.
 - The repair-evidence system already deduplicates the same content-addressed repair attempt, so the same repair is not recorded as multiple observations. PR #28 now applies the same discipline to failure classification.
 - Historical CRU codes such as CRU-0006 and CRU-0045 recur across multiple runs when the same failure class recurs. That is consistent with the canonical rule; recurrence is not a reason to mint another code.
-- CRU-0000 remains a diagnostic-coverage concept in the throw-site failure-code registry, but it is **not** a durable failure-occurrence code. Durable failure records use null until classification is established.
+- CRU-0000 is retained only as historical registry data and is not a CRU classification. Durable failure records use null until classification is established.
 
 ## Required custody chain
 
