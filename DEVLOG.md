@@ -93,6 +93,13 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: functional-work-before-cleanup-20260929 — 2026-09-29T23:02:00.000Z — Codex — mode:work
+
+Plain-language summary: Owner directed that all executable development work across Nexus be completed before repository and documentation cleanup. This handoff correction restores a valid active plan state and makes cleanup the final phase rather than the current objective.
+- Reordered remaining work so credential restoration, learning/custody proof, cross-repository verification, and protected promotion precede cleanup — started 2026-09-29T23:02:00.000Z, finished 2026-09-29T23:02:00.000Z, exit 0.
+- No verification gate, learning proof requirement, custody boundary, or production protection was weakened.
+
+
 ### Session: github-organization-migration-repair-20260929 — 2026-09-29T22:54:00.000Z — Codex — mode:work
 
 Plain-language summary: Rebound Crucible's operational GitHub repository locations to the new 6076446993 organization while preserving the existing encrypted learning project identity and protected promotion boundary.
