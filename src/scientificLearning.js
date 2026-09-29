@@ -18,7 +18,7 @@ const TRANSITIONS = Object.freeze({
 });
 
 const CANDIDATE_KEYS = ['schemaVersion', 'id', 'projectId', 'claim', 'claimBoundary', 'generalizationBoundary', 'kind', 'provenance', 'classification', 'createdAt'];
-const PROVENANCE_KEYS = ['sourceType', 'sourceId', 'retrievedAt', 'author', 'license', 'contentSha256', 'learningProvenanceId', 'lifecycleStage'];
+const PROVENANCE_KEYS = ['sourceType', 'sourceId', 'retrievedAt', 'author', 'license', 'contentSha256', 'learningProvenanceId', 'lifecycleStage', 'failureCode', 'failureCodeStatus'];
 const PROOF_KEYS = ['schemaVersion', 'candidateId', 'projectId', 'hypothesis', 'testedProperty', 'experimentBoundary', 'controls', 'causalIsolation', 'negativeTests', 'regressionTests', 'scopeProof', 'generalizationResult', 'contradictionResult', 'independentVerification', 'completedAt'];
 const EXPERIMENTAL_PROOF_KEYS = PROOF_KEYS.filter((key) => key !== 'independentVerification');
 
@@ -49,6 +49,8 @@ function validateCandidate(candidate) {
   ['sourceType', 'sourceId', 'author', 'license'].forEach((key) => text(candidate.provenance[key], `candidate.provenance.${key}`));
   if (candidate.provenance.learningProvenanceId !== undefined && !/^LP-[a-f0-9]{16}$/.test(candidate.provenance.learningProvenanceId)) throw new Error('candidate.provenance.learningProvenanceId must be a Learning Provenance ID.');
   if (candidate.provenance.lifecycleStage !== undefined) text(candidate.provenance.lifecycleStage, 'candidate.provenance.lifecycleStage');
+  if (candidate.provenance.failureCode !== undefined && !/^CRU-\d{4}$/.test(candidate.provenance.failureCode)) throw crucibleError('CRU-0052', 'candidate.provenance.failureCode must be a CRU-#### code.');
+  if (candidate.provenance.failureCodeStatus !== undefined && !['registered', 'pending-registration'].includes(candidate.provenance.failureCodeStatus)) throw crucibleError('CRU-0052', 'candidate.provenance.failureCodeStatus must be registered or pending-registration.');
   iso(candidate.provenance.retrievedAt, 'candidate.provenance.retrievedAt');
   digest(candidate.provenance.contentSha256, 'candidate.provenance.contentSha256');
   iso(candidate.createdAt, 'candidate.createdAt');
