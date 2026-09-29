@@ -35,6 +35,32 @@ function preventionRule(input) {
   });
 }
 
+function mappingsForVettedKnowledge({ knowledge, candidateRecords, declarations }) {
+  if (!Array.isArray(knowledge) || !Array.isArray(candidateRecords) || !Array.isArray(declarations)) throw new Error('knowledge, candidateRecords, and declarations must be arrays.');
+  const candidates = new Map(candidateRecords.map((record) => [record?.candidate?.id, record]));
+  return knowledge.filter((item) => item?.status === 'active').map((item) => {
+    const record = candidates.get(item.candidateId);
+    if (!record || record.state !== 'verified') throw new Error(`Active knowledge ${item.version} has no verified candidate record.`);
+    const failureCode = record.candidate?.provenance?.failureCode;
+    if (!failureCode || !describeCode(failureCode)) throw new Error(`Vetted prevention candidate ${item.candidateId} has no active CRU classification.`);
+    const declaration = declarations.find((entry) => entry.failureCode === failureCode);
+    if (!declaration) throw new Error(`No governed prevention declaration exists for ${failureCode}.`);
+    const declaredBoundary = [...new Set(declaration.precursorPaths || [])].sort().join(',');
+    if (item.boundary !== declaredBoundary || record.candidate.claimBoundary !== declaredBoundary) throw new Error('Vetted knowledge boundary does not match the governed prevention declaration.');
+    return {
+      failureCode,
+      knowledgeVersion: item.version,
+      knowledgeCandidateId: item.candidateId,
+      proofSha256: item.proofSha256,
+      boundary: item.boundary,
+      action: declaration.action || 'require-check',
+      paths: [...declaration.precursorPaths],
+      requiredCheck: declaration.requiredCheck,
+      rationale: declaration.rationale,
+    };
+  });
+}
+
 function rulesFromVettedKnowledge({ knowledge, mappings }) {
   if (!Array.isArray(knowledge)) throw new Error('knowledge must be an array.');
   if (!Array.isArray(mappings)) throw new Error('mappings must be an array.');
