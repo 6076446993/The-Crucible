@@ -67,6 +67,7 @@ const TEST_MAIN_CATEGORIES = {
     'test/organismCirculation.test.js',
     'test/testingOrgan.test.js',
     'test/testLifecycle.test.js',
+    'test/vettedLearningAdapter.test.js',
     'test/learningRecordConcurrency.test.js',
     'test/pipelineTracer.test.js',
     'test/oversightBrakeReach.test.js',
