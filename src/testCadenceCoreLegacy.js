@@ -29,6 +29,8 @@ const TEST_MAIN_CATEGORIES = {
     'test/learningExperience.test.js',
     'test/learningProvenance.test.js',
     'test/repairLearning.test.js',
+    'test/cruPrevention.test.js',
+    'test/precheckPrevention.test.js',
     'test/engine.test.js',
     'test/ecosystem.test.js',
     'test/hostedMultiRepositoryIntegration.test.js',
