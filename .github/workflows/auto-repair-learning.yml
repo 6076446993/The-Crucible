@@ -51,6 +51,14 @@ jobs:
           npm run validate
           npm test
 
+      - name: Ingest the DEVLOG into repair-learning custody
+        if: always()
+        env:
+          CRUCIBLE_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
+          CRUCIBLE_PROJECT_ID: the-crucible
+          GITHUB_REPOSITORY: ${{ github.event.workflow_run.repository.full_name }}
+        run: npm run learning:devlog
+
       - name: Write repair-learning summary
         if: always()
         shell: bash
