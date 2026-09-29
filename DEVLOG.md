@@ -48,10 +48,10 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
-- **Agent:** Claude, free-discovery repair and scientific-learning rolling release review.
+- **Agent:** Codex, CI snapshot/reference repair; prior scientific-learning state is preserved.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** Refused content no longer reaches learning. Every oversight-quarantined source is dropped on consumption, each exclusion logged, while the safety evidence still reads the corpus **as published** so the unhonoured-refusal finding stays visible. Deleting them from the bundle is Oversight's half and is proposed, not enacted. No gate is marked passed.
+- **Actual current step:** Evidence-proven CI repairs are ready on development; hosted exact-tip verification is pending. The dev plan in AI-HANDOFF.json records completed and remaining work.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `jonathanblunt1214-lgtm/The-Crucible`; branch `development`.
 - **Verification state:** `npm run test:all` 890/890 at this change. `validate`, `docs:check`, `lint:workflows`, `audit:clutter`, `audit:privacy`, `audit:security`, `audit:governance`, `audit:ai-conflict-governance`, `audit:authenticity`, `audit:coordination` (12 claims, 0 active) and `git diff --check` exit 0; `audit:failure-codes` 581 uncoded with none added, `audit:circulation` 57 direct edges with none added. Hosted `Prove R4-R8 on encrypted durable state` is red by design until R8 is demonstrated.
 - **Continuation boundary:** Oversight deleting what it refuses is the remaining half, and it is not Crucible's to do — the proposed patch is with the owner, and the delicate part is that queue and manifest hashes must move together. Also open: whether consumer-side enforcement should count for R8's `prompt-injection` behaviour (a definition call); whether to retract active knowledge `v1`; promoting `council-consult.yml` to `main`; the unused `NVIDIA_NIM_MODEL` secret; and the 45 exfiltration-pattern documents, whose bytes stay encrypted to this session.
@@ -92,6 +92,17 @@ Released mutation claims remain durable facts even after their detailed session 
 - windows-java-toolchain-detection-20260916
 
 ## Command log archive
+
+### Session: ci-snapshot-reference-repair-20260929 — 2026-09-29T20:40:16.442Z — Codex — mode:work
+
+Plain-language summary: Repaired the snapshot job missing dependency installation and the reference scanner mistaking executable test fixtures for live dependencies. Actual declarations, documentation and runtime references remain enforced.
+
+- Held and released mutation claim ci-snapshot-reference-repair-20260929 (openai/Codex); task route crucible-core, repository ID 1344890806, jonathanblunt1214-lgtm/The-Crucible, development; reason: affected paths select crucible-core.
+- Read hosted failure logs, cloned literal development and ran route:prewrite — started 2026-09-29T20:33:00Z, finished 2026-09-29T20:38:14Z, exit 0. Initial sandbox Git subprocess check failed; escalated check passed.
+- npm ci; added scanner regression, proved 19 passed/1 failed before repair; repaired scanner and symbolic remote HEAD; branch integrity audit — started 2026-09-29T20:35:00Z, finished 2026-09-29T20:38:00Z, exit 0 after correction; 109 real targets resolve.
+- npm run test:all — started 2026-09-29T20:37:00Z, finished 2026-09-29T20:37:20Z, exit 1: 917/923 passed; one accountability wording mismatch corrected; five Java tests require a compiler absent locally. No test skipped.
+- node --test test/coreRefIntegrity.test.js test/devlogAccountability.test.js; workflow lint; audit:circulation; audit:failure-codes — started 2026-09-29T20:39:00Z, finished 2026-09-29T20:40:16.442Z, exit 0.
+- No Command log archive prune was needed (8/10 sessions); hosted results remain pending, production unpromoted.
 
 ### Session: java-static-adapter-dependency-correction-20260928 — 2026-09-28T19:02:58.150Z — Codex — mode:work
 
@@ -157,5 +168,3 @@ Plain-language summary: The first monitor-integration correction changed the act
 - Read the exact hosted Self-Test failure and confirmed CRU-0045 was a prompt-digest mismatch, not a platform test failure — started 2026-09-28T18:44:42.424Z, finished 2026-09-28T18:44:42.424Z, exit 1 diagnosis.
 - Recomputed the SHA-256 binding from the exact active prompt and updated AI-HANDOFF.json — started 2026-09-28T18:44:42.424Z, finished 2026-09-28T18:44:42.424Z, exit 0.
 - Updated DEVLOG.md in the same commit and preserved the two-path affected-path digest for this correction commit — started 2026-09-28T18:44:42.424Z, finished 2026-09-28T18:44:42.424Z, exit 0.
-
-

@@ -74,7 +74,7 @@ function auditDevlogAccountability({ devlog = '', archivedDevlog = '', claims = 
     if (!content.includes(claim.taskId) && !archivedContent.includes(claim.taskId)) {
       findings.push({
         type: 'DEVLOG accountability missing',
-        detail: `Mutation claim ${claim.taskId} (${claim.owner && claim.owner.provider ? claim.owner.provider : 'unknown provider'}) is ${claim.status} but does not appear in DEVLOG.md or the retained Devlog-Pruned archive. An AI that took exclusive ownership of a scope and gave it back must leave a durable record.`,
+        detail: `Mutation claim ${claim.taskId} (${claim.owner && claim.owner.provider ? claim.owner.provider : 'unknown provider'}) is ${claim.status} but does not appear in DEVLOG.md or the retained Devlog-Pruned archive. An AI that took exclusive ownership of a scope and gave it back must record what it did there and leave a durable record.`,
       });
     }
   }
