@@ -223,8 +223,8 @@ function npmRunInvocation(script) {
 }
 
 function runTestSelection(selection, run = spawnSync, lifecycleOptions = {}) {
-  const lifecycle = executableTests(selection.selected, lifecycleOptions);
-  selection = { ...selection, selected: lifecycle.selected, lifecycleSkipped: lifecycle.skipped, lifecycleChallenged: lifecycle.challenged };
+  const lifecycle = executableTests(selection.tests, lifecycleOptions);
+  selection = { ...selection, tests: lifecycle.selected, categories: lifecycle.selected.map((file) => legacy.categoryForTest(file)), lifecycleSkipped: lifecycle.skipped, lifecycleChallenged: lifecycle.challenged };
   console.log(`[The Crucible] Orchestrator: ${selection.reason}.`);
   console.log(`[The Crucible] Orchestrator: selected main categories: ${selection.mainCategories.join(', ') || '(none)'}.`);
   console.log(`[The Crucible] Orchestrator: selected ${selection.tests.length}/${legacy.discoverTests().length} safe test subcategories: ${selection.categories.join(', ') || '(none)'}.`);
