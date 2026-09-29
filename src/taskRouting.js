@@ -1,12 +1,12 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 const DEFAULT_REGISTRY = path.join(__dirname, '..', 'TASK-ROUTING.json');
 
 function fail(message, extra = {}) {
-  throw crucibleError('CRU-0045', message, extra);
+  throw operationalError('OPS-0045', message, extra);
 }
 
 function normalizePath(value) {
