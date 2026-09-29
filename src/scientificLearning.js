@@ -45,8 +45,9 @@ function validateCandidate(candidate) {
   ['id', 'projectId', 'claim', 'claimBoundary', 'generalizationBoundary', 'kind', 'classification'].forEach((key) => text(candidate[key], `candidate.${key}`));
   if (!CLASSIFICATIONS.includes(candidate.classification)) throw new Error('candidate.classification is not allowed.');
   exactKeys(candidate.provenance, PROVENANCE_KEYS, 'candidate.provenance');
-  ['sourceType', 'sourceId', 'author', 'license', 'learningProvenanceId', 'lifecycleStage'].forEach((key) => text(candidate.provenance[key], `candidate.provenance.${key}`));
-  if (!/^LP-[a-f0-9]{16}$/.test(candidate.provenance.learningProvenanceId)) throw new Error('candidate.provenance.learningProvenanceId must be a Learning Provenance ID.');
+  ['sourceType', 'sourceId', 'author', 'license'].forEach((key) => text(candidate.provenance[key], `candidate.provenance.${key}`));
+  if (candidate.provenance.learningProvenanceId !== undefined && !/^LP-[a-f0-9]{16}$/.test(candidate.provenance.learningProvenanceId)) throw new Error('candidate.provenance.learningProvenanceId must be a Learning Provenance ID.');
+  if (candidate.provenance.lifecycleStage !== undefined) text(candidate.provenance.lifecycleStage, 'candidate.provenance.lifecycleStage');
   iso(candidate.provenance.retrievedAt, 'candidate.provenance.retrievedAt');
   digest(candidate.provenance.contentSha256, 'candidate.provenance.contentSha256');
   iso(candidate.createdAt, 'candidate.createdAt');
