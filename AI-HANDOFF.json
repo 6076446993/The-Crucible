@@ -254,7 +254,7 @@
       "[done] Added learning-policy-candidate generation only when bounded outcome metrics measurably improve over baseline; candidates remain inactive until the existing scientific proof pipeline verifies them.",
       "[in progress] Extend hosted verification to the adaptive-learning module and continue repair/prevention outcome coverage for bypass, false-positive, missed, and repair success/failure cases."
     ],
-    "status": "PR #32 integrates independently vetted Nexus learning into Crucible preflight. Local repair-learning state is evidence only and cannot authorize prevention.",
+    "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
     "lastUpdatedAt": "2026-09-29T16:38:41.720Z",
     "currentStep": 26,
