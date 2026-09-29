@@ -46,7 +46,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 // failureCodes lives in circulation, which is the wire rather than the cable: looking a code up
 // is not a new direct organ-to-organ connection.
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 // The substantive content of a pre-registration: what is claimed, where it is claimed to hold,
 // where it explicitly does not, which language harness tests it, and which two sources are
@@ -66,7 +66,7 @@ function canonical(value) {
 function hash(value) { return crypto.createHash('sha256').update(canonical(value)).digest('hex'); }
 
 function text(value, label) {
-  if (typeof value !== 'string' || !value.trim()) throw crucibleError('CRU-0048', `${label} must be non-empty text.`);
+  if (typeof value !== 'string' || !value.trim()) throw operationalError('OPS-0048', `${label} must be non-empty text.`);
   return value;
 }
 
@@ -109,7 +109,7 @@ class ScopePreRegistrationLedger {
     if (!fs.existsSync(this.file)) return { schemaVersion: 1, projectId: this.projectId, registrations: [] };
     const envelope = JSON.parse(fs.readFileSync(this.file, 'utf8'));
     if (envelope?.sha256 !== hash(envelope.payload) || envelope.payload?.schemaVersion !== 1 || envelope.payload.projectId !== this.projectId || !Array.isArray(envelope.payload.registrations)) {
-      throw crucibleError('CRU-0048', 'Scope pre-registration ledger integrity or project binding failed.');
+      throw operationalError('OPS-0048', 'Scope pre-registration ledger integrity or project binding failed.');
     }
     return structuredClone(envelope.payload);
   }
@@ -160,10 +160,10 @@ class ScopePreRegistrationLedger {
   // Called only for a declaration that actually reached a controlled experiment. A claim that was
   // never evaluated keeps `pending`, which is what leaves the owner free to correct it.
   recordOutcome(claimKey, outcome, at) {
-    if (!OUTCOMES.includes(outcome)) throw crucibleError('CRU-0048', `Scope pre-registration outcome must be one of ${OUTCOMES.join(', ')}.`);
+    if (!OUTCOMES.includes(outcome)) throw operationalError('OPS-0048', `Scope pre-registration outcome must be one of ${OUTCOMES.join(', ')}.`);
     const payload = this.read();
     const entry = payload.registrations.find((item) => item.claimKey === claimKey);
-    if (!entry) throw crucibleError('CRU-0048', `No scope pre-registration exists for claim key ${claimKey}.`);
+    if (!entry) throw operationalError('OPS-0048', `No scope pre-registration exists for claim key ${claimKey}.`);
     entry.outcome = outcome;
     entry.outcomeAt = at;
     this.write(payload);
