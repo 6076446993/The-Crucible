@@ -6,7 +6,7 @@
 // read the handover before touching anything, take a scope, give it back, hand it to someone
 // else, and put one bounded question to several providers at once.
 const path = require('node:path');
-const { crucibleError, failureCode, UNCODED } = require('./failureCodes');
+const { crucibleError, failureCode, UNCODED , operationalError} = require('./failureCodes');
 const { listClaims, acquire, release, handOff } = require('./mutationClaimStore');
 const { inspectForContinuation, formatContinuationReport } = require('./aiHandoffContinuation');
 const { ownerLabel } = require('./mutationClaims');
@@ -29,7 +29,7 @@ function list(args, name) {
 
 function requiredFlag(args, name) {
   const value = flag(args, name);
-  if (!value) throw crucibleError('CRU-0029', `--${name} is required.`);
+  if (!value) throw operationalError('OPS-0029', `--${name} is required.`);
   return value;
 }
 
@@ -101,7 +101,7 @@ async function main() {
     const taskId = requiredFlag(args, 'task');
     const prompt = requiredFlag(args, 'prompt');
     const { adapters, unconfigured } = createConfiguredAdapters();
-    if (!adapters.size) throw crucibleError('CRU-0034', `No provider is configured, so this task cannot be distributed. ${unconfigured.map((item) => item.reason).join(' ')}`);
+    if (!adapters.size) throw operationalError('OPS-0034', `No provider is configured, so this task cannot be distributed. ${unconfigured.map((item) => item.reason).join(' ')}`);
     const orchestrator = new MultiAiOrchestrator();
     for (const [id, adapter] of adapters) orchestrator.register(id, adapter);
     const distribution = await orchestrator.distribute({ taskId, prompt });
@@ -112,7 +112,7 @@ async function main() {
     return;
   }
 
-  throw crucibleError('CRU-0016', `Unknown action: ${command || '(none)'}. Valid: continue, claims, claim, release, handoff, providers, consult.`);
+  throw operationalError('OPS-0016', `Unknown action: ${command || '(none)'}. Valid: continue, claims, claim, release, handoff, providers, consult.`);
 }
 
 main().catch((error) => {
