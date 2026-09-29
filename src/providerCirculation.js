@@ -9,7 +9,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { createProviderAdapter } = require('./aiProviderAdapters');
 const { describeProvider, credentialPresent, modelFor } = require('./aiProviderRegistry');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 const DEFAULT_PERPLEXITY_DISCOVERY_MODEL = 'sonar';
 const MAXIMUM_CITATIONS_PER_TOPIC = 10;
@@ -35,7 +35,7 @@ class PerplexityCitationTransport {
   }
 
   async search(topic) {
-    if (fs.existsSync(this.killSwitchFile)) throw crucibleError('CRU-0042', 'Perplexity research kill switch is active.');
+    if (fs.existsSync(this.killSwitchFile)) throw operationalError('OPS-0042', 'Perplexity research kill switch is active.');
     const prompt = discoveryPrompt(topic);
     const result = await this.adapter.run({ prompt, model:this.model });
     const citations = Array.isArray(result.evidence) ? result.evidence.slice(0, MAXIMUM_CITATIONS_PER_TOPIC).map(String) : [];
@@ -115,7 +115,7 @@ class ModelPointerTransport {
   }
 
   async search(topic) {
-    if (fs.existsSync(this.killSwitchFile)) throw crucibleError('CRU-0042', `${this.providerId} research kill switch is active.`);
+    if (fs.existsSync(this.killSwitchFile)) throw operationalError('OPS-0042', `${this.providerId} research kill switch is active.`);
     const prompt = discoveryPrompt(topic);
     const result = await this.adapter.run({ prompt, ...(this.model ? { model: this.model } : {}) });
     // Prefer real citations if a provider ever starts sending them; fall back to the prose.
