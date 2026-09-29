@@ -6,7 +6,6 @@ const path = require('node:path');
 const { AtomicClaimExtractionQueue } = require('./claimExtractionWorker');
 const { publishContentAddressed } = require('./ownerFileIntake');
 const { admitDiscoveryCandidateUrls, RetrievalAuditStore, SafeInformationRetriever } = require('./safeInformationRetrieval');
-const { crucibleError } = require('./failureCodes');
 
 const MAXIMUM_RETRIEVALS_PER_RUN = 25;
 const EXTENSIONS = Object.freeze({
@@ -75,9 +74,9 @@ function defaultRetriever({ urls, auditRoot, killSwitchFile, minimumIntervalMs }
 
 class SourceRetrievalWorker {
   constructor({ queueFile, projectId, auditRoot, killSwitchFile = null, maximumSources = MAXIMUM_RETRIEVALS_PER_RUN, retryBlocked = false, retryQuarantined = false, sourceId = null, minimumIntervalMs = 1_000, retrieverFactory = defaultRetriever, now = () => new Date().toISOString() }) {
-    if (!projectId || !queueFile || !auditRoot) throw crucibleError('CRU-0044', 'Source retrieval requires projectId, queueFile, and auditRoot.');
-    if (!Number.isSafeInteger(maximumSources) || maximumSources < 1 || maximumSources > MAXIMUM_RETRIEVALS_PER_RUN) throw crucibleError('CRU-0044', `maximumSources must be between 1 and ${MAXIMUM_RETRIEVALS_PER_RUN}.`);
-    if (!Number.isSafeInteger(minimumIntervalMs) || minimumIntervalMs < 0 || minimumIntervalMs > 60_000) throw crucibleError('CRU-0044', 'minimumIntervalMs must be between 0 and 60000.');
+    if (!projectId || !queueFile || !auditRoot) throw new Error( 'Source retrieval requires projectId, queueFile, and auditRoot.');
+    if (!Number.isSafeInteger(maximumSources) || maximumSources < 1 || maximumSources > MAXIMUM_RETRIEVALS_PER_RUN) throw new Error( `maximumSources must be between 1 and ${MAXIMUM_RETRIEVALS_PER_RUN}.`);
+    if (!Number.isSafeInteger(minimumIntervalMs) || minimumIntervalMs < 0 || minimumIntervalMs > 60_000) throw new Error( 'minimumIntervalMs must be between 0 and 60000.');
     this.queue = new AtomicClaimExtractionQueue(queueFile, projectId);
     this.queueFile = path.resolve(queueFile);
     this.projectId = projectId;
@@ -113,7 +112,7 @@ class SourceRetrievalWorker {
       killSwitchFile:this.killSwitchFile,
       minimumIntervalMs:this.minimumIntervalMs,
     });
-    if (!retriever || typeof retriever.retrieve !== 'function') throw crucibleError('CRU-0044', 'Source retrieval requires a bounded retriever.');
+    if (!retriever || typeof retriever.retrieve !== 'function') throw new Error( 'Source retrieval requires a bounded retriever.');
     const outcomes = [];
 
     for (const selectedSource of selected) {
@@ -147,7 +146,7 @@ class SourceRetrievalWorker {
           if (duplicate) destination = duplicate.durablePath;
           else {
             const extension = EXTENSIONS[result.record.contentType];
-            if (!extension) throw crucibleError('CRU-0044', `No durable extension is defined for ${result.record.contentType}.`);
+            if (!extension) throw new Error( `No durable extension is defined for ${result.record.contentType}.`);
             destination = path.join(path.dirname(this.queueFile), `${result.record.contentSha256}${extension}`);
             publishContentAddressed({ bytes:result.content, contentSha256:result.record.contentSha256 }, destination);
           }
