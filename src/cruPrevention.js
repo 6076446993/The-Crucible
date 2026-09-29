@@ -35,6 +35,32 @@ function preventionRule(input) {
   });
 }
 
+function mappingsForVettedKnowledge({ knowledge, candidateRecords, declarations }) {
+  if (!Array.isArray(knowledge) || !Array.isArray(candidateRecords) || !Array.isArray(declarations)) throw new Error('knowledge, candidateRecords, and declarations must be arrays.');
+  const candidates = new Map(candidateRecords.map((record) => [record?.candidate?.id, record]));
+  return knowledge.filter((item) => item?.status === 'active').map((item) => {
+    const record = candidates.get(item.candidateId);
+    if (!record || record.state !== 'verified') throw new Error(`Active knowledge ${item.version} has no verified candidate record.`);
+    const failureCode = record.candidate?.provenance?.failureCode;
+    if (!failureCode || !describeCode(failureCode)) throw new Error(`Vetted prevention candidate ${item.candidateId} has no active CRU classification.`);
+    const declaration = declarations.find((entry) => entry.failureCode === failureCode);
+    if (!declaration) throw new Error(`No governed prevention declaration exists for ${failureCode}.`);
+    const declaredBoundary = [...new Set(declaration.precursorPaths || [])].sort().join(',');
+    if (item.boundary !== declaredBoundary || record.candidate.claimBoundary !== declaredBoundary) throw new Error('Vetted knowledge boundary does not match the governed prevention declaration.');
+    return {
+      failureCode,
+      knowledgeVersion: item.version,
+      knowledgeCandidateId: item.candidateId,
+      proofSha256: item.proofSha256,
+      boundary: item.boundary,
+      action: declaration.action || 'require-check',
+      paths: [...declaration.precursorPaths],
+      requiredCheck: declaration.requiredCheck,
+      rationale: declaration.rationale,
+    };
+  });
+}
+
 function rulesFromVettedKnowledge({ knowledge, mappings }) {
   if (!Array.isArray(knowledge)) throw new Error('knowledge must be an array.');
   if (!Array.isArray(mappings)) throw new Error('mappings must be an array.');
@@ -62,7 +88,7 @@ function pathMatches(rulePath, changedPath) {
   return changedPath === rulePath;
 }
 
-function evaluatePrevention({ rules, changedPaths, completedChecks = [] }) {
+function evaluatePrevention({ rules, changedPaths, completedChecks = [], outcomeRecorder = null, projectId = null, observedAt = () => new Date().toISOString() }) {
   if (!Array.isArray(rules) || !Array.isArray(changedPaths) || !Array.isArray(completedChecks)) throw new Error('rules, changedPaths, and completedChecks must be arrays.');
   const completed = new Set(completedChecks);
   const findings = [];
@@ -72,7 +98,7 @@ function evaluatePrevention({ rules, changedPaths, completedChecks = [] }) {
     const matchedPaths = changedPaths.filter((p) => rule.paths.some((rp) => pathMatches(rp, p)));
     if (!matchedPaths.length) continue;
     if (rule.requiredCheck && completed.has(rule.requiredCheck)) continue;
-    findings.push({
+    const finding = {
       type: 'learned-prevention',
       failureCode: rule.failureCode,
       canonicalFailureId: rule.canonicalFailureId,
@@ -84,15 +110,53 @@ function evaluatePrevention({ rules, changedPaths, completedChecks = [] }) {
       detail: rule.requiredCheck
         ? `Vetted learning for ${rule.failureCode} requires ${rule.requiredCheck} before this change proceeds.`
         : `Vetted learning for ${rule.failureCode} identified this change boundary as a proven precursor condition.`,
-    });
+    };
+    findings.push(finding);
+    if (outcomeRecorder) {
+      if (!projectId) throw new Error('projectId is required when prevention outcome recording is enabled.');
+      const outcomeAt = observedAt();
+      outcomeRecorder.record({
+        projectId,
+        outcomeId: `prevention-trigger:${rule.id}:${rule.knowledgeVersion}:${matchedPaths.join(',')}:${outcomeAt}`,
+        lifecycle: 'prevention',
+        outcome: 'triggered',
+        failureCode: rule.failureCode,
+        canonicalFailureId: rule.canonicalFailureId,
+        preventionRuleId: rule.id,
+        knowledgeVersion: rule.knowledgeVersion,
+        changedPaths: matchedPaths,
+        completedChecks,
+        expected: rule.requiredCheck ? `${rule.requiredCheck} completes before execution` : 'proven precursor is blocked before execution',
+        actual: rule.requiredCheck ? `preflight identified requirement for ${rule.requiredCheck}` : 'preflight identified the proven precursor',
+        observedAt: outcomeAt,
+      });
+    }
   }
   return findings;
 }
 
+function recordOutcome(input, finding, outcome, actual) {
+  if (!input.outcomeRecorder) return;
+  if (!input.projectId) throw new Error('projectId is required when prevention outcome recording is enabled.');
+  const at = (input.observedAt || (() => new Date().toISOString()))();
+  input.outcomeRecorder.record({
+    projectId:input.projectId, outcomeId:`prevention-${outcome}:${finding.preventionRuleId}:${finding.knowledgeVersion}:${finding.paths.join(',')}:${at}`,
+    lifecycle:'prevention', outcome, failureCode:finding.failureCode, canonicalFailureId:finding.canonicalFailureId,
+    preventionRuleId:finding.preventionRuleId, knowledgeVersion:finding.knowledgeVersion, changedPaths:finding.paths,
+    completedChecks:input.completedChecks || [], expected:finding.detail, actual, observedAt:at,
+  });
+}
+
 function enforcePrevention(input) {
-  const findings = evaluatePrevention(input);
+  const evaluationInput = { ...input, outcomeRecorder:null };
+  const findings = evaluatePrevention(evaluationInput);
   const blocking = findings.filter((f) => f.action === 'block' || f.action === 'require-check');
+  if (input.bypass === true) {
+    for (const finding of blocking) recordOutcome(input, finding, 'bypassed', text(input.bypassReason, 'bypassReason'));
+    return { findings, blocked:false, bypassed:blocking.length > 0 };
+  }
   if (blocking.length) {
+    for (const finding of blocking) recordOutcome(input, finding, 'prevented', 'enforcement blocked execution before the proven precursor could proceed');
     const error = new Error(`Learned prevention blocked ${blocking.length} proven precursor condition(s):\n${blocking.map((f) => `- ${f.failureCode}: ${f.detail}`).join('\n')}`);
     error.preventionFindings = blocking;
     throw error;
@@ -100,4 +164,11 @@ function enforcePrevention(input) {
   return { findings, blocked: false };
 }
 
-module.exports = { ACTIONS, preventionRule, rulesFromVettedKnowledge, loadVettedPrevention, evaluatePrevention, enforcePrevention };
+function recordPreventionAdjudication({ outcomeRecorder, projectId, finding, outcome, actual, observedAt = () => new Date().toISOString() }) {
+  if (!['false-positive','missed','failed-prevention'].includes(outcome)) throw new Error('Prevention adjudication must be false-positive, missed, or failed-prevention.');
+  text(actual, 'actual');
+  recordOutcome({ outcomeRecorder, projectId, observedAt, completedChecks:[] }, finding, outcome, actual);
+  return outcome;
+}
+
+module.exports = { ACTIONS, preventionRule, mappingsForVettedKnowledge, rulesFromVettedKnowledge, loadVettedPrevention, evaluatePrevention, enforcePrevention, recordPreventionAdjudication };

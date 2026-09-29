@@ -31,6 +31,7 @@ test('every current test belongs to exactly one main category', () => {
 
 test('current suite classification is stable across the four governed buckets', () => {
   assert.deepEqual(TEST_MAIN_CATEGORIES.code, [
+    'test/adaptiveLearning.test.js',
     'test/authorizedPrRepair.test.js',
     'test/nexusCheckMonitor.test.js',
     'test/code-check.test.js',
@@ -88,6 +89,7 @@ test('current suite classification is stable across the four governed buckets', 
     'test/gradedOversightResponse.test.js',
     'test/organismCirculation.test.js',
     'test/testingOrgan.test.js',
+    'test/testLifecycle.test.js',
     'test/learningRecordConcurrency.test.js',
     'test/pipelineTracer.test.js',
     'test/oversightBrakeReach.test.js',

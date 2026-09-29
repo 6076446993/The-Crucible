@@ -1,5 +1,16 @@
 # Development log
 
+### Session: vetted prevention to preflight proof — 2026-09-29T17:00:00Z — ChatGPT — mode:work
+
+Plain-language summary: Completed the executable proof path from a CRU-linked prevention candidate through the existing scientific-learning state machine into active vetted knowledge, then bound that exact knowledge version and proof hash to its governed CRU prevention declaration and required precheck to consume it without widening the tested boundary.
+
+- **Scientific proof path:** the end-to-end test uses distinct controlled-experiment and independent-verifier identities and requires every existing mandatory learning gate before the durable store commits active knowledge.
+- **Vetted mapping:** active knowledge resolves to a prevention rule only when its candidate is verified, its CRU code remains active, a governed declaration exists, and the knowledge/candidate/declaration boundaries match exactly.
+- **Actual preflight behavior:** a changed workflow path is prevented until the declared `workflow-lint` check is complete; after that check passes, the learned prevention finding clears.
+- **No trust shortcut:** repair observations remain non-promotable and the resolver cannot create vetted knowledge; it only binds already-active knowledge to an enforcement mapping.
+- **Verification remaining:** hosted multi-platform Self-Test, CodeQL, handoff policy, and repository governance checks must pass before this proof is accepted.
+
+
 ### Session: repair evidence to governed prevention pipeline — 2026-09-29T16:05:00Z — ChatGPT — mode:work
 
 Plain-language summary: Added the missing governed bridge from CRU-linked repair evidence to a separately testable prevention candidate. Repair observations remain non-promotable evidence; only an active CRU bug/error classification with an explicit declared precursor mapping can queue a prevention candidate, and the candidate still must pass the existing scientific-learning proof, independent verification, governance promotion, and vetted-knowledge checks before preflight can consume it.
@@ -146,3 +157,15 @@ Plain-language summary: PR #28 now enforces one canonical CRU code per distinct 
 - Added canonicalFailureId and duplicateOf classification, plus a fail-closed check that rejects multiple CRU codes for the same canonical failure.
 - Added regression tests for uncoded occurrence custody, independent occurrence identity, duplicate code reuse, conflicting canonical-code assignments, and unregistered classification codes.
 - No hosted Section 2 gate is claimed passed by this entry; exact-tip verification remains the next boundary.
+
+### Session: pr31-adaptive-outcome-policy-loop — 2026-09-29T17:00:00Z — ChatGPT — mode:work
+
+Plain-language summary: PR #31 now distinguishes prevention observation from enforcement, records validated repair outcomes, supports maximize/minimize learning metrics with a minimum distinct-evidence gate, and provides scientifically verified, explicitly approved, versioned learning-policy activation with rollback. Adaptive test evolution and marginal-utility lifecycle remain evidence-driven; resource cost or age alone cannot retire unique protection.
+
+- Prevention evaluation records triggered evidence only; actual blocking enforcement records prevented, explicit bypass records bypassed, and missed/false-positive/failed-prevention require explicit adjudication evidence.
+- Internal repair records repair-succeeded only when declared validation passes and repair-failed when it does not.
+- Learning-policy candidates support maximize and minimize metrics and require at least three distinct outcome evidence records by default.
+- Learning-policy activation requires a scientifically verified same-project candidate, exact proof boundary, positive knowledge version, and explicit approval identity; activations are version-linked and rollbackable.
+- Restored vetted prevention mapping export and retained exact candidate/proof/boundary custody.
+- Hosted exact-tip verification remains required before this PR is considered complete.
+

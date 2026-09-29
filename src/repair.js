@@ -31,6 +31,16 @@ function assertInternalProject(config, environment = process.env) {
 function repairInternalChecks(root, config, options = {}) {
   const environment = options.environment || process.env;
   assertInternalProject(config, environment);
+  const recordRepairOutcome = (outcome, actual, changed = []) => {
+    if (!options.outcomeRecorder) return;
+    const at = (options.observedAt || (() => new Date().toISOString()))();
+    options.outcomeRecorder.record({
+      projectId:config.project.projectId, outcomeId:`repair:${outcome}:${options.repairCandidateId || 'unclassified'}:${environment.GITHUB_SHA || 'working-tree'}:${at}`,
+      lifecycle:'repair', outcome, failureCode:options.failureCode || null, canonicalFailureId:options.canonicalFailureId || null,
+      repairCandidateId:options.repairCandidateId || null, changedPaths:changed, completedChecks:options.completedChecks || [],
+      expected:'repair completes and its declared validation passes', actual, observedAt:at,
+    });
+  };
   const ref = options.ref || '--cached';
   const before = snapshotFiles(root);
   const privacy = scrubPrivacy(root, config);
@@ -55,7 +65,13 @@ function repairInternalChecks(root, config, options = {}) {
     canonicalFailureId: options.canonicalFailureId || null,
     before,
   });
-  return { changed, removedPermissions: workflows.removed, remaining: commit.review || [], skipReason, learning };
+  const validationPassed = typeof options.validateRepair === 'function' ? options.validateRepair({ root, changed, privacy, workflows, commit, learning }) === true : (commit.review || []).length === 0;
+  if (!validationPassed) {
+    recordRepairOutcome('repair-failed', 'repair action completed but declared validation did not pass', changed);
+  } else {
+    recordRepairOutcome('repair-succeeded', 'repair action and declared validation passed', changed);
+  }
+  return { changed, removedPermissions: workflows.removed, remaining: commit.review || [], skipReason, learning, validationPassed };
 }
 
 function formatReport(result) {
