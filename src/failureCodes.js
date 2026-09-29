@@ -673,7 +673,7 @@ const FAILURE_CODES = Object.freeze({
     },
   },
   'CRU-0022': {
-    code: 'CRU-0022',
+    code: 'OPS-0022',
     category: 'diagnosis-coverage',
     meaning: 'The failure-code coverage ratchet found more uncoded throw sites than the recorded baseline allows.',
     next: 'Give the new throw sites codes. The baseline may only fall; raising it would let the diagnosable surface shrink again.',
