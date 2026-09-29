@@ -69,6 +69,13 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.event.workflow_run.repository.full_name }}
         run: npm run learning:devlog
 
+      - name: Queue mapped prevention candidates from CRU repair evidence
+        if: always()
+        env:
+          CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
+          CRUCIBLE_PROJECT_ID: the-crucible
+        run: npm run learning:queue-prevention
+
       - name: Write repair-learning summary
         if: always()
         shell: bash
@@ -88,7 +95,7 @@ jobs:
             repairResult: changed ? 'working-tree-changes-present' : 'no-working-tree-changes',
             changedFiles: changed ? changed.split('\\n').map(line => line.slice(3)).filter(Boolean) : [],
             learningRoot,
-            recordedAs: 'durable candidate repair observations',
+            recordedAs: 'durable candidate repair observations plus separately queued prevention candidates when declared CRU mappings exist',
             promotionAuthorized: false,
             note: 'Repair observations are learned evidence only. They are not promoted to verified knowledge by this workflow.'
           };
