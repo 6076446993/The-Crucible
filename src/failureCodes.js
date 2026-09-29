@@ -435,7 +435,7 @@ const FAILURE_CODES = Object.freeze({
   'CRU-0033': {
     code: 'CRU-0033',
     category: 'artifact-security',
-    meaning: 'A provider credential was missing where one was required, or a credential value reached a governance artifact, prompt, or log. A committed credential is compromised the moment it is written.',
+    meaning: 'A provider credential value reached a governance artifact, prompt, log, source file, or other persisted surface. A credential exposed there is compromised and must be removed and rotated.',
     next: 'Supply credentials only through environment variables or repository secrets. Remove any credential from AI-HANDOFF.json, AI-CONFLICTS.json, DEVLOG.md, source, and prompts, and rotate the key.',
     remedy: {
       kind: 'guided',
@@ -530,8 +530,8 @@ const FAILURE_CODES = Object.freeze({
   },
   'CRU-0041': {
     code: 'CRU-0041',
-    category: 'learning-blockage',
-    meaning: 'In-process PDF text extraction could not read a source document, so no text was returned rather than partial or guessed text entering the corpus.',
+    category: 'pdf-extraction',
+    meaning: 'In-process PDF extraction failed while reading a source document, so no guessed or partial text is admitted to the corpus.',
     next: 'Read the carried reason. An encrypted document needs a decrypted copy; an image-only scan needs OCR; an unsupported filter or unmapped composite font needs the pdftotext or pypdf tier on a host that has it. Never register text the extractor did not actually read.',
     remedy: {
       kind: 'guided',
