@@ -67,7 +67,7 @@ function normalizeFailureEvidence(evidence = []) {
 
 function classifyFailureCode(failureCode) {
   if (failureCode === undefined || failureCode === null) {
-    return { failureCode: 'CRU-0000', failureCodeStatus: 'uncoded' };
+    return { failureCode: null, failureCodeStatus: 'pending-classification' };
   }
   if (!/^CRU-\\d{4}$/.test(failureCode)) {
     throw crucibleError('CRU-0052', \`Invalid failure code \${failureCode}; expected CRU-####.\`);
@@ -120,6 +120,11 @@ function createFailureRecord(input = {}) {
     prevention: null,
     postmortem: null,
     learningProvenanceId: null,
+    classification: Object.freeze({
+      status: code.failureCode ? (code.failureCodeStatus === 'registered' ? 'classified' : 'pending-registration') : 'pending-classification',
+      canonicalFailureId: null,
+      duplicateOf: null,
+    }),
     lifecycleState: 'observed',
     promotionAuthorized: false,
     recordSha256: sha256({
@@ -175,6 +180,57 @@ function attachFailureStage(record, stage, value) {
   });
 }
 
+function classifyFailureRecord(record, classification = {}) {
+  if (!record || typeof record !== 'object') {
+    throw crucibleError('CRU-0052', 'a durable failure record is required.');
+  }
+  const canonicalFailureId = text(classification.canonicalFailureId, 'canonicalFailureId');
+  const failureCode = text(classification.failureCode, 'failureCode');
+  if (!/^CRU-\\d{4}$/.test(failureCode) || !describeCode(failureCode)) {
+    throw crucibleError('CRU-0052', 'classification requires a registered CRU-#### failure code.');
+  }
+
+  const duplicateOf = optionalText(classification.duplicateOf, 'duplicateOf');
+  if (duplicateOf && duplicateOf === record.failureId) {
+    throw crucibleError('CRU-0052', 'a failure occurrence cannot be its own duplicate.');
+  }
+
+  return Object.freeze({
+    ...record,
+    failureCode,
+    failureCodeStatus: 'registered',
+    classification: Object.freeze({
+      status: duplicateOf ? 'duplicate' : 'classified',
+      canonicalFailureId,
+      duplicateOf,
+    }),
+  });
+}
+
+function assertCanonicalFailureCodeAssignments(records) {
+  if (!Array.isArray(records)) {
+    throw crucibleError('CRU-0052', 'failure records must be an array.');
+  }
+  const byCanonical = new Map();
+  for (const record of records) {
+    if (!record || typeof record !== 'object') {
+      throw crucibleError('CRU-0052', 'every failure record must be an object.');
+    }
+    const canonicalFailureId = record.classification && record.classification.canonicalFailureId;
+    const failureCode = record.failureCode;
+    if (!canonicalFailureId || !failureCode) continue;
+    const prior = byCanonical.get(canonicalFailureId);
+    if (prior && prior !== failureCode) {
+      throw crucibleError(
+        'CRU-0052',
+        `Canonical failure ${canonicalFailureId} is assigned multiple CRU codes: ${prior} and ${failureCode}.`
+      );
+    }
+    byCanonical.set(canonicalFailureId, failureCode);
+  }
+  return true;
+}
+
 function authorizePromotion(record, verification) {
   if (!record || typeof record !== 'object') {
     throw crucibleError('CRU-0052', 'a durable failure record is required.');
@@ -209,6 +265,7 @@ function summarizeFailure(record) {
     hasVerification: Boolean(record.verification),
     hasPostmortem: Boolean(record.postmortem),
     learningProvenanceId: record.learningProvenanceId,
+    classification: record.classification || null,
   };
 }
 
@@ -218,6 +275,8 @@ module.exports = {
   createFailureRecord,
   attachFailureStage,
   authorizePromotion,
+  classifyFailureRecord,
+  assertCanonicalFailureCodeAssignments,
   summarizeFailure,
   classifyFailureCode,
   normalizeFailureEvidence,
