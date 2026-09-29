@@ -143,8 +143,9 @@ test('a diagnosis reaches the immune system carrying the remedy and the tests th
   assert.equal(repairable.command, 'npm run lint:workflows');
   assert.deepEqual(testRequestFor('CRU-0008'), { tests: ['test/workflowLint.test.js'] });
   assert.equal(selectRequestedTests(testRequestFor('CRU-0008')).tests.length, 1);
+});
 
-  test('non-bug/error states are operational errors, never CRU classifications', () => {
+test('non-bug/error states are operational errors, never CRU classifications', () => {
   for (const code of Object.keys(FAILURE_CODES).filter((value) => !CRU_CLASSIFICATION_CODES.has(value))) {
     assert.equal(isCrucibleClassificationCode(code), false, code + ' must not be an active CRU classification');
     assert.equal(describeCode(code), null, code + ' must not be exposed as a CRU diagnosis');
