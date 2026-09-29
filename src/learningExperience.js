@@ -2,7 +2,6 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { makeCandidate, sha } = require('./scientificLearning');
 const { createLearningProvenance } = require('./learningProvenance');
-const { crucibleError } = require('./failureCodes');
 
 const EXPERIENCE_KEYS = Object.freeze([
   'schemaVersion', 'projectId', 'attemptId', 'boundedClaim', 'claimBoundary',
