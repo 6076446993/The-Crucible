@@ -58,7 +58,7 @@ test('a conflict on one scope freezes that scope and nothing else', (t) => {
   // The contested scope is frozen...
   assert.throws(
     () => assertMutationAllowed(report, { actor: OPENAI, paths: ['src/auth/login.js'] }),
-    (error) => error.crucibleCode === 'OPS-0031' && /frozen by unresolved AI conflict auth-approach/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0031' && /frozen by unresolved AI conflict auth-approach/.test(error.message),
   );
   // ...and an independently claimed, unrelated scope proceeds.
   assert.ok(assertMutationAllowed(report, { actor: OPENAI, paths: ['docs/readme.md'] }).allowed);
@@ -70,7 +70,7 @@ test('a conflict that names no scope is a repository-wide stop', (t) => {
   assert.equal(freezeKind(conflict('unscoped-dispute')), 'repository-wide');
   assert.equal(report.conflicts.repositoryWideStops.length, 1);
   assert.equal(report.mayMutate, false);
-  assert.throws(() => assertReadyToContinue(report, { actor: OPENAI }), (error) => error.crucibleCode === 'OPS-0037' && /freezes the whole repository/.test(error.message));
+  assert.throws(() => assertReadyToContinue(report, { actor: OPENAI }), (error) => error.operationalCode === 'OPS-0037' && /freezes the whole repository/.test(error.message));
 });
 
 test('an explicit repositoryWide flag stops everything even when a scope is named', (t) => {
@@ -109,7 +109,7 @@ test('skipped governance checks cannot authorize mutation, but reading stays all
   assert.equal(report.mayInvestigate, true);
   assert.throws(
     () => assertMutationAllowed(report, { actor: OPENAI, paths: ['src/a.js'] }),
-    (error) => error.crucibleCode === 'OPS-0037' && /governance checks were not verified/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0037' && /governance checks were not verified/.test(error.message),
   );
 });
 
@@ -117,7 +117,7 @@ test('failed governance checks cannot authorize mutation', (t) => {
   const root = fixture(t, { claims: [claim('task-a', OPENAI, ['src/a.js'])] });
   const base = inspectForContinuation(root);
   const failed = { ...base, governance: { ran: true, verified: false, allPassed: false, checks: [{ script: 'audit:coordination', ok: false }] }, governanceVerified: false, blockers: ['Governance checks failed: audit:coordination.'], mayMutate: false };
-  assert.throws(() => assertMutationAllowed(failed, { actor: OPENAI, paths: ['src/a.js'] }), (error) => error.crucibleCode === 'OPS-0037');
+  assert.throws(() => assertMutationAllowed(failed, { actor: OPENAI, paths: ['src/a.js'] }), (error) => error.operationalCode === 'OPS-0037');
 });
 
 test('an actor without a claim cannot mutate, and one with a matching claim can', (t) => {
@@ -126,10 +126,10 @@ test('an actor without a claim cannot mutate, and one with a matching claim can'
   assert.ok(assertMutationAllowed(report, { actor: OPENAI, taskId: 'task-a', paths: ['src/a.js'] }).allowed);
   assert.throws(
     () => assertMutationAllowed(report, { actor: OPENAI, paths: ['src/unclaimed.js'] }),
-    (error) => error.crucibleCode === 'OPS-0030' && /not covered by any active mutation claim/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0030' && /not covered by any active mutation claim/.test(error.message),
   );
   // The claim must be the one being worked under, not merely any claim of this actor's.
-  assert.throws(() => assertMutationAllowed(report, { actor: OPENAI, taskId: 'other-task', paths: ['src/a.js'] }), (error) => error.crucibleCode === 'OPS-0030' && /not other-task/.test(error.message));
+  assert.throws(() => assertMutationAllowed(report, { actor: OPENAI, taskId: 'other-task', paths: ['src/a.js'] }), (error) => error.operationalCode === 'OPS-0030' && /not other-task/.test(error.message));
 });
 
 test('another AI cannot mutate a claimed scope but may read, test and review it', (t) => {
@@ -137,7 +137,7 @@ test('another AI cannot mutate a claimed scope but may read, test and review it'
   const report = verified(inspectForContinuation(root));
   assert.throws(
     () => assertMutationAllowed(report, { actor: ANTHROPIC, paths: ['src/a.js'] }),
-    (error) => error.crucibleCode === 'OPS-0030' && /may read, test, review, critique and propose/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0030' && /may read, test, review, critique and propose/.test(error.message),
   );
   // Read-only continuation readiness is unaffected by somebody else's claim.
   assert.deepEqual(assertReadyToContinue(report, { actor: ANTHROPIC }), { ready: true, resumeFrom: report.resumeFrom });
@@ -151,7 +151,7 @@ test('a predecessor\'s uncommitted work is protected on overlap and ignored when
 
   assert.throws(
     () => assertMutationAllowed(dirty, { actor: OPENAI, paths: ['src/a.js'] }),
-    (error) => error.crucibleCode === 'OPS-0037' && /never discarded or reset/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0037' && /never discarded or reset/.test(error.message),
   );
   // Unrelated dirty work does not stop a separately claimed scope from proceeding.
   assert.ok(assertMutationAllowed(dirty, { actor: OPENAI, paths: ['src/b.js'] }).allowed);
@@ -211,7 +211,7 @@ test('the DEVLOG latest session is chosen by timestamp, and this repository is n
 test('a mutation must name the paths it will change', (t) => {
   const root = fixture(t, { claims: [claim('task-a', OPENAI, ['src/a.js'])] });
   const report = verified(inspectForContinuation(root));
-  assert.throws(() => assertMutationAllowed(report, { actor: OPENAI, paths: [] }), (error) => error.crucibleCode === 'OPS-0030' && /must name the paths/.test(error.message));
+  assert.throws(() => assertMutationAllowed(report, { actor: OPENAI, paths: [] }), (error) => error.operationalCode === 'OPS-0030' && /must name the paths/.test(error.message));
 });
 
 test('a missing handoff file leaves the inspection incomplete', (t) => {
@@ -220,5 +220,5 @@ test('a missing handoff file leaves the inspection incomplete', (t) => {
   const report = inspectForContinuation(root);
   assert.equal(report.inspectionComplete, false);
   assert.equal(report.mayMutate, false);
-  assert.throws(() => assertReadyToContinue(report, { actor: OPENAI }), (error) => error.crucibleCode === 'OPS-0037');
+  assert.throws(() => assertReadyToContinue(report, { actor: OPENAI }), (error) => error.operationalCode === 'OPS-0037');
 });
