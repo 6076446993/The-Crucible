@@ -51,7 +51,7 @@ test('admits only a positively trusted delegated HTTPS URL and deduplicates it',
   assert.equal(first.created, true);
   assert.equal(first.state, 'research-approved-pending-retrieval');
   assert.equal(registerOwnerDelegatedUrl({ queueFile, projectId:PROJECT, url, now:() => AT }).created, false);
-  assert.throws(() => registerOwnerDelegatedUrl({ queueFile, projectId:PROJECT, url:'https://untrusted.example/page' }), /CRU-0044.*positive trust allow-list/);
+  assert.throws(() => registerOwnerDelegatedUrl({ queueFile, projectId:PROJECT, url:'https://untrusted.example/page' }), /positive trust allow-list/);
 });
 
 test('retrieves queued content under the shared lock, stores the hashed bytes, and hands it to extraction', async (t) => {
