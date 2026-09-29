@@ -59,9 +59,9 @@ test('only scientifically verified test evolution can supersede the current test
 });
 
 
-test('size and age cannot archive a test that still has unique protection', () => {
+test('resource cost and age cannot archive a test that still has unique protection', () => {
   const entry = { test:'test/legacy-platform.test.js', state:'active', hypothesisId:'H-legacy', evidence:[], reason:'protects legacy platform', reviewedAt:'2026-09-29T18:00:00.000Z' };
-  const assessment = marginalUtilityAssessment({ test:entry.test, uniquePlatforms:1, overlapRatio:0.99, executionMs:600000, storageBytes:1073741824 });
+  const assessment = marginalUtilityAssessment({ test:entry.test, uniquePlatforms:1, overlapRatio:0.99, executionMs:600000, storageBytes:25000000 });
   const proposal = proposeTestDisposition({ entry, assessment, preservedCoverage:true, reason:'suite pressure review' });
   assert.equal(proposal.proposedState, 'active');
   assert.match(proposal.reason, /Unique protection/);
