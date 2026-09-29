@@ -57,3 +57,33 @@ test('does not invent learning evidence when a changed path has no verifiable be
   assert.equal(result.recorded, false);
   assert.deepEqual(result.candidateIds, []);
 });
+
+test('repair observations carry their active CRU classification into learning provenance', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-repair-learning-cru-'));
+  const learningRoot = path.join(root, 'learning');
+  const file = path.join(root, 'repair-target.txt');
+  const { execFileSync } = require('node:child_process');
+  execFileSync('git', ['init'], { cwd: root, stdio: 'ignore' });
+  fs.writeFileSync(file, 'before\n');
+  execFileSync('git', ['add', 'repair-target.txt'], { cwd: root, stdio: 'ignore' });
+  const before = snapshotFiles(root);
+  fs.writeFileSync(file, 'after\n');
+
+  const result = recordRepairObservations({
+    root, learningRoot, projectId: 'the-crucible',
+    repository: 'jonathanblunt1214-lgtm/The-Crucible', commitSha: 'working-tree',
+    changed: ['repair-target.txt'], before, failureCode: 'CRU-0008',
+    canonicalFailureId: 'CF-workflow-config', now: () => '2026-09-29T00:00:00.000Z',
+  });
+  const store = new DurableScientificLearningStore({ root: learningRoot, projectId: 'the-crucible' });
+  const record = store.get(result.candidateIds[0]);
+  assert.equal(record.candidate.provenance.failureCode, 'CRU-0008');
+  assert.equal(record.candidate.provenance.failureCodeStatus, 'registered');
+});
+
+test('repair observations refuse retired CRU process codes', () => {
+  assert.throws(() => require('../src/repairLearning').repairObservationCandidate({
+    projectId: 'the-crucible', repository: 'owner/repo', operation: 'repair', file: 'a.js',
+    beforeSha256: 'a'.repeat(64), afterSha256: 'b'.repeat(64), failureCode: 'CRU-0052',
+  }), /not an active CRU/);
+});
