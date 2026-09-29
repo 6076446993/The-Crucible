@@ -1,9 +1,11 @@
 'use strict';
-// Every failure carries a code, and a code is a lookup rather than a guess.
+// CRU codes classify actual bug/error classes. They are not lifecycle, governance,
+// repair-learning, monitoring, authorization, missing-evidence, or validation-state labels.
 //
-// The owner's instruction, after one too many reports that said nothing: "every error and
-// failure must have a diagnosable error code". This module is what makes that true, and what
-// keeps it true.
+// An observed failure may be uncoded while it is being investigated. Its durable occurrence
+// record carries failureCode: null and failureCodeStatus: pending-classification until the
+// underlying bug/error class is actually identified. CRU is never a catch-all for the state of
+// that investigation.
 //
 // What was wrong. `ciDiagnosticOrgan` classified failures by running five hand-written regular
 // expressions over whatever log text it was handed. That has two failure modes and CI hit both
@@ -30,10 +32,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-// The code that means "this failure path has not been given a code yet". It exists because the
-// owner's rule admits no exceptions: an uncoded failure still has to arrive as something a
-// reader can act on. `CRU-0000` is a finding about the codebase - a named gap with a named
-// remedy - rather than the shrug that `unclassifiedFailure: true` was.
+// Historical CRU-0000 was a diagnosis-coverage marker, not a bug/error class. It is retained
+// only as historical registry data and is never a valid CRU classification.
 const UNCODED = 'CRU-0000';
 
 // A code is `CRU-` followed by four digits. Fixed width so it can be found in a log by shape
@@ -686,12 +686,50 @@ const FAILURE_CODES = Object.freeze({
   },
 });
 
+const CRU_CLASSIFICATION_CODES = Object.freeze(new Set([
+  'CRU-0002',
+  'CRU-0006',
+  'CRU-0008',
+  'CRU-0013',
+  'CRU-0017',
+  'CRU-0018',
+  'CRU-0019',
+  'CRU-0020',
+  'CRU-0021',
+  'CRU-0027',
+  'CRU-0028',
+  'CRU-0033',
+  'CRU-0036',
+  'CRU-0041',
+  'CRU-0044',
+]));
+
+const LEGACY_NON_CRU_CODES = Object.freeze(new Set(
+  Object.keys(FAILURE_CODES).filter((code) => code !== UNCODED && !CRU_CLASSIFICATION_CODES.has(code)),
+));
+
+function isCrucibleClassificationCode(code) {
+  return CRU_CLASSIFICATION_CODES.has(code);
+}
+
+function operationalCodeFor(legacyCode) {
+  return LEGACY_NON_CRU_CODES.has(legacyCode) ? 'OPS-' + legacyCode.slice(4) : null;
+}
+
 // Build an error that carries its code. The code is also written into the message text, because
 // an error frequently has to survive a trip it cannot carry properties across: `runner.js`
 // captures a child process's stdout and stderr as a string, and CI keeps only the log. A code
 // in the text is still recoverable at the far end; a property is not.
 function crucibleError(code, message, extra = {}) {
   if (!FAILURE_CODES[code]) throw new Error(`Unknown failure code ${code}. Add it to the registry in src/failureCodes.js before throwing it, so a reader can look it up.`);
+  if (!isCrucibleClassificationCode(code)) {
+    const operationalCode = operationalCodeFor(code);
+    const error = new Error(`[${operationalCode}] ${message}`);
+    error.operationalCode = operationalCode;
+    error.legacyCrucibleCode = code;
+    Object.assign(error, extra);
+    return error;
+  }
   const error = new Error(`[${code}] ${message}`);
   error.crucibleCode = code;
   Object.assign(error, extra);
@@ -708,7 +746,7 @@ function failureCode(error) {
 }
 
 function describeCode(code) {
-  return FAILURE_CODES[code] || null;
+  return isCrucibleClassificationCode(code) ? FAILURE_CODES[code] : null;
 }
 
 // The half the immune system uses.
@@ -757,7 +795,7 @@ function repairableByImmuneSystem(code) {
 function codesInText(text) {
   const seen = [];
   for (const match of String(text || '').matchAll(CODE_PATTERN)) {
-    if (FAILURE_CODES[match[0]] && !seen.includes(match[0])) seen.push(match[0]);
+    if (isCrucibleClassificationCode(match[0]) && !seen.includes(match[0])) seen.push(match[0]);
   }
   return seen;
 }
@@ -844,8 +882,8 @@ function auditFailureCodes({ root = 'src', baselineFile = BASELINE_FILE } = {}) 
 }
 
 module.exports = {
-  UNCODED, CODE_PATTERN, FAILURE_CODES, BASELINE_FILE,
-  crucibleError, failureCode, describeCode, codesInText,
+  UNCODED, CODE_PATTERN, FAILURE_CODES, CRU_CLASSIFICATION_CODES, LEGACY_NON_CRU_CODES, BASELINE_FILE,
+  crucibleError, failureCode, describeCode, codesInText, isCrucibleClassificationCode, operationalCodeFor,
   remedyFor, testRequestFor, repairableByImmuneSystem, failureLogPath, resolveFailureLog,
   coverageReport, readBaseline, auditFailureCodes,
 };
