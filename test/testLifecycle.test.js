@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { validateEntry, executableTests, testEvolutionCandidate, transitionFromVerifiedEvolution } = require('../src/testLifecycle');
+const { validateEntry, executableTests, marginalUtilityAssessment, proposeTestDisposition, reactivateFromEvidence, testEvolutionCandidate, transitionFromVerifiedEvolution } = require('../src/testLifecycle');
 
 test('obsolete and superseded tests leave routine execution but remain available historically', (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-test-lifecycle-'));
@@ -56,4 +56,31 @@ test('only scientifically verified test evolution can supersede the current test
   const evolved = transitionFromVerifiedEvolution({ current, verifiedRecord:verified, reviewedAt:'2026-09-29T17:32:00.000Z' });
   assert.equal(evolved.state, 'superseded');
   assert.match(evolved.evidence.at(-1), /^verified:/);
+});
+
+
+test('size and age cannot archive a test that still has unique protection', () => {
+  const entry = { test:'test/legacy-platform.test.js', state:'active', hypothesisId:'H-legacy', evidence:[], reason:'protects legacy platform', reviewedAt:'2026-09-29T18:00:00.000Z' };
+  const assessment = marginalUtilityAssessment({ test:entry.test, uniquePlatforms:1, overlapRatio:0.99, executionMs:600000, storageBytes:1073741824 });
+  const proposal = proposeTestDisposition({ entry, assessment, preservedCoverage:true, reason:'suite pressure review' });
+  assert.equal(proposal.proposedState, 'active');
+  assert.match(proposal.reason, /Unique protection/);
+});
+
+test('fully redundant coverage can be archived and new relevant evidence reactivates it', () => {
+  const entry = { test:'test/duplicate.test.js', state:'active', hypothesisId:'H-old', evidence:[], reason:'original protection', reviewedAt:'2026-09-29T18:00:00.000Z' };
+  const assessment = marginalUtilityAssessment({ test:entry.test, overlapRatio:1, executionMs:30000, storageBytes:100000000 });
+  const proposal = proposeTestDisposition({ entry, assessment, preservedCoverage:true, reason:'verified duplicate coverage', reviewedAt:'2026-09-29T18:01:00.000Z' });
+  assert.equal(proposal.proposedState, 'archived');
+  const archived = validateEntry({ ...entry, state:'archived', evidence:['verified duplicate coverage'], reason:proposal.reason, reviewedAt:proposal.reviewedAt });
+  const revived = reactivateFromEvidence({ entry:archived, evidence:'CRU-0008 precursor matched archived boundary', reason:'new failure evidence challenges archival', reviewedAt:'2026-09-29T18:02:00.000Z' });
+  assert.equal(revived.state, 'challenged');
+  assert.match(revived.evidence.at(-1), /CRU-0008/);
+});
+
+test('partial redundancy reduces cadence instead of archiving', () => {
+  const entry = { test:'test/overlap.test.js', state:'active', hypothesisId:'H-overlap', evidence:[], reason:'overlapping protection', reviewedAt:'2026-09-29T18:00:00.000Z' };
+  const assessment = marginalUtilityAssessment({ test:entry.test, overlapRatio:0.8, executionMs:45000, storageBytes:50000000 });
+  const proposal = proposeTestDisposition({ entry, assessment, preservedCoverage:true, reason:'high overlap with active suite' });
+  assert.equal(proposal.proposedState, 'reduced-cadence');
 });
