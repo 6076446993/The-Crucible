@@ -38,6 +38,8 @@ test('records real before/after repair changes as durable non-promotable learnin
   assert.equal(record.candidate.classification, 'Insufficient Evidence');
   assert.match(record.candidate.claim, /repair operation/);
   assert.equal(record.candidate.provenance.sourceType, 'bounded-repair-observation');
+  assert.match(record.candidate.provenance.learningProvenanceId, /^LP-[a-f0-9]{16}$/);
+  assert.equal(record.candidate.provenance.lifecycleStage, 'repair');
 });
 
 test('does not invent learning evidence when a changed path has no verifiable before/after content', () => {
