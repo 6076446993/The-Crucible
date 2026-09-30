@@ -35,7 +35,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { concreteHarnessConfiguration } = require('./concreteLanguageHarness');
 const { javaRuntimeAdapter, javaStaticAdapter, nodeRuntimeAdapter, typescriptStaticAdapter } = require('./toolchainCirculation');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError, operationalError } = require('./failureCodes');
 
 const EXPERIMENT_ROOT = path.resolve(__dirname, '..', 'scripts', 'experiments');
 
@@ -209,7 +209,7 @@ function harnessPair({ language, configuration, at }) {
     id: configuration.experimentAdapter.id,
     run: async ({ candidate, hypothesis, testPlan, testPlanSha256, claimScope }) => {
       const inner = await handlers.experiment.run({ testPlanSha256, contractSha256: handlers.contractSha256 });
-      if (inner.passed !== true) throw crucibleError('CRU-0050', `The ${language} controlled experiment did not pass its own fixture assertions.`);
+      if (inner.passed !== true) throw operationalError('OPS-0050', `The ${language} controlled experiment did not pass its own fixture assertions.`);
       return { ...governedProof({ candidate, hypothesis, testPlan, claimScope, configuration, at }), testPlanSha256 };
     },
   };
@@ -217,7 +217,7 @@ function harnessPair({ language, configuration, at }) {
     id: configuration.verifierAdapter.id,
     run: async ({ candidate, experimentalProof, testPlanSha256 }) => {
       const inner = await handlers.verifier.run({ testPlanSha256, contractSha256: handlers.contractSha256, experimentalProof, experimentExecutorId: configuration.experimentAdapter.id });
-      if (inner.passed !== true) throw crucibleError('CRU-0050', `The ${language} independent verifier did not confirm the experiment.`);
+      if (inner.passed !== true) throw operationalError('OPS-0050', `The ${language} independent verifier did not confirm the experiment.`);
       return {
         verifierId: configuration.verifierAdapter.id,
         independent: true,
@@ -239,11 +239,11 @@ function harnessesForDeclaration(declaration, { projectId, at = new Date().toISO
   const language = String(declaration?.language || 'javascript').toLowerCase();
   const build = CONFIGURATIONS[language];
   if (!build) {
-    throw crucibleError('CRU-0050', `No controlled experiment harness is registered for ${language}, so the claim "${String(declaration?.claim || '').slice(0, 60)}" cannot be tested. Registered languages are ${Object.keys(CONFIGURATIONS).join(', ')}.`);
+    throw operationalError('OPS-0050', `No controlled experiment harness is registered for ${language}, so the claim "${String(declaration?.claim || '').slice(0, 60)}" cannot be tested. Registered languages are ${Object.keys(CONFIGURATIONS).join(', ')}.`);
   }
   const configuration = build({ projectId, root, env });
   if (!configuration) {
-    throw crucibleError('CRU-0050', `The ${language} toolchain is unavailable on this runner, so its controlled experiment cannot run.`);
+    throw operationalError('OPS-0050', `The ${language} toolchain is unavailable on this runner, so its controlled experiment cannot run.`);
   }
   return harnessPair({ language, configuration, at });
 }
@@ -259,7 +259,7 @@ function lazyHarnessPair({ resolveLanguage, projectId, at = new Date().toISOStri
   const pair = () => {
     if (resolved) return resolved;
     const language = resolveLanguage();
-    if (!language) throw crucibleError('CRU-0050', 'A supersession experiment was requested without a language to resolve its harness from, so there is no way to test the claim it re-tests.');
+    if (!language) throw operationalError('OPS-0050', 'A supersession experiment was requested without a language to resolve its harness from, so there is no way to test the claim it re-tests.');
     resolved = harnessesForDeclaration({ language }, { projectId, at, env, root });
     return resolved;
   };
