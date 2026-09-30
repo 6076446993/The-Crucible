@@ -100,6 +100,9 @@ Plain-language summary: Resolved the first dependency exposed by the production 
 - Preserved production repair-learning/scientific validation conditions 0052 and 0053 without expanding the CRU classification set — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
 - Replaced the EOL model-pointer default with nvidia/nemotron-3.5-lightning-30b-a3b — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
 - Exact-tip Self-Test and scheduled model-pointer execution remain required — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
+- Migrated the remaining legacy non-bug call sites from CRU-shaped operational throws to explicit OPS throws; true CRU bug/error classifications were preserved — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
+- Added OPS lookup/recovery coverage and changed stale tests to assert OPS for operational harness/coverage conditions rather than re-expanding CRU — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
+- Exact-tip Self-Test remains the acceptance evidence for this reconciliation; private learning-state SSH failures remain external authorization blockers and are not bypassed — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
 
 
 ### Session: import-main-learning-nonconflicts-20260929 — 2026-09-30T00:37:00.000Z — Codex — mode:work
