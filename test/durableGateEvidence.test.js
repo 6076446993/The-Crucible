@@ -99,8 +99,8 @@ test('the store fails closed on tampering, a foreign project, and an invalid ide
   const store = new DurableGateEvidenceStore({ root: stateRoot, projectId: PROJECT });
   store.record({ gateStates: states(), sourceRoot: root, runId: '111', at: T1 });
 
-  assert.throws(() => new DurableGateEvidenceStore({ root: stateRoot, projectId: '' }), /CRU-0049/);
-  assert.throws(() => new DurableGateEvidenceStore({ root: '', projectId: PROJECT }), /CRU-0049/);
+  assert.throws(() => new DurableGateEvidenceStore({ root: stateRoot, projectId: '' }), /OPS-0049/);
+  assert.throws(() => new DurableGateEvidenceStore({ root: '', projectId: PROJECT }), /OPS-0049/);
 
   // Promoting a gate by hand is the move this envelope exists to catch.
   const file = path.join(stateRoot, 'gate-evidence.json');
@@ -108,19 +108,19 @@ test('the store fails closed on tampering, a foreign project, and an invalid ide
   envelope.payload.gates.R7.state = 'satisfied';
   envelope.payload.gates.R7.fingerprint = 'f'.repeat(64);
   fs.writeFileSync(file, JSON.stringify(envelope, null, 2));
-  assert.throws(() => store.read(), /CRU-0049.*integrity or project binding failed/s);
+  assert.throws(() => store.read(), /OPS-0049.*integrity or project binding failed/s);
 
   const foreign = new DurableGateEvidenceStore({ root: stateRoot, projectId: 'github:someone/else' });
-  assert.throws(() => foreign.read(), /CRU-0049/);
+  assert.throws(() => foreign.read(), /OPS-0049/);
 });
 
 test('a renamed or deleted decider is reconciled rather than fingerprinted around', (t) => {
   const dir = workspace(t);
   const root = sourceTree(dir);
   fs.rmSync(path.join(root, 'knowledgeLifecycle.js'));
-  assert.throws(() => gateFingerprint('R6', root), /CRU-0049.*does not exist/s);
-  assert.throws(() => allFingerprints(root), /CRU-0049/);
-  assert.throws(() => gateFingerprint('R99', root), /CRU-0049.*No decider files are declared/s);
+  assert.throws(() => gateFingerprint('R6', root), /OPS-0049.*does not exist/s);
+  assert.throws(() => allFingerprints(root), /OPS-0049/);
+  assert.throws(() => gateFingerprint('R99', root), /OPS-0049.*No decider files are declared/s);
 });
 
 test('an unrecognised gate state is refused rather than recorded', (t) => {
@@ -129,9 +129,9 @@ test('an unrecognised gate state is refused rather than recorded', (t) => {
   const store = new DurableGateEvidenceStore({ root: path.join(dir, 'state'), projectId: PROJECT });
   assert.throws(
     () => store.record({ gateStates: [{ id: 'R7', state: 'probably-fine' }], sourceRoot: root, runId: '1', at: T1 }),
-    /CRU-0049.*which is not one of/s,
+    /OPS-0049.*which is not one of/s,
   );
-  assert.throws(() => store.record({ gateStates: 'R7', sourceRoot: root, runId: '1', at: T1 }), /CRU-0049.*must be an array/s);
+  assert.throws(() => store.record({ gateStates: 'R7', sourceRoot: root, runId: '1', at: T1 }), /OPS-0049.*must be an array/s);
   // A gate outside the five is ignored rather than stored, so an unrelated reporter entry
   // cannot invent a sixth hosted gate.
   store.record({ gateStates: [{ id: 'R1', state: 'satisfied' }], sourceRoot: root, runId: '1', at: T1 });
