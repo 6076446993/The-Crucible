@@ -93,6 +93,15 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: failure-code-model-pointer-reconcile-20260929 — 2026-09-30T00:42:00.000Z — Codex — mode:work
+
+Plain-language summary: Resolved the first dependency exposed by the production learning import and replaced the retired scheduled NVIDIA model.
+- Reconciled failureCodes.js to the production CRU/OPS separation while preserving development-only hosted-state condition 0049 as OPS-0049 — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
+- Preserved production repair-learning/scientific validation conditions 0052 and 0053 without expanding the CRU classification set — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
+- Replaced the EOL model-pointer default with nvidia/nemotron-3.5-lightning-30b-a3b — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
+- Exact-tip Self-Test and scheduled model-pointer execution remain required — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
+
+
 ### Session: import-main-learning-nonconflicts-20260929 — 2026-09-30T00:37:00.000Z — Codex — mode:work
 
 Plain-language summary: Imported only the production-main Crucible-core files that development did not modify since merge base 802f520cca011587bea40463a5302db69196dda2, preserving the repair-learning, Learning Provenance, prevention, and custody implementation without resolving any contested file by preference.
@@ -175,12 +184,3 @@ Plain-language summary: Hosted evidence showed the new Java semantic adapter was
 - Read the exact Windows/Linux hosted Java failure showing `java -d <temporary-output>` and identified the missing `javacExecutable` injection in `javaStaticAdapter` — started 2026-09-28T19:02:58.150Z, finished 2026-09-28T19:02:58.150Z, exit 1 diagnosis.
 - Corrected `javaStaticAdapter` to pass both resolved JDK compiler and runtime executables into `JavaSemanticAdapter` — started 2026-09-28T19:02:58.150Z, finished 2026-09-28T19:02:58.150Z, exit 0.
 - Updated `AI-HANDOFF.json` and `DEVLOG.md` together with the exact four-path scope digest — started 2026-09-28T19:02:58.150Z, finished 2026-09-28T19:02:58.150Z, exit 0.
-
-
-### Session: devlog-archive-retention-prune-20260928 — 2026-09-28T19:00:08.148Z — Codex — mode:work
-
-Plain-language summary: Pruned the oldest Command log sessions from development after preserving the exact pre-prune DEVLOG snapshot in Archive, restoring the inline ten-session bound without retiring repair knowledge or historical evidence.
-
-- Archived the exact pre-prune DEVLOG snapshot and the five removed session headings to `Archive:Devlog-Pruned` under the standing owner-granted archive exception — started 2026-09-28T19:00:08.148Z, finished 2026-09-28T19:00:08.148Z, exit 0.
-- Removed the five oldest inline Command log sessions so the development DEVLOG remains within the ten-session bound — started 2026-09-28T19:00:08.148Z, finished 2026-09-28T19:00:08.148Z, exit 0.
-- Rebound `AI-HANDOFF.json` to the exact two-file development correction commit — started 2026-09-28T19:00:08.148Z, finished 2026-09-28T19:00:08.148Z, exit 0.

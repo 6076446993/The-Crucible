@@ -58,7 +58,7 @@ jobs:
       # ended its life on 2026-08-26 - so the id has to be somewhere a reviewer can read it,
       # diff it, and date it. Secrets is no longer consulted for it at all; a repository
       # variable still overrides this default, and it prints in the log the way this one does.
-      NVIDIA_NIM_MODEL: ${{ vars.NVIDIA_NIM_MODEL || 'nvidia/nemotron-3-nano-30b-a3b' }}
+      NVIDIA_NIM_MODEL: ${{ vars.NVIDIA_NIM_MODEL || 'nvidia/nemotron-3.5-lightning-30b-a3b' }}
       # The base URL stays readable from either tab: it is configuration too, but unlike the
       # model there is a working default in the registry, so a missing value is not a failure.
       NVIDIA_NIM_BASE_URL: ${{ vars.NVIDIA_NIM_BASE_URL || secrets.NVIDIA_NIM_BASE_URL }}
