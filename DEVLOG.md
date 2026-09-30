@@ -110,6 +110,8 @@ Plain-language summary: Resolved the first dependency exposed by the production 
 - Exact-tip Self-Test, handoff, and CodeQL remain required; durable learning proof remains independently fail-closed on transferred private-state authorization — started 2026-09-30T01:00:00.000Z, finished 2026-09-30T01:00:00.000Z, exit 0.
 - Preserved the 57-edge circulation ratchet by reconciling production ownership: authorizedPrRepair is circulation and nexusCheckMonitor is immune; the baseline was not raised — started 2026-09-30T01:07:00.000Z, finished 2026-09-30T01:07:00.000Z, exit 0.
 - Kept CRU-0000 only as a historical uncoded marker and excluded it from active remedy/test-selection contracts; no catch-all classification was restored — started 2026-09-30T01:07:00.000Z, finished 2026-09-30T01:07:00.000Z, exit 0.
+- Changed the registry test to verify each public CRU/OPS lookup result instead of requiring historical internal registry keys to equal public operational codes — started 2026-09-30T01:14:00.000Z, finished 2026-09-30T01:14:00.000Z, exit 0.
+- Verified CRUCIBLE_SECURITY_READ_TOKEN is injected but cannot read GitHub repository Administration settings; the gate correctly remains fail-closed and requires owner-side token scope rather than a code bypass — started 2026-09-30T01:14:00.000Z, finished 2026-09-30T01:14:00.000Z, exit 0.
 
 
 ### Session: import-main-learning-nonconflicts-20260929 — 2026-09-30T00:37:00.000Z — Codex — mode:work
