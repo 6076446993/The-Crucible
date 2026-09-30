@@ -31,7 +31,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 // failureCodes lives in circulation, the wire rather than the cable, so looking a code up is
 // not a new direct organ-to-organ connection.
-const { crucibleError } = require('./failureCodes');
+const { crucibleError, operationalError } = require('./failureCodes');
 
 const GATES = Object.freeze(['R4', 'R5', 'R6', 'R7', 'R8']);
 
@@ -53,7 +53,7 @@ function canonical(value) {
 }
 function hash(value) { return crypto.createHash('sha256').update(canonical(value)).digest('hex'); }
 function text(value, label) {
-  if (typeof value !== 'string' || !value.trim()) throw crucibleError('CRU-0049', `${label} must be non-empty text.`);
+  if (typeof value !== 'string' || !value.trim()) throw operationalError('OPS-0049', `${label} must be non-empty text.`);
   return value;
 }
 
@@ -63,10 +63,10 @@ function text(value, label) {
 // though it were unchanged.
 function gateFingerprint(gateId, sourceRoot) {
   const deciders = GATE_DECIDERS[gateId];
-  if (!deciders) throw crucibleError('CRU-0049', `No decider files are declared for gate ${gateId}. Declared gates are ${GATES.join(', ')}.`);
+  if (!deciders) throw operationalError('OPS-0049', `No decider files are declared for gate ${gateId}. Declared gates are ${GATES.join(', ')}.`);
   const parts = deciders.map((name) => {
     const file = path.join(path.resolve(sourceRoot), name);
-    if (!fs.existsSync(file)) throw crucibleError('CRU-0049', `Gate ${gateId} declares decider ${name}, which does not exist under ${sourceRoot}. A renamed or deleted decider must be reconciled rather than fingerprinted around.`);
+    if (!fs.existsSync(file)) throw operationalError('OPS-0049', `Gate ${gateId} declares decider ${name}, which does not exist under ${sourceRoot}. A renamed or deleted decider must be reconciled rather than fingerprinted around.`);
     return { name, sha256: crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex') };
   });
   return { gateId, deciders: parts, fingerprint: hash(parts) };
@@ -92,7 +92,7 @@ class DurableGateEvidenceStore {
     if (!fs.existsSync(this.file)) return emptyEvidence(this.projectId);
     const envelope = JSON.parse(fs.readFileSync(this.file, 'utf8'));
     if (envelope?.sha256 !== hash(envelope.payload) || envelope.payload?.schemaVersion !== 1 || envelope.payload.projectId !== this.projectId || !envelope.payload.gates || typeof envelope.payload.gates !== 'object') {
-      throw crucibleError('CRU-0049', 'Durable gate-evidence integrity or project binding failed.');
+      throw operationalError('OPS-0049', 'Durable gate-evidence integrity or project binding failed.');
     }
     return structuredClone(envelope.payload);
   }
@@ -108,13 +108,13 @@ class DurableGateEvidenceStore {
 
   // Records what a run observed, bound to the fingerprint of the code that observed it.
   record({ gateStates, sourceRoot, runId, at }) {
-    if (!Array.isArray(gateStates)) throw crucibleError('CRU-0049', 'Gate states must be an array as the readiness reporter returns them.');
+    if (!Array.isArray(gateStates)) throw operationalError('OPS-0049', 'Gate states must be an array as the readiness reporter returns them.');
     const fingerprints = allFingerprints(sourceRoot);
     const payload = this.read();
     for (const gate of gateStates) {
       const id = text(gate?.id, 'gate.id');
       if (!GATES.includes(id)) continue;
-      if (!STATES.includes(gate.state)) throw crucibleError('CRU-0049', `Gate ${id} reported state "${gate.state}", which is not one of ${STATES.join(', ')}.`);
+      if (!STATES.includes(gate.state)) throw operationalError('OPS-0049', `Gate ${id} reported state "${gate.state}", which is not one of ${STATES.join(', ')}.`);
       payload.gates[id] = {
         state: gate.state,
         detail: gate.detail || null,
