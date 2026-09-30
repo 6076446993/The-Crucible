@@ -12,7 +12,7 @@
 const fs = require('node:fs');
 const { spawnSync } = require('node:child_process');
 const path = require('node:path');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError, operationalError } = require('./failureCodes');
 const { auditMutationClaims } = require('./mutationClaims');
 const { auditDevlogAccountability, findFuturePlanning } = require('./devlogAccountability');
 const { findCredentialLeaks } = require('./aiProviderRegistry');
@@ -24,13 +24,13 @@ function coordinationGate(root) {
   let plan = null;
   if (fs.existsSync(handoffPath)) {
     try { plan = JSON.parse(fs.readFileSync(handoffPath, 'utf8')); }
-    catch (error) { throw crucibleError('CRU-0029', `AI-HANDOFF.json is not valid JSON, so mutation ownership cannot be checked: ${error.message}`); }
+    catch (error) { throw operationalError('OPS-0029', `AI-HANDOFF.json is not valid JSON, so mutation ownership cannot be checked: ${error.message}`); }
   }
 
   const claims = plan && Array.isArray(plan.mutationClaims) ? plan.mutationClaims : [];
   const claimAudit = auditMutationClaims(claims);
   if (claimAudit.findings.length) {
-    throw crucibleError('CRU-0029', `Exclusive mutation ownership failed:\n${claimAudit.findings.map((item) => `- ${item.type}: ${item.detail}`).join('\n')}`);
+    throw operationalError('OPS-0029', `Exclusive mutation ownership failed:\n${claimAudit.findings.map((item) => `- ${item.type}: ${item.detail}`).join('\n')}`);
   }
 
   const devlogPath = path.join(root, 'DEVLOG.md');
@@ -39,7 +39,7 @@ function coordinationGate(root) {
   const archivedDevlog = archiveResult.status === 0 ? archiveResult.stdout : '';
   const accountability = auditDevlogAccountability({ devlog, archivedDevlog, claims });
   const record = [...accountability.findings, ...findFuturePlanning(devlog)];
-  if (record.length) throw crucibleError('CRU-0035', `DEVLOG accountability failed:\n${record.map((item) => `- ${item.type}: ${item.detail}`).join('\n')}`);
+  if (record.length) throw operationalError('OPS-0035', `DEVLOG accountability failed:\n${record.map((item) => `- ${item.type}: ${item.detail}`).join('\n')}`);
 
   // Checked here, and not only in the security gate, because these three files are the ones an
   // AI rewrites on literally every change - which makes them the likeliest place for a working
