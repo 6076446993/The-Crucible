@@ -112,6 +112,8 @@ Plain-language summary: Resolved the first dependency exposed by the production 
 - Kept CRU-0000 only as a historical uncoded marker and excluded it from active remedy/test-selection contracts; no catch-all classification was restored — started 2026-09-30T01:07:00.000Z, finished 2026-09-30T01:07:00.000Z, exit 0.
 - Changed the registry test to verify each public CRU/OPS lookup result instead of requiring historical internal registry keys to equal public operational codes — started 2026-09-30T01:14:00.000Z, finished 2026-09-30T01:14:00.000Z, exit 0.
 - Verified CRUCIBLE_SECURITY_READ_TOKEN is injected but cannot read GitHub repository Administration settings; the gate correctly remains fail-closed and requires owner-side token scope rather than a code bypass — started 2026-09-30T01:14:00.000Z, finished 2026-09-30T01:14:00.000Z, exit 0.
+- Rebound the workflow_run auto-repair trigger to 6076446993/The-Crucible on development and added a regression that preserves candidate-only repair/prevention learning with promotionAuthorized false — started 2026-09-30T01:19:00.000Z, finished 2026-09-30T01:19:00.000Z, exit 0.
+- Exact-tip verification remains required before protected promotion; no production branch was edited directly — started 2026-09-30T01:19:00.000Z, finished 2026-09-30T01:19:00.000Z, exit 0.
 
 
 ### Session: import-main-learning-nonconflicts-20260929 — 2026-09-30T00:37:00.000Z — Codex — mode:work
