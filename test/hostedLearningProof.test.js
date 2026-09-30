@@ -22,7 +22,7 @@ test('the hosted proof resolves a real harness per language instead of one closu
   // Different languages must not collapse onto one harness, which is exactly what made a Java
   // claim testable by a JavaScript snippet.
   assert.notEqual(java.experiment.id, javascript.experiment.id);
-  assert.throws(() => harnessesForDeclaration({ language: 'cobol' }, { projectId: 'github:owner/repo' }), /OPS-0050/);
+  assert.throws(() => harnessesForDeclaration({ language: 'cobol' }, { projectId: 'github:owner/repo' }), /OPS-0054/);
 
   const source = fs.readFileSync(path.join(__dirname, '..', 'src', 'hostedLearningProof.js'), 'utf8');
   assert.doesNotMatch(source, /github-controlled-runner|github-independent-runner/, 'the hardcoded pair must stay deleted');
