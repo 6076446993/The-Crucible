@@ -586,3 +586,13 @@ test('the required block gate delegates to the PR monitor without recursion', ()
   assert.match(workflow,/Monitor all Crucible-monitored PRs/);
   assert.match(workflow,/github\.event\.pull_request\.head\.sha/);
 });
+
+
+test('auto-repair learning is bound to the organization repository and remains candidate-only', () => {
+  const workflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'auto-repair-learning.yml'), 'utf8');
+  assert.match(workflow, /repository\.full_name == '6076446993\/The-Crucible'/);
+  assert.doesNotMatch(workflow, /repository\.full_name == 'jonathanblunt1214-lgtm\/The-Crucible'/);
+  assert.match(workflow, /learning:queue-prevention/);
+  assert.match(workflow, /promotionAuthorized:\s*false/);
+  assert.match(workflow, /Repair observations are learned evidence only/);
+});
