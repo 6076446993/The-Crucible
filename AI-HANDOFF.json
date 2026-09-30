@@ -111,7 +111,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-09-30T00:50:00.000Z"
+    "lastActionAt": "2026-09-30T01:00:00.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -208,7 +208,7 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-30T00:50:00.000Z",
+      "selectedAt": "2026-09-30T01:00:00.000Z",
       "promptSha256": "c744f00b368493c03e87e460d245221fb4ffc0911ef3114ebe42541c9e212dce",
       "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
@@ -221,8 +221,8 @@
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-30T00:50:00.000Z",
-    "currentStep": 52,
+    "lastUpdatedAt": "2026-09-30T01:00:00.000Z",
+    "currentStep": 53,
     "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
     "ownership": {
       "currentClaim": null,
@@ -314,7 +314,7 @@
         "owner": "user-or-oversight"
       }
     ],
-    "nextAction": "Verify exact-tip Self-Test after the CRU/OPS call-site migration and the distinct OPS-0054 experiment-harness code; repair only observed failures before returning to credential-blocked custody proofs.",
+    "nextAction": "Verify the exact development tip after registering imported production learning modules in the organism map and finishing CRU/OPS compatibility repairs; only observed failures may drive further reconciliation.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
