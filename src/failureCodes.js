@@ -673,6 +673,18 @@ const FAILURE_CODES = Object.freeze({
       forbidden: 'Never bypass proof validation or treat an invalid experimental or independent-verification record as evidence of knowledge.'
     },
   },
+  'CRU-0054': {
+    code: 'OPS-0054',
+    category: 'experiment-harness',
+    meaning: 'A controlled experiment cannot run honestly because its language harness, required toolchain, fixture assertion, negative control, or independent verifier is unavailable or invalid.',
+    next: 'Repair the language-specific harness or toolchain named by the message, preserve distinct executor and verifier methods, and rerun the hosted experiment tests.',
+    remedy: {
+      kind: 'guided',
+      command: 'npm test',
+      verifyWith: { tests: ['test/hostedExperimentHarnesses.test.js', 'test/hostedLearningProof.test.js'] },
+      forbidden: 'Never substitute another language harness, add a default harness, weaken a negative control, or treat an unavailable experiment as proof.',
+    },
+  },
   'CRU-0052': {
     code: 'CRU-0052',
     category: 'repair-learning',
@@ -777,7 +789,7 @@ function describeOperationalCode(code) {
   const legacyCode = legacyCodeForOperational(code);
   if (!legacyCode || !LEGACY_NON_CRU_CODES.has(legacyCode)) return null;
   const entry = FAILURE_CODES[legacyCode];
-  return entry && entry.code === code ? entry : null;
+  return entry ? { ...entry, code: String(code) } : null;
 }
 
 function operationalCode(error) {
