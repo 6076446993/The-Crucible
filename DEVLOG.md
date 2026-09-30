@@ -105,6 +105,9 @@ Plain-language summary: Resolved the first dependency exposed by the production 
 - Exact-tip Self-Test remains the acceptance evidence for this reconciliation; private learning-state SSH failures remain external authorization blockers and are not bypassed — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
 - Separated the inherited 0050 collision: authorized-repair rejection remains OPS-0050 and experiment/toolchain refusal is OPS-0054; neither was promoted into CRU — started 2026-09-30T00:50:00.000Z, finished 2026-09-30T00:50:00.000Z, exit 0.
 - Corrected the coverage fixture so its positive control uses true CRU classification CRU-0002 while retired operational calls remain measurable migration debt — started 2026-09-30T00:50:00.000Z, finished 2026-09-30T00:50:00.000Z, exit 0.
+- Registered the nine imported production modules using the ownership already defined on production main: learningProvenance/repairLearning/preventionCandidateCli/adaptiveLearning/failureRecord in learning, testLifecycle in nerves, and repairLearningGateway/cruPrevention/vettedLearningAdapter in circulation — started 2026-09-30T01:00:00.000Z, finished 2026-09-30T01:00:00.000Z, exit 0.
+- Updated durable gate tests to expect OPS-0049 and preserved historical CRU-0000 as a retired uncoded marker rather than creating OPS-0000 — started 2026-09-30T01:00:00.000Z, finished 2026-09-30T01:00:00.000Z, exit 0.
+- Exact-tip Self-Test, handoff, and CodeQL remain required; durable learning proof remains independently fail-closed on transferred private-state authorization — started 2026-09-30T01:00:00.000Z, finished 2026-09-30T01:00:00.000Z, exit 0.
 
 
 ### Session: import-main-learning-nonconflicts-20260929 — 2026-09-30T00:37:00.000Z — Codex — mode:work
