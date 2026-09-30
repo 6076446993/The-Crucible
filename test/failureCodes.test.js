@@ -25,7 +25,9 @@ test('every code carries a meaning and a remedy the immune system can act on', (
   for (const [code, entry] of Object.entries(FAILURE_CODES)) {
     if (code === UNCODED) continue; // historical marker only; never an active classification or repair code
     const publicCode = operationalCodeFor(code) || code;
-    assert.equal(entry.code, publicCode, `${code} must expose the correct public code`);
+    const publicEntry = describeCode(publicCode) || describeOperationalCode(publicCode);
+    assert.ok(publicEntry, `${code} must resolve through its public code ${publicCode}`);
+    assert.equal(publicEntry.code, publicCode, `${code} must expose the correct public code`);
     assert.ok(entry.category, `${code} needs a category`);
     assert.ok(entry.meaning && entry.meaning.length > 20, `${code} needs a meaning a reader can act on`);
     assert.ok(entry.next && entry.next.length > 20, `${code} needs a next action`);
