@@ -5,7 +5,7 @@ const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError, operationalError } = require('./failureCodes');
 const { ExternalOversightReflex } = require('./oversightReflex');
 const { createProductionOrganism, submitNervousObservation } = require('./productionOrganism');
 
@@ -18,14 +18,14 @@ function sha256(value) {
     .digest('hex');
 }
 function requireText(value, name) {
-  if (typeof value !== 'string' || !value.trim()) throw crucibleError('CRU-0050', `${name} is required.`);
+  if (typeof value !== 'string' || !value.trim()) throw operationalError('OPS-0050', `${name} is required.`);
   return value.trim();
 }
 function readAuthorization(file = DEFAULT_AUTH_FILE, readFile = fs.readFileSync) {
   const text = readFile(file, 'utf8');
-  if (!text) throw crucibleError('CRU-0050', `Repair authorization file is empty: ${file}`);
+  if (!text) throw operationalError('OPS-0050', `Repair authorization file is empty: ${file}`);
   const authorization = JSON.parse(text);
-  if (!authorization || authorization.schemaVersion !== 1) throw crucibleError('CRU-0050', 'Repair authorization must use schemaVersion 1.');
+  if (!authorization || authorization.schemaVersion !== 1) throw operationalError('OPS-0050', 'Repair authorization must use schemaVersion 1.');
   return authorization;
 }
 function authorizationScope(a) {
@@ -59,24 +59,24 @@ function verifyAuthorization({authorization,repository,pullRequest,headSha,failu
 }
 function run(command,args,cwd,env) {
   const result=spawnSync(command,args,{cwd,env,shell:false,encoding:'utf8',maxBuffer:8*1024*1024});
-  if(result.error)throw crucibleError('CRU-0050', result.error.message || String(result.error));
-  if(result.status!==0)throw crucibleError('CRU-0050', `${command} exited with ${result.status}: ${String(result.stderr||result.stdout||'').slice(-4000)}`);
+  if(result.error)throw operationalError('OPS-0050', result.error.message || String(result.error));
+  if(result.status!==0)throw operationalError('OPS-0050', `${command} exited with ${result.status}: ${String(result.stderr||result.stdout||'').slice(-4000)}`);
   return String(result.stdout||'');
 }
 function git(cwd,args,env){return run('git',args,cwd,env);}
 function parseRepairCommand(command) {
   const match=/^npm run ([a-z0-9:_-]+)$/.exec(String(command||'').trim());
-  if(!match)throw crucibleError('CRU-0050', `Repair command is outside the bounded npm-run repair surface: ${command}`);
+  if(!match)throw operationalError('OPS-0050', `Repair command is outside the bounded npm-run repair surface: ${command}`);
   return {executable:process.platform==='win32'?'npm.cmd':'npm',args:['run',match[1]]};
 }
 function createRepairActuator({token,repository,branch,baseSha,failureCode,command}) {
-  if(!token)throw crucibleError('CRU-0050', 'CRUCIBLE_REPAIR_TOKEN is required for an authorized cross-repository repair.');
-  if(!/^\S+\/\S+$/.test(repository))throw crucibleError('CRU-0050', 'A full GitHub repository name is required.');
-  if(!/^[a-f0-9]{40}$/.test(baseSha))throw crucibleError('CRU-0050', 'The repair actuator requires the exact PR head SHA.');
+  if(!token)throw operationalError('OPS-0050', 'CRUCIBLE_REPAIR_TOKEN is required for an authorized cross-repository repair.');
+  if(!/^\S+\/\S+$/.test(repository))throw operationalError('OPS-0050', 'A full GitHub repository name is required.');
+  if(!/^[a-f0-9]{40}$/.test(baseSha))throw operationalError('OPS-0050', 'The repair actuator requires the exact PR head SHA.');
   const parsed=parseRepairCommand(command);
   return {async run({projectId,boundary,changeBaseSha256}) {
-    if(projectId!==`github:${repository}`)throw crucibleError('CRU-0050', 'Repair actuator project identity mismatch.');
-    if(changeBaseSha256&&changeBaseSha256!==sha256(baseSha))throw crucibleError('CRU-0050', 'Repair actuator base SHA does not match the authorized exact tip.');
+    if(projectId!==`github:${repository}`)throw operationalError('OPS-0050', 'Repair actuator project identity mismatch.');
+    if(changeBaseSha256&&changeBaseSha256!==sha256(baseSha))throw operationalError('OPS-0050', 'Repair actuator base SHA does not match the authorized exact tip.');
     const worktree=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-pr-repair-'));
     try {
       const env={...process.env,GIT_TERMINAL_PROMPT:'0'};
@@ -85,7 +85,7 @@ function createRepairActuator({token,repository,branch,baseSha,failureCode,comma
       git(worktree,['-c',`http.extraheader=Authorization: Bearer ${token}`,'fetch','--depth=1','origin',baseSha],env);
       git(worktree,['checkout','-q','-b',branch,'FETCH_HEAD'],env);
       const before=git(worktree,['rev-parse','HEAD'],env).trim();
-      if(before!==baseSha)throw crucibleError('CRU-0050', `Fetched repair tip ${before} does not equal authorized tip ${baseSha}.`);
+      if(before!==baseSha)throw operationalError('OPS-0050', `Fetched repair tip ${before} does not equal authorized tip ${baseSha}.`);
       const plan={command,failureCode,boundary,before};
       run(parsed.executable,parsed.args,worktree,env);
       const status=git(worktree,['status','--porcelain'],env);
@@ -105,7 +105,7 @@ async function githubJson(fetchImpl, url, token) {
     authorization:`Bearer ${token}`,
   }});
   const body=await response.json();
-  if(!response.ok)throw crucibleError('CRU-0050', `GitHub API ${response.status}: ${body.message||'request failed'}`);
+  if(!response.ok)throw operationalError('OPS-0050', `GitHub API ${response.status}: ${body.message||'request failed'}`);
   return body;
 }
 async function waitForRetest({fetchImpl,repository,sha,token,timeoutMs=10*60*1000,pollMs=15000}) {
@@ -125,7 +125,7 @@ async function waitForRetest({fetchImpl,repository,sha,token,timeoutMs=10*60*100
 function requireRepairDependencies(dependencies) {
   const required = ['learningStore','diagnosticPlanner','diagnosticOrgan','experienceRecorder','reporter','digestiveWorker','testingOrgan','oversightReflex'];
   const missing = required.filter((name) => dependencies?.[name] == null);
-  if (missing.length) throw crucibleError('CRU-0050', `Authorized repair dependencies must be injected through the governed circulation boundary: ${missing.join(', ')}.`);
+  if (missing.length) throw operationalError('OPS-0050', `Authorized repair dependencies must be injected through the governed circulation boundary: ${missing.join(', ')}.`);
   return dependencies;
 }
 
