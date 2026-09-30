@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   repair:
-    if: github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.repository.full_name == 'jonathanblunt1214-lgtm/The-Crucible'
+    if: github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.repository.full_name == '6076446993/The-Crucible'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
