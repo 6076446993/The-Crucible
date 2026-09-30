@@ -5,6 +5,7 @@ Plain-language summary: The hosted semantic proof was still failing on Windows b
 
 - Updated the Java hosted-proof verifier to normalize constructor identities across JDK versions — started 2026-09-28T19:20:19.755Z, finished 2026-09-28T19:20:19.755Z, exit 0.
 - The runtime experiment remains real and independent; no test was weakened or skipped.
+ - Synchronized the stable four-bucket test-classification snapshot to the exact explicit Code registry after the imported learning/test-lifecycle tests were registered; no category was changed — started 2026-09-30T01:54:00.000Z, finished 2026-09-30T01:54:00.000Z, exit 0.
 
 ### Session: java-semantic-and-accountability-correction-20260928 — 2026-09-28T19:17:16.871Z — Codex — mode:work
 
