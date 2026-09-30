@@ -93,7 +93,7 @@ test('the coverage ratchet lets the diagnosable surface grow and never shrink', 
   const sourceDir = path.join(root, 'src');
   fs.mkdirSync(sourceDir);
   fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw crucibleError("CRU-0012", "one");\nthrow crucibleError("CRU-0014", "two");\n');
-  fs.writeFileSync(path.join(sourceDir, 'b.js'), 'throw crucibleError("CRU-0001", "coded");\n');
+  fs.writeFileSync(path.join(sourceDir, 'b.js'), 'throw crucibleError("CRU-0002", "coded");\n');
 
   const measured = coverageReport(sourceDir);
   assert.equal(measured.uncoded, 2);
@@ -109,7 +109,7 @@ test('the coverage ratchet lets the diagnosable surface grow and never shrink', 
   assert.match(grown.reason, /rose from 2 to 3/);
   assert.match(grown.reason, /a\.js 2 -> 3/);
 
-  fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw crucibleError("CRU-0001", "now coded");\n');
+  fs.writeFileSync(path.join(sourceDir, 'a.js'), 'throw crucibleError("CRU-0002", "now coded");\n');
   const tightened = auditFailureCodes({ root: sourceDir, baselineFile });
   assert.equal(tightened.ok, true);
   assert.equal(tightened.tightened, true);
