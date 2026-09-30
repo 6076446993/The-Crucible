@@ -31,7 +31,7 @@
 // than a zero and reads as `indeterminate` instead of refused. That fails closed, so it stays.
 //
 // This module reports. It decides no gate, writes nothing, and calls nothing over the network.
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 // A refused job is rejected by the control plane, not by a runner, so it ends almost instantly.
 // This is a corroborating bound, never the deciding one: a slow refusal is still a refusal, and
@@ -72,7 +72,7 @@ function billedMillisecondsFor(jobId, usage) {
 
 function diagnoseJob(job, usage) {
   if (!job || typeof job !== 'object') {
-    throw crucibleError('CRU-0046', 'Startup diagnosis requires the job objects as GitHub returned them; a missing job cannot be diagnosed, and guessing one would invent evidence.');
+    throw operationalError('OPS-0046', 'Startup diagnosis requires the job objects as GitHub returned them; a missing job cannot be diagnosed, and guessing one would invent evidence.');
   }
   const steps = Array.isArray(job.steps) ? job.steps : null;
   const executedSteps = steps ? steps.filter((step) => step?.conclusion && step.conclusion !== 'skipped').length : null;
@@ -129,7 +129,7 @@ function diagnoseJob(job, usage) {
 // block this module exists to name.
 function diagnoseRun({ jobs, usage = null } = {}) {
   if (!Array.isArray(jobs)) {
-    throw crucibleError('CRU-0046', 'Startup diagnosis requires an array of the run\'s jobs; without them a run cannot be told apart from a refused one.');
+    throw operationalError('OPS-0046', 'Startup diagnosis requires an array of the run\'s jobs; without them a run cannot be told apart from a refused one.');
   }
   if (!jobs.length) {
     return { schemaVersion: 1, verdict: VERDICTS.indeterminate, jobs: [], allJobsRefused: false, anyJobRefused: false, detail: 'the run reported no jobs, so nothing can be diagnosed', authorizesGateChange: false };

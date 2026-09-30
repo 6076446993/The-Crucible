@@ -50,7 +50,7 @@ test('acquiring a claim over a held scope is refused with its failure code', () 
   const held = [claim('task-a', OPENAI, { paths: ['src/extractor.js'] })];
   assert.throws(
     () => acquireClaim(held, claim('task-b', ANTHROPIC, { paths: ['src/'] })),
-    (error) => error.crucibleCode === 'CRU-0029' && /already held by openai/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0029' && /already held by openai/.test(error.message),
   );
 });
 
@@ -66,7 +66,7 @@ test('a second AI may not mutate a scope claimed by the first', () => {
   const claims = [claim('task-a', OPENAI, { paths: ['src/extractor.js'] })];
   assert.throws(
     () => assertMutationAllowed({ claims, actor: ANTHROPIC, paths: ['src/extractor.js'] }),
-    (error) => error.crucibleCode === 'CRU-0030' && /may read, test, review, critique and propose/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0030' && /may read, test, review, critique and propose/.test(error.message),
   );
 });
 
@@ -81,7 +81,7 @@ test('ownership can be explicitly handed off, and the successor may then mutate'
   assert.deepEqual(auditMutationClaims(claims).findings, []);
   assert.equal(auditMutationClaims(claims).active, 1);
   assert.ok(assertMutationAllowed({ claims, actor: ANTHROPIC, paths: ['src/extractor.js'] }).allowed);
-  assert.throws(() => assertMutationAllowed({ claims, actor: OPENAI, paths: ['src/extractor.js'] }), (error) => error.crucibleCode === 'CRU-0030');
+  assert.throws(() => assertMutationAllowed({ claims, actor: OPENAI, paths: ['src/extractor.js'] }), (error) => error.operationalCode === 'OPS-0030');
 });
 
 test('releasing a claim frees the scope for another AI', () => {
@@ -95,7 +95,7 @@ test('a contested mutation is blocked while unrelated work continues', () => {
   const conflicts = [{ id: 'extractor-approach', status: 'open', contestedScope: { paths: ['src/extractor.js'] } }];
   assert.throws(
     () => assertMutationAllowed({ claims: [], conflicts, actor: OPENAI, paths: ['src/extractor.js'] }),
-    (error) => error.crucibleCode === 'CRU-0031' && /frozen by unresolved AI conflict/.test(error.message),
+    (error) => error.operationalCode === 'OPS-0031' && /frozen by unresolved AI conflict/.test(error.message),
   );
   // The freeze is scoped to what is contested; everything else keeps moving.
   assert.ok(assertMutationAllowed({ claims: [], conflicts, actor: OPENAI, paths: ['src/retriever.js'] }).allowed);

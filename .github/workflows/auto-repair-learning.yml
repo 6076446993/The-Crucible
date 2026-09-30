@@ -1,0 +1,136 @@
+name: Crucible Auto-Repair and Repair Learning
+
+on:
+  workflow_run:
+    workflows:
+      - The Crucible Self-Test
+      - Third-branch main-reference integrity
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+jobs:
+  repair:
+    if: github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.repository.full_name == 'jonathanblunt1214-lgtm/The-Crucible'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_REPOSITORY: ${{ github.event.workflow_run.repository.full_name }}
+      GITHUB_SHA: ${{ github.event.workflow_run.head_sha }}
+      CRUCIBLE_PROJECT_ID: the-crucible
+    steps:
+      - name: Check out the exact failed revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Fetch branch tips required by governed cross-branch repair
+        if: github.event.workflow_run.name == 'Third-branch main-reference integrity'
+        run: git fetch --no-tags origin '+refs/heads/*:refs/remotes/origin/*'
+
+      - name: Apply only the Crucible's existing bounded auto-repairs
+        env:
+          CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
+        run: |
+          if [ "${{ github.event.workflow_run.name }}" = "Third-branch main-reference integrity" ]; then
+            npm run repair:reference-branches
+          else
+            npm run repair
+          fi
+
+      - name: Verify every repair before proposing it
+        run: |
+          git diff --check
+          npm run lint:workflows
+          npm run audit:privacy
+          npm run audit:failure-codes
+          npm run validate
+          npm test
+
+      - name: Ingest the DEVLOG into repair-learning custody
+        if: always()
+        env:
+          CRUCIBLE_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
+          CRUCIBLE_PROJECT_ID: the-crucible
+          GITHUB_REPOSITORY: ${{ github.event.workflow_run.repository.full_name }}
+        run: npm run learning:devlog
+
+      - name: Queue mapped prevention candidates from CRU repair evidence
+        if: always()
+        env:
+          CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
+          CRUCIBLE_PROJECT_ID: the-crucible
+        run: npm run learning:queue-prevention
+
+      - name: Write repair-learning summary
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p "${{ runner.temp }}/repair-learning-proof"
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const { execFileSync } = require('node:child_process');
+          const root = process.cwd();
+          const learningRoot = process.env.CRUCIBLE_REPAIR_LEARNING_ROOT;
+          const changed = execFileSync('git', ['status', '--short'], { encoding: 'utf8' }).trim();
+          const payload = {
+            schemaVersion: 1,
+            source: process.env.FAILED_WORKFLOW || 'The Crucible Auto-Repair and Repair Learning',
+            failedWorkflowRunId: String(process.env.FAILED_RUN_ID),
+            failedCommitSha: process.env.FAILED_SHA,
+            repairResult: changed ? 'working-tree-changes-present' : 'no-working-tree-changes',
+            changedFiles: changed ? changed.split('\\n').map(line => line.slice(3)).filter(Boolean) : [],
+            learningRoot,
+            recordedAs: 'durable candidate repair observations plus separately queued prevention candidates when declared CRU mappings exist',
+            promotionAuthorized: false,
+            note: 'Repair observations are learned evidence only. They are not promoted to verified knowledge by this workflow.'
+          };
+          fs.writeFileSync('${{ runner.temp }}/repair-learning-proof/summary.json', JSON.stringify(payload, null, 2) + '\\n');
+          NODE
+        env:
+          FAILED_RUN_ID: ${{ github.event.workflow_run.id }}
+          FAILED_WORKFLOW: ${{ github.event.workflow_run.name }}
+          FAILED_SHA: ${{ github.event.workflow_run.head_sha }}
+          CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
+
+      - name: Preserve repair-derived learning evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: crucible-repair-learning-${{ github.event.workflow_run.id }}-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/crucible-repair-learning
+            ${{ runner.temp }}/repair-learning-proof/summary.json
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Create a reviewable repair branch when verification passed
+        if: success()
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No bounded auto-repair was applicable."
+            exit 0
+          fi
+          branch="crucible-auto-repair-${{ github.event.workflow_run.id }}-${{ github.run_id }}"
+          git config user.name "The Crucible Auto-Repair"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add -A
+          git commit -m "Auto-repair verified Crucible failure from run ${{ github.event.workflow_run.id }}"
+          git push --set-upstream origin "$branch"
+          gh pr create             --repo "${{ github.event.workflow_run.repository.full_name }}"             --head "$branch"             --base "${{ github.event.workflow_run.head_branch }}"             --title "Crucible auto-repair: run ${{ github.event.workflow_run.id }}"             --body "The Crucible Self-Test run ${{ github.event.workflow_run.id }} failed. The existing bounded repair engine was applied to the exact failed revision, then workflow lint, privacy, failure-code coverage, validation, and npm test passed. Repair-derived evidence was recorded in durable candidate learning custody and is not promoted automatically."

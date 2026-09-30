@@ -159,19 +159,19 @@ test('the ledger fails closed on tampering, a foreign project, and an unknown cl
   const store = new ScopePreRegistrationLedger({ root: directory, projectId: PROJECT });
   screenDeclarations({ declarations: [declaration()], ledger: store, at: T1 });
 
-  assert.throws(() => store.recordOutcome('a claim nobody pre-registered', 'verified', T2), /CRU-0048.*No scope pre-registration exists/s);
-  assert.throws(() => store.recordOutcome(KEY, 'probably-fine', T2), /CRU-0048.*outcome must be one of/s);
-  assert.throws(() => new ScopePreRegistrationLedger({ root: directory, projectId: '' }), /CRU-0048/);
+  assert.throws(() => store.recordOutcome('a claim nobody pre-registered', 'verified', T2), /OPS-0048.*No scope pre-registration exists/s);
+  assert.throws(() => store.recordOutcome(KEY, 'probably-fine', T2), /OPS-0048.*outcome must be one of/s);
+  assert.throws(() => new ScopePreRegistrationLedger({ root: directory, projectId: '' }), /OPS-0048/);
 
   // Editing the recorded boundary by hand is exactly the move this ledger exists to catch.
   const file = path.join(directory, 'scope-pre-registration.json');
   const envelope = JSON.parse(fs.readFileSync(file, 'utf8'));
   envelope.payload.registrations[0].content.claimScope = 'something the run never saw';
   fs.writeFileSync(file, JSON.stringify(envelope, null, 2));
-  assert.throws(() => store.read(), /CRU-0048.*integrity or project binding failed/s);
+  assert.throws(() => store.read(), /OPS-0048.*integrity or project binding failed/s);
 
   const foreign = new ScopePreRegistrationLedger({ root: directory, projectId: 'github:someone/else' });
-  assert.throws(() => foreign.read(), /CRU-0048/);
+  assert.throws(() => foreign.read(), /OPS-0048/);
 });
 
 test('each declaration is screened on its own, so one refusal does not take the others down', () => {

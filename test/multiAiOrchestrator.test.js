@@ -34,10 +34,10 @@ test('a task is distributed to every provider and answers are kept separate with
 
 test('an unusable task is refused rather than half-distributed', async () => {
   const orch = orchestrator({ openai: answering('x') });
-  await assert.rejects(() => orch.distribute({ taskId: '', prompt: 'p' }), (error) => error.crucibleCode === 'CRU-0034');
-  await assert.rejects(() => orch.distribute({ taskId: 'valid-task', prompt: '' }), (error) => error.crucibleCode === 'CRU-0034');
+  await assert.rejects(() => orch.distribute({ taskId: '', prompt: 'p' }), (error) => error.operationalCode === 'OPS-0034');
+  await assert.rejects(() => orch.distribute({ taskId: 'valid-task', prompt: '' }), (error) => error.operationalCode === 'OPS-0034');
   const empty = new MultiAiOrchestrator({ env: ENV, now: NOW });
-  await assert.rejects(() => empty.distribute({ taskId: 'valid-task', prompt: 'p' }), (error) => error.crucibleCode === 'CRU-0034' && /No providers are registered/.test(error.message));
+  await assert.rejects(() => empty.distribute({ taskId: 'valid-task', prompt: 'p' }), (error) => error.operationalCode === 'OPS-0034' && /No providers are registered/.test(error.message));
 });
 
 test('a credential in the prompt never leaves the process', async () => {
@@ -129,7 +129,7 @@ test('the orchestrator enforces exclusive mutation ownership rather than assumin
   const claims = [{ taskId: 'held', owner: { provider: 'anthropic', agent: 'b' }, scope: { paths: ['src/extractor.js'] }, purpose: 'p', status: 'active', acquiredAt: '2026-09-03T17:00:00Z' }];
   assert.throws(
     () => orch.assertMayMutate({ claims, conflicts: [], actor: { provider: 'openai', agent: 'a' }, paths: ['src/extractor.js'] }),
-    (error) => error.crucibleCode === 'CRU-0030',
+    (error) => error.operationalCode === 'OPS-0030',
   );
   assert.ok(orch.assertMayMutate({ claims, conflicts: [], actor: { provider: 'openai', agent: 'a' }, paths: ['src/other.js'] }).allowed);
 });
