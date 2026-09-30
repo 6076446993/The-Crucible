@@ -96,9 +96,9 @@ Released mutation claims remain durable facts even after their detailed session 
 ### Session: repair-missed-handoff-after-test-registration-20260929 — 2026-09-30T01:25:00.000Z — Codex — mode:work
 
 Plain-language summary: Repaired the chain-of-custody gap left by commit 3d77ec0111e6b80696d1a148af4144e37fdcd990, which registered imported learning tests with the Orchestrator without updating the mandatory handoff pair.
-- Recorded the exact prior project change and preserved its purpose; no test selection rule was weakened.
-- Regenerated activePlan.taskRouting for this governance-only follow-up so its affected-path digest exactly matches AI-HANDOFF.json and DEVLOG.md.
-- Hosted Self-Test remains required. CRU-0006 repository-security verification and private learning-state access remain external credential boundaries and are not bypassed.
+- Recorded the exact prior project change and preserved its purpose; no test selection rule was weakened — started 2026-09-30T01:25:00.000Z, finished 2026-09-30T01:25:00.000Z, exit 0.
+- Regenerated activePlan.taskRouting for this governance-only follow-up so its affected-path digest exactly matches AI-HANDOFF.json and DEVLOG.md — started 2026-09-30T01:25:00.000Z, finished 2026-09-30T01:25:00.000Z, exit 0.
+- Hosted Self-Test remains required. CRU-0006 repository-security verification and private learning-state access remain external credential boundaries and are not bypassed — started 2026-09-30T01:25:00.000Z, finished 2026-09-30T01:25:00.000Z, exit 0.
 
 
 ### Session: failure-code-model-pointer-reconcile-20260929 — 2026-09-30T00:42:00.000Z — Codex — mode:work
