@@ -1,4 +1,4 @@
-const crypto=require('node:crypto');const fs=require('node:fs');const os=require('node:os');const path=require('node:path');const {execFile}=require('node:child_process');const ts=require('typescript');const {crucibleError}=require('./failureCodes');
+const crypto=require('node:crypto');const fs=require('node:fs');const os=require('node:os');const path=require('node:path');const {execFile}=require('node:child_process');const ts=require('typescript');const { crucibleError, operationalError } = require('./failureCodes');
 const sha=(value)=>crypto.createHash('sha256').update(value).digest('hex');
 const SOURCE_NAMES=new Set(['request','req','body','query','params','input','userInput','stdin']);
 const SINK_NAMES=new Set(['eval','exec','execute','query','system','spawn','innerHTML','writeFile']);
@@ -71,7 +71,7 @@ function fixtureRecords(root,files){return files.map((item)=>({file:item,sha256:
 class JavaRuntimeAdapter{
   constructor({projectId,root,javacExecutable,javaExecutable,timeoutMs=120000}){this.projectId=projectId;this.root=path.resolve(root);this.javac=path.resolve(javacExecutable);this.java=path.resolve(javaExecutable);this.id='jdk-compile-and-execute';this.worker=new SecureCompilerWorker({root:this.root,allowExecutables:[this.javac,this.java],timeoutMs});}
   async analyze({files,mainClass}){
-    if(typeof mainClass!=='string'||!mainClass.trim())throw crucibleError('CRU-0050','Java runtime analysis requires the main class to execute.');
+    if(typeof mainClass!=='string'||!mainClass.trim())throw operationalError('OPS-0050','Java runtime analysis requires the main class to execute.');
     for(const item of files)inside(this.root,item);
     // Class files land in a fresh temporary directory so a measurement never writes into the
     // repository it is measuring.
@@ -89,7 +89,7 @@ class JavaRuntimeAdapter{
 class NodeRuntimeAdapter{
   constructor({projectId,root,nodeExecutable=process.execPath,timeoutMs=60000}){this.projectId=projectId;this.root=path.resolve(root);this.node=path.resolve(nodeExecutable);this.id='node-execute';this.worker=new SecureCompilerWorker({root:this.root,allowExecutables:[this.node],timeoutMs});}
   async analyze({files}){
-    if(!Array.isArray(files)||!files.length)throw crucibleError('CRU-0050','Node runtime analysis requires a fixture file to execute.');
+    if(!Array.isArray(files)||!files.length)throw operationalError('OPS-0050','Node runtime analysis requires a fixture file to execute.');
     for(const item of files)inside(this.root,item);
     const executed=await this.worker.run(this.node,[path.resolve(this.root,files[0])]);
     return {schemaVersion:1,projectId:this.projectId,adapter:{id:this.id,version:process.version},files:fixtureRecords(this.root,files),diagnostics:[],observations:observationsFrom(executed.stdout),custody:{stdoutSha256:executed.stdoutSha256,stderrSha256:executed.stderrSha256}};
