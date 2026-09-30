@@ -6,7 +6,7 @@
 // read the handover before touching anything, take a scope, give it back, hand it to someone
 // else, and put one bounded question to several providers at once.
 const path = require('node:path');
-const { crucibleError, failureCode, UNCODED } = require('./failureCodes');
+const { crucibleError, failureCode, UNCODED, operationalError } = require('./failureCodes');
 const { listClaims, acquire, release, handOff } = require('./mutationClaimStore');
 const { inspectForContinuation, formatContinuationReport } = require('./aiHandoffContinuation');
 const { ownerLabel } = require('./mutationClaims');
@@ -29,7 +29,7 @@ function list(args, name) {
 
 function requiredFlag(args, name) {
   const value = flag(args, name);
-  if (!value) throw crucibleError('CRU-0029', `--${name} is required.`);
+  if (!value) throw operationalError('OPS-0029', `--${name} is required.`);
   return value;
 }
 
@@ -118,7 +118,7 @@ async function main() {
     for (const id of excludedAsPaid) console.error(`[The Crucible] ${describeProvider(id).label} is configured but was not consulted: The Crucible uses the free part of the council only.`);
     if (!adapters.size) {
       const reasons = unconfigured.map((item) => item.reason).join(' ');
-      throw crucibleError('CRU-0034', `No free provider is configured, so this task cannot be distributed. Free providers are ${FREE_PROVIDER_IDS.join(', ')}. ${reasons}${excludedAsPaid.length ? ` Configured but excluded as paid: ${excludedAsPaid.join(', ')}.` : ''}`);
+      throw operationalError('OPS-0034', `No free provider is configured, so this task cannot be distributed. Free providers are ${FREE_PROVIDER_IDS.join(', ')}. ${reasons}${excludedAsPaid.length ? ` Configured but excluded as paid: ${excludedAsPaid.join(', ')}.` : ''}`);
     }
     const orchestrator = new MultiAiOrchestrator();
     for (const [id, adapter] of adapters) orchestrator.register(id, adapter);
@@ -130,7 +130,7 @@ async function main() {
     return;
   }
 
-  throw crucibleError('CRU-0016', `Unknown action: ${command || '(none)'}. Valid: continue, claims, claim, release, handoff, providers, consult.`);
+  throw operationalError('OPS-0016', `Unknown action: ${command || '(none)'}. Valid: continue, claims, claim, release, handoff, providers, consult.`);
 }
 
 main().catch((error) => {
