@@ -103,6 +103,8 @@ Plain-language summary: Resolved the first dependency exposed by the production 
 - Migrated the remaining legacy non-bug call sites from CRU-shaped operational throws to explicit OPS throws; true CRU bug/error classifications were preserved — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
 - Added OPS lookup/recovery coverage and changed stale tests to assert OPS for operational harness/coverage conditions rather than re-expanding CRU — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
 - Exact-tip Self-Test remains the acceptance evidence for this reconciliation; private learning-state SSH failures remain external authorization blockers and are not bypassed — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
+- Separated the inherited 0050 collision: authorized-repair rejection remains OPS-0050 and experiment/toolchain refusal is OPS-0054; neither was promoted into CRU — started 2026-09-30T00:50:00.000Z, finished 2026-09-30T00:50:00.000Z, exit 0.
+- Corrected the coverage fixture so its positive control uses true CRU classification CRU-0002 while retired operational calls remain measurable migration debt — started 2026-09-30T00:50:00.000Z, finished 2026-09-30T00:50:00.000Z, exit 0.
 
 
 ### Session: import-main-learning-nonconflicts-20260929 — 2026-09-30T00:37:00.000Z — Codex — mode:work
