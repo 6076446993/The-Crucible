@@ -123,10 +123,10 @@ test('a control that cannot fail invalidates the experiment', async (t) => {
 
 test('an unregistered language fails closed instead of borrowing another harness', () => {
   assert.deepEqual(Object.keys(CONFIGURATIONS).sort(), ['java', 'javascript']);
-  assert.throws(() => harnessesForDeclaration({ language: 'cobol', claim: 'x' }, { projectId: PROJECT }), /OPS-0050.*No controlled experiment harness is registered for cobol/s);
+  assert.throws(() => harnessesForDeclaration({ language: 'cobol', claim: 'x' }, { projectId: PROJECT }), /OPS-0054.*No controlled experiment harness is registered for cobol/s);
   // The default must not quietly become JavaScript for a claim in some other language, which is
   // how a Java claim came to be "proved" by an array-map script.
-  assert.throws(() => harnessesForDeclaration({ language: 'python', claim: 'x' }, { projectId: PROJECT }), /OPS-0050/);
+  assert.throws(() => harnessesForDeclaration({ language: 'python', claim: 'x' }, { projectId: PROJECT }), /OPS-0054/);
 });
 
 test('the supersession pair resolves only when used and refuses without a language', async () => {
@@ -136,7 +136,7 @@ test('the supersession pair resolves only when used and refuses without a langua
   assert.equal(resolutions, 0, 'constructing the pair must not build a harness; R7 often never needs one');
 
   const missing = lazyHarnessPair({ projectId: PROJECT, at: AT, resolveLanguage: () => null });
-  await assert.rejects(() => missing.experiment.run({}), /OPS-0050.*without a language/s);
+  await assert.rejects(() => missing.experiment.run({}), /OPS-0054.*without a language/s);
 });
 
 test('the fixture hash covers fixture content, so a changed fixture is a changed contract', (t) => {
