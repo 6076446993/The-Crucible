@@ -5,7 +5,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { MAXIMUM_QUERIES_PER_RUN, PerplexityResearchStore, AutomatedPerplexityResearch, AtomicSourceQueueCandidateSink } = require('./automatedPerplexityResearch');
 const { PerplexityCitationTransport, DEFAULT_PERPLEXITY_DISCOVERY_MODEL } = require('./providerCirculation');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 function ensureHoldingQueue(file, projectId) {
   const resolved = path.resolve(file);
@@ -16,7 +16,7 @@ function ensureHoldingQueue(file, projectId) {
     fs.renameSync(temporary, resolved);
   }
   const queue = JSON.parse(fs.readFileSync(resolved, 'utf8'));
-  if (queue?.schemaVersion !== 1 || queue.projectId !== projectId || !Array.isArray(queue.documents) || !Array.isArray(queue.links)) throw crucibleError('CRU-0042', 'Source queue is invalid or belongs to another project.');
+  if (queue?.schemaVersion !== 1 || queue.projectId !== projectId || !Array.isArray(queue.documents) || !Array.isArray(queue.links)) throw operationalError('OPS-0042', 'Source queue is invalid or belongs to another project.');
   return resolved;
 }
 
@@ -25,7 +25,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
   const projectId = env.CRUCIBLE_LEARNING_PROJECT_ID;
   const root = env.CRUCIBLE_LEARNING_ROOT;
   const queue = env.CRUCIBLE_SOURCE_QUEUE;
-  if (!projectId || !root || !queue) throw crucibleError('CRU-0042', 'CRUCIBLE_LEARNING_PROJECT_ID, CRUCIBLE_LEARNING_ROOT, and CRUCIBLE_SOURCE_QUEUE are required.');
+  if (!projectId || !root || !queue) throw operationalError('OPS-0042', 'CRUCIBLE_LEARNING_PROJECT_ID, CRUCIBLE_LEARNING_ROOT, and CRUCIBLE_SOURCE_QUEUE are required.');
   const model = String(env.PERPLEXITY_MODEL || '').trim() || DEFAULT_PERPLEXITY_DISCOVERY_MODEL;
   if (command === 'init') {
     const queueFile = ensureHoldingQueue(queue, projectId);
@@ -37,10 +37,10 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
     if (!fs.existsSync(path.resolve(queue))) missing.push('CRUCIBLE_SOURCE_QUEUE');
     const ready = missing.length === 0;
     output(JSON.stringify({ ready, projectId, root:path.resolve(root), queue:path.resolve(queue), model, missing, authorizesPromotion:false }));
-    if (!ready) throw crucibleError('CRU-0033', `Perplexity discovery is not ready; missing ${missing.join(', ')}.`);
+    if (!ready) throw new Error( `Perplexity discovery is not ready; missing ${missing.join(', ')}.`);
     return;
   }
-  if (command !== 'run' || !topics.length) throw crucibleError('CRU-0042', 'Usage: automatedPerplexityResearchCli.js run <approved-topic> [approved-topic ...]');
+  if (command !== 'run' || !topics.length) throw operationalError('OPS-0042', 'Usage: automatedPerplexityResearchCli.js run <approved-topic> [approved-topic ...]');
   if (!String(env.PERPLEXITY_API_KEY || '').trim()) throw crucibleError('CRU-0033', 'Perplexity discovery requires PERPLEXITY_API_KEY.');
   const queueFile = ensureHoldingQueue(queue, projectId);
   const maximumQueriesPerRun = env.CRUCIBLE_PERPLEXITY_MAX_QUERIES === undefined ? MAXIMUM_QUERIES_PER_RUN : Number(env.CRUCIBLE_PERPLEXITY_MAX_QUERIES);
@@ -64,7 +64,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
     authorizesPromotion:false,
   };
   output(JSON.stringify(report));
-  if (report.blocked) throw crucibleError('CRU-0042', `Perplexity discovery completed partially: ${report.blocked} of ${report.searched} due topic(s) were blocked; completed outcomes were retained.`);
+  if (report.blocked) throw operationalError('OPS-0042', `Perplexity discovery completed partially: ${report.blocked} of ${report.searched} due topic(s) were blocked; completed outcomes were retained.`);
 }
 
 if (require.main === module) run().catch((error) => { console.error(error.message); process.exitCode = 1; });

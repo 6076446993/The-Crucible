@@ -93,6 +93,15 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: import-main-learning-nonconflicts-20260929 — 2026-09-30T00:37:00.000Z — Codex — mode:work
+
+Plain-language summary: Imported only the production-main Crucible-core files that development did not modify since merge base 802f520cca011587bea40463a5302db69196dda2, preserving the repair-learning, Learning Provenance, prevention, and custody implementation without resolving any contested file by preference.
+- Compared main and development from the common merge base and isolated 81 main-side non-conflicting file changes — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
+- Left all 27 files changed on both branches untouched for semantic reconciliation in PR #33 — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
+- Preserved the current development handoff, organization migration repairs, protected promotion rules, and durable learning project identity — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
+- Exact-tip Self-Test, CodeQL, handoff, durable-learning proof, and PR #33 reconciliation remain required — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
+
+
 ### Session: monitor-organization-rebind-20260929 — 2026-09-29T23:46:00.000Z — Codex — mode:work
 
 Plain-language summary: Rebound the Crucible PR monitor registry to the 6076446993 organization and completed the monitored Nexus repository set.
@@ -175,13 +184,3 @@ Plain-language summary: Pruned the oldest Command log sessions from development 
 - Archived the exact pre-prune DEVLOG snapshot and the five removed session headings to `Archive:Devlog-Pruned` under the standing owner-granted archive exception — started 2026-09-28T19:00:08.148Z, finished 2026-09-28T19:00:08.148Z, exit 0.
 - Removed the five oldest inline Command log sessions so the development DEVLOG remains within the ten-session bound — started 2026-09-28T19:00:08.148Z, finished 2026-09-28T19:00:08.148Z, exit 0.
 - Rebound `AI-HANDOFF.json` to the exact two-file development correction commit — started 2026-09-28T19:00:08.148Z, finished 2026-09-28T19:00:08.148Z, exit 0.
-
-
-### Session: hosted-self-test-cadence-java-correction-20260928 — 2026-09-28T18:55:17.649Z — Codex — mode:work
-
-Plain-language summary: Hosted Self-Test now reached the actual test suite. It exposed a stale cadence expectation for the two newly registered tests and two Windows-specific Java/path failures. The cadence expectation is being rebound, Java semantic analysis is being made portable by compiling the helper with the resolved JDK, and the PATH test is being made native to the runner rather than simulating incompatible path syntax.
-
-- Updated the suite classification expectation for the two real monitor/repair tests — started 2026-09-28T18:55:17.649Z, finished 2026-09-28T18:55:17.649Z, exit 0.
-- Changed Java semantic analysis to compile the helper with the resolved `javac` and execute the compiled class with the resolved `java` runtime in a temporary directory — started 2026-09-28T18:55:17.649Z, finished 2026-09-28T18:55:17.649Z, exit 0.
-- Corrected the PATH regression to use the native runner's environment spelling and separator — started 2026-09-28T18:55:17.649Z, finished 2026-09-28T18:55:17.649Z, exit 0.
-- Updated `AI-HANDOFF.json` and `DEVLOG.md` together with the exact five-path digest — started 2026-09-28T18:55:17.649Z, finished 2026-09-28T18:55:17.649Z, exit 0.

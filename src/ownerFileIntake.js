@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { AtomicClaimExtractionQueue } = require('./claimExtractionWorker');
 const { extractPdfText } = require('./pdfTextExtraction');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 const MEDIA_TYPES = Object.freeze({
   '.pdf': 'application/pdf',
@@ -19,8 +19,8 @@ function sha256File(file) {
 
 function destinationHasExpectedContent(destination, expectedSha256) {
   const stat = fs.lstatSync(destination);
-  if (!stat.isFile() || stat.isSymbolicLink()) throw crucibleError('CRU-0043', `Content-addressed destination must be a regular non-symbolic file: ${destination}.`);
-  if (sha256File(destination) !== expectedSha256) throw crucibleError('CRU-0043', `Content-addressed destination has unexpected bytes: ${destination}.`);
+  if (!stat.isFile() || stat.isSymbolicLink()) throw operationalError('OPS-0043', `Content-addressed destination must be a regular non-symbolic file: ${destination}.`);
+  if (sha256File(destination) !== expectedSha256) throw operationalError('OPS-0043', `Content-addressed destination has unexpected bytes: ${destination}.`);
   return true;
 }
 
@@ -28,17 +28,17 @@ function preflightOwnerFile(input) {
   const file = path.resolve(input);
   let stat;
   try { stat = fs.lstatSync(file); }
-  catch (error) { throw crucibleError('CRU-0043', `Owner source is unavailable: ${file}. ${error.message}`); }
-  if (!stat.isFile() || stat.isSymbolicLink()) throw crucibleError('CRU-0043', `Owner source must be a regular non-symbolic file: ${file}.`);
-  if (stat.size < 1 || stat.size > MAX_OWNER_FILE_BYTES) throw crucibleError('CRU-0043', `Owner source size must be between 1 and ${MAX_OWNER_FILE_BYTES} bytes: ${file}.`);
+  catch (error) { throw operationalError('OPS-0043', `Owner source is unavailable: ${file}. ${error.message}`); }
+  if (!stat.isFile() || stat.isSymbolicLink()) throw operationalError('OPS-0043', `Owner source must be a regular non-symbolic file: ${file}.`);
+  if (stat.size < 1 || stat.size > MAX_OWNER_FILE_BYTES) throw operationalError('OPS-0043', `Owner source size must be between 1 and ${MAX_OWNER_FILE_BYTES} bytes: ${file}.`);
   const extension = path.extname(file).toLowerCase();
   const mediaType = MEDIA_TYPES[extension];
-  if (!mediaType) throw crucibleError('CRU-0043', `Unsupported owner source type ${extension || '(none)'}; only PDF, TXT, YML, and YAML are admitted.`);
+  if (!mediaType) throw operationalError('OPS-0043', `Unsupported owner source type ${extension || '(none)'}; only PDF, TXT, YML, and YAML are admitted.`);
   const contentSha256 = sha256File(file);
   let pages = null;
   if (mediaType === 'application/pdf') {
     const extraction = extractPdfText(fs.readFileSync(file));
-    if (!extraction.ok) throw crucibleError('CRU-0043', `Owner PDF cannot enter extraction because its text failed closed (${extraction.reason}): ${extraction.detail}`);
+    if (!extraction.ok) throw operationalError('OPS-0043', `Owner PDF cannot enter extraction because its text failed closed (${extraction.reason}): ${extraction.detail}`);
     pages = extraction.pages.length;
   }
   return { file, stat, extension, mediaType, contentSha256, pages };
@@ -59,7 +59,7 @@ function publishContentAddressed(source, destination) {
     descriptor = fs.openSync(temporary, 'r+');
     fs.fsyncSync(descriptor);
     fs.closeSync(descriptor); descriptor = undefined;
-    if (sha256File(temporary) !== source.contentSha256) throw crucibleError('CRU-0043', `Source bytes do not match their declared SHA-256${source.file ? `: ${source.file}` : '.'}`);
+    if (sha256File(temporary) !== source.contentSha256) throw operationalError('OPS-0043', `Source bytes do not match their declared SHA-256${source.file ? `: ${source.file}` : '.'}`);
     try { fs.linkSync(temporary, destination); }
     catch (error) {
       if (error.code !== 'EEXIST') throw error;
@@ -102,12 +102,12 @@ function ownerRecord(source, destination, retrievedAt) {
 }
 
 function ingestOwnerFiles({ queueFile, projectId, files, now = () => new Date().toISOString() }) {
-  if (typeof projectId !== 'string' || !projectId.trim()) throw crucibleError('CRU-0043', 'Owner-file intake requires the repository-bound projectId.');
-  if (!Array.isArray(files) || files.length < 1) throw crucibleError('CRU-0043', 'Owner-file intake requires at least one exact file path.');
+  if (typeof projectId !== 'string' || !projectId.trim()) throw operationalError('OPS-0043', 'Owner-file intake requires the repository-bound projectId.');
+  if (!Array.isArray(files) || files.length < 1) throw operationalError('OPS-0043', 'Owner-file intake requires at least one exact file path.');
   const prepared = files.map(preflightOwnerFile);
   const requestHashes = new Set();
   for (const source of prepared) {
-    if (requestHashes.has(source.contentSha256)) throw crucibleError('CRU-0043', `The intake request repeats content SHA-256 ${source.contentSha256}.`);
+    if (requestHashes.has(source.contentSha256)) throw operationalError('OPS-0043', `The intake request repeats content SHA-256 ${source.contentSha256}.`);
     requestHashes.add(source.contentSha256);
   }
 

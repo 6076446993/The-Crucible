@@ -15,7 +15,7 @@
 //     not acquired the right to write the file. Mutation ownership lives in AI-HANDOFF.json and
 //     changes only by explicit release or handoff; the current owner may implement someone
 //     else's accepted proposal.
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 // The full outcome vocabulary. "Unresolved" is a first-class result rather than a failure to
 // reach one, because the alternative - forcing a verdict so the field can be filled in - is
@@ -119,7 +119,7 @@ function assertConsensusDoesNotAuthorize(corroboration) {
   if (!corroboration || typeof corroboration !== 'object') return { authorized: false, reason: 'no corroboration recorded' };
   if (NON_AUTHORISING_OUTCOMES.includes(corroboration.outcome) || corroboration.outcome === 'test-verified') {
     if (corroboration.ownerApproved === true) {
-      throw crucibleError('CRU-0032', `Corroboration outcome "${corroboration.outcome}" cannot mark a change owner-approved. Cross-model agreement is evidence, not proof; approval requires the repository owner in AI-CONFLICTS.json resolution.decidedBy.`);
+      throw operationalError('OPS-0032', `Corroboration outcome "${corroboration.outcome}" cannot mark a change owner-approved. Cross-model agreement is evidence, not proof; approval requires the repository owner in AI-CONFLICTS.json resolution.decidedBy.`);
     }
   }
   return { authorized: false, reason: 'owner approval is required and is never inferred from model agreement' };
@@ -144,7 +144,7 @@ function independentReviewers(deliberation, authorProvider) {
 function assertIndependentlyReviewed(deliberation, authorProvider) {
   const reviewers = independentReviewers(deliberation, authorProvider);
   if (!reviewers.length) {
-    throw crucibleError('CRU-0032', `${authorProvider || 'the author'} is the only recorded reviewer of its own material change. At least one other provider must review, test or respond before the change is put forward.`);
+    throw operationalError('OPS-0032', `${authorProvider || 'the author'} is the only recorded reviewer of its own material change. At least one other provider must review, test or respond before the change is put forward.`);
   }
   return { reviewers };
 }

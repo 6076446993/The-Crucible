@@ -115,7 +115,7 @@ test('routing itself never authorizes branch creation or deletion', () => {
     assert.equal(result.status, 'blocked');
     assert.match(result.reason, new RegExp(operation));
   }
-  assert.throws(() => changedPaths('0'.repeat(40), 'a'.repeat(40)), /CRU-0045.*new branch push/i);
+  assert.throws(() => changedPaths('0'.repeat(40), 'a'.repeat(40)), /OPS-0045.*new branch push/i);
 });
 
 test('a durable route record carries category, stable destination, reason, and prompt/path digests', () => {
@@ -138,14 +138,14 @@ test('push verification blocks a wrong stable ID, repository, branch, path categ
   const record = routingRecord(classifyTask({ prompt: 'task routing', paths: verifiedPaths }, registry), { prompt: 'task routing', paths: verifiedPaths });
   const base = { record, repositoryId, repository, branch: 'development', prompt: 'task routing' };
   assert.equal(verifyRecordedDecision({ ...base, paths: verifiedPaths }, registry).ok, true);
-  assert.throws(() => verifyRecordedDecision({ ...base, repositoryId: 1, paths: ['src/taskRouting.js'] }, registry), /CRU-0045.*stable ID/);
-  assert.throws(() => verifyRecordedDecision({ ...base, repository: 'other/repository', paths: ['src/taskRouting.js'] }, registry), /CRU-0045.*does not match routed repository/);
-  assert.throws(() => verifyRecordedDecision({ ...base, branch: 'Plug-in', paths: ['src/taskRouting.js'] }, registry), /CRU-0045.*does not match routed branch/);
-  assert.throws(() => verifyRecordedDecision({ ...base, paths: ['chatgpt-mcp/server.js'] }, registry), /CRU-0045.*select crucible-plugin/);
-  assert.throws(() => verifyRecordedDecision({ ...base, paths: ['unregistered.bin'] }, registry), /CRU-0045.*not registered/);
-  assert.throws(() => verifyRecordedDecision({ ...base, paths: ['src/scientificLearning.js', 'chatgpt-mcp/server.js'] }, registry), /CRU-0045.*multiple categories/);
-  assert.throws(() => verifyRecordedDecision({ ...base, paths: ['src/taskRouting.js'] }, registry), /CRU-0045.*affected-path digest/);
-  assert.throws(() => verifyRecordedDecision({ ...base, paths: verifiedPaths, prompt: 'different prompt' }, registry), /CRU-0045.*prompt digest/);
+  assert.throws(() => verifyRecordedDecision({ ...base, repositoryId: 1, paths: ['src/taskRouting.js'] }, registry), /OPS-0045.*stable ID/);
+  assert.throws(() => verifyRecordedDecision({ ...base, repository: 'other/repository', paths: ['src/taskRouting.js'] }, registry), /OPS-0045.*does not match routed repository/);
+  assert.throws(() => verifyRecordedDecision({ ...base, branch: 'Plug-in', paths: ['src/taskRouting.js'] }, registry), /OPS-0045.*does not match routed branch/);
+  assert.throws(() => verifyRecordedDecision({ ...base, paths: ['chatgpt-mcp/server.js'] }, registry), /OPS-0045.*select crucible-plugin/);
+  assert.throws(() => verifyRecordedDecision({ ...base, paths: ['unregistered.bin'] }, registry), /OPS-0045.*not registered/);
+  assert.throws(() => verifyRecordedDecision({ ...base, paths: ['src/scientificLearning.js', 'chatgpt-mcp/server.js'] }, registry), /OPS-0045.*multiple categories/);
+  assert.throws(() => verifyRecordedDecision({ ...base, paths: ['src/taskRouting.js'] }, registry), /OPS-0045.*affected-path digest/);
+  assert.throws(() => verifyRecordedDecision({ ...base, paths: verifiedPaths, prompt: 'different prompt' }, registry), /OPS-0045.*prompt digest/);
 });
 
 test('CLI parsing is shell-free and remote identity parsing accepts HTTPS and SSH only', () => {
@@ -156,7 +156,7 @@ test('CLI parsing is shell-free and remote identity parsing accepts HTTPS and SS
   });
   assert.equal(repositoryFromRemote('https://github.com/jonathanblunt1214-lgtm/The-Crucible.git'), repository);
   assert.equal(repositoryFromRemote('git@github.com:jonathanblunt1214-lgtm/The-Crucible.git'), repository);
-  assert.throws(() => repositoryFromRemote('https://example.com/owner/repo.git'), /CRU-0045/);
+  assert.throws(() => repositoryFromRemote('https://example.com/owner/repo.git'), /OPS-0045/);
 });
 
 test('pre-write rerouting finds an attached branch or one unambiguous exact-tip detached worktree', () => {

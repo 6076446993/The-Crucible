@@ -9,13 +9,18 @@ test('skips safely outside a GitHub pull-request context', async () => {
   assert.deepEqual(await auditCollisions({}, async () => { throw new Error('not called'); }), { skipped:true, findings:[] });
 });
 
-test('reports only files shared with another open pull request', async () => {
+test('reports only files shared with another actionable open pull request', async () => {
   const eventPath = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-collision-')), 'event.json');
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request:{ number:7 } }));
   const responses = new Map([
     ['/pulls/7/files', [{ filename:'src/app.js' }, { filename:'README.md' }]],
-    ['/pulls?state=open', [{ number:7, title:'Current' }, { number:9, title:'Other work' }]],
+    ['/pulls?state=open', [
+      { number:7, title:'Current' },
+      { number:9, title:'Other work' },
+      { number:11, title:'[LOCKED — DO NOT MERGE] Permanent CI-monitoring event hook', body:'standing monitoring PR' },
+    ]],
     ['/pulls/9/files', [{ filename:'src/app.js' }, { filename:'docs/guide.md' }]],
+    ['/pulls/11/files', [{ filename:'src/app.js' }]],
   ]);
   const fetchImpl = async (url) => {
     const key = [...responses.keys()].find((candidate) => url.includes(candidate));

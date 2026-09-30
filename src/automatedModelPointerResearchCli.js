@@ -14,7 +14,7 @@ const { MAXIMUM_QUERIES_PER_RUN, DEFAULT_DISCOVERY_PROVIDER, ModelPointerResearc
 // The provider registry is reached through circulation rather than imported directly: a
 // digestive module cabled straight to the brain is exactly the linkage fly-by-wire forbids.
 const { ModelPointerTransport, describeDiscoveryProvider } = require('./providerCirculation');
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 function ensureHoldingQueue(file, projectId) {
   const resolved = path.resolve(file);
@@ -25,7 +25,7 @@ function ensureHoldingQueue(file, projectId) {
     fs.renameSync(temporary, resolved);
   }
   const queue = JSON.parse(fs.readFileSync(resolved, 'utf8'));
-  if (queue?.schemaVersion !== 1 || queue.projectId !== projectId || !Array.isArray(queue.documents) || !Array.isArray(queue.links)) throw crucibleError('CRU-0042', 'Source queue is invalid or belongs to another project.');
+  if (queue?.schemaVersion !== 1 || queue.projectId !== projectId || !Array.isArray(queue.documents) || !Array.isArray(queue.links)) throw operationalError('OPS-0042', 'Source queue is invalid or belongs to another project.');
   return resolved;
 }
 
@@ -41,7 +41,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
   const projectId = env.CRUCIBLE_LEARNING_PROJECT_ID;
   const root = env.CRUCIBLE_LEARNING_ROOT;
   const queue = env.CRUCIBLE_SOURCE_QUEUE;
-  if (!projectId || !root || !queue) throw crucibleError('CRU-0042', 'CRUCIBLE_LEARNING_PROJECT_ID, CRUCIBLE_LEARNING_ROOT, and CRUCIBLE_SOURCE_QUEUE are required.');
+  if (!projectId || !root || !queue) throw operationalError('OPS-0042', 'CRUCIBLE_LEARNING_PROJECT_ID, CRUCIBLE_LEARNING_ROOT, and CRUCIBLE_SOURCE_QUEUE are required.');
   const provider = selectedProvider(env);
   const model = provider.model;
 
@@ -62,7 +62,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
     return;
   }
 
-  if (command !== 'run' || !topics.length) throw crucibleError('CRU-0042', 'Usage: automatedModelPointerResearchCli.js run <approved-topic> [approved-topic ...]');
+  if (command !== 'run' || !topics.length) throw operationalError('OPS-0042', 'Usage: automatedModelPointerResearchCli.js run <approved-topic> [approved-topic ...]');
   if (!provider.credentialPresent) throw crucibleError('CRU-0033', `${provider.label} discovery requires ${provider.credentialEnv}.`);
   if (!model) throw crucibleError('CRU-0033', `${provider.label} discovery requires ${provider.modelEnv}. There is deliberately no default model.`);
 
@@ -94,7 +94,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
     authorizesPromotion:false,
   };
   output(JSON.stringify(report));
-  if (report.blocked) throw crucibleError('CRU-0042', `${provider.label} discovery completed partially: ${report.blocked} of ${report.searched} due topic(s) were blocked; completed outcomes were retained.`);
+  if (report.blocked) throw operationalError('OPS-0042', `${provider.label} discovery completed partially: ${report.blocked} of ${report.searched} due topic(s) were blocked; completed outcomes were retained.`);
 }
 
 if (require.main === module) run().catch((error) => { console.error(error.message); process.exitCode = 1; });

@@ -11,7 +11,7 @@
 // by string equality, because "src/a.js" and "src/" are the same lock held at two different
 // widths, and a line-range claim inside a file a directory claim already covers is still the same
 // bytes. Getting that wrong is the whole failure this module exists to prevent.
-const { crucibleError } = require('./failureCodes');
+const { crucibleError , operationalError} = require('./failureCodes');
 
 const CLAIM_STATUSES = Object.freeze(['active', 'released', 'handed-off']);
 const ACTIVE_STATUS = 'active';
@@ -156,12 +156,12 @@ function assertMutationAllowed({ claims = [], conflicts = [], actor, paths = [] 
   for (const target of targets) {
     for (const contested of contestedScopes(conflicts)) {
       if (scopesOverlap(contested.scope, { paths: [target] })) {
-        throw crucibleError('CRU-0031', `${target} is frozen by unresolved AI conflict ${contested.id}. Read, test, review and propose against it freely; do not mutate it until the owner resolves the conflict. Unrelated scopes are unaffected.`);
+        throw operationalError('OPS-0031', `${target} is frozen by unresolved AI conflict ${contested.id}. Read, test, review and propose against it freely; do not mutate it until the owner resolves the conflict. Unrelated scopes are unaffected.`);
       }
     }
     const holder = claimCovering(claims, target);
     if (holder && !sameOwner(holder.owner, actor)) {
-      throw crucibleError('CRU-0030', `${target} is exclusively claimed by ${ownerLabel(holder.owner)} under task ${holder.taskId}. ${ownerLabel(actor)} may read, test, review, critique and propose changes to it, but may not mutate it until ownership is explicitly released or handed off.`);
+      throw operationalError('OPS-0030', `${target} is exclusively claimed by ${ownerLabel(holder.owner)} under task ${holder.taskId}. ${ownerLabel(actor)} may read, test, review, critique and propose changes to it, but may not mutate it until ownership is explicitly released or handed off.`);
     }
   }
   return { allowed: true, paths: targets };
@@ -170,10 +170,10 @@ function assertMutationAllowed({ claims = [], conflicts = [], actor, paths = [] 
 function acquireClaim(claims, claim) {
   const list = Array.isArray(claims) ? [...claims] : [];
   const invalid = validateClaim(claim);
-  if (invalid.length) throw crucibleError('CRU-0029', `Mutation claim is not recordable: ${invalid.join(' ')}`);
+  if (invalid.length) throw operationalError('OPS-0029', `Mutation claim is not recordable: ${invalid.join(' ')}`);
   for (const existing of activeClaims(list)) {
     const overlap = scopesOverlap(existing.scope, claim.scope);
-    if (overlap) throw crucibleError('CRU-0029', `Cannot claim ${overlap.detail}: it is already held by ${ownerLabel(existing.owner)} under task ${existing.taskId}. Wait for release, request a handoff, or claim a non-overlapping scope.`);
+    if (overlap) throw operationalError('OPS-0029', `Cannot claim ${overlap.detail}: it is already held by ${ownerLabel(existing.owner)} under task ${existing.taskId}. Wait for release, request a handoff, or claim a non-overlapping scope.`);
   }
   list.push(claim);
   return list;
@@ -182,7 +182,7 @@ function acquireClaim(claims, claim) {
 function releaseClaim(claims, taskId, releasedAt) {
   const list = Array.isArray(claims) ? [...claims] : [];
   const index = list.findIndex((claim) => claim && claim.taskId === taskId && claim.status === ACTIVE_STATUS);
-  if (index < 0) throw crucibleError('CRU-0029', `No active mutation claim ${taskId} to release.`);
+  if (index < 0) throw operationalError('OPS-0029', `No active mutation claim ${taskId} to release.`);
   list[index] = { ...list[index], status: 'released', releasedAt };
   return list;
 }
@@ -192,7 +192,7 @@ function releaseClaim(claims, taskId, releasedAt) {
 function handOffClaim(claims, taskId, { to, at, purpose, taskId: successorTaskId }) {
   const list = Array.isArray(claims) ? [...claims] : [];
   const index = list.findIndex((claim) => claim && claim.taskId === taskId && claim.status === ACTIVE_STATUS);
-  if (index < 0) throw crucibleError('CRU-0029', `No active mutation claim ${taskId} to hand off.`);
+  if (index < 0) throw operationalError('OPS-0029', `No active mutation claim ${taskId} to hand off.`);
   const previous = list[index];
   list[index] = { ...previous, status: 'handed-off', handedOffTo: to, releasedAt: at };
   const successor = {
@@ -206,7 +206,7 @@ function handOffClaim(claims, taskId, { to, at, purpose, taskId: successorTaskId
     releasedAt: null,
   };
   const invalid = validateClaim(successor);
-  if (invalid.length) throw crucibleError('CRU-0029', `Handoff would create an invalid claim: ${invalid.join(' ')}`);
+  if (invalid.length) throw operationalError('OPS-0029', `Handoff would create an invalid claim: ${invalid.join(' ')}`);
   list.push(successor);
   return list;
 }
