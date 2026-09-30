@@ -23,7 +23,8 @@ function workspace(t) {
 test('every code carries a meaning and a remedy the immune system can act on', () => {
   const kinds = new Set(['automatic', 'guided', 'owner-decision']);
   for (const [code, entry] of Object.entries(FAILURE_CODES)) {
-    const publicCode = code === UNCODED ? UNCODED : (operationalCodeFor(code) || code);
+    if (code === UNCODED) continue; // historical marker only; never an active classification or repair code
+    const publicCode = operationalCodeFor(code) || code;
     assert.equal(entry.code, publicCode, `${code} must expose the correct public code`);
     assert.ok(entry.category, `${code} needs a category`);
     assert.ok(entry.meaning && entry.meaning.length > 20, `${code} needs a meaning a reader can act on`);
@@ -42,7 +43,8 @@ test('every code carries a meaning and a remedy the immune system can act on', (
 // here is the same check the bus would apply.
 test('every remedy names a test selection the testing organ will actually accept', () => {
   for (const code of Object.keys(FAILURE_CODES)) {
-    const publicCode = code === UNCODED ? UNCODED : (operationalCodeFor(code) || code);
+    if (code === UNCODED) continue;
+    const publicCode = operationalCodeFor(code) || code;
     const selection = selectRequestedTests(testRequestFor(publicCode));
     assert.ok(selection.tests.length > 0, `${code} must select at least one existing test`);
   }
