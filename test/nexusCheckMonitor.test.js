@@ -129,3 +129,32 @@ test('waits for non-monitor checks to settle while ignoring the required block g
   assert.equal(result.checks.some((check) => check.name === 'block'),false);
   assert.equal(result.checks.some((check) => check.name === 'Monitor all Crucible-monitored PRs'),false);
 });
+
+
+test('top-level monitor uses its dedicated cross-repository token ahead of the workflow token', async (t) => {
+  const names = ['CRUCIBLE_MONITOR_READ_TOKEN', 'NEXUS_MONITOR_READ_TOKEN', 'GITHUB_TOKEN'];
+  const before = Object.fromEntries(names.map(name => [name, process.env[name]]));
+  t.after(() => { for (const name of names) { if (before[name] === undefined) delete process.env[name]; else process.env[name] = before[name]; } });
+  process.env.CRUCIBLE_MONITOR_READ_TOKEN = 'dedicated-monitor';
+  process.env.NEXUS_MONITOR_READ_TOKEN = 'legacy-monitor';
+  process.env.GITHUB_TOKEN = 'single-repository';
+  const report = await monitorConfiguredRepositories({
+    config: { repositories: [{ name: 'example/private', lockedPullRequests: [] }] },
+    repairEnabled: false,
+    fetchImpl: async (url, options) => {
+      assert.equal(options.headers.authorization, 'Bearer dedicated-monitor');
+      return { ok: true, text: async () => '[]' };
+    },
+  });
+  assert.equal(report.healthy, true);
+  const { resolveMonitorToken } = require('../src/nexusCheckMonitor');
+  assert.equal(resolveMonitorToken({ NEXUS_MONITOR_READ_TOKEN:'legacy-monitor', GITHUB_TOKEN:'single-repository' }), 'legacy-monitor');
+  assert.equal(resolveMonitorToken({ GITHUB_TOKEN:'single-repository' }), 'single-repository');
+});
+
+test('monitor access failure carries operational identity and omits arbitrary server content', async () => {
+  await assert.rejects(monitorConfiguredRepositories({
+    config: { repositories: [{ name: 'example/private', lockedPullRequests: [] }] }, token: 'private-token', repairEnabled: false,
+    fetchImpl: async () => ({ ok:false, status:404, text:async () => JSON.stringify({message:'private-token'}) }),
+  }), error => error.operationalCode === 'OPS-0051' && /HTTP 404.*Pull requests: read/.test(error.message) && !error.message.includes('private-token'));
+});
