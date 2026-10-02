@@ -9,7 +9,7 @@ const { snapshotFiles, recordRepairObservations } = require('./repairLearningGat
 // below checks two independent, unrelated config fields and, in GitHub
 // Actions, the actual repository identity supplied by the runner.
 const ENGINE_PROJECT_ID = 'the-crucible';
-const ENGINE_GITHUB_IDENTITY = 'jonathanblunt1214-lgtm';
+const ENGINE_GITHUB_IDENTITY = '6076446993';
 const ENGINE_REPOSITORY = '6076446993/The-Crucible';
 
 function assertInternalProject(config, environment = process.env) {
