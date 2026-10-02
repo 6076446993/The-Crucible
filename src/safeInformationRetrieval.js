@@ -160,7 +160,7 @@ function pinnedHttpsRequest(addresses) {
   return (url, init = {}) => new Promise((resolve, reject) => {
     let target;
     try { target = safeUrl(String(url)); } catch (error) { reject(error); return; }
-    const request = https.request(target, { method: init.method || 'GET', headers: init.headers || {}, lookup }, (message) => {
+    const request = https.request(target, { method: init.method || 'GET', headers: init.headers || {}, lookup, agent: new https.Agent({ keepAlive: false, lookup }) }, (message) => {
       resolve({
         status: message.statusCode,
         ok: message.statusCode >= 200 && message.statusCode < 300,

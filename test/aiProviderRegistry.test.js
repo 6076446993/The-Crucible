@@ -126,7 +126,8 @@ test('the registry separates the free council from the paid one, and consult cal
   });
   assert.notEqual(paidOnly.code, 0, 'a paid-only environment must refuse rather than spend');
   assert.match(paidOnly.stderr, /OpenAI is configured but was not consulted/, 'the exclusion is stated, not silent');
-  assert.match(paidOnly.stderr, /CRU-0034/);
+  assert.match(paidOnly.stderr, /OPS-0034/);
+  assert.doesNotMatch(paidOnly.stderr, /CRU-0000|CRU-0034/);
   assert.match(paidOnly.stderr, /free part of the council only|No free provider is configured/);
   // Nothing was sent: no deliberation block reached stdout.
   assert.equal(paidOnly.stdout.trim(), '', 'a refused consult produces no deliberation');

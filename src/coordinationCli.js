@@ -6,7 +6,7 @@
 // read the handover before touching anything, take a scope, give it back, hand it to someone
 // else, and put one bounded question to several providers at once.
 const path = require('node:path');
-const { crucibleError, failureCode, UNCODED, operationalError } = require('./failureCodes');
+const { crucibleError, failureCode, operationalCode, UNCODED, operationalError } = require('./failureCodes');
 const { listClaims, acquire, release, handOff } = require('./mutationClaimStore');
 const { inspectForContinuation, formatContinuationReport } = require('./aiHandoffContinuation');
 const { ownerLabel } = require('./mutationClaims');
@@ -134,6 +134,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(`[The Crucible] FAIL: [${failureCode(error) || UNCODED}] ${error.message.replace(/^\[CRU-\d{4}\] /, '')}`);
+  console.error(`[The Crucible] FAIL: [${failureCode(error) || operationalCode(error) || UNCODED}] ${error.message.replace(/^\[(?:CRU|OPS)-\d{4}\] /, '')}`);
   process.exitCode = 1;
 });

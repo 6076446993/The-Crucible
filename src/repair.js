@@ -10,7 +10,7 @@ const { snapshotFiles, recordRepairObservations } = require('./repairLearningGat
 // Actions, the actual repository identity supplied by the runner.
 const ENGINE_PROJECT_ID = 'the-crucible';
 const ENGINE_GITHUB_IDENTITY = 'jonathanblunt1214-lgtm';
-const ENGINE_REPOSITORY = `${ENGINE_GITHUB_IDENTITY}/The-Crucible`;
+const ENGINE_REPOSITORY = '6076446993/The-Crucible';
 
 function assertInternalProject(config, environment = process.env) {
   const matchesProject = config.project.projectId === ENGINE_PROJECT_ID;

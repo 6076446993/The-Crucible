@@ -18,7 +18,7 @@ const {
 
 const registry = loadTaskRouting();
 const repositoryId = 1344890806;
-const repository = 'jonathanblunt1214-lgtm/The-Crucible';
+const repository = '6076446993/The-Crucible';
 
 test('canonical routing registry is development-owned and uses a stable repository ID', () => {
   assert.equal(validateTaskRouting(registry), true);
@@ -154,8 +154,8 @@ test('CLI parsing is shell-free and remote identity parsing accepts HTTPS and SS
     prompt: 'hello; whoami',
     'owner-authorized': true,
   });
-  assert.equal(repositoryFromRemote('https://github.com/jonathanblunt1214-lgtm/The-Crucible.git'), repository);
-  assert.equal(repositoryFromRemote('git@github.com:jonathanblunt1214-lgtm/The-Crucible.git'), repository);
+  assert.equal(repositoryFromRemote('https://github.com/6076446993/The-Crucible.git'), repository);
+  assert.equal(repositoryFromRemote('git@github.com:6076446993/The-Crucible.git'), repository);
   assert.throws(() => repositoryFromRemote('https://example.com/owner/repo.git'), /OPS-0045/);
 });
 
