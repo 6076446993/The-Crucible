@@ -17,7 +17,7 @@ function repository() {
 const config = { privacy:{ githubIdentity:'jonathanblunt1214-lgtm', scanContactInformation:true, allow:[] } };
 
 test('only the configured GitHub noreply identity and technical examples are allowed', () => {
-  assert.equal(isAllowedEmail('6076446993@users.noreply.github.com', config.privacy.githubIdentity), true);
+  assert.equal(isAllowedEmail(`${config.privacy.githubIdentity}@users.noreply.github.com`, config.privacy.githubIdentity), true);
   assert.equal(isAllowedEmail('git@github.com', config.privacy.githubIdentity), true);
   assert.equal(isAllowedEmail('person@example.test', config.privacy.githubIdentity), true);
   assert.equal(isAllowedEmail('maintainer@packages.invalid', config.privacy.githubIdentity), true);
