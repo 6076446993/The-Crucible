@@ -119,6 +119,7 @@ Plain-language summary: Reproduced the scheduled failure, installed locked depen
 
 - Additional uploaded logs and issue #1 analyzed at 2026-10-02T15:17:29.303Z; monitor artifact proves stale main namespace HTTP404. Repaired top-level monitor credential selection and sanitized operational classification; node --test test/nexusCheckMonitor.test.js passed 9/9. Public CI exact endpoint/permission diagnosis tests passed 6/6. Mutation claim monitor-token-diagnostics-20261002 — openai/Codex.
 - CRU-0013 hosted privacy failure analyzed and repaired without weakening privacy rules: obsolete personal noreply fixture replaced by the repository-configured organization noreply identity; AI-HANDOFF route rebound to the exact three-file repair scope — started 2026-10-02T16:46:00.000Z, finished 2026-10-02T16:49:00.000Z, exit 0 repository repair. Hosted rerun remains required; CRU-0006 remains an external Administration-read credential blocker.
+- Fresh run 37036574698 rejected the first CRU-0013 fixture correction at the unit assertion; replaced the literal noreply address with a value derived from the test's configured GitHub identity, preserving both privacy scanning and unit semantics — started 2026-10-02T16:50:19.000Z, finished 2026-10-02T16:51:00.000Z, exit 0 repository repair; hosted rerun required.
 
 ### Session: repair-missed-handoff-after-test-registration-20260929 — 2026-09-30T01:25:00.000Z — Codex — mode:work
 
