@@ -25,6 +25,11 @@ function githubHeaders(token) {
   };
 }
 
+function resolveMonitorToken(environment = process.env) {
+  return environment.CRUCIBLE_MONITOR_READ_TOKEN || environment.NEXUS_MONITOR_READ_TOKEN
+    || environment.GITHUB_TOKEN || environment.GH_TOKEN || environment.CRUCIBLE_SECURITY_READ_TOKEN || '';
+}
+
 async function githubGet(fetchImpl, url, token) {
   if (typeof fetchImpl !== 'function') throw operationalError('OPS-0051', 'A fetch implementation is required for Crucible PR monitoring.');
   const response = await fetchImpl(url, { headers: githubHeaders(token) });
@@ -32,9 +37,11 @@ async function githubGet(fetchImpl, url, token) {
   let body;
   try { body = JSON.parse(text); } catch { body = { message: text }; }
   if (!response.ok) {
-    const error = new Error(`GitHub GET ${url} failed with HTTP ${response.status}: ${body.message || text}`);
+    const permission = url.includes('/check-runs') ? 'Checks: read' : 'Pull requests: read';
+    const hint = [401, 403, 404].includes(response.status)
+      ? `Verify the dedicated monitor token is authorized for the current repository owner and has ${permission}; HTTP 404 can mask an inaccessible private resource.` : 'GitHub did not return verifiable monitoring evidence.';
+    const error = operationalError('OPS-0051', `GitHub GET ${url} failed with HTTP ${response.status}. ${hint}`);
     error.status = response.status;
-    error.body = body;
     throw error;
   }
   return body;
@@ -259,7 +266,7 @@ async function monitorPullRequest({
   };
 }
 
-async function monitorRepository({ fetchImpl = defaultFetch, token = process.env.CRUCIBLE_MONITOR_READ_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '', repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd(), waitForChecksMs = 0, waitForChecksPollMs = DEFAULT_MONITOR_POLL_MS }) {
+async function monitorRepository({ fetchImpl = defaultFetch, token = resolveMonitorToken(), repository, requiredChecks = [], lockedPullRequests = [], repairEnabled = false, repairAuthorization = null, repairRoot = process.cwd(), waitForChecksMs = 0, waitForChecksPollMs = DEFAULT_MONITOR_POLL_MS }) {
   requireValue(repository, 'repository');
   const prs = await githubGetAll(fetchImpl, `https://api.github.com/repos/${repository}/pulls?state=open`, token);
   const pullRequests = [];
@@ -277,7 +284,7 @@ async function monitorRepository({ fetchImpl = defaultFetch, token = process.env
 
 async function monitorConfiguredRepositories({
   fetchImpl = defaultFetch,
-  token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || process.env.CRUCIBLE_SECURITY_READ_TOKEN || '',
+  token = resolveMonitorToken(),
   config = loadMonitorConfig(),
   requiredChecks = normalizeRequiredNames(process.env.NEXUS_MONITOR_REQUIRED_CHECKS || ''),
   repairEnabled = process.env.CRUCIBLE_REPAIR_ENABLED === 'true',
@@ -350,7 +357,7 @@ if (require.main === module) {
         openPullRequestCount: 0,
         lockedPullRequestCount: 0,
         repositories: [],
-        blockers: [{ blocker: 'monitor-execution-failed', errorCode: error.code || 'CRU-0051', reason: error.message }],
+        blockers: [{ blocker: 'monitor-execution-failed', errorCode: error.operationalCode || 'OPS-0051', reason: error.message }],
         healthy: false,
         interactionPolicy: { locked: 'LOCKED_READ_ONLY', unlocked: 'MONITORED', mutationAuthority: 'NONE' },
       };
@@ -361,6 +368,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  resolveMonitorToken,
   failureCodeFromCheck,
   waitForPullRequestChecks,
   classifyCheck,
