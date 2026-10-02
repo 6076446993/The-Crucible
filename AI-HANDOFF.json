@@ -192,8 +192,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Repair the uploaded daily cadence failures and verify development before any owner-authorized production promotion.",
-    "currentPrompt": "Analyze these as well and do the same level of work with these as well\n\nCheck this as well https://github.com/6076446993/Nexus-Public-CI/issues/1#issue-5636889661",
+    "objective": "Repair the current Crucible privacy and handoff failures without weakening gates, then verify hosted CI.",
+    "currentPrompt": "Analyze it and do it",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -208,9 +208,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-02T16:32:07.062Z",
-      "promptSha256": "7e6f4a01a53ad20718e16237ae0f4334eb07ab269b49409b37fada2b832d3f1d",
-      "affectedPathsSha256": "01ee144468dab916c85ff080f6a3cc4914714e81a0110598c2c7579cab24460f"
+      "selectedAt": "2026-10-02T16:49:00.000Z",
+      "promptSha256": "e8e31b87c67ef7841b397ee4bd8aa211661d930fe7ec85be3cdbc69c787e8f29",
+      "affectedPathsSha256": "191773b2131d500d2c0ef96a94843784b15ced0743ce1131ff4f0387517e5923"
     },
     "steps": [
       "[done] Inspect both attached logs, retained monitor artifact and public CI issue against current repository state.",
@@ -220,7 +220,7 @@
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-10-02T15:17:29.303Z",
+    "lastUpdatedAt": "2026-10-02T16:49:00.000Z",
     "currentStep": "Original cadence defects repaired on development; hosted security-token permission and production promotion are blocked.",
     "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
     "ownership": {
@@ -392,7 +392,8 @@
       "The prompt-injection refusal was never missing, only unread. Oversight publishes encrypted-custody-report.json in plaintext beside the ciphertext, and its sourceReviews record 25 quarantines among 406 decisions - 24 policy refusals and exactly one \"prompt-injection content\", linked-source:5ab0eabad5e6714491c75fabab25d6afdf54218c4bdbfe705592c08de4baef62. Crucible queue does not carry Oversight reason, so that source arrives as oversight-vetting-pending and the prover, reading queue state, correctly saw no quarantine. The hosted job had been cloning that file all along to join the ciphertext parts. It is read now, two fields only, as candidate evidence from an independent party rather than as instruction, and credited only alongside the corpus not holding the refused bytes - the report is plaintext, so membership of the vetted repository is its only trust basis and the content check is what makes that sufficient.",
       "The content-absence half of the oversight refusal check is load-bearing in production, not only under test. Run 35068425740 read the report, found the single prompt-injection quarantine, and refused to credit it because the corpus stores that content hash - and no other review shares it, so the bytes are there because they were published, not because a duplicate shares a file. Crediting the decision field alone would have marked R8 prompt-injection satisfied on a refusal that kept nothing out.",
       "Refused content no longer reaches learning. Every source whose contentSha256 appears in a quarantined review is dropped on consumption, each exclusion logged, and the log states plainly that this closes the exposure without making the upstream refusal evidence that it held. All 25 rather than only the injection one, because the 24 policy refusals are provenance refusals - classifySource rejects non-HTTPS, denied hosts, .onion, private addresses and credentials in the URL - and corroboration requires two independent identified sources, so a provenance-refused source can never contribute one. Mining them would have added records that could never be used.",
-      "Confirmed and enforced permanent repair-evidence retention plus a full 365-day Devlog-Pruned archive floor."
+      "Confirmed and enforced permanent repair-evidence retention plus a full 365-day Devlog-Pruned archive floor.",
+      "Repaired CRU-0013 test-fixture drift by replacing the obsolete personal GitHub noreply fixture with the repository-configured 6076446993 noreply identity; the privacy detector and allow rules were not weakened."
     ],
     "verification": [
       "npm run test:all 863/863 at this change. The count rose by one with the evaluateR2 regression test, which was shown failing against the previous implementation before the repair existed.",
@@ -404,7 +405,8 @@
       "npm run test:all 879/879 at this change, 873 before it. The failure-code ratchet holds at 581 uncoded throw sites with none added and the fly-by-wire ratchet at 57 direct edges with none added, with durableGateEvidence placed in the learning organ. test/workflow.test.js is 32/32 with its cache assertions moved onto the replacement mechanism rather than dropped.",
       "npm run test:all 881/881, from 879. Both previously surviving mutations were re-applied after the tests existed and are now killed. The known-bug ledger picked up one entry for test/soakRun.test.js during the soakGate mutation run; it was verified as an induced failure, confirmed passing at this tip, and reverted rather than committed as a real open bug.",
       "npm run test:all 888/888 at this change. Failure-code ratchet 581 uncoded with none added; fly-by-wire 57 direct edges with none added. test/hostedExperimentHarnesses.test.js registered in both testCadenceCoreLegacy and _testCadenceCore.",
-      "Added regression coverage for exact one-year archive retention and for preserving an earlier repair observation when later evidence is recorded."
+      "Added regression coverage for exact one-year archive retention and for preserving an earlier repair observation when later evidence is recorded.",
+      "Hosted run 37034597883 identified CRU-0013 at test/privacy.test.js:20; the repair changes only that obsolete allowed-identity fixture and retains CRU-0006 as an external Administration-read credential blocker."
     ],
     "remaining": [
       "Do not weaken handoff, coordination, learning-custody, collision, security, or promotion gates to obtain green cosmetics, and never mark a gate passed on a run that was refused before it started or that exited before emitting a verdict.",
@@ -418,7 +420,8 @@
       "council-consult.yml cannot be dispatched until it exists on main, which is an owner promotion. Promoting all of development would carry learning-scope changes to main while R8 is pending, against the standing constraint; carrying just this workflow file through release would not. Either way no AI authorizes it.",
       "The owner client gets the whole council, paid providers included, which is the opposite boundary from Crucible. Note that AI_COLLAB_WALLET_TOTAL_USD is 0 in render.yaml and an exhausted allocation is excluded from routing, so leaving it at zero quietly reduces the owner council to its free part.",
       "Open the 45 documents that match the exfiltration pattern, in vetted custody, and decide from what is in them rather than from the pattern name. Their source ids are in the run log grouped by pattern. Only after that is narrowing INJECTION_PATTERNS a decision that can be taken on evidence.",
-      "Oversight deleting what it refuses is the other half and is not Crucible to do. The proposed patch is with the owner; the delicate part is that queue and manifest hashes must move together, since vetRestored asserts the queue hash matches the manifest and Crucible verifies the same."
+      "Oversight deleting what it refuses is the other half and is not Crucible to do. The proposed patch is with the owner; the delicate part is that queue and manifest hashes must move together, since vetRestored asserts the queue hash matches the manifest and Crucible verifies the same.",
+      "Rerun hosted Self-Test at the repaired development tip; CRU-0006 remains blocked until the owner-side SECURITY_READ_TOKEN has Administration: read."
     ],
     "open": [
       "The 14-source owner rescan obligation stays pending and unperformed. Its trigger condition is now partly met: custody is self-consistent and retention is provable. It stays pending because R5 has produced no retained hosted knowledge version yet, so there is no retained-state evidence to record completion against. When it is performed, reuse content hashes and extraction-window history; do not duplicate source bytes, reset custody, or re-extract unchanged windows.",

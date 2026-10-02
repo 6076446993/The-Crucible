@@ -118,6 +118,7 @@ Plain-language summary: Reproduced the scheduled failure, installed locked depen
 - Hosted follow-up: indexed the pruned ci-snapshot-reference-repair-20260929 claim for shallow CI checkout accountability; exact security blocker is missing Administration-read token access. Mutation claim scheduled-cadence-repair-20261002 released to a truthful handoff-ready state; production promotion remains owner-authorized.
 
 - Additional uploaded logs and issue #1 analyzed at 2026-10-02T15:17:29.303Z; monitor artifact proves stale main namespace HTTP404. Repaired top-level monitor credential selection and sanitized operational classification; node --test test/nexusCheckMonitor.test.js passed 9/9. Public CI exact endpoint/permission diagnosis tests passed 6/6. Mutation claim monitor-token-diagnostics-20261002 — openai/Codex.
+- CRU-0013 hosted privacy failure analyzed and repaired without weakening privacy rules: obsolete personal noreply fixture replaced by the repository-configured organization noreply identity; AI-HANDOFF route rebound to the exact three-file repair scope — started 2026-10-02T16:46:00.000Z, finished 2026-10-02T16:49:00.000Z, exit 0 repository repair. Hosted rerun remains required; CRU-0006 remains an external Administration-read credential blocker.
 
 ### Session: repair-missed-handoff-after-test-registration-20260929 — 2026-09-30T01:25:00.000Z — Codex — mode:work
 
