@@ -52,7 +52,7 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 - **Agent:** Codex, CI snapshot/reference repair; prior scientific-learning state is preserved.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** GitHub organization migration repair is staged on development; exact-tip hosted verification is pending. The dev plan in AI-HANDOFF.json records completed and remaining work.
+- **Actual current step:** Codex is repairing the uploaded daily cadence failure; original targeted tests pass 79/79 and additional operational-code regressions pass 16/16. Full daily and hosted exact-tip verification remain pending in AI-HANDOFF.json.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
 - **Verification state:** `npm run test:all` 890/890 at this change. `validate`, `docs:check`, `lint:workflows`, `audit:clutter`, `audit:privacy`, `audit:security`, `audit:governance`, `audit:ai-conflict-governance`, `audit:authenticity`, `audit:coordination` (12 claims, 0 active) and `git diff --check` exit 0; `audit:failure-codes` 581 uncoded with none added, `audit:circulation` 57 direct edges with none added. Hosted `Prove R4-R8 on encrypted durable state` is red by design until R8 is demonstrated.
 - **Continuation boundary:** Oversight deleting what it refuses is the remaining half, and it is not Crucible's to do — the proposed patch is with the owner, and the delicate part is that queue and manifest hashes must move together. Also open: whether consumer-side enforcement should count for R8's `prompt-injection` behaviour (a definition call); whether to retract active knowledge `v1`; promoting `council-consult.yml` to `main`; the unused `NVIDIA_NIM_MODEL` secret; and the 45 exfiltration-pattern documents, whose bytes stay encrypted to this session.
@@ -93,6 +93,26 @@ Released mutation claims remain durable facts even after their detailed session 
 - windows-java-toolchain-detection-20260916
 
 ## Command log archive
+
+### Session: scheduled-cadence-repair-20261002 — 2026-10-02T14:57:55.270Z — Codex — mode:work
+
+The following initial-command timestamps are approximate and are not exact execution-boundary evidence.
+
+Plain-language summary: Reproduced the scheduled failure, installed locked dependencies in its workflow, isolated repair fixtures from runner variables, and bound internal repair to the transferred engine repository. Exhausted security API retries now retain a sanitized per-repository failure report; the daily rerun also exposed two operational-code migration regressions that were corrected.
+- Task route: crucible-core; stable repository ID 1344890806; 6076446993/The-Crucible; development; affected paths select crucible-core.
+- Mutation claim scheduled-cadence-repair-20261002 — openai/Codex.
+- Clone/fetch development and inspect uploaded logs/source/Shared AI handoff — started 2026-10-02T14:52:00.000Z, finished 2026-10-02T14:57:55.270Z, exit 0.
+- npm run route:prewrite for original and additional affected scopes — started 2026-10-02T14:53:52.321Z, finished 2026-10-02T14:56:05.923Z, exit 0.
+- npm ci — started 2026-10-02T14:53:52.321Z, finished 2026-10-02T14:54:00.000Z, exit 0.
+- GITHUB_ACTIONS=true GITHUB_REPOSITORY=6076446993/The-Crucible node --test test/repair.test.js — started 2026-10-02T14:54:17.918Z, finished 2026-10-02T14:54:18.200Z, exit 1; regression reproduced before repair.
+- Targeted repair/security/workflow/semantic tests — started 2026-10-02T14:54:30.000Z, finished 2026-10-02T14:57:55.270Z, exit 0; 79/79.
+- npm run cadence:daily — started 2026-10-02T14:54:50.000Z, finished 2026-10-02T14:55:16.000Z, exit 1; two operational-code regressions plus missing local JDK exposed, original repair/semantic regressions cleared.
+- Additional provider-registry/source-retrieval tests — started 2026-10-02T14:56:05.923Z, finished 2026-10-02T14:57:55.270Z, exit 0; 16/16.
+- Install temporary real Temurin JDK from official release after apt sandbox capability failure — started 2026-10-02T14:56:05.923Z, finished 2026-10-02T14:57:55.270Z, exit 0; no fake compiler or skipped tests.
+
+- Additional full-suite migration fixtures and real-socket pinning regression were repaired; production retrieval owns its HTTPS agent so the global proxy cannot override the approved address. Verification remained fail-closed; security-token access is unproven locally.
+
+- Final local validation: full-system proof 974/974; scheduled daily 17 checks / 0 failures; privacy, security, docs, coordination, workflow lint, failure-code and circulation ratchets pass. GitHub security remains explicitly skipped without runner credentials, so this is not hosted Administration-access evidence.
 
 ### Session: repair-missed-handoff-after-test-registration-20260929 — 2026-09-30T01:25:00.000Z — Codex — mode:work
 
@@ -188,14 +208,3 @@ Plain-language summary: Fixed real Windows Java evidence rejection caused by com
 - Downloaded official free temporary Temurin JDK; proved native-path regression failed using real compiler evidence before fix — started 2026-09-29T20:47:00Z, finished 2026-09-29T20:48:00Z, exit 1 expected regression.
 - Normalized native file paths; ran all real hosted harness tests and npm run test:all — started 2026-09-29T20:48:00Z, finished 2026-09-29T20:49:57.969Z, exit 0: 8/8 harness and 925/925 full suite, zero skipped.
 - Hosted production learning proof still reports R8 prompt-injection and executable-content pending; no governed evidence was fabricated or gate weakened. Hosted development verification pending push.
-
-### Session: ci-snapshot-reference-repair-20260929 — 2026-09-29T20:40:16.442Z — Codex — mode:work
-
-Plain-language summary: Repaired the snapshot job missing dependency installation and the reference scanner mistaking executable test fixtures for live dependencies. Actual declarations, documentation and runtime references remain enforced.
-
-- Held and released mutation claim ci-snapshot-reference-repair-20260929 (openai/Codex); task route crucible-core, repository ID 1344890806, jonathanblunt1214-lgtm/The-Crucible, development; reason: affected paths select crucible-core.
-- Read hosted failure logs, cloned literal development and ran route:prewrite — started 2026-09-29T20:33:00Z, finished 2026-09-29T20:38:14Z, exit 0. Initial sandbox Git subprocess check failed; escalated check passed.
-- npm ci; added scanner regression, proved 19 passed/1 failed before repair; repaired scanner and symbolic remote HEAD; branch integrity audit — started 2026-09-29T20:35:00Z, finished 2026-09-29T20:38:00Z, exit 0 after correction; 109 real targets resolve.
-- npm run test:all — started 2026-09-29T20:37:00Z, finished 2026-09-29T20:37:20Z, exit 1: 917/923 passed; one accountability wording mismatch corrected; five Java tests require a compiler absent locally. No test skipped.
-- node --test test/coreRefIntegrity.test.js test/devlogAccountability.test.js; workflow lint; audit:circulation; audit:failure-codes — started 2026-09-29T20:39:00Z, finished 2026-09-29T20:40:16.442Z, exit 0.
-- No Command log archive prune was needed (8/10 sessions); hosted results remain pending, production unpromoted.

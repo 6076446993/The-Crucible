@@ -36,6 +36,8 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
+      - name: Install pinned engine dependencies
+        run: npm ci
       - name: Determine which cadence window fired
         id: tier
         run: |

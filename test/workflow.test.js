@@ -596,3 +596,9 @@ test('auto-repair learning is bound to the organization repository and remains c
   assert.match(workflow, /promotionAuthorized:\s*false/);
   assert.match(workflow, /Repair observations are learned evidence only/);
 });
+
+
+test('scheduled cadence installs locked dependencies before executing compiler-backed tests', () => {
+  const workflow = fs.readFileSync(path.join(root, '.github/workflows/scheduled-diagnostics.yml'), 'utf8');
+  assert.match(workflow, /run: npm ci[\s\S]*name: Run Orchestrator-owned scheduled category cadence/);
+});
