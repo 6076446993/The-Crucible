@@ -208,9 +208,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-02T15:17:29.366Z",
+      "selectedAt": "2026-10-02T16:31:58.682Z",
       "promptSha256": "7e6f4a01a53ad20718e16237ae0f4334eb07ab269b49409b37fada2b832d3f1d",
-      "affectedPathsSha256": "2a342f85f68f35c47b47ca0b03c27c141920038a202c3dccc1e96064214af023"
+      "affectedPathsSha256": "b9ee32156801c924f052e127ffe675a53c3cb0fb50f089c68b8b79b50e086c05"
     },
     "steps": [
       "[done] Inspect both attached logs, retained monitor artifact and public CI issue against current repository state.",
