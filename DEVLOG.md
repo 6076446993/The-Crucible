@@ -52,7 +52,7 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 - **Agent:** Codex, CI snapshot/reference repair; prior scientific-learning state is preserved.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** Codex is repairing the uploaded daily cadence failure; original targeted tests pass 79/79 and additional operational-code regressions pass 16/16. Full daily and hosted exact-tip verification remain pending in AI-HANDOFF.json.
+- **Actual current step:** Daily cadence repair is published at 3aa1e70. Full local proof passes 974/974 and daily cadence passes 17 checks; hosted tests pass through the security audit, which remains blocked by missing Administration-read token access. This follow-up restores durable accountability in shallow hosted checkouts.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
 - **Verification state:** `npm run test:all` 890/890 at this change. `validate`, `docs:check`, `lint:workflows`, `audit:clutter`, `audit:privacy`, `audit:security`, `audit:governance`, `audit:ai-conflict-governance`, `audit:authenticity`, `audit:coordination` (12 claims, 0 active) and `git diff --check` exit 0; `audit:failure-codes` 581 uncoded with none added, `audit:circulation` 57 direct edges with none added. Hosted `Prove R4-R8 on encrypted durable state` is red by design until R8 is demonstrated.
 - **Continuation boundary:** Oversight deleting what it refuses is the remaining half, and it is not Crucible's to do — the proposed patch is with the owner, and the delicate part is that queue and manifest hashes must move together. Also open: whether consumer-side enforcement should count for R8's `prompt-injection` behaviour (a definition call); whether to retract active knowledge `v1`; promoting `council-consult.yml` to `main`; the unused `NVIDIA_NIM_MODEL` secret; and the 45 exfiltration-pattern documents, whose bytes stay encrypted to this session.
@@ -91,6 +91,7 @@ Released mutation claims remain durable facts even after their detailed session 
 - orchestrator-continuity-upgrade-20260915
 - crucible-constitution-routing-registration-20260915
 - windows-java-toolchain-detection-20260916
+- ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
 
@@ -113,6 +114,8 @@ Plain-language summary: Reproduced the scheduled failure, installed locked depen
 - Additional full-suite migration fixtures and real-socket pinning regression were repaired; production retrieval owns its HTTPS agent so the global proxy cannot override the approved address. Verification remained fail-closed; security-token access is unproven locally.
 
 - Final local validation: full-system proof 974/974; scheduled daily 17 checks / 0 failures; privacy, security, docs, coordination, workflow lint, failure-code and circulation ratchets pass. GitHub security remains explicitly skipped without runner credentials, so this is not hosted Administration-access evidence.
+
+- Hosted follow-up: indexed the pruned ci-snapshot-reference-repair-20260929 claim for shallow CI checkout accountability; exact security blocker is missing Administration-read token access. Mutation claim scheduled-cadence-repair-20261002 released to a truthful handoff-ready state; production promotion remains owner-authorized.
 
 ### Session: repair-missed-handoff-after-test-registration-20260929 — 2026-09-30T01:25:00.000Z — Codex — mode:work
 
