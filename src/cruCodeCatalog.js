@@ -1,7 +1,7 @@
 'use strict';
 
 const crypto = require('node:crypto');
-const { FAILURE_CODES, CRU_CLASSIFICATION_CODES, describeCode } = require('./failureCodes');
+const { FAILURE_CODES, UNCODED, isCrucibleClassificationCode, operationalCodeFor } = require('./failureCodes');
 
 function stable(value) {
   if (Array.isArray(value)) return value.map(stable);
@@ -11,10 +11,15 @@ function stable(value) {
 function sha256(value) { return crypto.createHash('sha256').update(JSON.stringify(stable(value))).digest('hex'); }
 
 function buildCruCodeCatalog({ sourceCommit = process.env.GITHUB_SHA || null } = {}) {
-  const codes = [...CRU_CLASSIFICATION_CODES].sort().map((code) => {
-    const entry = describeCode(code);
-    return {
+  const codes = Object.entries(FAILURE_CODES)
+    .filter(([code]) => /^CRU-\d{4}$/.test(code))
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([code, entry]) => ({
       code,
+      status: code === UNCODED ? 'diagnosis-coverage-marker'
+        : isCrucibleClassificationCode(code) ? 'active-classification'
+        : 'operational-or-historical',
+      operationalCode: code === UNCODED || isCrucibleClassificationCode(code) ? null : operationalCodeFor(code),
       category: entry.category,
       meaning: entry.meaning,
       next: entry.next,
@@ -24,13 +29,12 @@ function buildCruCodeCatalog({ sourceCommit = process.env.GITHUB_SHA || null } =
         verifyWith: entry.remedy.verifyWith ?? null,
         forbidden: entry.remedy.forbidden,
       } : null,
-    };
-  });
+    }));
   const catalog = {
     schemaVersion: 1,
     authority: 'The-Crucible',
     sourceCommit,
-    semantics: 'CRU codes classify bug/error classes. They are diagnostic vocabulary, not repair authorization, lifecycle state, governance approval, or proof.',
+    semantics: 'This catalog is an evolving snapshot of Crucible diagnostic vocabulary. New CRU entries are added as new error classes are identified. Entries declare whether they are active classifications, operational/historical mappings, or the diagnosis-coverage marker. The catalog is diagnostic vocabulary, not repair authorization, lifecycle state, governance approval, or proof.',
     codes,
   };
   return { ...catalog, catalogSha256: sha256(catalog) };
