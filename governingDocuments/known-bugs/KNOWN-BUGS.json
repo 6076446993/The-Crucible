@@ -4411,6 +4411,41 @@
         "exitStatus": 1
       },
       "checkedAt": "2026-08-31T16:37:21.514Z"
+    },
+    {
+      "id": "KB-local-ea089cf992",
+      "foundAt": "2026-10-03T23:57:46.589Z",
+      "retests": [],
+      "severity": "low",
+      "status": "open",
+      "checked": false,
+      "sourceCommit": "local",
+      "categoryResults": [
+        {
+          "category": "maintenance",
+          "severity": "low",
+          "status": "failed",
+          "tests": [
+            "test/testCadence.test.js"
+          ]
+        }
+      ],
+      "mainCategories": [
+        "maintenance"
+      ],
+      "tests": [
+        "test/testCadence.test.js"
+      ],
+      "selectedTests": [
+        "test/handoffPolicy.test.js",
+        "test/testCadence.test.js",
+        "test/workflow.test.js"
+      ],
+      "attribution": "failing-tests",
+      "lastFailure": {
+        "at": "2026-10-03T23:57:46.589Z",
+        "exitStatus": 1
+      }
     }
   ]
 }

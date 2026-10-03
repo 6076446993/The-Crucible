@@ -49,13 +49,13 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
-- **Agent:** Codex, CI snapshot/reference repair; prior scientific-learning state is preserved.
+- **Agent:** Codex, authorized five-source learning-intake checkpoint; prior scientific-learning and Nexus integration state is preserved.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** CRU vocabulary is evolving rather than fixed; Nexus consumes Crucible definitions read-only, remembers occurrences, and can enrich earlier unknown CRU observations after catalog refresh. Concurrent hosted diagnostic council escalation is preserved.
+- **Actual current step:** Four authorized public source captures produced 123 content-addressed, provenance-bound candidate assertions. Every assertion remains `Insufficient Evidence`; durable transfer is blocked at the independent repository custody boundary.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
-- **Verification state:** CodeQL passed on the preceding exact tip. The prior Self-Test exposed stale task-routing custody (OPS-0045) plus the existing external GitHub Administration-read blocker (CRU-0006). This atomic handoff commit repairs only the stale routing/handoff custody; it does not weaken or bypass CRU-0006.
-- **Continuation boundary:** Nexus may read, explain, remember, and refresh Crucible-owned CRU definitions as they grow, but it may not redefine them or self-certify repairs. Nexus-specific bridge plugins become retirement candidates only after the native integration is verified end-to-end.
+- **Verification state:** Focused intake/extraction/retrieval safety tests pass 48/48. No claim was verified or promoted; no vetted-state repository was changed. Agentic AI Game Plan was rejected before intake for lack of a qualifying author, publisher, companion, or authorized excerpt source. No source was quarantined.
+- **Continuation boundary:** Learning-Worker extracts candidates; Crucible-Learning-State keeps raw custody; Crucible-Vetted-Learning-State keeps vetted custody; Vetting-and-Governance-oversite retains independent STOP/CLEAR and review authority; The Crucible consumes verified evidence without inheriting those powers. The previous CRU/Nexus exact-tip verification work remains separately unfinished.
 
 ## Released mutation claim accountability
 
@@ -91,9 +91,23 @@ Released mutation claims remain durable facts even after their detailed session 
 - orchestrator-continuity-upgrade-20260915
 - crucible-constitution-routing-registration-20260915
 - windows-java-toolchain-detection-20260916
+- windows-java-verifier-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
+- windows-workflow-text-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: authorized-five-source-ingestion-20261003 — 2026-10-03T23:55:30.403Z — Codex — mode:work
+
+Plain-language summary: Collected four author/publisher-authorized public sources, admitted their exact public text as candidate-only evidence, extracted 123 bounded assertions, rejected the fifth source before intake for inadequate source authority, and preserved the independent custody blocker without claiming verification.
+- Task route: crucible-core; stable repository ID 1344890806; 6076446993/The-Crucible; development; affected paths AI-HANDOFF.json, DEVLOG.md, and the orchestrator-generated known-bug ledger entry.
+- Confirmed authorized public surfaces for The Hundred-Page Machine Learning Book, Artificial Intelligence: A Guide for Thinking Humans, Writing AI Prompts For Dummies, and Artificial Intelligence All-in-One For Dummies. Recorded source URLs and SHA-256 lineage; no access control was bypassed — started 2026-10-03T23:30:00.000Z, finished 2026-10-03T23:45:00.000Z, exit 0.
+- Native intake rejected the authorized nine-page Burkov PDF with OPS-0043 `no_pages` although pdfinfo and pdftotext read it. Preserved exact PDF hash f84e6ba775ef707a0223173dd4e7be524c7e516dd67d879d9ac775dd74e70bf2 and admitted only its deterministic text derivative hash ce5786cab91691b0325c817a3c986ba1819eff6bea9d67052a6f4ecd0153d3fe; 81 candidate assertions extracted — started 2026-10-03T23:39:00.000Z, finished 2026-10-03T23:47:00.000Z, exit 0 with recorded parser blocker.
+- Content-addressed Macmillan page/excerpt hash ebe6a538a888a4e12468c64f7a4d3e5c406469a92b6b9bc9b59fdf3e9327e36f produced 35 candidates; Wiley product-page hashes d43b86508add8379c565fca3c34434f41988eb2a355ec508e4134ebf05ed3318 and 31fec0aec4f90be4e0a9dfaa7856230ab9f5a9a80cef23319408b3623cd92f3b produced 4 and 3 — started 2026-10-03T23:40:00.000Z, finished 2026-10-03T23:49:00.000Z, exit 0.
+- Agentic AI Game Plan had only retailer/review metadata in the available public results. It was rejected before intake rather than scraped or inferred; no candidate and no quarantine record was created — finished 2026-10-03T23:49:30.000Z, exit 0 fail-closed eligibility decision.
+- `node --test test/ownerFileIntake.test.js test/claimExtractionWorker.test.js test/pdfTextExtraction.test.js test/sourceRetrievalWorker.test.js test/safeInformationRetrieval.test.js` — started 2026-10-03T23:52:00.000Z, finished 2026-10-03T23:52:01.000Z, exit 0; 48/48, zero skipped.
+- `npm test` change-impact maintenance selection — started 2026-10-03T23:57:41.000Z, finished 2026-10-03T23:57:46.589Z, exit 1; 94/103 passed. Nine failures are stale cadence expected-list/count assertions for three already-present auto-discovered CRU/Nexus tests (`cruCodeCatalog`, `diagnosticCouncilEscalation`, `nexusRepairBridge`), not intake failures. Orchestrator persisted low-severity KB-local-ea089cf992; no unrelated repair or suppression was attempted.
+- Four candidate files reached claim-extraction-complete with 123 total `Insufficient Evidence` assertions. Zero claims were verified, promoted, or written to vetted state; zero sources were quarantined. Durable cross-repository transfer remains blocked by missing authorization to the independent custody repositories — finished 2026-10-03T23:55:30.403Z, exit 0 partial checkpoint.
 
 ### Session: durable-custody-identity-repair-20261003 — 2026-10-03T13:34:00.000Z — Codex — mode:work
 
@@ -205,33 +219,6 @@ Plain-language summary: Owner directed that all executable development work acro
 - Reordered remaining work so credential restoration, learning/custody proof, cross-repository verification, and protected promotion precede cleanup — started 2026-09-29T23:02:00.000Z, finished 2026-09-29T23:02:00.000Z, exit 0.
 - No verification gate, learning proof requirement, custody boundary, or production protection was weakened.
 - Updated the Self-Test repository-location assertions to the transferred `6076446993` private state repositories while preserving clone-only/read-only custody invariants; exact-tip hosted verification remains required.
-
-
-### Session: github-organization-migration-repair-20260929 — 2026-09-29T22:54:00.000Z — Codex — mode:work
-
-Plain-language summary: Rebound Crucible's operational GitHub repository locations to the new 6076446993 organization while preserving the existing encrypted learning project identity and protected promotion boundary.
-- Verified the transferred repository retains stable GitHub repository ID 1344890806 and routes core work to development — started 2026-09-29T22:54:00.000Z, finished 2026-09-29T22:54:00.000Z, exit 0.
-- Replaced old owner paths in development-hosted learning/source clone locations, repository identity guards, and the reusable Crucible checkout; no learning proof or promotion gate was weakened — started 2026-09-29T22:54:00.000Z, finished 2026-09-29T22:54:00.000Z, exit 0.
-- Updated TASK-ROUTING.json, AI-HANDOFF.json, and DEVLOG.md in the same atomic change set with route category crucible-core and exact affected-path/prompt digests — started 2026-09-29T22:54:00.000Z, finished 2026-09-29T22:54:00.000Z, exit 0.
-- Preserved `github:jonathanblunt1214-lgtm/The-Crucible` where it is the durable learning project identity rather than a GitHub repository location; migration of that identity is not inferred from an ownership transfer — started 2026-09-29T22:54:00.000Z, finished 2026-09-29T22:54:00.000Z, exit 0.
-- Main remains protected; the main-only auto-repair-learning workflow is not directly edited and must be corrected through the protected release path after verification.
-
-
-### Session: windows-workflow-text-repair-20260929 — 2026-09-29T20:54:42.659Z — Codex — mode:work
-
-Plain-language summary: Fixed the remaining Windows workflow assertion by normalizing CRLF to LF before comparing the same council permission and egress contract. No assertion, credential boundary, or gate was removed.
-
-- Held and released mutation claim windows-workflow-text-repair-20260929 (openai/Codex); route crucible-core, stable repository ID 1344890806, jonathanblunt1214-lgtm/The-Crucible, development; reason project context selects crucible-core.
-- Read Windows hosted log 109613988707: constructor proof now passed, council permissions text assertion failed on CRLF — started 2026-09-29T20:53:00Z, finished 2026-09-29T20:53:23Z, exit 0 diagnosis.
-- Normalized line endings in the one workflow-text assertion; node --require /tmp/crucible-crlf-input.cjs --test test/workflow.test.js — started 2026-09-29T20:53:30Z, finished 2026-09-29T20:54:42.659Z, exit 0, 35/35 tests, no skipped tests.
-- Nexus independent full release audit 36629189574 is green on its repaired development tip. Live Render code deployed; authenticated live NIM verification still needs the existing service bearer secret. R8 evidence gaps remain visible.
-- Final exact-tip hosted Crucible verification pending push; no production branch was changed.
-
-- 2026-10-03 — Adopted Nexus one-system conformance on development. The Crucible remains the verification/failure-classification authority while consuming/emitting the canonical Nexus event envelope; Assimilation is obsolete for new routing. This is an integration-contract change only and does not advance scientific-learning release gates. Verification is pending the hosted Self-Test/CodeQL/governance suite; the existing durable-learning external/custody blocker remains independent.
-
-- 2026-10-03 — Added the live Nexus repair bridge and CRU-0055 Nexus integration-conformance classification. Nexus diagnoses remain evidence-only; Crucible owns classification/remedy/test semantics and independent repair-boundary verification. Repair regression learning was corrected to failure-memory semantics: remember what did not work in the evidenced circumstances without subtracting knowledge, permanently banning a strategy, or endorsing an alternative. Hosted Nexus cross-repository repair proof is being rerun against the live development branch.
-
-- 2026-10-03 — Hosted Nexus–Crucible program repair integration proof passed in Nexus run 37133885614. The proof used a disposable real Git program, live Crucible development classification CRU-0055, bounded Nexus mutation, requested Crucible test execution, post-repair Nexus diagnosis, and Crucible independent repair-boundary verification. This proves the repair bridge boundary; it does not satisfy the separate durable-learning custody proof.
 
 
 ### Session: nexus-integrated-program-recovery-20261003 — 2026-10-03 — ChatGPT — mode:work
