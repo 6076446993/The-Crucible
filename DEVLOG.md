@@ -52,10 +52,10 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 - **Agent:** Codex, CI snapshot/reference repair; prior scientific-learning state is preserved.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** Additional uploaded monitor/public-CI logs analyzed. Monitor token precedence repaired with 9/9 tests; public CI exact-request access diagnostics pass 6/6. Hosted verification and external token authorization remain to be checked.
+- **Actual current step:** Crucible now publishes an evolving CRU diagnostic catalog and Nexus repair contract. Repair-regression learning is bounded failure memory: it records what failed so the same mistake is not blindly repeated, without subtracting existing knowledge or proving an alternative.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
-- **Verification state:** Previous cadence repair: 974/974 full suite and 17 daily checks with zero local failures; hosted security gate is blocked by Administration-read access. Current monitor repair: 9/9 focused tests; public CI diagnostics: 6/6. Main promotion and live credentials remain unperformed.
-- **Continuation boundary:** Oversight deleting what it refuses is the remaining half, and it is not Crucible's to do — the proposed patch is with the owner, and the delicate part is that queue and manifest hashes must move together. Also open: whether consumer-side enforcement should count for R8's `prompt-injection` behaviour (a definition call); whether to retract active knowledge `v1`; promoting `council-consult.yml` to `main`; the unused `NVIDIA_NIM_MODEL` secret; and the 45 exfiltration-pattern documents, whose bytes stay encrypted to this session.
+- **Verification state:** Focused CRU catalog, repair-learning, and Nexus repair-bridge tests are added. The handoff gate correctly required this DEVLOG/AI-HANDOFF synchronization. Exact-tip Self-Test, CodeQL, catalog synchronization, and Nexus end-to-end integration remain pending.
+- **Continuation boundary:** New CRU codes are expected to be added as Crucible identifies new error classes. Nexus may read, explain, and remember the exact Crucible-owned definitions and past occurrences, but may not redefine CRU semantics or treat diagnostic memory as verification authority.
 
 ## Released mutation claim accountability
 
