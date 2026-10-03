@@ -332,8 +332,8 @@
         "Published verified source tree at 3aa1e70; hosted handoff and routing pass. Hosted Linux tests reached GitHub security audit; audit now reports missing repository Administration-read permission rather than unclassified fetch failure.",
         "Analyzed logs_100248391324 and downloaded its real monitor artifact: main requests old jonathanblunt1214-lgtm/NVIDIA-NIM-CONSOLE and receives HTTP 404. Development monitor registry is already migrated.",
         "Fixed top-level monitor selecting repository-scoped GITHUB_TOKEN ahead of CRUCIBLE_MONITOR_READ_TOKEN; explicit cross-repository token and legacy NEXUS_MONITOR_READ_TOKEN now take precedence. 9/9 monitor tests pass including top-level request header and sanitized OPS-0051 failure.",
-      "Analyzed logs_100285116555: private-project CI token receives HTTP 404 before checkout. Connected GitHub account verifies target repository id1356380073 and existing merged PR10; this does not prove the separate CI token permission."
-      ,"Bound the preserved pre-transfer durable learning project identity to exactly 6076446993/The-Crucible, without accepting arbitrary aliases or changing encrypted custody. Added and passed controls for correct custody, foreign repositories, authenticated-ciphertext tampering, and raw-intake versus oversight-vetted provenance."
+        "Analyzed logs_100285116555: private-project CI token receives HTTP 404 before checkout. Connected GitHub account verifies target repository id1356380073 and existing merged PR10; this does not prove the separate CI token permission.",
+        "Bound the preserved pre-transfer durable learning project identity to exactly 6076446993/The-Crucible, without accepting arbitrary aliases or changing encrypted custody. Added and passed controls for correct custody, foreign repositories, authenticated-ciphertext tampering, and raw-intake versus oversight-vetted provenance."
       ],
       "remaining": [
         "Final hosted exact-tip Self-Test and CodeQL verification pending this push.",
@@ -348,8 +348,8 @@
         "Hosted security settings cannot be verified: injected SECURITY_READ_TOKEN lacks Administration-read access for 6076446993/The-Crucible. No token/secret management capability is available in this session.",
         "Production scheduled workflow remains on main; release promotion requires explicit owner authorization and passing protected gates.",
         "Main monitor registry still contains old namespace; protected owner-authorized narrow release promotion is required to run migrated configuration and token fix. Dedicated token must have Pull requests: read and Checks: read on monitored repositories.",
-      "Nexus-Public-CI AI_COLLAB_CI_TOKEN access and AI_COLLABORATION_BEARER_TOKEN live setup remain unverified external secret configuration; no secrets tool is available."
-      ,"Exact-tip hosted Self-Test, CodeQL, durable proof, ingestion acknowledgement, independent vetting, and consumption verification remain required before the learning vaccine can be called active."
+        "Nexus-Public-CI AI_COLLAB_CI_TOKEN access and AI_COLLABORATION_BEARER_TOKEN live setup remain unverified external secret configuration; no secrets tool is available.",
+        "Exact-tip hosted Self-Test, CodeQL, durable proof, ingestion acknowledgement, independent vetting, and consumption verification remain required before the learning vaccine can be called active."
       ]
     }
   },
@@ -1165,5 +1165,18 @@
         ]
       }
     }
+  },
+  "nexusSystemIntegration": {
+    "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
+    "contract": "governingDocuments/NEXUS-SYSTEM-CONFORMANCE.md",
+    "canonicalContract": "Nexus-/governingDocuments/native/NEXUS-SYSTEM-INTEGRATION-CONTRACT.md",
+    "role": "verification/failure classification",
+    "assimilation": "OBSOLETE",
+    "authority": "Crucible verification/failure-classification authority preserved; no governance, custody, extraction, or promotion authority acquired.",
+    "verification": "Hosted Self-Test/CodeQL/governance suite pending on current development head; durable-learning external/custody blocker remains independent.",
+    "remainingWork": [
+      "Complete hosted verification of this integration change.",
+      "Operational adapters/tests must enforce canonical envelope at active cross-repository handoffs; documentation alone is not treated as runtime proof."
+    ]
   }
 }
