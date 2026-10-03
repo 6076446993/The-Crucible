@@ -137,3 +137,22 @@ test('operational repair evidence cannot be converted into a CRU prevention cand
     precursorPaths: ['DEVLOG.md'], requiredCheck: 'audit:handoff', rationale: 'operational evidence',
   }), /active CRU bug\/error classification/);
 });
+
+test('repair regression memory records what failed without subtracting knowledge or proving an alternative', () => {
+  const { repairRegressionMemoryCandidate, REGRESSION_MEMORY_KIND } = require('../src/repairLearning');
+  const candidate = repairRegressionMemoryCandidate({
+    projectId: 'the-crucible',
+    repository: 'owner/repo',
+    regressionId: 'RR-42',
+    repairStrategy: 'rewrite-workflow',
+    failureMode: 'required-check-never-ran',
+    evidenceSha256: 'e'.repeat(64),
+    observedAt: '2026-10-03T15:29:00.000Z',
+  });
+  assert.equal(candidate.kind, REGRESSION_MEMORY_KIND);
+  assert.equal(candidate.classification, 'Insufficient Evidence');
+  assert.equal(candidate.provenance.learningEffect, 'remember-failed-approach');
+  assert.match(candidate.claim, /did not work/);
+  assert.match(candidate.generalizationBoundary, /does not subtract or erase other knowledge/);
+  assert.match(candidate.generalizationBoundary, /does not.*endorse an alternative strategy/i);
+});
