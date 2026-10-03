@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "contractId": "crucible-nexus-program-repair-v1",
+  "authority": "The-Crucible",
+  "purpose": "Read-only classification and independent-verification requirements for the Nexus program repair loop.",
+  "diagnosisMappings": {
+    "NXD-ASSIMILATION-ACTIVE": "CRU-0055",
+    "NXD-CONFORMANCE-INCOMPLETE": "CRU-0055",
+    "NXD-CONFORMANCE-MISSING": "CRU-0055"
+  },
+  "repairRules": {
+    "requireImmutableBase": true,
+    "requireBoundedPlan": true,
+    "requireExactPlanAuthorization": true,
+    "forbidDiagnosisMutation": true,
+    "requireNewImmutableRepairCommit": true,
+    "requireRequestedTests": true,
+    "skippedTestsPass": false,
+    "requireCleanRediagnosis": true,
+    "blindRepeatOfRecordedRegression": "quarantine-unless-plan-addresses-regression"
+  },
+  "verificationRules": {
+    "independentVerifierRequired": true,
+    "githubRequiredCheck": "The Crucible",
+    "exactRepairCommitRequired": true,
+    "successConclusion": "success",
+    "statement": "A passing repair check verifies only the declared repair boundary. It does not grant governance, custody, promotion, or release authority."
+  },
+  "regressionLearning": {
+    "semantics": "failure-memory",
+    "statement": "Record what did not work under the evidenced circumstances so future planning does not blindly repeat the same mistake.",
+    "subtractive": false,
+    "erasesKnowledge": false,
+    "permanentlyBansStrategy": false,
+    "provesAlternative": false,
+    "reuseAllowedWhenPriorFailureExplicitlyAddressed": true
+  }
+}
