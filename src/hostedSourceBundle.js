@@ -17,8 +17,17 @@ function sha256File(file) {
   return hash.digest('hex');
 }
 
+// Durable learning identity does not silently change when GitHub transfers a repository. This
+// one-entry migration binds the pre-transfer project identity to the exact current repository;
+// it is deliberately not a general alias or owner-level exception.
+const PROJECT_REPOSITORY_MIGRATIONS = Object.freeze(new Map([
+  ['github:jonathanblunt1214-lgtm/The-Crucible', '6076446993/The-Crucible'],
+]));
+
 function validateIdentity(projectId, repository, ref) {
-  if (projectId !== `github:${repository}`) throw new Error('Source bundle project identity does not match the repository.');
+  const migratedRepository = PROJECT_REPOSITORY_MIGRATIONS.get(projectId);
+  const matches = migratedRepository ? migratedRepository === repository : projectId === `github:${repository}`;
+  if (!matches) throw new Error('Source bundle project identity does not match the repository.');
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repository || '')) throw new Error('Repository identity is invalid.');
   if (ref !== 'refs/heads/development') throw new Error('Source bundle transport is development-only.');
 }
@@ -275,4 +284,4 @@ async function main() {
 }
 
 if(require.main===module)main().catch((error)=>{console.error(`[The Crucible] Hosted source bundle failed: ${error.message}`);process.exitCode=1;});
-module.exports={MAGIC,CHUNK_NAME,chunkFile,KEY_VARIABLES,ENCRYPTION_KEY_VARIABLE,keyFromEnvironment,candidateKeys,readHeader,provenanceFor,sha256File,stage,encrypt,decrypt,verifyRestored,hydrateRestored,restageRestored,splitEncrypted,joinEncrypted};
+module.exports={MAGIC,CHUNK_NAME,chunkFile,PROJECT_REPOSITORY_MIGRATIONS,KEY_VARIABLES,ENCRYPTION_KEY_VARIABLE,keyFromEnvironment,candidateKeys,readHeader,provenanceFor,validateIdentity,sha256File,stage,encrypt,decrypt,verifyRestored,hydrateRestored,restageRestored,splitEncrypted,joinEncrypted};
