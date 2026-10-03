@@ -111,7 +111,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-02T15:17:29.303Z"
+    "lastActionAt": "2026-10-03T13:38:25.081Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -193,7 +193,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Repair the current Crucible privacy and handoff failures without weakening gates, then verify hosted CI.",
-    "currentPrompt": "Analyze it and do it",
+    "currentPrompt": "I want this Crucible now reaches decryption but fails a custody-identity check. The learning “vaccine” is not yet active. Queued as the next fix after all this is finished",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -208,20 +208,20 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-02T16:51:00.000Z",
-      "promptSha256": "e8e31b87c67ef7841b397ee4bd8aa211661d930fe7ec85be3cdbc69c787e8f29",
-      "affectedPathsSha256": "191773b2131d500d2c0ef96a94843784b15ced0743ce1131ff4f0387517e5923"
+      "selectedAt": "2026-10-03T13:36:05.091Z",
+      "promptSha256": "3597bd43915cdaa199cbf4cc8812fc7d1418fd9732718bcf73beb6d06de1b2ea",
+      "affectedPathsSha256": "81299bc764234195cbbdcdfbdbc7b990a2e08d28df3729ed9ae0b8744407c36e"
     },
     "steps": [
-      "[done] Inspect both attached logs, retained monitor artifact and public CI issue against current repository state.",
-      "[next] Repair dedicated monitor token precedence with regression tests.",
-      "[next] Improve public CI permission diagnostics without exposing private source or credentials.",
-      "[next] Publish visible repairs and inspect resulting host runs; stop only at actual secret/promotion boundaries."
+      "[done] Reproduce the hosted custody-identity failure at the exact development tip and preserve the legacy durable project identity.",
+      "[done] Bind that identity only to the transferred stable repository and add acceptance, foreign-repository, tampered-ciphertext, and vetting-provenance controls.",
+      "[next] Publish the bounded repair on development and inspect exact-tip hosted gates plus the durable learning proof.",
+      "[next] Require actual ingestion, independent vetting, and consumption evidence before reporting the learning vaccine active."
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-10-02T16:51:00.000Z",
-    "currentStep": "Original cadence defects repaired on development; hosted security-token permission and production promotion are blocked.",
+    "lastUpdatedAt": "2026-10-03T13:38:25.081Z",
+    "currentStep": "The exact legacy durable learning identity is now accepted only by the transferred Crucible repository; focused custody controls pass locally and hosted exact-tip verification is pending.",
     "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
     "ownership": {
       "currentClaim": null,
@@ -247,7 +247,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Full system 974/974, daily cadence 17 checks / 0 failures locally; GitHub security skipped without hosted credentials. Hosted exact-commit verification pending.",
+    "verificationStatus": "Focused hosted-source custody suite passes 9/9, including exact migration acceptance, foreign-repository rejection, tampered-ciphertext rejection, and independent-vetting provenance refusal. Change-impact suite passes 110/110. The local full-system attempt passed 971/978; its seven failures are exactly six real-JDK proofs unavailable on this runner plus the expected pre-push Devlog-Pruned synchronization gap. Hosted exact-commit verification and actual durable proof remain pending.",
     "blockers": [
       {
         "id": "oversight-must-delete-what-it-refuses",
@@ -305,7 +305,7 @@
         "owner": "user-or-oversight"
       }
     ],
-    "nextAction": "Publish and verify monitor repair on development, and public CI diagnostics on its existing main branch (no branch policy files exist there). Then inspect actual hosted results.",
+    "nextAction": "Publish the custody repair on development, inspect exact-tip Self-Test and CodeQL, then rerun the hosted durable learning proof and require real ingestion, independent-vetting, and consumption evidence.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -332,7 +332,8 @@
         "Published verified source tree at 3aa1e70; hosted handoff and routing pass. Hosted Linux tests reached GitHub security audit; audit now reports missing repository Administration-read permission rather than unclassified fetch failure.",
         "Analyzed logs_100248391324 and downloaded its real monitor artifact: main requests old jonathanblunt1214-lgtm/NVIDIA-NIM-CONSOLE and receives HTTP 404. Development monitor registry is already migrated.",
         "Fixed top-level monitor selecting repository-scoped GITHUB_TOKEN ahead of CRUCIBLE_MONITOR_READ_TOKEN; explicit cross-repository token and legacy NEXUS_MONITOR_READ_TOKEN now take precedence. 9/9 monitor tests pass including top-level request header and sanitized OPS-0051 failure.",
-        "Analyzed logs_100285116555: private-project CI token receives HTTP 404 before checkout. Connected GitHub account verifies target repository id1356380073 and existing merged PR10; this does not prove the separate CI token permission."
+      "Analyzed logs_100285116555: private-project CI token receives HTTP 404 before checkout. Connected GitHub account verifies target repository id1356380073 and existing merged PR10; this does not prove the separate CI token permission."
+      ,"Bound the preserved pre-transfer durable learning project identity to exactly 6076446993/The-Crucible, without accepting arbitrary aliases or changing encrypted custody. Added and passed controls for correct custody, foreign repositories, authenticated-ciphertext tampering, and raw-intake versus oversight-vetted provenance."
       ],
       "remaining": [
         "Final hosted exact-tip Self-Test and CodeQL verification pending this push.",
@@ -347,7 +348,8 @@
         "Hosted security settings cannot be verified: injected SECURITY_READ_TOKEN lacks Administration-read access for 6076446993/The-Crucible. No token/secret management capability is available in this session.",
         "Production scheduled workflow remains on main; release promotion requires explicit owner authorization and passing protected gates.",
         "Main monitor registry still contains old namespace; protected owner-authorized narrow release promotion is required to run migrated configuration and token fix. Dedicated token must have Pull requests: read and Checks: read on monitored repositories.",
-        "Nexus-Public-CI AI_COLLAB_CI_TOKEN access and AI_COLLABORATION_BEARER_TOKEN live setup remain unverified external secret configuration; no secrets tool is available."
+      "Nexus-Public-CI AI_COLLAB_CI_TOKEN access and AI_COLLABORATION_BEARER_TOKEN live setup remain unverified external secret configuration; no secrets tool is available."
+      ,"Exact-tip hosted Self-Test, CodeQL, durable proof, ingestion acknowledgement, independent vetting, and consumption verification remain required before the learning vaccine can be called active."
       ]
     }
   },
