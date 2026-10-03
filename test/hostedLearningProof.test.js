@@ -5,7 +5,8 @@ const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { ClaimExtractionWorker } = require('../src/claimExtractionWorker');
-const { runHostedProof } = require('../src/hostedLearningProof');
+const { runHostedProof, restore, learningBinding, STATE_CONTEXT } = require('../src/hostedLearningProof');
+const { encryptWeeklyEnvelope } = require('../src/scientificLearning');
 const { harnessesForDeclaration } = require('../src/hostedExperimentHarnesses');
 
 // This replaces an assertion that the two hardcoded harness ids differed - which was true, and
@@ -34,6 +35,27 @@ const PROJECT = 'github:owner/repo';
 const CLAIM = 'The map method returns a new array and does not modify the original array.';
 const SCOPE = 'Node.js ordinary dense arrays of numbers';
 const sha256 = (value) => crypto.createHash('sha256').update(value).digest('hex');
+
+test('retained weekly state migrates only from the exact pre-transfer Crucible binding',()=>{
+  const repository='6076446993/The-Crucible', ref='refs/heads/development';
+  const binding=learningBinding(repository,ref);
+  assert.equal(binding.projectId,'github:jonathanblunt1214-lgtm/The-Crucible');
+  assert.deepEqual(binding.migratedFrom,{projectId:binding.projectId,repository:'jonathanblunt1214-lgtm/The-Crucible',subject:'repo:jonathanblunt1214-lgtm/The-Crucible:ref:refs/heads/development'});
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'weekly-binding-migration-')); const file=path.join(root,'state.json'); const masterKey=Buffer.alloc(32,9);
+  const durableState={schemaVersion:1,projectId:binding.projectId,revision:1,checksum:'fixture'};
+  const payload={schemaVersion:1,projectId:binding.projectId,week:STATE_CONTEXT,candidateEvidence:[{durableState}],verifiedKnowledge:[]};
+  const legacy=encryptWeeklyEnvelope(payload,{masterKey,projectId:binding.projectId,repository:binding.migratedFrom.repository,week:STATE_CONTEXT,oidcSubject:binding.migratedFrom.subject});
+  fs.writeFileSync(file,JSON.stringify(legacy));
+  let written=null, read=false; const store={writeEnvelope:value=>{written=value;},read:()=>{read=true;}};
+  assert.equal(restore(store,file,masterKey,binding),true);
+  assert.deepEqual(written,durableState); assert.equal(read,true);
+
+  const foreign=learningBinding('6076446993/Nexus-',ref); written=null; read=false;
+  assert.throws(()=>restore(store,file,masterKey,foreign),/binding mismatch/);
+  const tampered={...legacy,tag:Buffer.alloc(16,1).toString('base64url')}; fs.writeFileSync(file,JSON.stringify(tampered));
+  assert.throws(()=>restore(store,file,masterKey,binding));
+  assert.equal(written,null); assert.equal(read,false);
+});
 
 // The restored real corpus, in exactly the shape hostedSourceBundle.stage() produces, with the
 // durable store filled by the real extraction worker reading the real document files. The

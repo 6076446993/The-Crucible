@@ -16,6 +16,17 @@ const { intakePathways } = require('./intakePathways');
 const { harnessesForDeclaration, lazyHarnessPair } = require('./hostedExperimentHarnesses');
 
 const STATE_CONTEXT = 'github-hosted-learning-state-v1';
+const TRANSFERRED_LEARNING_BINDINGS = Object.freeze(new Map([
+  ['6076446993/The-Crucible', Object.freeze({ projectId:'github:jonathanblunt1214-lgtm/The-Crucible', previousRepository:'jonathanblunt1214-lgtm/The-Crucible' })],
+]));
+
+function learningBinding(repository, ref) {
+  const transfer = TRANSFERRED_LEARNING_BINDINGS.get(repository);
+  const projectId = transfer?.projectId || `github:${repository}`;
+  const binding = { projectId, repository, subject:`repo:${repository}:ref:${ref}` };
+  if (transfer) binding.migratedFrom = Object.freeze({ projectId, repository:transfer.previousRepository, subject:`repo:${transfer.previousRepository}:ref:${ref}` });
+  return Object.freeze(binding);
+}
 
 // The hardcoded harness pair that used to live here ran one fixed JavaScript array-map snippet
 // for every claim, and had the same closure "independently" confirm it. Real per-language
@@ -28,7 +39,13 @@ function withoutPlanBinding(harness) {
 function restore(store, encryptedFile, key, binding) {
   if (!fs.existsSync(encryptedFile)) return false;
   const envelope = JSON.parse(fs.readFileSync(encryptedFile,'utf8'));
-  const transport = decryptWeeklyEnvelope(envelope,{ masterKey:key, expectedProjectId:binding.projectId, expectedRepository:binding.repository, expectedWeek:STATE_CONTEXT, expectedOidcSubject:binding.subject });
+  const open = (candidate) => decryptWeeklyEnvelope(envelope,{ masterKey:key, expectedProjectId:candidate.projectId, expectedRepository:candidate.repository, expectedWeek:STATE_CONTEXT, expectedOidcSubject:candidate.subject });
+  let transport;
+  try { transport = open(binding); }
+  catch (error) {
+    if (!binding.migratedFrom || error.message !== 'Weekly envelope binding mismatch.') throw error;
+    transport = open(binding.migratedFrom);
+  }
   const payload = transport.candidateEvidence[0]?.durableState;
   if (!payload) throw new Error('Encrypted hosted state contains no durable payload.');
   store.writeEnvelope(payload);
@@ -48,7 +65,7 @@ async function runHostedProof({ root, encryptedFile, reportFile, key, repository
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repository||'')) throw new Error('GitHub repository identity is invalid.');
   if (ref!=='refs/heads/development') throw new Error('Hosted learning proof is development-only.');
   const masterKey=Buffer.from(key,'base64'); if(masterKey.length<32)throw new Error('CRUCIBLE_HOSTED_STORE_KEY must decode to at least 32 bytes.');
-  const projectId=`github:${repository}`, subject=`repo:${repository}:ref:${ref}`, binding={projectId,repository,subject};
+  const binding=learningBinding(repository,ref), {projectId}=binding;
   const storeRoot=path.join(root,'store'); fs.mkdirSync(storeRoot,{recursive:true});
   const store=new DurableScientificLearningStore({root:storeRoot,projectId}); const restored=restore(store,encryptedFile,masterKey,binding); const at=now();
   // R4-R6 are learned from the real restored corpus. There is deliberately no synthetic
@@ -283,4 +300,4 @@ if (require.main === module) {
     .catch((error) => { console.error(`[The Crucible] Hosted learning proof failed closed: ${error.message}`); process.exitCode = 1; });
 }
 
-module.exports={runHostedProof,reportCompletion};
+module.exports={runHostedProof,reportCompletion,restore,learningBinding,TRANSFERRED_LEARNING_BINDINGS,STATE_CONTEXT};
