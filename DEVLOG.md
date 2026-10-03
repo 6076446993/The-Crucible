@@ -52,10 +52,10 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 - **Agent:** Codex, CI snapshot/reference repair; prior scientific-learning state is preserved.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** Crucible now publishes an evolving CRU diagnostic catalog and Nexus repair contract. Repair-regression learning is bounded failure memory: it records what failed so the same mistake is not blindly repeated, without subtracting existing knowledge or proving an alternative.
+- **Actual current step:** CRU vocabulary is evolving rather than fixed; Nexus consumes Crucible definitions read-only, remembers occurrences, and can enrich earlier unknown CRU observations after catalog refresh. Concurrent hosted diagnostic council escalation is preserved.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
-- **Verification state:** Focused CRU catalog, repair-learning, and Nexus repair-bridge tests are added. The handoff gate correctly required this DEVLOG/AI-HANDOFF synchronization. Exact-tip Self-Test, CodeQL, catalog synchronization, and Nexus end-to-end integration remain pending.
-- **Continuation boundary:** New CRU codes are expected to be added as Crucible identifies new error classes. Nexus may read, explain, and remember the exact Crucible-owned definitions and past occurrences, but may not redefine CRU semantics or treat diagnostic memory as verification authority.
+- **Verification state:** CodeQL passed on the preceding exact tip. The prior Self-Test exposed stale task-routing custody (OPS-0045) plus the existing external GitHub Administration-read blocker (CRU-0006). This atomic handoff commit repairs only the stale routing/handoff custody; it does not weaken or bypass CRU-0006.
+- **Continuation boundary:** Nexus may read, explain, remember, and refresh Crucible-owned CRU definitions as they grow, but it may not redefine them or self-certify repairs. Nexus-specific bridge plugins become retirement candidates only after the native integration is verified end-to-end.
 
 ## Released mutation claim accountability
 
