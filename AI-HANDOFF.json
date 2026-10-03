@@ -1178,5 +1178,21 @@
       "Complete hosted verification of this integration change.",
       "Operational adapters/tests must enforce canonical envelope at active cross-repository handoffs; documentation alone is not treated as runtime proof."
     ]
+  },
+  "nexusProgramRepairBridge": {
+    "status": "IMPLEMENTED_PENDING_HOSTED_END_TO_END_PASS",
+    "classificationCode": "CRU-0055",
+    "interfaces": [
+      "src/nexusRepairBridge.js",
+      "src/nexusRepairBridgeCli.js"
+    ],
+    "semantics": "Crucible owns failure classification, remedy/test selection, and independent repair-boundary verification. Nexus diagnosis is evidence only.",
+    "regressionLearning": "Failure-memory learning records what did not work in evidenced circumstances so it is not blindly repeated. It is not subtractive, does not erase knowledge, permanently ban a strategy, or endorse an alternative.",
+    "verification": "Unit and hosted repository gates are running; Nexus cross-repository integration proof is rerunning against this development branch.",
+    "remainingWork": [
+      "Obtain a passing hosted Nexus cross-repository repair integration run.",
+      "Complete Self-Test, CodeQL, and AI handoff policy on the resulting exact development head.",
+      "Durable-learning external/custody proof remains a separate boundary and is not satisfied by this repair bridge."
+    ]
   }
 }
