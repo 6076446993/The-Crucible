@@ -169,14 +169,22 @@ function createDiagnosticCouncilEscalation(options = {}) {
         externalConsult({ taskId, prompt, phase: input.phase }),
         localConsult({ taskId, prompt, phase: input.phase }),
       ]);
-      const consultations = settled.map((result, index) => result.status === 'fulfilled'
-        ? result.value
-        : {
-            available: false,
-            source: index === 0 ? 'ai-collaboration-council' : 'crucible-local-council',
-            reason: redact(result.reason?.message || String(result.reason), env),
-            authorizationGranted: false,
-          });
+      const consultations = settled.map((result, index) => {
+        const source = index === 0 ? 'ai-collaboration-council' : 'crucible-local-council';
+        if (result.status !== 'fulfilled') return {
+          available: false,
+          source,
+          reason: redact(result.reason?.message || String(result.reason), env),
+          authorizationGranted: false,
+        };
+        if (result.value?.authorizationGranted === true || result.value?.promotionAuthorized === true || result.value?.ownerApproved === true) return {
+          available: false,
+          source: result.value?.source || source,
+          reason: 'authority-boundary-violation',
+          authorizationGranted: false,
+        };
+        return { ...result.value, authorizationGranted: false };
+      });
       return {
         invoked: true,
         taskId,
