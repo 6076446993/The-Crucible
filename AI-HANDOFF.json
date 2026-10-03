@@ -1200,5 +1200,35 @@
       "Complete Self-Test, CodeQL, and AI handoff policy on the resulting exact development head.",
       "Durable-learning external/custody proof remains a separate boundary and is not satisfied by this repair bridge."
     ]
+  },
+  "nexusIntegratedProgram": {
+    "status": "IMPLEMENTED_PENDING_EXACT_HEAD_VERIFICATION",
+    "updatedOn": "2026-10-03",
+    "objective": "Finish native Nexus program integration before reorganizing or retiring the separate AI-facing project surfaces.",
+    "integrationState": {
+      "aiCollaboration": "Native /api/nexus/coding-session path implemented; NVIDIA NIM remains coding worker and council is advisory/recovery only when struggle signals exist.",
+      "crucible": "Diagnostic council, CRU catalog, Nexus repair bridge, and repair-regression failure memory are integrated into governed Crucible systems.",
+      "nexus": "Native prompt-coding client, exact-commit lineage, guarded local application, feature-branch/PR publication, and exact-SHA Crucible verification are being completed in Nexus Development.",
+      "interfaceCleanup": "Deferred. Separate ChatGPT/AI project surfaces remain as history/recovery surfaces until native Nexus end-to-end verification passes."
+    },
+    "latestRepair": {
+      "cause": "Crucible Self-Test correctly rejected newly added modules without explicit system ownership and rejected repair-regression provenance fields outside the governed scientific-learning schema.",
+      "correction": "Assigned diagnosticCouncil* to brain, cruCodeCatalog* and nexusRepairBridge* to circulation, and encoded repair-regression memory using existing allowed provenance fields instead of widening the schema.",
+      "affectedPaths": [
+        "src/circulationLinkage.js",
+        "src/repairLearning.js",
+        "test/repairLearning.test.js",
+        "DEVLOG.md",
+        "AI-HANDOFF.json"
+      ]
+    },
+    "verification": "Exact-head Self-Test, CodeQL, AI conflict governance, AI handoff policy, and Nexus cross-repository verification must pass before this integration is called verified.",
+    "remainingWork": [
+      "Complete exact-head hosted verification on Crucible development.",
+      "Update Nexus to the newly verified Crucible authority commit and rerun Nexus exact-head gates.",
+      "Complete native Nexus prompt->NIM->conditional council->local verification->feature PR->exact-SHA Crucible flow.",
+      "Only after that, mark Nexus-specific compatibility plug-in routes obsolete and reorganize separate AI interface projects as cleanup."
+    ],
+    "authority": "No verification, governance, custody, learning promotion, or protected-branch authority is merged. Nexus coordinates; NIM codes; the council advises under bounded struggle rules; Crucible verifies/classifies."
   }
 }
