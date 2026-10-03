@@ -226,3 +226,5 @@ Plain-language summary: Fixed the remaining Windows workflow assertion by normal
 - Normalized line endings in the one workflow-text assertion; node --require /tmp/crucible-crlf-input.cjs --test test/workflow.test.js — started 2026-09-29T20:53:30Z, finished 2026-09-29T20:54:42.659Z, exit 0, 35/35 tests, no skipped tests.
 - Nexus independent full release audit 36629189574 is green on its repaired development tip. Live Render code deployed; authenticated live NIM verification still needs the existing service bearer secret. R8 evidence gaps remain visible.
 - Final exact-tip hosted Crucible verification pending push; no production branch was changed.
+
+- 2026-10-03 — Adopted Nexus one-system conformance on development. The Crucible remains the verification/failure-classification authority while consuming/emitting the canonical Nexus event envelope; Assimilation is obsolete for new routing. This is an integration-contract change only and does not advance scientific-learning release gates. Verification is pending the hosted Self-Test/CodeQL/governance suite; the existing durable-learning external/custody blocker remains independent.
