@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "authority": "The-Crucible",
+  "semantics": "CRU codes classify bug/error classes. They are diagnostic vocabulary, not repair authorization, lifecycle state, governance approval, or proof.",
+  "codes": [
+    {
+      "code": "CRU-0002",
+      "category": "repository-integrity",
+      "meaning": "The pinned Crucible commit failed integrity verification.",
+      "next": "Compare the pinned ref against the canonical branch and resolve the mismatch; do not repoint the pin to make the check pass.",
+      "remedy": {
+        "kind": "owner-decision",
+        "command": null,
+        "verifyWith": {
+          "tests": [
+            "test/coreRefIntegrity.test.js"
+          ]
+        },
+        "forbidden": "Never repoint the pin at whatever the working tree happens to be; that makes the check agree with the drift."
+      }
+    },
+    {
+      "code": "CRU-0006",
+      "category": "repository-security",
+      "meaning": "GitHub repository security settings do not satisfy the required configuration.",
+      "next": "Apply the fixes named in the report; see \"GitHub repository security settings gate\" in README.md.",
+      "remedy": {
+        "kind": "owner-decision",
+        "command": "npm run audit:github-security",
+        "verifyWith": {
+          "tests": [
+            "test/globalRepositoryGovernance.test.js"
+          ]
+        },
+        "forbidden": "Never disable a required repository setting, and never mark the gate skipped, to get past it."
+      }
+    },
+    {
+      "code": "CRU-0008",
+      "category": "workflow-validity",
+      "meaning": "A workflow declares an unrecognized GitHub Actions permissions key, which makes GitHub reject the entire workflow file so every job in it stops running.",
+      "next": "Replace the key with a valid one from the documented set. This is a hard syntax failure, not a policy preference.",
+      "remedy": {
+        "kind": "automatic",
+        "command": "npm run lint:workflows",
+        "verifyWith": {
+          "tests": [
+            "test/workflowLint.test.js"
+          ]
+        },
+        "forbidden": "Never delete the whole permissions block to silence it; that grants the default, which is broader."
+      }
+    },
+    {
+      "code": "CRU-0013",
+      "category": "privacy",
+      "meaning": "Personal identifiers were detected in tracked or staged content.",
+      "next": "Review the sanitized working files, stage the cleaned content, and commit again. The original staged content stays blocked.",
+      "remedy": {
+        "kind": "automatic",
+        "command": "npm run scrub:privacy",
+        "verifyWith": {
+          "tests": [
+            "test/privacy.test.js"
+          ]
+        },
+        "forbidden": "Never add the identifier to an allow-list to clear the audit."
+      }
+    },
+    {
+      "code": "CRU-0017",
+      "category": "artifact-security",
+      "meaning": "The generated-artifact security scan found unsafe content in produced artifacts, which were quarantined.",
+      "next": "Inspect the quarantined artifacts, fix what generated them, and rerun. Never release the quarantine to get green.",
+      "remedy": {
+        "kind": "owner-decision",
+        "command": null,
+        "verifyWith": {
+          "tests": [
+            "test/security.test.js"
+          ]
+        },
+        "forbidden": "Never release the quarantine or exclude the artifact path to get green."
+      }
+    },
+    {
+      "code": "CRU-0018",
+      "category": "workload",
+      "meaning": "A verification command in the bounded workload exited non-zero or was killed by a signal.",
+      "next": "Read the captured child output quoted with this code: it names the command, the worker and cycle, and the exit status. Diagnose that command, not the harness that ran it.",
+      "remedy": {
+        "kind": "guided",
+        "command": null,
+        "verifyWith": {
+          "tests": [
+            "code"
+          ]
+        },
+        "forbidden": "Never skip, disable, or quarantine the failing verification command."
+      }
+    },
+    {
+      "code": "CRU-0019",
+      "category": "workload",
+      "meaning": "A verification command exceeded its configured timeout and was terminated.",
+      "next": "Establish whether the command hung or is genuinely slower than the budget; raise the budget only with evidence, never to hide a hang.",
+      "remedy": {
+        "kind": "guided",
+        "command": null,
+        "verifyWith": {
+          "tests": [
+            "code"
+          ]
+        },
+        "forbidden": "Never raise the timeout budget without evidence that the command is genuinely slower rather than hung."
+      }
+    },
+    {
+      "code": "CRU-0020",
+      "category": "workload",
+      "meaning": "A verification command could not be started at all.",
+      "next": "Resolve the missing executable or unreadable working directory named in the message.",
+      "remedy": {
+        "kind": "guided",
+        "command": null,
+        "verifyWith": {
+          "tests": [
+            "utility"
+          ]
+        },
+        "forbidden": "Never drop the command from the workload because it will not start."
+      }
+    },
+    {
+      "code": "CRU-0021",
+      "category": "workload",
+      "meaning": "The bounded workload finished but a required artifact was not produced.",
+      "next": "Find out why the producing command did not write it; a missing artifact is a silent failure of the step that owed it.",
+      "remedy": {
+        "kind": "guided",
+        "command": null,
+        "verifyWith": {
+          "tests": [
+            "utility"
+          ]
+        },
+        "forbidden": "Never remove the artifact from the required list to make the check pass."
+      }
+    },
+    {
+      "code": "CRU-0027",
+      "category": "workflow-validity",
+      "meaning": "A workflow references a context where that context does not exist - most often runner, env or steps inside a job-level env block. GitHub rejects the whole file rather than substituting a value, so the run is created with zero jobs and reports a bare failure with nothing in it.",
+      "next": "Move the expression to a step, where the context exists, or use an ordinary environment variable the runner sets (RUNNER_TEMP rather than runner.temp). A run with zero jobs is the signature of this defect.",
+      "remedy": {
+        "kind": "guided",
+        "command": "npm run lint:workflows",
+        "verifyWith": {
+          "tests": [
+            "test/workflowLint.test.js"
+          ]
+        },
+        "forbidden": "Never delete the offending line to make the file parse; the value is one the job actually needs, so removing it silently changes what the job does."
+      }
+    },
+    {
+      "code": "CRU-0028",
+      "category": "workflow-validity",
+      "meaning": "A step that runs on failure() is missing continue-on-error: true, so a diagnostic added to explain a failure is allowed to become the failure. The upload variants are the sharpest case: with if-no-files-found: error, a report that was never written because the run died early is reported as the cause instead of whatever actually died.",
+      "next": "Add continue-on-error: true to the on-error step. AGENTS.md requires on-error diagnosis to be additive and to never change that job's own pass/fail result; the job still fails, on the step that really failed.",
+      "remedy": {
+        "kind": "automatic",
+        "command": "npm run lint:workflows",
+        "verifyWith": {
+          "tests": [
+            "test/workflowLint.test.js"
+          ]
+        },
+        "forbidden": "Never drop the if: failure() condition or loosen if-no-files-found to make the step stop failing; that removes the diagnosis instead of making it additive, and the point is to keep the evidence while keeping it out of the verdict."
+      }
+    },
+    {
+      "code": "CRU-0033",
+      "category": "artifact-security",
+      "meaning": "A provider credential value reached a governance artifact, prompt, log, source file, or other persisted surface. A credential exposed there is compromised and must be removed and rotated.",
+      "next": "Supply credentials only through environment variables or repository secrets. Remove any credential from AI-HANDOFF.json, AI-CONFLICTS.json, DEVLOG.md, source, and prompts, and rotate the key.",
+      "remedy": {
+        "kind": "guided",
+        "command": "npm run audit:coordination",
+        "verifyWith": {
+          "tests": [
+            "test/aiProviderRegistry.test.js"
+          ]
+        },
+        "forbidden": "Never commit a credential to make a run work, and never redact one in place and treat that as sufficient - the value stays in Git history and must be rotated."
+      }
+    },
+    {
+      "code": "CRU-0036",
+      "category": "ci-harness",
+      "meaning": "A governed AI provider could not be called, rejected the request, or returned something unusable. The provider is unreachable or misconfigured; it is not agreeing and it is not disagreeing.",
+      "next": "Check the provider credential and model environment variables and the endpoint. Treat the provider as absent from the result: a provider that did not answer lowers coverage rather than being dropped from the tally.",
+      "remedy": {
+        "kind": "guided",
+        "command": "npm run audit:coordination",
+        "verifyWith": {
+          "tests": [
+            "test/aiProviderAdapters.test.js"
+          ]
+        },
+        "forbidden": "Never substitute a canned response for an unreachable provider. A fake answer is indistinguishable from a real one downstream and silently becomes evidence."
+      }
+    },
+    {
+      "code": "CRU-0041",
+      "category": "pdf-extraction",
+      "meaning": "In-process PDF extraction failed while reading a source document, so no guessed or partial text is admitted to the corpus.",
+      "next": "Read the carried reason. An encrypted document needs a decrypted copy; an image-only scan needs OCR; an unsupported filter or unmapped composite font needs the pdftotext or pypdf tier on a host that has it. Never register text the extractor did not actually read.",
+      "remedy": {
+        "kind": "guided",
+        "command": "npm run learning:extract-readiness",
+        "verifyWith": {
+          "tests": [
+            "test/pdfTextExtraction.test.js",
+            "test/claimExtractionWorker.test.js"
+          ]
+        },
+        "forbidden": "Never substitute empty, partial, or reconstructed text for a document that could not be read, and never mark the source extracted."
+      }
+    },
+    {
+      "code": "CRU-0055",
+      "category": "nexus-integration-conformance",
+      "meaning": "A registered Nexus component violates the canonical Nexus system integration contract or still carries an active obsolete Assimilation routing/authority semantic.",
+      "next": "Repair the component-local integration or routing declaration while preserving repository authority and historical provenance, then rerun Nexus diagnosis and the component tests.",
+      "remedy": {
+        "kind": "guided",
+        "command": null,
+        "verifyWith": {
+          "tests": [
+            "test/nexusRepairBridge.test.js"
+          ]
+        },
+        "forbidden": "Never repair this by copying, injecting, assimilating, or rewriting another component governance tree. Diagnosis is evidence only and remediation stays within the owning component."
+      }
+    }
+  ]
+}
