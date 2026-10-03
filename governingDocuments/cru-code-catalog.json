@@ -4,6 +4,22 @@
   "semantics": "This catalog is an evolving snapshot of Crucible diagnostic vocabulary. New CRU entries are added as new error classes are identified. Entries declare whether they are active classifications, operational/historical mappings, or the diagnosis-coverage marker. The catalog is diagnostic vocabulary, not repair authorization, lifecycle state, governance approval, or proof.",
   "codes": [
     {
+      "code": "CRU-0000",
+      "status": "diagnosis-coverage-marker",
+      "operationalCode": null,
+      "category": "diagnosis-coverage",
+      "meaning": "A failure occurred on a path that has not been assigned a failure code, so the diagnostic organ can name that the gap exists but not what went wrong.",
+      "next": "Read the failure message quoted in the report, give that throw site a code from this registry (or add one), and record the lower uncoded baseline. Never widen a pattern rule to cover it.",
+      "remedy": {
+        "kind": "owner-decision",
+        "command": null,
+        "verifyWith": {
+          "mainCategory": "utility"
+        },
+        "forbidden": "Never widen a diagnostic pattern rule to absorb it; that hides the gap instead of closing it."
+      }
+    },
+    {
       "code": "CRU-0001",
       "status": "operational-or-historical",
       "operationalCode": "OPS-0001",
@@ -50,9 +66,7 @@
         "kind": "guided",
         "command": "npm run precheck",
         "verifyWith": {
-          "tests": [
-            "code"
-          ]
+          "mainCategory": "code"
         },
         "forbidden": "Never mark a pre-check action done without doing it."
       }
@@ -194,9 +208,7 @@
         "kind": "owner-decision",
         "command": null,
         "verifyWith": {
-          "tests": [
-            "security"
-          ]
+          "mainCategory": "security"
         },
         "forbidden": "Never broaden an exception's scope to cover what it was found not to cover."
       }
@@ -248,9 +260,7 @@
         "kind": "guided",
         "command": "npm run audit:clutter",
         "verifyWith": {
-          "tests": [
-            "maintenance"
-          ]
+          "mainCategory": "maintenance"
         },
         "forbidden": "Never add the path to an ignore list to silence the audit."
       }
@@ -284,9 +294,7 @@
         "kind": "guided",
         "command": null,
         "verifyWith": {
-          "tests": [
-            "utility"
-          ]
+          "mainCategory": "utility"
         },
         "forbidden": "Never add an alias for a mistyped action; fix the caller."
       }
@@ -320,9 +328,7 @@
         "kind": "guided",
         "command": null,
         "verifyWith": {
-          "tests": [
-            "code"
-          ]
+          "mainCategory": "code"
         },
         "forbidden": "Never skip, disable, or quarantine the failing verification command."
       }
@@ -338,9 +344,7 @@
         "kind": "guided",
         "command": null,
         "verifyWith": {
-          "tests": [
-            "code"
-          ]
+          "mainCategory": "code"
         },
         "forbidden": "Never raise the timeout budget without evidence that the command is genuinely slower rather than hung."
       }
@@ -356,9 +360,7 @@
         "kind": "guided",
         "command": null,
         "verifyWith": {
-          "tests": [
-            "utility"
-          ]
+          "mainCategory": "utility"
         },
         "forbidden": "Never drop the command from the workload because it will not start."
       }
@@ -374,9 +376,7 @@
         "kind": "guided",
         "command": null,
         "verifyWith": {
-          "tests": [
-            "utility"
-          ]
+          "mainCategory": "utility"
         },
         "forbidden": "Never remove the artifact from the required list to make the check pass."
       }
