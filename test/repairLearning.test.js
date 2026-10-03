@@ -151,7 +151,8 @@ test('repair regression memory records what failed without subtracting knowledge
   });
   assert.equal(candidate.kind, REGRESSION_MEMORY_KIND);
   assert.equal(candidate.classification, 'Insufficient Evidence');
-  assert.equal(candidate.provenance.learningEffect, 'remember-failed-approach');
+  assert.equal(candidate.provenance.sourceType, 'repair-regression-failure-memory');
+  assert.equal(candidate.provenance.lifecycleStage, 'repair-regression-failure-memory');
   assert.match(candidate.claim, /did not work/);
   assert.match(candidate.generalizationBoundary, /does not subtract or erase other knowledge/);
   assert.match(candidate.generalizationBoundary, /does not.*endorse an alternative strategy/i);
