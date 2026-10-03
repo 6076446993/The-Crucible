@@ -33,5 +33,7 @@ test('council authority escalation is rejected',async()=>{
  // The aggregator preserves the violation as data; productionOrganism rejects any top-level
  // authorization and downstream consumers must never treat an individual consultation as authority.
  assert.equal(result.authorizationGranted,false);
- assert.equal(result.consultations[0].authorizationGranted,true);
+ assert.equal(result.consultations[0].authorizationGranted,false);
+ assert.equal(result.consultations[0].available,false);
+ assert.equal(result.consultations[0].reason,'authority-boundary-violation');
 });
