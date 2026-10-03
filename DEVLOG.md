@@ -232,3 +232,13 @@ Plain-language summary: Fixed the remaining Windows workflow assertion by normal
 - 2026-10-03 — Added the live Nexus repair bridge and CRU-0055 Nexus integration-conformance classification. Nexus diagnoses remain evidence-only; Crucible owns classification/remedy/test semantics and independent repair-boundary verification. Repair regression learning was corrected to failure-memory semantics: remember what did not work in the evidenced circumstances without subtracting knowledge, permanently banning a strategy, or endorsing an alternative. Hosted Nexus cross-repository repair proof is being rerun against the live development branch.
 
 - 2026-10-03 — Hosted Nexus–Crucible program repair integration proof passed in Nexus run 37133885614. The proof used a disposable real Git program, live Crucible development classification CRU-0055, bounded Nexus mutation, requested Crucible test execution, post-repair Nexus diagnosis, and Crucible independent repair-boundary verification. This proves the repair bridge boundary; it does not satisfy the separate durable-learning custody proof.
+
+
+### Session: nexus-integrated-program-recovery-20261003 — 2026-10-03 — ChatGPT — mode:work
+
+Plain-language summary: Continued the owner-directed merge of the active AI/verification stack into Nexus as one program while preserving subsystem authority. The separate AI-facing project surfaces are now cleanup/history surfaces, but cleanup is explicitly deferred until native Nexus integration is verified end-to-end.
+- Repaired the Self-Test ownership failure by assigning diagnostic council modules to the brain system and CRU catalog/Nexus repair bridge modules to circulation; the fly-by-wire ratchet remains fail-closed rather than excusing unowned modules.
+- Repaired the repair-regression learning candidate without widening scientific-learning provenance: failure-memory semantics are represented through the existing sourceType/lifecycleStage/contentSha256 fields.
+- AI Collaboration native Nexus coding API remains NIM-first. Council review/recovery may advise only after a struggle signal or invalid/unavailable NIM proposal; the council never becomes the coding actuator and never authorizes writes.
+- Nexus native coding is being wired to exact repository/commit lineage, local guardrails with rollback, feature-branch/PR publication, and exact-SHA Crucible verification. Compatibility plug-in/project cleanup remains deferred.
+- Verification still required on the exact resulting Crucible head: Self-Test, CodeQL, AI conflict governance, AI handoff policy. Durable-learning custody remains a separate boundary and is not claimed satisfied by this integration.
