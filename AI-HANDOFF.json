@@ -206,11 +206,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Shared handoff evidence synchronizes the active Crucible/Nexus diagnostic integration without changing repository authority.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-03T13:48:12.235Z",
-      "promptSha256": "6a3f24cf9384f79c5822b24e0d765f5827a8118c4f4c644b92440280b2c6a84f",
-      "affectedPathsSha256": "6e3ade2ea68c4de04c2d1cc93bc81582416be3fe0af9d6574347dcf5c94974bc"
+      "selectedAt": "2026-10-03T16:13:00.000Z",
+      "promptSha256": "08ae34bd9b6d84bd15d37ec0264599c1c793f4a46ed72fa0b0f455ecbfd56f02",
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "[done] Define repair-regression learning as bounded failure memory: remember what did not work without erasing knowledge, permanently banning a strategy, or proving an alternative.",
@@ -221,8 +221,8 @@
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-10-03T15:36:00.000Z",
-    "currentStep": "Published an evolving machine-readable CRU registry snapshot and Nexus repair contract; Nexus is wiring exact-ref read-only CRU authority plus occurrence memory. Regression learning records bounded failed approaches so they are not blindly repeated.",
+    "lastUpdatedAt": "2026-10-03T16:13:00.000Z",
+    "currentStep": "CRU vocabulary is explicitly evolving, Nexus consumes it read-only and remembers occurrences, and concurrent hosted diagnostic council escalation remains preserved. Handoff custody is rebound atomically to AI-HANDOFF.json and DEVLOG.md.",
     "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
     "ownership": {
       "currentClaim": null,
@@ -248,7 +248,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Focused CRU catalog/repair-bridge tests are added. AI handoff policy correctly required this handoff update. Exact-tip Self-Test, CodeQL, catalog synchronization, and Nexus cross-repository integration remain pending.",
+    "verificationStatus": "CodeQL passed on the preceding exact tip. CRU catalog generation is registry-derived. The previous hosted Self-Test failure included OPS-0045 from stale route custody plus the pre-existing external CRU-0006 GitHub Administration-read blocker; this atomic handoff update addresses OPS-0045 only.",
     "blockers": [
       {
         "id": "oversight-must-delete-what-it-refuses",
@@ -306,7 +306,7 @@
         "owner": "user-or-oversight"
       }
     ],
-    "nextAction": "Pass exact-tip Crucible governance/Self-Test/CodeQL, pin Nexus to that exact verified Crucible commit, then rerun the Nexus bounded repair integration and exact-commit verification.",
+    "nextAction": "Verify AI handoff/task routing on this exact commit, then let Nexus pin the final verified Crucible diagnostic contract and complete its own inventory/privacy/test gates.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
