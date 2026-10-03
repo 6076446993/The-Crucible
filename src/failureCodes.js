@@ -44,6 +44,19 @@ const OPERATIONAL_PATTERN = /OPS-\d{4}/g;
 // The registry. Each entry says what happened and what to do about it, in the words a person
 // reading a red CI job needs. `category` groups codes for reporting; it is not a severity.
 const FAILURE_CODES = Object.freeze({
+  'CRU-0055': {
+    code: 'CRU-0055',
+    category: 'nexus-integration-conformance',
+    meaning: 'A registered Nexus component violates the canonical Nexus system integration contract or still carries an active obsolete Assimilation routing/authority semantic.',
+    next: 'Repair the component-local integration or routing declaration while preserving repository authority and historical provenance, then rerun Nexus diagnosis and the component tests.',
+    remedy: {
+      kind: 'guided',
+      command: null,
+      verifyWith: { tests: ['test/nexusRepairBridge.test.js'] },
+      forbidden: 'Never repair this by copying, injecting, assimilating, or rewriting another component governance tree. Diagnosis is evidence only and remediation stays within the owning component.',
+    },
+  },
+
   [UNCODED]: {
     code: UNCODED,
     category: 'diagnosis-coverage',
