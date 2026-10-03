@@ -9,6 +9,7 @@ const { createLearningProvenance } = require('./learningProvenance');
 
 const KIND = 'repair-observation';
 const PREVENTION_KIND = 'prevention-candidate';
+const REGRESSION_INHIBITION_KIND = 'repair-regression-inhibition';
 
 function text(value, label) {
   if (typeof value !== 'string' || !value.trim()) throw new Error(`${label} must be non-empty text.`);
@@ -161,6 +162,35 @@ function queueMappedPreventionCandidates({ learningRoot, projectId, mappings, no
   return { repairEvidenceCount: repairs.length, queuedCount: queued.length, queued, promotionAuthorized: false };
 }
 
+
+function repairRegressionInhibitionCandidate({ projectId, repository, regressionId, repairStrategy, failureMode, evidenceSha256, observedAt = new Date().toISOString() }) {
+  text(projectId, 'projectId'); text(repository, 'repository'); text(regressionId, 'regressionId');
+  text(repairStrategy, 'repairStrategy'); text(failureMode, 'failureMode'); digest(evidenceSha256, 'evidenceSha256');
+  if (!Number.isFinite(Date.parse(observedAt))) throw new Error('observedAt must be an ISO timestamp.');
+  const source = { repository, regressionId, repairStrategy, failureMode, evidenceSha256, observedAt };
+  const sourceSha256 = sha(source);
+  return makeCandidate({
+    id: `repair-regression-inhibition-${sourceSha256}`,
+    projectId,
+    claim: `Within the evidenced boundary of repair regression "${regressionId}", inhibit repeating repair strategy "${repairStrategy}" against failure mode "${failureMode}" unless new evidence specifically addresses the recorded regression.`,
+    claimBoundary: `${repository}:${regressionId}:${failureMode}`,
+    generalizationBoundary: 'Subtractive learning only: this candidate can inhibit a demonstrated harmful strategy within its evidenced boundary. It does not identify, endorse, rank, or increase confidence in any alternative repair strategy, and it cannot be generalized to other failures or repositories.',
+    kind: REGRESSION_INHIBITION_KIND,
+    provenance: {
+      sourceType: 'repair-regression-negative-evidence',
+      lifecycleStage: 'regression-inhibition-candidate',
+      sourceId: `repair-regression:${repository}:${regressionId}`,
+      retrievedAt: observedAt,
+      author: 'the-crucible-repair-learning',
+      license: 'project-private-repair-evidence',
+      contentSha256: sourceSha256,
+      evidenceSha256,
+      learningEffect: 'subtractive-inhibition-only',
+    },
+    createdAt: observedAt,
+  });
+}
+
 function snapshotFiles(root) {
   const result = new Map();
   let files = [];
@@ -204,4 +234,4 @@ function recordRepairObservations({ root, learningRoot, projectId, repository, c
   };
 }
 
-module.exports = { KIND, PREVENTION_KIND, repairObservationCandidate, preventionCandidateFromRepairObservation, queuePreventionCandidate, queueMappedPreventionCandidates, snapshotFiles, recordRepairObservations };
+module.exports = { KIND, PREVENTION_KIND, REGRESSION_INHIBITION_KIND, repairRegressionInhibitionCandidate, repairObservationCandidate, preventionCandidateFromRepairObservation, queuePreventionCandidate, queueMappedPreventionCandidates, snapshotFiles, recordRepairObservations };
