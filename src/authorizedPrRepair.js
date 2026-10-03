@@ -8,6 +8,7 @@ const { spawnSync } = require('node:child_process');
 const { crucibleError, operationalError } = require('./failureCodes');
 const { ExternalOversightReflex } = require('./oversightReflex');
 const { createProductionOrganism, submitNervousObservation } = require('./productionOrganism');
+const { createDiagnosticCouncilEscalation } = require('./diagnosticCouncilEscalation');
 
 const DEFAULT_AUTH_FILE = process.env.CRUCIBLE_REPAIR_AUTHORIZATION_FILE ||
   'governingDocuments/active-repair-authorization.json';
@@ -129,7 +130,7 @@ function requireRepairDependencies(dependencies) {
   return dependencies;
 }
 
-async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,failure,authorization,token,fetchImpl=globalThis.fetch,diagnosticPlanner,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,learningStore,oversightReflex,root=process.cwd(),now=()=>new Date().toISOString()}) {
+async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,failure,authorization,token,fetchImpl=globalThis.fetch,diagnosticPlanner,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,learningStore,oversightReflex,councilAdvisor=null,root=process.cwd(),now=()=>new Date().toISOString()}) {
   if(failure.locked)return{state:'locked-read-only',authorized:false,reason:'locked-pull-request'};
   const authorizationResult=verifyAuthorization({authorization,repository,pullRequest,headSha,failureCode:failure.code,now:new Date(now())});
   if(!authorizationResult.authorized)return{state:'not-authorized',authorized:false,reason:authorizationResult.reason};
@@ -137,7 +138,8 @@ async function executeAuthorizedRepair({repository,pullRequest,headSha,branch,fa
   if(!remedy||remedy.kind!=='automatic'||!remedy.command)return{state:'not-repairable-by-immune-system',authorized:true,reason:'failure-remedy-is-not-a-concrete-automatic-repair'};
   const deps=requireRepairDependencies({learningStore,diagnosticPlanner,diagnosticOrgan,experienceRecorder,reporter,digestiveWorker,testingOrgan,oversightReflex});
   const actuator=createRepairActuator({token,repository,branch,baseSha:headSha,failureCode:failure.code,command:remedy.command});
-  const organism=createProductionOrganism({projectId:`github:${repository}`,root,learningStore:deps.learningStore,oversightReflex:deps.oversightReflex,diagnosticPlanner:deps.diagnosticPlanner,repairActuator:actuator,experienceRecorder:deps.experienceRecorder,reporter:deps.reporter,digestiveWorker:deps.digestiveWorker,testingOrgan:deps.testingOrgan,diagnosticOrgan:deps.diagnosticOrgan,now});
+  const advisor=councilAdvisor||createDiagnosticCouncilEscalation({fetchImpl});
+  const organism=createProductionOrganism({projectId:`github:${repository}`,root,learningStore:deps.learningStore,oversightReflex:deps.oversightReflex,diagnosticPlanner:deps.diagnosticPlanner,repairActuator:actuator,experienceRecorder:deps.experienceRecorder,reporter:deps.reporter,digestiveWorker:deps.digestiveWorker,testingOrgan:deps.testingOrgan,diagnosticOrgan:deps.diagnosticOrgan,councilAdvisor:advisor,now});
   const submission=await submitNervousObservation(organism,{observationId:`pr-${pullRequest}-${headSha}-${failure.code}`,boundary:`github-pr:${repository}#${pullRequest}`,finding:failure.finding,failureCode:failure.code,commitSha:headSha,headSha,errorLog:failure.finding?.output?.text||failure.finding?.output?.summary||failure.code,changeBaseSha256:sha256(headSha)});
   let heartbeat=await organism.heartbeat();
   for(let i=0;i<4&&heartbeat.results?.some(r=>r.output?.signals);i++)heartbeat=await organism.heartbeat();
