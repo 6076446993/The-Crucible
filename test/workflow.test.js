@@ -407,6 +407,7 @@ test('AI conflict governance is unavoidable in the reusable workflow and monitor
   const monitor = fs.readFileSync(path.join(root, '.github', 'workflows', 'ai-conflict-governance.yml'), 'utf8');
   const adopter = fs.readFileSync(path.join(root, 'templates', 'ai-conflict-monitor-workflow.yml'), 'utf8');
   assert.match(reusable, /name: AI conflict governance[\s\S]*cli\.js ai-conflicts/);
+  assert.match(monitor, /fetch-depth: 0[\s\S]*cli\.js coordination/, 'the coordination gate must be able to read Archive:Devlog-Pruned after the current DEVLOG prunes a recorded claim');
   for (const workflow of [monitor, adopter]) {
     assert.match(workflow, /name: AI conflict governance/);
     assert.match(workflow, /push:/);
