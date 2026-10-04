@@ -18,6 +18,7 @@ function isAllowedEmail(value, githubIdentity) {
   return email === 'git@github.com'
     || /@example\.(?:com|org|net|test)$/.test(email)
     || email === 'maintainer@packages.invalid'
+    || email === 'crucible-custody@users.noreply.github.com'
     || email === `${identity}@users.noreply.github.com`
     || email.endsWith(`+${identity}@users.noreply.github.com`);
 }
