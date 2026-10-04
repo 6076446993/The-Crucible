@@ -21,6 +21,7 @@ test('only the configured GitHub noreply identity and technical examples are all
   assert.equal(isAllowedEmail('git@github.com', config.privacy.githubIdentity), true);
   assert.equal(isAllowedEmail('person@example.test', config.privacy.githubIdentity), true);
   assert.equal(isAllowedEmail('maintainer@packages.invalid', config.privacy.githubIdentity), true);
+  assert.equal(isAllowedEmail('crucible-custody@users.noreply.github.com', config.privacy.githubIdentity), true);
   assert.equal(isAllowedEmail('private' + '@personal-domain.invalid', config.privacy.githubIdentity), false);
 });
 

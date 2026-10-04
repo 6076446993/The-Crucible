@@ -31,7 +31,9 @@
     "src/ciDiagnosticOrgan.js": "Dependency-free project-bound hosted CI failure capture, typed diagnosis, organism-health inhibition, and non-proof evidence reporting.",
     "src/hostedLearningProof.js": "GitHub-hosted, project-bound R4-R8 proof runner with encrypted restart-safe durable-state transport and no release authority.",
     "src/hostedSourceBundle.js": "Development-bound authenticated encryption, local-path scrubbing, content-hash manifesting, restore, and verification for owner training queues hosted on GitHub.",
+    "src/r8ExecutableCanaryPublisher.js": "Owner-authorized R8 raw-custody publisher: verifies and hydrates authenticated raw state, drives the real retrieval CLI against a secret-held canary, proves no executable bytes persisted, then permits only manifest-declared ciphertext replacement.",
     ".github/workflows/hosted-source-bootstrap.yml": "Read-only GitHub runner ciphertext custody proof; Crucible receives no decryption key and retains only a bounded hash report.",
+    ".github/workflows/r8-executable-canary-publisher.yml": "Manual development-only R8 raw-state publisher with narrowly scoped source-bundle/deploy credentials, ciphertext-only publication, no vetted-state access, and always-run runner cleanup.",
     ".github/workflows/hosted-learning-proof.yml": "Development-only hourly/manual GitHub host for encrypted durable R4-R8 proof and retained bounded evidence.",
     "src/governingDecision.js": "Executable Adapt, Persevere, Overcome decision contract shared by pre-check and code-check evidence reconciliation, recovery verification, and human-review boundaries.",
     "governingDocuments/scientific-learning-policy.md": "Permanent autonomous scientific-learning invariants, promotion boundary, project isolation, contradiction handling, rollback, and weekly transport policy.",
@@ -111,7 +113,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-04T12:34:00Z"
+    "lastActionAt": "2026-10-04T20:30:00.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -192,8 +194,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Ingest only authorized public material for five named AI and machine-learning books as provenance-bound, unverified candidate learning without transferring extraction, custody, vetting, verification, or oversight authority.",
-    "currentPrompt": "Do it",
+    "objective": "Execute the owner-authorized R8 executable-content quarantine custody chain without fabricating evidence or admitting executable bytes into durable or vetted custody.",
+    "currentPrompt": "Resume the R8 repair: authenticate/decrypt raw intake only in runner-temporary storage, prove a real retrieval refusal without durable executable bytes, re-encrypt ciphertext only, then verify independent custody and hosted proof lineage.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -206,20 +208,32 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Native learning-pipeline monitoring is core Crucible learning/governance work.",
-      "selectedAt": "2026-10-04T12:34:00Z",
-      "prompt": "Do it, then go back to working on the pipeline once complete",
+      "reason": "Affected paths select crucible-core.",
+      "explicitOverride": false,
+      "selectedAt": "2026-10-04T20:30:00.000Z",
+      "prompt": "Resume the R8 repair: authenticate/decrypt raw intake only in runner-temporary storage, prove a real retrieval refusal without durable executable bytes, re-encrypt ciphertext only, then verify independent custody and hosted proof lineage.",
       "project": "The Crucible",
       "paths": [
-        "src/learningPipelineMonitor.js",
-        "test/learningPipelineMonitor.test.js",
-        ".github/workflows/learning-pipeline-monitor.yml",
-        "src/failureCodes.js",
+        ".github/workflows/r8-executable-canary-publisher.yml",
         "AI-HANDOFF.json",
-        "DEVLOG.md"
+        "DEVLOG.md",
+        "governingDocuments/cru-code-catalog.json",
+        "src/aiHandoffContinuation.js",
+        "src/circulationLinkage.js",
+        "src/privacy.js",
+        "src/r8ExecutableCanaryPublisher.js",
+        "src/sourceRetrievalWorker.js",
+        "src/taskRoutingCli.js",
+        "src/testCadenceCoreLegacy.js",
+        "test/_testCadenceCore.js",
+        "test/aiHandoffContinuation.test.js",
+        "test/privacy.test.js",
+        "test/r8ExecutableCanaryPublisher.test.js",
+        "test/taskRouting.test.js",
+        "test/workflow.test.js"
       ],
-      "promptSha256": "8af08d741b31f5a2192f16914c5cfa109072a010c0e8206bf3d55e134f82f1a8",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "promptSha256": "4220f67d675a5cb3eec93d1b467961b6d0ad8e6d7ab8c653b5bf7909b8248bb6",
+      "affectedPathsSha256": "5ff58a7ed8d105d4dfa505e92a2b0e6728b592e4bad8b796c5c140a7fc2210cd"
     },
     "steps": [
       "[done] Confirm author or publisher authority for four public source surfaces and preserve exact source URLs and content hashes.",
@@ -231,9 +245,9 @@
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-10-03T23:59:00.000Z",
-    "currentStep": "Four authorized public source captures are locally content-addressed and extracted as 123 unverified candidates. Durable submission is blocked at the independent repository custody boundary, so no verified-learning state was changed.",
-    "priority": "Restore authorized cross-repository custody, then transfer candidate bundles without collapsing Learning-Worker, Crucible-Learning-State, Crucible-Vetted-Learning-State, or Vetting-and-Governance-oversite authority.",
+    "lastUpdatedAt": "2026-10-04T20:30:00.000Z",
+    "currentStep": "Publish the reconciled R8 publisher after restoring full cadence, circulation, catalog, and privacy-guard integrity, then dispatch it and verify its full custody lineage.",
+    "priority": "Execute the R8 executable-content quarantine evidence chain without admitting executable bytes to raw durable or vetted custody.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
@@ -331,7 +345,7 @@
         "owner": "source-research"
       }
     ],
-    "nextAction": "Restore authorized cross-repository custody and submit the four content-addressed candidate bundles to Learning-Worker for independent processing; keep all 123 assertions at Insufficient Evidence until independent vetting and executable verification produce their own evidence.",
+    "nextAction": "Push the narrow R8 publisher to development, dispatch its manual run, then verify exact raw, oversight, vetted, worker, and hosted-proof SHA lineage before changing any R8 state. Preserve the separately captured five-book candidates as unverified until independent custody is available.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -932,8 +946,38 @@
         "regions": []
       },
       "purpose": "Repair cross-repository monitor credential precedence and sanitized fail-closed diagnosis",
-      "status": "active",
+      "status": "released",
       "acquiredAt": "2026-10-02T15:15:01.206Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-04T13:45:54.899Z"
+    },
+    {
+      "taskId": "r8-executable-quarantine-publisher-20261004",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/r8-executable-canary-publisher.yml",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/aiHandoffContinuation.js",
+          "src/r8ExecutableCanaryPublisher.js",
+          "src/sourceRetrievalWorker.js",
+          "src/testCadenceCoreLegacy.js",
+          "test/_testCadenceCore.js",
+          "test/aiHandoffContinuation.test.js",
+          "test/r8ExecutableCanaryPublisher.test.js",
+          "test/sourceRetrievalWorker.test.js",
+          "test/workflow.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Reconcile and publish owner-authorized R8 executable-content quarantine custody evidence on development.",
+      "status": "active",
+      "acquiredAt": "2026-10-04T13:50:06.229Z",
       "handedOffTo": null,
       "releasedAt": null
     }

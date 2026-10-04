@@ -1,0 +1,65 @@
+name: Publish R8 executable quarantine evidence
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r8-executable-canary-publisher-development
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Restore raw encrypted intake custody
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$STATE_DEPLOY_KEY"
+          mkdir -p "$RUNNER_TEMP/r8-source-ssh" "$RUNNER_TEMP/r8-source-custody"
+          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/r8-source-ssh/key"
+          chmod 600 "$RUNNER_TEMP/r8-source-ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/r8-source-ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/r8-source-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/r8-source-ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/r8-source-custody/state"
+          node src/hostedSourceBundle.js join --input-root "$RUNNER_TEMP/r8-source-custody/state" --output "$RUNNER_TEMP/r8-source-custody/source-bundle.enc"
+      - name: Decrypt, retrieve, and restage the R8 refusal
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+          CRUCIBLE_R8_EXECUTABLE_CANARY_URL: ${{ secrets.CRUCIBLE_R8_EXECUTABLE_CANARY_URL }}
+          CRUCIBLE_RETRIEVAL_TRUSTED_DOMAINS: ${{ secrets.CRUCIBLE_R8_EXECUTABLE_CANARY_TRUSTED_DOMAINS }}
+        run: |
+          set -euo pipefail
+          test -n "$CRUCIBLE_R8_EXECUTABLE_CANARY_URL"
+          node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/r8-source-custody/source-bundle.enc" --output "$RUNNER_TEMP/r8-source-custody/source-bundle.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS > /dev/null
+          mkdir -p "$RUNNER_TEMP/r8-source-custody/plaintext" "$RUNNER_TEMP/r8-source-custody/ciphertext"
+          tar -xzf "$RUNNER_TEMP/r8-source-custody/source-bundle.tar.gz" -C "$RUNNER_TEMP/r8-source-custody/plaintext"
+          node src/r8ExecutableCanaryPublisher.js prepare --root "$RUNNER_TEMP/r8-source-custody/plaintext" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report "$RUNNER_TEMP/r8-source-custody/r8-report.json" > /dev/null
+          tar -czf "$RUNNER_TEMP/r8-source-custody/restaged.tar.gz" -C "$RUNNER_TEMP/r8-source-custody/plaintext" .
+          node src/hostedSourceBundle.js encrypt --input "$RUNNER_TEMP/r8-source-custody/restaged.tar.gz" --output "$RUNNER_TEMP/r8-source-custody/restaged.enc" --project-id "github:$GITHUB_REPOSITORY" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > /dev/null
+          node src/hostedSourceBundle.js split --input "$RUNNER_TEMP/r8-source-custody/restaged.enc" --output-root "$RUNNER_TEMP/r8-source-custody/ciphertext" > /dev/null
+      - name: Publish ciphertext manifest only to raw custody
+        run: |
+          set -euo pipefail
+          node src/r8ExecutableCanaryPublisher.js publish-ciphertext --ciphertext-root "$RUNNER_TEMP/r8-source-custody/ciphertext" --state-root "$RUNNER_TEMP/r8-source-custody/state" > /dev/null
+          git -C "$RUNNER_TEMP/r8-source-custody/state" add encrypted-chunks.json source-bundle.part-*.enc
+          git -C "$RUNNER_TEMP/r8-source-custody/state" diff --cached --quiet && { echo 'R8 ciphertext publication produced no state change.' >&2; exit 1; }
+          git -C "$RUNNER_TEMP/r8-source-custody/state" -c user.name='Crucible custody publisher' -c user.email='crucible-custody@users.noreply.github.com' commit -m 'Record R8 executable-content quarantine refusal'
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/r8-source-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/r8-source-ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git -C "$RUNNER_TEMP/r8-source-custody/state" push origin HEAD
+      - name: Destroy runner plaintext and credentials
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/r8-source-custody" "$RUNNER_TEMP/r8-source-ssh"

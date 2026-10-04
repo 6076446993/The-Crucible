@@ -488,7 +488,7 @@ test('the cadence registry itself is documented in AGENTS.md, including the no-i
 //
 // If this ever has to change it is a governance decision about what Crucible is, and whoever
 // makes it should have to delete this test to do so.
-test('no workflow pushes to a learning state repository, so Crucible stays a consumer of vetted custody', () => {
+test('only the owner-authorized manual R8 publisher may push ciphertext to raw custody', () => {
   const workflowDir = path.join(root, '.github', 'workflows');
   const stateRepositories = /Crucible-Vetted-Learning-State|Crucible-Learning-State/;
   const offenders = [];
@@ -496,12 +496,24 @@ test('no workflow pushes to a learning state repository, so Crucible stays a con
     const text = fs.readFileSync(path.join(workflowDir, file), 'utf8');
     if (!stateRepositories.test(text)) continue;
     for (const [index, line] of text.split(/\r?\n/).entries()) {
-      if (/git\s+push/.test(line)) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
+      if (/git\s+push/.test(line) && file !== 'r8-executable-canary-publisher.yml') offenders.push(`${file}:${index + 1}: ${line.trim()}`);
     }
-    // Every reference to a state repository must be a clone.
+    // Every state reference is still cloned first; the publisher is the sole narrow exception
+    // that writes its regenerated ciphertext back to raw intake.
     assert.match(text, /git clone --depth 1 git@github\.com:6076446993\/Crucible-(Vetted-)?Learning-State\.git/, `${file} reaches a state repository other than by cloning it`);
   }
-  assert.deepEqual(offenders, [], `a workflow that reaches a state repository must never push to one:\n${offenders.join('\n')}`);
+  assert.deepEqual(offenders, [], `only the designated R8 publisher may push raw state ciphertext:\n${offenders.join('\n')}`);
+  const publisher = fs.readFileSync(path.join(workflowDir, 'r8-executable-canary-publisher.yml'), 'utf8');
+  const triggers = publisher.slice(publisher.indexOf('\non:'), publisher.indexOf('\npermissions:'));
+  assert.match(triggers, /workflow_dispatch:/);
+  assert.doesNotMatch(triggers, /\bpush:|\bschedule:/);
+  assert.match(publisher, /^permissions:\n  contents: read\n/m);
+  assert.match(publisher, /Crucible-Learning-State\.git/);
+  assert.doesNotMatch(publisher, /Crucible-Vetted-Learning-State\.git/);
+  assert.match(publisher, /CRUCIBLE_SOURCE_BUNDLE_KEY/);
+  assert.match(publisher, /CRUCIBLE_R8_EXECUTABLE_CANARY_URL/);
+  assert.match(publisher, /node src\/r8ExecutableCanaryPublisher\.js prepare/);
+  assert.match(publisher, /Destroy runner plaintext and credentials[\s\S]*if: always\(\)[\s\S]*rm -rf/);
 });
 
 // The corpus reaches the proof under a read key and the plaintext does not outlive the job.

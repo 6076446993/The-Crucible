@@ -1002,6 +1002,24 @@
         },
         "forbidden": "Never repair this by copying, injecting, assimilating, or rewriting another component governance tree. Diagnosis is evidence only and remediation stays within the owning component."
       }
+    },
+    {
+      "code": "CRU-0056",
+      "status": "operational-or-historical",
+      "operationalCode": "OPS-0056",
+      "category": "learning-pipeline-handoff",
+      "meaning": "The native Crucible learning pipeline observed a failed or stale Worker, independent Oversight, or durable-proof handoff and refused to advance it.",
+      "next": "Use the named stage and run ID from monitor evidence, repair that stage through its owning repository and governed repair path, then rerun the native monitor.",
+      "remedy": {
+        "kind": "guided",
+        "command": "node src/learningPipelineMonitor.js",
+        "verifyWith": {
+          "tests": [
+            "test/learningPipelineMonitor.test.js"
+          ]
+        },
+        "forbidden": "Never mark a stale or failed stage successful, skip independent Oversight, or dispatch downstream proof from stale evidence."
+      }
     }
   ]
 }

@@ -7,6 +7,7 @@ const path = require('node:path');
 const { AtomicClaimExtractionQueue } = require('./claimExtractionWorker');
 const { publishContentAddressed } = require('./ownerFileIntake');
 const { admitDiscoveryCandidateUrls, RetrievalAuditStore, SafeInformationRetriever } = require('./safeInformationRetrieval');
+const { crucibleError } = require('./failureCodes');
 
 const MAXIMUM_RETRIEVALS_PER_RUN = 25;
 const EXTENSIONS = Object.freeze({
