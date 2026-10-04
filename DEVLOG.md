@@ -97,6 +97,12 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: Atomic custody repair — 2026-10-04T12:29:00Z — ChatGPT — mode:work
+
+Plain-language summary: Atomically aligned current handoff and DEVLOG custody after hosted validation exposed sequential partial commits.
+- `repair custody records atomically` — started 2026-10-04T12:28:30Z, finished 2026-10-04T12:29:00Z, exit 0
+
+
 ### Session: Repair monitor routing custody — 2026-10-04T12:26:00Z — ChatGPT — mode:work
 
 Plain-language summary: Hosted validation found the native monitor handoff record lacked the routing timestamp required by Crucible governance. Added the missing canonical routing custody without weakening the gate.
