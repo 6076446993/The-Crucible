@@ -97,6 +97,13 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: Repair monitor routing custody — 2026-10-04T12:26:00Z — ChatGPT — mode:work
+
+Plain-language summary: Hosted validation found the native monitor handoff record lacked the routing timestamp required by Crucible governance. Added the missing canonical routing custody without weakening the gate.
+- `inspect hosted Self-Test and AI handoff failures` — started 2026-10-04T12:24:00Z, finished 2026-10-04T12:25:30Z, exit 0
+- `record complete canonical task route and session timestamp` — started 2026-10-04T12:25:30Z, finished 2026-10-04T12:26:00Z, exit 0
+
+
 ### Session: Native learning pipeline monitor — 2026-10-04T12:20:00Z — ChatGPT — mode:work
 
 Plain-language summary: Added Crucible-owned monitoring that follows fresh Worker and independent Oversight evidence, advances the durable proof, and emits a governed CRU instead of silently stalling or skipping a failed stage.
