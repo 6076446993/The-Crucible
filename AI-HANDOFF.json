@@ -1218,5 +1218,17 @@
       "Only after that, mark Nexus-specific compatibility plug-in routes obsolete and reorganize separate AI interface projects as cleanup."
     ],
     "authority": "No verification, governance, custody, learning promotion, or protected-branch authority is merged. Nexus coordinates; NIM codes; the council advises under bounded struggle rules; Crucible verifies/classifies."
+  },
+  "securityReadTokenCompatibility": {
+    "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
+    "updatedOn": "2026-10-04",
+    "objective": "Stop recurring CRU-0006 failures caused by secret-name drift without weakening repository-security verification.",
+    "implementation": "Direct Crucible workflows now prefer secrets.CRUCIBLE_SECURITY_READ_TOKEN and fall back to legacy secrets.SECURITY_READ_TOKEN; the runtime environment remains CRUCIBLE_SECURITY_READ_TOKEN.",
+    "verification": "Hosted Self-Test on the resulting exact development head must prove Administration-read visibility by returning repository security_and_analysis.",
+    "remainingWork": [
+      "Confirm the GitHub Actions secret store contains either supported secret name with the already owner-provided fine-grained Administration:read credential.",
+      "Require CRU-0006 to remain fail-closed if neither secret has sufficient access."
+    ],
+    "authority": "No credential value is read, copied, logged, or broadened; no security requirement is relaxed."
   }
 }
