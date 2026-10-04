@@ -113,7 +113,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-04T20:22:00.000Z"
+    "lastActionAt": "2026-10-04T20:30:00.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -210,7 +210,7 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-04T20:22:00.000Z",
+      "selectedAt": "2026-10-04T20:30:00.000Z",
       "prompt": "Resume the R8 repair: authenticate/decrypt raw intake only in runner-temporary storage, prove a real retrieval refusal without durable executable bytes, re-encrypt ciphertext only, then verify independent custody and hosted proof lineage.",
       "project": "The Crucible",
       "paths": [
@@ -229,12 +229,11 @@
         "test/aiHandoffContinuation.test.js",
         "test/privacy.test.js",
         "test/r8ExecutableCanaryPublisher.test.js",
-        "test/sourceRetrievalWorker.test.js",
         "test/taskRouting.test.js",
         "test/workflow.test.js"
       ],
       "promptSha256": "4220f67d675a5cb3eec93d1b467961b6d0ad8e6d7ab8c653b5bf7909b8248bb6",
-      "affectedPathsSha256": "2154d35717aa347db399e4c9c95f37ae0dff76fb7d7ce4d267f301ca6cb1e9a9"
+      "affectedPathsSha256": "5ff58a7ed8d105d4dfa505e92a2b0e6728b592e4bad8b796c5c140a7fc2210cd"
     },
     "steps": [
       "[done] Confirm author or publisher authority for four public source surfaces and preserve exact source URLs and content hashes.",
@@ -246,7 +245,7 @@
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-10-04T20:22:00.000Z",
+    "lastUpdatedAt": "2026-10-04T20:30:00.000Z",
     "currentStep": "Publish the reconciled R8 publisher after restoring full cadence, circulation, catalog, and privacy-guard integrity, then dispatch it and verify its full custody lineage.",
     "priority": "Execute the R8 executable-content quarantine evidence chain without admitting executable bytes to raw durable or vetted custody.",
     "ownership": {
