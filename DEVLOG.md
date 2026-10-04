@@ -51,13 +51,13 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 - **2026-10-04 security-read compatibility:** Direct Crucible workflows now prefer the canonical GitHub Actions secret `CRUCIBLE_SECURITY_READ_TOKEN` and fall back to legacy `SECURITY_READ_TOKEN`. This repairs secret-name drift only; CRU-0006 remains fail-closed until hosted evidence proves Administration-read visibility. No credential value was read, copied, logged, or broadened.
 
-- **Agent:** Codex, authorized five-source learning-intake checkpoint; prior scientific-learning and Nexus integration state is preserved.
+- **Agent:** Codex, R8 executable-content quarantine publisher reconciliation; the authorized five-source candidate-intake checkpoint, scientific-learning state, and Nexus integration state are preserved as separate work.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** Four authorized public source captures produced 123 content-addressed, provenance-bound candidate assertions. Every assertion remains `Insufficient Evidence`; durable transfer is blocked at the independent repository custody boundary.
+- **Actual current step:** The R8 publisher is reconciled with exact `origin/development` `33012290b148361bab984e0b5657f724daeadd29` and awaiting governed development publication followed by the real manual hosted run. It must prove real retrieval rejects the harmless executable-format canary as `Executable content quarantined`, republishes only encrypted raw custody, and produces no durable executable bytes. The separate public-source intake remains 123 content-addressed, provenance-bound `Insufficient Evidence` assertions blocked at the independent repository custody boundary.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
-- **Verification state:** Focused intake/extraction/retrieval safety tests pass 48/48. No claim was verified or promoted; no vetted-state repository was changed. Agentic AI Game Plan was rejected before intake for lack of a qualifying author, publisher, companion, or authorized excerpt source. No source was quarantined.
-- **Continuation boundary:** Learning-Worker extracts candidates; Crucible-Learning-State keeps raw custody; Crucible-Vetted-Learning-State keeps vetted custody; Vetting-and-Governance-oversite retains independent STOP/CLEAR and review authority; The Crucible consumes verified evidence without inheriting those powers. The previous CRU/Nexus exact-tip verification work remains separately unfinished.
+- **Verification state:** Focused R8 publisher, retrieval-safety, handoff-continuation, and workflow tests pass locally; workflow-permissions lint passes. The real canary has not run and no raw/vetted repository has changed. No claim was verified or promoted. Agentic AI Game Plan remains rejected before intake for lack of a qualifying author, publisher, companion, or authorized excerpt source.
+- **Continuation boundary:** Publish the governed R8 change, dispatch its manual hosted workflow, then trace exact commit/run lineage across encrypted raw custody, independent oversight, vetted custody, Learning-Worker, and hosted durable proof. R8 remains pending unless that real chain proves executable refusal without executable admission. Learning-Worker extracts candidates; Crucible-Learning-State keeps raw custody; Crucible-Vetted-Learning-State keeps vetted custody; Vetting-and-Governance-oversite retains independent STOP/CLEAR and review authority; The Crucible consumes verified evidence without inheriting those powers.
 
 ## Released mutation claim accountability
 
@@ -98,6 +98,13 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: r8-executable-custody-publisher-20261004 — 2026-10-04T13:45:54.967Z — Codex — mode:work
+
+Plain-language summary: Reconciled the owner-authorized R8 executable-content quarantine publisher with the current development tip without weakening the custody boundary. The publisher remains unexecuted until its governed development commit is pushed and the manual hosted run supplies real evidence.
+- Reconciled the publisher with origin/development `33012290b148361bab984e0b5657f724daeadd29`, preserving newer candidate-intake facts and the separate custody boundary — started 2026-10-04T13:42:00.000Z, finished 2026-10-04T13:45:54.967Z, exit 0.
+- Under one-time owner authorization, released the stale monitor-token-diagnostics claim and acquired the R8 publisher scope; no foreign working-tree change was overwritten — started 2026-10-04T13:45:54.899Z, finished 2026-10-04T13:45:54.967Z, exit 0.
+- The manual R8 workflow still requires ciphertext-only raw publication, genuine retrieval refusal, always-run temporary-data cleanup, and independently verified downstream custody before R8 can be reported satisfied.
 
 Routing custody note: exact prompt/path SHA-256 bindings repaired for AI-HANDOFF.json + DEVLOG.md.
 
@@ -218,14 +225,5 @@ Plain-language summary: Imported only the production-main Crucible-core files th
 - Left all 27 files changed on both branches untouched for semantic reconciliation in PR #33 — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
 - Preserved the current development handoff, organization migration repairs, protected promotion rules, and durable learning project identity — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
 - Exact-tip Self-Test, CodeQL, handoff, durable-learning proof, and PR #33 reconciliation remain required — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
-
-
-### Session: monitor-organization-rebind-20260929 — 2026-09-29T23:46:00.000Z — Codex — mode:work
-
-Plain-language summary: Rebound the Crucible PR monitor registry to the 6076446993 organization and completed the monitored Nexus repository set.
-- Replaced all pre-transfer personal-account repository names with current organization names — started 2026-09-29T23:46:00.000Z, finished 2026-09-29T23:46:00.000Z, exit 0.
-- Added Crucible-Learning-State and Nexus-Public-CI so monitoring covers all nine Nexus repositories — started 2026-09-29T23:46:00.000Z, finished 2026-09-29T23:46:00.000Z, exit 0.
-- Preserved PR #11 as locked read-only and preserved zero mutation authority — started 2026-09-29T23:46:00.000Z, finished 2026-09-29T23:46:00.000Z, exit 0.
-- Exact-tip Self-Test and monitor execution remain required before protected promotion — started 2026-09-29T23:46:00.000Z, finished 2026-09-29T23:46:00.000Z, exit 0.
 
 

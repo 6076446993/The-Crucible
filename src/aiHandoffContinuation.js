@@ -21,6 +21,7 @@ const { spawnSync } = require('node:child_process');
 const { crucibleError , operationalError} = require('./failureCodes');
 const { activeClaims, contestedScopes, auditMutationClaims, scopesOverlap, ownerLabel, sameOwner, normalizeScopePath } = require('./mutationClaims');
 const { auditAIConflictLedger } = require('./aiConflictLedger');
+const { npmCli } = require('./ciDiagnosticOrgan');
 
 const DEFAULT_GOVERNANCE_CHECKS = Object.freeze(['audit:coordination', 'audit:ai-conflict-governance']);
 const SESSION_HEADING = /^### Session: (.+?) — (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z) — (.+)$/gm;
@@ -150,7 +151,16 @@ function inspectDevlog(root) {
 }
 
 function runCheck(root, script) {
-  const result = spawnSync('npm', ['run', '--silent', script], { cwd: root, encoding: 'utf8' });
+  // On Windows, spawning the npm command shim directly can fail with EINVAL before the
+  // governance check even starts.  Invoke the bundled npm CLI through this Node runtime,
+  // as the hosted diagnostic path already does, so a passing audit is not misreported as
+  // unverified merely because of the command shim.
+  const result = spawnSync(process.execPath, [npmCli(), 'run', '--silent', script], {
+    cwd: root,
+    encoding: 'utf8',
+    shell: false,
+    windowsHide: true,
+  });
   return { script, ok: result.status === 0, detail: String(result.stdout || result.stderr || '').trim().split(/\r?\n/).slice(-1)[0] || '' };
 }
 

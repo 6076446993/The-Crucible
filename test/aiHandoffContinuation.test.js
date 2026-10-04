@@ -120,6 +120,14 @@ test('failed governance checks cannot authorize mutation', (t) => {
   assert.throws(() => assertMutationAllowed(failed, { actor: OPENAI, paths: ['src/a.js'] }), (error) => error.operationalCode === 'OPS-0037');
 });
 
+test('the real coordinator runs its required governance audits through the bundled npm CLI', () => {
+  const root = path.join(__dirname, '..');
+  const report = inspectForContinuation(root, { runChecks: true });
+  assert.equal(report.governance.ran, true);
+  assert.equal(report.governanceVerified, true, JSON.stringify(report.governance));
+  assert.equal(report.mayMutate, true, report.blockers.join('\n'));
+});
+
 test('an actor without a claim cannot mutate, and one with a matching claim can', (t) => {
   const root = fixture(t, { claims: [claim('task-a', OPENAI, ['src/a.js'])] });
   const report = verified(inspectForContinuation(root));
