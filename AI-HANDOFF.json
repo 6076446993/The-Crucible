@@ -113,7 +113,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-04T13:45:54.967Z"
+    "lastActionAt": "2026-10-04T19:17:54.118Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -210,8 +210,8 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-04T13:44:16.355Z",
-      "prompt": "Finish the owner-approved R8 executable-content quarantine publisher: reconcile c273e66 with origin/development, publish only authenticated ciphertext/manifest through existing custody mechanisms, execute the manual workflow, verify the genuine real-retriever refusal and complete hosted lineage without executable bytes reaching durable or vetted custody. Do not promote main.",
+      "selectedAt": "2026-10-04T19:20:44.844Z",
+      "prompt": "Resume the R8 repair: authenticate/decrypt raw intake only in runner-temporary storage, prove a real retrieval refusal without durable executable bytes, re-encrypt ciphertext only, then verify independent custody and hosted proof lineage.",
       "project": "The Crucible",
       "paths": [
         ".github/workflows/r8-executable-canary-publisher.yml",
@@ -220,15 +220,17 @@
         "src/aiHandoffContinuation.js",
         "src/r8ExecutableCanaryPublisher.js",
         "src/sourceRetrievalWorker.js",
+        "src/taskRoutingCli.js",
         "src/testCadenceCoreLegacy.js",
         "test/_testCadenceCore.js",
         "test/aiHandoffContinuation.test.js",
         "test/r8ExecutableCanaryPublisher.test.js",
         "test/sourceRetrievalWorker.test.js",
+        "test/taskRouting.test.js",
         "test/workflow.test.js"
       ],
-      "promptSha256": "f5d7af826ea7ec66c1d46406b5150af077ca3da79f23228bb2a91632d1c5309f",
-      "affectedPathsSha256": "456394fffa324a84a4b17c462ea473e8eedc23588ad53af9aacb52c8f8b9e87c"
+      "promptSha256": "4220f67d675a5cb3eec93d1b467961b6d0ad8e6d7ab8c653b5bf7909b8248bb6",
+      "affectedPathsSha256": "b32f3aa4b33c2aed6e3f67251a016d6d09c53b4103d36d8fe7b9fec13dcd572b"
     },
     "steps": [
       "[done] Confirm author or publisher authority for four public source surfaces and preserve exact source URLs and content hashes.",

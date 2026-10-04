@@ -104,6 +104,7 @@ Released mutation claims remain durable facts even after their detailed session 
 Plain-language summary: Reconciled the owner-authorized R8 executable-content quarantine publisher with the current development tip without weakening the custody boundary. The publisher remains unexecuted until its governed development commit is pushed and the manual hosted run supplies real evidence.
 - Reconciled the publisher with origin/development `33012290b148361bab984e0b5657f724daeadd29`, preserving newer candidate-intake facts and the separate custody boundary — started 2026-10-04T13:42:00.000Z, finished 2026-10-04T13:45:54.967Z, exit 0.
 - Under one-time owner authorization, released the stale monitor-token-diagnostics claim and acquired the R8 publisher scope; no foreign working-tree change was overwritten — started 2026-10-04T13:45:54.899Z, finished 2026-10-04T13:45:54.967Z, exit 0.
+- Repaired the Archive-only pre-push route so the standing one-file `Devlog-Pruned` retention exception no longer incorrectly requires a development `AI-HANDOFF.json`; the canonical repository and exact one-file scope remain mandatory — started 2026-10-04T19:17:54.118Z, finished 2026-10-04T19:17:54.118Z, exit 0 correction.
 - The manual R8 workflow still requires ciphertext-only raw publication, genuine retrieval refusal, always-run temporary-data cleanup, and independently verified downstream custody before R8 can be reported satisfied.
 
 Routing custody note: exact prompt/path SHA-256 bindings repaired for AI-HANDOFF.json + DEVLOG.md.

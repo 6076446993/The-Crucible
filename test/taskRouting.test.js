@@ -14,6 +14,7 @@ const {
   repositoryFromRemote,
   selectWorktree,
   changedPaths,
+  verifyArchiveLedgerPush,
 } = require('../src/taskRoutingCli');
 
 const registry = loadTaskRouting();
@@ -116,6 +117,26 @@ test('routing itself never authorizes branch creation or deletion', () => {
     assert.match(result.reason, new RegExp(operation));
   }
   assert.throws(() => changedPaths('0'.repeat(40), 'a'.repeat(40)), /OPS-0045.*new branch push/i);
+});
+
+test('the Archive exception accepts only the canonical one-file DEVLOG retention ledger', () => {
+  const accepted = verifyArchiveLedgerPush({ repository, branch: 'Archive', paths: ['Devlog-Pruned'], registry });
+  assert.deepEqual(accepted, {
+    ok: true,
+    status: 'archive-devlog-pruned-only',
+    repository,
+    branch: 'Archive',
+    paths: ['Devlog-Pruned'],
+  });
+  assert.equal(verifyArchiveLedgerPush({ repository, branch: 'development', paths: ['Devlog-Pruned'], registry }), null);
+  assert.throws(
+    () => verifyArchiveLedgerPush({ repository, branch: 'Archive', paths: ['Devlog-Pruned', 'README.md'], registry }),
+    /OPS-0045.*one-file Devlog-Pruned/i,
+  );
+  assert.throws(
+    () => verifyArchiveLedgerPush({ repository: 'other/The-Crucible', branch: 'Archive', paths: ['Devlog-Pruned'], registry }),
+    /OPS-0045.*not the canonical repository/i,
+  );
 });
 
 test('a durable route record carries category, stable destination, reason, and prompt/path digests', () => {
