@@ -192,13 +192,13 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Integrate Crucible's evolving CRU diagnostic vocabulary and repair-regression failure memory with the Nexus program repair loop without transferring Crucible authority.",
-    "currentPrompt": "Allow Nexus advanced diagnostics to read, understand, and remember an evolving CRU code registry; regression learning remembers what failed without subtracting knowledge.",
+    "objective": "Ingest only authorized public material for five named AI and machine-learning books as provenance-bound, unverified candidate learning without transferring extraction, custody, vetting, verification, or oversight authority.",
+    "currentPrompt": "Resume the preserved The Crucible learning-ingestion task in the existing Work chat only; collect authorized public material for the five identified sources, submit eligible material as candidate learning with provenance and vetting boundaries, validate it, and report submitted, rejected, quarantined, and verified outcomes.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
-      "purpose": "Multi-repository evidence-backed repairs and hosted verification",
-      "selectionReason": "Cross-service failures require logs, source changes, and exact-commit validation",
+      "purpose": "Authorized-source learning intake, candidate extraction, validation, and custody checkpoint",
+      "selectionReason": "The task requires source provenance, fail-closed intake, and an auditable continuation boundary",
       "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch authority."
     },
     "taskRouting": {
@@ -206,24 +206,25 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Shared handoff evidence synchronizes the active Crucible/Nexus diagnostic integration without changing repository authority.",
+      "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-03T16:13:00.000Z",
-      "promptSha256": "08ae34bd9b6d84bd15d37ec0264599c1c793f4a46ed72fa0b0f455ecbfd56f02",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "selectedAt": "2026-10-03T23:58:02.842Z",
+      "promptSha256": "4a7670d31ec17c84643b12895959d6d26a4b49299336a0c1037fe281f22f3705",
+      "affectedPathsSha256": "da5e6669b36349fe33c3b0ef52fd06ce28da6095c75b30dbe3639763be19f8df"
     },
     "steps": [
-      "[done] Define repair-regression learning as bounded failure memory: remember what did not work without erasing knowledge, permanently banning a strategy, or proving an alternative.",
-      "[done] Publish the evolving CRU code catalog directly from the Crucible registry and add a sync/check command.",
-      "[done] Publish the Nexus repair contract and a Crucible-owned Nexus classification/verification bridge.",
-      "[next] Pass exact-tip hosted governance, Self-Test, CodeQL, and catalog synchronization.",
-      "[next] Pin Nexus to the verified Crucible commit and prove the complete bounded repair cycle."
+      "[done] Confirm author or publisher authority for four public source surfaces and preserve exact source URLs and content hashes.",
+      "[done] Admit four content-addressed source files and extract 123 bounded assertions as Insufficient Evidence candidates: 81, 35, 4, and 3 respectively.",
+      "[done] Reject Agentic AI Game Plan at source eligibility because no qualifying author, publisher, companion, or authorized excerpt source was located; retailer and review listings are not intake authority.",
+      "[done] Run 48 focused intake, extraction, PDF, retrieval, quarantine, deduplication, and network-guard tests with zero failures.",
+      "[next] Transfer the four candidate bundles through Learning-Worker and independent oversight custody after repository authorization is restored; do not promote, verify, or publish them from this repository.",
+      "[next] Preserve the prior CRU/Nexus diagnostic integration work as unfinished and resume its exact-tip hosted governance, Self-Test, CodeQL, catalog synchronization, and Nexus pinning separately."
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-10-03T16:13:00.000Z",
-    "currentStep": "CRU vocabulary is explicitly evolving, Nexus consumes it read-only and remembers occurrences, and concurrent hosted diagnostic council escalation remains preserved. Handoff custody is rebound atomically to AI-HANDOFF.json and DEVLOG.md.",
-    "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
+    "lastUpdatedAt": "2026-10-03T23:59:00.000Z",
+    "currentStep": "Four authorized public source captures are locally content-addressed and extracted as 123 unverified candidates. Durable submission is blocked at the independent repository custody boundary, so no verified-learning state was changed.",
+    "priority": "Restore authorized cross-repository custody, then transfer candidate bundles without collapsing Learning-Worker, Crucible-Learning-State, Crucible-Vetted-Learning-State, or Vetting-and-Governance-oversite authority.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
@@ -248,7 +249,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "CodeQL passed on the preceding exact tip. CRU catalog generation is registry-derived. The previous hosted Self-Test failure included OPS-0045 from stale route custody plus the pre-existing external CRU-0006 GitHub Administration-read blocker; this atomic handoff update addresses OPS-0045 only.",
+    "verificationStatus": "Focused local pipeline validation passed 48/48. Four intakes reached claim-extraction-complete with 123 total candidates, each classified Insufficient Evidence. Zero claims were verified, promoted, or written to vetted state. The native PDF intake rejected the authorized nine-page chapter with no_pages despite external tools reading all pages; the exact authorized bytes were preserved and a deterministic text derivative was admitted instead. Cross-repository durable custody remains blocked by missing authorization.",
     "blockers": [
       {
         "id": "oversight-must-delete-what-it-refuses",
@@ -304,15 +305,34 @@
         "id": "owner-source-rescan-pending",
         "summary": "The 14-identity owner source rescan remains pending and unperformed while R4 custody or retention is blocked. Content hashes and extraction-window history are to be reused; source bytes are not duplicated, custody is not reset, and unchanged windows are not re-extracted merely to call it a rescan.",
         "owner": "user-or-oversight"
+      },
+      {
+        "id": "five-source-durable-custody-blocked",
+        "summary": "Four authorized public captures and 123 extracted candidate assertions exist only in the project-bound local intake checkpoint. This Crucible checkout has no authorized write path into the independent Learning-Worker, Crucible-Learning-State, Crucible-Vetted-Learning-State, or Vetting-and-Governance-oversite custody repositories. No repository boundary was bypassed and no local candidate was represented as submitted to vetted custody.",
+        "owner": "user-or-custody-administrator"
+      },
+      {
+        "id": "authorized-pdf-native-parser-no-pages",
+        "summary": "The Hundred-Page Machine Learning Book chapter-one PDF is an authorized nine-page public draft with SHA-256 f84e6ba775ef707a0223173dd4e7be524c7e516dd67d879d9ac775dd74e70bf2. Native owner-file intake returned OPS-0043 no_pages even though pdfinfo and pdftotext read it. The exact bytes remain preserved; the deterministic text derivative SHA-256 ce5786cab91691b0325c817a3c986ba1819eff6bea9d67052a6f4ecd0153d3fe was admitted as candidate input. This workaround is not a verification result.",
+        "owner": "crucible-learning-maintainer"
+      },
+      {
+        "id": "agentic-ai-game-plan-source-ineligible",
+        "summary": "Only retailer or review metadata was found for Agentic AI Game Plan. No author-hosted, publisher-hosted, companion, or explicitly authorized excerpt material was located, so the source was rejected before intake rather than scraped, quarantined, or inferred from third-party listings.",
+        "owner": "source-research"
       }
     ],
-    "nextAction": "Verify AI handoff/task routing on this exact commit, then let Nexus pin the final verified Crucible diagnostic contract and complete its own inventory/privacy/test gates.",
+    "nextAction": "Restore authorized cross-repository custody and submit the four content-addressed candidate bundles to Learning-Worker for independent processing; keep all 123 assertions at Insufficient Evidence until independent vetting and executable verification produce their own evidence.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
+        "Five-source intake checkpoint: The Hundred-Page Machine Learning Book authorized chapter-one text produced 81 candidates; Macmillan's authorized Artificial Intelligence: A Guide for Thinking Humans product/excerpt page produced 35; Wiley's Writing AI Prompts For Dummies product page produced 4; Wiley's Artificial Intelligence All-in-One For Dummies product page produced 3. Every assertion remains Insufficient Evidence.",
+        "No quarantine was triggered. Agentic AI Game Plan was rejected before intake because only retailer/review metadata was found, which is not source authority.",
+        "Focused owner-file, claim-extraction, PDF, retrieval, safe-network, prompt-injection, quarantine, and deduplication validation passed 48/48.",
+        "Publication, author/publisher status, duplicate statements, and model agreement were not treated as verification; zero claims entered verified or vetted state.",
         "Pinned dependency installation added to snapshot workflow.",
         "Regression proven red before scanner repair; targeted integrity/accountability tests pass; all real branch references resolve.",
         "Workflow lint, circulation and failure-code ratchets pass.",
@@ -341,6 +361,12 @@
         "Added the Nexus repair contract and src/nexusRepairBridge.js so Nexus can consume Crucible classification/verification semantics without redefining them."
       ],
       "remaining": [
+        "Change-impact maintenance validation exposed nine pre-existing cadence-baseline failures because three newly added CRU/Nexus tests are auto-discovered but absent from hard-coded expected lists. The orchestrator persisted KB-local-ea089cf992. This ingestion checkpoint does not repair or suppress that unrelated regression.",
+        "Transfer the four locally checkpointed candidate bundles through the independently authorized Learning-Worker and durable raw/vetted custody repositories; current cross-repository authorization does not permit that write.",
+        "Investigate the native OPS-0043 no_pages failure on the authorized nine-page Burkov PDF without replacing or rewriting the preserved source bytes.",
+        "Re-research Agentic AI Game Plan only when an author, publisher, companion, or explicitly authorized excerpt surface becomes available; retailer and review listings remain ineligible.",
+        "Build the planned evidence graph, Nexus Baseline 0 holdout suite, historical CRU/CI/council evidence lineage, and Smoke Stack scraper review controls as separate unimplemented work. Scheduler success, publication, and model agreement remain non-proof; corroboration, contradiction, supersession, and executable verification require distinct evidence and authority.",
+        "Resume the prior CRU/Nexus integration checkpoint: exact-tip hosted governance, Self-Test, CodeQL, catalog synchronization, and Nexus end-to-end pinning remain unfinished.",
         "Final hosted exact-tip Self-Test and CodeQL verification pending this push.",
         "Owner must authorize protected production promotion; service bearer secret and monitor Checks-read permission remain external setup.",
         "R8 retains real published-corpus refusal and executable-content evidence gaps.",
