@@ -21,10 +21,23 @@ const { spawnSync } = require('node:child_process');
 const { crucibleError , operationalError} = require('./failureCodes');
 const { activeClaims, contestedScopes, auditMutationClaims, scopesOverlap, ownerLabel, sameOwner, normalizeScopePath } = require('./mutationClaims');
 const { auditAIConflictLedger } = require('./aiConflictLedger');
-const { npmCli } = require('./ciDiagnosticOrgan');
 
 const DEFAULT_GOVERNANCE_CHECKS = Object.freeze(['audit:coordination', 'audit:ai-conflict-governance']);
 const SESSION_HEADING = /^### Session: (.+?) — (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z) — (.+)$/gm;
+
+// Keep governance continuation on the same Windows-safe npm invocation without making
+// handoff governance import the diagnostics organ directly. The Node distribution owns the
+// bundled CLI; this local resolver is deliberately limited to its two supported layouts.
+function npmCli(execPath = process.execPath) {
+  const directory = path.dirname(execPath);
+  const candidates = [
+    path.join(directory, 'node_modules', 'npm', 'bin', 'npm-cli.js'),
+    path.resolve(directory, '..', 'lib', 'node_modules', 'npm', 'bin', 'npm-cli.js'),
+  ];
+  const resolved = candidates.find((candidate) => fs.existsSync(candidate));
+  if (!resolved) throw new Error(`Locked npm CLI was not found beside Node: ${candidates.join(', ')}`);
+  return resolved;
+}
 
 function git(root, args) {
   const result = spawnSync('git', args, { cwd: root, encoding: 'utf8' });
