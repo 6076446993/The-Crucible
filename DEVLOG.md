@@ -225,27 +225,3 @@ Plain-language summary: Rebound the Crucible PR monitor registry to the 60764469
 - Exact-tip Self-Test and monitor execution remain required before protected promotion — started 2026-09-29T23:46:00.000Z, finished 2026-09-29T23:46:00.000Z, exit 0.
 
 
-### Session: github-security-engine-rebind-20260929 — 2026-09-29T23:44:00.000Z — Codex — mode:work
-
-Plain-language summary: Corrected the GitHub security audit's canonical engine repository location after the GitHub ownership transfer.
-- Rebound ENGINE_REPOSITORY from the pre-transfer personal namespace to 6076446993/The-Crucible.
-- Preserved the read-only Administration-token requirement, redirect refusal, and all required security-setting checks.
-- Exact-tip Self-Test and GitHub-security verification remain required.
-
-
-### Session: functional-work-before-cleanup-20260929 — 2026-09-29T23:02:00.000Z — Codex — mode:work
-
-Plain-language summary: Owner directed that all executable development work across Nexus be completed before repository and documentation cleanup. This handoff correction restores a valid active plan state and makes cleanup the final phase rather than the current objective.
-- Reordered remaining work so credential restoration, learning/custody proof, cross-repository verification, and protected promotion precede cleanup — started 2026-09-29T23:02:00.000Z, finished 2026-09-29T23:02:00.000Z, exit 0.
-- No verification gate, learning proof requirement, custody boundary, or production protection was weakened.
-- Updated the Self-Test repository-location assertions to the transferred `6076446993` private state repositories while preserving clone-only/read-only custody invariants; exact-tip hosted verification remains required.
-
-
-### Session: nexus-integrated-program-recovery-20261003 — 2026-10-03 — ChatGPT — mode:work
-
-Plain-language summary: Continued the owner-directed merge of the active AI/verification stack into Nexus as one program while preserving subsystem authority. The separate AI-facing project surfaces are now cleanup/history surfaces, but cleanup is explicitly deferred until native Nexus integration is verified end-to-end.
-- Repaired the Self-Test ownership failure by assigning diagnostic council modules to the brain system and CRU catalog/Nexus repair bridge modules to circulation; the fly-by-wire ratchet remains fail-closed rather than excusing unowned modules.
-- Repaired the repair-regression learning candidate without widening scientific-learning provenance: failure-memory semantics are represented through the existing sourceType/lifecycleStage/contentSha256 fields.
-- AI Collaboration native Nexus coding API remains NIM-first. Council review/recovery may advise only after a struggle signal or invalid/unavailable NIM proposal; the council never becomes the coding actuator and never authorizes writes.
-- Nexus native coding is being wired to exact repository/commit lineage, local guardrails with rollback, feature-branch/PR publication, and exact-SHA Crucible verification. Compatibility plug-in/project cleanup remains deferred.
-- Verification still required on the exact resulting Crucible head: Self-Test, CodeQL, AI conflict governance, AI handoff policy. Durable-learning custody remains a separate boundary and is not claimed satisfied by this integration.
