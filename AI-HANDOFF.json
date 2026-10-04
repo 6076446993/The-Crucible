@@ -111,7 +111,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-04T12:31:00Z"
+    "lastActionAt": "2026-10-04T12:34:00Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -207,7 +207,7 @@
       "repository": "6076446993/The-Crucible",
       "branch": "development",
       "reason": "Native learning-pipeline monitoring is core Crucible learning/governance work.",
-      "selectedAt": "2026-10-04T12:26:00Z",
+      "selectedAt": "2026-10-04T12:34:00Z",
       "prompt": "Do it, then go back to working on the pipeline once complete",
       "project": "The Crucible",
       "paths": [
@@ -217,7 +217,9 @@
         "src/failureCodes.js",
         "AI-HANDOFF.json",
         "DEVLOG.md"
-      ]
+      ],
+      "promptSha256": "8af08d741b31f5a2192f16914c5cfa109072a010c0e8206bf3d55e134f82f1a8",
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "[done] Confirm author or publisher authority for four public source surfaces and preserve exact source URLs and content hashes.",

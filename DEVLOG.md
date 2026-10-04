@@ -97,6 +97,8 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+Routing custody note: exact prompt/path SHA-256 bindings repaired for AI-HANDOFF.json + DEVLOG.md.
+
 ### Session: Atomic custody repair — 2026-10-04T12:29:00Z — ChatGPT — mode:work
 
 Plain-language summary: Atomically aligned current handoff and DEVLOG custody after hosted validation exposed sequential partial commits.
