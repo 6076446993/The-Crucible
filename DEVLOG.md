@@ -49,6 +49,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-04 security-read compatibility:** Direct Crucible workflows now prefer the canonical GitHub Actions secret `CRUCIBLE_SECURITY_READ_TOKEN` and fall back to legacy `SECURITY_READ_TOKEN`. This repairs secret-name drift only; CRU-0006 remains fail-closed until hosted evidence proves Administration-read visibility. No credential value was read, copied, logged, or broadened.
+
 - **Agent:** Codex, authorized five-source learning-intake checkpoint; prior scientific-learning and Nexus integration state is preserved.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
