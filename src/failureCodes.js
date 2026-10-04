@@ -44,6 +44,12 @@ const OPERATIONAL_PATTERN = /OPS-\d{4}/g;
 // The registry. Each entry says what happened and what to do about it, in the words a person
 // reading a red CI job needs. `category` groups codes for reporting; it is not a severity.
 const FAILURE_CODES = Object.freeze({
+  'CRU-0056': {
+    code: 'CRU-0056', category: 'learning-pipeline-handoff',
+    meaning: 'The native Crucible learning pipeline observed a failed or stale Worker, independent Oversight, or durable-proof handoff and refused to advance it.',
+    next: 'Use the named stage and run ID from monitor evidence, repair that stage through its owning repository and governed repair path, then rerun the native monitor.',
+    remedy: { kind: 'guided', command: 'node src/learningPipelineMonitor.js', verifyWith: { tests: ['test/learningPipelineMonitor.test.js'] }, forbidden: 'Never mark a stale or failed stage successful, skip independent Oversight, or dispatch downstream proof from stale evidence.' },
+  },
   'CRU-0055': {
     code: 'CRU-0055',
     category: 'nexus-integration-conformance',

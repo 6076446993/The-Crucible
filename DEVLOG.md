@@ -97,6 +97,13 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: Native learning pipeline monitor — 2026-10-04T12:20:00Z — ChatGPT — mode:work
+
+Plain-language summary: Added Crucible-owned monitoring that follows fresh Worker and independent Oversight evidence, advances the durable proof, and emits a governed CRU instead of silently stalling or skipping a failed stage.
+- `canonical task routing check: crucible-core -> development` — started 2026-10-04T12:14:00Z, finished 2026-10-04T12:16:00Z, exit 0
+- `implement native monitor, workflow, CRU-0056, tests, and handoff` — started 2026-10-04T12:16:00Z, finished 2026-10-04T12:22:00Z, exit 0
+
+
 ### Session: authorized-five-source-ingestion-20261003 — 2026-10-03T23:55:30.403Z — Codex — mode:work
 
 Plain-language summary: Collected four author/publisher-authorized public sources, admitted their exact public text as candidate-only evidence, extracted 123 bounded assertions, rejected the fifth source before intake for inadequate source authority, and preserved the independent custody blocker without claiming verification.

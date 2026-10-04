@@ -193,7 +193,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Ingest only authorized public material for five named AI and machine-learning books as provenance-bound, unverified candidate learning without transferring extraction, custody, vetting, verification, or oversight authority.",
-    "currentPrompt": "Resume the preserved The Crucible learning-ingestion task in the existing Work chat only; collect authorized public material for the five identified sources, submit eligible material as candidate learning with provenance and vetting boundaries, validate it, and report submitted, rejected, quarantined, and verified outcomes.",
+    "currentPrompt": "Do it",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -206,11 +206,7 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
-      "explicitOverride": false,
-      "selectedAt": "2026-10-03T23:58:02.842Z",
-      "promptSha256": "4a7670d31ec17c84643b12895959d6d26a4b49299336a0c1037fe281f22f3705",
-      "affectedPathsSha256": "da5e6669b36349fe33c3b0ef52fd06ce28da6095c75b30dbe3639763be19f8df"
+      "reason": "Native learning-pipeline monitoring is core Crucible learning/governance work."
     },
     "steps": [
       "[done] Confirm author or publisher authority for four public source surfaces and preserve exact source URLs and content hashes.",
@@ -329,60 +325,13 @@
     },
     "handoffNotes": {
       "completed": [
-        "Five-source intake checkpoint: The Hundred-Page Machine Learning Book authorized chapter-one text produced 81 candidates; Macmillan's authorized Artificial Intelligence: A Guide for Thinking Humans product/excerpt page produced 35; Wiley's Writing AI Prompts For Dummies product page produced 4; Wiley's Artificial Intelligence All-in-One For Dummies product page produced 3. Every assertion remains Insufficient Evidence.",
-        "No quarantine was triggered. Agentic AI Game Plan was rejected before intake because only retailer/review metadata was found, which is not source authority.",
-        "Focused owner-file, claim-extraction, PDF, retrieval, safe-network, prompt-injection, quarantine, and deduplication validation passed 48/48.",
-        "Publication, author/publisher status, duplicate statements, and model agreement were not treated as verification; zero claims entered verified or vetted state.",
-        "Pinned dependency installation added to snapshot workflow.",
-        "Regression proven red before scanner repair; targeted integrity/accountability tests pass; all real branch references resolve.",
-        "Workflow lint, circulation and failure-code ratchets pass.",
-        "Hosted Windows log identified native backslash file paths; real compiler-tree regression proven red, path normalization repaired; real harness suite 8/8 and full suite 925/925 pass with free temporary Temurin JDK.",
-        "Windows hosted critical Java tests passed after path repair. Next stage exposed council-consult assertion expecting LF; normalized CRLF text without altering permission/egress assertions. All 35 workflow tests pass with injected CRLF input.",
-        "GitHub ownership moved to organization 6076446993 while stable repository id 1344890806 remained unchanged.",
-        "Development migration repair updates hosted learning/source clone locations, internal/canonical repository guards, reusable Crucible checkout location, and TASK-ROUTING current repository name without changing the durable learning project identity.",
-        "Migrated legacy non-bug operational call sites from crucibleError(CRU-*) to operationalError(OPS-*), preserving CRU-0033 and the other true CRU bug/error classifications.",
-        "Added explicit OPS lookup/recovery helpers and aligned hosted-harness/failure-code tests with the CRU bug/error-only boundary.",
-        "Recorded the previously omitted project change 3d77ec0111e6b80696d1a148af4144e37fdcd990 (Register imported learning tests with Orchestrator) in the governed handoff chain.",
-        "Regenerated the task-routing record for the governance-only follow-up commit so AI-HANDOFF.json and DEVLOG.md match the exact proposed path set.",
-        "Synchronized the stable test-category expectation with the already-authorized failureRecord.test.js Code registration.",
-        "Pruned only the oldest DEVLOG command-log session to restore the enforced maximum of 10 current sessions.",
-        "Scheduled cadence repair: original targeted suite passes 79/79 under GITHUB_ACTIONS=true and migrated repository identity; additional OPS regression suite passes 16/16.",
-        "Daily cadence passed all 685 selected tests with real Temurin JDK; final audit result recorded in DEVLOG. Local GitHub security check is skipped without runner credentials and is not hosted proof.",
-        "Full-suite investigation corrected organization-name routing fixtures and OPS accountability assertions. Controlled real socket proved default HTTPS proxy agent bypassed lookup; explicit pinned HTTPS agent now passes 13/13 retrieval tests.",
-        "Full-system proof passes 974/974 without skipped tests; daily cadence completed 17 checks with zero failures before final pinning/governance-fixture follow-up.",
-        "Published verified source tree at 3aa1e70; hosted handoff and routing pass. Hosted Linux tests reached GitHub security audit; audit now reports missing repository Administration-read permission rather than unclassified fetch failure.",
-        "Analyzed logs_100248391324 and downloaded its real monitor artifact: main requests old jonathanblunt1214-lgtm/NVIDIA-NIM-CONSOLE and receives HTTP 404. Development monitor registry is already migrated.",
-        "Fixed top-level monitor selecting repository-scoped GITHUB_TOKEN ahead of CRUCIBLE_MONITOR_READ_TOKEN; explicit cross-repository token and legacy NEXUS_MONITOR_READ_TOKEN now take precedence. 9/9 monitor tests pass including top-level request header and sanitized OPS-0051 failure.",
-        "Analyzed logs_100285116555: private-project CI token receives HTTP 404 before checkout. Connected GitHub account verifies target repository id1356380073 and existing merged PR10; this does not prove the separate CI token permission.",
-        "Bound the preserved pre-transfer durable learning project identity to exactly 6076446993/The-Crucible, without accepting arbitrary aliases or changing encrypted custody. Added and passed controls for correct custody, foreign repositories, authenticated-ciphertext tampering, and raw-intake versus oversight-vetted provenance.",
-        "Repair-regression learning now records bounded failure memory rather than subtractive knowledge.",
-        "Published governingDocuments/cru-code-catalog.json as an evolving registry snapshot; new CRU entries are expected as new error classes are identified.",
-        "Added src/cruCodeCatalog.js and src/cruCodeCatalogCli.js so the published catalog is mechanically checked against the registry.",
-        "Added the Nexus repair contract and src/nexusRepairBridge.js so Nexus can consume Crucible classification/verification semantics without redefining them."
+        "Added native fail-closed Worker -> Oversight -> durable-proof monitor on development.",
+        "Added CRU-0056 and regression coverage for stale/failed handoffs and fresh-chain advancement."
       ],
       "remaining": [
-        "Change-impact maintenance validation exposed nine pre-existing cadence-baseline failures because three newly added CRU/Nexus tests are auto-discovered but absent from hard-coded expected lists. The orchestrator persisted KB-local-ea089cf992. This ingestion checkpoint does not repair or suppress that unrelated regression.",
-        "Transfer the four locally checkpointed candidate bundles through the independently authorized Learning-Worker and durable raw/vetted custody repositories; current cross-repository authorization does not permit that write.",
-        "Investigate the native OPS-0043 no_pages failure on the authorized nine-page Burkov PDF without replacing or rewriting the preserved source bytes.",
-        "Re-research Agentic AI Game Plan only when an author, publisher, companion, or explicitly authorized excerpt surface becomes available; retailer and review listings remain ineligible.",
-        "Build the planned evidence graph, Nexus Baseline 0 holdout suite, historical CRU/CI/council evidence lineage, and Smoke Stack scraper review controls as separate unimplemented work. Scheduler success, publication, and model agreement remain non-proof; corroboration, contradiction, supersession, and executable verification require distinct evidence and authority.",
-        "Resume the prior CRU/Nexus integration checkpoint: exact-tip hosted governance, Self-Test, CodeQL, catalog synchronization, and Nexus end-to-end pinning remain unfinished.",
-        "Final hosted exact-tip Self-Test and CodeQL verification pending this push.",
-        "Owner must authorize protected production promotion; service bearer secret and monitor Checks-read permission remain external setup.",
-        "R8 retains real published-corpus refusal and executable-content evidence gaps.",
-        "Exact-tip hosted verification must pass after the organization-path repair.",
-        "The main-only auto-repair-learning workflow still carries the legacy owner condition and must be corrected only through the protected release/promotion path.",
-        "Exact-tip Self-Test must verify the CRU/OPS migration before any protected production promotion.",
-        "CRUCIBLE_SECURITY_READ_TOKEN is injected but lacks the repository Administration-read access required by audit:github-security.",
-        "Private learning-state SSH keys are injected but are not authorized for the transferred 6076446993 custody repositories.",
-        "Daily rerun and exact-commit hosted verification pending; local security audit without credentials cannot prove hosted Administration access.",
-        "Hosted security settings cannot be verified: injected SECURITY_READ_TOKEN lacks Administration-read access for 6076446993/The-Crucible. No token/secret management capability is available in this session.",
-        "Production scheduled workflow remains on main; release promotion requires explicit owner authorization and passing protected gates.",
-        "Main monitor registry still contains old namespace; protected owner-authorized narrow release promotion is required to run migrated configuration and token fix. Dedicated token must have Pull requests: read and Checks: read on monitored repositories.",
-        "Nexus-Public-CI AI_COLLAB_CI_TOKEN access and AI_COLLABORATION_BEARER_TOKEN live setup remain unverified external secret configuration; no secrets tool is available.",
-        "Exact-tip hosted Self-Test, CodeQL, durable proof, ingestion acknowledgement, independent vetting, and consumption verification remain required before the learning vaccine can be called active.",
-        "Exact-tip CRU catalog check, Self-Test, CodeQL, AI handoff policy, and Nexus end-to-end integration must pass before the bridge is treated as verified.",
-        "Nexus must refresh new CRU definitions dynamically; no fixed CRU-count assumption is permitted."
+        "Verify hosted development CI.",
+        "Promote through the governed release path before relying on the default-branch five-minute schedule.",
+        "Verify a real native end-to-end cycle before retiring the temporary ChatGPT monitor."
       ]
     }
   },
