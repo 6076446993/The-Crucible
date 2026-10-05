@@ -49,6 +49,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-04 governed ancestry reconciliation:** Recorded protected `main` as the second parent of the exact tested development tree without changing file content, then rebound task routing to this exact two-file governance follow-up after hosted Self-Test correctly rejected the ancestry-only commit’s stale affected-path digest. Fresh exact-head gates remain mandatory; the required PR monitor is still fail-closed on private `AI-collaboration-` visibility and must not be bypassed.
+
 - **2026-10-04 security-read compatibility:** Direct Crucible workflows now prefer the canonical GitHub Actions secret `CRUCIBLE_SECURITY_READ_TOKEN` and fall back to legacy `SECURITY_READ_TOKEN`. This repairs secret-name drift only; CRU-0006 remains fail-closed until hosted evidence proves Administration-read visibility. No credential value was read, copied, logged, or broadened.
 
 - **Agent:** Codex, R8 executable-content quarantine publisher reconciliation; the authorized five-source candidate-intake checkpoint, scientific-learning state, and Nexus integration state are preserved as separate work.

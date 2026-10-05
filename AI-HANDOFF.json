@@ -113,7 +113,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-04T20:30:00.000Z"
+    "lastActionAt": "2026-10-05T01:24:00.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -195,7 +195,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Execute the owner-authorized R8 executable-content quarantine custody chain without fabricating evidence or admitting executable bytes into durable or vetted custody.",
-    "currentPrompt": "Resume the R8 repair: authenticate/decrypt raw intake only in runner-temporary storage, prove a real retrieval refusal without durable executable bytes, re-encrypt ciphertext only, then verify independent custody and hosted proof lineage.",
+    "currentPrompt": "Rebind the governed route record after ancestry-only reconciliation so exact-head promotion checks evaluate the unchanged tested development tree.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -208,32 +208,17 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Governance-only ancestry reconciliation changed AI-HANDOFF.json and DEVLOG.md.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-04T20:30:00.000Z",
-      "prompt": "Resume the R8 repair: authenticate/decrypt raw intake only in runner-temporary storage, prove a real retrieval refusal without durable executable bytes, re-encrypt ciphertext only, then verify independent custody and hosted proof lineage.",
+      "selectedAt": "2026-10-05T01:24:00.000Z",
+      "prompt": "Rebind the governed route record after ancestry-only reconciliation so exact-head promotion checks evaluate the unchanged tested development tree.",
       "project": "The Crucible",
       "paths": [
-        ".github/workflows/r8-executable-canary-publisher.yml",
         "AI-HANDOFF.json",
-        "DEVLOG.md",
-        "governingDocuments/cru-code-catalog.json",
-        "src/aiHandoffContinuation.js",
-        "src/circulationLinkage.js",
-        "src/privacy.js",
-        "src/r8ExecutableCanaryPublisher.js",
-        "src/sourceRetrievalWorker.js",
-        "src/taskRoutingCli.js",
-        "src/testCadenceCoreLegacy.js",
-        "test/_testCadenceCore.js",
-        "test/aiHandoffContinuation.test.js",
-        "test/privacy.test.js",
-        "test/r8ExecutableCanaryPublisher.test.js",
-        "test/taskRouting.test.js",
-        "test/workflow.test.js"
+        "DEVLOG.md"
       ],
-      "promptSha256": "4220f67d675a5cb3eec93d1b467961b6d0ad8e6d7ab8c653b5bf7909b8248bb6",
-      "affectedPathsSha256": "5ff58a7ed8d105d4dfa505e92a2b0e6728b592e4bad8b796c5c140a7fc2210cd"
+      "promptSha256": "4ddc7da3a1830b3b76fb71b04ee4e82914ddde43bae935748603e68caf624932",
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "[done] Confirm author or publisher authority for four public source surfaces and preserve exact source URLs and content hashes.",
@@ -245,8 +230,8 @@
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-10-04T20:30:00.000Z",
-    "currentStep": "Publish the reconciled R8 publisher after restoring full cadence, circulation, catalog, and privacy-guard integrity, then dispatch it and verify its full custody lineage.",
+    "lastUpdatedAt": "2026-10-05T01:24:00.000Z",
+    "currentStep": "Re-run exact-head hosted checks on the ancestry-reconciled development tree, then use the owner-authorized protected promotion only if every required gate passes.",
     "priority": "Execute the R8 executable-content quarantine evidence chain without admitting executable bytes to raw durable or vetted custody.",
     "ownership": {
       "currentClaim": null,
@@ -345,7 +330,7 @@
         "owner": "source-research"
       }
     ],
-    "nextAction": "Push the narrow R8 publisher to development, dispatch its manual run, then verify exact raw, oversight, vetted, worker, and hosted-proof SHA lineage before changing any R8 state. Preserve the separately captured five-book candidates as unverified until independent custody is available.",
+    "nextAction": "Verify the two-file route rebind on the exact development head; do not merge while the required PR monitor remains fail-closed.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
