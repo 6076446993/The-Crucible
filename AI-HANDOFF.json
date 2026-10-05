@@ -113,7 +113,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-05T01:24:00.000Z"
+    "lastActionAt": "2026-10-05T20:51:09.612Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -194,45 +194,45 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Execute the owner-authorized R8 executable-content quarantine custody chain without fabricating evidence or admitting executable bytes into durable or vetted custody.",
-    "currentPrompt": "Rebind the governed route record after ancestry-only reconciliation so exact-head promotion checks evaluate the unchanged tested development tree.",
+    "objective": "Review exact-tip scientific-learning release readiness, advance only durably proven gates, and preserve the owner-source rescan plus independent authority boundaries.",
+    "currentPrompt": "Correct the truncated remote AI-HANDOFF.json blob from ba7e87f99ac7ebe4693c461c9917af777d37639c, preserve the scientific-learning release review unchanged, and record the transport correction in DEVLOG.md without altering any gate or promotion decision.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
-      "purpose": "Authorized-source learning intake, candidate extraction, validation, and custody checkpoint",
-      "selectionReason": "The task requires source provenance, fail-closed intake, and an auditable continuation boundary",
-      "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch authority."
+      "purpose": "Exact-tip scientific-learning release evidence review and governed status reconciliation",
+      "selectionReason": "The task requires live hosted evidence, custody-lineage checks, conservative forecasting, and an auditable handoff",
+      "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch or promotion authority."
     },
     "taskRouting": {
       "category": "crucible-core",
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Governance-only ancestry reconciliation changed AI-HANDOFF.json and DEVLOG.md.",
-      "explicitOverride": false,
-      "selectedAt": "2026-10-05T01:24:00.000Z",
-      "prompt": "Rebind the governed route record after ancestry-only reconciliation so exact-head promotion checks evaluate the unchanged tested development tree.",
+      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
+      "explicitOverride": true,
+      "selectedAt": "2026-10-05T20:51:09.612Z",
+      "prompt": "Correct the truncated remote AI-HANDOFF.json blob from ba7e87f99ac7ebe4693c461c9917af777d37639c, preserve the scientific-learning release review unchanged, and record the transport correction in DEVLOG.md without altering any gate or promotion decision.",
       "project": "The Crucible",
       "paths": [
         "AI-HANDOFF.json",
         "DEVLOG.md"
       ],
-      "promptSha256": "4ddc7da3a1830b3b76fb71b04ee4e82914ddde43bae935748603e68caf624932",
+      "promptSha256": "0d77ca46f5df935bd9ea6adf87155932f9c22a49a2ef4899ff5302b86217e52d",
       "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
-      "[done] Confirm author or publisher authority for four public source surfaces and preserve exact source URLs and content hashes.",
-      "[done] Admit four content-addressed source files and extract 123 bounded assertions as Insufficient Evidence candidates: 81, 35, 4, and 3 respectively.",
-      "[done] Reject Agentic AI Game Plan at source eligibility because no qualifying author, publisher, companion, or authorized excerpt source was located; retailer and review listings are not intake authority.",
-      "[done] Run 48 focused intake, extraction, PDF, retrieval, quarantine, deduplication, and network-guard tests with zero failures.",
-      "[next] Transfer the four candidate bundles through Learning-Worker and independent oversight custody after repository authorization is restored; do not promote, verify, or publish them from this repository.",
-      "[next] Preserve the prior CRU/Nexus diagnostic integration work as unfinished and resume its exact-tip hosted governance, Self-Test, CodeQL, catalog synchronization, and Nexus pinning separately."
+      "[done] Reconcile literal origin/development ce2c5529919d80cb71fa4f7ba974fcb077ed608f with retained custody, durable proof, discovery, and exact-tip CI evidence.",
+      "[done] Advance R4-R7 only on durable exact-tip evidence.",
+      "[done] Preserve R2, R3, and R8 as pending; hold R9, R10, and R11; retain an indeterminate rolling target.",
+      "[done] Check the 14 exact owner hashes without re-extracting or duplicating bytes: 8 present, 6 absent, so the rescan remains pending.",
+      "[next] Obtain real-worker restart/resume evidence for R2, one complete live discovery-to-candidate cycle for R3, and the governed executable-content custody cycle for R8.",
+      "[next] Begin the conservative 96-hour soak only after R2-R8 are green; require fresh exact-tip CI and owner authorization before promotion."
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-10-05T01:24:00.000Z",
-    "currentStep": "Re-run exact-head hosted checks on the ancestry-reconciled development tree, then use the owner-authorized protected promotion only if every required gate passes.",
-    "priority": "Execute the R8 executable-content quarantine evidence chain without admitting executable bytes to raw durable or vetted custody.",
+    "lastUpdatedAt": "2026-10-05T20:51:09.612Z",
+    "currentStep": "Correct the truncated remote handoff blob, then inspect fresh exact-tip hosted checks without altering any release gate or promoting to main.",
+    "priority": "Keep the rolling target indeterminate until R2, R3, R8, soak, exact-tip CI, and owner authorization are durably complete.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
@@ -257,13 +257,8 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Focused local pipeline validation passed 48/48. Four intakes reached claim-extraction-complete with 123 total candidates, each classified Insufficient Evidence. Zero claims were verified, promoted, or written to vetted state. The native PDF intake rejected the authorized nine-page chapter with no_pages despite external tools reading all pages; the exact authorized bytes were preserved and a deterministic text derivative was admitted instead. Cross-repository durable custody remains blocked by missing authorization.",
-    "blockers": [
-      {
-        "id": "oversight-must-delete-what-it-refuses",
-        "summary": "Oversight records 25 refusals and publishes all 25 sources bytes; nothing in its publish path removes them. The fix belongs there and not here: OVERSIGHT-POLICY.md states The Crucible may not write here or change an oversight result, and the independence is exactly what makes the refusal worth citing. Proposed patch handed to the owner rather than pushed: after vetRestored and before encrypt-vetted, remove each quarantined source content file and queue entry, then recompute manifest.queueSha256 and drop the removed file from manifest.sourceFiles - noting that vetRestored itself asserts the queue hash matches the manifest, and Crucible verifies the same, which is the mismatch that blocked R4 for days, so queue and manifest must move together and the second vet call must run after enforcement.",
-        "owner": "user-or-oversight"
-      },
+    "verificationStatus": "Reviewed exact development SHA ce2c5529919d80cb71fa4f7ba974fcb077ed608f. Durable run 37337684847 restores the current oversight-vetted encrypted bundle and supports R4-R7. Discovery run 37365316605 admitted zero URLs after all 16 NIM requests aborted. R8 lacks executable-content live evidence. CodeQL and governance checks are green, but Self-Test and the required PR monitor are red. The owner-source rescan found 8/14 hashes in current vetted custody and remains incomplete.",
+    "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
         "summary": "Oversight recorded linked-source:5ab0eabad5e6714491c75fabab25d6afdf54218c4bdbfe705592c08de4baef62 quarantined for prompt-injection content, and the corpus it published stores that content at contentSha256 79719cd5979b6351fd2759205433a8311b7a54db821c98fd4e6175937b952a37 anyway. No other source review shares that hash, so this is not one file shared by a duplicate. The refusal was published; the bytes were published with it. That is a custody failure in the independent vetting path rather than in Crucible, and it is the sharpest open item in the pipeline. Crucible side is correct and unchanged: the content-absence check refused to credit it, so no gate moved.",
@@ -330,7 +325,39 @@
         "owner": "source-research"
       }
     ],
-    "nextAction": "Verify the two-file route rebind on the exact development head; do not merge while the required PR monitor remains fail-closed.",
+    "blockers": [
+      {
+        "id": "r2-restart-resume-proof-missing",
+        "summary": "No durable exact-tip observation demonstrates a real forced-pending item incrementing attempts and resuming safely after interruption. Current candidate custody and extraction-complete counts do not substitute for that behavior.",
+        "owner": "crucible-learning-maintainer"
+      },
+      {
+        "id": "r3-live-discovery-aborted",
+        "summary": "Run 37365316605 used the current NVIDIA NIM model, but all 16 requests aborted and zero URLs were completed, cited, admitted, rejected, or registered. The first complete live discovery-to-candidate cycle remains absent.",
+        "owner": "provider-or-owner"
+      },
+      {
+        "id": "r8-executable-live-proof-missing",
+        "summary": "Current custody enforces oversight quarantine and the durable proof credits every R8 behavior except executable-content refusal. The governed canary publisher has not run and no executable bytes may be fabricated or admitted merely to complete the gate.",
+        "owner": "owner-or-custody-administrator"
+      },
+      {
+        "id": "owner-source-rescan-pending",
+        "summary": "Eight of 14 exact owner hashes are present in current vetted custody. Six are absent: 84d73c44d1f22e6b451a15b31c8f6e520fca6d09db82cfa56999920de1c7d693, c183f3ecfac24175a58921c171b1f5749cf84db72ceeac0752c44ef09bf56991, cf6cf8d31f6e6e0a4ec7dd2eecfa4ce9adb620db727d6280a2bb7195d2f95dfb, 29a6c35ca175ce7b67de420b9637db20ac161cf22397c23c31482067f4a63c85, fccaca99a230233486b689d774d41522dadb50260579d9cba8b591485445fb75, and 03ddee53d6e77d35b75c076169b0f60a57129e64d451b523ce72aff51b4cf8cc. No exact retained candidate IDs or full gate outcomes exist for the four new identities' 58 local candidates.",
+        "owner": "user-or-oversight"
+      },
+      {
+        "id": "exact-tip-ci-red",
+        "summary": "Self-Test fails closed on repository Administration-read access and Windows CRLF workflow assertions; the required PR monitor cannot resolve its private dependency. R10 remains pending.",
+        "owner": "owner-or-repository-administrator"
+      },
+      {
+        "id": "fake-harness-knowledge-version-still-active",
+        "summary": "Active v1 candidate cycle-92917a3a1bac7b53ce800d3a08e78b51 remains not corpus-backed. It is not the basis for the R5 pass, and retracting it remains an owner decision.",
+        "owner": "user"
+      }
+    ],
+    "nextAction": "Commit and push only the atomic release-status, handoff, and DEVLOG reconciliation to development; then inspect fresh exact-tip CI. Do not promote to main or credit any owner-source candidate as verified.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
