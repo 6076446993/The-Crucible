@@ -49,6 +49,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-05 scientific-learning release review:** Exact development SHA `ce2c5529919d80cb71fa4f7ba974fcb077ed608f` now has durable evidence for R4-R7. R2 still lacks real restart/resume proof, R3 produced zero admitted URLs after 16 provider aborts, and R8 lacks the executable-content live refusal; R9 has not started, exact-tip CI is red, and no promotion is authorized. The 14-source rescan found 8 hashes in current vetted custody and 6 absent, so it remains pending without re-extraction or duplicate custody.
+
 - **2026-10-04 governed ancestry reconciliation:** Recorded protected `main` as the second parent of the exact tested development tree without changing file content, then rebound task routing to this exact two-file governance follow-up after hosted Self-Test correctly rejected the ancestry-only commit’s stale affected-path digest. Fresh exact-head gates remain mandatory; the required PR monitor is still fail-closed on private `AI-collaboration-` visibility and must not be bypassed.
 
 - **2026-10-04 security-read compatibility:** Direct Crucible workflows now prefer the canonical GitHub Actions secret `CRUCIBLE_SECURITY_READ_TOKEN` and fall back to legacy `SECURITY_READ_TOKEN`. This repairs secret-name drift only; CRU-0006 remains fail-closed until hosted evidence proves Administration-read visibility. No credential value was read, copied, logged, or broadened.
@@ -56,10 +58,10 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 - **Agent:** Codex, R8 executable-content quarantine publisher reconciliation; the authorized five-source candidate-intake checkpoint, scientific-learning state, and Nexus integration state are preserved as separate work.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** The R8 publisher is reconciled with exact `origin/development` `33012290b148361bab984e0b5657f724daeadd29`; the complete-coverage cadence registry is repaired and it awaits governed development publication followed by the real manual hosted run. It must prove real retrieval rejects the harmless executable-format canary as `Executable content quarantined`, republishes only encrypted raw custody, and produces no durable executable bytes. The separate public-source intake remains 123 content-addressed, provenance-bound `Insufficient Evidence` assertions blocked at the independent repository custody boundary.
+- **Actual current step:** Publish the atomic evidence-only status reconciliation on development and inspect its fresh hosted checks. R4-R7 are passed; R2, R3, R8, R9, R10, and R11 remain incomplete. No main promotion is authorized.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
-- **Verification state:** Focused R8 publisher, retrieval-safety, handoff-continuation, and workflow tests pass locally; workflow-permissions lint passes. The real canary has not run and no raw/vetted repository has changed. No claim was verified or promoted. Agentic AI Game Plan remains rejected before intake for lack of a qualifying author, publisher, companion, or authorized excerpt source.
-- **Continuation boundary:** Publish the governed R8 change, dispatch its manual hosted workflow, then trace exact commit/run lineage across encrypted raw custody, independent oversight, vetted custody, Learning-Worker, and hosted durable proof. R8 remains pending unless that real chain proves executable refusal without executable admission. Learning-Worker extracts candidates; Crucible-Learning-State keeps raw custody; Crucible-Vetted-Learning-State keeps vetted custody; Vetting-and-Governance-oversite retains independent STOP/CLEAR and review authority; The Crucible consumes verified evidence without inheriting those powers.
+- **Verification state:** Run 37337684847 durably supports R4-R7 on the current encrypted vetted bundle. Run 37365316605 supports no R3 completion: all 16 NIM requests aborted and zero URLs were admitted. R8 lacks executable-content live evidence. At the reviewed tip, CodeQL and governance checks are green, while Self-Test and the required PR monitor are red. Eight of 14 exact owner hashes are present in current vetted custody; six are absent.
+- **Continuation boundary:** Prove R2 restart/resume behavior, complete one live R3 discovery-to-candidate cycle, and run the governed R8 executable canary through independent retained custody. Only then may the conservative 96-hour soak begin. Learning-Worker extracts candidates; Crucible-Learning-State keeps raw custody; Crucible-Vetted-Learning-State keeps vetted custody; Vetting-and-Governance-oversite retains independent STOP/CLEAR and review authority; The Crucible consumes verified evidence without inheriting those powers.
 
 ## Released mutation claim accountability
 
@@ -100,6 +102,15 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: scientific-learning-release-review-20261005 — 2026-10-05T20:43:00.000Z — Codex — mode:work
+
+Plain-language summary: Reconciled the literal development tip with retained custody, durable learning proof, live discovery, and hosted CI. R4-R7 now pass on durable evidence; R2, R3, and R8 remain pending, so the rolling target stays indeterminate and no promotion is authorized.
+- Reviewed exact origin/development ce2c5529919d80cb71fa4f7ba974fcb077ed608f and current hosted evidence — started 2026-10-05T20:32:31.000Z, finished 2026-10-05T20:43:00.000Z, exit 0.
+- Advanced R4-R7 only after run 37337684847 restored the real oversight-vetted encrypted bundle, retained corpus-backed knowledge, verified-only retrieval, and supersession history — started 2026-10-05T20:34:00.000Z, finished 2026-10-05T20:38:00.000Z, exit 0.
+- Preserved R2 pending for missing restart/resume proof, R3 pending after all 16 NIM discovery requests aborted in run 37365316605 with zero admitted URLs, and R8 pending for missing executable-content live refusal — started 2026-10-05T20:38:00.000Z, finished 2026-10-05T20:41:00.000Z, exit 0.
+- Checked all 14 owner-source hashes against current vetted custody without duplicating bytes or re-extracting windows: 8 present and 6 absent. No exact retained candidate IDs or full gate outcomes exist for the four new identities' 58 local candidates, so the rescan remains pending — started 2026-10-05T20:39:00.000Z, finished 2026-10-05T20:42:00.000Z, exit 0.
+- R9 remains held and the conservative forecast is still at least 96 hours after the last of R2-R8 passes. R10 is red on Administration-read security access, Windows CRLF workflow assertions, and private monitor visibility. R11 and main promotion remain unauthorized — started 2026-10-05T20:42:00.000Z, finished 2026-10-05T20:43:00.000Z, exit 0.
 
 ### Session: r8-executable-custody-publisher-20261004 — 2026-10-04T13:45:54.967Z — Codex — mode:work
 
@@ -223,14 +234,4 @@ Plain-language summary: Resolved the first dependency exposed by the production 
 - Verified CRUCIBLE_SECURITY_READ_TOKEN is injected but cannot read GitHub repository Administration settings; the gate correctly remains fail-closed and requires owner-side token scope rather than a code bypass — started 2026-09-30T01:14:00.000Z, finished 2026-09-30T01:14:00.000Z, exit 0.
 - Rebound the workflow_run auto-repair trigger to 6076446993/The-Crucible on development and added a regression that preserves candidate-only repair/prevention learning with promotionAuthorized false — started 2026-09-30T01:19:00.000Z, finished 2026-09-30T01:19:00.000Z, exit 0.
 - Exact-tip verification remains required before protected promotion; no production branch was edited directly — started 2026-09-30T01:19:00.000Z, finished 2026-09-30T01:19:00.000Z, exit 0.
-
-
-### Session: import-main-learning-nonconflicts-20260929 — 2026-09-30T00:37:00.000Z — Codex — mode:work
-
-Plain-language summary: Imported only the production-main Crucible-core files that development did not modify since merge base 802f520cca011587bea40463a5302db69196dda2, preserving the repair-learning, Learning Provenance, prevention, and custody implementation without resolving any contested file by preference.
-- Compared main and development from the common merge base and isolated 81 main-side non-conflicting file changes — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
-- Left all 27 files changed on both branches untouched for semantic reconciliation in PR #33 — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
-- Preserved the current development handoff, organization migration repairs, protected promotion rules, and durable learning project identity — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
-- Exact-tip Self-Test, CodeQL, handoff, durable-learning proof, and PR #33 reconciliation remain required — started 2026-09-30T00:37:00.000Z, finished 2026-09-30T00:37:00.000Z, exit 0.
-
 
