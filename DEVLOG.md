@@ -111,6 +111,7 @@ Plain-language summary: Reconciled the literal development tip with retained cus
 - Preserved R2 pending for missing restart/resume proof, R3 pending after all 16 NIM discovery requests aborted in run 37365316605 with zero admitted URLs, and R8 pending for missing executable-content live refusal — started 2026-10-05T20:38:00.000Z, finished 2026-10-05T20:41:00.000Z, exit 0.
 - Checked all 14 owner-source hashes against current vetted custody without duplicating bytes or re-extracting windows: 8 present and 6 absent. No exact retained candidate IDs or full gate outcomes exist for the four new identities' 58 local candidates, so the rescan remains pending — started 2026-10-05T20:39:00.000Z, finished 2026-10-05T20:42:00.000Z, exit 0.
 - R9 remains held and the conservative forecast is still at least 96 hours after the last of R2-R8 passes. R10 is red on Administration-read security access, Windows CRLF workflow assertions, and private monitor visibility. R11 and main promotion remain unauthorized — started 2026-10-05T20:42:00.000Z, finished 2026-10-05T20:43:00.000Z, exit 0.
+- Corrected the truncated remote AI-HANDOFF.json blob from commit ba7e87f99ac7ebe4693c461c9917af777d37639c after hosted coordination failed closed on invalid JSON; the release status, gate decisions, source-rescan result, and no-promotion boundary are unchanged — started 2026-10-05T20:50:19.000Z, finished 2026-10-05T20:51:09.612Z, exit 0 correction.
 
 ### Session: r8-executable-custody-publisher-20261004 — 2026-10-04T13:45:54.967Z — Codex — mode:work
 
@@ -234,4 +235,3 @@ Plain-language summary: Resolved the first dependency exposed by the production 
 - Verified CRUCIBLE_SECURITY_READ_TOKEN is injected but cannot read GitHub repository Administration settings; the gate correctly remains fail-closed and requires owner-side token scope rather than a code bypass — started 2026-09-30T01:14:00.000Z, finished 2026-09-30T01:14:00.000Z, exit 0.
 - Rebound the workflow_run auto-repair trigger to 6076446993/The-Crucible on development and added a regression that preserves candidate-only repair/prevention learning with promotionAuthorized false — started 2026-09-30T01:19:00.000Z, finished 2026-09-30T01:19:00.000Z, exit 0.
 - Exact-tip verification remains required before protected promotion; no production branch was edited directly — started 2026-09-30T01:19:00.000Z, finished 2026-09-30T01:19:00.000Z, exit 0.
-
