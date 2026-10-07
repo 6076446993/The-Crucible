@@ -49,6 +49,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-07T04:11:06.782Z SI durable continuation:** Codex acquired `si-durable-custody-20261007` for the bounded general raw publisher and its tests. The exact owner request and dependency plan are in `AI-HANDOFF.json.activePlan`. Existing live queues and learned state remain untouched; current work is development implementation only.
+
 - **2026-10-06 R2 no-restart failover proof:** Hosted run 37561452928 job 112599419837 passed. The R2 runner had no production queue/store path; primary PID 2382 persisted attempt 1 and was interrupted, the already-running standby reclaimed that owner after 30132ms and completed attempt 2, two unique deterministic candidates were emitted, and repeat processing was zero. Artifact 11457281245 is retained for 90 days. R2 is passed; R3/R8 remain pending and R9 remains held.
 
 
@@ -60,13 +62,13 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 - **2026-10-04 security-read compatibility:** Direct Crucible workflows now prefer the canonical GitHub Actions secret `CRUCIBLE_SECURITY_READ_TOKEN` and fall back to legacy `SECURITY_READ_TOKEN`. This repairs secret-name drift only; CRU-0006 remains fail-closed until hosted evidence proves Administration-read visibility. No credential value was read, copied, logged, or broadened.
 
-- **Agent:** ChatGPT, Synthetic Intelligence logging scope correction; existing scientific-learning release evidence remains separately governed.
+- **Agent:** Codex, bounded SI raw custody implementation; existing scientific-learning release evidence remains separately governed.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** SI logging is complete. The concept/source register is retained and the pre-SI discovery workflow is restored exactly; no SI automation remains from this request.
+- **Actual current step:** See `AI-HANDOFF.json.activePlan.currentStep`; the bounded manual publisher is locally verified and awaiting development publication and exact-tip CI.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
-- **Verification state:** SI register retains 29 concepts and nine academic source seeds. The model-pointer workflow is restored byte-for-byte to its pre-SI content. Canonical R9 and scientific-learning R1-R11 status are unchanged.
-- **Continuation boundary:** Preserve the SI concept/source log only. Discovery, ingestion, experiments, soak execution and release work remain separate and require their own explicit scope.
+- **Verification state:** Full local proof passed 1008/1008, zero skipped; focused custody passed 8/8. No live custody changes or new learning proof occurred. R3/R8 remain pending and R9 remains held.
+- **Continuation boundary:** Owner authorized bounded nine-seed intake through ordinary governed gates. Live execution requires the manual workflow deployment and raw credentials; no main/release promotion, broad discovery or vetted-state writing is authorized.
 
 ## Released mutation claim accountability
 
@@ -107,6 +109,24 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
+
+Plain-language summary: Added a manually operated, bounded way to retain SI source bytes and non-authoritative candidates without changing existing learned knowledge or queues. Live execution and independent verification still need the governed deployment path; no release gate was credited from local tests.
+- Mutation claim si-durable-custody-20261007 — openai/Codex; raw custody authority comes from the owner request "can you do it all in order it should be" in the bounded nine-seed continuation context.
+- Task route: crucible-core; repository ID 1344890806; 6076446993/The-Crucible; literal development; exact affected-path digest is in AI-HANDOFF.json.
+- The observation interval timestamps below bound batched commands; they are not invented exact command execution timestamps.
+- Fetch/fast-forward development to 0ca84697dc846a0fdd316697d506972b01582225, read current governance, record prewrite route and acquire scope — started 2026-10-07T04:10:18Z, finished 2026-10-07T04:11:06.782Z, exit 0.
+- Implement bounded raw publisher, manual workflow, focused tests, cadence registration, Windows CRLF assertion and README; fix fixture assertion and use existing queue lock to preserve 57-edge circulation — started 2026-10-07T04:11:06.782Z, finished 2026-10-07T04:21:05.6344883Z, exit 0 after repair.
+- Focused safety/retrieval/extraction/custody tests — started 2026-10-07T04:18:08Z, finished 2026-10-07T04:20:16.5257427Z, exit 0; 53/53. Workflow/docs/validation/privacy/security/failure-code/coordination audits passed in this observation interval.
+- Full governed request — started 2026-10-07T04:20:16.5257427Z, finished 2026-10-07T04:20:54.9935667Z, exit 1; 976/981, missing local TypeScript and stale route. Failure recorded as KB-local-807d25e632; no production state affected.
+- Eight raw publisher tests, including encrypted candidate snapshot and fresh-process restore — started 2026-10-07T04:21:04.5690776Z, finished 2026-10-07T04:21:05.6344883Z, exit 0; 8/8.
+- Install locked dependencies, rebuild parser binaries, repair route, govern passing known-bug retest and patch source-map-js 1.2.1 to 1.2.2 — started 2026-10-07T04:22:00Z, finished 2026-10-07T04:25:08.6826779Z, exit 0; 43/43 retest; dependency audit zero vulnerabilities.
+- node src/testCadence.js all — started 2026-10-07T04:25:08.6826779Z, finished 2026-10-07T04:25:49.0915264Z, exit 0; 1008/1008, zero skipped.
+- Record this checkpoint and retain only ten inline sessions; hosted handoff must archive the full pre-prune DEVLOG snapshot — started 2026-10-07T04:26:00Z, finished 2026-10-07T04:27:16.040Z, exit 0.
+- Mutation claim si-durable-custody-20261007 — openai/Codex — released 2026-10-07T04:29:34.466Z to handoff-ready after local verification; pending publication/hosted evidence and live boundary are recorded above.
+- Final staged-tree audits and selected tests — started 2026-10-07T04:27:28.3671891Z, finished 2026-10-07T04:29:10.2997146Z, exit 0; 103/103; final metadata/workflow/route tests subsequently passed 72/72 before 2026-10-07T04:30:33.151Z.
+- Live boundary: no raw bundle/deploy credentials are available locally; manual workflow_dispatch is not registered until its file exists on the default branch. Do not deploy to main or rerun R2/live queues as a workaround. R3/R8 remain explicit release blockers.
 
 ### Session: r2-isolated-failover-proof-20261006 — 2026-10-07T02:17:55.000Z — ChatGPT — mode:work
 
@@ -233,30 +253,4 @@ Plain-language summary: The transferred Crucible can now open its existing encry
 - Added `fetch-depth: 0` only to the read-only AI-conflict governance checkout and a workflow regression proving the coordination step retains Archive visibility. After explicitly fetching Archive locally, accountability passes 10/10 and workflow lint passes all 24 workflows — started 2026-10-03T13:47:00.000Z, finished 2026-10-03T13:48:00.000Z, exit 0 repair.
 - Routed the four-file validator repair scope to crucible-core on development — started 2026-10-03T13:48:12.235Z, finished 2026-10-03T13:48:12.600Z, exit 0.
 - Exact-tip hosted Self-Test, CodeQL, durable proof, ingestion acknowledgement, independent vetting, and consumption verification remain required; no production branch, key, ciphertext, or promotion boundary was changed.
-
-### Session: scheduled-cadence-repair-20261002 — 2026-10-02T14:57:55.270Z — Codex — mode:work
-
-The following initial-command timestamps are approximate and are not exact execution-boundary evidence.
-
-Plain-language summary: Reproduced the scheduled failure, installed locked dependencies in its workflow, isolated repair fixtures from runner variables, and bound internal repair to the transferred engine repository. Exhausted security API retries now retain a sanitized per-repository failure report; the daily rerun also exposed two operational-code migration regressions that were corrected.
-- Task route: crucible-core; stable repository ID 1344890806; 6076446993/The-Crucible; development; affected paths select crucible-core.
-- Mutation claim scheduled-cadence-repair-20261002 — openai/Codex.
-- Clone/fetch development and inspect uploaded logs/source/Shared AI handoff — started 2026-10-02T14:52:00.000Z, finished 2026-10-02T14:57:55.270Z, exit 0.
-- npm run route:prewrite for original and additional affected scopes — started 2026-10-02T14:53:52.321Z, finished 2026-10-02T14:56:05.923Z, exit 0.
-- npm ci — started 2026-10-02T14:53:52.321Z, finished 2026-10-02T14:54:00.000Z, exit 0.
-- GITHUB_ACTIONS=true GITHUB_REPOSITORY=6076446993/The-Crucible node --test test/repair.test.js — started 2026-10-02T14:54:17.918Z, finished 2026-10-02T14:54:18.200Z, exit 1; regression reproduced before repair.
-- Targeted repair/security/workflow/semantic tests — started 2026-10-02T14:54:30.000Z, finished 2026-10-02T14:57:55.270Z, exit 0; 79/79.
-- npm run cadence:daily — started 2026-10-02T14:54:50.000Z, finished 2026-10-02T14:55:16.000Z, exit 1; two operational-code regressions plus missing local JDK exposed, original repair/semantic regressions cleared.
-- Additional provider-registry/source-retrieval tests — started 2026-10-02T14:56:05.923Z, finished 2026-10-02T14:57:55.270Z, exit 0; 16/16.
-- Install temporary real Temurin JDK from official release after apt sandbox capability failure — started 2026-10-02T14:56:05.923Z, finished 2026-10-02T14:57:55.270Z, exit 0; no fake compiler or skipped tests.
-
-- Additional full-suite migration fixtures and real-socket pinning regression were repaired; production retrieval owns its HTTPS agent so the global proxy cannot override the approved address. Verification remained fail-closed; security-token access is unproven locally.
-
-- Final local validation: full-system proof 974/974; scheduled daily 17 checks / 0 failures; privacy, security, docs, coordination, workflow lint, failure-code and circulation ratchets pass. GitHub security remains explicitly skipped without runner credentials, so this is not hosted Administration-access evidence.
-
-- Hosted follow-up: indexed the pruned ci-snapshot-reference-repair-20260929 claim for shallow CI checkout accountability; exact security blocker is missing Administration-read token access. Mutation claim scheduled-cadence-repair-20261002 released to a truthful handoff-ready state; production promotion remains owner-authorized.
-
-- Additional uploaded logs and issue #1 analyzed at 2026-10-02T15:17:29.303Z; monitor artifact proves stale main namespace HTTP404. Repaired top-level monitor credential selection and sanitized operational classification; node --test test/nexusCheckMonitor.test.js passed 9/9. Public CI exact endpoint/permission diagnosis tests passed 6/6. Mutation claim monitor-token-diagnostics-20261002 — openai/Codex.
-- CRU-0013 hosted privacy failure analyzed and repaired without weakening privacy rules: obsolete personal noreply fixture replaced by the repository-configured organization noreply identity; AI-HANDOFF route rebound to the exact three-file repair scope — started 2026-10-02T16:46:00.000Z, finished 2026-10-02T16:49:00.000Z, exit 0 repository repair. Hosted rerun remains required; CRU-0006 remains an external Administration-read credential blocker.
-- Fresh run 37036574698 rejected the first CRU-0013 fixture correction at the unit assertion; replaced the literal noreply address with a value derived from the test's configured GitHub identity, preserving both privacy scanning and unit semantics — started 2026-10-02T16:50:19.000Z, finished 2026-10-02T16:51:00.000Z, exit 0 repository repair; hosted rerun required.
 

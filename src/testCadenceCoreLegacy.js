@@ -89,6 +89,7 @@ const TEST_MAIN_CATEGORIES = {
     'test/ownerFileIntake.test.js',
     'test/sourceRetrievalWorker.test.js',
     'test/r8ExecutableCanaryPublisher.test.js',
+    'test/rawCustodyPublisher.test.js',
     'test/aiProviderAdapters.test.js',
     'test/aiProviderRegistry.test.js',
     'test/apiGuard.test.js',
