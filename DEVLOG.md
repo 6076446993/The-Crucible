@@ -1,5 +1,14 @@
 # Development log
 
+### Session: accept current hosted repository identity in internal-repair guard — 2026-10-07T18:05:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: The hosted self-test was failing four deterministic repair tests because GitHub Actions reports the current `6076446993/The-Crucible` repository while the guard accepted only the legacy owner string. Added one exact owner-migration alias; project ID, privacy identity, and arbitrary-repository rejection remain unchanged.
+
+- **Change:** `src/repair.js` now accepts only the legacy engine repository or the exact current `6076446993/The-Crucible` Actions identity.
+- **Verification:** `node --test test/repair.test.js` passed 9/9; full `npm test` passed 932/932; `git diff --check` passed.
+- **Custody boundary:** no raw, vetted, encrypted, hosted learning state, canary, or main promotion changed.
+- **Hosted follow-up:** commit and push through the mandatory hook, then re-run PR #35 checks at the exact new SHA.
+
 ### Session: align Crucible monitor repository identities — 2026-10-07T17:06:43-04:00 — ChatGPT — mode:work
 
 Plain-language summary: Replaced the stale `jonathanblunt1214-lgtm/...` monitor targets with the current `6076446993/...` repository identities. The hosted rerun confirmed `NEXUS_MONITOR_READ_TOKEN` is present (masked) but still ran the pre-change PR tip, so hosted success remains pending until this clean branch change is pushed through the governed hook.

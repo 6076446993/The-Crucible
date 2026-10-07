@@ -195,7 +195,7 @@
   "activePlan": {
     "agent": "ChatGPT",
     "objective": "Complete the prevention feedback loop and add adaptive meta-learning so verified outcome evidence can improve the learning strategy without bypassing scientific or governance gates.",
-    "currentPrompt": "Update governingDocuments/crucible-monitored-repositories.json to current 6076446993 repository identities after hosted monitor returned repository-read failure; preserve locked PR #11 and monitor-only policy; run focused checks.",
+    "currentPrompt": "Repair the hosted Crucible self-test repository-identity mismatch without broadening internal repair authority; verify exact tests and protected PR #35 checks, then continue the existing R8 checkpoint.",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
@@ -210,12 +210,15 @@
       "branch": "r8-workflow-registration",
       "reason": "Explicit repository and branch instruction selected jonathanblunt1214-lgtm/The-Crucible:r8-workflow-registration.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-07T17:13:58.501Z",
-      "promptSha256": "3856de6741111cfb7798fd1911d4536ac582c31b9a044b96175a85be156b2692",
-      "affectedPathsSha256": "a011427e896356bd840af60f37c02ddce019f3d27cb5274abe61aede0b3317de"
+      "selectedAt": "2026-10-07T21:58:27.949Z",
+      "promptSha256": "73a260a6bb0179730f0ed6a205fc70cd2446364e7234b6fc40a233fd9bd34d2a",
+      "affectedPathsSha256": "21862ed6947cb79f30d0c0e888de98f0a4b583c5319afebb6259ebf914466c91"
     },
     "steps": [
       "[done] Updated all monitored repository identities from the stale jonathanblunt1214-lgtm owner to the current 6076446993 owner after hosted monitor evidence showed repository-read failure; locked PR #11 remains read-only and no mutation authority was added.",
+      "[done] Accepted only the exact 6076446993/The-Crucible Actions identity as a host-side alias for the legacy internal-repair repository guard; project and privacy identity checks remain required.",
+      "[done] Focused repair tests passed 9/9 and full npm test passed 932/932 at the working tree; no learning-state or main write occurred.",
+      "[next] Commit and push through the mandatory hook, then re-run PR #35 protected checks at the new exact SHA.",
       "[blocked] Protected registration PR #35 remains at the hosted pre-change tip 154ffa4; the monitor rerun received NEXUS_MONITOR_READ_TOKEN but still exited 1 before a healthy report. The exact route verifier passes for the four-file range, but Git's actual pre-push invocation still supplies no ref-update stream, so no remote write occurred.",
       "[next] Resolve the exact hosted monitor/security capability failures and the existing PR #34 overlap, then rerun PR #35 checks; merge only on protected green evidence and dispatch the reviewed development ref afterward.",
       "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
