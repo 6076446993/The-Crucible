@@ -49,6 +49,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-07T04:47:46.761Z Narrow SI promotion and credential repair:** Owner authorized the two manual workflow definitions through the governed release path and security/monitor credential repair. See AI-HANDOFF.json.activePlan.promotionAuthorization. Full development promotion is not authorized; GitHub reauthentication completed, and organization-scoped credential generation/secret entry is handed to the owner.
+
 - **2026-10-07T04:11:06.782Z SI durable continuation:** Codex acquired `si-durable-custody-20261007` for the bounded general raw publisher and its tests. The exact owner request and dependency plan are in `AI-HANDOFF.json.activePlan`. Existing live queues and learned state remain untouched; current work is development implementation only.
 
 - **2026-10-06 R2 no-restart failover proof:** Hosted run 37561452928 job 112599419837 passed. The R2 runner had no production queue/store path; primary PID 2382 persisted attempt 1 and was interrupted, the already-running standby reclaimed that owner after 30132ms and completed attempt 2, two unique deterministic candidates were emitted, and repeat processing was zero. Artifact 11457281245 is retained for 90 days. R2 is passed; R3/R8 remain pending and R9 remains held.
@@ -68,7 +70,7 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 - **Actual current step:** See `AI-HANDOFF.json.activePlan.currentStep`; the bounded manual publisher is locally verified and awaiting development publication and exact-tip CI.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
 - **Verification state:** Full local proof passed 1008/1008, zero skipped; focused custody passed 8/8. No live custody changes or new learning proof occurred. R3/R8 remain pending and R9 remains held.
-- **Continuation boundary:** Owner authorized bounded nine-seed intake through ordinary governed gates. Live execution requires the manual workflow deployment and raw credentials; no main/release promotion, broad discovery or vetted-state writing is authorized.
+- **Continuation boundary:** Owner authorized bounded nine-seed intake through ordinary governed gates. Live execution requires the manual workflow deployment and raw credentials; new owner authorization permits only the narrow manual workflow deployment through release -> main; broad discovery and direct vetted-state writes remain unauthorized.
 
 ## Released mutation claim accountability
 
@@ -113,6 +115,9 @@ Released mutation claims remain durable facts even after their detailed session 
 ### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
 
 Plain-language summary: Added a manually operated, bounded way to retain SI source bytes and non-authoritative candidates without changing existing learned knowledge or queues. Live execution and independent verification still need the governed deployment path; no release gate was credited from local tests.
+- Continuation mutation claim si-promotion-credential-repair-20261007 — openai/Codex; owner explicitly authorized narrow deployment and credential repair. Existing learned state and queues were untouched.
+- Refresh repository heads/policy and inspect GitHub secret/token metadata after owner reauthentication; prepare unsubmitted read-only organization token forms and a detached main preview — started 2026-10-07T04:42:00Z, finished 2026-10-07T04:55:05.923Z, exit 0; no credential value was read or written.
+- node --test test/nexusCheckMonitor.test.js test/workflow.test.js — started 2026-10-07T04:47:46Z, finished 2026-10-07T04:50:41Z, exit 0; 46/46, zero skipped.
 - Mutation claim si-durable-custody-20261007 — openai/Codex; raw custody authority comes from the owner request "can you do it all in order it should be" in the bounded nine-seed continuation context.
 - Task route: crucible-core; repository ID 1344890806; 6076446993/The-Crucible; literal development; exact affected-path digest is in AI-HANDOFF.json.
 - The observation interval timestamps below bound batched commands; they are not invented exact command execution timestamps.

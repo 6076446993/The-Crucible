@@ -119,7 +119,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T04:33:05.965Z"
+    "lastActionAt": "2026-10-07T04:55:05.923Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -200,8 +200,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Implement governed durable raw custody, then resume exactly nine SI seeds through independent vetting and ordinary scientific verification without production promotion.",
-    "currentPrompt": "can you do it all in order it should be",
+    "objective": "Narrow governed deployment of manual SI/R8 workflows and repair/verify security and PR-monitor credential access without broad promotion or weakened gates.",
+    "currentPrompt": "Promote it then work The security and PR-monitor credentials",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -214,30 +214,39 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Project context selects crucible-core.",
+      "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T04:32:33.364Z",
-      "promptSha256": "ac460aa4bc44290c12579d278968bff1779143145bf25521f04f084147a235fe",
-      "affectedPathsSha256": "dd68349f7e8b8e34b908231ab09498e65a1d23e1af81149aac667904c2969b88"
+      "selectedAt": "2026-10-07T04:47:46.759Z",
+      "promptSha256": "f023f4c62c8b9c48904696c342b77a9b38f9ce8363e0958118e54d360fb5dc1d",
+      "affectedPathsSha256": "2b7850c0eec875b58f23d405df3c04b1061373d5a6836d07b4c87c8c9dcedc41"
     },
     "steps": [
-      "Implement authenticated snapshot-preserving bounded raw publisher and ciphertext-only publication.",
-      "Verify preservation, repeat-run deduplication, quarantine and executable refusal, encryption and restart custody.",
-      "Publish development changes and inspect exact-tip CI.",
-      "Resume nine sources into durable raw custody only when the manual execution path and credentials are available.",
-      "Trace independent Oversight and Worker lineage, then evaluate eligible claims through ordinary gates.",
-      "Keep R3/R8 release blockers explicit; do not promote or start a held soak."
+      "Refresh exact branch and check state.",
+      "Prepare narrow main-based manual workflow deployment and required boundary/documentation updates; preserve unrelated main content.",
+      "Repair existing monitor secret wiring and verify hosted access.",
+      "Inspect/correct organization-scoped security and monitor credentials using GitHub secret storage; never log values.",
+      "Promote through release-to-main only when required checks pass, then resume bounded intake through ordinary gates."
     ],
-    "status": "handoff-ready",
+    "status": "active",
     "startedAt": "2026-10-07T04:11:06.782Z",
-    "lastUpdatedAt": "2026-10-07T04:33:05.965Z",
-    "currentStep": "Bounded SI raw publisher and routing repair published to development; inspect exact-tip CI, then resolve the manual deployment boundary before live intake.",
+    "lastUpdatedAt": "2026-10-07T04:47:46.761Z",
+    "currentStep": "Publish the tested monitor secret-name compatibility repair, await owner security credential entry, then refresh exact-head gates before the narrow governed promotion.",
     "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
     "ownership": {
-      "currentClaim": null,
-      "owner": null,
-      "mutationScope": [],
-      "rule": "si-durable-custody-20261007 is released to the recorded bounded continuation; owner authority and state-preservation controls remain mandatory."
+      "currentClaim": "si-promotion-credential-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "mutationScope": [
+        "AI-HANDOFF.json",
+        "DEVLOG.md",
+        "README.md",
+        ".github/workflows/nexus-check-monitor.yml",
+        "test/workflow.test.js"
+      ],
+      "rule": "Exclusive development repair; owner-authorized narrow promotion artifact only."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -369,23 +378,19 @@
         "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
         "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
         "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities.",
-        "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed."
-      ],
-      "verification": [
-        "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
-        "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
-        "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
-        "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
-        "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
-        "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
-        "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested."
+        "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed.",
+        "Verified development 3020d19fd0eeca122b61eafae059f23dcb76d20a hosted routing/Code/request gates; security CRU-0006 still failed HTTP 403. Main remains f3217f922d2aaa88cda7873220553be2a3b6121c; release remains 1bc3d0a8c1365d345bdf0b02b5b00b7882aed366.",
+        "Owner explicitly authorized narrow manual workflow deployment through release -> main and security/PR-monitor credential repair. No broad development merge is authorized.",
+        "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
+        "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
+        "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry."
       ],
       "remaining": [
-        "Publish development implementation and verify exact-tip hosted checks. No main/release promotion is authorized.",
-        "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
-        "Run durable nine-seed raw intake with the exact approved register SHA; then trace independently vetted SI custody and actual Worker verification, rather than crediting fixture or disposable candidate results.",
-        "Obtain a nonzero real live provider discovery/admission cycle for R3 and a retained-corpus executable refusal for R8. Both remain release blockers but do not alone block safe intake.",
-        "Resolve Administration-read security access and private PR-monitor visibility; retain R9 hold, independent corpus-backed experiment evidence and owner-only R11 authority."
+        "Owner completes security token generation and saves it directly to SECURITY_READ_TOKEN; refresh hosted Administration-read proof before any governed merge.",
+        "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
+        "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
+        "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
+        "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
       ]
     },
     "filesTouched": [
@@ -413,6 +418,14 @@
       "automaticTrigger": false,
       "promotionAuthorized": false,
       "existingQueuesMayBeCleared": false
+    },
+    "promotionAuthorization": {
+      "authorized": true,
+      "prompt": "Promote it then work The security and PR-monitor credentials",
+      "scope": "Narrow deployment of the two manual raw/R8 workflows and necessary governance/test/documentation compatibility; preserves unrelated main content, queues, keys and verification gates.",
+      "path": "release -> main",
+      "directMainPushAllowed": false,
+      "broadDevelopmentPromotionAllowed": false
     }
   },
   "handoffNotes": {
@@ -422,23 +435,19 @@
       "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
       "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
       "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities.",
-      "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed."
-    ],
-    "verification": [
-      "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
-      "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
-      "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
-      "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
-      "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
-      "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
-      "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested."
+      "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed.",
+      "Verified development 3020d19fd0eeca122b61eafae059f23dcb76d20a hosted routing/Code/request gates; security CRU-0006 still failed HTTP 403. Main remains f3217f922d2aaa88cda7873220553be2a3b6121c; release remains 1bc3d0a8c1365d345bdf0b02b5b00b7882aed366.",
+      "Owner explicitly authorized narrow manual workflow deployment through release -> main and security/PR-monitor credential repair. No broad development merge is authorized.",
+      "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
+      "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
+      "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry."
     ],
     "remaining": [
-      "Publish development implementation and verify exact-tip hosted checks. No main/release promotion is authorized.",
-      "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
-      "Run durable nine-seed raw intake with the exact approved register SHA; then trace independently vetted SI custody and actual Worker verification, rather than crediting fixture or disposable candidate results.",
-      "Obtain a nonzero real live provider discovery/admission cycle for R3 and a retained-corpus executable refusal for R8. Both remain release blockers but do not alone block safe intake.",
-      "Resolve Administration-read security access and private PR-monitor visibility; retain R9 hold, independent corpus-backed experiment evidence and owner-only R11 authority."
+      "Owner completes security token generation and saves it directly to SECURITY_READ_TOKEN; refresh hosted Administration-read proof before any governed merge.",
+      "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
+      "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
+      "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
+      "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -1173,6 +1182,29 @@
       "acquiredAt": "2026-10-07T04:32:04.186Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T04:33:05.965Z"
+    },
+    {
+      "taskId": "si-promotion-credential-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "README.md",
+          ".github/workflows/nexus-check-monitor.yml",
+          "test/workflow.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Prepare narrow manual SI/R8 workflow deployment and repair existing monitor secret selection under owner promotion authorization",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:47:11.533Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:55:05.987Z"
     }
   ],
   "ownerDecisions": [
