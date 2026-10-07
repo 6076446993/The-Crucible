@@ -119,7 +119,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T04:58:34.268Z"
+    "lastActionAt": "2026-10-07T05:08:16.424Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -214,11 +214,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Project context selects crucible-core.",
+      "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T04:57:46.593Z",
+      "selectedAt": "2026-10-07T05:02:26.513Z",
       "promptSha256": "f023f4c62c8b9c48904696c342b77a9b38f9ce8363e0958118e54d360fb5dc1d",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "affectedPathsSha256": "2b7850c0eec875b58f23d405df3c04b1061373d5a6836d07b4c87c8c9dcedc41"
     },
     "steps": [
       "Refresh exact branch and check state.",
@@ -230,7 +230,7 @@
     "status": "active",
     "startedAt": "2026-10-07T04:11:06.782Z",
     "lastUpdatedAt": "2026-10-07T04:47:46.761Z",
-    "currentStep": "Publish the tested monitor secret-name compatibility repair, await owner security credential entry, then refresh exact-head gates before the narrow governed promotion.",
+    "currentStep": "Await owner creation/installation and private-key secret entry for the read-only monitor App; test the prepared authentication integration and refresh security/CI before promotion.",
     "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
     "ownership": {
       "currentClaim": "si-promotion-credential-repair-20261007",
@@ -383,10 +383,11 @@
         "Owner explicitly authorized narrow manual workflow deployment through release -> main and security/PR-monitor credential repair. No broad development merge is authorized.",
         "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
         "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
-        "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry."
+        "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
+        "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses."
       ],
       "remaining": [
-        "Owner completes security token generation and saves it directly to SECURITY_READ_TOKEN; refresh hosted Administration-read proof before any governed merge.",
+        "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
         "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
         "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
         "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
@@ -401,7 +402,9 @@
         "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
         "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested.",
         "Monitor compatibility focused tests: 46/46, zero skipped.",
-        "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending."
+        "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending.",
+        "Read-only App workflow integration: focused monitor/workflow tests 46/46, zero skipped, after distinguishing read-only monitor installation scope from custody-clone transport. Workflow lint passes 28 workflows.",
+        "Full local governed proof: 1009/1009, zero skipped, 40.322 seconds. Hosted Windows 24 job 112638868079 on 2dc9cb07a5aa1135f4ec1216b83fd4c0a90ee3b0 passed and reported security audit 1 repository, 0 issues at 05:01:45Z and 05:02:31Z."
       ]
     },
     "filesTouched": [
@@ -451,10 +454,11 @@
       "Owner explicitly authorized narrow manual workflow deployment through release -> main and security/PR-monitor credential repair. No broad development merge is authorized.",
       "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
       "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
-      "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry."
+      "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
+      "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses."
     ],
     "remaining": [
-      "Owner completes security token generation and saves it directly to SECURITY_READ_TOKEN; refresh hosted Administration-read proof before any governed merge.",
+      "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
       "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
       "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
       "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
@@ -469,7 +473,9 @@
       "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
       "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested.",
       "Monitor compatibility focused tests: 46/46, zero skipped.",
-      "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending."
+      "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending.",
+      "Read-only App workflow integration: focused monitor/workflow tests 46/46, zero skipped, after distinguishing read-only monitor installation scope from custody-clone transport. Workflow lint passes 28 workflows.",
+      "Full local governed proof: 1009/1009, zero skipped, 40.322 seconds. Hosted Windows 24 job 112638868079 on 2dc9cb07a5aa1135f4ec1216b83fd4c0a90ee3b0 passed and reported security audit 1 repository, 0 issues at 05:01:45Z and 05:02:31Z."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -1287,6 +1293,29 @@
       "acquiredAt": "2026-10-07T04:58:34.218Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T04:58:34.334Z"
+    },
+    {
+      "taskId": "si-monitor-app-auth-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/nexus-check-monitor.yml",
+          "test/workflow.test.js",
+          "README.md",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Add least-privilege organization App token authentication for existing governed PR monitoring",
+      "status": "released",
+      "acquiredAt": "2026-10-07T05:01:46.129Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T05:08:16.521Z"
     }
   ],
   "ownerDecisions": [
