@@ -117,7 +117,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T03:34:08.000Z"
+    "lastActionAt": "2026-10-07T03:36:04.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -214,34 +214,32 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T03:34:08.000Z",
+      "selectedAt": "2026-10-07T03:36:04.000Z",
       "prompt": "Try it if its ready",
       "project": "The Crucible",
       "paths": [
-        ".github/workflows/si-gate-sandbox.yml",
         "AI-HANDOFF.json",
         "DEVLOG.md"
       ],
       "promptSha256": "c4d943b171899b7fe104dff67bfc32eacecb1d622bdc3426366b7011136e7dc7",
-      "affectedPathsSha256": "971a1eca6b066716da8b84323285ea05a483a02f60b686a9a1d70a2105832705"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
-      "[done] Verify that production custody has no general candidate holding-queue to raw-state bridge.",
-      "[done] Run the real governed retriever and claim extractor against the nine SI seeds without production credentials.",
-      "[done] Observe six completed sources, one continuing source, two blocked retrievals, and 68 bounded candidates.",
-      "[done] Repair metadata-only artifact retention without touching retrieval/extraction semantics.",
-      "[pending] Verify rerun and retained metadata artifact."
+      "[done] Verify production custody still has no general holding-queue to raw-state bridge and do not bypass it.",
+      "[done] Run the real governed retriever and claim extractor against exactly nine logged SI seeds with no production-state credentials.",
+      "[done] Confirm seven sources reached claim-extraction-complete, one PDF remains bounded-continuation pending, one source was retrieval-blocked, and 68 Insufficient Evidence candidates were produced.",
+      "[done] Retain metadata-only pilot evidence after erasing retrieved source bodies and the disposable candidate store."
     ],
-    "status": "active",
+    "status": "complete",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T03:34:08.000Z",
-    "currentStep": "First real-data SI pilot processed 9 seeds and extracted 68 bounded candidates; fixing metadata-artifact retention and rerunning the same pilot.",
-    "priority": "Prove real SI processing without weakening custody separation or claiming durable learning.",
+    "lastUpdatedAt": "2026-10-07T03:36:04.000Z",
+    "currentStep": "Complete: bounded real-data SI retrieval/extraction pilot passed with retained metadata-only evidence; durable production ingestion remains deliberately unimplemented.",
+    "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
       "mutationScope": [],
-      "rule": "Discussion is shared; mutation is exclusive. si-real-data-pilot-20261006 is released atomically with this commit."
+      "rule": "Discussion is shared; mutation is exclusive. si-real-data-pilot-20261006 is complete and released."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -261,7 +259,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Hosted SI run 37567285927 real-data job 112617785288 processed the nine logged seeds with the real retriever and extractor: six sources reached claim-extraction-complete, one remained claim-extraction-forced-pending, two retrievals were blocked, and 68 bounded Insufficient Evidence candidates were extracted. The job conclusion was failure only because the metadata report directory was hidden and upload-artifact defaulted to excluding hidden files.",
+    "verificationStatus": "Hosted SI run 37567402124 job 112618156279 passed at development 1297d38912f53c7a1c8963e5298c29d1bc0340df. Exactly nine logged SI seeds were processed by the real retrieval/extraction path: seven claim-extraction-complete, one claim-extraction-forced-pending PDF continuation, one retrieval-blocked (Oxford Academic HTTP 403), 68 total bounded Insufficient Evidence candidates. productionStateReferenced=false and productionStateWritable=false. Metadata-only artifact 11459416913 is retained 30 days with digest sha256:1e9ff3bbcb578b6dce7fe6d63907e5f9f736c036aec9021f271e9f47da5ad9c4.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -361,26 +359,26 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Rerun the same no-production-state pilot after enabling hidden-file artifact retention; record the retained evidence and keep durable live ingestion blocked until a general raw-custody publisher exists.",
+    "nextAction": "Do not call this durable live ingestion. A general governed holding-queue/raw-custody publisher is still required before SI candidates can enter Crucible-Learning-State for independent oversight and Learning-Worker consumption.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
-        "Hosted SI R3 discovery sandbox passed on run 37563233962 job 112605031591.",
-        "Hosted SI R8 safety sandbox passed on run 37563233962 job 112605031458.",
-        "R3 measured 8/9 logged SI source seeds admitted by current suffix policy; Oxford University Press on academic.oup.com was rejected.",
-        "R8 preserved ordinary SI prose while quarantining literal system-prompt discussion and explicit prompt injection and refusing executable magic."
+        "Real SI retrieval/extraction pilot passed on run 37567402124 job 112618156279.",
+        "Seven of nine sources completed extraction; one MIT Brooks PDF remains bounded continuation work; Oxford Academic was blocked by HTTP 403.",
+        "Sixty-eight bounded Insufficient Evidence candidates were produced.",
+        "Retrieved bodies and disposable candidate state were erased; artifact 11459416913 retains metadata only."
       ],
       "verification": [
-        "SI workflow run 37563233962 concluded success on 08c7303898a54bf63d9170c56f26ba08bd6e6966.",
-        "Self-Test critical cadence, validation, fly-by-wire, clutter, privacy and security checks passed before the existing CRU-0006 repository-security boundary."
+        "R3 SI sandbox and R8 SI sandbox also passed in run 37567402124.",
+        "Pilot had no production-state credential, reference, write path, proof authority, or promotion authority."
       ],
       "remaining": [
-        "R3 still needs a real scheduled provider run that admits at least one governed URL.",
-        "R8 still needs the real executable-content custody refusal/publisher observation.",
-        "R9 remains held until R2-R8 are simultaneously green."
+        "Build a general governed raw-custody publisher before any SI pilot result is called durable live ingestion.",
+        "Do not bypass Oxford Academic HTTP 403; use an alternate authorized official source or owner-supplied copy if needed.",
+        "The real R3 and R8 release gates remain separate and pending until their operational definitions are satisfied."
       ]
     }
   },
