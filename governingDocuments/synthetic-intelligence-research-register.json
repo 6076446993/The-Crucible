@@ -11,7 +11,7 @@
   "recordedAt": "2026-10-07T01:16:27.000Z",
   "ownerDecision": {
     "status": "approved-research-domain",
-    "decision": "Treat Synthetic Intelligence as a dedicated Crucible research subject, distinct from generic AGI, and log all constituent concepts under the same durable evidence discipline used around R9.",
+    "decision": "Treat Synthetic Intelligence as a dedicated Crucible research subject, distinct from generic AGI, and durably log its constituent concepts and academic source seeds with the same audit rigor used around R9. This decision authorizes logging only, not discovery automation, pipeline expansion, proof, or promotion.",
     "changesReleaseAuthority": false
   },
   "workingDefinition": "Synthetic Intelligence is an engineered cognitive-system research hypothesis in which broader adaptive intelligence is investigated as the integration of learning, memory, perception, reasoning, internal goals or motivation, world modelling, reflection or metacognition, and adaptive action. This is a Crucible research definition, not a claim that SI is a standardized academic field or a proven unified theory.",
@@ -542,37 +542,19 @@
       "classification": "candidate-source-seed"
     }
   ],
-  "governedResearchTopics": [
-    "Synthetic Intelligence cognitive architecture university research",
-    "motivated cognition MicroPsi cognitive architecture",
-    "common model of cognition cognitive architecture",
-    "cognitive architectures for language agents",
-    "modular memory AI agents",
-    "episodic semantic procedural memory agents",
-    "metacognition reflection AI agents",
-    "neuro-symbolic concept learning",
-    "compositional neuro-symbolic concepts continual learning",
-    "world models long-horizon planning",
-    "embodied situated intelligence robotics",
-    "artificial life autonomous agents",
-    "self-improving AI agents",
-    "tool use grounded agent decision making",
-    "social cognition artificial agents",
-    "multi-agent cognition AI",
-    "generalization transfer autonomous agents",
-    "uncertainty calibration autonomous agents",
-    "causal reasoning intelligent agents",
-    "cognitive control action selection agents",
-    "perception grounding intelligent agents",
-    "AI agent verification provenance governance"
-  ],
-  "discoveryRules": {
-    "maximumTotalTopicsPerRun": 50,
-    "siTopicsAdded": 22,
-    "existingTopicsRetained": 16,
-    "totalTopicsAfterAddition": 38,
-    "allowedResultRole": "candidate URL or pointer only",
-    "sourceAdmission": "Existing .edu/.org/.gov and retriever provenance/safety rules remain authoritative.",
-    "note": "Provider prose, search rank, institutional prestige and citations do not satisfy a proof stage."
+  "loggingDiscipline": {
+    "scope": "logging-only",
+    "r9Analogy": "Keep the SI record durable, auditable, provenance-bound, contradiction-aware and explicit about what is or is not proven, as R9 records are. This does not create a new R9 gate or change the canonical R9 soak.",
+    "recordRequirements": [
+      "stable concept identifier and human-readable concept name",
+      "bounded hypothesis statement",
+      "source-seed references where available",
+      "current evidence classification",
+      "explicit proofStageSatisfied and promotionAuthorized flags",
+      "preserve contradictions, uncertainty and unsupported status instead of silently deleting them"
+    ],
+    "noAutomation": true,
+    "noDiscoveryWorkflowChange": true,
+    "noReleaseGateChange": true
   }
 }

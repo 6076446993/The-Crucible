@@ -110,11 +110,11 @@
     "src/aiHandoffContinuation.js": "How a successor AI reads the governed state and resumes from the last confirmed good point.",
     "src/coordinationCli.js": "Agent-facing commands: continue, claims, claim, release, handoff, providers, consult.",
     "governingDocuments/TOKEN-HEALTH.json": "Non-secret health declaration for the credentials The Crucible itself consumes. Records presence, authentication, capability and expiry only; never a credential value. A healthy credential proves a door opens and nothing about what is behind it, so it authorizes no promotion and satisfies no proof stage.",
-    "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence research-domain register: concept hypotheses, academic source seeds, governed discovery topics, and R9-style evidence discipline without redefining canonical R9 or granting proof/promotion authority."
+    "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence concept/source log only: durable concept hypotheses and academic source seeds with explicit evidence status. It creates no discovery automation, proof, R9 redefinition, or promotion authority."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T01:16:27.000Z"
+    "lastActionAt": "2026-10-07T01:28:54.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -195,13 +195,13 @@
   },
   "activePlan": {
     "agent": "ChatGPT",
-    "objective": "Establish Synthetic Intelligence as a dedicated Crucible research domain, log its academically grounded concept families and source seeds, and feed bounded topics into governed candidate discovery without changing scientific-learning release gates.",
-    "currentPrompt": "Do it and log all concepts and do the same as we did with R9",
+    "objective": "Log Synthetic Intelligence concepts and academic source seeds durably in The Crucible with R9-like audit rigor, without expanding discovery automation or changing scientific-learning release behavior.",
+    "currentPrompt": "Not all this the logging",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
-      "purpose": "Governed Synthetic Intelligence research-domain registration and candidate-discovery integration",
-      "selectionReason": "The task mutates scientific-learning governance records and the bounded discovery workflow on development, while preserving all existing release gates.",
+      "purpose": "Correct the SI work to logging-only scope and preserve the durable concept/source record.",
+      "selectionReason": "The user narrowed the already-started SI repository work to logging only; the correction restores the pre-SI discovery workflow while keeping the governed log.",
       "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch, proof, verification, governance, or promotion authority."
     },
     "taskRouting": {
@@ -211,8 +211,8 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T01:16:27.000Z",
-      "prompt": "Do it and log all concepts and do the same as we did with R9",
+      "selectedAt": "2026-10-07T01:28:54.000Z",
+      "prompt": "Not all this the logging",
       "project": "The Crucible",
       "paths": [
         ".github/workflows/model-pointer-research.yml",
@@ -220,21 +220,20 @@
         "DEVLOG.md",
         "governingDocuments/synthetic-intelligence-research-register.json"
       ],
-      "promptSha256": "d97221474f1c29a8fdffdb8fd246208e2bb062a9c5891946b9b2dc1708f1f30d",
+      "promptSha256": "df40d7c55b7cf950462e628aad170d2394e7541f28916c0fb55d42d3574eabee",
       "affectedPathsSha256": "2a09488f0367aae6acd7e9fa3a7295a54f3c607af26269558417a7f494ab7822"
     },
     "steps": [
-      "[done] Re-read the complete current governing-document set, literal development head, canonical R9 implementation, release status, active PR, and mutation-ownership state before writing.",
-      "[done] Record Synthetic Intelligence as a dedicated candidate-only research domain with a working definition, 29 concept hypotheses, nine academic source seeds, contradiction boundaries, and an explicit non-equivalence between storage/retrieval/consensus and learning.",
-      "[done] Apply R9-style durability/generalization evidence requirements without redefining canonical R9, changing R1-R11, or granting SI any proof or promotion authority.",
-      "[done] Add 22 bounded SI topics to the existing governed model-pointer discovery run while retaining the original 16 topics and staying below the 50-topic ceiling.",
-      "[next] Inspect exact-tip hosted checks and the triggered candidate-discovery run; treat any returned SI URLs as Insufficient Evidence pending the normal retrieval, extraction, corroboration, experiment, verification, contradiction, custody, and R9 pathways."
+      "[done] Preserve the SI concept/source log with all 29 concept hypotheses and nine academic source seeds.",
+      "[done] Narrow the SI register to logging-only semantics: durable provenance/status records, no discovery automation and no release authority.",
+      "[done] Restore .github/workflows/model-pointer-research.yml exactly to its pre-SI content, removing the 22 SI topics added by the prior over-broad interpretation.",
+      "[done] Keep canonical R9 and the scientific-learning R1-R11 release status unchanged."
     ],
-    "status": "active",
+    "status": "complete",
     "startedAt": "2026-10-07T00:54:00.000Z",
-    "lastUpdatedAt": "2026-10-07T01:16:27.000Z",
-    "currentStep": "Publish the atomic SI register/discovery/handoff change on development, then inspect exact-tip CI and the triggered model-pointer run without advancing a release gate on color alone.",
-    "priority": "Keep every SI concept candidate-only until it earns the existing scientific proof path; preserve R2, R3, R8, R9, R10 and R11 exactly as currently recorded.",
+    "lastUpdatedAt": "2026-10-07T01:28:54.000Z",
+    "currentStep": "Complete: SI is durably logged only; the pre-existing discovery workflow is restored and no SI automation remains.",
+    "priority": "Preserve the SI log as candidate research context only. Any future ingestion, experimentation, automation, or release work requires its own explicit scope.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
@@ -259,7 +258,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Pre-write governance recheck complete. The SI register is internally bounded at 29 unique concepts, nine source seeds and 22 unique <=80-character discovery topics; the workflow retains 16 existing topics for 38 total, below the 50-topic ceiling. Exact-tip hosted verification is still required after this commit.",
+    "verificationStatus": "Scope correction prepared against development 10091206fa2d9da90e8ba58aa1b853a0414a3a1c. The SI register retains 29 concepts and nine source seeds; model-pointer-research.yml is restored byte-for-byte to the pre-SI version from 2543a61cee12119b84071a9194f8ca772b428491; scientific-learning release status is untouched.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -359,7 +358,7 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Inspect exact-tip hosted checks and the SI-bearing model-pointer run. Register discovered URLs as candidates only; do not infer learning, proof, R9 completion, or release readiness.",
+    "nextAction": "No further SI implementation is pending from this request. Preserve the concept/source log and leave discovery, ingestion, experimentation, R9 soak, and release work separate unless explicitly requested.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -378,6 +377,9 @@
   },
   "handoffNotes": {
     "completed": [
+      "Scope correction: the user's SI request is logging-only. The SI concept/source register remains; discovery automation added by the prior interpretation is removed.",
+      "The SI register still contains all 29 logged concept hypotheses and nine academic source seeds, all explicitly non-proven and non-promotable.",
+      "The model-pointer discovery workflow is restored to its exact pre-SI content; the 22 SI research topics are no longer wired into live discovery.",
       "Synthetic Intelligence is registered as its own Crucible research domain, distinct from generic AGI, with 29 logged concept hypotheses and nine academic source seeds; every entry is candidate-only Insufficient Evidence.",
       "The SI register explicitly preserves canonical R9 as the existing 72-96 hour integrity soak and applies R9-style durability/generalization evidence discipline without redefining or bypassing that gate.",
       "Twenty-two bounded SI research topics are wired into the existing governed model-pointer discovery workflow alongside the original 16 topics, for 38 total under the 50-topic ceiling.",
@@ -425,6 +427,8 @@
       "Fresh hosted verification rejected the first CRU-0013 repair because the unit test uses a synthetic GitHub identity; corrected the fixture to derive the noreply address from config.privacy.githubIdentity so no personal address is embedded and the identity contract remains testable."
     ],
     "verification": [
+      "Correction target is development 10091206fa2d9da90e8ba58aa1b853a0414a3a1c; restored workflow content comes from pre-SI development 2543a61cee12119b84071a9194f8ca772b428491.",
+      "SI register count remains 29 concepts / nine source seeds. governedResearchTopics and discoveryRules are removed; loggingDiscipline.noAutomation and noDiscoveryWorkflowChange are true.",
       "Pre-write: re-read every AI-HANDOFF governing document including Archive:Devlog-Pruned; development head was 2543a61cee12119b84071a9194f8ca772b428491 and PR #34 targeted that exact pre-SI tip.",
       "Structural checks: 29 unique SI concept IDs, nine candidate source seeds, 22 unique bounded SI research topics, 38 total workflow topics, canonical R9 unchanged, promotionAuthorized false.",
       "npm run test:all 863/863 at this change. The count rose by one with the evaluateR2 regression test, which was shown failing against the previous implementation before the repair existed.",
@@ -441,6 +445,7 @@
       "Fresh Self-Test run 37036574698 proved the first privacy correction incomplete: audit source sanitation no longer drove the failure, but test/privacy.test.js assertion failed. The follow-up derives the technical noreply fixture from the test configuration instead of hard-coding any account identity."
     ],
     "remaining": [
+      "No SI-specific implementation remains from this request. Future discovery, ingestion, experimentation or automation is out of scope unless explicitly requested.",
       "Run and inspect fresh hosted checks on the new exact development SHA; PR #34 cannot inherit proof from its prior head.",
       "Inspect the triggered model-pointer discovery run. Any SI pointer remains research-approved-pending-retrieval / Insufficient Evidence and must traverse ordinary custody and proof gates.",
       "Existing scientific-learning blockers remain independently open: R2 restart/resume proof, R3 a complete live discovery-to-candidate cycle, R8 executable-content live refusal, then R9 soak, exact-tip R10, and explicit R11 owner authorization.",

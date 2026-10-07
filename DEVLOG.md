@@ -49,7 +49,7 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
-- **2026-10-06 Synthetic Intelligence research domain:** SI is now a dedicated Crucible research subject, distinct from generic AGI. Its 29 concept hypotheses and nine academic source seeds remain candidate-only; 22 bounded discovery topics are added to the existing model-pointer path. Canonical R9 is unchanged: SI follows the ordinary scientific-learning custody, proof, contradiction and soak rules and gains no special release authority.
+- **2026-10-06 Synthetic Intelligence logging:** SI is retained as a dedicated Crucible research subject, distinct from generic AGI, with 29 concept hypotheses and nine academic source seeds logged as candidate-only evidence. Scope is logging only: no SI discovery topics, automation, proof, release-gate change, or promotion authority.
 
 - **2026-10-05 scientific-learning release review:** Exact development SHA `ce2c5529919d80cb71fa4f7ba974fcb077ed608f` now has durable evidence for R4-R7. R2 still lacks real restart/resume proof, R3 produced zero admitted URLs after 16 provider aborts, and R8 lacks the executable-content live refusal; R9 has not started, exact-tip CI is red, and no promotion is authorized. The 14-source rescan found 8 hashes in current vetted custody and 6 absent, so it remains pending without re-extraction or duplicate custody.
 
@@ -57,13 +57,13 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 - **2026-10-04 security-read compatibility:** Direct Crucible workflows now prefer the canonical GitHub Actions secret `CRUCIBLE_SECURITY_READ_TOKEN` and fall back to legacy `SECURITY_READ_TOKEN`. This repairs secret-name drift only; CRU-0006 remains fail-closed until hosted evidence proves Administration-read visibility. No credential value was read, copied, logged, or broadened.
 
-- **Agent:** ChatGPT, Synthetic Intelligence research-domain registration; existing scientific-learning release evidence remains separately governed.
+- **Agent:** ChatGPT, Synthetic Intelligence logging scope correction; existing scientific-learning release evidence remains separately governed.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** Follow `AI-HANDOFF.json` for the exact SI plan; publish the candidate-only SI register and bounded discovery topics on `development`, then inspect fresh exact-tip hosted evidence. No release gate moves from this registration.
+- **Actual current step:** SI logging is complete. The concept/source register is retained and the pre-SI discovery workflow is restored exactly; no SI automation remains from this request.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
-- **Verification state:** Pre-write governance, route, topic-count, concept-ID, source-seed and canonical-R9 checks passed. Fresh hosted checks on the new exact development SHA and the SI-bearing discovery run remain required; existing R2/R3/R8/R9/R10/R11 states are unchanged.
-- **Continuation boundary:** Treat every SI result as `Insufficient Evidence` until ordinary retrieval, provenance, extraction, corroboration, pre-registered experiment, distinct verification, negative/regression, scope/generalization, contradiction and custody checks earn otherwise. Canonical R9 remains the ordinary 72-96 hour integrity soak after R2-R8 are green.
+- **Verification state:** SI register retains 29 concepts and nine academic source seeds. The model-pointer workflow is restored byte-for-byte to its pre-SI content. Canonical R9 and scientific-learning R1-R11 status are unchanged.
+- **Continuation boundary:** Preserve the SI concept/source log only. Discovery, ingestion, experiments, soak execution and release work remain separate and require their own explicit scope.
 
 ## Released mutation claim accountability
 
@@ -113,6 +113,7 @@ Plain-language summary: Established Synthetic Intelligence as a dedicated Crucib
 - Added 22 bounded SI discovery topics to the existing 16 model-pointer topics for 38 total under the governed 50-topic ceiling; provider prose, ranking and institutional prestige remain non-proof — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
 - Preserved canonical R9 as the existing 72-96 hour, <=1000-observed-point integrity soak and left R1-R11 release status untouched; PR #34 requires fresh exact-tip evidence after this development mutation — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
 - Pruned only the oldest inline command-log session (failure-code-model-pointer-reconcile-20260929 — 2026-09-30T00:42:00.000Z — Codex — mode:work) after preparing a full pre-prune DEVLOG snapshot for the standing one-file Archive ledger — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
+- Scope correction after user clarification: retained the full SI concept/source log, removed the live-discovery expansion, restored model-pointer-research.yml to its exact pre-SI content, and changed no release gate — started 2026-10-07T01:28:54.000Z, finished 2026-10-07T01:28:54.000Z, exit 0 correction.
 
 ### Session: scientific-learning-release-review-20261005 — 2026-10-05T20:43:00.000Z — Codex — mode:work
 
