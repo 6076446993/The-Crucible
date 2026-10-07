@@ -577,5 +577,19 @@
     "R8": "Verified scholarly sources may retain descriptive control-message terminology only when the surrounding text is recognizably research discussion. Other matching control text remains quarantined; override, credential-exfiltration, command-execution, and executable-content signals remain fail-closed.",
     "gatePassAuthority": false,
     "promotionAuthorized": false
+  },
+  "livePilotAuthorization": {
+    "approvedAt": "2026-10-07T03:31:32.000Z",
+    "ownerInstruction": "Try it if its ready",
+    "scope": "Exactly the nine already logged SI source seeds may be processed once through the real governed URL admission, HTTPS retrieval, and claim-extraction code in a disposable hosted lane.",
+    "sourceCount": 9,
+    "productionStateAccess": false,
+    "rawCustodyWrite": false,
+    "vettedCustodyWrite": false,
+    "independentOversightBypass": false,
+    "proofStageAuthority": false,
+    "promotionAuthority": false,
+    "passCondition": "At least one real source must retrieve and produce at least one bounded Insufficient Evidence candidate; otherwise the pilot fails closed.",
+    "note": "This is a real-data processing pilot, not live durable ingestion. General raw-custody publication remains unimplemented and must not be replaced by an SI-specific state writer."
   }
 }
