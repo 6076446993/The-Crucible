@@ -168,3 +168,29 @@ jobs:
           # its inclusion is stated rather than left to the default. Without this the chain
           # would break silently, which is the one failure mode this change exists to remove.
           include-hidden-files: true
+
+
+  prove-r2-failover:
+    name: Prove R2 isolated worker failover
+    if: github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Prove isolated R2 failover without production state access
+        run: node src/r2FailoverProof.js
+      - name: Retain bounded R2 failover evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: r2-failover-proof-${{ github.run_id }}-${{ github.run_attempt }}
+          path: hosted-learning-proof/r2-failover.json
+          if-no-files-found: error
+          retention-days: 90
