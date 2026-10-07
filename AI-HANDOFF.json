@@ -195,7 +195,7 @@
   "activePlan": {
     "agent": "ChatGPT",
     "objective": "Complete the prevention feedback loop and add adaptive meta-learning so verified outcome evidence can improve the learning strategy without bypassing scientific or governance gates.",
-    "currentPrompt": "Change the Crucible self-test workflow to read the owner-authorized PAT from the CRUCIBLE_SECURITY_READ_TOKEN repository secret instead of SECURITY_READ_TOKEN.",
+    "currentPrompt": "Update governingDocuments/crucible-monitored-repositories.json to current 6076446993 repository identities after hosted monitor returned repository-read failure; preserve locked PR #11 and monitor-only policy; run focused checks.",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
@@ -210,12 +210,13 @@
       "branch": "r8-workflow-registration",
       "reason": "Explicit repository and branch instruction selected jonathanblunt1214-lgtm/The-Crucible:r8-workflow-registration.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-07T16:20:00-04:00",
-      "promptSha256": "1fa4bab23d48adb909c083c296e26f70181e94e15c101f8ef195c9fb956de5ea",
-      "affectedPathsSha256": "cdbffc494948819d663114f0c2547613660680185c8dd2c99a342c218c6f098a"
+      "selectedAt": "2026-10-07T17:06:43.110Z",
+      "promptSha256": "3856de6741111cfb7798fd1911d4536ac582c31b9a044b96175a85be156b2692",
+      "affectedPathsSha256": "056748e223adddc678fae6ce48e2759c3806d162c4acea3518623947ac4d86c2"
     },
     "steps": [
-      "[blocked] Protected registration PR #35 is open at 154ffa4, but hosted Crucible matrix jobs fail at audit:github-security with CRU-0000 fetch failed, collision audit reports overlap with PR #34, and the required monitor returns HTTP 404 for the configured NVIDIA-NIM-CONSOLE repository; no merge, default-branch registration, canary execution, or R8 proof occurred.",
+      "[done] Updated all monitored repository identities from the stale jonathanblunt1214-lgtm owner to the current 6076446993 owner after hosted monitor evidence showed repository-read failure; locked PR #11 remains read-only and no mutation authority was added.",
+      "[blocked] Protected registration PR #35 remains at the hosted pre-change tip 154ffa4; the monitor rerun received NEXUS_MONITOR_READ_TOKEN but still exited 1 before a healthy report, so the change must be pushed through the governed hook before this repair can be hosted-verified.",
       "[next] Resolve the exact hosted monitor/security capability failures and the existing PR #34 overlap, then rerun PR #35 checks; merge only on protected green evidence and dispatch the reviewed development ref afterward.",
       "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
       "[done] Strengthened AI Collaboration ORCHESTRATOR-POLICY.json to mechanically require early execution-boundary identification, continuously reserved terminal-verification capacity, conservative cutoff, complete Final Verification, and terminal Devlog recording.",

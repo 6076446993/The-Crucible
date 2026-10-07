@@ -1,5 +1,14 @@
 # Development log
 
+### Session: align Crucible monitor repository identities — 2026-10-07T17:06:43-04:00 — ChatGPT — mode:work
+
+Plain-language summary: Replaced the stale `jonathanblunt1214-lgtm/...` monitor targets with the current `6076446993/...` repository identities. The hosted rerun confirmed `NEXUS_MONITOR_READ_TOKEN` is present (masked) but still ran the pre-change PR tip, so hosted success remains pending until this clean branch change is pushed through the governed hook.
+
+- **Routing:** explicit owner-authorized `crucible-r8-workflow-registration` route accepted for `governingDocuments/crucible-monitored-repositories.json` on `r8-workflow-registration` — started 2026-10-07T17:06:43-04:00, finished 2026-10-07T17:06:44-04:00, exit 0.
+- **Change:** updated only the seven monitored repository owner identities; preserved locked PR #11 and `LOCKED_READ_ONLY` behavior.
+- **Verification:** focused orchestrated test run passed 97/97, workflow lint passed across 24 workflows, JSON parsing passed, and `git diff --check` passed.
+- **Hosted state:** monitor run #320 attempt 3 received the masked `NEXUS_MONITOR_READ_TOKEN` but checked out merge SHA `09912bf`; its pre-change monitor process exited 1. No canary, raw custody, vetted custody, or main promotion occurred.
+
 ### Session: align self-test security secret name — 2026-10-07T12:58:47-04:00 — ChatGPT — mode:work
 
 Plain-language summary: Updated the self-test matrix to read the owner-authorized PAT from the explicitly named `CRUCIBLE_SECURITY_READ_TOKEN` secret; no token value was exposed and no main or learning-state write occurred.
