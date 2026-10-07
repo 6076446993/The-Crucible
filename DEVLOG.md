@@ -1,5 +1,14 @@
 # Development log
 
+### Session: repair stale engine identity in hosted security audit — 2026-10-07T18:08:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: Hosted Self-Test evidence showed every matrix leg failing with `CRU-0000 fetch failed` because the security audit still added the retired `jonathanblunt1214-lgtm/The-Crucible` identity. GitHub redirects that name, while the API client intentionally rejects redirects. The audit now targets the current exact `6076446993/The-Crucible` identity, preventing the redirect failure without weakening security checks.
+
+- **Routing:** mandatory `route:prewrite` accepted the exact `r8-workflow-registration` route for `src/githubRepoSecurity.js`, its focused test, `AI-HANDOFF.json`, and `DEVLOG.md`.
+- **Change:** updated only `src/githubRepoSecurity.js`'s engine repository identity and documented why redirects remain rejected.
+- **Verification:** focused repository-security/core-ref/integration tests passed 46/46; full `npm test` passed 379/379 in the current changed-test orchestration; no credentials were printed or persisted.
+- **Hosted follow-up:** push through the mandatory hook and re-run PR #35 checks at the new exact SHA. R8 custody/canary/promotion and main remain untouched.
+
 ### Session: accept current hosted repository identity in internal-repair guard — 2026-10-07T18:05:00-04:00 — ChatGPT — mode:work
 
 Plain-language summary: The hosted self-test was failing four deterministic repair tests because GitHub Actions reports the current `6076446993/The-Crucible` repository while the guard accepted only the legacy owner string. Added one exact owner-migration alias; project ID, privacy identity, and arbitrary-repository rejection remain unchanged.
