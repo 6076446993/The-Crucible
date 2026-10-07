@@ -195,7 +195,7 @@
   "activePlan": {
     "agent": "ChatGPT",
     "objective": "Complete the prevention feedback loop and add adaptive meta-learning so verified outcome evidence can improve the learning strategy without bypassing scientific or governance gates.",
-    "currentPrompt": "Consume independently vetted Nexus learning at Crucible preflight so local repair-learning evidence cannot authorize prevention; require active Vetted-Learning-State custody with exact governed boundary, proof binding, Oversight decision binding, and active CRU bug/error classification.",
+    "currentPrompt": "Automate the Crucible read-only PR monitor with the installed GitHub App using its client ID and private key; run focused tests and verify protected PR #35 checks without bypassing security or touching main.",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
@@ -204,17 +204,31 @@
       "distinction": "Execution mode is separate from agent identity and workflow; Work mode changes orchestration depth, not repository identity, branch authority, governance, or promotion authority."
     },
     "taskRouting": {
-      "category": "crucible-core",
+      "category": "crucible-r8-workflow-registration",
       "repositoryId": 1344890806,
       "repository": "jonathanblunt1214-lgtm/The-Crucible",
-      "branch": "development",
-      "reason": "Affected paths select crucible-core.",
-      "explicitOverride": false,
-      "selectedAt": "2026-09-29T16:38:41.720Z",
-      "promptSha256": "ae30b1da85ef54824d7a6d2be7af0b75be758f3f7f0b2c545b004495718546f6",
-      "affectedPathsSha256": "aae43f3b0dee95c0ae5d5ed49b8212f8c5331287903b71870a26476ee5009acd"
+      "branch": "r8-workflow-registration",
+      "reason": "Explicit repository and branch instruction selected jonathanblunt1214-lgtm/The-Crucible:r8-workflow-registration.",
+      "explicitOverride": true,
+      "selectedAt": "2026-10-07T22:55:48.010Z",
+      "promptSha256": "a7c945896f1c7a0249b5d3e9227f441f9a9f929b0caccd9cf43caf772496f551",
+      "affectedPathsSha256": "8fdb9dc4ebf36f8e3c53f9e81349a6e5057c843307f46249218fa51252559966"
     },
     "steps": [
+      "[done] Updated all monitored repository identities from the stale jonathanblunt1214-lgtm owner to the current 6076446993 owner after hosted monitor evidence showed repository-read failure; locked PR #11 remains read-only and no mutation authority was added.",
+      "[done] Accepted only the exact 6076446993/The-Crucible Actions identity as a host-side alias for the legacy internal-repair repository guard; project and privacy identity checks remain required.",
+      "[done] Focused repair tests passed 9/9 and full npm test passed 932/932 at the working tree; no learning-state or main write occurred.",
+      "[done] Reconciled the protected registration branch and pushed it through the mandatory hook at b82e374; the hosted identity mismatch repair is now on PR #35.",
+      "[done] Diagnosed hosted CRU-0000 as the security audit adding the retired engine repository identity, which GitHub redirects and the fail-closed API client rejects.",
+      "[done] Updated src/githubRepoSecurity.js to use the current exact 6076446993/The-Crucible identity; focused 46/46 and full changed-test 379/379 verification passed locally.",
+      "[done] Hosted Self-Test reached the current repository identity; its remaining CRU-0006 evidence showed the repository has SECURITY_READ_TOKEN but not CRUCIBLE_SECURITY_READ_TOKEN.",
+      "[done] Wired Self-Test and PR-monitor workflows to prefer CRUCIBLE_SECURITY_READ_TOKEN and fall back to the existing SECURITY_READ_TOKEN without reading or exposing either value.",
+      "[done] Re-read the installed App wiring and confirmed the existing CRUCIBLE_MONITOR_APP_CLIENT_ID variable plus CRUCIBLE_MONITOR_APP_PRIVATE_KEY secret are the correct inputs for create-github-app-token v3.",
+      "[done] Updated the PR monitor to mint a read-only installation token for the installed organization App and pass it only to the monitor process; the App remains limited to the installed repositories and no write authority was added.",
+      "[done] Workflow lint and workflow-focused tests passed after removing explicit state-repository names from the token step; no learning-state or main write occurred.",
+      "[next] Push through the mandatory hook and rerun PR #35 protected checks at the exact new SHA; treat any App installation/permission failure as an external capability blocker.",
+      "[blocked] Protected registration PR #35 remains at the hosted pre-change tip 154ffa4; the monitor rerun received NEXUS_MONITOR_READ_TOKEN but still exited 1 before a healthy report. The exact route verifier passes for the four-file range, but Git's actual pre-push invocation still supplies no ref-update stream, so no remote write occurred.",
+      "[next] Resolve the exact hosted monitor/security capability failures and the existing PR #34 overlap, then rerun PR #35 checks; merge only on protected green evidence and dispatch the reviewed development ref afterward.",
       "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
       "[done] Strengthened AI Collaboration ORCHESTRATOR-POLICY.json to mechanically require early execution-boundary identification, continuously reserved terminal-verification capacity, conservative cutoff, complete Final Verification, and terminal Devlog recording.",
       "[done] Re-verified AI Collaboration and Crucible remain independent projects joined by a non-containment cross-project policy reference; Nexus and ChatGPT remain excluded from the custom GitHub App package boundary.",

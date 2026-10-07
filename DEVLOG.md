@@ -1,5 +1,75 @@
 # Development log
 
+### Session: automate Crucible monitor App authentication — 2026-10-07T19:00:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: The PR monitor now mints a short-lived read-only GitHub App installation token from the existing `CRUCIBLE_MONITOR_APP_CLIENT_ID` repository variable and `CRUCIBLE_MONITOR_APP_PRIVATE_KEY` secret, scoped to the installed organization account. The monitor still performs only read operations; no learning-state repository, main branch, or locked PR was mutated.
+
+- **Routing:** explicit owner-authorized `r8-workflow-registration` route accepted the exact `.github/workflows/nexus-check-monitor.yml` path.
+- **Change:** replaced the monitor's dependency on `NEXUS_MONITOR_READ_TOKEN` with the official GitHub App token action and passed the generated token only to the monitor process; no credential value was read or printed.
+- **Verification:** workflow lint passed across 24 workflows; workflow-focused tests passed 32/32. A prior changed-test run generated the existing low-severity local known-bug ledger entry and it was preserved.
+- **Next:** push through the mandatory hook and inspect fresh PR #35 hosted evidence at the exact SHA. R8 custody/canary/promotion and main remain untouched.
+
+### Session: prefer named security token with compatibility fallback — 2026-10-07T18:12:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: The Crucible repository currently has `SECURITY_READ_TOKEN`, not `CRUCIBLE_SECURITY_READ_TOKEN`; hosted Self-Test proved the new name was absent by falling back to `GITHUB_TOKEN` and failing closed. Both the Self-Test and PR-monitor workflows now prefer `CRUCIBLE_SECURITY_READ_TOKEN` and fall back only to the existing repository secret, preserving the Administration-read requirement without exposing or weakening a credential.
+
+- **Routing:** mandatory `route:prewrite` accepted the exact protected registration route for the two workflow paths and the handoff surfaces.
+- **Change:** changed only the two workflow environment expressions; no token value was read, copied, or printed.
+- **Verification remaining:** workflow lint, focused tests, mandatory hook push, and fresh PR #35 hosted checks. R8 custody/canary/promotion and main remain untouched.
+
+### Session: repair stale engine identity in hosted security audit — 2026-10-07T18:08:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: Hosted Self-Test evidence showed every matrix leg failing with `CRU-0000 fetch failed` because the security audit still added the retired `jonathanblunt1214-lgtm/The-Crucible` identity. GitHub redirects that name, while the API client intentionally rejects redirects. The audit now targets the current exact `6076446993/The-Crucible` identity, preventing the redirect failure without weakening security checks.
+
+- **Routing:** mandatory `route:prewrite` accepted the exact `r8-workflow-registration` route for `src/githubRepoSecurity.js`, its focused test, `AI-HANDOFF.json`, and `DEVLOG.md`.
+- **Change:** updated only `src/githubRepoSecurity.js`'s engine repository identity and documented why redirects remain rejected.
+- **Verification:** focused repository-security/core-ref/integration tests passed 46/46; full `npm test` passed 379/379 in the current changed-test orchestration; no credentials were printed or persisted.
+- **Hosted follow-up:** push through the mandatory hook and re-run PR #35 checks at the new exact SHA. R8 custody/canary/promotion and main remain untouched.
+
+### Session: accept current hosted repository identity in internal-repair guard — 2026-10-07T18:05:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: The hosted self-test was failing four deterministic repair tests because GitHub Actions reports the current `6076446993/The-Crucible` repository while the guard accepted only the legacy owner string. Added one exact owner-migration alias; project ID, privacy identity, and arbitrary-repository rejection remain unchanged.
+
+- **Change:** `src/repair.js` now accepts only the legacy engine repository or the exact current `6076446993/The-Crucible` Actions identity.
+- **Verification:** `node --test test/repair.test.js` passed 9/9; full `npm test` passed 932/932; `git diff --check` passed.
+- **Custody boundary:** no raw, vetted, encrypted, hosted learning state, canary, or main promotion changed.
+- **Hosted follow-up:** commit and push through the mandatory hook, then re-run PR #35 checks at the exact new SHA.
+
+### Session: align Crucible monitor repository identities — 2026-10-07T17:06:43-04:00 — ChatGPT — mode:work
+
+Plain-language summary: Replaced the stale `jonathanblunt1214-lgtm/...` monitor targets with the current `6076446993/...` repository identities. The hosted rerun confirmed `NEXUS_MONITOR_READ_TOKEN` is present (masked) but still ran the pre-change PR tip, so hosted success remains pending until this clean branch change is pushed through the governed hook.
+
+- **Routing:** explicit owner-authorized `crucible-r8-workflow-registration` route accepted for `governingDocuments/crucible-monitored-repositories.json` on `r8-workflow-registration` — started 2026-10-07T17:06:43-04:00, finished 2026-10-07T17:06:44-04:00, exit 0.
+- **Change:** updated only the seven monitored repository owner identities; preserved locked PR #11 and `LOCKED_READ_ONLY` behavior.
+- **Verification:** focused orchestrated test run passed 97/97, workflow lint passed across 24 workflows, JSON parsing passed, and `git diff --check` passed.
+- **Hosted state:** monitor run #320 attempt 3 received the masked `NEXUS_MONITOR_READ_TOKEN` but checked out merge SHA `09912bf`; its pre-change monitor process exited 1. No canary, raw custody, vetted custody, or main promotion occurred.
+- **Route correction:** the first push attempt correctly rejected the narrower recorded path digest because the branch range also includes the prior self-test secret-name repair; regenerated the owner-authorized digest for all four affected paths and kept the same branch/category.
+- **Push boundary:** direct route verification with the exact remote ref update passes, but Git's real pre-push invocation supplies no ref-update stream (including elevated and PTY retries); no hook bypass or remote write was attempted.
+
+### Session: align self-test security secret name — 2026-10-07T12:58:47-04:00 — ChatGPT — mode:work
+
+Plain-language summary: Updated the self-test matrix to read the owner-authorized PAT from the explicitly named `CRUCIBLE_SECURITY_READ_TOKEN` secret; no token value was exposed and no main or learning-state write occurred.
+
+- **Routing:** owner-authorized explicit route prewrite accepted the exact `r8-workflow-registration` destination and `.github/workflows/self-test.yml` path — started 2026-10-07T12:56:00-04:00, finished 2026-10-07T12:56:02-04:00, exit 0.
+- **Change:** replaced only the GitHub Actions secret reference in `.github/workflows/self-test.yml` — started 2026-10-07T12:58:20-04:00, finished 2026-10-07T12:58:25-04:00, exit 0.
+- **Hosted verification:** reran the protected matrix; the hosted security audit still reports `CRU-0000 fetch failed`, so the remaining failure is not resolved by the secret-name alignment — started 2026-10-07T12:59:00-04:00, completion pending.
+
+### Session: owner-authorized R8 workflow registration route — 2026-10-07T16:20:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: Registered the exact owner-authorized `r8-workflow-registration` route so the protected one-workflow registration PR can proceed without bypassing the pre-push router. The route remains limited to the R8 workflow-registration scope plus its route-test fixture; no main write or R8 execution occurred.
+
+- **Route boundary:** added the owner-authorized branch and dedicated routing category, classified the workflow path as shared registration evidence so the exact explicit route is required, and synchronized the route-test fixture with the canonical owner identity.
+- **Custody boundary:** no raw, vetted, encrypted, or hosted learning state changed; R8 remains pending.
+- **Verification remaining:** push the clean registration branch through the mandatory hook, open the protected PR, wait for exact checks, then dispatch the reviewed development ref and inspect the real hosted R8 result.
+
+### Continuation checkpoint: protected registration PR — 2026-10-07T16:45:00-04:00
+
+Plain-language summary: PR #35 is open at `154ffa4`, but promotion is blocked by exact hosted evidence; no merge, default-branch registration, raw custody write, canary execution, or R8 proof occurred.
+
+- **Hosted blockers:** every Crucible matrix leg failed at `npm run audit:github-security` with `CRU-0000 fetch failed`; the same run's collision audit reported PR #34 overlaps the R8 workflow and shared handoff paths.
+- **Monitor blocker:** the required monitor check failed because the configured `jonathanblunt1214-lgtm/NVIDIA-NIM-CONSOLE` repository returned GitHub HTTP 404.
+- **Next safe action:** resolve the existing PR #34 overlap and the hosted monitor/security capability failures, then rerun PR #35 checks. Only after exact green protected checks may the PR merge and the reviewed `development` R8 publisher dispatch proceed.
+
 ### Session: vetted prevention to preflight proof — 2026-09-29T17:00:00Z — ChatGPT — mode:work
 
 Plain-language summary: Completed the executable proof path from a CRU-linked prevention candidate through the existing scientific-learning state machine into active vetted knowledge, then bound that exact knowledge version and proof hash to its governed CRU prevention declaration and required precheck to consume it without widening the tested boundary.
