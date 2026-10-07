@@ -195,7 +195,7 @@
   "activePlan": {
     "agent": "ChatGPT",
     "objective": "Complete the prevention feedback loop and add adaptive meta-learning so verified outcome evidence can improve the learning strategy without bypassing scientific or governance gates.",
-    "currentPrompt": "Repair the hosted Crucible security-audit stale repository identity that causes CRU-0000 redirect rejection; verify exact tests and protected PR #35 checks, then continue the existing R8 checkpoint.",
+    "currentPrompt": "Repair the hosted Crucible security audit stale repository identity that causes CRU-0000 redirect rejection; use the current 6076446993/The-Crucible identity, run focused and full tests, and verify protected PR #35 checks.",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
