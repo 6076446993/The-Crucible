@@ -119,7 +119,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T04:57:46.593Z"
+    "lastActionAt": "2026-10-07T04:58:34.268Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -214,7 +214,7 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Core development governance correction restores required verification evidence and exact metadata-only path digest.",
+      "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
       "selectedAt": "2026-10-07T04:57:46.593Z",
       "promptSha256": "f023f4c62c8b9c48904696c342b77a9b38f9ce8363e0958118e54d360fb5dc1d",
@@ -1267,6 +1267,26 @@
       "acquiredAt": "2026-10-07T04:57:46.427Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T04:57:46.668Z"
+    },
+    {
+      "taskId": "si-monitor-route-retest-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Correct route description and verify metadata before publication",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:58:34.218Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:58:34.334Z"
     }
   ],
   "ownerDecisions": [
