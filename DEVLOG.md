@@ -115,6 +115,9 @@ Released mutation claims remain durable facts even after their detailed session 
 ### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
 
 Plain-language summary: Added a manually operated, bounded way to retain SI source bytes and non-authoritative candidates without changing existing learned knowledge or queues. Live execution and independent verification still need the governed deployment path; no release gate was credited from local tests.
+- Mutation claim si-monitor-route-retest-20261007: the route description assertion failed 35/36 and was corrected to the canonical project-context reason; no gate was weakened.
+- Mutation claim si-monitor-handoff-evidence-20261007: restore omitted mandatory verification arrays and record saved security credential metadata; failed previous route classification (shared-only paths) preserved as evidence — started 2026-10-07T04:56:00Z, finished 2026-10-07T04:57:46.593Z, exit 0 correction after failure.
+- Mutation claim si-monitor-handoff-repair-20261007: previous metadata correction failed closed at unknown shared-only route; only its claim release was committed, so it supplied no passing handoff evidence.
 - Continuation mutation claim si-promotion-credential-repair-20261007 — openai/Codex; owner explicitly authorized narrow deployment and credential repair. Existing learned state and queues were untouched.
 - Refresh repository heads/policy and inspect GitHub secret/token metadata after owner reauthentication; prepare unsubmitted read-only organization token forms and a detached main preview — started 2026-10-07T04:42:00Z, finished 2026-10-07T04:55:05.923Z, exit 0; no credential value was read or written.
 - node --test test/nexusCheckMonitor.test.js test/workflow.test.js — started 2026-10-07T04:47:46Z, finished 2026-10-07T04:50:41Z, exit 0; 46/46, zero skipped.

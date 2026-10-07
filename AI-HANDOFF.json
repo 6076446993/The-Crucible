@@ -119,7 +119,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T04:55:05.923Z"
+    "lastActionAt": "2026-10-07T04:58:34.268Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -214,11 +214,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T04:47:46.759Z",
+      "selectedAt": "2026-10-07T04:57:46.593Z",
       "promptSha256": "f023f4c62c8b9c48904696c342b77a9b38f9ce8363e0958118e54d360fb5dc1d",
-      "affectedPathsSha256": "2b7850c0eec875b58f23d405df3c04b1061373d5a6836d07b4c87c8c9dcedc41"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "Refresh exact branch and check state.",
@@ -391,6 +391,17 @@
         "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
         "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
         "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
+      ],
+      "verification": [
+        "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
+        "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
+        "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
+        "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
+        "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
+        "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
+        "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested.",
+        "Monitor compatibility focused tests: 46/46, zero skipped.",
+        "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending."
       ]
     },
     "filesTouched": [
@@ -448,6 +459,17 @@
       "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
       "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
       "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
+    ],
+    "verification": [
+      "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
+      "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
+      "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
+      "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
+      "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
+      "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
+      "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested.",
+      "Monitor compatibility focused tests: 46/46, zero skipped.",
+      "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -1205,6 +1227,66 @@
       "acquiredAt": "2026-10-07T04:47:11.533Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T04:55:05.987Z"
+    },
+    {
+      "taskId": "si-monitor-handoff-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Restore verification evidence omitted from handoff metadata without changing monitor code or gates",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:57:22.751Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:57:22.998Z"
+    },
+    {
+      "taskId": "si-monitor-handoff-evidence-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair missing verification evidence and bind metadata-only scope",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:57:46.427Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:57:46.668Z"
+    },
+    {
+      "taskId": "si-monitor-route-retest-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Correct route description and verify metadata before publication",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:58:34.218Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:58:34.334Z"
     }
   ],
   "ownerDecisions": [
