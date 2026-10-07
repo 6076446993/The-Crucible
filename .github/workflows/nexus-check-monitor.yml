@@ -32,7 +32,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ github.token }}
       NEXUS_MONITOR_READ_TOKEN: ${{ secrets.NEXUS_MONITOR_READ_TOKEN }}
-      CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.SECURITY_READ_TOKEN }}
+      CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.CRUCIBLE_SECURITY_READ_TOKEN || secrets.SECURITY_READ_TOKEN }}
       NEXUS_MONITOR_REQUIRED_CHECKS: ${{ inputs.required_checks || '' }}
       CRUCIBLE_REPAIR_ENABLED: 'true'
       CRUCIBLE_REPAIR_TOKEN: ${{ secrets.CRUCIBLE_REPAIR_TOKEN }}

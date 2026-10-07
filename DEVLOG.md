@@ -1,5 +1,13 @@
 # Development log
 
+### Session: prefer named security token with compatibility fallback — 2026-10-07T18:12:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: The Crucible repository currently has `SECURITY_READ_TOKEN`, not `CRUCIBLE_SECURITY_READ_TOKEN`; hosted Self-Test proved the new name was absent by falling back to `GITHUB_TOKEN` and failing closed. Both the Self-Test and PR-monitor workflows now prefer `CRUCIBLE_SECURITY_READ_TOKEN` and fall back only to the existing repository secret, preserving the Administration-read requirement without exposing or weakening a credential.
+
+- **Routing:** mandatory `route:prewrite` accepted the exact protected registration route for the two workflow paths and the handoff surfaces.
+- **Change:** changed only the two workflow environment expressions; no token value was read, copied, or printed.
+- **Verification remaining:** workflow lint, focused tests, mandatory hook push, and fresh PR #35 hosted checks. R8 custody/canary/promotion and main remain untouched.
+
 ### Session: repair stale engine identity in hosted security audit — 2026-10-07T18:08:00-04:00 — ChatGPT — mode:work
 
 Plain-language summary: Hosted Self-Test evidence showed every matrix leg failing with `CRU-0000 fetch failed` because the security audit still added the retired `jonathanblunt1214-lgtm/The-Crucible` identity. GitHub redirects that name, while the API client intentionally rejects redirects. The audit now targets the current exact `6076446993/The-Crucible` identity, preventing the redirect failure without weakening security checks.

@@ -195,7 +195,7 @@
   "activePlan": {
     "agent": "ChatGPT",
     "objective": "Complete the prevention feedback loop and add adaptive meta-learning so verified outcome evidence can improve the learning strategy without bypassing scientific or governance gates.",
-    "currentPrompt": "Repair the hosted Crucible security audit stale repository identity that causes CRU-0000 redirect rejection; use the current 6076446993/The-Crucible identity, run focused and full tests, and verify protected PR #35 checks.",
+    "currentPrompt": "Repair hosted Crucible security-token wiring by preferring CRUCIBLE_SECURITY_READ_TOKEN with a compatibility fallback to the repository's existing SECURITY_READ_TOKEN; run focused tests and verify protected PR #35 checks.",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
@@ -210,9 +210,9 @@
       "branch": "r8-workflow-registration",
       "reason": "Explicit repository and branch instruction selected jonathanblunt1214-lgtm/The-Crucible:r8-workflow-registration.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-07T22:04:08.076Z",
-      "promptSha256": "21f1ddaabac80580a9123a1c82eebcf965b1507560df621ad6082a07b5044ef3",
-      "affectedPathsSha256": "65a22d62a74ae4750d2227e119e04c936e03d98f4f538e2a3ead8d673f3e906b"
+      "selectedAt": "2026-10-07T22:09:20.268Z",
+      "promptSha256": "5b55960be0123b6a8c8231b51f05131873467eaf446f46c29eecc1f369fc3728",
+      "affectedPathsSha256": "c5f3a44ddf8a3fd7802f31549f892d49453ca4f2d263db1c51b8747a19e361dc"
     },
     "steps": [
       "[done] Updated all monitored repository identities from the stale jonathanblunt1214-lgtm owner to the current 6076446993 owner after hosted monitor evidence showed repository-read failure; locked PR #11 remains read-only and no mutation authority was added.",
@@ -221,7 +221,9 @@
       "[done] Reconciled the protected registration branch and pushed it through the mandatory hook at b82e374; the hosted identity mismatch repair is now on PR #35.",
       "[done] Diagnosed hosted CRU-0000 as the security audit adding the retired engine repository identity, which GitHub redirects and the fail-closed API client rejects.",
       "[done] Updated src/githubRepoSecurity.js to use the current exact 6076446993/The-Crucible identity; focused 46/46 and full changed-test 379/379 verification passed locally.",
-      "[next] Commit and push the stale-security-identity repair through the mandatory hook, then re-run PR #35 protected checks at the new exact SHA.",
+      "[done] Hosted Self-Test reached the current repository identity; its remaining CRU-0006 evidence showed the repository has SECURITY_READ_TOKEN but not CRUCIBLE_SECURITY_READ_TOKEN.",
+      "[done] Wired Self-Test and PR-monitor workflows to prefer CRUCIBLE_SECURITY_READ_TOKEN and fall back to the existing SECURITY_READ_TOKEN without reading or exposing either value.",
+      "[next] Run workflow lint and focused tests, push through the mandatory hook, then re-run PR #35 protected checks at the new exact SHA.",
       "[blocked] Protected registration PR #35 remains at the hosted pre-change tip 154ffa4; the monitor rerun received NEXUS_MONITOR_READ_TOKEN but still exited 1 before a healthy report. The exact route verifier passes for the four-file range, but Git's actual pre-push invocation still supplies no ref-update stream, so no remote write occurred.",
       "[next] Resolve the exact hosted monitor/security capability failures and the existing PR #34 overlap, then rerun PR #35 checks; merge only on protected green evidence and dispatch the reviewed development ref afterward.",
       "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
