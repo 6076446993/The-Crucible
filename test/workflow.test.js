@@ -577,7 +577,7 @@ test('Crucible PR monitor is PR-scoped and cannot self-block on its own check', 
   assert.match(workflow, /name:\s+Crucible PR monitor/);
   assert.match(workflow, /group:\s+crucible-pr-monitor-\$\{\{ github\.event\.pull_request\.number \|\| github\.run_id \}\}/);
   assert.match(workflow, /GITHUB_TOKEN:\s+\$\{\{ github\.token \}\}/);
-  assert.match(workflow, /CRUCIBLE_MONITOR_READ_TOKEN:\s+\$\{\{ secrets\.CRUCIBLE_MONITOR_READ_TOKEN \}\}/);
+  assert.match(workflow, /CRUCIBLE_MONITOR_READ_TOKEN:\s+\$\{\{ secrets\.CRUCIBLE_MONITOR_READ_TOKEN \|\| secrets\.NEXUS_MONITOR_READ_TOKEN \}\}/);
   assert.match(workflow, /CRUCIBLE_MONITOR_WAIT_FOR_CHECKS_MS: '600000'/);
   assert.doesNotMatch(workflow, /^\s{2}push:/m);
   assert.match(workflow, /uses:\s+actions\/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02/);
