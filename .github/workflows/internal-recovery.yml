@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   recover:
-    if: github.repository == 'jonathanblunt1214-lgtm/The-Crucible'
+    if: github.repository == '6076446993/The-Crucible'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -56,7 +56,7 @@ jobs:
       - name: Verify the restored tree before promotion
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.SECURITY_READ_TOKEN }}
+          CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.CRUCIBLE_SECURITY_READ_TOKEN || secrets.SECURITY_READ_TOKEN }}
           CRUCIBLE_WORKFLOW_LINT_DIRS: templates
         run: |
           npm test

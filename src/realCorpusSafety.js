@@ -156,46 +156,198 @@ function recordedQuarantine(source) {
 // A source the corpus records as quarantined for prompt injection, whose stored content still
 // carries the patterns that caused it. Both halves are required: the recorded outcome is the
 // evidence, and the pattern match confirms the record is about this content.
-function proveInjection(bundleRoot, sources, readFile = fs.readFileSync) {
+// The satisfied branch used to require a source that was recorded quarantined AND whose stored
+// content still carried the patterns. Those two are mutually exclusive by construction, so it
+// could never be reached for any document the safeguard actually caught.
+//
+// sourceRetrievalWorker says so in its own words - `blocker: 'retrieved content was quarantined
+// before persistence'`. SafeInformationRetriever.retrieve returns `content: null` when it finds
+// injection signals, so the worker sets state, classification and quarantineReasons and never
+// writes a durablePath. A quarantined source therefore has no stored content, sourceContentPath
+// returns null for it, and the loop `continue`d past it before the pattern test ran. The only
+// sources that reached the pattern test were the ones with stored content - that is, the ones
+// that were admitted - and for those the satisfied branch is correctly refused. So R8's
+// prompt-injection behaviour was unsatisfiable, and "pending" has been reported for weeks for a
+// reason that was never about the corpus.
+//
+// The recorded quarantine is the demonstration, and it is the strongest evidence available:
+// content absent is what the safeguard DID. The guard the previous shape was reaching for is kept
+// exactly - a source with stored content is an admitted source and can never be evidence, which
+// is why absentContent is required rather than merely allowed.
+// The independent vetting organ's own record of what it refused. Oversight publishes
+// encrypted-custody-report.json beside the ciphertext in the vetted state repository, and it
+// carries a per-source decision with a reason. The hosted workflow already clones that file onto
+// the runner to join the ciphertext parts; nothing read it.
+//
+// This matters because Crucible's queue does not carry Oversight's reason. A source Oversight
+// quarantines appears in the queue as oversight-vetting-pending, so proveInjection - which reads
+// the queue state - found zero quarantined sources while the refusal was recorded all along, one
+// directory away, by the party whose independence is the point.
+//
+// Treated as candidate evidence from an independent party, never as instruction. Only two fields
+// are read, decision and reason, and a refusal is credited only when the corpus also does not
+// hold the content: an independent record that the bytes were refused, corroborated by the bytes
+// being absent. The report is not encrypted, so its trust basis is membership of the vetted
+// repository rather than the bundle key - which is why the content-absence half is required
+// rather than decorative.
+function oversightInjectionRefusals(custodyReport) {
+  const reviews = (custodyReport && Array.isArray(custodyReport.sourceReviews)) ? custodyReport.sourceReviews : [];
+  return reviews
+    .filter((review) => String(review.decision || '') === 'quarantined' && /prompt.?injection/i.test(String(review.reason || '')))
+    .map((review) => ({ sourceId: String(review.sourceId || ''), contentSha256: String(review.contentSha256 || '').toLowerCase(), reason: String(review.reason || '') }));
+}
+
+function proveInjection(bundleRoot, sources, readFile = fs.readFileSync, custodyReport = null) {
   const admitted = [];
+  // Independent refusal first, because it is the stronger evidence: a different party recorded
+  // the decision, and Crucible holds none of the bytes it refused.
+  const storedHashes = new Set();
+  for (const source of sources) {
+    if (sourceContentPath(bundleRoot, source)) storedHashes.add(String(source.contentSha256 || '').toLowerCase());
+  }
+  // A refusal whose bytes are in the corpus anyway is kept and reported rather than skipped. The
+  // first run to read the report found exactly that: Oversight recorded one source quarantined
+  // for prompt-injection content and the corpus still stores that content hash, with no other
+  // review sharing it. So the decision was published and the bytes were published with it, and
+  // the refusal did not keep anything out. Silently falling through made the log contradict
+  // itself - "1 recorded as quarantined" followed by "no source is recorded quarantined" - and
+  // this is the finding, not a detail of it.
+  const refusalsNotHonoured = [];
+  for (const refusal of oversightInjectionRefusals(custodyReport)) {
+    if (!refusal.contentSha256) continue;
+    if (storedHashes.has(refusal.contentSha256)) { refusalsNotHonoured.push(refusal); continue; }
+    return satisfied('prompt-injection', {
+      sourceId: refusal.sourceId,
+      recordedBy: 'independent-oversight-custody-report',
+      reason: refusal.reason,
+      contentSha256: refusal.contentSha256,
+      contentPersisted: false,
+      classification: 'Crucible Issue',
+      state: 'quarantined',
+      quarantineReasons: [refusal.reason],
+    });
+  }
   for (const source of sources) {
     const file = sourceContentPath(bundleRoot, source);
-    if (!file) continue;
+    const quarantine = recordedQuarantine(source);
+    if (!file) {
+      // No stored content. The safeguard firing looks exactly like this, and nothing else does:
+      // the corpus records the refusal and holds none of the bytes it refused.
+      if (quarantine && quarantine.quarantineReasons.some((reason) => /prompt-injection/i.test(reason))) {
+        return satisfied('prompt-injection', {
+          sourceId: String(source.id),
+          classification: String(source.classification || 'Crucible Issue'),
+          contentPersisted: false,
+          blocker: String(source.blocker || 'not recorded'),
+          ...quarantine,
+        });
+      }
+      continue;
+    }
     let content;
     try { content = String(readFile(file, 'utf8')); } catch { continue; }
     const matched = INJECTION_PATTERNS.filter((pattern) => pattern.test(content));
     if (!matched.length) continue;
-    const quarantine = recordedQuarantine(source);
-    if (quarantine) {
-      return satisfied('prompt-injection', { sourceId: String(source.id), patternsMatched: matched.length, classification: 'Crucible Issue', ...quarantine });
-    }
-    admitted.push(String(source.id));
+    // Stored content plus a pattern match is an ADMITTED document, whatever its state field says.
+    // Reporting that as the safeguard being demonstrated would cite the one case where it failed.
+    admitted.push({ sourceId: String(source.id), patterns: matched.map((pattern) => pattern.source) });
   }
-  // Reported rather than swallowed. Documents carrying injection patterns that the corpus does
-  // not record as quarantined are the case this behaviour is supposed to catch, and saying
-  // "nothing to see" about them would hide a safety signal behind an absence of evidence.
-  return unsatisfied('prompt-injection', admitted.length
-    ? `${admitted.length} document(s) carry prompt-injection patterns but are not recorded as quarantined (${admitted.slice(0, 3).join(', ')}); that is the safeguard not having fired, so it cannot be evidence that it did`
-    : 'no document in the restored corpus carries a prompt-injection pattern, so the corpus cannot demonstrate this quarantine on real content');
+  // Reported rather than swallowed, and with the matching pattern named. "60 documents carry
+  // prompt-injection patterns" reads as sixty attacks sitting in the corpus; naming the pattern
+  // lets a reader see when it is /(?:execute|run).{0,20}(?:command|shell|powershell|bash)/
+  // matching "run the command javac", which ordinary technical documentation does constantly.
+  // These patterns screen untrusted fetches at retrieval time, where over-matching is cheap and
+  // a miss is not; reused as a corpus-wide assertion they answer a different question. Whether
+  // to narrow them is a safety decision for the owner, so this reports and decides nothing.
+  // Said first and plainly, because an independent refusal that did not hold is a worse finding
+  // than no refusal at all: the safeguard ran, recorded its decision, and the bytes arrived
+  // anyway. This is what makes the content-absence half of that check load-bearing rather than
+  // decorative - crediting the decision alone would have reported the gate satisfied on it.
+  const notHonoured = refusalsNotHonoured.length
+    ? ` Independent oversight recorded ${refusalsNotHonoured.length} source(s) quarantined for prompt injection whose content the corpus stores anyway, so the refusal did not keep the bytes out and is not evidence that it did: ${refusalsNotHonoured.map((item) => `${item.sourceId} at contentSha256 ${item.contentSha256}`).join('; ')}.`
+    : '';
+  if (!admitted.length) {
+    return unsatisfied('prompt-injection', `no document in the restored corpus carries a prompt-injection pattern, and no source is recorded as quarantined for one, so the corpus cannot demonstrate this quarantine on real content.${notHonoured}`);
+  }
+  // Grouped by pattern with source ids, because the counts alone were not actionable. The first
+  // run to print them showed 45 of 60 matching the exfiltration pattern - the specific one, which
+  // ordinary documentation samples do not match - and only 18 matching the broad ones. So "these
+  // are over-matches" stopped being a safe reading, and whoever looks next needs to know WHICH
+  // documents to open.
+  //
+  // Deliberately no match context. This pattern fires on text near "secret", "credential",
+  // "token" and "key", which is exactly where a real credential would sit, and this runs in a
+  // public Actions log. Naming the source ids sends the reader to the documents in vetted custody
+  // instead of copying their bytes into a log that cannot be unpublished.
+  const byPattern = new Map();
+  for (const item of admitted) {
+    for (const pattern of item.patterns) {
+      if (!byPattern.has(pattern)) byPattern.set(pattern, []);
+      byPattern.get(pattern).push(item.sourceId);
+    }
+  }
+  const breakdown = [...byPattern.entries()]
+    .sort((a, b) => b[1].length - a[1].length)
+    .map(([pattern, ids]) => `${ids.length}x ${pattern} (e.g. ${ids.slice(0, 3).join(', ')})`)
+    .join('; ');
+  return unsatisfied('prompt-injection', `${admitted.length} document(s) have stored content matching a prompt-injection pattern and are not recorded as quarantined; they were admitted, so they cannot be evidence that the safeguard fired. By pattern, most frequent first, with source ids to open in vetted custody: ${breakdown}. No content is quoted here on purpose: these patterns fire next to the words secret, credential, token and key, and this is a public log. No source in this corpus is both recorded as refused and absent from it, which is what the satisfied case requires.${notHonoured}`);
 }
 
 // Real retrieved bytes that are an executable rather than a document.
+//
+// This looked for the wrong signature, and looked for it in a place the pipeline is built never
+// to fill. SafeInformationRetriever does not record a quarantine for executable content - it
+// THROWS, at `if (magic || SUSPICIOUS_BINARY_EXTENSION.test(...))`, before anything is persisted.
+// sourceRetrievalWorker catches that and records `state: 'retrieval-blocked'`,
+// `classification: 'Insufficient Evidence'` and the retriever's own message in `blocker`. So no
+// source is ever recorded `state: 'quarantined'` for executable content, and none ever has stored
+// bytes beginning with executable magic either, because the throw precedes persistence. The old
+// shape required both at once, so its satisfied branch was unreachable and the gate could only
+// ever report the corpus explanation.
+//
+// The recorded refusal is the demonstration. It is the retriever's own sentence, kept verbatim in
+// the queue, on a source that holds none of the bytes it refused - and the corpus already carries
+// retrieval-blocked sources, so this evidence may exist today where the previous shape could not
+// have seen it. The admitted-document guard is unchanged and still decisive: bytes present means
+// the screen did not stop them, whatever any state field says.
+const EXECUTABLE_REFUSAL = /Executable content quarantined/i;
+
 function proveExecutable(bundleRoot, sources, readFile = fs.readFileSync) {
   const admitted = [];
   for (const source of sources) {
     const file = sourceContentPath(bundleRoot, source);
-    if (!file) continue;
+    if (!file) {
+      // No stored bytes. A refusal recorded by either shape counts: the retriever's message under
+      // retrieval-blocked, which is what the code actually produces, or an explicit quarantine
+      // recorded for executable content, which nothing writes today but which would still be a
+      // refusal if something did.
+      const blocker = String(source.blocker || '');
+      const quarantine = recordedQuarantine(source);
+      const byBlocker = EXECUTABLE_REFUSAL.test(blocker);
+      const byReason = Boolean(quarantine && quarantine.quarantineReasons.some((reason) => /executable/i.test(reason)));
+      if (byBlocker || byReason) {
+        return satisfied('executable-content', {
+          sourceId: String(source.id),
+          state: String(source.state || 'not recorded'),
+          classification: String(source.classification || 'not recorded'),
+          contentPersisted: false,
+          refusal: byBlocker ? blocker : 'recorded as a quarantine reason',
+          ...(quarantine || {}),
+        });
+      }
+      continue;
+    }
     let head;
     try { const handle = fs.openSync(file, 'r'); const buffer = Buffer.alloc(8); fs.readSync(handle, buffer, 0, 8, 0); fs.closeSync(handle); head = buffer; } catch { continue; }
     const magic = EXECUTABLE_MAGIC.find((item) => head.subarray(0, item.bytes.length).equals(item.bytes));
     if (!magic) continue;
-    const quarantine = recordedQuarantine(source);
-    if (quarantine) return satisfied('executable-content', { sourceId: String(source.id), magic: magic.name, ...quarantine });
-    admitted.push(String(source.id));
+    // Stored executable bytes are an admitted executable. That is the screen having failed, and
+    // it can never be evidence that it worked.
+    admitted.push(`${String(source.id)} (${magic.name})`);
   }
   return unsatisfied('executable-content', admitted.length
-    ? `${admitted.length} document(s) begin with executable magic bytes but are not recorded as quarantined (${admitted.slice(0, 3).join(', ')}); that is the safeguard not having fired, so it cannot be evidence that it did`
-    : 'no document in the restored corpus begins with executable magic bytes, so the corpus cannot demonstrate this quarantine on real content');
+    ? `${admitted.length} document(s) have stored content beginning with executable magic bytes and are not recorded as refused (${admitted.slice(0, 3).join(', ')}); they were admitted, so they cannot be evidence that the safeguard fired`
+    : 'no source in the restored corpus records an executable-content refusal, and none has stored content beginning with executable magic bytes, so the corpus cannot demonstrate this quarantine on real content');
 }
 
 // A real corpus claim that contradicts a real promoted one, quarantined by the real learner.
@@ -217,7 +369,7 @@ function proveContradiction(payload, candidateRecords) {
 // All eight, from real material. Returns the behaviours proven, those that were not, and the
 // plain evidence list the readiness gate consumes - which now only ever contains behaviours
 // something real actually demonstrated.
-async function realCorpusSafety({ root, bundleRoot, bundle, payload, candidateRecords = [] }) {
+async function realCorpusSafety({ root, bundleRoot, bundle, payload, candidateRecords = [], custodyReport = null }) {
   const sources = (bundle && bundle.sources) || [];
   const approved = sources.map((source) => String(source.finalUrl || source.url || '')).find((url) => /^https:\/\//.test(url));
   const behaviours = [];
@@ -227,7 +379,7 @@ async function realCorpusSafety({ root, bundleRoot, bundle, payload, candidateRe
   behaviours.push(proveDuplicateUrl(sources));
   behaviours.push(proveDuplicateContent(sources));
   behaviours.push(proveDuplicateClaim(candidateRecords));
-  behaviours.push(proveInjection(bundleRoot, sources));
+  behaviours.push(proveInjection(bundleRoot, sources, fs.readFileSync, custodyReport));
   behaviours.push(proveExecutable(bundleRoot, sources));
   behaviours.push(proveContradiction(payload || {}, candidateRecords));
 
@@ -243,4 +395,4 @@ async function realCorpusSafety({ root, bundleRoot, bundle, payload, candidateRe
   };
 }
 
-module.exports = { REQUIRED, realCorpusSafety, proveRefusals, proveDuplicateUrl, proveDuplicateContent, proveDuplicateClaim, proveInjection, proveExecutable, proveContradiction };
+module.exports = { REQUIRED, oversightInjectionRefusals, realCorpusSafety, proveRefusals, proveDuplicateUrl, proveDuplicateContent, proveDuplicateClaim, proveInjection, proveExecutable, proveContradiction };

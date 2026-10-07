@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   snapshot:
-    if: github.repository == 'jonathanblunt1214-lgtm/The-Crucible'
+    if: github.repository == '6076446993/The-Crucible'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -26,10 +26,12 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '24'
+      - name: Install pinned verification dependencies
+        run: npm ci
       - name: Verify candidate before preserving it
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.SECURITY_READ_TOKEN }}
+          CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.CRUCIBLE_SECURITY_READ_TOKEN || secrets.SECURITY_READ_TOKEN }}
           CRUCIBLE_WORKFLOW_LINT_DIRS: templates
         run: |
           npm test

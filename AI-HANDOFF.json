@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "governingDocuments": {
     "AGENTS.md": "Repository owner standing branch and agent policy.",
+    "CONSTITUTION.md": "The Crucible's own operational constitution: the mandates every run, worker, organ and AI participant is bound by, the powers deliberately withheld, and the owner-only amendment rule. Each mandate is already enforced by a gate, a test or a refusal in this repository.",
     "DEVLOG.md": "Repository-visible chain of custody and current shared AI handoff.",
     "AI-CONFLICTS.json": "Auditable AI conflict ledger; never bypass or disable it.",
     "CLAUDE.md": "Claude entry point to AGENTS.md.",
@@ -30,17 +31,16 @@
     "src/ciDiagnosticOrgan.js": "Dependency-free project-bound hosted CI failure capture, typed diagnosis, organism-health inhibition, and non-proof evidence reporting.",
     "src/hostedLearningProof.js": "GitHub-hosted, project-bound R4-R8 proof runner with encrypted restart-safe durable-state transport and no release authority.",
     "src/hostedSourceBundle.js": "Development-bound authenticated encryption, local-path scrubbing, content-hash manifesting, restore, and verification for owner training queues hosted on GitHub.",
+    "src/r8ExecutableCanaryPublisher.js": "Owner-authorized R8 raw-custody publisher: verifies and hydrates authenticated raw state, drives the real retrieval CLI against a secret-held canary, proves no executable bytes persisted, then permits only manifest-declared ciphertext replacement.",
     ".github/workflows/hosted-source-bootstrap.yml": "Read-only GitHub runner ciphertext custody proof; Crucible receives no decryption key and retains only a bounded hash report.",
+    ".github/workflows/r8-executable-canary-publisher.yml": "Manual development-only R8 raw-state publisher with narrowly scoped source-bundle/deploy credentials, ciphertext-only publication, no vetted-state access, and always-run runner cleanup.",
     ".github/workflows/hosted-learning-proof.yml": "Development-only hourly/manual GitHub host for encrypted durable R4-R8 proof and retained bounded evidence.",
     "src/governingDecision.js": "Executable Adapt, Persevere, Overcome decision contract shared by pre-check and code-check evidence reconciliation, recovery verification, and human-review boundaries.",
     "governingDocuments/scientific-learning-policy.md": "Permanent autonomous scientific-learning invariants, promotion boundary, project isolation, contradiction handling, rollback, and weekly transport policy.",
     "governingDocuments/scientific-learning-release-plan.md": "Gate-driven rolling release plan for scientific learning; dates forecast readiness but never authorize promotion or weaken proof.",
     "governingDocuments/scientific-learning-release-status.json": "Machine-readable current gate state, rolling target, forecast confidence, blocker, and target-change history.",
     "src/scientificLearning.js": "Strict candidate/proof schemas, fail-closed state machine, atomic durable project-isolated evidence and independent-lineage versioned knowledge, restart-safe autonomous orchestration, contradiction quarantine, OIDC verification, and project-bound authenticated encryption.",
-    "src/learningExperience.js": "Project-bound learning-by-doing adapter plus DEVLOG experience ingestion; all experience remains non-promotable candidate evidence and carries Learning Provenance.",
-    "src/learningProvenance.js": "Learning Provenance IDs, lifecycle custody, significant-failure postmortem requirements, and systemic-cause separation.",
-    "governingDocuments/native/NEXUS-ENGINEERING-LEARNING-STANDARD.md": "Nexus-wide engineering learning philosophy: symptoms are clues, repairs are evidence, and trusted learning requires verification and governance.",
-    "governingDocuments/postmortems/PR-28-nexus-monitor-credential-boundary.md": "PR #28 postmortem separating the monitor credential boundary and recording root cause, systemic cause, corrective action, preventive action, and verification status.",
+    "src/learningExperience.js": "Strict project-bound learning-by-doing adapter that records content-addressed successful and failed task attempts only as non-promotable candidate evidence.",
     "src/codeSecurityOrganism.js": "Language-specific code-assistive security profiles, repository threat context, dependency-bound reversible repairs, distinct verification, rollback, regression feedback, and organ health/recovery.",
     "governingDocuments/host-isolation-policy.md": "Permanent non-assimilation boundary for the operator machine and GitHub execution hosts.",
     "src/hostIsolation.js": "Mechanical deny-by-default execution-host boundary with explicit Crucible repository opt-in.",
@@ -109,11 +109,17 @@
     "src/coordinationGate.js": "The gate: exclusive ownership, DEVLOG accountability, and no credential in any governance artifact.",
     "src/aiHandoffContinuation.js": "How a successor AI reads the governed state and resumes from the last confirmed good point.",
     "src/coordinationCli.js": "Agent-facing commands: continue, claims, claim, release, handoff, providers, consult.",
-    "governingDocuments/failure-code-governance.md": "Canonical CRU failure-class rules: one code per distinct failure class, duplicate occurrences reuse that code, uncoded occurrences remain pending classification, and conflicting code assignments to one canonical failure are rejected."
+    "governingDocuments/TOKEN-HEALTH.json": "Non-secret health declaration for the credentials The Crucible itself consumes. Records presence, authentication, capability and expiry only; never a credential value. A healthy credential proves a door opens and nothing about what is behind it, so it authorizes no promotion and satisfies no proof stage.",
+    "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence concept/source log only: durable concept hypotheses and academic source seeds with explicit evidence status. It creates no discovery automation, proof, R9 redefinition, or promotion authority.",
+    "src/r2FailoverProof.js": "Isolated R2 failover proof: executable state is restricted to a dedicated OS-temp namespace; production learning paths are stripped from child environments; an already-running standby takes over after interruption; a pre-existing candidate must survive unchanged; proof authorizes no promotion.",
+    ".github/workflows/si-gate-sandbox.yml": "Read-only development sandbox for logged SI source-seed admission under R3 rules and SI-flavored retrieval safety under R8 rules; no secrets, production-state path, gate-pass authority, or promotion authority.",
+    "governingDocuments/verified-scholarly-domains.json": "Governed exact scholarly-domain registry with first-party authority evidence; candidate admission only, never proof.",
+    "src/rawCustodyPublisher.js": "Bounded, project-bound candidate-only raw custody publisher; preserves original queues, candidates, active knowledge and rollback ciphertext. Never writes vetted custody or satisfies proof.",
+    ".github/workflows/raw-custody-publisher.yml": "Manual development-only exact-register-hash raw custody publication; no unattended discovery, vetted access or promotion authority."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-09-15T05:35:00Z"
+    "lastActionAt": "2026-10-07T05:08:16.424Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -193,114 +199,283 @@
     "productionBoundary": "Never touch production directly, widen authority, weaken gates, expose credentials, modify unrelated work, invent business logic, or silently resolve governance conflicts."
   },
   "activePlan": {
-    "agent": "ChatGPT",
-    "objective": "Complete the prevention feedback loop and add adaptive meta-learning so verified outcome evidence can improve the learning strategy without bypassing scientific or governance gates.",
-    "currentPrompt": "Consume independently vetted Nexus learning at Crucible preflight so local repair-learning evidence cannot authorize prevention; require active Vetted-Learning-State custody with exact governed boundary, proof binding, Oversight decision binding, and active CRU bug/error classification.",
+    "agent": "Codex",
+    "objective": "Narrow governed deployment of manual SI/R8 workflows and repair/verify security and PR-monitor credential access without broad promotion or weakened gates.",
+    "currentPrompt": "Promote it then work The security and PR-monitor credentials",
     "executionMode": {
       "mode": "work",
-      "agent": "ChatGPT",
-      "purpose": "Implement and verify the governed repair-evidence to prevention-candidate to vetted-preflight pipeline.",
-      "selectionReason": "The task spans GitHub Actions behavior, repair-learning custody, prevention-rule plumbing, handoff governance, and hosted multi-platform verification.",
-      "distinction": "Execution mode is separate from agent identity and workflow; Work mode changes orchestration depth, not repository identity, branch authority, governance, or promotion authority."
+      "agent": "Codex",
+      "purpose": "Implement and verify ordered SI learning prerequisites.",
+      "selectionReason": "Repository and durable-custody implementation.",
+      "distinction": "Execution mode is separate from agent identity, workflow, repository, and branch authority; it grants no proof or promotion permission."
     },
     "taskRouting": {
       "category": "crucible-core",
       "repositoryId": 1344890806,
-      "repository": "jonathanblunt1214-lgtm/The-Crucible",
+      "repository": "6076446993/The-Crucible",
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-09-29T16:38:41.720Z",
-      "promptSha256": "ae30b1da85ef54824d7a6d2be7af0b75be758f3f7f0b2c545b004495718546f6",
-      "affectedPathsSha256": "aae43f3b0dee95c0ae5d5ed49b8212f8c5331287903b71870a26476ee5009acd"
+      "selectedAt": "2026-10-07T05:02:26.513Z",
+      "promptSha256": "f023f4c62c8b9c48904696c342b77a9b38f9ce8363e0958118e54d360fb5dc1d",
+      "affectedPathsSha256": "2b7850c0eec875b58f23d405df3c04b1061373d5a6836d07b4c87c8c9dcedc41"
     },
     "steps": [
-      "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
-      "[done] Strengthened AI Collaboration ORCHESTRATOR-POLICY.json to mechanically require early execution-boundary identification, continuously reserved terminal-verification capacity, conservative cutoff, complete Final Verification, and terminal Devlog recording.",
-      "[done] Re-verified AI Collaboration and Crucible remain independent projects joined by a non-containment cross-project policy reference; Nexus and ChatGPT remain excluded from the custom GitHub App package boundary.",
-      "[done] Re-ran AI Collaboration CI and reproduced the same pre-runner failure: no steps, runner_id 0, empty runner identity, and no job log. A separate Crucible workflow received a GitHub-hosted runner at the same time. No further speculative application/workflow mutation is justified from this evidence.",
-      "[done] Diagnosed the Crucible DEVLOG final-newline regression from hosted Self-Test evidence and repaired exactly that formatting defect.",
-      "[done] Final Verification exposed the handoff-policy invariant and the coherent AI-HANDOFF.json + DEVLOG.md correction at a0b440ce7c9b964a491595680966fee0b514146c passed the takeover-ready handoff check.",
-      "[done] Final Verification then exposed CRU-0035 because seven released historical mutation-claim identifiers had been pruned from the compact DEVLOG even though the claims remained in AI-HANDOFF.json; the coordination gate was preserved.",
-      "[in progress] Restore those seven released claim identifiers as a compact accountability ledger in DEVLOG.md while keeping this plan synchronized in the same commit, then restart exact-tip Final Verification.",
-      "[next] If verification is stable, write the terminal canonical Devlog/handoff record as the final state-changing operation and stop substantive work.",
-      "[blocked-external] AI Collaboration private-repository Actions runner allocation/settings cannot be diagnosed or changed through the connected GitHub surface; the exact failure remains before runner assignment and is not represented as a source-code defect.",
-      "[blocked-external] Crucible hosted scientific-learning proof remains blocked by the separately governed vetted-custody queue/manifest inconsistency; this task does not weaken or bypass that custody boundary.",
-      "[standing] Do not close, exclude, or weaken locked PR/conflict/governance surfaces merely to clear diagnostics such as CRU-0015; executable evidence and owner boundaries outrank green cosmetics.",
-      "[done] Close the first-due clock-ordering race in all three governed discovery stores, keyed on lastRunAt rather than on comparing two clock readings, with a deterministic ticking-clock regression test in each that was shown failing before the repair existed.",
-      "[done] Confirm the first-due repair across all eighteen hosted Self-Test legs at 259cf60 and release claim discovery-first-due-race-20260915.",
-      "[open] Owner or Oversight: get owner-delegated-url:11bfade7 into the vetted corpus, or pair the Array.prototype.map declaration to a source that is in it. Until then R4-R8 fails closed on CRU-0026 with one claim corroborated and no declaration usable.",
-      "[done] Dispatched oversight, confirmed it published a self-consistent vetted bundle, re-ran the hosted proof, and recorded the resolved custody blocker plus the two owner actions the release now turns on in the release status file.",
-      "[done] Repaired evaluateR2 so an unretrieved source is no longer counted as one the extraction worker drained, with the real hosted population as a regression fixture shown failing first.",
-      "[done] Switched governed discovery to nvidia/nemotron-3-nano-30b-a3b at the owner's instruction, pinning the model id in the workflow and removing the Secrets path that had masked a withdrawn model.",
-      "[done] Made the scope declaration a real pre-registration on the owner's instruction: a per-claim hash ledger against the run clock, CRU-0047 refusing a boundary that moved after a failed experiment, CRU-0048 for the ledger failing closed, and the governing document rewritten away from the post-hoc order it used to instruct.",
-      "[in progress] Generalize the Crucible PR monitor from one hard-coded Nexus PR to every repository in governingDocuments/crucible-monitored-repositories.json, discover all open PRs with pagination, and classify locked PRs as LOCKED_READ_ONLY.",
-      "[in progress] Repair collision diagnostics so the standing locked CI-monitoring PR is observed but never treated as an actionable collision; do not modify PR #11.",
-      "[blocked-external] CRU-0006 remains dependent on a valid repository Administration read token; source code cannot repair an invalid or unauthorized GitHub secret without bypassing the security gate.",
-      "[in progress] Re-run exact-tip tests after the monitor and locked-PR changes; preserve fail-closed behavior for any remaining external prerequisite.",
-      "[done] Fixed the circulation ownership classification for the authorized repair coordinator and synchronized the new monitor/repair tests with the governed test cadence.",
-      "[done] Audited the complete current DEVLOG.md and Archive:Devlog-Pruned history for duplicate failure handling, prior errors, and repairs. The repeated duplicate push trigger entries are workflow-trigger history, not duplicate CRU codes; the known-bug ledger history also records a prior attribution defect where one failing test was incorrectly reported as four failed categories.",
-      "[done] PR #28 now treats CRU codes as canonical failure-class identifiers: duplicate occurrences reuse the established code, uncoded occurrences remain pending classification, and one canonical failure cannot be assigned multiple CRU codes.",
-      "[next] Run focused failure-record tests, then exact-tip Section 2 verification. Do not mark Section 2 passed until the hosted Crucible checks are green.",
-      "[done] Connected Third-branch main-reference integrity failures to the existing auto-repair and repair-learning workflow, using the deterministic reference-branch repair path and preserving candidate-only learning custody.",
-      "[in progress] Verify PR #29 hosted checks and then implement the separately testable repair-evidence to prevention-candidate bridge without automatic promotion.",
-      "[done] Added a separate prevention-candidate type derived only from CRU-linked repair observations; operational repairs cannot enter CRU prevention.",
-      "[done] Added an explicit governed CRU prevention mapping registry and automatic post-repair queue step; no precursor path or required check is inferred.",
-      "[in progress] Run hosted verification, then exercise scientific proof/vetting and prove the resulting active knowledge is consumed by preflight prevention.",
-      "[done] Added vetted-knowledge mapping resolution that requires a verified candidate, active CRU classification, declared mapping, and exact experimental boundary match.",
-      "[done] Added an end-to-end production-state-machine test from CRU repair evidence through distinct experiment and independent-verification identities into active knowledge and actual precheck prevention.",
-      "[in progress] Verify the end-to-end prevention proof on hosted multi-platform CI and repair any failure without weakening the scientific or governance gates.",
-      "[done] Added durable repair/prevention outcome evidence and prevention execution recording for meta-learning analysis.",
-      "[done] Added learning-policy-candidate generation only when bounded outcome metrics measurably improve over baseline; candidates remain inactive until the existing scientific proof pipeline verifies them.",
-      "[in progress] Extend hosted verification to the adaptive-learning module and continue repair/prevention outcome coverage for bypass, false-positive, missed, and repair success/failure cases."
+      "Refresh exact branch and check state.",
+      "Prepare narrow main-based manual workflow deployment and required boundary/documentation updates; preserve unrelated main content.",
+      "Repair existing monitor secret wiring and verify hosted access.",
+      "Inspect/correct organization-scoped security and monitor credentials using GitHub secret storage; never log values.",
+      "Promote through release-to-main only when required checks pass, then resume bounded intake through ordinary gates."
     ],
     "status": "active",
-    "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-29T16:38:41.720Z",
-    "currentStep": 26,
-    "verification": "Hosted CI must pass AI handoff policy, Crucible self-test, and preflight/vetted-learning adapter tests before merge.",
-    "remainingWork": "Resolve CI findings, merge PR #32 when green, then connect AI-collaboration- and NVIDIA-NIM-CONSOLE to consume the same vetted prevention intelligence."
+    "startedAt": "2026-10-07T04:11:06.782Z",
+    "lastUpdatedAt": "2026-10-07T04:47:46.761Z",
+    "currentStep": "Await owner creation/installation and private-key secret entry for the read-only monitor App; test the prepared authentication integration and refresh security/CI before promotion.",
+    "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
+    "ownership": {
+      "currentClaim": "si-promotion-credential-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "mutationScope": [
+        "AI-HANDOFF.json",
+        "DEVLOG.md",
+        "README.md",
+        ".github/workflows/nexus-check-monitor.yml",
+        "test/workflow.test.js"
+      ],
+      "rule": "Exclusive development repair; owner-authorized narrow promotion artifact only."
+    },
+    "trustedBoundary": {
+      "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
+      "branch": "development",
+      "establishedBy": "hosted Crucible Self-Test",
+      "evidence": [
+        "Eighteen of eighteen Self-Test legs green: push run 34926863414 and pull-request run 34926865280.",
+        "Local: npm run test:all 862/862; thirteen governance gates and git diff --check exit 0."
+      ],
+      "note": "Commits d9a91da through d21be9a land after this boundary and are the delta a successor must verify.",
+      "establishedAt": "2026-09-15T04:03:54Z",
+      "supersededBy": null
+    },
+    "previousAgent": {
+      "agent": "Codex",
+      "provider": "openai",
+      "handedOverAt": "2026-09-15T09:20:00Z",
+      "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
+    },
+    "verificationStatus": "1008/1008 local tests pass; no new live intake, SI verification or R3/R8 pass is claimed.",
+    "historicalBlockers": [
+      {
+        "id": "oversight-refusal-was-not-honoured",
+        "summary": "Oversight recorded linked-source:5ab0eabad5e6714491c75fabab25d6afdf54218c4bdbfe705592c08de4baef62 quarantined for prompt-injection content, and the corpus it published stores that content at contentSha256 79719cd5979b6351fd2759205433a8311b7a54db821c98fd4e6175937b952a37 anyway. No other source review shares that hash, so this is not one file shared by a duplicate. The refusal was published; the bytes were published with it. That is a custody failure in the independent vetting path rather than in Crucible, and it is the sharpest open item in the pipeline. Crucible side is correct and unchanged: the content-absence check refused to credit it, so no gate moved.",
+        "owner": "user-or-oversight"
+      },
+      {
+        "id": "forty-five-documents-match-the-exfiltration-pattern",
+        "summary": "Run 35067259424 broke the 60 down as 45x (?:reveal|exfiltrat|upload).{0,30}(?:secret|credential|token|key), 17x (?:execute|run).{0,20}(?:command|shell|powershell|bash), 1x system prompt. The over-breadth explanation this session offered covers at most 18; the dominant 45 match the specific pattern, which the documentation samples do not match. Documentation about credential hygiene would match it too, so this is not yet a finding either way - it is the next thing to look at, and it is sharper than the earlier record implied. The report names source ids grouped by pattern so the documents can be opened in vetted custody; no content is quoted into the public run log, because that pattern fires exactly where a real credential would sit. Whether to narrow the pattern list remains an owner safety decision, and it should be taken after looking at those documents rather than before.",
+        "owner": "user-or-claude"
+      },
+      {
+        "id": "consult-not-dispatchable-until-it-reaches-main",
+        "summary": "council-consult.yml is on development and GitHub answers 404 to its dispatch, because workflow_dispatch is only accepted for a workflow present on the default branch, which is main. Measured rather than assumed: every dispatchable workflow here is on main - hosted-learning-proof.yml, model-pointer-research.yml and perplexity-research.yml, at 140, 7 and 1 runs - while council-consult.yml is unknown to the Actions API entirely. A push trigger would not fix it and is refused anyway, because a push-triggered consult egresses on every commit. So the workflow is correct and in place but cannot run until the file reaches main, and reaching main is a promotion that CONSTITUTION.md Promotion Boundary says no AI and no council authorizes. Note the conflict before choosing: promoting all of development would also carry learning-scope changes to main while R8 is pending, against the standing constraint that they stay blocked until every learning gate passes. The narrow option is to carry this one workflow file to main through release, which keeps the learning scope where it is.",
+        "owner": "user"
+      },
+      {
+        "id": "nim-model-never-called",
+        "summary": "nvidia/nemotron-3-nano-30b-a3b has still never been called, and the owner reports doubting the code is finished rather than the model. Crucible own consult path reads complete - createConfiguredAdapters, a real bearer chat adapter with redaction, MultiAiOrchestrator.distribute, corroborate, deliberationFromDistribution - and it fails closed with CRU-0034 and exit 1 when no provider is configured, verified locally. What has never happened is a successful call. The consult workflow is the first thing that will make one on the existing secret, so dispatching it is the test: it either returns a deliberation or fails with a coded error naming the stage.",
+        "owner": "claude"
+      },
+      {
+        "id": "council-unreachable-from-this-session",
+        "summary": "The deployed council cannot be reached from this session and no URL or token changes that: the environment network policy answers 403 to CONNECT for onrender.com, and its allow-list covers Anthropic APIs, package registries and GitHub only. The same policy is why NVIDIA NIM cannot be called from here either. The consult therefore runs on a GitHub runner, which is what the new workflow is for. Configuring the council as an MCP server is for the owner Claude Code on a host with open egress: Streamable HTTP at <deployed-host>/mcp with Authorization: Bearer AI_COLLABORATION_BEARER_TOKEN, the host readable from the Render dashboard or the registered ChatGPT app, since the repository does not record it.",
+        "owner": "user"
+      },
+      {
+        "id": "fake-harness-knowledge-version-still-active",
+        "summary": "Active knowledge v1 in the hosted durable store is candidate cycle-92917a3a1bac7b53ce800d3a08e78b51, boundary \"Node.js ordinary dense arrays of numbers\" - verbatim the module constant of the hardcoded harness deleted at 85d3b59. Deleting the harness did not retract what it promoted. R5 still counts it as a verified knowledge version. Every active version is now marked corpus-backed or not and an unbacked one warns, but nothing is retracted, because retracting durable learning state is an owner decision.",
+        "owner": "user"
+      },
+      {
+        "id": "r4-r7-measured-once",
+        "summary": "R4-R7 read satisfied on two runs, but the experiment behind them ran exactly once. Run 35062311534 confirms run 35013415132 promotion from the durable store rather than from an absent log line, which is stronger evidence - but it restored knowledge instead of learning, so it did not repeat the measurement, and which language harness produced the version is in neither log. They stay reported rather than passed.",
+        "owner": "claude"
+      },
+      {
+        "id": "r3-topics-not-due",
+        "summary": "The pinned discovery model nvidia/nemotron-3-nano-30b-a3b has never been called. All 16 topics consumed their daily slots at 2026-09-15T08:32:29Z against the withdrawn model, so discovery is a no-op until roughly 24 hours later unless discovery state is discarded.",
+        "owner": "user"
+      },
+      {
+        "id": "plan-6-07-partially-blocked",
+        "summary": "This entry records only the factual continuity fields of the owner-supplied 6:07 plan Step 2B. Step 2A (a trusted-verification-boundary principle in AI-collaboration- ORCHESTRATOR-POLICY.json), Step 2C (automated council invocation) and Step 2D (usage-limit continuation) were refused by the session permission classifier as externally-sourced governance content and are NOT installed. The drafted text was handed to the owner for manual review instead.",
+        "owner": "user"
+      },
+      {
+        "id": "owner-source-rescan-pending",
+        "summary": "The 14-identity owner source rescan remains pending and unperformed while R4 custody or retention is blocked. Content hashes and extraction-window history are to be reused; source bytes are not duplicated, custody is not reset, and unchanged windows are not re-extracted merely to call it a rescan.",
+        "owner": "user-or-oversight"
+      },
+      {
+        "id": "five-source-durable-custody-blocked",
+        "summary": "Four authorized public captures and 123 extracted candidate assertions exist only in the project-bound local intake checkpoint. This Crucible checkout has no authorized write path into the independent Learning-Worker, Crucible-Learning-State, Crucible-Vetted-Learning-State, or Vetting-and-Governance-oversite custody repositories. No repository boundary was bypassed and no local candidate was represented as submitted to vetted custody.",
+        "owner": "user-or-custody-administrator"
+      },
+      {
+        "id": "authorized-pdf-native-parser-no-pages",
+        "summary": "The Hundred-Page Machine Learning Book chapter-one PDF is an authorized nine-page public draft with SHA-256 f84e6ba775ef707a0223173dd4e7be524c7e516dd67d879d9ac775dd74e70bf2. Native owner-file intake returned OPS-0043 no_pages even though pdfinfo and pdftotext read it. The exact bytes remain preserved; the deterministic text derivative SHA-256 ce5786cab91691b0325c817a3c986ba1819eff6bea9d67052a6f4ecd0153d3fe was admitted as candidate input. This workaround is not a verification result.",
+        "owner": "crucible-learning-maintainer"
+      },
+      {
+        "id": "agentic-ai-game-plan-source-ineligible",
+        "summary": "Only retailer or review metadata was found for Agentic AI Game Plan. No author-hosted, publisher-hosted, companion, or explicitly authorized excerpt material was located, so the source was rejected before intake rather than scraped, quarantined, or inferred from third-party listings.",
+        "owner": "source-research"
+      }
+    ],
+    "blockers": [
+      {
+        "id": "r3-live-discovery-aborted",
+        "summary": "Latest discovery run 37565999549 has zero searched/completed/cited/admitted URLs; nonzero real provider discovery/admission evidence remains absent.",
+        "owner": "provider-or-owner"
+      },
+      {
+        "id": "r8-executable-live-proof-missing",
+        "summary": "Current custody enforces oversight quarantine and the durable proof credits every R8 behavior except executable-content refusal. The governed canary publisher has not run and no executable bytes may be fabricated or admitted merely to complete the gate.",
+        "owner": "owner-or-custody-administrator"
+      },
+      {
+        "id": "owner-source-rescan-pending",
+        "summary": "Eight of 14 exact owner hashes are present in current vetted custody. Six are absent: 84d73c44d1f22e6b451a15b31c8f6e520fca6d09db82cfa56999920de1c7d693, c183f3ecfac24175a58921c171b1f5749cf84db72ceeac0752c44ef09bf56991, cf6cf8d31f6e6e0a4ec7dd2eecfa4ce9adb620db727d6280a2bb7195d2f95dfb, 29a6c35ca175ce7b67de420b9637db20ac161cf22397c23c31482067f4a63c85, fccaca99a230233486b689d774d41522dadb50260579d9cba8b591485445fb75, and 03ddee53d6e77d35b75c076169b0f60a57129e64d451b523ce72aff51b4cf8cc. No exact retained candidate IDs or full gate outcomes exist for the four new identities' 58 local candidates.",
+        "owner": "user-or-oversight"
+      },
+      {
+        "id": "exact-tip-ci-red",
+        "summary": "Hosted Administration-read access and private PR-monitor visibility remain unproved; Windows CRLF assertion is repaired locally and awaits exact-tip hosted verification.",
+        "owner": "owner-or-repository-administrator"
+      },
+      {
+        "id": "fake-harness-knowledge-version-still-active",
+        "summary": "Active v1 candidate cycle-92917a3a1bac7b53ce800d3a08e78b51 remains not corpus-backed. It is not the basis for the R5 pass, and retracting it remains an owner decision.",
+        "owner": "user"
+      },
+      {
+        "id": "manual-raw-custody-execution-unavailable",
+        "summary": "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
+        "owner": "owner-or-custody-administrator"
+      }
+    ],
+    "nextAction": "Verify hosted checks at the routing-repair tip. Then obtain separately authorized governed deployment of the two manual workflows; preserve existing raw/vetted state.",
+    "evidenceReferences": {
+      "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
+      "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
+    },
+    "handoffNotes": {
+      "completed": [
+        "Reused completed pilot run 37567402124 without repeating or changing live queues. R2 remains passed.",
+        "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
+        "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
+        "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
+        "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities.",
+        "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed.",
+        "Verified development 3020d19fd0eeca122b61eafae059f23dcb76d20a hosted routing/Code/request gates; security CRU-0006 still failed HTTP 403. Main remains f3217f922d2aaa88cda7873220553be2a3b6121c; release remains 1bc3d0a8c1365d345bdf0b02b5b00b7882aed366.",
+        "Owner explicitly authorized narrow manual workflow deployment through release -> main and security/PR-monitor credential repair. No broad development merge is authorized.",
+        "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
+        "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
+        "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
+        "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses."
+      ],
+      "remaining": [
+        "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
+        "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
+        "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
+        "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
+        "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
+      ],
+      "verification": [
+        "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
+        "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
+        "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
+        "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
+        "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
+        "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
+        "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested.",
+        "Monitor compatibility focused tests: 46/46, zero skipped.",
+        "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending.",
+        "Read-only App workflow integration: focused monitor/workflow tests 46/46, zero skipped, after distinguishing read-only monitor installation scope from custody-clone transport. Workflow lint passes 28 workflows.",
+        "Full local governed proof: 1009/1009, zero skipped, 40.322 seconds. Hosted Windows 24 job 112638868079 on 2dc9cb07a5aa1135f4ec1216b83fd4c0a90ee3b0 passed and reported security audit 1 repository, 0 issues at 05:01:45Z and 05:02:31Z."
+      ]
+    },
+    "filesTouched": [
+      ".github/workflows/raw-custody-publisher.yml",
+      "AI-HANDOFF.json",
+      "DEVLOG.md",
+      "README.md",
+      "src/rawCustodyPublisher.js",
+      "src/hostedSourceBundle.js",
+      "src/circulationLinkage.js",
+      "src/testCadenceCoreLegacy.js",
+      "test/_testCadenceCore.js",
+      "test/rawCustodyPublisher.test.js",
+      "test/workflow.test.js",
+      "governingDocuments/known-bugs/KNOWN-BUGS.json",
+      "package-lock.json"
+    ],
+    "rawCustodyAuthorization": {
+      "ownerInstruction": "can you do it all in order it should be",
+      "context": "Owner accepted the ordered implementation of a general raw custody publisher, bounded SI intake, independent Oversight, ordinary scientific verification, persistence and release-evidence work.",
+      "maximumSources": 9,
+      "sourceRegister": "governingDocuments/synthetic-intelligence-research-register.json",
+      "rawCustodyWrite": "manual authenticated ciphertext-only intake with preservation and rollback checks",
+      "vettedCustodyWrite": false,
+      "automaticTrigger": false,
+      "promotionAuthorized": false,
+      "existingQueuesMayBeCleared": false
+    },
+    "promotionAuthorization": {
+      "authorized": true,
+      "prompt": "Promote it then work The security and PR-monitor credentials",
+      "scope": "Narrow deployment of the two manual raw/R8 workflows and necessary governance/test/documentation compatibility; preserves unrelated main content, queues, keys and verification gates.",
+      "path": "release -> main",
+      "directMainPushAllowed": false,
+      "broadDevelopmentPromotionAllowed": false
+    }
   },
   "handoffNotes": {
     "completed": [
-      "A hosted job refused before startup is distinguishable from one that ran and failed. src/hostedRunStartupDiagnosis.js requires no runner assigned, no step executed, and nothing billed; the first two discriminate and the third deliberately does not, because the successful runs report total_ms 0 as well. A refusal carries no verdict on the code and authorizes no gate change in either direction.",
-      "Governed discovery runs on NVIDIA NIM, which is free and already governed, instead of Perplexity, whose API billing a Perplexity Pro subscription does not cover. Every governed bound is unchanged. NIM returns no citations, so URLs are read from the completion text and carried as providerKind model-proposed-pointers, and the candidate sink refuses a pointer candidate that does not state its kind.",
-      "endpointFor completes an API root with the provider's own path, so one NVIDIA_NIM_BASE_URL value can be reused verbatim from AI Collaboration instead of silently posting to /v1. An explicit gateway path is still used exactly as configured.",
-      "The known-bug ledger records the tests that actually failed, attributed from the TAP location of each failing block, and fails closed to the whole selection marked selection-unattributed when attribution is impossible. A real run now writes one category and one test where it previously claimed four categories and 102 tests.",
-      "test/taskRouting.test.js, red on the development tip since a0b440c, checks that the route was computed rather than described: the dispatcher's own bounded wording plus both hash bindings. The record was restored by running the dispatcher, not by editing the reason string.",
-      "A governed discovery workflow cannot start itself: GitHub refuses a workflow_dispatch for a workflow it never registered, and registers one only when a trigger actually fires. perplexity-research.yml has zero runs for exactly this reason. model-pointer-research.yml now carries a push trigger scoped to discovery's own implementation, so it registers once and re-runs only when discovery changes.",
-      "The Self-Test matrix was red on every leg from d51344e, and not for any reason that tip's change log names. ModelPointerResearchStore.due() read the clock twice - once for its own default `at`, then again inside read(), which seeds an unseen topic's nextRunAt - so whenever those readings straddled a millisecond the store reported the topic it had just created as not yet due, runDue() returned nothing, and the CLI's providerKind came back null. Measured at 15 of 2000 fresh stores on an idle host and 0 of 2000 after the repair. A topic that has never run is now due without consulting a deadline it never earned. GoogleResearchStore and PerplexityResearchStore carried the identical three lines and were repaired with it.",
-      "Eighteen of eighteen Self-Test legs pass at exact tip 259cf60ce2fc9127a2a8277df172dff39d3b59a0 - nine on push run 34926863414 and nine on pull-request run 34926865280 - across ubuntu, windows-2022 and macOS on Node 20, 22 and 24. Every leg was red on the four preceding tips. Mutation claim discovery-first-due-race-20260915 released at 2026-09-15T08:33:50Z; no claim is now active.",
-      "Dispatched the oversight workflow and confirmed from the API that it ran rather than being refused: run 34938208295 assigned runners 1000022397 and 1000022400, executed every step, and return-vetted-data published vetted commit ef2d3b3 to Crucible-Vetted-Learning-State after running the post-merge custody vet ahead of encryption. Re-ran the Crucible hosted proof on that bundle as run 34947395586 and quoted both hashes rather than asserting a match: the restore succeeds and queue SHA-256 54a976c3c02c1cbeaa522ccece1053a8e3516885de56cd006541a809d1c915ef now equals the manifest value that previously read 96f13274cf8c57d717e6f581cbe3c38bdcb6d52ad7e56a5fac51fd18eeefb50e. The restored-queue-hash mismatch that had blocked hosted R4-R6 since 2026-09-10 is closed.",
-      "Established that the discovery blocker is no longer a missing credential. NVIDIA_NIM_MODEL now reaches the job and the readiness step passes; dispatched run 34947505096 executed all 16 due topics and every one was blocked identically with HTTP 410, \"The model has reached its end of life on 2026-08-26T09:00:00Z and is no longer available.\" A 410 is a model-lifecycle answer rather than an authentication failure, so the key works and the configured model is withdrawn. Recorded in the release status rather than retried, and noted that each blocked topic consumed its daily slot so the topics are not due again until 24 hours after 2026-09-15T08:32:29Z.",
-      "Updated governingDocuments/scientific-learning-release-status.json, which the preceding push left untouched, and changed the rolling target state from indeterminate-until-nonzero-hosted-throughput to indeterminate-until-a-pairable-owner-declaration-exists. Hosted throughput is no longer zero, so the old state name had become false; the target is still indeterminate because what now bounds it is an owner action with no measurable rate. No gate is marked passed: src/hostedLearningProof.js exited 1 under CRU-0026 before emitting a verdict, and a reading of log lines is not a substitute for the proof own outcome.",
-      "Repaired the evaluateR2 reporting defect recorded as remaining in the preceding push. A source that never reached extraction was counted as having left the extraction backlog, because PENDING_EXTRACTION_STATES covers only the two extraction states: on the real hosted population the gate read \"all 534 queued sources have left the extraction backlog\" while 128 of them had never been retrieved. Custody now decides which population a source belongs to rather than a list of state names, because the queue carries states this repository does not define - the Learning Worker writes oversight-vetting-pending - and a state allow-list here would have to guess where an unfamiliar name belongs. The satisfied verdict is unchanged on real completions, since R2 asks what the worker does with the work it is given and coverage is judged by R4 and R5; the detail now names both populations. A new branch reads pending where an empty backlog carries no completions at all, which is strictly stricter than before and the only branch whose verdict changed. npm run test:all 863/863 with the regression test shown failing against the old implementation first.",
-      "Switched governed discovery to nvidia/nemotron-3-nano-30b-a3b on the owner's instruction, and pinned it in .github/workflows/model-pointer-research.yml rather than asking for another setting change. The retired id was in Secrets, not Variables - GitHub masks secrets and prints variables, and the failing run showed NVIDIA_NIM_MODEL as *** - so the workflow can override it from version control and no longer consults Secrets for the model at all. A repository variable still wins over the pinned default, and prints in the log. NVIDIA_NIM_API_KEY is unchanged and is still read from Secrets only. lint:workflows passes across 20 files and test/workflow.test.js is 32/32.",
-      "Closed the pre-registration hole the owner identified with \"scope was what hypothesis is supposed to be\". The code agrees with that reading: languageExperimentRegistry builds the hypothesis as a template over the declared boundary and the claim, and hypothesisTestPlan holds the experiment to the declared claimScope, so the declaration is the hypothesis rather than configuration for it. hypothesisTestPlanSha256 froze the plan during the run, after the declaration had been read, so nothing recorded the boundary before the result was known. New src/scopePreRegistration.js records each declaration hash against the run clock in scope-pre-registration.json and refuses, under the new CRU-0047, a declaration that changed after a controlled experiment on that same claim ran and did not verify it; CRU-0048 covers the ledger itself failing closed. The rule arms on exactly one case: a claim never evaluated stays freely correctable, which is what keeps the currently unpairable declaration fixable, and a verified claim may be re-declared as a new experiment with the prior registration kept in history. A thrown pipeline is deliberately left pending rather than recorded not-verified, because a throw cannot be told apart from a broken harness and arming the refusal on an ambiguous signal would block the owner over a defect of ours. On refusal the ledger is left untouched, or refusing would itself record the new hash as pre-registered.",
-      "Proved both new rules load-bearing by mutation rather than asserting them: disabling the not-verified refusal turns two unit tests red, and letting a refused declaration reach selectAllEvaluable turns the integration test red - that last one is the case where the run would have promoted on a boundary chosen after the failure. test/scopePreRegistration.test.js is 8 tests over the hash contract, first registration, unchanged re-sighting, refusal and its persistence, free correction while pending, re-declaration after verified, ledger tampering and project binding, and per-declaration independence. test/realCorpusLearning.test.js gains two integration tests through learnFromRealCorpus on the real extraction worker and real documents. Registered the new file in both testCadenceCoreLegacy and _testCadenceCore, which is what the four-category classification requires. npm run test:all 873/873.",
-      "PR #28 canonical failure-code custody is now explicit: a CRU code identifies a distinct failure class, not an occurrence, repair, run, symptom, or repository. Duplicate occurrences reuse the existing code; uncoded occurrences remain pending classification; one canonical failure cannot carry two CRU codes."
-    ],
-    "verification": [
-      "npm run test:all 863/863 at this change. The count rose by one with the evaluateR2 regression test, which was shown failing against the previous implementation before the repair existed.",
-      "validate, docs:check, lint:workflows, audit:clutter, audit:privacy, audit:security, audit:ai-conflict-governance, audit:governance, audit:design-brief, audit:core-ref, audit:failure-codes, audit:circulation, audit:coordination and git diff --check all exit 0.",
-      "Hosted at 259cf60: eighteen of eighteen Self-Test legs green, CodeQL and both Analyze jobs green, both AI handoff policy and AI conflict governance runs green, both locked-PR guards, monitor sync and the DEVLOG archive job green.",
-      "Prove R4-R8 was read rather than assumed and has changed. Custody now verifies oversight-vetted with queue hash 54a976c3c02c1cbeaa522ccece1053a8e3516885de56cd006541a809d1c915ef over 403 stored source files, 8 documents and 526 links; the job reaches corroboration and uploads three artifact files. 25,981 usable candidates from 297 sources; one claim corroborated by two independent sources (\"Any class can have more than one constructor.\"); independent-source counts 1 at 0.8, 1 at the configured 0.74, 2 at 0.7, 10 at 0.6, 34 at 0.5. It fails closed on CRU-0026, not CRU-0023. No gate advanced and none was marked passed.",
-      "Fill the candidate URL holding queue is green. It no longer fails closed on an empty NVIDIA_NIM_MODEL: the model is pinned in the workflow and run 34949648646 printed it unmasked as nvidia/nemotron-3-nano-30b-a3b. That run searched 0 topics because all 16 recorded a blocked run at 2026-09-15T08:32:29Z and a blocked topic consumes its daily slot, so a green check here is not evidence that R3 admitted anything and evaluateR3 still reads pending.",
-      "npm run test:all 873/873 at this change, with the two new rules shown failing under mutation first. The failure-code ratchet holds at 581 uncoded throw sites and none added; the fly-by-wire ratchet holds at 57 direct edges and none added, with scopePreRegistration placed in the learning organ.",
-      "Implementation added canonicalFailureId/duplicate classification and a multiple-code invariant to src/failureRecord.js; focused and hosted verification are still pending."
+      "Reused completed pilot run 37567402124 without repeating or changing live queues. R2 remains passed.",
+      "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
+      "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
+      "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
+      "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities.",
+      "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed.",
+      "Verified development 3020d19fd0eeca122b61eafae059f23dcb76d20a hosted routing/Code/request gates; security CRU-0006 still failed HTTP 403. Main remains f3217f922d2aaa88cda7873220553be2a3b6121c; release remains 1bc3d0a8c1365d345bdf0b02b5b00b7882aed366.",
+      "Owner explicitly authorized narrow manual workflow deployment through release -> main and security/PR-monitor credential repair. No broad development merge is authorized.",
+      "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
+      "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
+      "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
+      "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses."
     ],
     "remaining": [
-      "Owner action for R5: either republish Crucible-Learning-State including owner-delegated-url:11bfade7a586952ee66669380ffef05fb567a48589b59c33159b275c47e44eb4 so the existing declaration becomes pairable, or declare a scope, experiment and distinct verifier for a claim the hosted corpus already corroborates - \"Any class can have more than one constructor.\" is corroborated at the configured threshold by linked-source:28503d6f and owner-file:7a409be1. Declaring a scope is the owner judgement and is never inferred.",
-      "Retain gate evidence durably outside the evictable Actions caches, with per-gate invalidation when the relevant implementation changes.",
-      "Do not weaken handoff, coordination, learning-custody, collision, security, or promotion gates to obtain green cosmetics, and never mark a gate passed on a run that was refused before it started or that exited before emitting a verdict.",
-      "Re-check the corpus arithmetic when the queue is next readable. The hosted custody report records 403 of 534 sources with stored content, which implies 131 without, while the same run diagnoses sources-without-content as 128. The three-source difference is unexplained and neither number was taken on trust: the repaired evaluateR2 derives its own count from contentSha256 rather than from either figure.",
-      "Verify the PR #28 canonical failure-code rule on the exact branch tip. The focused failure-record tests must pass, followed by the hosted Section 2 Crucible matrix; no completion claim is valid before those checks are green."
+      "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
+      "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
+      "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
+      "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
+      "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
     ],
-    "open": [
-      "The 14-source owner rescan obligation stays pending and unperformed. Its trigger condition is now partly met: custody is self-consistent and retention is provable. It stays pending because R5 has produced no retained hosted knowledge version yet, so there is no retained-state evidence to record completion against. When it is performed, reuse content hashes and extraction-window history; do not duplicate source bytes, reset custody, or re-extract unchanged windows.",
-      "Pull request 19 promotes development to main. Making its checks green does not make it mergeable, and nothing here merges it. Learning scope stays blocked from main until every learning gate passes and the owner authorizes promotion.",
-      "The first real discovery attempt on the new model is not the run this push triggers. All 16 topics recorded a blocked run at 2026-09-15T08:32:29Z, and a blocked topic consumes its daily slot exactly as the Google and Perplexity paths behave, so nothing is due again until 2026-09-16T08:32:29Z. The triggered run will therefore report searched 0 and exit 0, which is the workflow behaving correctly and is not evidence that R3 admitted anything. evaluateR3 decides R3 from the audit log rather than from the check colour, and it still reads pending.",
-      "The stale NVIDIA_NIM_MODEL repository secret still exists and is still unused. Verified unreferenced at 3a70af7: no workflow reads secrets.NVIDIA_NIM_MODEL, and the only live reference is vars.NVIDIA_NIM_MODEL in model-pointer-research.yml behind the pinned default. The owner asked for it to be deleted and it could not be done from this session: there is no Actions secret-management tool available here and the gh CLI is not present, so deletion remains an owner action in Settings, Secrets and variables, Actions, Secrets tab."
+    "verification": [
+      "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
+      "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
+      "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
+      "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
+      "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
+      "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
+      "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested.",
+      "Monitor compatibility focused tests: 46/46, zero skipped.",
+      "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending.",
+      "Read-only App workflow integration: focused monitor/workflow tests 46/46, zero skipped, after distinguishing read-only monitor installation scope from custody-clone transport. Workflow lint passes 28 workflows.",
+      "Full local governed proof: 1009/1009, zero skipped, 40.322 seconds. Hosted Windows 24 job 112638868079 on 2dc9cb07a5aa1135f4ec1216b83fd4c0a90ee3b0 passed and reported security audit 1 repository, 0 issues at 05:01:45Z and 05:02:31Z."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -618,8 +793,822 @@
       "acquiredAt": "2026-09-15T03:51:10.192Z",
       "handedOffTo": null,
       "releasedAt": "2026-09-15T08:33:50.781Z"
+    },
+    {
+      "taskId": "orchestrator-continuity-upgrade-20260915",
+      "owner": {
+        "provider": "anthropic",
+        "model": "claude-opus-5",
+        "agent": "session_01Ggfg1gzuSLTQwTgUejXQ7V"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "AI-CONFLICTS.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Execute the owner-authorized 6:07 plan Step 2B-2D: continuity fields, council invocation rules, and five-hour/weekly/monthly usage-limit continuation.",
+      "status": "released",
+      "acquiredAt": "2026-09-15T19:08:36.723Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-09-15T19:11:49.410Z"
+    },
+    {
+      "taskId": "crucible-constitution-routing-registration-20260915",
+      "owner": {
+        "provider": "anthropic",
+        "model": "claude-opus-5",
+        "agent": "session_01Ggfg1gzuSLTQwTgUejXQ7V"
+      },
+      "scope": {
+        "paths": [
+          "TASK-ROUTING.json",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Register CONSTITUTION.md as a shared evidence path so the canonical router recognises the new root governance document.",
+      "status": "released",
+      "acquiredAt": "2026-09-15T19:31:51.657Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-09-15T19:31:57.672Z"
+    },
+    {
+      "taskId": "windows-java-toolchain-detection-20260916",
+      "owner": {
+        "provider": "anthropic",
+        "model": "claude-opus-5",
+        "agent": "session_01Ggfg1gzuSLTQwTgUejXQ7V"
+      },
+      "scope": {
+        "paths": [
+          "src/toolchainCirculation.js",
+          "test/toolchainCirculation.test.js",
+          "test/_testCadenceCore.js",
+          "src/testCadenceCoreLegacy.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair the Java toolchain resolver, which cannot find javac.exe or java.exe and so reports the toolchain absent on every windows-2022 leg, failing five tests and three matrix jobs on development.",
+      "status": "released",
+      "acquiredAt": "2026-09-16T21:51:43.018Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-09-16T21:53:37.592Z"
+    },
+    {
+      "taskId": "ci-snapshot-reference-repair-20260929",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/canonical-snapshot.yml",
+          "src/referenceBranchIntegrity.js",
+          "test/coreRefIntegrity.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/devlogAccountability.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair evidence-proven snapshot dependency and reference-fixture failures",
+      "status": "released",
+      "acquiredAt": "2026-09-29T20:35:15.276Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-09-29T20:40:16.500Z"
+    },
+    {
+      "taskId": "windows-java-verifier-repair-20260929",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/hostedExperimentHarnesses.js",
+          "test/hostedExperimentHarnesses.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair hosted Windows compiler-tree constructor verification from exact failed runner evidence",
+      "status": "released",
+      "acquiredAt": "2026-09-29T20:46:43.014Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-09-29T20:49:58.019Z"
+    },
+    {
+      "taskId": "windows-workflow-text-repair-20260929",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "test/workflow.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Correct hosted Windows CRLF workflow text comparison without relaxing permission checks",
+      "status": "released",
+      "acquiredAt": "2026-09-29T20:53:23.075Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-09-29T20:54:42.701Z"
+    },
+    {
+      "taskId": "scheduled-cadence-repair-20261002",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/scheduled-diagnostics.yml",
+          "src/repair.js",
+          "test/repair.test.js",
+          "src/githubRepoSecurity.js",
+          "test/githubRepoSecurity.test.js",
+          "test/workflow.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/sourceRetrievalWorker.js",
+          "test/sourceRetrievalWorker.test.js",
+          "src/coordinationCli.js",
+          "test/aiProviderRegistry.test.js",
+          "governingDocuments/known-bugs/KNOWN-BUGS.json",
+          "test/taskRouting.test.js",
+          "test/devlogAccountability.test.js",
+          "test/safeInformationRetrieval.test.js",
+          "src/safeInformationRetrieval.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair uploaded daily cadence failures and verify without relaxing coverage or production boundaries",
+      "status": "released",
+      "acquiredAt": "2026-10-02T14:54:17.916Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-02T15:08:07.443Z"
+    },
+    {
+      "taskId": "monitor-token-diagnostics-20261002",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/nexusCheckMonitor.js",
+          "test/nexusCheckMonitor.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair cross-repository monitor credential precedence and sanitized fail-closed diagnosis",
+      "status": "released",
+      "acquiredAt": "2026-10-02T15:15:01.206Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-04T13:45:54.899Z"
+    },
+    {
+      "taskId": "r8-executable-quarantine-publisher-20261004",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/r8-executable-canary-publisher.yml",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/aiHandoffContinuation.js",
+          "src/r8ExecutableCanaryPublisher.js",
+          "src/sourceRetrievalWorker.js",
+          "src/testCadenceCoreLegacy.js",
+          "test/_testCadenceCore.js",
+          "test/aiHandoffContinuation.test.js",
+          "test/r8ExecutableCanaryPublisher.test.js",
+          "test/sourceRetrievalWorker.test.js",
+          "test/workflow.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Reconcile and publish owner-authorized R8 executable-content quarantine custody evidence on development.",
+      "status": "released",
+      "acquiredAt": "2026-10-04T13:50:06.229Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T02:33:15.000Z"
+    },
+    {
+      "taskId": "repair-r2-circulation-boundary-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/circulationLinkage.js",
+          "src/claimExtractionWorker.js",
+          "src/r2FailoverProof.js",
+          "test/durableLock.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair R2 proof circulation without raising the fly-by-wire ratchet and strengthen proof isolation/candidate preservation.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T02:33:15.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T02:33:15.000Z"
+    },
+    {
+      "taskId": "r2-devlog-accountability-repair-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Record exact released mutation-claim IDs in DEVLOG after the governance gate exposed missing accountability metadata.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T02:35:06.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T02:35:06.000Z"
+    },
+    {
+      "taskId": "r2-final-evidence-sync-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "governingDocuments/scientific-learning-release-plan.md",
+          "governingDocuments/scientific-learning-release-status.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Synchronize the verified R2 pass into the scientific-learning release plan/status and close the R2 repair handoff without changing any other gate.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T02:39:18.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T02:39:18.000Z"
+    },
+    {
+      "taskId": "si-r3-r8-sandbox-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/si-gate-sandbox.yml",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "governingDocuments/synthetic-intelligence-research-register.json",
+          "test/automatedModelPointerResearch.test.js",
+          "test/safeInformationRetrieval.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Add isolated Synthetic Intelligence R3 admission and R8 safety sandboxes and test current rejection behavior without enabling live SI discovery or touching production learning state.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T02:38:35.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T02:38:35.000Z"
+    },
+    {
+      "taskId": "r3-r8-si-general-adaptation-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/si-gate-sandbox.yml",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "README.md",
+          "governingDocuments/scientific-learning-policy.md",
+          "governingDocuments/scientific-learning-release-plan.md",
+          "governingDocuments/synthetic-intelligence-research-register.json",
+          "governingDocuments/verified-scholarly-domains.json",
+          "src/automatedGoogleResearch.js",
+          "src/automatedModelPointerResearch.js",
+          "src/automatedPerplexityResearch.js",
+          "src/safeInformationRetrieval.js",
+          "test/automatedModelPointerResearch.test.js",
+          "test/safeInformationRetrieval.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Adapt the general R3/R8 research compatibility rules exposed by SI testing.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T03:06:00.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T03:06:00.000Z"
+    },
+    {
+      "taskId": "si-real-data-pilot-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/si-gate-sandbox.yml",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "governingDocuments/synthetic-intelligence-research-register.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Run exactly nine logged SI sources through real retrieval and extraction in a disposable hosted lane with no production-state credentials.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T03:31:32.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T03:31:32.000Z"
+    },
+    {
+      "taskId": "si-durable-custody-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/raw-custody-publisher.yml",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "README.md",
+          "src/rawCustodyPublisher.js",
+          "src/hostedSourceBundle.js",
+          "src/circulationLinkage.js",
+          "src/testCadenceCoreLegacy.js",
+          "test/_testCadenceCore.js",
+          "test/rawCustodyPublisher.test.js",
+          "test/workflow.test.js",
+          "governingDocuments/known-bugs/KNOWN-BUGS.json",
+          "package-lock.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Implement bounded raw custody and resume the nine SI seeds without production promotion or independent vetting bypass",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:10:36.255Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:29:34.466Z"
+    },
+    {
+      "taskId": "si-lockfile-route-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "TASK-ROUTING.json",
+          "test/taskRouting.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair exact-tip CI rejection of the SI dependency security patch by registering the root lockfile as core development work",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:32:04.186Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:33:05.965Z"
+    },
+    {
+      "taskId": "si-promotion-credential-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "README.md",
+          ".github/workflows/nexus-check-monitor.yml",
+          "test/workflow.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Prepare narrow manual SI/R8 workflow deployment and repair existing monitor secret selection under owner promotion authorization",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:47:11.533Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:55:05.987Z"
+    },
+    {
+      "taskId": "si-monitor-handoff-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Restore verification evidence omitted from handoff metadata without changing monitor code or gates",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:57:22.751Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:57:22.998Z"
+    },
+    {
+      "taskId": "si-monitor-handoff-evidence-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair missing verification evidence and bind metadata-only scope",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:57:46.427Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:57:46.668Z"
+    },
+    {
+      "taskId": "si-monitor-route-retest-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Correct route description and verify metadata before publication",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:58:34.218Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:58:34.334Z"
+    },
+    {
+      "taskId": "si-monitor-app-auth-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/nexus-check-monitor.yml",
+          "test/workflow.test.js",
+          "README.md",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Add least-privilege organization App token authentication for existing governed PR monitoring",
+      "status": "released",
+      "acquiredAt": "2026-10-07T05:01:46.129Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T05:08:16.521Z"
     }
   ],
-  "prompt": "Verify PR #31 completes the governed adaptive loop: precise repair/prevention outcomes, directional metrics with minimum evidence, scientifically verified and explicitly approved versioned learning-policy activation with rollback, hypothesis/test evolution, and marginal-utility test lifecycle without weakening CRU semantics or coverage.",
-  "objective": "Complete and verify the prevention/outcome/meta-learning/test-evolution feedback loop with evidence custody, rollback, and no premature claims of prevention or optimization."
+  "ownerDecisions": [
+    {
+      "recordedAt": "2026-09-16T07:40:00Z",
+      "mandate": "Selective Membrane",
+      "decision": "Authorize a Crucible workflow that runs the council consult with the existing NVIDIA NIM secret, accepting that it sends repository content to an external AI service.",
+      "ownerWords": "do Authorize a Crucible workflow that runs the consult with the existing NIM secret - but that sends repository content to an external AI service, which is a Selective Membrane call and yours to make.",
+      "scope": ".github/workflows/council-consult.yml only. workflow_dispatch only, no schedule and no push trigger. permissions contents: read. The outbound request carries the dispatcher typed prompt and nothing implicit - no corpus, no durable store, no vetted state repository, no other credential. The deliberation is advice: retained as an artifact, written into no governed record, and it marks no gate and authorizes no promotion.",
+      "enforcedBy": "test/workflow.test.js, which asserts each of those properties and was shown failing against a scheduled trigger, contents: write, a tee pipeline that would mask a failed consult, and an inline prompt interpolation.",
+      "authorizesPromotion": false
+    },
+    {
+      "recordedAt": "2026-09-16T08:15:00Z",
+      "mandate": "Cost boundary, and Selective Membrane scope",
+      "decision": "The Crucible consults the free part of the council only. The whole council, paid providers included, is for the owner own Claude client.",
+      "ownerWords": "no crucible doesnt use the whole council only the free part Claude uses the whole council",
+      "scope": "aiProviderRegistry declares billing free or paid per provider: nvidia-nim free; openai, anthropic and perplexity paid. coordinationCli consult removes every paid adapter before distribution, reports each exclusion, and throws CRU-0034 when no free provider remains. council-consult.yml exports only NVIDIA_NIM_API_KEY. The owner client MCP configuration is deliberately not committed here, so Crucible cannot inherit the paid council from it.",
+      "enforcedBy": "test/aiProviderRegistry.test.js runs the CLI as a real process with a paid credential set and asserts it refuses, states the exclusion, and emits no deliberation; shown failing with the filter disabled. test/workflow.test.js asserts no billable credential appears in the workflow.",
+      "authorizesPromotion": false
+    },
+    {
+      "recordedAt": "2026-09-16T09:40:00Z",
+      "mandate": "Selective Membrane, reading vetted custody",
+      "decision": "Look at the corpus material directly whenever that is what it takes to get the pipeline right.",
+      "ownerWords": "if looking at the material makes getting the pipeline line do it always",
+      "scope": "Read access to jonathanblunt1214-lgtm/Crucible-Vetted-Learning-State from the working session. The source bundle stays encrypted and was not decrypted here - no bundle key reaches this session - so only the plaintext custody report was read. Matched document content is never quoted into a public run log.",
+      "authorizesPromotion": false
+    }
+  ],
+  "priorPlanCheckpoint": {
+    "capturedAt": "2026-09-29T20:41:08.734Z",
+    "sourceCommit": "42112eb0a2a60f6d6964d6f5c3e9eb51b29677ad",
+    "activePlan": {
+      "agent": "Claude",
+      "objective": "Clear the blockers keeping the scientific-learning pipeline from producing evidence, without spending money: tell a refused hosted job apart from a failed one, move governed discovery onto a free provider, make governed records state what actually happened, and run the rolling release review from the literal development tip.",
+      "currentPrompt": "Wire the Crucible PR monitor into the required block gate without recursion: the monitor waits for non-monitor checks to settle, excludes its own and block checks from aggregation, and the required block gate waits for the monitor result.",
+      "executionMode": {
+        "mode": "work",
+        "agent": "Claude",
+        "purpose": "Multi-repository blocker diagnosis, a new governed discovery path with its tests and workflow, three governed-record repairs, and the scientific-learning rolling release review - long-running, file-heavy, and deliverable-oriented.",
+        "selectionReason": "The task spans independent repositories, policy/governance records, hosted CI evidence, multiple correction cycles, and a mandatory terminal verification boundary.",
+        "distinction": "Execution mode is separate from agent identity and workflow; Work mode changes orchestration depth, not repository identity, branch authority, governance, or promotion authority."
+      },
+      "taskRouting": {
+        "category": "crucible-core",
+        "repositoryId": 1344890806,
+        "repository": "jonathanblunt1214-lgtm/The-Crucible",
+        "branch": "development",
+        "reason": "Affected paths select crucible-core.",
+        "explicitOverride": false,
+        "selectedAt": "2026-09-28T19:24:01.592Z",
+        "promptSha256": "9b43ff972fa57d05510e1ae2b7627c192b9604834d922fa8445f8cc3d79050cd",
+        "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      },
+      "steps": [
+        "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
+        "[done] Strengthened AI Collaboration ORCHESTRATOR-POLICY.json to mechanically require early execution-boundary identification, continuously reserved terminal-verification capacity, conservative cutoff, complete Final Verification, and terminal Devlog recording.",
+        "[done] Re-verified AI Collaboration and Crucible remain independent projects joined by a non-containment cross-project policy reference; Nexus and ChatGPT remain excluded from the custom GitHub App package boundary.",
+        "[done] Re-ran AI Collaboration CI and reproduced the same pre-runner failure: no steps, runner_id 0, empty runner identity, and no job log. A separate Crucible workflow received a GitHub-hosted runner at the same time. No further speculative application/workflow mutation is justified from this evidence.",
+        "[done] Diagnosed the Crucible DEVLOG final-newline regression from hosted Self-Test evidence and repaired exactly that formatting defect.",
+        "[done] Final Verification exposed the handoff-policy invariant and the coherent AI-HANDOFF.json + DEVLOG.md correction at a0b440ce7c9b964a491595680966fee0b514146c passed the takeover-ready handoff check.",
+        "[done] Final Verification then exposed CRU-0035 because seven released historical mutation-claim identifiers had been pruned from the compact DEVLOG even though the claims remained in AI-HANDOFF.json; the coordination gate was preserved.",
+        "[in progress] Restore those seven released claim identifiers as a compact accountability ledger in DEVLOG.md while keeping this plan synchronized in the same commit, then restart exact-tip Final Verification.",
+        "[next] If verification is stable, write the terminal canonical Devlog/handoff record as the final state-changing operation and stop substantive work.",
+        "[blocked-external] AI Collaboration private-repository Actions runner allocation/settings cannot be diagnosed or changed through the connected GitHub surface; the exact failure remains before runner assignment and is not represented as a source-code defect.",
+        "[blocked-external] Crucible hosted scientific-learning proof remains blocked by the separately governed vetted-custody queue/manifest inconsistency; this task does not weaken or bypass that custody boundary.",
+        "[standing] Do not close, exclude, or weaken locked PR/conflict/governance surfaces merely to clear diagnostics such as CRU-0015; executable evidence and owner boundaries outrank green cosmetics.",
+        "[done] Close the first-due clock-ordering race in all three governed discovery stores, keyed on lastRunAt rather than on comparing two clock readings, with a deterministic ticking-clock regression test in each that was shown failing before the repair existed.",
+        "[done] Confirm the first-due repair across all eighteen hosted Self-Test legs at 259cf60 and release claim discovery-first-due-race-20260915.",
+        "[open] Owner or Oversight: get owner-delegated-url:11bfade7 into the vetted corpus, or pair the Array.prototype.map declaration to a source that is in it. Until then R4-R8 fails closed on CRU-0026 with one claim corroborated and no declaration usable.",
+        "[done] Dispatched oversight, confirmed it published a self-consistent vetted bundle, re-ran the hosted proof, and recorded the resolved custody blocker plus the two owner actions the release now turns on in the release status file.",
+        "[done] Repaired evaluateR2 so an unretrieved source is no longer counted as one the extraction worker drained, with the real hosted population as a regression fixture shown failing first.",
+        "[done] Switched governed discovery to nvidia/nemotron-3-nano-30b-a3b at the owner's instruction, pinning the model id in the workflow and removing the Secrets path that had masked a withdrawn model.",
+        "[done] Made the scope declaration a real pre-registration on the owner's instruction: a per-claim hash ledger against the run clock, CRU-0047 refusing a boundary that moved after a failed experiment, CRU-0048 for the ledger failing closed, and the governing document rewritten away from the post-hoc order it used to instruct.",
+        "[done] Replaced the evictable Actions cache with a read-back of the previous run's retained artifact, and bound each recorded gate outcome to a fingerprint of the code that decided it, after a governed invariant refused the state-repository approach the plan had chosen.",
+        "[done] Audited the 851-test suite for tests that protect nothing, found none worth deleting and two real coverage holes instead, and closed both.",
+        "[done] Deleted the hardcoded harness that ran one array-map snippet for every claim and replaced it with real per-language experiments whose independence is a different measurement method, proven by mutation.",
+        "[done] Landed the owner-approved scope declaration for the corroborated Java claim, so the first controlled experiment on a real fixture can run.",
+        "[done] Read the first-ever green run of the hosted proof skeptically instead of reporting it, found the green was false, and made the completion reporter state each gate and exit non-zero unless all of R4-R8 are satisfied.",
+        "[done] Instrumented the learning outcome in the run log - each declaration with its experiment adapter, independent verifier, promoted version and source ids, and a distinct line when knowledge was restored rather than learned - so \"R5 satisfied\" can no longer be read without knowing which of the two happened.",
+        "[done] Confirmed the completion fix on a real runner: hosted run 35062311534 at 69ba57c states R4-R7 satisfied and R8 pending, exits 1, and the check is red - and the retained artifact still uploaded 4 files, so the 90-day restore chain survives a red run as designed.",
+        "[done] Corrected the false record that pull request 19 was unmerged. The owner merged it at 2026-09-15T09:29:12Z from head 802f520; main is 8162707 and carries development through 802f520 only.",
+        "[done] Made every run name the claim its satisfied gates are about, by logging each active knowledge version with its claim and experiment boundary - a restored run evaluates no declaration, so R5 could read satisfied with nothing in the log saying what was verified.",
+        "[done] Confirmed from the run log that the Java experiment really executed: active knowledge v3, candidate extracted-46e181f0, boundary \"Java classes compiled and executed by OpenJDK 21, whose constructors differ in parameter list\". javac and java ran and the claim verified inside the owner declared boundary.",
+        "[done] Found an active knowledge version the deleted fake harness had promoted, still counted by R5, and made every run mark each active version corpus-backed or not with a warning on any that is not. Reported, not retracted: retracting durable learning state is an owner decision.",
+        "[done] Fixed a latent R6 defect found while instrumenting - the gate passed on the activeVersion pointer resolving rather than on the version it names still being active, while retrieve() would return nothing - and emitted the completion report on one stream so the verdict stops interleaving into the gate list.",
+        "[done] Recorded the owner decision authorizing council egress and built .github/workflows/council-consult.yml on the existing NVIDIA_NIM_API_KEY secret: dispatch-only, contents: read, the prompt passed through the environment rather than interpolated into the shell, the answer retained as an artifact and written into no governed record.",
+        "[done] Established that this session cannot reach the deployed council at all: the environment network policy answers 403 to CONNECT for onrender.com, so the MCP endpoint is unreachable from here whatever the URL and token. Configuration guidance is for the owner Claude Code on a host with open egress.",
+        "[done] Dispatched the consult and reported the refusal instead of working around it: GitHub returns 404 because workflow_dispatch requires the workflow on the default branch, so the file has to reach main first and that is an owner promotion.",
+        "[done] Made free-only a property of the code rather than of which secret a workflow exports. aiProviderRegistry declares a billing tier per provider, FREE_PROVIDER_IDS is nvidia-nim alone, and coordinationCli consult drops any paid provider, states the exclusion, and refuses with CRU-0034 when nothing free remains.",
+        "[done] Found that both outstanding R8 behaviours had unreachable satisfied branches - each required a recorded quarantine that also still had the offending bytes stored, which the pipeline never produces - and repaired both to read the refusal signature the worker actually writes, established by driving the real SourceRetrievalWorker.",
+        "[done] Measured that the 60 documents reported as carrying prompt-injection patterns are very likely pattern over-breadth against a technical-documentation corpus, not admitted attacks, and made the report name the matching pattern with counts.",
+        "[done] Read the measurement instead of keeping my explanation: 45 of the 60 match the exfiltration pattern rather than the broad ones, so over-breadth covers at most 18 and the remaining 45 are the sharper open question. Report now groups source ids by pattern and quotes no content, because that pattern fires next to secret, credential, token and key and the log is public.",
+        "[done] Recorded the executable-content hypothesis as disconfirmed: no source in the restored corpus records that refusal, so none of the 109 retrieval-blocked sources was one.",
+        "[done] Attached the vetted state repository and read its plaintext custody report, on the owner instruction to look at the material whenever that is what the pipeline needs. Oversight had recorded exactly one source quarantined for \"prompt-injection content\" - linked-source:5ab0eabad5e6714491c75fabab25d6afdf54218c4bdbfe705592c08de4baef62 - and Crucible had never read that file although the hosted job already clones it.",
+        "[done] Wired the independent refusal into proveInjection as candidate evidence from an independent party, credited only when Crucible holds none of the refused bytes, with both halves shown load-bearing.",
+        "[done] Established from run 35068425740 that the one independent prompt-injection refusal did not hold: the corpus stores the refused content hash and no other review shares it, so Oversight published the decision and the bytes together. The content-absence guard rejected it, which is the guard working in production.",
+        "[done] Fixed the reporting defect that made the log contradict itself, and named unhonoured refusals with source id and content hash.",
+        "[done] Excluded every oversight-refused source from learning on consumption, with each exclusion logged, and kept the safety evidence reading the corpus as published so the unhonoured-refusal finding stays visible rather than being tidied away by the fix.",
+        "[done] Answered mine-versus-delete on evidence: the 24 policy refusals come from classifySource rejecting non-HTTPS, denied hosts, .onion, private addresses or credentials in the URL, so they are provenance refusals and can never be one of the two independent identified sources corroboration needs. Mining them would add permanently unusable records. Deletion belongs to Oversight.",
+        "Keep repair observations permanently in durable custody; later occurrences add evidence and verified outcomes rather than expiring historical repair knowledge.",
+        "Retain Devlog-Pruned archive snapshots for a full 365-day floor; never trim an entry still within that floor.",
+        "[done] Wired the PR monitor into the required block gate: monitor excludes its own and block checks, while block waits on the monitor result for the exact PR head SHA.",
+        "[done] Removed the duplicate development-push monitor trigger and added regression coverage for the non-recursive gate.",
+        "[done] Updated the governed test-cadence classification and workflow contract tests for the new monitor-to-block gate.",
+        "[done] Rebound the takeover route digest to the exact four files changed by the hosted cadence/Windows verification correction, restoring handoff-policy custody.",
+        "[done] Corrected the handoff timestamps to the actual attended execution time after the hosted gate rejected a future-dated handoff record.",
+        "[done] Added explicit started and finished timestamps to the newest handoff correction session so DEVLOG chain-of-custody validation remains executable.",
+        "[done] Preserved released mutation-claim accountability after inline DEVLOG pruning with a compact discoverability index plus full pre-prune snapshots on Archive.",
+        "[done] Corrected the hosted Java semantic analyzer path: the real semantic test now supplies javac for compilation, and the helper remains Java 8-compatible on the Windows runner.",
+        "[done] Made released mutation accountability retention-aware and kept the compact historical claim index discoverable after inline DEVLOG pruning.",
+        "[done] Normalized Java constructor verifier identities across JDK 8 and newer hosted runners after the cross-platform semantic proof exposed JDK-dependent constructor naming.",
+        "[done] Corrected Java hosted-proof compilation and verifier portability across JDK 8/modern runners; latest remaining hosted blocker is the owner-scoped GitHub security-settings token returning HTTP 401."
+      ],
+      "status": "handoff-ready",
+      "startedAt": "2026-09-13T05:06:01Z",
+      "lastUpdatedAt": "2026-09-28T19:24:01.592Z",
+      "currentStep": 46,
+      "priority": "Execute the owner-authorized 6:07 plan in order 2A-2E, then Steps 3-7.",
+      "ownership": {
+        "currentClaim": null,
+        "owner": null,
+        "mutationScope": [],
+        "rule": "Discussion is shared; mutation is exclusive. Ownership transfers only by explicit release or handoff."
+      },
+      "trustedBoundary": {
+        "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
+        "branch": "development",
+        "establishedBy": "hosted Crucible Self-Test",
+        "evidence": [
+          "Eighteen of eighteen Self-Test legs green: push run 34926863414 and pull-request run 34926865280.",
+          "Local: npm run test:all 862/862; thirteen governance gates and git diff --check exit 0."
+        ],
+        "note": "Commits d9a91da through d21be9a land after this boundary and are the delta a successor must verify.",
+        "establishedAt": "2026-09-15T04:03:54Z",
+        "supersededBy": null
+      },
+      "previousAgent": {
+        "agent": "Codex",
+        "provider": "openai",
+        "handedOverAt": "2026-09-15T09:20:00Z",
+        "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
+      },
+      "verificationStatus": {
+        "state": "verified-at-trusted-boundary-with-unverified-delta",
+        "lastFullLocalSuite": "890/890 at this change",
+        "trustedBoundary": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
+        "outstandingRedChecks": [
+          "Prove R4-R8 on encrypted durable state: red by design until R8 is demonstrated. Run 35062707190 states R4-R7 satisfied, R8 pending, and exits 1."
+        ],
+        "rule": "Crucible verification, not AI confidence, establishes a trusted boundary."
+      },
+      "blockers": [
+        {
+          "id": "oversight-must-delete-what-it-refuses",
+          "summary": "Oversight records 25 refusals and publishes all 25 sources bytes; nothing in its publish path removes them. The fix belongs there and not here: OVERSIGHT-POLICY.md states The Crucible may not write here or change an oversight result, and the independence is exactly what makes the refusal worth citing. Proposed patch handed to the owner rather than pushed: after vetRestored and before encrypt-vetted, remove each quarantined source content file and queue entry, then recompute manifest.queueSha256 and drop the removed file from manifest.sourceFiles - noting that vetRestored itself asserts the queue hash matches the manifest, and Crucible verifies the same, which is the mismatch that blocked R4 for days, so queue and manifest must move together and the second vet call must run after enforcement.",
+          "owner": "user-or-oversight"
+        },
+        {
+          "id": "oversight-refusal-was-not-honoured",
+          "summary": "Oversight recorded linked-source:5ab0eabad5e6714491c75fabab25d6afdf54218c4bdbfe705592c08de4baef62 quarantined for prompt-injection content, and the corpus it published stores that content at contentSha256 79719cd5979b6351fd2759205433a8311b7a54db821c98fd4e6175937b952a37 anyway. No other source review shares that hash, so this is not one file shared by a duplicate. The refusal was published; the bytes were published with it. That is a custody failure in the independent vetting path rather than in Crucible, and it is the sharpest open item in the pipeline. Crucible side is correct and unchanged: the content-absence check refused to credit it, so no gate moved.",
+          "owner": "user-or-oversight"
+        },
+        {
+          "id": "forty-five-documents-match-the-exfiltration-pattern",
+          "summary": "Run 35067259424 broke the 60 down as 45x (?:reveal|exfiltrat|upload).{0,30}(?:secret|credential|token|key), 17x (?:execute|run).{0,20}(?:command|shell|powershell|bash), 1x system prompt. The over-breadth explanation this session offered covers at most 18; the dominant 45 match the specific pattern, which the documentation samples do not match. Documentation about credential hygiene would match it too, so this is not yet a finding either way - it is the next thing to look at, and it is sharper than the earlier record implied. The report names source ids grouped by pattern so the documents can be opened in vetted custody; no content is quoted into the public run log, because that pattern fires exactly where a real credential would sit. Whether to narrow the pattern list remains an owner safety decision, and it should be taken after looking at those documents rather than before.",
+          "owner": "user-or-claude"
+        },
+        {
+          "id": "consult-not-dispatchable-until-it-reaches-main",
+          "summary": "council-consult.yml is on development and GitHub answers 404 to its dispatch, because workflow_dispatch is only accepted for a workflow present on the default branch, which is main. Measured rather than assumed: every dispatchable workflow here is on main - hosted-learning-proof.yml, model-pointer-research.yml and perplexity-research.yml, at 140, 7 and 1 runs - while council-consult.yml is unknown to the Actions API entirely. A push trigger would not fix it and is refused anyway, because a push-triggered consult egresses on every commit. So the workflow is correct and in place but cannot run until the file reaches main, and reaching main is a promotion that CONSTITUTION.md Promotion Boundary says no AI and no council authorizes. Note the conflict before choosing: promoting all of development would also carry learning-scope changes to main while R8 is pending, against the standing constraint that they stay blocked until every learning gate passes. The narrow option is to carry this one workflow file to main through release, which keeps the learning scope where it is.",
+          "owner": "user"
+        },
+        {
+          "id": "nim-model-never-called",
+          "summary": "nvidia/nemotron-3-nano-30b-a3b has still never been called, and the owner reports doubting the code is finished rather than the model. Crucible own consult path reads complete - createConfiguredAdapters, a real bearer chat adapter with redaction, MultiAiOrchestrator.distribute, corroborate, deliberationFromDistribution - and it fails closed with CRU-0034 and exit 1 when no provider is configured, verified locally. What has never happened is a successful call. The consult workflow is the first thing that will make one on the existing secret, so dispatching it is the test: it either returns a deliberation or fails with a coded error naming the stage.",
+          "owner": "claude"
+        },
+        {
+          "id": "council-unreachable-from-this-session",
+          "summary": "The deployed council cannot be reached from this session and no URL or token changes that: the environment network policy answers 403 to CONNECT for onrender.com, and its allow-list covers Anthropic APIs, package registries and GitHub only. The same policy is why NVIDIA NIM cannot be called from here either. The consult therefore runs on a GitHub runner, which is what the new workflow is for. Configuring the council as an MCP server is for the owner Claude Code on a host with open egress: Streamable HTTP at <deployed-host>/mcp with Authorization: Bearer AI_COLLABORATION_BEARER_TOKEN, the host readable from the Render dashboard or the registered ChatGPT app, since the repository does not record it.",
+          "owner": "user"
+        },
+        {
+          "id": "fake-harness-knowledge-version-still-active",
+          "summary": "Active knowledge v1 in the hosted durable store is candidate cycle-92917a3a1bac7b53ce800d3a08e78b51, boundary \"Node.js ordinary dense arrays of numbers\" - verbatim the module constant of the hardcoded harness deleted at 85d3b59. Deleting the harness did not retract what it promoted. R5 still counts it as a verified knowledge version. Every active version is now marked corpus-backed or not and an unbacked one warns, but nothing is retracted, because retracting durable learning state is an owner decision.",
+          "owner": "user"
+        },
+        {
+          "id": "r4-r7-measured-once",
+          "summary": "R4-R7 read satisfied on two runs, but the experiment behind them ran exactly once. Run 35062311534 confirms run 35013415132 promotion from the durable store rather than from an absent log line, which is stronger evidence - but it restored knowledge instead of learning, so it did not repeat the measurement, and which language harness produced the version is in neither log. They stay reported rather than passed.",
+          "owner": "claude"
+        },
+        {
+          "id": "r3-topics-not-due",
+          "summary": "The pinned discovery model nvidia/nemotron-3-nano-30b-a3b has never been called. All 16 topics consumed their daily slots at 2026-09-15T08:32:29Z against the withdrawn model, so discovery is a no-op until roughly 24 hours later unless discovery state is discarded.",
+          "owner": "user"
+        },
+        {
+          "id": "plan-6-07-partially-blocked",
+          "summary": "This entry records only the factual continuity fields of the owner-supplied 6:07 plan Step 2B. Step 2A (a trusted-verification-boundary principle in AI-collaboration- ORCHESTRATOR-POLICY.json), Step 2C (automated council invocation) and Step 2D (usage-limit continuation) were refused by the session permission classifier as externally-sourced governance content and are NOT installed. The drafted text was handed to the owner for manual review instead.",
+          "owner": "user"
+        },
+        {
+          "id": "owner-source-rescan-pending",
+          "summary": "The 14-identity owner source rescan remains pending and unperformed while R4 custody or retention is blocked. Content hashes and extraction-window history are to be reused; source bytes are not duplicated, custody is not reset, and unchanged windows are not re-extracted merely to call it a rescan.",
+          "owner": "user-or-oversight"
+        }
+      ],
+      "nextAction": "Two owner decisions and one piece of work. Owner: whether to retract active knowledge v1 (candidate cycle-92917a3a, boundary \"Node.js ordinary dense arrays of numbers\"), which the deleted hardcoded harness promoted and R5 still counts - an agent must not silently retract governed learning state. Owner: a currently-available NVIDIA NIM model id, and deletion of the unused NVIDIA_NIM_MODEL secret. Work: R8, where the prompt-injection safeguard does not fire on the 60 corpus documents carrying those patterns.",
+      "evidenceReferences": {
+        "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
+        "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
+      },
+      "handoffNotes": {
+        "completed": [
+          "Integrated the PR monitor with PR-scoped concurrency, explicit self-check exclusion, and workflow-token API authentication."
+        ],
+        "remaining": [
+          "Hosted Self-Test must rerun on the integrated tip; repair remaining red legs from exact evidence before claiming green."
+        ]
+      }
+    }
+  },
+  "nexusSystemIntegration": {
+    "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
+    "contract": "governingDocuments/NEXUS-SYSTEM-CONFORMANCE.md",
+    "canonicalContract": "Nexus-/governingDocuments/native/NEXUS-SYSTEM-INTEGRATION-CONTRACT.md",
+    "role": "verification/failure classification",
+    "assimilation": "OBSOLETE",
+    "authority": "Crucible verification/failure-classification authority preserved; no governance, custody, extraction, or promotion authority acquired.",
+    "verification": "Hosted Self-Test/CodeQL/governance suite pending on current development head; durable-learning external/custody blocker remains independent.",
+    "remainingWork": [
+      "Complete hosted verification of this integration change.",
+      "Operational adapters/tests must enforce canonical envelope at active cross-repository handoffs; documentation alone is not treated as runtime proof."
+    ]
+  },
+  "nexusProgramRepairBridge": {
+    "status": "HOSTED_END_TO_END_VERIFIED",
+    "classificationCode": "CRU-0055",
+    "interfaces": [
+      "src/nexusRepairBridge.js",
+      "src/nexusRepairBridgeCli.js"
+    ],
+    "semantics": "Crucible owns failure classification, remedy/test selection, and independent repair-boundary verification. Nexus diagnosis is evidence only.",
+    "regressionLearning": "Failure-memory learning records what did not work in evidenced circumstances so it is not blindly repeated. It is not subtractive, does not erase knowledge, permanently ban a strategy, or endorse an alternative.",
+    "verification": "Nexus hosted cross-repository repair integration run 37133885614 passed against live Crucible development classification. Crucible repository Self-Test/CodeQL/handoff verification remains required on this resulting exact head.",
+    "remainingWork": [
+      "Complete Self-Test, CodeQL, and AI handoff policy on the resulting exact development head.",
+      "Durable-learning external/custody proof remains a separate boundary and is not satisfied by this repair bridge."
+    ]
+  },
+  "nexusIntegratedProgram": {
+    "status": "IMPLEMENTED_PENDING_EXACT_HEAD_VERIFICATION",
+    "updatedOn": "2026-10-03",
+    "objective": "Finish native Nexus program integration before reorganizing or retiring the separate AI-facing project surfaces.",
+    "integrationState": {
+      "aiCollaboration": "Native /api/nexus/coding-session path implemented; NVIDIA NIM remains coding worker and council is advisory/recovery only when struggle signals exist.",
+      "crucible": "Diagnostic council, CRU catalog, Nexus repair bridge, and repair-regression failure memory are integrated into governed Crucible systems.",
+      "nexus": "Native prompt-coding client, exact-commit lineage, guarded local application, feature-branch/PR publication, and exact-SHA Crucible verification are being completed in Nexus Development.",
+      "interfaceCleanup": "Deferred. Separate ChatGPT/AI project surfaces remain as history/recovery surfaces until native Nexus end-to-end verification passes."
+    },
+    "latestRepair": {
+      "cause": "Crucible Self-Test correctly rejected newly added modules without explicit system ownership and rejected repair-regression provenance fields outside the governed scientific-learning schema.",
+      "correction": "Assigned diagnosticCouncil* to brain, cruCodeCatalog* and nexusRepairBridge* to circulation, and encoded repair-regression memory using existing allowed provenance fields instead of widening the schema.",
+      "affectedPaths": [
+        "src/circulationLinkage.js",
+        "src/repairLearning.js",
+        "test/repairLearning.test.js",
+        "DEVLOG.md",
+        "AI-HANDOFF.json"
+      ]
+    },
+    "verification": "Exact-head Self-Test, CodeQL, AI conflict governance, AI handoff policy, and Nexus cross-repository verification must pass before this integration is called verified.",
+    "remainingWork": [
+      "Complete exact-head hosted verification on Crucible development.",
+      "Update Nexus to the newly verified Crucible authority commit and rerun Nexus exact-head gates.",
+      "Complete native Nexus prompt->NIM->conditional council->local verification->feature PR->exact-SHA Crucible flow.",
+      "Only after that, mark Nexus-specific compatibility plug-in routes obsolete and reorganize separate AI interface projects as cleanup."
+    ],
+    "authority": "No verification, governance, custody, learning promotion, or protected-branch authority is merged. Nexus coordinates; NIM codes; the council advises under bounded struggle rules; Crucible verifies/classifies."
+  },
+  "securityReadTokenCompatibility": {
+    "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
+    "updatedOn": "2026-10-04",
+    "objective": "Stop recurring CRU-0006 failures caused by secret-name drift without weakening repository-security verification.",
+    "implementation": "Direct Crucible workflows now prefer secrets.CRUCIBLE_SECURITY_READ_TOKEN and fall back to legacy secrets.SECURITY_READ_TOKEN; the runtime environment remains CRUCIBLE_SECURITY_READ_TOKEN.",
+    "verification": "Hosted Self-Test on the resulting exact development head must prove Administration-read visibility by returning repository security_and_analysis.",
+    "remainingWork": [
+      "Confirm the GitHub Actions secret store contains either supported secret name with the already owner-provided fine-grained Administration:read credential.",
+      "Require CRU-0006 to remain fail-closed if neither secret has sufficient access."
+    ],
+    "authority": "No credential value is read, copied, logged, or broadened; no security requirement is relaxed."
+  }
 }

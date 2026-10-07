@@ -1,6 +1,43 @@
 'use strict';
 const test=require('node:test'); const assert=require('node:assert/strict'); const crypto=require('node:crypto'); const fs=require('node:fs'); const os=require('node:os'); const path=require('node:path');
 const {stage,encrypt,decrypt,verifyRestored,hydrateRestored,restageRestored,splitEncrypted,joinEncrypted}=require('../src/hostedSourceBundle');
+
+test('the transferred Crucible accepts only its exact durable custody identity',async(t)=>{
+  const legacyProjectId='github:jonathanblunt1214-lgtm/The-Crucible';
+  const currentRepository='6076446993/The-Crucible';
+  const ref='refs/heads/development';
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-custody-migration-'));
+  const plaintext=path.join(root,'corpus.tar.gz'); fs.writeFileSync(plaintext,Buffer.from('independently vetted corpus'.repeat(80)));
+  const encrypted=path.join(root,'bundle.enc');
+  t.after(clearKeys); clearKeys();
+  process.env.CRUCIBLE_SOURCE_BUNDLE_KEY=crypto.randomBytes(32).toString('base64');
+  await encrypt({input:plaintext,output:encrypted,projectId:legacyProjectId,repository:currentRepository,ref});
+  process.env.CRUCIBLE_VETTED_BUNDLE_KEY=process.env.CRUCIBLE_SOURCE_BUNDLE_KEY;
+  delete process.env.CRUCIBLE_SOURCE_BUNDLE_KEY;
+  const restored=path.join(root,'restored.tar.gz');
+  const accepted=await decrypt({input:encrypted,output:restored,repository:currentRepository,ref});
+  assert.equal(accepted.provenance,'oversight-vetted');
+  assert.deepEqual(fs.readFileSync(restored),fs.readFileSync(plaintext));
+
+  for(const foreignRepository of ['6076446993/Nexus-','someone-else/The-Crucible','jonathanblunt1214-lgtm/The-Crucible']){
+    await assert.rejects(decrypt({input:encrypted,output:path.join(root,`${foreignRepository.replaceAll('/','-')}.tar.gz`),repository:foreignRepository,ref}),/project identity does not match/);
+  }
+});
+
+test('custody migration does not weaken ciphertext authentication or independent-vetting provenance',async(t)=>{
+  const projectId='github:jonathanblunt1214-lgtm/The-Crucible'; const repository='6076446993/The-Crucible'; const ref='refs/heads/development';
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-custody-negative-')); const plaintext=path.join(root,'corpus.tar.gz'); fs.writeFileSync(plaintext,Buffer.from('bounded corpus'.repeat(100)));
+  const encrypted=path.join(root,'bundle.enc'); t.after(clearKeys); clearKeys();
+  process.env.CRUCIBLE_SOURCE_BUNDLE_KEY=crypto.randomBytes(32).toString('base64');
+  await encrypt({input:plaintext,output:encrypted,projectId,repository,ref});
+
+  const raw=await decrypt({input:encrypted,output:path.join(root,'raw.tar.gz'),repository,ref});
+  assert.equal(raw.provenance,'raw-intake','an accepted migrated identity cannot turn an intake key into independent vetting');
+
+  const tampered=path.join(root,'tampered.enc'); const bytes=fs.readFileSync(encrypted); bytes[bytes.length-17]^=1; fs.writeFileSync(tampered,bytes);
+  await assert.rejects(decrypt({input:tampered,output:path.join(root,'tampered.tar.gz'),repository,ref}),/No configured key could authenticate/);
+  assert.equal(fs.existsSync(path.join(root,'tampered.tar.gz')),false,'tampered custody leaves no plaintext behind');
+});
 test('stages, encrypts, restores, and verifies a project-bound source queue without local paths',async()=>{
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-source-bundle-')); const sourceRoot=path.join(root,'local','sources'); const staging=path.join(root,'stage'); fs.mkdirSync(sourceRoot,{recursive:true});
   const content=Buffer.from('bounded untrusted source'); const digest=crypto.createHash('sha256').update(content).digest('hex'); const local=path.join(sourceRoot,`${digest}.html`); fs.writeFileSync(local,content);

@@ -6,6 +6,7 @@ const {
   requiredCheckState,
   isLockedPullRequest,
   monitorConfiguredRepositories,
+  waitForPullRequestChecks,
 } = require('../src/nexusCheckMonitor');
 
 test('classifies GitHub check states without treating skipped as a failure', () => {
@@ -91,33 +92,69 @@ test('monitors every configured repository and paginates open PRs and checks', a
   assert.ok(calls.some((url) => url.includes('/pulls?state=open')));
 });
 
+test('excludes the monitor check itself so a PR cannot become blocked by its own in-progress observation', async () => {
+  const responses = new Map([
+    ['https://api.github.com/repos/example/one/pulls?state=open&per_page=100&page=1', [
+      { number:1, title:'one', state:'open', draft:false, html_url:'https://example/one/1', mergeable:true, mergeable_state:'clean', base:{ref:'main',sha:'base'}, head:{ref:'work',sha:'head'} },
+    ]],
+    ['https://api.github.com/repos/example/one/commits/head/check-runs?per_page=100&page=1', {
+      check_runs:[
+        {id:1,name:'Monitor all Crucible-monitored PRs',status:'in_progress',conclusion:null},
+        {id:2,name:'The Crucible',status:'completed',conclusion:'success'},
+      ],
+    }],
+  ]);
+  const fetchImpl = async (url, options) => {
+    assert.equal(options.headers.authorization, 'Bearer workflow-token');
+    return new Response(JSON.stringify(responses.get(url) || {message:'not found'}), {status:responses.has(url) ? 200 : 404});
+  };
+  const report = await monitorConfiguredRepositories({
+    fetchImpl, token:'workflow-token',
+    config:{schemaVersion:1,repositories:[{name:'example/one',enabled:true}]},
+  });
+  assert.equal(report.repositories[0].pullRequests[0].checks.total, 1);
+  assert.equal(report.repositories[0].pullRequests[0].healthy, true);
+});
 
-test('uses GITHUB_TOKEN for ordinary monitor reads before the security-read credential', async () => {
-  const previousMonitor = process.env.NEXUS_MONITOR_READ_TOKEN;
-  const previousGithub = process.env.GITHUB_TOKEN;
-  const previousSecurity = process.env.CRUCIBLE_SECURITY_READ_TOKEN;
-  process.env.NEXUS_MONITOR_READ_TOKEN = 'monitor-token';
-  process.env.GITHUB_TOKEN = 'workflow-token';
-  process.env.CRUCIBLE_SECURITY_READ_TOKEN = 'expired-security-token';
-  try {
-    const seen = [];
-    const fetchImpl = async (url, options) => {
-      seen.push(options.headers.authorization);
-      const body = url.includes('/pulls?state=open') ? [] : { check_runs: [] };
-      return new Response(JSON.stringify(body), { status: 200 });
-    };
-    await monitorConfiguredRepositories({
-      fetchImpl,
-      config: { schemaVersion: 1, repositories: [{ name: 'example/one', enabled: true }] },
-    });
-    assert.ok(seen.length > 0);
-    assert.ok(seen.every((header) => header === 'Bearer monitor-token'));
-  } finally {
-    if (previousMonitor === undefined) delete process.env.NEXUS_MONITOR_READ_TOKEN;
-    else process.env.NEXUS_MONITOR_READ_TOKEN = previousMonitor;
-    if (previousGithub === undefined) delete process.env.GITHUB_TOKEN;
-    else process.env.GITHUB_TOKEN = previousGithub;
-    if (previousSecurity === undefined) delete process.env.CRUCIBLE_SECURITY_READ_TOKEN;
-    else process.env.CRUCIBLE_SECURITY_READ_TOKEN = previousSecurity;
-  }
+
+test('waits for non-monitor checks to settle while ignoring the required block gate', async () => {
+  let first = true;
+  const fetchImpl = async () => {
+    const checkRuns = first ? [{id:1,name:'The Crucible',status:'in_progress',conclusion:null},{id:2,name:'block',status:'in_progress',conclusion:null}] : [{id:1,name:'The Crucible',status:'completed',conclusion:'success'},{id:2,name:'block',status:'in_progress',conclusion:null},{id:3,name:'Monitor all Crucible-monitored PRs',status:'in_progress',conclusion:null}];
+    first = false;
+    return new Response(JSON.stringify({check_runs:checkRuns}), {status:200});
+  };
+  const result = await waitForPullRequestChecks({fetchImpl,token:'workflow-token',repository:'example/one',sha:'head',timeoutMs:100,pollMs:1,settleMs:0});
+  assert.equal(result.state,'settled');
+  assert.equal(result.checks.some((check) => check.name === 'block'),false);
+  assert.equal(result.checks.some((check) => check.name === 'Monitor all Crucible-monitored PRs'),false);
+});
+
+
+test('top-level monitor uses its dedicated cross-repository token ahead of the workflow token', async (t) => {
+  const names = ['CRUCIBLE_MONITOR_READ_TOKEN', 'NEXUS_MONITOR_READ_TOKEN', 'GITHUB_TOKEN'];
+  const before = Object.fromEntries(names.map(name => [name, process.env[name]]));
+  t.after(() => { for (const name of names) { if (before[name] === undefined) delete process.env[name]; else process.env[name] = before[name]; } });
+  process.env.CRUCIBLE_MONITOR_READ_TOKEN = 'dedicated-monitor';
+  process.env.NEXUS_MONITOR_READ_TOKEN = 'legacy-monitor';
+  process.env.GITHUB_TOKEN = 'single-repository';
+  const report = await monitorConfiguredRepositories({
+    config: { repositories: [{ name: 'example/private', lockedPullRequests: [] }] },
+    repairEnabled: false,
+    fetchImpl: async (url, options) => {
+      assert.equal(options.headers.authorization, 'Bearer dedicated-monitor');
+      return { ok: true, text: async () => '[]' };
+    },
+  });
+  assert.equal(report.healthy, true);
+  const { resolveMonitorToken } = require('../src/nexusCheckMonitor');
+  assert.equal(resolveMonitorToken({ NEXUS_MONITOR_READ_TOKEN:'legacy-monitor', GITHUB_TOKEN:'single-repository' }), 'legacy-monitor');
+  assert.equal(resolveMonitorToken({ GITHUB_TOKEN:'single-repository' }), 'single-repository');
+});
+
+test('monitor access failure carries operational identity and omits arbitrary server content', async () => {
+  await assert.rejects(monitorConfiguredRepositories({
+    config: { repositories: [{ name: 'example/private', lockedPullRequests: [] }] }, token: 'private-token', repairEnabled: false,
+    fetchImpl: async () => ({ ok:false, status:404, text:async () => JSON.stringify({message:'private-token'}) }),
+  }), error => error.operationalCode === 'OPS-0051' && /HTTP 404.*Pull requests: read/.test(error.message) && !error.message.includes('private-token'));
 });

@@ -243,6 +243,20 @@ test('appendToDevlogPrunedLedger never trims a snapshot within its retention flo
   assert.match(ledger, new RegExp(`bulk${DEVLOG_PRUNED_MAX_ENTRIES + 4}$`, 'm'), 'even the oldest of these still-recent snapshots must be kept because none of them are past the age floor');
 });
 
+test('the Devlog-Pruned archive retains a full 365-day floor', () => {
+  assert.equal(DEVLOG_PRUNED_MAX_AGE_DAYS, 365);
+  const now = new Date('2026-08-28T00:00:00Z');
+  const exactlyOneYear = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+  const snapshot = { heading: '## Snapshot: ' + exactlyOneYear.toISOString() + ' — pruned by commit year1', text: '## Snapshot: ' + exactlyOneYear.toISOString() + ' — pruned by commit year1\\n\\nfull year of retained content', timestamp: exactlyOneYear };
+  const ledger = appendToDevlogPrunedLedger('', [snapshot], now);
+  assert.match(ledger, /pruned by commit year1/, 'a snapshot exactly one year old remains in the archive');
+
+  const oneDayBeyond = new Date(now.getTime() - 366 * 24 * 60 * 60 * 1000);
+  const expired = { heading: '## Snapshot: ' + oneDayBeyond.toISOString() + ' — pruned by commit expired1', text: '## Snapshot: ' + oneDayBeyond.toISOString() + ' — pruned by commit expired1\\n\\nexpired content', timestamp: oneDayBeyond };
+  const expiredLedger = appendToDevlogPrunedLedger('', [expired], now);
+  assert.doesNotMatch(expiredLedger, /pruned by commit expired1/);
+});
+
 test('appendToDevlogPrunedLedger trims a snapshot only once it is older than the retention floor, regardless of count', () => {
   const now = new Date('2026-08-28T00:00:00Z');
   const tooOld = { heading: '## Snapshot: 2020-01-01T00:00:00.000Z — pruned by commit ancient1', text: '## Snapshot: 2020-01-01T00:00:00.000Z — pruned by commit ancient1\n\nlong ago content', timestamp: new Date('2020-01-01T00:00:00Z') };

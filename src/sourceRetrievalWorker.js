@@ -1,11 +1,13 @@
 'use strict';
 
 const crypto = require('node:crypto');
+const { operationalError } = require('./failureCodes');
 const fs = require('node:fs');
 const path = require('node:path');
 const { AtomicClaimExtractionQueue } = require('./claimExtractionWorker');
 const { publishContentAddressed } = require('./ownerFileIntake');
 const { admitDiscoveryCandidateUrls, RetrievalAuditStore, SafeInformationRetriever } = require('./safeInformationRetrieval');
+const { crucibleError } = require('./failureCodes');
 
 const MAXIMUM_RETRIEVALS_PER_RUN = 25;
 const EXTENSIONS = Object.freeze({
@@ -26,7 +28,7 @@ function eligibleState(source, retryBlocked, retryQuarantined) {
 
 function registerOwnerDelegatedUrl({ queueFile, projectId, url, trustedDomains = [], trustedSuffixes = ['.edu', '.org', '.gov'], now = () => new Date().toISOString() }) {
   const admitted = admitDiscoveryCandidateUrls([url], { trustedDomains, trustedSuffixes, extremeVettingSuffixes:[], maximumResults:1 });
-  if (admitted.length !== 1) throw new Error('The delegated retrieval URL is outside the positive trust allow-list or is otherwise forbidden.');
+  if (admitted.length !== 1) throw operationalError('OPS-0044', 'The delegated retrieval URL is outside the positive trust allow-list or is otherwise forbidden.');
   const normalized = admitted[0].url;
   const queue = new AtomicClaimExtractionQueue(queueFile, projectId);
   const held = queue.lock();

@@ -7,7 +7,7 @@ const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
 const { ClaimExtractionWorker } = require('../src/claimExtractionWorker');
 const { DurableScientificLearningStore } = require('../src/scientificLearning');
-const { readBundle, corpusCandidateStore, corroboratedClaims, reviewCorroborated, readScopeDeclarations, learnFromRealCorpus } = require('../src/realCorpusLearning');
+const { readBundle, corpusCandidateStore, corroboratedClaims, reviewCorroborated, readScopeDeclarations, learnFromRealCorpus, oversightQuarantinedHashes } = require('../src/realCorpusLearning');
 const { ScopePreRegistrationLedger, screenDeclarations, declarationSha256 } = require('../src/scopePreRegistration');
 
 const PROJECT = 'github:owner/repo';
@@ -354,7 +354,7 @@ test('the proof refuses a boundary that moved after an experiment on the same cl
   const report = await learnFromRealCorpus({ bundleRoot, learningRoot, projectId: PROJECT, scopeDeclarationFile: narrowed, harnessesFor, now: () => AT });
 
   assert.equal(report.learned, false, 'a post-hoc boundary must not reach an experiment');
-  assert.equal(report.stopCode, 'OPS-0047');
+  assert.equal(report.stopCode, 'CRU-0047');
   assert.match(report.reason, /declared after its own result was known/);
   assert.equal(report.scopePreRegistration.refused.length, 1);
   assert.deepEqual(report.scopePreRegistration.refused[0].changedFields, ['claimScope']);
@@ -366,4 +366,119 @@ test('the proof refuses a boundary that moved after an experiment on the same cl
   const same = await learnFromRealCorpus({ bundleRoot, learningRoot, projectId: PROJECT, scopeDeclarationFile: writeDeclaration(dir), harnessesFor, now: () => AT });
   assert.equal(same.scopePreRegistration.refused.length, 0);
   assert.equal(same.scopePreRegistration.registrations[0].state, 'unchanged');
+});
+
+// Regression, 2026-09-16. A hosted run reported 534 sources, 403 with stored content, and
+// diagnosed 128 sources without content. 534 - 403 = 131, so a three-source difference was
+// recorded in the handoff as unexplained. Nothing was wrong: the two numbers count different
+// things. A source has content when its queue record carries a durablePath or a contentSha256,
+// which is how intakePathways counts the ones that do not. A stored file is content-addressed -
+// hostedSourceBundle.stage names it ${contentSha256}${extension} and skips the copy when that
+// name exists, while still pointing every source at it - so several sources share one file.
+// sources minus files is the number that share. It is never the number without content.
+test('sources and stored files are counted separately, because several sources may share one file', async (t) => {
+  const dir = workspace(t);
+  const { bundleRoot, learningRoot, queueFile } = buildBundle(dir, twoRealDocuments());
+
+  const queue = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
+  const shared = queue.links[0];
+  // A third source whose retrieved bytes were identical, so it points at the first source's file.
+  queue.links.push({ ...shared, id: 'https://example.org/same-bytes', url: 'https://example.org/same-bytes', finalUrl: 'https://example.org/same-bytes' });
+  // A fourth source that was never retrieved at all.
+  queue.links.push({ id: 'https://example.org/never-retrieved', state: 'retrieval-blocked', url: 'https://example.org/never-retrieved', finalUrl: null, contentType: null, contentSha256: null, durablePath: null, retrievedAt: null });
+  fs.writeFileSync(queueFile, `${JSON.stringify(queue, null, 2)}\n`);
+
+  const result = await learnFromRealCorpus({ bundleRoot, learningRoot, projectId: PROJECT, scopeDeclarationFile: null, harnessesFor, now: () => AT });
+  const c = result.corpus;
+
+  assert.equal(c.sources, 4, 'every queue record is a source');
+  assert.equal(c.sourcesWithContent, 3, 'three carry a durablePath or a content hash');
+  assert.equal(c.documentsWithContent, 2, 'two distinct content-addressed files hold them');
+  assert.equal(c.sourcesWithContent - c.documentsWithContent, 1, 'one source shares a file with another');
+
+  // The arithmetic that produced the phantom. Subtracting files from sources counts the sharers
+  // as though they had no content, and disagrees with the diagnostic by exactly that many.
+  const withoutContent = result.intake.diagnostics.signals.find((s) => s.signal === 'sources-without-content');
+  assert.match(withoutContent.detail, /^1 source\(s\) have no stored content/);
+  assert.equal(c.sources - c.documentsWithContent, 2, 'the wrong subtraction says two');
+  assert.notEqual(c.sources - c.documentsWithContent, 1, 'and the right answer is one, which is why the two never had to agree');
+});
+
+// Deleting a harness does not retract what it already promoted. The first hosted run to print
+// its active knowledge found a version carrying the exact module constant the deleted hardcoded
+// harness used as its boundary, still active and still counted by R5 beside the version a real
+// experiment earned. hasRealCorpusKnowledge cannot tell them apart - it asks whether the store
+// holds any real knowledge, and one real version answers yes for the whole store. Per version is
+// the question that separates them.
+test('corpusBackedVersions names which knowledge versions the restored corpus actually backs', () => {
+  const { corpusBackedVersions, hasRealCorpusKnowledge } = require('../src/realCorpusLearning');
+  const realHash = 'b'.repeat(64);
+  const payload = {
+    knowledgeVersions: [
+      { version: 1, candidateId: 'cycle-fixture', claim: 'from a deleted harness' },
+      { version: 2, candidateId: 'extracted-real', claim: 'from the corpus' },
+      { version: 3, candidateId: 'missing-record', claim: 'no candidate record at all' },
+    ],
+    candidateRecords: [
+      { candidate: { id: 'cycle-fixture', provenance: { sourceId: 'not-in-queue', contentSha256: 'c'.repeat(64) } } },
+      { candidate: { id: 'extracted-real', provenance: { sourceId: 'linked-source:one', contentSha256: realHash } } },
+    ],
+  };
+  const bundle = { manifest: { sourceFiles: [{ sha256: realHash }] }, sources: [{ id: 'linked-source:one' }] };
+
+  const backed = corpusBackedVersions({ payload, bundle });
+  assert.deepEqual([...backed].sort(), [2], 'only the version whose provenance is in the corpus counts');
+  assert.equal(backed.has(1), false, 'a fixture candidate is not corpus-backed however valid its hashes look');
+  assert.equal(backed.has(3), false, 'a version with no candidate record is not corpus-backed either');
+
+  // A bundle that attests nothing backs nothing, which is what makes this fail closed.
+  assert.equal(corpusBackedVersions({ payload, bundle: null }).size, 0);
+  assert.equal(corpusBackedVersions({ payload, bundle: { manifest: {}, sources: [] } }).size, 0);
+
+  // And the store-wide question still answers yes, which is exactly why it cannot be the one asked.
+  assert.equal(hasRealCorpusKnowledge({ read: () => payload }, bundle), true);
+});
+
+// Refused content does not get to teach anything, whoever failed to remove it. Oversight records a
+// decision per source and publishes the bundle, and nothing in its publish path removes what it
+// quarantined - verified by reading that repository: `quarantin` appears only in its vetting
+// function and that function's test, and its custody module contains no deletion at all. One
+// refusal was confirmed present in the restored corpus by content hash, with no other review
+// sharing that hash. So the refusal arrives here as a note rather than as an absence.
+//
+// Every quarantined source is excluded, not only the content-hazard one. The 24 policy refusals
+// come from classifySource rejecting a non-HTTPS URL, a denied host, .onion, a private address, or
+// credentials embedded in the URL - so they are provenance refusals, and corroboration here needs
+// two independent identified sources. A provenance-refused source can never be one, so admitting
+// it could only add permanently unusable records and inflate every count that reads "candidates
+// available to corroboration".
+test('content the independent vetting organ refused is excluded from learning, whoever published it', async (t) => {
+  const dir = workspace(t);
+  const documents = twoRealDocuments();
+  const { bundleRoot, learningRoot, queueFile } = buildBundle(dir, documents);
+  const refusedHash = sha256(documents[0].content);
+  const keptHash = sha256(documents[1].content);
+
+  const report = {
+    schemaVersion: 1,
+    independentOversight: true,
+    sourceReviews: [
+      { sourceId: documents[0].url, contentSha256: refusedHash, decision: 'quarantined', reason: 'Source is prohibited by independent vetting policy.' },
+      { sourceId: documents[1].url, contentSha256: keptHash, decision: 'approved-for-bounded-extraction', reason: null },
+    ],
+  };
+  assert.deepEqual([...oversightQuarantinedHashes(report).keys()], [refusedHash], 'only the quarantined review is refused');
+
+  // A report that refuses nothing, or that is unusable, excludes nothing and does not throw.
+  assert.equal(oversightQuarantinedHashes(null).size, 0);
+  assert.equal(oversightQuarantinedHashes({ sourceReviews: 'not-an-array' }).size, 0);
+  assert.equal(oversightQuarantinedHashes({ sourceReviews: [{ decision: 'quarantined' }] }).size, 0, 'a review with no content hash refuses nothing');
+
+  const common = { bundleRoot, learningRoot, projectId: PROJECT, scopeDeclarationFile: null, harnessesFor: () => ({ experiment: { id: 'a' }, verifier: { id: 'b' } }), now: () => AT };
+  const withReport = await learnFromRealCorpus({ ...common, custodyReport: report });
+  const withoutReport = await learnFromRealCorpus({ ...common, learningRoot: path.join(dir, 'learning-2'), custodyReport: null });
+
+  // The refused source is gone from what learning saw; the approved one is not.
+  assert.equal(withReport.corpus.sources, withoutReport.corpus.sources - 1, 'exactly the refused source was excluded');
+  assert.ok(withoutReport.corpus.sources >= 2, 'the unfiltered corpus really did carry both');
 });

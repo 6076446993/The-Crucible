@@ -1,0 +1,13 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const {evaluatePipeline,CRU}=require('../src/learningPipelineMonitor');
+const r=(id,t,conclusion='success',status='completed')=>({id,created_at:t,updated_at:t,conclusion,status});
+test('native monitor advances only fresh successful evidence',()=>{const w=r(1,'2026-10-04T12:08:00Z'),o=r(2,'2026-10-04T12:12:00Z'),p=r(3,'2026-10-04T12:14:00Z');
+ assert.equal(evaluatePipeline({workerRuns:[w],oversightRuns:[],proofRuns:[],now:Date.parse('2026-10-04T12:15:00Z')}).state,'waiting');
+ const stale=evaluatePipeline({workerRuns:[w],oversightRuns:[],proofRuns:[],now:Date.parse('2026-10-04T12:29:00Z')});assert.equal(stale.state,'repair-required');assert.equal(stale.code,CRU);
+ assert.equal(evaluatePipeline({workerRuns:[w],oversightRuns:[o],proofRuns:[]}).state,'dispatch-proof');
+ assert.deepEqual(evaluatePipeline({workerRuns:[w],oversightRuns:[o],proofRuns:[p]}),{state:'healthy',workerRunId:1,oversightRunId:2,proofRunId:3});});
+test('failed stages route to repair and never advance',()=>{const w=r(1,'2026-10-04T12:08:00Z'),o=r(2,'2026-10-04T12:12:00Z');
+ assert.equal(evaluatePipeline({workerRuns:[r(1,'2026-10-04T12:08:00Z','failure')],oversightRuns:[],proofRuns:[]}).stage,'worker');
+ assert.equal(evaluatePipeline({workerRuns:[w],oversightRuns:[r(2,'2026-10-04T12:12:00Z','failure')],proofRuns:[]}).stage,'oversight');
+ assert.equal(evaluatePipeline({workerRuns:[w],oversightRuns:[o],proofRuns:[r(3,'2026-10-04T12:14:00Z','failure')]}).stage,'crucible-proof');});

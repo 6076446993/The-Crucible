@@ -33,6 +33,12 @@ function looksTextLike(filePath) {
   return !ext && /^[A-Za-z0-9._-]+$/.test(base);
 }
 
+function isExecutableTestFixture(filePath) {
+  // Test programs deliberately construct nonexistent canonical paths. Explicit
+  // manifests remain authoritative; documentation and runtime source still scan.
+  return /^(?:test|tests)\/.+\.(?:test|spec)\.[cm]?[jt]sx?$/.test(filePath);
+}
+
 function extractMainReferences(text, repository) {
   const value = String(text || '');
   const found = new Set();
@@ -149,7 +155,7 @@ function auditReferenceBranch({ branch, repository, files, readBranchFile, readM
   }
 
   for (const file of files) {
-    if (file === MANIFEST_PATH || !looksTextLike(file)) continue;
+    if (file === MANIFEST_PATH || !looksTextLike(file) || isExecutableTestFixture(file)) continue;
     let content;
     try { content = readBranchFile(file); } catch { continue; }
     for (const target of extractMainReferences(content, repository)) addReference({ path: target }, file);
@@ -194,9 +200,9 @@ function makeGitAdapter({ cwd = process.cwd(), remote = 'origin', canonicalBranc
     remote,
     canonicalBranch,
     listBranches() {
-      return git(['for-each-ref', '--format=%(refname:short)', `refs/remotes/${remote}`], { cwd })
+      return git(['for-each-ref', '--format=%(refname)', `refs/remotes/${remote}`], { cwd })
         .split(/\r?\n/).filter(Boolean)
-        .map((ref) => ref.replace(new RegExp(`^${escapeRegex(remote)}/`), ''))
+        .map((ref) => ref.replace(new RegExp(`^refs/remotes/${escapeRegex(remote)}/`), ''))
         .filter((branch) => branch && branch !== 'HEAD');
     },
     listFiles(branch) {
@@ -300,7 +306,7 @@ function repairBranchForRenames({ branch, repository, renames, adapter = makeGit
     const files = git(['ls-tree', '-r', '--name-only', 'HEAD'], { cwd: worktree }).split(/\r?\n/).filter(Boolean);
     if (files.length > MAX_SCAN_FILES) throw new Error(`branch has ${files.length} files; limit is ${MAX_SCAN_FILES}`);
     for (const file of files) {
-      if (!looksTextLike(file)) continue;
+      if (!looksTextLike(file) || isExecutableTestFixture(file)) continue;
       const absolute = path.join(worktree, file);
       const stat = fs.statSync(absolute);
       if (stat.size > MAX_TEXT_BYTES) continue;

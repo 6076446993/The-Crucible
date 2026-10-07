@@ -25,6 +25,20 @@ const { auditAIConflictLedger } = require('./aiConflictLedger');
 const DEFAULT_GOVERNANCE_CHECKS = Object.freeze(['audit:coordination', 'audit:ai-conflict-governance']);
 const SESSION_HEADING = /^### Session: (.+?) — (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z) — (.+)$/gm;
 
+// Keep governance continuation on the same Windows-safe npm invocation without making
+// handoff governance import the diagnostics organ directly. The Node distribution owns the
+// bundled CLI; this local resolver is deliberately limited to its two supported layouts.
+function npmCli(execPath = process.execPath) {
+  const directory = path.dirname(execPath);
+  const candidates = [
+    path.join(directory, 'node_modules', 'npm', 'bin', 'npm-cli.js'),
+    path.resolve(directory, '..', 'lib', 'node_modules', 'npm', 'bin', 'npm-cli.js'),
+  ];
+  const resolved = candidates.find((candidate) => fs.existsSync(candidate));
+  if (!resolved) throw new Error(`Locked npm CLI was not found beside Node: ${candidates.join(', ')}`);
+  return resolved;
+}
+
 function git(root, args) {
   const result = spawnSync('git', args, { cwd: root, encoding: 'utf8' });
   if (result.status !== 0) return null;
@@ -150,7 +164,16 @@ function inspectDevlog(root) {
 }
 
 function runCheck(root, script) {
-  const result = spawnSync('npm', ['run', '--silent', script], { cwd: root, encoding: 'utf8' });
+  // On Windows, spawning the npm command shim directly can fail with EINVAL before the
+  // governance check even starts.  Invoke the bundled npm CLI through this Node runtime,
+  // as the hosted diagnostic path already does, so a passing audit is not misreported as
+  // unverified merely because of the command shim.
+  const result = spawnSync(process.execPath, [npmCli(), 'run', '--silent', script], {
+    cwd: root,
+    encoding: 'utf8',
+    shell: false,
+    windowsHide: true,
+  });
   return { script, ok: result.status === 0, detail: String(result.stdout || result.stderr || '').trim().split(/\r?\n/).slice(-1)[0] || '' };
 }
 

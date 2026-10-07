@@ -50,7 +50,7 @@ test('a record cannot claim a change it does not list, or list changes it says i
   assert.ok(validateAccountabilityRecord(record({ filesChanged: [] })).some((item) => /lists no filesChanged/.test(item)));
   assert.ok(validateAccountabilityRecord(record({ repositoryStateChanged: false })).some((item) => /says the repository did not change/.test(item)));
   assert.deepEqual(validateAccountabilityRecord(record({ repositoryStateChanged: false, filesChanged: [] })), []);
-  assert.throws(() => assertAccountabilityRecord(record({ provider: '' })), /required/);
+  assert.throws(() => assertAccountabilityRecord(record({ provider: '' })), (error) => error.operationalCode === 'OPS-0035');
 });
 
 test('only claims that actually had their turn need a DEVLOG record', () => {
@@ -96,11 +96,11 @@ test('the coordination gate refuses overlapping claims, missing records and pers
     { taskId: 'task-a', owner: { provider: 'openai', agent: 'a' }, scope: { paths: ['src/'] }, purpose: 'p', status: 'active', acquiredAt: '2026-09-03T17:00:00Z' },
     { taskId: 'task-b', owner: { provider: 'anthropic', agent: 'b' }, scope: { paths: ['src/a.js'] }, purpose: 'p', status: 'active', acquiredAt: '2026-09-03T17:00:00Z' },
   ] }, '# Development log\n');
-  assert.throws(() => coordinationGate(root), /Exclusive mutation ownership failed/);
+  assert.throws(() => coordinationGate(root), (error) => error.operationalCode === 'OPS-0029' && /Exclusive mutation ownership failed/.test(error.message));
 
   // A finished claim with nothing in the log stops the gate.
   write({ schemaVersion: 1, mutationClaims: [claim('ghost-task', 'released')] }, '# Development log\n');
-  assert.throws(() => coordinationGate(root), /must record/);
+  assert.throws(() => coordinationGate(root), (error) => error.operationalCode === 'OPS-0035');
 
   // A credential in a governance artifact stops the gate.
   write({ schemaVersion: 1, note: 'sk-ant-aaaaaaaaaaaaaaaaaaaaaaaa', mutationClaims: [] }, '# Development log\n');
@@ -118,4 +118,12 @@ test('the coordination gate refuses overlapping claims, missing records and pers
 test('this repository passes its own coordination gate', () => {
   const result = coordinationGate(path.join(__dirname, '..'));
   assert.ok(result.claims >= 0);
+});
+
+
+test('retained Devlog-Pruned history satisfies accountability after inline DEVLOG pruning', () => {
+  const claims = [claim('old-repair', 'released')];
+  const archived = '## Snapshot: 2026-09-28T18:00:00Z — pruned by attended repair\n\nold-repair was completed and released.\n';
+  const result = auditDevlogAccountability({ devlog: '# Development log\n', archivedDevlog: archived, claims });
+  assert.deepEqual(result.findings, []);
 });

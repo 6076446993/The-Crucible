@@ -268,3 +268,20 @@ test('publishReport appends to the GitHub Actions job summary when present', () 
 test('publishReport is a no-op outside GitHub Actions', () => {
   assert.equal(publishReport('report body', {}), false);
 });
+
+
+test('exhausted transport retries retain a fail-closed per-repository report without credentials', async () => {
+  let calls = 0;
+  const result = await auditGithubRepositorySecurity(config(), {
+    GITHUB_TOKEN: 'never-print-this', GITHUB_REPOSITORY: ENGINE_REPOSITORY,
+  }, async () => {
+    calls += 1;
+    throw Object.assign(new Error('fetch failed with never-print-this'), { cause: { code: 'ENOTFOUND' } });
+  });
+  assert.equal(calls, 3);
+  assert.equal(result.skipped, false);
+  assert.equal(result.results[0].reachable, false);
+  assert.equal(result.findings.length, 1);
+  assert.match(formatReport(result), /ENOTFOUND/);
+  assert.doesNotMatch(JSON.stringify(result), /never-print-this/);
+});

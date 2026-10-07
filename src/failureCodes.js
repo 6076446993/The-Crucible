@@ -39,10 +39,30 @@ const UNCODED = 'CRU-0000';
 // A code is `CRU-` followed by four digits. Fixed width so it can be found in a log by shape
 // rather than by knowing the list, and stable across any rewording of the message it carries.
 const CODE_PATTERN = /CRU-\d{4}/g;
+const OPERATIONAL_PATTERN = /OPS-\d{4}/g;
 
 // The registry. Each entry says what happened and what to do about it, in the words a person
 // reading a red CI job needs. `category` groups codes for reporting; it is not a severity.
 const FAILURE_CODES = Object.freeze({
+  'CRU-0056': {
+    code: 'CRU-0056', category: 'learning-pipeline-handoff',
+    meaning: 'The native Crucible learning pipeline observed a failed or stale Worker, independent Oversight, or durable-proof handoff and refused to advance it.',
+    next: 'Use the named stage and run ID from monitor evidence, repair that stage through its owning repository and governed repair path, then rerun the native monitor.',
+    remedy: { kind: 'guided', command: 'node src/learningPipelineMonitor.js', verifyWith: { tests: ['test/learningPipelineMonitor.test.js'] }, forbidden: 'Never mark a stale or failed stage successful, skip independent Oversight, or dispatch downstream proof from stale evidence.' },
+  },
+  'CRU-0055': {
+    code: 'CRU-0055',
+    category: 'nexus-integration-conformance',
+    meaning: 'A registered Nexus component violates the canonical Nexus system integration contract or still carries an active obsolete Assimilation routing/authority semantic.',
+    next: 'Repair the component-local integration or routing declaration while preserving repository authority and historical provenance, then rerun Nexus diagnosis and the component tests.',
+    remedy: {
+      kind: 'guided',
+      command: null,
+      verifyWith: { tests: ['test/nexusRepairBridge.test.js'] },
+      forbidden: 'Never repair this by copying, injecting, assimilating, or rewriting another component governance tree. Diagnosis is evidence only and remediation stays within the owning component.',
+    },
+  },
+
   [UNCODED]: {
     code: UNCODED,
     category: 'diagnosis-coverage',
@@ -648,6 +668,18 @@ const FAILURE_CODES = Object.freeze({
       forbidden: 'Never hide an inaccessible repository, suppress a GitHub API error, or mark a blocked observation healthy merely to make the monitor green.',
     },
   },
+  'CRU-0049': {
+    code: 'OPS-0049',
+    category: 'hosted-verification',
+    meaning: 'The durable hosted gate-evidence store refused to operate: its integrity envelope or project binding failed, a gate declared a decider file that does not exist, a gate reported an unrecognised state, or the state repository rejected the push that would have persisted it. R6, R7 and R8 all depend on state surviving between runs - R7 cannot supersede a prior version that is not there - so the run fails rather than proceeding on state it cannot persist.',
+    next: 'Read the message: it says which invariant failed. A rejected push almost always means the deploy key for Crucible-Learning-State is read-only; tick "Allow write access" on it, or give the proof job its own write-enabled key. A missing decider means a gate\'s implementation was renamed or deleted and GATE_DECIDERS in src/durableGateEvidence.js has to be reconciled with it deliberately.',
+    remedy: {
+      kind: 'owner-decision',
+      command: null,
+      verifyWith: { tests: ['test/durableGateEvidence.test.js'] },
+      forbidden: 'Never fall back to the evictable Actions cache when the durable store is unreachable - a silent fallback restores exactly the invisible eviction this store exists to remove, and the gate then reads pending for a storage reason that looks scientific. Never rebuild or delete the store to clear the error: it holds the accumulated prior versions R7 supersedes, and rebuilding it destroys the only evidence that they ever existed.',
+    },
+  },
   'CRU-0053': {
     code: 'CRU-0053',
     category: 'scientific-learning',
@@ -658,6 +690,18 @@ const FAILURE_CODES = Object.freeze({
       command: 'npm test',
       verifyWith: { tests: ['test/scientificLearning.test.js', 'test/failureCodes.test.js'] },
       forbidden: 'Never bypass proof validation or treat an invalid experimental or independent-verification record as evidence of knowledge.'
+    },
+  },
+  'CRU-0054': {
+    code: 'OPS-0054',
+    category: 'experiment-harness',
+    meaning: 'A controlled experiment cannot run honestly because its language harness, required toolchain, fixture assertion, negative control, or independent verifier is unavailable or invalid.',
+    next: 'Repair the language-specific harness or toolchain named by the message, preserve distinct executor and verifier methods, and rerun the hosted experiment tests.',
+    remedy: {
+      kind: 'guided',
+      command: 'npm test',
+      verifyWith: { tests: ['test/hostedExperimentHarnesses.test.js', 'test/hostedLearningProof.test.js'] },
+      forbidden: 'Never substitute another language harness, add a default harness, weaken a negative control, or treat an unavailable experiment as proof.',
     },
   },
   'CRU-0052': {
@@ -701,6 +745,7 @@ const CRU_CLASSIFICATION_CODES = Object.freeze(new Set([
   'CRU-0033',
   'CRU-0036',
   'CRU-0041',
+  'CRU-0055',
 ]));
 
 const LEGACY_NON_CRU_CODES = Object.freeze(new Set(
@@ -755,6 +800,29 @@ function describeCode(code) {
   return isCrucibleClassificationCode(code) ? FAILURE_CODES[code] : null;
 }
 
+function legacyCodeForOperational(code) {
+  const normalized = String(code || '');
+  return normalized.startsWith('OPS-') ? 'CRU-' + normalized.slice(4) : null;
+}
+
+function describeOperationalCode(code) {
+  const legacyCode = legacyCodeForOperational(code);
+  if (!legacyCode || !LEGACY_NON_CRU_CODES.has(legacyCode)) return null;
+  const entry = FAILURE_CODES[legacyCode];
+  return entry ? { ...entry, code: String(code) } : null;
+}
+
+function operationalCode(error) {
+  if (!error) return null;
+  if (error.operationalCode && describeOperationalCode(error.operationalCode)) return error.operationalCode;
+  const found = String(error.message || error).match(/OPS-\d{4}/);
+  return found && describeOperationalCode(found[0]) ? found[0] : null;
+}
+
+function describeAnyCode(code) {
+  return describeCode(code) || describeOperationalCode(code);
+}
+
 // The half the immune system uses.
 //
 // A code that only names a failure still leaves the repair to be worked out from prose, which is
@@ -776,7 +844,7 @@ function describeCode(code) {
 // authority: it says what to do, never that it may be promoted, and R11 is untouched by any of
 // it.
 function remedyFor(code) {
-  const known = describeCode(code);
+  const known = describeAnyCode(code);
   return known ? known.remedy : null;
 }
 
@@ -802,6 +870,14 @@ function codesInText(text) {
   const seen = [];
   for (const match of String(text || '').matchAll(CODE_PATTERN)) {
     if (isCrucibleClassificationCode(match[0]) && !seen.includes(match[0])) seen.push(match[0]);
+  }
+  return seen;
+}
+
+function operationalCodesInText(text) {
+  const seen = [];
+  for (const match of String(text || '').matchAll(OPERATIONAL_PATTERN)) {
+    if (describeOperationalCode(match[0]) && !seen.includes(match[0])) seen.push(match[0]);
   }
   return seen;
 }
@@ -841,17 +917,14 @@ function coverageReport(root = 'src') {
   let coded = 0;
   for (const file of files) {
     const source = fs.readFileSync(path.join(root, file), 'utf8');
-    const bare = (source.match(/throw new Error\(/g) || []).length;
     // A bare Error is not automatically an uncoded CRU failure. Under the CRU boundary,
-    // validation/governance/learning state errors deliberately remain operational. The
-    // coverage ratchet measures only explicit CRU-classification attempts so it cannot force
-    // operational states back into the CRU namespace.
+    // validation/governance/learning state errors deliberately remain operational.
     const literalCalls = [...source.matchAll(/throw\s+crucibleError\(\s*['"](CRU-\d{4})['"]/g)];
     const carried = literalCalls.filter((match) => isCrucibleClassificationCode(match[1])).length;
     const legacyOperational = literalCalls.filter((match) => !isCrucibleClassificationCode(match[1])).length;
     coded += carried;
-    // Retired CRU calls are tracked as operational migration debt. Ordinary Error throws are
-    // valid operational errors and are intentionally excluded from CRU coverage.
+    // Only legacy CRU calls that still need conversion to operationalError count as migration
+    // debt. Ordinary Error throws do not, and already-converted OPS errors are outside CRU.
     if (legacyOperational) { byFile[file] = legacyOperational; uncoded += legacyOperational; }
   }
   return { uncoded, coded, byFile, files: files.length };
@@ -896,8 +969,9 @@ function auditFailureCodes({ root = 'src', baselineFile = BASELINE_FILE } = {}) 
 }
 
 module.exports = {
-  UNCODED, CODE_PATTERN, FAILURE_CODES, CRU_CLASSIFICATION_CODES, LEGACY_NON_CRU_CODES, BASELINE_FILE,
+  UNCODED, CODE_PATTERN, OPERATIONAL_PATTERN, FAILURE_CODES, CRU_CLASSIFICATION_CODES, LEGACY_NON_CRU_CODES, BASELINE_FILE,
   crucibleError, failureCode, describeCode, codesInText, isCrucibleClassificationCode, operationalCodeFor, operationalError,
+  legacyCodeForOperational, describeOperationalCode, operationalCode, operationalCodesInText, describeAnyCode,
   remedyFor, testRequestFor, repairableByImmuneSystem, failureLogPath, resolveFailureLog,
   coverageReport, readBaseline, auditFailureCodes,
 };

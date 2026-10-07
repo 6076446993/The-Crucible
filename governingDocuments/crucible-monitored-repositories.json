@@ -3,34 +3,42 @@
   "description": "Repositories whose open pull requests are observed by The Crucible. Observation never grants mutation authority.",
   "repositories": [
     {
-      "name": "jonathanblunt1214-lgtm/NVIDIA-NIM-CONSOLE",
+      "name": "6076446993/NVIDIA-NIM-CONSOLE",
       "enabled": true
     },
     {
-      "name": "jonathanblunt1214-lgtm/AI-collaboration-",
+      "name": "6076446993/AI-collaboration-",
       "enabled": true
     },
     {
-      "name": "jonathanblunt1214-lgtm/The-Crucible",
+      "name": "6076446993/The-Crucible",
       "enabled": true,
       "lockedPullRequests": [
         11
       ]
     },
     {
-      "name": "jonathanblunt1214-lgtm/Learning-Worker",
+      "name": "6076446993/Learning-Worker",
       "enabled": true
     },
     {
-      "name": "jonathanblunt1214-lgtm/Crucible-Vetted-Learning-State",
+      "name": "6076446993/Crucible-Learning-State",
       "enabled": true
     },
     {
-      "name": "jonathanblunt1214-lgtm/Vetting-and-Governance-oversite.",
+      "name": "6076446993/Crucible-Vetted-Learning-State",
       "enabled": true
     },
     {
-      "name": "jonathanblunt1214-lgtm/Nexus-",
+      "name": "6076446993/Vetting-and-Governance-oversite.",
+      "enabled": true
+    },
+    {
+      "name": "6076446993/Nexus-Public-CI",
+      "enabled": true
+    },
+    {
+      "name": "6076446993/Nexus-",
       "enabled": true
     }
   ]

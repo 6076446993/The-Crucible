@@ -1,0 +1,173 @@
+name: SI R3-R8 sandbox
+
+on:
+  push:
+    branches:
+      - development
+    paths:
+      - 'governingDocuments/synthetic-intelligence-research-register.json'
+      - 'test/automatedModelPointerResearch.test.js'
+      - 'test/safeInformationRetrieval.test.js'
+      - 'src/automatedModelPointerResearch.js'
+      - 'src/safeInformationRetrieval.js'
+      - '.github/workflows/si-gate-sandbox.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: si-gate-sandbox-development
+  cancel-in-progress: false
+
+jobs:
+  r3-si-discovery-sandbox:
+    name: SI R3 discovery sandbox
+    if: github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Exercise SI source seeds through the R3 admission sandbox
+        run: node --test --test-name-pattern="SI R3 sandbox" test/automatedModelPointerResearch.test.js
+
+  r8-si-safety-sandbox:
+    name: SI R8 safety sandbox
+    if: github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Exercise SI content through the R8 safety sandbox
+        run: node --test --test-name-pattern="SI R8 sandbox|verified scholarly research" test/safeInformationRetrieval.test.js
+
+  si-real-retrieval-pilot:
+    name: SI real retrieval and extraction pilot
+    if: github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    env:
+      CRUCIBLE_LEARNING_PROJECT_ID: github:jonathanblunt1214-lgtm/The-Crucible
+      CRUCIBLE_LEARNING_ROOT: .si-live-pilot
+      CRUCIBLE_SOURCE_QUEUE: .si-live-pilot/source-queue.json
+      CRUCIBLE_RETRIEVAL_BATCH_SIZE: '9'
+      CRUCIBLE_RETRIEVAL_MINIMUM_INTERVAL_MS: '1000'
+      CRUCIBLE_EXTRACTION_BATCH_SIZE: '9'
+      CRUCIBLE_EXTRACTION_MAX_DOCUMENTS: '9'
+      CRUCIBLE_PDF_PAGES_PER_BATCH: '20'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Initialize disposable SI queue from the nine logged seeds
+        shell: bash
+        run: |
+          mkdir -p .si-live-pilot .si-pilot-report
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const { registerOwnerDelegatedUrl } = require('./src/sourceRetrievalWorker');
+          const projectId = process.env.CRUCIBLE_LEARNING_PROJECT_ID;
+          const queueFile = path.resolve(process.env.CRUCIBLE_SOURCE_QUEUE);
+          const register = JSON.parse(fs.readFileSync('governingDocuments/synthetic-intelligence-research-register.json', 'utf8'));
+          const scholarly = JSON.parse(fs.readFileSync('governingDocuments/verified-scholarly-domains.json', 'utf8'));
+          fs.writeFileSync(queueFile, JSON.stringify({ schemaVersion:1, projectId, updatedAt:new Date().toISOString(), documents:[], links:[] }, null, 2) + '\n');
+          const trustedDomains = scholarly.domains.map((entry) => entry.domain);
+          const admitted = register.candidateSourceSeeds.map((seed) => ({
+            seedId:seed.id,
+            ...registerOwnerDelegatedUrl({ queueFile, projectId, url:seed.url, trustedDomains }),
+          }));
+          fs.writeFileSync('.si-pilot-report/admission-report.json', JSON.stringify({
+            schemaVersion:1,
+            projectId,
+            seedCount:register.candidateSourceSeeds.length,
+            admitted,
+            productionStateReferenced:false,
+            productionStateWritable:false,
+            promotionAuthorized:false,
+          }, null, 2) + '\n');
+          NODE
+      - name: Retrieve the real SI source pages with the governed retriever
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          node src/sourceRetrievalWorkerCli.js run | tee .si-pilot-report/retrieval-report.json
+      - name: Extract bounded SI candidate claims from successfully retrieved sources
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          node src/claimExtractionWorkerCli.js run | tee .si-pilot-report/extraction-report.json
+      - name: Summarize candidate-only pilot and require nonzero real processing
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const queue = JSON.parse(fs.readFileSync(process.env.CRUCIBLE_SOURCE_QUEUE, 'utf8'));
+          const counts = {};
+          let candidates = 0;
+          const sources = queue.links.map((source) => {
+            counts[source.state] = (counts[source.state] || 0) + 1;
+            const candidateIds = source.claimExtraction?.candidateIds || [];
+            candidates += candidateIds.length;
+            return {
+              id:source.id,
+              url:source.url,
+              finalUrl:source.finalUrl || null,
+              state:source.state,
+              classification:source.classification,
+              contentSha256:source.contentSha256 || null,
+              candidateCount:candidateIds.length,
+              blocker:source.blocker || null,
+            };
+          });
+          const summary = {
+            schemaVersion:1,
+            projectId:process.env.CRUCIBLE_LEARNING_PROJECT_ID,
+            seedCount:queue.links.length,
+            stateCounts:counts,
+            candidateCount:candidates,
+            sources,
+            candidateOnly:true,
+            productionStateReferenced:false,
+            productionStateWritable:false,
+            proofStageSatisfied:false,
+            promotionAuthorized:false,
+          };
+          fs.writeFileSync('.si-pilot-report/summary.json', JSON.stringify(summary, null, 2) + '\n');
+          console.log(JSON.stringify(summary, null, 2));
+          if (candidates < 1) {
+            console.error('[The Crucible] SI pilot produced no bounded candidates; live custody is not ready.');
+            process.exit(1);
+          }
+          NODE
+      - name: Destroy retrieved source bodies and disposable candidate store
+        if: always()
+        shell: bash
+        run: rm -rf .si-live-pilot
+      - name: Retain metadata-only SI pilot evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: si-real-retrieval-pilot-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .si-pilot-report
+          if-no-files-found: error
+          retention-days: 30
+          include-hidden-files: true
+

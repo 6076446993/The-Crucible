@@ -38,7 +38,6 @@
     "learning:extract-readiness": "node src/claimExtractionWorkerCli.js readiness",
     "test:monthly-learning-refresh": "node --test test/monthlyKnowledgeRefresh.test.js",
     "learning:readiness": "node src/scientificLearningCli.js readiness",
-    "learning:devlog": "node src/learningExperience.js ingest-devlog",
     "learning:ingest": "node src/scientificLearningCli.js ingest",
     "learning:status": "node src/scientificLearningCli.js status",
     "learning:pre-soak": "node src/preSoakReadinessCli.js report",
@@ -84,7 +83,8 @@
     "audit:failure-codes": "node src/cli.js failure-codes",
     "trace:pipeline": "node src/pipelineTracer.js",
     "monitor:nexus-checks": "node src/nexusCheckMonitor.js",
-    "learning:queue-prevention": "node src/preventionCandidateCli.js"
+    "cru-catalog:sync": "node src/cruCodeCatalogCli.js sync",
+    "cru-catalog:check": "node src/cruCodeCatalogCli.js check"
   },
   "engines": {
     "node": ">=20"

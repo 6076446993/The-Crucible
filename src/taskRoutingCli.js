@@ -114,6 +114,28 @@ function handoffAt(sha) {
   return handoff;
 }
 
+// Archive is reference-only. The sole standing exception is the append-only
+// DEVLOG retention ledger, which deliberately cannot carry development's
+// AI-HANDOFF.json. Keep that exception narrower than the normal route: the
+// canonical repository, Archive branch, and exactly one ledger path are all
+// required before the pre-push hook may proceed.
+function verifyArchiveLedgerPush({ repository, branch, paths, registry }) {
+  if (branch !== 'Archive') return null;
+  if (repository.toLowerCase() !== registry.canonical.repository.toLowerCase()) {
+    fail(`Archive ledger push repository ${repository} is not the canonical repository ${registry.canonical.repository}.`);
+  }
+  if (paths.length !== 1 || paths[0] !== 'Devlog-Pruned') {
+    fail('Archive accepts only the one-file Devlog-Pruned retention ledger update.');
+  }
+  return {
+    ok: true,
+    status: 'archive-devlog-pruned-only',
+    repository,
+    branch,
+    paths,
+  };
+}
+
 function verifyPush({ input, remote = 'origin', remoteUrl } = {}) {
   const registry = loadTaskRouting();
   const repository = repositoryFromRemote(remoteUrl || git(['remote', 'get-url', remote]));
@@ -130,6 +152,11 @@ function verifyPush({ input, remote = 'origin', remoteUrl } = {}) {
     if (!remoteRef.startsWith('refs/heads/')) fail(`Only branch refs are supported, received ${remoteRef}.`);
     const branch = remoteRef.slice('refs/heads/'.length);
     const paths = changedPaths(remoteSha, localSha);
+    const archiveLedger = verifyArchiveLedgerPush({ repository, branch, paths, registry });
+    if (archiveLedger) {
+      results.push(archiveLedger);
+      continue;
+    }
     const handoff = handoffAt(localSha);
     results.push(verifyRecordedDecision({ record: handoff.activePlan?.taskRouting, repository, branch, paths, prompt: handoff.activePlan?.currentPrompt }, registry));
   }
@@ -228,6 +255,7 @@ module.exports = {
   worktreeForBranch,
   contextFrom,
   changedPaths,
+  verifyArchiveLedgerPush,
   handoffAt,
   verifyPush,
   verifyCi,

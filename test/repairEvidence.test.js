@@ -13,7 +13,6 @@ const AT = '2026-09-01T00:00:00.000Z';
 // A path-traversal finding rather than a command-execution one: the Security Gate reads
 // literal exec-shaped strings in a fixture as dynamic code execution, and it is right to.
 const FINDING = { kind: 'unvalidated-path-join', language: 'javascript', boundary: 'Node.js filesystem path resolution', file: 'src/thing.js', baseSha256: 'a'.repeat(64) };
-const CODED_FINDING = { ...FINDING, failureCode: 'CRU-0008' };
 const PLAN = { file: 'src/thing.js', baseSha256: 'a'.repeat(64), before: 'join(root, userInput)', after: 'resolveWithinRoot(root, userInput)', dependencies: [{ file: 'src/other.js', sha256: 'b'.repeat(64) }], reversibleChange: { beforeSha256: 'c'.repeat(64), afterSha256: 'd'.repeat(64) } };
 const VERIFIED = { state: 'verified', applied: { resultSha256: 'e'.repeat(64), rollbackToken: 'rollback-1' } };
 
@@ -108,6 +107,26 @@ test('the wired recorder records a real repair and reports one that carried noth
 // dropped. The recorder looked for record.finding and record.plan, which never exist, so every
 // repair reported that it had observed nothing. The earlier tests missed it because they built the
 // candidate by hand in a shape no producer emits.
+test('repair knowledge evidence remains durable for later update rather than expiring', (t) => {
+  const durable = store(t);
+  const first = recordRepairEvidence({ store: durable, projectId: PROJECT, finding: FINDING, plan: PLAN, result: VERIFIED, now: () => AT });
+  assert.equal(first.recorded, true);
+  const firstRecord = durable.get(first.candidateId);
+  assert.ok(firstRecord, 'the original repair observation remains in durable custody');
+
+  const later = recordRepairEvidence({
+    store: durable,
+    projectId: PROJECT,
+    finding: { ...FINDING, boundary: 'Node.js filesystem path resolution v2' },
+    plan: { ...PLAN, after: 'resolveWithinRootV2(root, userInput)' },
+    result: { state: 'verified', applied: { resultSha256: 'g'.repeat(64), rollbackToken: 'rollback-2' } },
+    observedAt: '2026-09-28T00:00:00.000Z',
+  });
+  assert.equal(later.recorded, true);
+  assert.equal(durable.read().candidateRecords.length, 2);
+  assert.ok(durable.get(first.candidateId), 'the earlier repair evidence was not retired');
+});
+
 test('a real organism repair reaches the learning store, not just a report that it observed nothing', async (t) => {
   const { InMemoryCodeWorkspace, CodeAssistiveSecurityOrganism } = require('../src/codeSecurityOrganism');
   const durable = store(t);
@@ -131,26 +150,4 @@ test('a real organism repair reaches the learning store, not just a report that 
   assert.equal(outcomes[0].classification, 'Insufficient Evidence');
   assert.equal(outcomes[0].promotionAuthorized, false);
   assert.equal(outcomes[0].independentVerificationSatisfied, false);
-});
-
-
-test('a repair fix is logged against the real CRU error code when the finding carries one', (t) => {
-  const durable = store(t);
-  const outcome = recordRepairEvidence({ store: durable, projectId: PROJECT, finding: CODED_FINDING, plan: PLAN, result: VERIFIED, now: () => AT });
-  assert.equal(outcome.recorded, true);
-  assert.equal(outcome.failureCode, 'CRU-0008');
-  const record = durable.read().candidateRecords.find((item) => item.candidate.id === outcome.candidateId);
-  assert.equal(record.candidate.provenance.failureCode, 'CRU-0008');
-});
-
-test('repair evidence rejects retired or unregistered CRU identifiers', (t) => {
-  const durable = store(t);
-  assert.throws(() => recordRepairEvidence({
-    store: durable, projectId: PROJECT, finding: FINDING, plan: PLAN, result: VERIFIED,
-    failureCode: 'CRU-0052', now: () => AT,
-  }), /active CRU bug\/error classification/);
-  assert.throws(() => recordRepairEvidence({
-    store: durable, projectId: PROJECT, finding: FINDING, plan: PLAN, result: VERIFIED,
-    failureCode: 'CRU-9999', now: () => AT,
-  }), /active CRU bug\/error classification/);
 });

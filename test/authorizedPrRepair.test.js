@@ -7,3 +7,17 @@ test('authorization fails closed when keys are unavailable',()=>{const r=verifyA
 test('authorization is bound to exact repository, PR, SHA and failure code',()=>{const a=base();for(const [k,v] of [['repository','owner/other'],['pullRequest',8],['headSha','b'.repeat(40)],['failureCode','CRU-0004']]){const input={authorization:a,repository:'owner/repo',pullRequest:7,headSha:'a'.repeat(40),failureCode:'CRU-0008',now:new Date('2026-01-01T01:00:00Z'),oversightPublicKey:null,ownerPublicKey:null};if(k==='repository')input.repository=v;if(k==='pullRequest')input.pullRequest=v;if(k==='headSha')input.headSha=v;if(k==='failureCode')input.failureCode=v;assert.equal(verifyAuthorization(input).authorized,false);}});
 test('expired authorization is rejected before signature verification',()=>{const a=base();a.expiresAt='2025-12-31T23:59:59Z';const r=verifyAuthorization({authorization:a,repository:'owner/repo',pullRequest:7,headSha:'a'.repeat(40),failureCode:'CRU-0008',now:new Date('2026-01-01T01:00:00Z'),oversightPublicKey:null,ownerPublicKey:null});assert.equal(r.reason,'authorization-expired-or-not-yet-active');});
 test('repair commands are restricted to concrete npm run commands',()=>{assert.deepEqual(parseRepairCommand('npm run lint:workflows').args,['run','lint:workflows']);assert.throws(()=>parseRepairCommand('rm -rf .'),/bounded npm-run repair surface/);});
+
+
+test('authorized repair fails closed when its cross-system dependencies are not injected', async () => {
+  const result = await executeAuthorizedRepair({
+    repository:'owner/repo',
+    pullRequest:7,
+    headSha:'a'.repeat(40),
+    branch:'development',
+    failure:{locked:false,code:'CRU-0008',remedy:{kind:'automatic',command:'npm run lint:workflows'}},
+    authorization:null,
+    token:'test-token',
+  });
+  assert.equal(result.state, 'not-authorized');
+});

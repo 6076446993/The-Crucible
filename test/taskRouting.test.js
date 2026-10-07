@@ -14,11 +14,12 @@ const {
   repositoryFromRemote,
   selectWorktree,
   changedPaths,
+  verifyArchiveLedgerPush,
 } = require('../src/taskRoutingCli');
 
 const registry = loadTaskRouting();
 const repositoryId = 1344890806;
-const repository = 'jonathanblunt1214-lgtm/The-Crucible';
+const repository = '6076446993/The-Crucible';
 
 test('canonical routing registry is development-owned and uses a stable repository ID', () => {
   assert.equal(validateTaskRouting(registry), true);
@@ -52,6 +53,16 @@ test('MCP and named provider integrations route to Plug-in', () => {
     assert.equal(result.branch, 'Plug-in', prompt);
   }
   assert.equal(classifyTask({ paths: ['chatgpt-mcp/server.js'] }, registry).branch, 'Plug-in');
+});
+
+test('root dependency security patches are registered core work at the push boundary', () => {
+  const paths = ['package-lock.json', 'AI-HANDOFF.json', 'DEVLOG.md'];
+  const prompt = 'Repair a locked core dependency advisory';
+  const decision = classifyTask({ prompt, paths }, registry);
+  assert.equal(decision.category, 'crucible-core');
+  const record = routingRecord(decision, { prompt, paths });
+  assert.equal(verifyRecordedDecision({ record, repositoryId, repository, branch: 'development', prompt, paths }, registry).ok, true);
+  assert.throws(() => verifyRecordedDecision({ record, repositoryId, repository, branch: 'Plug-in', prompt, paths }, registry), /does not match routed branch/);
 });
 
 test('explicit registered destination overrides automatic wording but cannot create a branch or write main', () => {
@@ -118,6 +129,26 @@ test('routing itself never authorizes branch creation or deletion', () => {
   assert.throws(() => changedPaths('0'.repeat(40), 'a'.repeat(40)), /OPS-0045.*new branch push/i);
 });
 
+test('the Archive exception accepts only the canonical one-file DEVLOG retention ledger', () => {
+  const accepted = verifyArchiveLedgerPush({ repository, branch: 'Archive', paths: ['Devlog-Pruned'], registry });
+  assert.deepEqual(accepted, {
+    ok: true,
+    status: 'archive-devlog-pruned-only',
+    repository,
+    branch: 'Archive',
+    paths: ['Devlog-Pruned'],
+  });
+  assert.equal(verifyArchiveLedgerPush({ repository, branch: 'development', paths: ['Devlog-Pruned'], registry }), null);
+  assert.throws(
+    () => verifyArchiveLedgerPush({ repository, branch: 'Archive', paths: ['Devlog-Pruned', 'README.md'], registry }),
+    /OPS-0045.*one-file Devlog-Pruned/i,
+  );
+  assert.throws(
+    () => verifyArchiveLedgerPush({ repository: 'other/The-Crucible', branch: 'Archive', paths: ['Devlog-Pruned'], registry }),
+    /OPS-0045.*not the canonical repository/i,
+  );
+});
+
 test('a durable route record carries category, stable destination, reason, and prompt/path digests', () => {
   const prompt = 'implement task routing';
   const paths = ['src/taskRouting.js', 'test/taskRouting.test.js'];
@@ -154,8 +185,8 @@ test('CLI parsing is shell-free and remote identity parsing accepts HTTPS and SS
     prompt: 'hello; whoami',
     'owner-authorized': true,
   });
-  assert.equal(repositoryFromRemote('https://github.com/jonathanblunt1214-lgtm/The-Crucible.git'), repository);
-  assert.equal(repositoryFromRemote('git@github.com:jonathanblunt1214-lgtm/The-Crucible.git'), repository);
+  assert.equal(repositoryFromRemote('https://github.com/6076446993/The-Crucible.git'), repository);
+  assert.equal(repositoryFromRemote('git@github.com:6076446993/The-Crucible.git'), repository);
   assert.throws(() => repositoryFromRemote('https://example.com/owner/repo.git'), /OPS-0045/);
 });
 

@@ -1,0 +1,595 @@
+{
+  "schemaVersion": 1,
+  "domainId": "synthetic-intelligence",
+  "title": "Synthetic Intelligence (SI)",
+  "repository": {
+    "repositoryId": 1344890806,
+    "repository": "6076446993/The-Crucible",
+    "branch": "development",
+    "learningProjectId": "github:jonathanblunt1214-lgtm/The-Crucible"
+  },
+  "recordedAt": "2026-10-07T01:16:27.000Z",
+  "ownerDecision": {
+    "status": "approved-research-domain",
+    "decision": "Treat Synthetic Intelligence as a dedicated Crucible research subject, distinct from generic AGI, and durably log its constituent concepts and academic source seeds with the same audit rigor used around R9. This decision authorizes logging only, not discovery automation, pipeline expansion, proof, or promotion.",
+    "changesReleaseAuthority": false
+  },
+  "workingDefinition": "Synthetic Intelligence is an engineered cognitive-system research hypothesis in which broader adaptive intelligence is investigated as the integration of learning, memory, perception, reasoning, internal goals or motivation, world modelling, reflection or metacognition, and adaptive action. This is a Crucible research definition, not a claim that SI is a standardized academic field or a proven unified theory.",
+  "classification": "Insufficient Evidence",
+  "proofStageSatisfied": false,
+  "promotionAuthorized": false,
+  "canonicalR9Relationship": {
+    "redefinesR9": false,
+    "canonicalR9": "The existing scientific-learning R9 remains the 72-96 continuous-hour integrity soak over the ordinary durable population, with no more than 1000 data points observed at once and a fail-closed hold when the population cannot exhibit the failures R9 is intended to detect.",
+    "relationship": "SI sources, candidates and any later verified knowledge participate only through the ordinary scientific-learning record types. A queued SI source is a queued source, an SI claim is a candidate record, and an SI knowledge version exists only after the full proof path. SI creates no special R9 population, shortcut, pass, or release authority.",
+    "soakMinHours": 72,
+    "soakMaxHours": 96,
+    "observedPopulationCeiling": 1000
+  },
+  "evidenceDiscipline": {
+    "profileName": "R9-style durable-learning evidence discipline; not a new release gate",
+    "nonEquivalences": [
+      "stored != learned",
+      "retrieved != learned",
+      "repeated != learned",
+      "model agreement != proof",
+      "source prestige != proof",
+      "successful one-off behavior != generalization"
+    ],
+    "requiredBeforeActiveKnowledge": [
+      "content-addressed provenance and durable custody",
+      "independent-source corroboration where applicable",
+      "falsifiable bounded hypothesis",
+      "pre-registered controlled experiment",
+      "causal isolation and controls for causal claims",
+      "distinct independent verifier",
+      "negative and regression tests",
+      "exact claim, experiment and generalization boundaries",
+      "held-out or transfer evaluation when generalization is claimed",
+      "fresh-process persistence and retrieval when durable memory is claimed",
+      "measurable comparison to an explicit baseline when improvement is claimed",
+      "contradiction analysis and quarantine",
+      "security and prompt-injection handling",
+      "rollbackable versioned knowledge"
+    ],
+    "failureHandling": "A failed, contradictory or unsupported SI result is retained with provenance. Contradictions route to Crucible Issue; unsupported claims remain Insufficient Evidence; invalid evidence becomes Rejected Evidence. No failure is erased merely because a later attempt succeeds."
+  },
+  "conceptFamilies": [
+    {
+      "id": "si-umbrella",
+      "name": "Synthetic Intelligence umbrella hypothesis",
+      "hypothesis": "An engineered system may exhibit broader adaptive intelligence when learning, memory, perception, reasoning, goals, world modelling, reflection and action are integrated rather than treated as an isolated predictor.",
+      "sourceSeeds": [
+        "OXFORD-BACH-2009",
+        "MIT-MICROPSI-2016"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "integrated-cognitive-architecture",
+      "name": "Integrated cognitive architecture",
+      "hypothesis": "Multiple cognitive functions can be coordinated by an explicit architecture whose interfaces and state transitions are testable.",
+      "sourceSeeds": [
+        "OXFORD-BACH-2009",
+        "PRINCETON-COALA-2024",
+        "CMU-CMC-2018"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "motivated-cognition",
+      "name": "Motivated cognition",
+      "hypothesis": "Internal drives, goals or utility-like motivational state can influence attention, planning and action selection in a bounded artificial cognitive architecture.",
+      "sourceSeeds": [
+        "OXFORD-BACH-2009"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "goal-drive-emotion-regulation",
+      "name": "Goals, drives and emotion-like regulation",
+      "hypothesis": "Goal and drive variables, including emotion-like control signals, may regulate resource allocation and behavior without being treated as proof of subjective experience.",
+      "sourceSeeds": [
+        "OXFORD-BACH-2009"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "perception-grounding",
+      "name": "Perception and grounding",
+      "hypothesis": "Symbols and decisions are more useful when grounded in structured observations or environment state rather than language tokens alone.",
+      "sourceSeeds": [
+        "OXFORD-BACH-2009",
+        "MIT-NSCL-2019",
+        "MIT-BROOKS-1992"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "cognitive-control-action-selection",
+      "name": "Cognitive control and action selection",
+      "hypothesis": "A cognitive system can select among competing actions using explicit state, goals, constraints and expected outcomes.",
+      "sourceSeeds": [
+        "OXFORD-BACH-2009",
+        "PRINCETON-COALA-2024",
+        "CMU-CMC-2018"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "working-memory",
+      "name": "Working memory",
+      "hypothesis": "A bounded active-memory layer can support multi-step reasoning and decision making while remaining distinct from durable memory.",
+      "sourceSeeds": [
+        "PRINCETON-COALA-2024",
+        "CMU-CMC-2018"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "episodic-memory",
+      "name": "Episodic memory",
+      "hypothesis": "Time- and event-bound experience records can support later retrieval, reflection and planning.",
+      "sourceSeeds": [
+        "PRINCETON-COALA-2024",
+        "STANFORD-GENERATIVE-AGENTS-2023"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "semantic-memory",
+      "name": "Semantic memory",
+      "hypothesis": "Durable fact/concept memory can be separated from transient context and episodic traces, with provenance retained.",
+      "sourceSeeds": [
+        "PRINCETON-COALA-2024",
+        "CMU-CMC-2018",
+        "STANFORD-GENERATIVE-AGENTS-2023"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "procedural-memory",
+      "name": "Procedural memory",
+      "hypothesis": "Reusable skills or action procedures can be represented separately from declarative facts and evaluated through execution.",
+      "sourceSeeds": [
+        "PRINCETON-COALA-2024",
+        "CMU-CMC-2018"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "memory-consolidation-retrieval",
+      "name": "Memory consolidation and retrieval",
+      "hypothesis": "Experience can be consolidated into durable structures and retrieved selectively without equating storage or recall with learned generalization.",
+      "sourceSeeds": [
+        "PRINCETON-COALA-2024",
+        "STANFORD-GENERATIVE-AGENTS-2023"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "reflection-metacognition",
+      "name": "Reflection and metacognition",
+      "hypothesis": "Agents may improve planning by constructing higher-order summaries or monitoring their own reasoning state, but self-report alone is not evidence of correctness.",
+      "sourceSeeds": [
+        "CMU-CMC-2018",
+        "STANFORD-GENERATIVE-AGENTS-2023"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "neuro-symbolic-representation",
+      "name": "Neuro-symbolic representation",
+      "hypothesis": "Learned perceptual representations and executable symbolic structures can be combined for interpretable reasoning.",
+      "sourceSeeds": [
+        "MIT-NSCL-2019"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "symbol-grounding-concept-learning",
+      "name": "Symbol grounding and concept learning",
+      "hypothesis": "Concepts can be induced from paired experience and language while remaining tied to observable structures.",
+      "sourceSeeds": [
+        "MIT-NSCL-2019"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "compositionality",
+      "name": "Compositional concepts and reasoning",
+      "hypothesis": "Known concepts and relations can be composed to solve combinations not explicitly memorized, subject to held-out testing.",
+      "sourceSeeds": [
+        "MIT-NSCL-2019"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "continual-learning",
+      "name": "Continual learning",
+      "hypothesis": "An agent can incorporate new evidence over time while preserving prior verified capability and making interference measurable.",
+      "sourceSeeds": [
+        "STANFORD-SELF-IMPROVING-2026"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "self-improvement",
+      "name": "Self-improving agents",
+      "hypothesis": "An agent can propose or select changes to its own strategy, tools or learning process, while independent evaluation remains required before those changes become authoritative.",
+      "sourceSeeds": [
+        "STANFORD-SELF-IMPROVING-2026"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "world-models",
+      "name": "World models",
+      "hypothesis": "A learned dynamics model can predict environment transitions and support planning beyond immediate reactive behavior.",
+      "sourceSeeds": [
+        "BERKELEY-GRASP-2026"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "long-horizon-planning",
+      "name": "Long-horizon planning",
+      "hypothesis": "Agents can evaluate multi-step future trajectories using structured plans or learned world models rather than only next-step responses.",
+      "sourceSeeds": [
+        "BERKELEY-GRASP-2026",
+        "PRINCETON-COALA-2024"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "embodied-situated-cognition",
+      "name": "Embodied and situated cognition",
+      "hypothesis": "Intelligent behavior may depend materially on closed-loop interaction between an agent and its environment.",
+      "sourceSeeds": [
+        "MIT-BROOKS-1992"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "artificial-life-evolutionary-adaptation",
+      "name": "Artificial life and evolutionary adaptation",
+      "hypothesis": "Adaptive behavior may be developed through evolutionary or artificial-life mechanisms rather than fully hand-specified rules.",
+      "sourceSeeds": [
+        "MIT-BROOKS-1992"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "tool-environment-interaction",
+      "name": "Tool use and environment interaction",
+      "hypothesis": "Tools and environment actions can extend an agent's effective cognition when action interfaces and outcomes are explicitly represented.",
+      "sourceSeeds": [
+        "PRINCETON-COALA-2024",
+        "STANFORD-SELF-IMPROVING-2026"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "social-cognition",
+      "name": "Social cognition",
+      "hypothesis": "Persistent agents may model other agents, social context and interaction history to influence behavior.",
+      "sourceSeeds": [
+        "STANFORD-GENERATIVE-AGENTS-2023"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "multi-agent-cognition",
+      "name": "Multi-agent cognition",
+      "hypothesis": "Collective behavior may emerge from bounded interactions among multiple agents, but group agreement remains evidence rather than proof.",
+      "sourceSeeds": [
+        "STANFORD-GENERATIVE-AGENTS-2023"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "generalization-transfer",
+      "name": "Generalization and transfer",
+      "hypothesis": "A claimed capability must transfer to held-out tasks or contexts inside its declared generalization boundary before broad learning is credited.",
+      "sourceSeeds": [
+        "MIT-NSCL-2019",
+        "STANFORD-SELF-IMPROVING-2026"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "uncertainty-calibration",
+      "name": "Uncertainty and calibration",
+      "hypothesis": "An agent should distinguish known, uncertain and unsupported conclusions and its confidence should be tested against outcomes rather than accepted as self-report.",
+      "sourceSeeds": [
+        "STANFORD-SELF-IMPROVING-2026"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "causal-reasoning-intervention",
+      "name": "Causal reasoning and controlled intervention",
+      "hypothesis": "Causal claims require a deliberate intervention, controls and falsifiable measurement; correlation or repeated success alone is insufficient.",
+      "sourceSeeds": [],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "verification-provenance-governance",
+      "name": "Verification, provenance and governance",
+      "hypothesis": "Every durable SI claim requires traceable evidence, bounded scope, independent verification, contradiction handling and reversible governance before it can affect active knowledge.",
+      "sourceSeeds": [],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    },
+    {
+      "id": "system-integration-emergence",
+      "name": "System integration and emergent capability",
+      "hypothesis": "Capabilities attributed to an integrated SI architecture must be decomposed and tested so apparent emergence is not merely an artifact of component overlap or evaluation leakage.",
+      "sourceSeeds": [
+        "OXFORD-BACH-2009",
+        "CMU-CMC-2018"
+      ],
+      "status": "research-hypothesis",
+      "classification": "Insufficient Evidence",
+      "proofStageSatisfied": false,
+      "promotionAuthorized": false
+    }
+  ],
+  "candidateSourceSeeds": [
+    {
+      "id": "OXFORD-BACH-2009",
+      "institution": "Oxford University Press",
+      "title": "Principles of Synthetic Intelligence: PSI: An Architecture of Motivated Cognition",
+      "authors": [
+        "Joscha Bach"
+      ],
+      "year": 2009,
+      "sourceKind": "scholarly monograph",
+      "url": "https://academic.oup.com/book/1947",
+      "classification": "candidate-source-seed"
+    },
+    {
+      "id": "MIT-MICROPSI-2016",
+      "institution": "MIT Media Lab",
+      "title": "New Destinations in Artificial Intelligence — MicroPsi / Principles of Synthetic Intelligence reading",
+      "authors": [
+        "MIT course staff"
+      ],
+      "year": 2016,
+      "sourceKind": "official university course reading",
+      "url": "https://courses.media.mit.edu/2016spring/mass63/schedule/",
+      "classification": "candidate-source-seed"
+    },
+    {
+      "id": "PRINCETON-COALA-2024",
+      "institution": "Princeton University",
+      "title": "Cognitive Architectures for Language Agents",
+      "authors": [
+        "Theodore R. Sumers",
+        "Shunyu Yao",
+        "Karthik Narasimhan",
+        "Thomas L. Griffiths"
+      ],
+      "year": 2024,
+      "sourceKind": "peer-reviewed paper record",
+      "url": "https://collaborate.princeton.edu/en/publications/cognitive-architectures-for-language-agents/",
+      "classification": "candidate-source-seed"
+    },
+    {
+      "id": "MIT-NSCL-2019",
+      "institution": "Massachusetts Institute of Technology",
+      "title": "The Neuro-Symbolic Concept Learner: Interpreting Scenes, Words, and Sentences From Natural Supervision",
+      "authors": [
+        "Jiayuan Mao",
+        "Chuang Gan",
+        "Pushmeet Kohli",
+        "Joshua B. Tenenbaum",
+        "Jiajun Wu"
+      ],
+      "year": 2019,
+      "sourceKind": "university publication record",
+      "url": "https://dspace.mit.edu/entities/publication/82a9cc5a-da39-486a-a41b-10fb37110803",
+      "classification": "candidate-source-seed"
+    },
+    {
+      "id": "CMU-CMC-2018",
+      "institution": "Carnegie Mellon University",
+      "title": "Common Model of Cognition / Cognitive Architecture research",
+      "authors": [
+        "John E. Laird",
+        "Christian Lebiere",
+        "Paul S. Rosenbloom"
+      ],
+      "year": 2018,
+      "sourceKind": "university-hosted research paper",
+      "url": "https://www.cs.cmu.edu/~oscarr/pdf/publications/2018_cogarch.pdf",
+      "classification": "candidate-source-seed"
+    },
+    {
+      "id": "STANFORD-GENERATIVE-AGENTS-2023",
+      "institution": "Stanford University",
+      "title": "Generative Agents: Interactive Simulacra of Human Behavior",
+      "authors": [
+        "Joon Sung Park",
+        "Joseph O'Brien",
+        "Carrie Jun Cai",
+        "Meredith Ringel Morris",
+        "Percy Liang",
+        "Michael S. Bernstein"
+      ],
+      "year": 2023,
+      "sourceKind": "university publication record",
+      "url": "https://hci.stanford.edu/publications/paper.php?id=482",
+      "classification": "candidate-source-seed"
+    },
+    {
+      "id": "STANFORD-SELF-IMPROVING-2026",
+      "institution": "Stanford University",
+      "title": "Self-Improving AI Agents",
+      "authors": [
+        "Stanford CS329A course staff"
+      ],
+      "year": 2026,
+      "sourceKind": "graduate research seminar",
+      "url": "https://cs329a.stanford.edu/",
+      "classification": "candidate-source-seed"
+    },
+    {
+      "id": "BERKELEY-GRASP-2026",
+      "institution": "University of California, Berkeley",
+      "title": "GRASP / Parallel Stochastic Gradient-Based Planning for World Models",
+      "authors": [
+        "Berkeley AI Research contributors"
+      ],
+      "year": 2026,
+      "sourceKind": "university research publication",
+      "url": "https://bair.berkeley.edu/blog/2026/04/20/grasp/",
+      "classification": "candidate-source-seed"
+    },
+    {
+      "id": "MIT-BROOKS-1992",
+      "institution": "Massachusetts Institute of Technology",
+      "title": "Artificial Life and Real Robots",
+      "authors": [
+        "Rodney A. Brooks"
+      ],
+      "year": 1992,
+      "sourceKind": "university-hosted research paper",
+      "url": "https://people.csail.mit.edu/brooks/papers/real-robots.pdf",
+      "classification": "candidate-source-seed"
+    }
+  ],
+  "loggingDiscipline": {
+    "scope": "logging-only",
+    "r9Analogy": "Keep the SI record durable, auditable, provenance-bound, contradiction-aware and explicit about what is or is not proven, as R9 records are. This does not create a new R9 gate or change the canonical R9 soak.",
+    "recordRequirements": [
+      "stable concept identifier and human-readable concept name",
+      "bounded hypothesis statement",
+      "source-seed references where available",
+      "current evidence classification",
+      "explicit proofStageSatisfied and promotionAuthorized flags",
+      "preserve contradictions, uncertainty and unsupported status instead of silently deleting them"
+    ],
+    "noAutomation": true,
+    "noDiscoveryWorkflowChange": true,
+    "noReleaseGateChange": true
+  },
+  "testEnvironmentAuthorization": {
+    "approvedAt": "2026-10-07T02:38:35.000Z",
+    "ownerInstruction": "Add R3 and R8 SI cases to isolated test environments and test them.",
+    "scope": [
+      "R3 governed discovery admission sandbox over the nine logged SI source seeds",
+      "R8 safe-retrieval sandbox over benign SI prose, scholarly prompt-language, explicit prompt injection, and executable content"
+    ],
+    "liveDiscoveryEnabled": false,
+    "productionStateAccess": false,
+    "changesReleaseAuthority": false,
+    "gatePassAuthority": false,
+    "note": "These sandboxes measure compatibility and rejection behavior. They do not turn SI logging into live discovery automation and cannot satisfy R3 or R8 by themselves."
+  },
+  "gateCompatibilityAdaptation": {
+    "recordedAt": "2026-10-07T03:06:00.000Z",
+    "principle": "Adapt the general scientific-learning gates exposed by SI; create no SI-only exception.",
+    "R3": "Use an owner-governed exact scholarly-domain registry for nonstandard academic publisher/platform domains. The first approved entry is academic.oup.com, supported by Oxford Academic's own OUP identity page. All admitted URLs remain candidate-only Insufficient Evidence.",
+    "R8": "Verified scholarly sources may retain descriptive control-message terminology only when the surrounding text is recognizably research discussion. Other matching control text remains quarantined; override, credential-exfiltration, command-execution, and executable-content signals remain fail-closed.",
+    "gatePassAuthority": false,
+    "promotionAuthorized": false
+  },
+  "livePilotAuthorization": {
+    "approvedAt": "2026-10-07T03:31:32.000Z",
+    "ownerInstruction": "Try it if its ready",
+    "scope": "Exactly the nine already logged SI source seeds may be processed once through the real governed URL admission, HTTPS retrieval, and claim-extraction code in a disposable hosted lane.",
+    "sourceCount": 9,
+    "productionStateAccess": false,
+    "rawCustodyWrite": false,
+    "vettedCustodyWrite": false,
+    "independentOversightBypass": false,
+    "proofStageAuthority": false,
+    "promotionAuthority": false,
+    "passCondition": "At least one real source must retrieve and produce at least one bounded Insufficient Evidence candidate; otherwise the pilot fails closed.",
+    "note": "This is a real-data processing pilot, not live durable ingestion. General raw-custody publication remains unimplemented and must not be replaced by an SI-specific state writer."
+  }
+}

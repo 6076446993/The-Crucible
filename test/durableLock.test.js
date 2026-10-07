@@ -9,6 +9,7 @@ const { acquireDurableLock, inspectLock, recoverLegacyZeroByteLock, EMPTY_SHA256
 const { run:runRecoveryCli } = require('../src/durableLockRecoveryCli');
 const { ClaimExtractionWorker } = require('../src/claimExtractionWorker');
 const { DurableScientificLearningStore } = require('../src/scientificLearning');
+const { assertIsolatedPaths, assertDisposableProofRoot, makeCanary } = require('../src/r2FailoverProof');
 
 const AT = '2026-08-31T17:00:00.000Z';
 function sampleCandidate(projectId) {
@@ -217,4 +218,24 @@ test('the extraction worker resumes after a forced interruption without losing o
   assert.equal(repeat.lastLockReclamation, null, 'a clean run reports no reclamation');
   const unchanged = JSON.parse(fs.readFileSync(storeFile, 'utf8')).payload.candidateRecords;
   assert.equal(unchanged.length, after.length, 'recovery is idempotent');
+});
+
+
+test('R2 failover proof refuses queue or store paths outside its isolated root', (t) => {
+  const root = workspace(t);
+  assert.doesNotThrow(() => assertIsolatedPaths({ proofRoot:root, queueFile:path.join(root,'queue.json'), learningRoot:path.join(root,'store') }));
+  assert.throws(() => assertIsolatedPaths({ proofRoot:root, queueFile:path.join(root,'queue.json'), learningRoot:path.join(root,'..','live-store') }), /escapes isolated root/);
+});
+
+test('R2 failover canary contains only isolated candidate work', (t) => {
+  const root = workspace(t); const canary = makeCanary(root, 'github:test/r2'); const queue = JSON.parse(fs.readFileSync(canary.queueFile, 'utf8'));
+  assert.equal(queue.projectId, 'github:test/r2'); assert.equal(queue.documents.length, 0); assert.equal(queue.links.length, 1);
+  assert.match(queue.links[0].id, /^r2-canary-/); assert.equal(queue.links[0].state, 'claim-extraction-forced-pending');
+});
+
+test('R2 executable proof root is restricted to its disposable temp namespace', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-r2-failover-'));
+  t.after(() => fs.rmSync(root, { recursive:true, force:true }));
+  assert.equal(assertDisposableProofRoot(root), path.resolve(root));
+  assert.throws(() => assertDisposableProofRoot(workspace(t)), /dedicated direct child/);
 });

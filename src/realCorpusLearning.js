@@ -367,23 +367,72 @@ function selectAllEvaluable({ store, available, corroborated, declarations, bund
 // The only thing a fixture cannot forge is membership in the corpus. A verified version
 // counts as real when its candidate's content hash is one of the hashes the restored
 // manifest attests, or its source id is one the restored queue actually holds.
+//
+// Factored per version, because the same question has to be asked of each one and not only of
+// the store as a whole. Deleting a harness does not retract what it already promoted: a version
+// promoted before this check existed stays in the durable store, stays active, and keeps being
+// counted, and "does the store contain any real knowledge" cannot tell it apart from the version
+// that earns the answer. The set of version numbers is what lets a caller name the difference.
+function corpusBackedVersions({ payload, bundle }) {
+  const realHashes = new Set((bundle && bundle.manifest && bundle.manifest.sourceFiles ? bundle.manifest.sourceFiles : []).map((file) => String(file.sha256 || '').toLowerCase()));
+  const realSourceIds = new Set((bundle && bundle.sources ? bundle.sources : []).map((source) => String(source.id || '')));
+  const backed = new Set();
+  if (!realHashes.size && !realSourceIds.size) return backed;
+  for (const version of payload.knowledgeVersions || []) {
+    const record = (payload.candidateRecords || []).find((item) => item.candidate.id === version.candidateId);
+    const provenance = record && record.candidate && record.candidate.provenance;
+    if (!provenance) continue;
+    if (realHashes.has(String(provenance.contentSha256 || '').toLowerCase()) || realSourceIds.has(String(provenance.sourceId || ''))) backed.add(version.version);
+  }
+  return backed;
+}
+
 function hasRealCorpusKnowledge(store, bundle) {
   const payload = store.read();
   if (!payload.knowledgeVersions.length) return false;
-  const realHashes = new Set((bundle && bundle.manifest && bundle.manifest.sourceFiles ? bundle.manifest.sourceFiles : []).map((file) => String(file.sha256 || '').toLowerCase()));
-  const realSourceIds = new Set((bundle && bundle.sources ? bundle.sources : []).map((source) => String(source.id || '')));
-  if (!realHashes.size && !realSourceIds.size) return false;
-  return payload.knowledgeVersions.some((version) => {
-    const record = payload.candidateRecords.find((item) => item.candidate.id === version.candidateId);
-    const provenance = record && record.candidate && record.candidate.provenance;
-    if (!provenance) return false;
-    return realHashes.has(String(provenance.contentSha256 || '').toLowerCase()) || realSourceIds.has(String(provenance.sourceId || ''));
-  });
+  return corpusBackedVersions({ payload, bundle }).size > 0;
 }
 
-async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeDeclarationFile, harnessesFor, corroborationOptions = {}, now = () => new Date().toISOString() }) {
+// Content the independent vetting organ refused, keyed by hash. Oversight records a decision per
+// source and publishes the bundle; nothing in its publish path removes what it quarantined, so a
+// refusal arrives here as a note rather than as an absence - verified by reading that repository:
+// `quarantin` appears only in its vetting function and that function's test, and its custody
+// module contains no deletion at all. One refusal was confirmed present in the restored corpus by
+// content hash, with no other review sharing that hash.
+//
+// So this is enforced on consumption. It is deliberately NOT presented as the upstream refusal
+// having held: which organ kept the bytes out is the whole question, and realCorpusSafety still
+// sees the corpus as published so that the finding stays visible instead of being tidied away by
+// the fix. Reported per exclusion, because silently dropping 25 sources would be its own defect.
+function oversightQuarantinedHashes(custodyReport) {
+  const reviews = (custodyReport && Array.isArray(custodyReport.sourceReviews)) ? custodyReport.sourceReviews : [];
+  const refused = new Map();
+  for (const review of reviews) {
+    if (String(review.decision || '') !== 'quarantined') continue;
+    const hash = String(review.contentSha256 || '').toLowerCase();
+    if (hash) refused.set(hash, { sourceId: String(review.sourceId || ''), reason: String(review.reason || 'not recorded') });
+  }
+  return refused;
+}
+
+async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeDeclarationFile, harnessesFor, corroborationOptions = {}, custodyReport = null, now = () => new Date().toISOString() }) {
   const bundle = readBundle(bundleRoot);
   if (bundle.manifest.projectId !== projectId) throw new Error(`The restored bundle belongs to ${bundle.manifest.projectId}, not ${projectId}.`);
+
+  // Refused content does not get to teach anything, whoever failed to remove it.
+  const refusedHashes = oversightQuarantinedHashes(custodyReport);
+  if (refusedHashes.size) {
+    const kept = [];
+    for (const source of bundle.sources) {
+      const refusal = refusedHashes.get(String(source.contentSha256 || '').toLowerCase());
+      if (!refusal) { kept.push(source); continue; }
+      console.log(`[The Crucible] excluded from learning: ${source.id} carries content the independent vetting organ quarantined (${refusal.reason}), and the published bundle contained it anyway.`);
+    }
+    if (kept.length !== bundle.sources.length) {
+      console.log(`[The Crucible] ${bundle.sources.length - kept.length} source(s) excluded from learning on consumption because their content was refused upstream and published regardless. This closes the exposure; it does not make the upstream refusal evidence that it held.`);
+      bundle.sources = kept;
+    }
+  }
 
   const store = new DurableScientificLearningStore({ root: learningRoot, projectId });
   const before = store.read();
@@ -406,7 +455,15 @@ async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeD
 
   const corpus = {
     sources: bundle.sources.length,
+    // Three quantities, not two, and subtracting the wrong pair is how a phantom discrepancy got
+    // recorded as unexplained. A source has content when its queue record carries a durablePath or
+    // a contentSha256, which is exactly how intakePathways counts the ones that do not. A stored
+    // file is content-addressed: hostedSourceBundle.stage names it ${contentSha256}${extension} and
+    // skips the copy when that name already exists, while still pointing every source at it. So
+    // several sources legitimately share one file, and sources - files is the number that share,
+    // never the number without content.
     documentsWithContent: bundle.manifest.sourceFiles ? bundle.manifest.sourceFiles.length : 0,
+    sourcesWithContent: bundle.sources.filter((source) => source.durablePath || source.contentSha256).length,
     candidateRecords: before.candidateRecords.length,
     corpusCandidateRecords: corpusStore ? corpusStore.read().candidateRecords.length : 0,
     corpusLearningStateRestored: Boolean(corpusStore),
@@ -452,10 +509,10 @@ async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeD
     if (preRegistration.refused.length && !usable.length) {
       // Said first and on its own, because it is the only stop whose cause is the declaration
       // having moved rather than the corpus being short of something.
-      stopCode = 'OPS-0047';
+      stopCode = 'CRU-0047';
       reason = `no declaration is usable yet; every declaration was refused as declared after its own result was known: ${preRegistration.refused.map((item) => `"${item.claim}" - ${item.reason}`).join('; ')}`;
     } else if (selection.pairedFailures.length) {
-      stopCode = 'OPS-0026';
+      stopCode = 'CRU-0026';
       reason = `no declaration is usable yet; the owner-paired declaration(s) were not supported by the corpus: ${selection.pairedFailures.map((item) => `"${item.claim}" - ${item.reason}`).join('; ')}`;
     } else if (corroborated.length === 0) {
       // "Nothing corroborates" has two very different causes and they demand opposite responses.
@@ -476,15 +533,15 @@ async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeD
       // that look like they disagree is the same class of mistake this whole message exists to
       // undo, so each one states which population it is counting.
       const extracted = new Set(available.map((record) => record.candidate.provenance.sourceId)).size;
-      stopCode = undigested ? 'OPS-0023' : 'OPS-0024';
+      stopCode = undigested ? 'CRU-0023' : 'CRU-0024';
       reason = undigested
         ? `nothing can be corroborated yet, and digestion is the likely cause rather than the corpus: ${undigested.detail}, while only ${extracted} source(s) have produced any candidate still available to corroboration. Corroboration needs two independent sources to have been extracted, so drain the extraction backlog before concluding anything about what the corpus contains or changing what is ingested`
         : 'the real corpus contains no claim asserted by two or more independently identified sources, and every source has been digested, so this is the corpus rather than the pipeline';
     } else if (!usable.length) {
-      stopCode = 'OPS-0025';
+      stopCode = 'CRU-0025';
       reason = `${corroborated.length} corroborated claim(s) exist in the real corpus but none has an owner-declared scope, and a scope is never inferred`;
     } else {
-      stopCode = 'OPS-0026';
+      stopCode = 'CRU-0026';
       reason = `${corroborated.length} corroborated claim(s) exist in the real corpus but none matches a declaration, and no declaration nominates a pairing the corpus supports`;
     }
     return { schemaVersion: 1, projectId, corpus, learned: false, reason, stopCode, corroborated: corroborated.slice(0, 25), reviews, pairedFailures: selection.pairedFailures, scopePreRegistration: preRegistration, evaluations: [], reopenedContradictions: reopened, intake, gates: { R4: false, R5: false, R6: false }, promotionAuthorized: false };
@@ -534,7 +591,7 @@ async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeD
       // broken harness, and arming the pre-registration refusal on an ambiguous signal would
       // block the owner from correcting a declaration because of a defect of ours. The claim
       // stays pending, which is the weaker and safer of the two.
-      evaluations.push({ claim: ready.claim, claimScope: ready.declaration.claimScope, corroborationRoute: ready.route, sourceIds: ready.sourceIds, candidateIds: ready.candidateIds, ingestedFromCorpus, learned: false, reason: `the controlled pipeline stopped on this claim: ${error.message}`, verifiedVersion: null, promotionAuthorized: false });
+      evaluations.push({ claim: ready.claim, claimScope: ready.declaration.claimScope, corroborationRoute: ready.route, sourceIds: ready.sourceIds, candidateIds: ready.candidateIds, ingestedFromCorpus, language: ready.declaration.language || 'javascript', learned: false, reason: `the controlled pipeline stopped on this claim: ${error.message}`, verifiedVersion: null, promotionAuthorized: false });
       continue;
     }
 
@@ -566,6 +623,7 @@ async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeD
     evaluations.push({
       contradictionAudit,
       claim: ready.claim,
+      language: ready.declaration.language || 'javascript',
       claimScope: ready.declaration.claimScope,
       corroborationRoute: ready.route,
       agreement: ready.agreement,
@@ -601,6 +659,7 @@ async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeD
     learned: promoted.length > 0,
     reason: promoted.length ? null : `no declared claim was promoted: ${evaluations.map((item) => `"${item.claim.slice(0, 60)}" - ${item.reason}`).join('; ')}`,
     claim: first ? first.claim : null,
+    language: first ? first.language : null,
     claimScope: first ? first.claimScope : null,
     corroborationRoute: first ? first.corroborationRoute : null,
     agreement: first ? first.agreement : null,
@@ -619,4 +678,4 @@ async function learnFromRealCorpus({ bundleRoot, learningRoot, projectId, scopeD
   };
 }
 
-module.exports = { readBundle, corpusCandidateStore, allCandidateRecords, corroborationEntries, corroboratedClaims, corroborationFunnel, corroborationSensitivity, reviewCorroborated, readScopeDeclarations, selectEvaluable, selectAllEvaluable, hasRealCorpusKnowledge, learnFromRealCorpus };
+module.exports = { corpusBackedVersions, oversightQuarantinedHashes, readBundle, corpusCandidateStore, allCandidateRecords, corroborationEntries, corroboratedClaims, corroborationFunnel, corroborationSensitivity, reviewCorroborated, readScopeDeclarations, selectEvaluable, selectAllEvaluable, hasRealCorpusKnowledge, learnFromRealCorpus };
