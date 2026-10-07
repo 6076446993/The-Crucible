@@ -202,7 +202,7 @@
       "agent": "ChatGPT",
       "purpose": "Implement an isolated live-worker failover proof for R2 with zero production-state write path.",
       "selectionReason": "This changes the scientific-learning proof path and requires executable hosted evidence while preserving existing candidate custody.",
-      "distinction": "Execution mode grants no promotion or gate-passing authority."
+      "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch, proof, verification, governance, release, or promotion authority."
     },
     "taskRouting": {
       "category": "crucible-core",
@@ -211,18 +211,15 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T02:17:55.000Z",
+      "selectedAt": "2026-10-07T02:23:00.000Z",
       "prompt": "Do it then",
       "project": "The Crucible",
       "paths": [
-        ".github/workflows/hosted-learning-proof.yml",
         "AI-HANDOFF.json",
-        "DEVLOG.md",
-        "src/r2FailoverProof.js",
-        "test/durableLock.test.js"
+        "DEVLOG.md"
       ],
       "promptSha256": "24217f07900f99eb68680cdb501689fbd3b02c3ff800f6509bfe167311aacfad",
-      "affectedPathsSha256": "25549763fa2abfbdfb1c28825afd0ecc2005b4263a8872f7da5ed4c3eaa810a1"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "[done] Keep production queue/store outside the R2 proof process.",
@@ -231,7 +228,7 @@
     ],
     "status": "in-progress",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T02:17:55.000Z",
+    "lastUpdatedAt": "2026-10-07T02:23:00.000Z",
     "currentStep": "Implementation prepared; exact-tip hosted R2 failover evidence is required before R2 may be recorded satisfied.",
     "priority": "No production restart, no production queue/store write path, no candidate loss.",
     "ownership": {
@@ -264,7 +261,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Implementation is isolated from production state. Hosted execution remains pending; R2 remains pending until exact-tip evidence exists.",
+    "verificationStatus": "Hosted AI handoff exposed a wording defect in executionMode.distinction; corrected without changing the isolated R2 proof, production state, release gates, or R9. Exact-tip hosted proof remains required.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -364,7 +361,7 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Push the atomic development change and inspect the exact-tip hosted R2 failover artifact.",
+    "nextAction": "Verify the corrected exact-tip hosted R2 failover job; only passing executable evidence may advance R2.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
