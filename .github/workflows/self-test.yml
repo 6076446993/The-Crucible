@@ -28,7 +28,7 @@ jobs:
     timeout-minutes: 10
     env:
       GITHUB_TOKEN: ${{ github.token }}
-      CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.SECURITY_READ_TOKEN }}
+      CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.CRUCIBLE_SECURITY_READ_TOKEN }}
       # Opt in to recording coded failures; the path is resolved in code from RUNNER_TEMP.
       # It was written here as ${{ runner.temp }}/... at first, which GitHub rejects outright -
       # the runner context does not exist in a job-level env block - taking the whole matrix

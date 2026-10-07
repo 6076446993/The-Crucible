@@ -1,5 +1,13 @@
 # Development log
 
+### Session: align self-test security secret name — 2026-10-07T12:58:47-04:00 — ChatGPT — mode:work
+
+Plain-language summary: Updated the self-test matrix to read the owner-authorized PAT from the explicitly named `CRUCIBLE_SECURITY_READ_TOKEN` secret; no token value was exposed and no main or learning-state write occurred.
+
+- **Routing:** owner-authorized explicit route prewrite accepted the exact `r8-workflow-registration` destination and `.github/workflows/self-test.yml` path — started 2026-10-07T12:56:00-04:00, finished 2026-10-07T12:56:02-04:00, exit 0.
+- **Change:** replaced only the GitHub Actions secret reference in `.github/workflows/self-test.yml` — started 2026-10-07T12:58:20-04:00, finished 2026-10-07T12:58:25-04:00, exit 0.
+- **Hosted verification:** reran the protected matrix; the hosted security audit still reports `CRU-0000 fetch failed`, so the remaining failure is not resolved by the secret-name alignment — started 2026-10-07T12:59:00-04:00, completion pending.
+
 ### Session: owner-authorized R8 workflow registration route — 2026-10-07T16:20:00-04:00 — ChatGPT — mode:work
 
 Plain-language summary: Registered the exact owner-authorized `r8-workflow-registration` route so the protected one-workflow registration PR can proceed without bypassing the pre-push router. The route remains limited to the R8 workflow-registration scope plus its route-test fixture; no main write or R8 execution occurred.
