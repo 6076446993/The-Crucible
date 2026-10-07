@@ -117,7 +117,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T03:06:00.000Z"
+    "lastActionAt": "2026-10-07T03:31:32.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -198,13 +198,13 @@
   },
   "activePlan": {
     "agent": "ChatGPT",
-    "objective": "Adapt R3 and R8 generally for legitimate Synthetic Intelligence research without creating SI-specific bypasses.",
-    "currentPrompt": "Figured out how to make it run then do it",
+    "objective": "Run a bounded real-data Synthetic Intelligence retrieval and extraction pilot without touching raw or vetted production custody.",
+    "currentPrompt": "Try it if its ready",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
-      "purpose": "Implement the approved R3/R8 research compatibility repair and verify it.",
-      "selectionReason": "The owner approved the repair after isolated SI tests exposed classification defects.",
+      "purpose": "Exercise the real governed retrieval and claim-extraction path against the nine logged SI source seeds in a disposable hosted lane.",
+      "selectionReason": "The SI safety/admission sandboxes passed, but the general holding-queue to raw-custody publisher does not yet exist; the strongest safe next step is real retrieval/extraction without state credentials.",
       "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch, proof, verification, governance, release, or promotion authority."
     },
     "taskRouting": {
@@ -214,32 +214,34 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T03:18:00.000Z",
-      "prompt": "Figured out how to make it run then do it",
+      "selectedAt": "2026-10-07T03:31:32.000Z",
+      "prompt": "Try it if its ready",
       "project": "The Crucible",
       "paths": [
+        ".github/workflows/si-gate-sandbox.yml",
         "AI-HANDOFF.json",
-        "DEVLOG.md"
+        "DEVLOG.md",
+        "governingDocuments/synthetic-intelligence-research-register.json"
       ],
-      "promptSha256": "29df2f174d235141359d2794dc121a8892dea3ba67d53c4754bb7ac40f9cdb94",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "promptSha256": "c4d943b171899b7fe104dff67bfc32eacecb1d622bdc3426366b7011136e7dc7",
+      "affectedPathsSha256": "99de168deb55c94f810e483fcc6a93961c026760b528ca1ac510fe9cc598ee34"
     },
     "steps": [
-      "[done] Adapt R3/R8 research compatibility.",
-      "[done] Pass focused SI R3/R8 tests.",
-      "[done] Correct canonical task-routing reason metadata.",
-      "[pending] Verify exact-tip repository checks."
+      "[done] Verify that the production custody path still forbids a new general Crucible raw-state writer.",
+      "[done] Add a metadata-only hosted SI pilot that uses the real admission, HTTPS retrieval, and claim-extraction code against exactly nine logged seeds.",
+      "[done] Give the pilot no raw/vetted-state credentials and delete retrieved bodies/candidate store before artifact retention.",
+      "[pending] Inspect the hosted pilot result and report whether any real SI source reached bounded candidate extraction."
     ],
     "status": "active",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T03:18:00.000Z",
-    "currentStep": "Focused SI tests passed; correcting the canonical route metadata and verifying the exact tip.",
-    "priority": "Preserve candidate-only admission, fail-closed safety, project isolation, and no promotion authority.",
+    "lastUpdatedAt": "2026-10-07T03:31:32.000Z",
+    "currentStep": "Disposable real-data SI pilot committed for hosted execution; result pending.",
+    "priority": "Prove real SI processing without weakening custody separation or claiming durable learning.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
       "mutationScope": [],
-      "rule": "Discussion is shared; mutation is exclusive. The implementation claim is released atomically with the commit."
+      "rule": "Discussion is shared; mutation is exclusive. si-real-data-pilot-20261006 is released atomically with this commit."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -259,7 +261,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "SI sandbox run 37565999560 passed both focused jobs on 8c3ea8a453689c4e1bc3881e72432c251660998f. Self-Test found one session metadata formatting defect in the task-routing reason; implementation tests remained green.",
+    "verificationStatus": "Pending hosted run. Success requires nonzero bounded candidates from real SI source retrieval; a blocked/quarantined source remains an honest result.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -359,7 +361,7 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Verify exact-tip checks after this metadata-only correction.",
+    "nextAction": "Inspect the exact hosted SI pilot job and retained metadata-only artifact; do not create a production state writer as a workaround.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -1058,6 +1060,28 @@
       "acquiredAt": "2026-10-07T03:06:00.000Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T03:06:00.000Z"
+    },
+    {
+      "taskId": "si-real-data-pilot-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/si-gate-sandbox.yml",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "governingDocuments/synthetic-intelligence-research-register.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Run exactly nine logged SI sources through real retrieval and extraction in a disposable hosted lane with no production-state credentials.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T03:31:32.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T03:31:32.000Z"
     }
   ],
   "ownerDecisions": [
