@@ -1205,6 +1205,26 @@
       "acquiredAt": "2026-10-07T04:47:11.533Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T04:55:05.987Z"
+    },
+    {
+      "taskId": "si-monitor-handoff-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Restore verification evidence omitted from handoff metadata without changing monitor code or gates",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:57:22.751Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:57:22.998Z"
     }
   ],
   "ownerDecisions": [
