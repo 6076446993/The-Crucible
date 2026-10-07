@@ -195,13 +195,13 @@
   },
   "activePlan": {
     "agent": "ChatGPT",
-    "objective": "Prove R2 interruption recovery without restarting or exposing the live Crucible candidate queue/store to the proof.",
-    "currentPrompt": "Do it then",
+    "objective": "Repair the CI regression introduced by the isolated R2 proof without changing its no-production-state boundary or the R2 pass.",
+    "currentPrompt": "Why did you break the pipeline for a test?",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
-      "purpose": "Implement an isolated live-worker failover proof for R2 with zero production-state write path.",
-      "selectionReason": "This changes the scientific-learning proof path and requires executable hosted evidence while preserving existing candidate custody.",
+      "purpose": "Repair the exact hosted Self-Test regression caused by the new R2 proof module being unassigned in Crucible circulation ownership.",
+      "selectionReason": "The hosted failure is a repository implementation regression introduced by the R2 change and requires a governed development repair plus verification.",
       "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch, proof, verification, governance, release, or promotion authority."
     },
     "taskRouting": {
@@ -211,32 +211,36 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T02:24:00.000Z",
-      "prompt": "Do it then",
+      "selectedAt": "2026-10-07T02:28:00.000Z",
+      "prompt": "Why did you break the pipeline for a test?",
       "project": "The Crucible",
       "paths": [
         "AI-HANDOFF.json",
-        "DEVLOG.md"
+        "DEVLOG.md",
+        "src/circulationLinkage.js"
       ],
-      "promptSha256": "24217f07900f99eb68680cdb501689fbd3b02c3ff800f6509bfe167311aacfad",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "promptSha256": "996e53cdca194cd7b5b1cee1771610c65a374a02f539938744dc38cd26580a16",
+      "affectedPathsSha256": "80833090cfc118215f8a033d16357a8d31ad6a58176070693294cbd21dff8a13"
     },
     "steps": [
-      "[done] Keep production queue/store outside the R2 proof process.",
-      "[done] Run isolated primary/standby failover without restarting production or the interrupted primary.",
-      "[done] Verify hosted evidence: same dead PID reclaimed after the 30-second floor, attempt 2 completed, unique deterministic candidates emitted, idempotent repeat processed zero.",
-      "[done] Reconcile R2 to passed only from that hosted evidence; leave R3/R8/R9 unchanged."
+      "[done] Identify the exact regression from hosted Self-Test: r2FailoverProof was unassigned in the circulation ownership map.",
+      "[done] Assign r2FailoverProof to the learning system without changing the R2 failover implementation or production-state isolation.",
+      "[pending] Verify exact-tip hosted Self-Test and preserve unrelated pre-existing R8/security blockers separately."
     ],
-    "status": "complete",
+    "status": "active",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T02:24:00.000Z",
-    "currentStep": "Complete: R2 is passed from repeated hosted isolated failover evidence; command-log retention is being reconciled mechanically.",
-    "priority": "Preserve the no-production-state R2 proof boundary. R2 pass grants no R3/R8/R9 or release authority.",
+    "lastUpdatedAt": "2026-10-07T02:28:00.000Z",
+    "currentStep": "Repair committed; exact-tip hosted Self-Test required.",
+    "priority": "Restore CI ownership linkage while preserving the proven R2 no-production-state boundary.",
     "ownership": {
-      "currentClaim": null,
-      "owner": null,
-      "mutationScope": [],
-      "rule": "Discussion is shared; mutation is exclusive. Ownership transfers only by explicit release or handoff."
+      "currentClaim": "repair-r2-circulation-linkage-20261006",
+      "owner": "openai",
+      "mutationScope": [
+        "AI-HANDOFF.json",
+        "DEVLOG.md",
+        "src/circulationLinkage.js"
+      ],
+      "rule": "Discussion is shared; mutation is exclusive."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -256,7 +260,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Exact-tip run 37561664902 job 112600086371 passed at 7b38b73f26c86cb854d91407049dbf73920a2b39: production state not referenced or writable, primary PID 2160 reclaimed after 30084ms, attempts=2, unique candidates emitted, repeat=0. Artifact 11457406238 retained.",
+    "verificationStatus": "Hosted Self-Test at cec477562dc2f52b60f662025866a4327d564cdb failed because src/r2FailoverProof.js was not assigned to any SYSTEMS entry in src/circulationLinkage.js. This is an R2-introduced CI regression; candidate custody was not touched.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -356,7 +360,7 @@
         "owner": "user"
       }
     ],
-    "nextAction": "R2 complete. R3 and R8 remain pending; R9 remains held.",
+    "nextAction": "Verify the exact-tip Self-Test after assigning r2FailoverProof to the learning system; do not alter R2 evidence, R3, R8, R9, or release state.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
