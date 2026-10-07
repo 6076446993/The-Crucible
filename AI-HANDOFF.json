@@ -119,7 +119,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T04:30:33.151Z"
+    "lastActionAt": "2026-10-07T04:33:05.965Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -214,11 +214,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T04:24:51.413Z",
+      "selectedAt": "2026-10-07T04:32:33.364Z",
       "promptSha256": "ac460aa4bc44290c12579d278968bff1779143145bf25521f04f084147a235fe",
-      "affectedPathsSha256": "96486f8504b6ff065ec183e0b56db6a989475c3fe48da1caeae69cb2ec3e6a2e"
+      "affectedPathsSha256": "dd68349f7e8b8e34b908231ab09498e65a1d23e1af81149aac667904c2969b88"
     },
     "steps": [
       "Implement authenticated snapshot-preserving bounded raw publisher and ciphertext-only publication.",
@@ -230,8 +230,8 @@
     ],
     "status": "handoff-ready",
     "startedAt": "2026-10-07T04:11:06.782Z",
-    "lastUpdatedAt": "2026-10-07T04:30:33.151Z",
-    "currentStep": "Development implementation verified locally; inspect exact-tip CI after publication, then resume live intake only through authorized manual workflow deployment.",
+    "lastUpdatedAt": "2026-10-07T04:33:05.965Z",
+    "currentStep": "Bounded SI raw publisher and routing repair published to development; inspect exact-tip CI, then resolve the manual deployment boundary before live intake.",
     "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
     "ownership": {
       "currentClaim": null,
@@ -357,7 +357,7 @@
         "owner": "owner-or-custody-administrator"
       }
     ],
-    "nextAction": "Publish development implementation and verify exact-tip hosted checks. No main/release promotion is authorized.",
+    "nextAction": "Verify hosted checks at the routing-repair tip. Then obtain separately authorized governed deployment of the two manual workflows; preserve existing raw/vetted state.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -368,7 +368,8 @@
         "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
         "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
         "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
-        "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities."
+        "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities.",
+        "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed."
       ],
       "verification": [
         "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -376,7 +377,8 @@
         "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
         "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
         "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
-        "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass."
+        "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
+        "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested."
       ],
       "remaining": [
         "Publish development implementation and verify exact-tip hosted checks. No main/release promotion is authorized.",
@@ -419,7 +421,8 @@
       "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
       "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
       "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
-      "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities."
+      "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities.",
+      "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -427,7 +430,8 @@
       "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
       "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
       "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
-      "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass."
+      "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
+      "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested."
     ],
     "remaining": [
       "Publish development implementation and verify exact-tip hosted checks. No main/release promotion is authorized.",
@@ -1147,6 +1151,28 @@
       "acquiredAt": "2026-10-07T04:10:36.255Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T04:29:34.466Z"
+    },
+    {
+      "taskId": "si-lockfile-route-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "TASK-ROUTING.json",
+          "test/taskRouting.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair exact-tip CI rejection of the SI dependency security patch by registering the root lockfile as core development work",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:32:04.186Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:33:05.965Z"
     }
   ],
   "ownerDecisions": [

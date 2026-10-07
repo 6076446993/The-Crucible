@@ -186,7 +186,8 @@
       "pathExact": [
         ".gitignore",
         ".thecrucible.json",
-        ".thecrucible.schema.json"
+        ".thecrucible.schema.json",
+        "package-lock.json"
       ]
     }
   ],
