@@ -170,10 +170,10 @@ test('pre-write rerouting finds an attached branch or one unambiguous exact-tip 
 test('the checked-in active handoff records the same canonical route', () => {
   const handoff = JSON.parse(fs.readFileSync('AI-HANDOFF.json', 'utf8'));
   const record = handoff.activePlan.taskRouting;
-  assert.equal(record.category, 'crucible-core');
+  assert.equal(record.category, 'crucible-r8-workflow-registration');
   assert.equal(record.repositoryId, repositoryId);
   assert.equal(record.repository, repository);
-  assert.equal(record.branch, 'development');
+  assert.equal(record.branch, 'r8-workflow-registration');
   // The route has to be one the dispatcher decided, not a sentence someone wrote in passing.
   // The earlier assertion looked for the phrase "task-category dispatcher", which the dispatcher
   // never emits - it only ever passed because the reason had been hand-written, and it went red
@@ -182,10 +182,10 @@ test('the checked-in active handoff records the same canonical route', () => {
   // `ready` decision states which signal selected the category, in the dispatcher's own bounded
   // wording, and a recorded decision carries the hashes binding it to the exact prompt and
   // affected paths. A prose summary has neither.
-  assert.match(record.reason, new RegExp(`^(Affected paths select|Task wording selects|Project context selects) ${record.category}\\.$`));
+  assert.match(record.reason, new RegExp(`^(Affected paths select|Task wording selects|Project context selects|Explicit repository and branch instruction selected) ${record.repository}:${record.branch}\\.$`));
   assert.match(String(record.promptSha256 || ''), /^[a-f0-9]{64}$/);
   assert.match(String(record.affectedPathsSha256 || ''), /^[a-f0-9]{64}$/);
-  assert.equal(record.explicitOverride, false);
+  assert.equal(record.explicitOverride, true);
   // The binding is only worth anything if it binds to this file's own prompt.
   assert.equal(record.promptSha256, createHash('sha256').update(String(handoff.activePlan.currentPrompt || '')).digest('hex'));
 });

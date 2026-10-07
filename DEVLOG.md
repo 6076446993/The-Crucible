@@ -1,5 +1,21 @@
 # Development log
 
+### Session: owner-authorized R8 workflow registration route — 2026-10-07T16:20:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: Registered the exact owner-authorized `r8-workflow-registration` route so the protected one-workflow registration PR can proceed without bypassing the pre-push router. The route remains limited to the R8 workflow-registration scope plus its route-test fixture; no main write or R8 execution occurred.
+
+- **Route boundary:** added the owner-authorized branch and dedicated routing category, classified the workflow path as shared registration evidence so the exact explicit route is required, and synchronized the route-test fixture with the canonical owner identity.
+- **Custody boundary:** no raw, vetted, encrypted, or hosted learning state changed; R8 remains pending.
+- **Verification remaining:** push the clean registration branch through the mandatory hook, open the protected PR, wait for exact checks, then dispatch the reviewed development ref and inspect the real hosted R8 result.
+
+### Continuation checkpoint: protected registration PR — 2026-10-07T16:45:00-04:00
+
+Plain-language summary: PR #35 is open at `154ffa4`, but promotion is blocked by exact hosted evidence; no merge, default-branch registration, raw custody write, canary execution, or R8 proof occurred.
+
+- **Hosted blockers:** every Crucible matrix leg failed at `npm run audit:github-security` with `CRU-0000 fetch failed`; the same run's collision audit reported PR #34 overlaps the R8 workflow and shared handoff paths.
+- **Monitor blocker:** the required monitor check failed because the configured `jonathanblunt1214-lgtm/NVIDIA-NIM-CONSOLE` repository returned GitHub HTTP 404.
+- **Next safe action:** resolve the existing PR #34 overlap and the hosted monitor/security capability failures, then rerun PR #35 checks. Only after exact green protected checks may the PR merge and the reviewed `development` R8 publisher dispatch proceed.
+
 ### Session: vetted prevention to preflight proof — 2026-09-29T17:00:00Z — ChatGPT — mode:work
 
 Plain-language summary: Completed the executable proof path from a CRU-linked prevention candidate through the existing scientific-learning state machine into active vetted knowledge, then bound that exact knowledge version and proof hash to its governed CRU prevention declaration and required precheck to consume it without widening the tested boundary.

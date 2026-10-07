@@ -195,7 +195,7 @@
   "activePlan": {
     "agent": "ChatGPT",
     "objective": "Complete the prevention feedback loop and add adaptive meta-learning so verified outcome evidence can improve the learning strategy without bypassing scientific or governance gates.",
-    "currentPrompt": "Consume independently vetted Nexus learning at Crucible preflight so local repair-learning evidence cannot authorize prevention; require active Vetted-Learning-State custody with exact governed boundary, proof binding, Oversight decision binding, and active CRU bug/error classification.",
+    "currentPrompt": "Register the manual R8 executable quarantine publisher on the exact owner-authorized branch r8-workflow-registration, then open the protected registration PR into main and dispatch the reviewed development ref; affect only TASK-ROUTING.json, AI-HANDOFF.json, DEVLOG.md, test/taskRouting.test.js, .github/workflows/r8-executable-canary-publisher.yml.",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
@@ -204,17 +204,19 @@
       "distinction": "Execution mode is separate from agent identity and workflow; Work mode changes orchestration depth, not repository identity, branch authority, governance, or promotion authority."
     },
     "taskRouting": {
-      "category": "crucible-core",
+      "category": "crucible-r8-workflow-registration",
       "repositoryId": 1344890806,
       "repository": "jonathanblunt1214-lgtm/The-Crucible",
-      "branch": "development",
-      "reason": "Affected paths select crucible-core.",
-      "explicitOverride": false,
-      "selectedAt": "2026-09-29T16:38:41.720Z",
-      "promptSha256": "ae30b1da85ef54824d7a6d2be7af0b75be758f3f7f0b2c545b004495718546f6",
-      "affectedPathsSha256": "aae43f3b0dee95c0ae5d5ed49b8212f8c5331287903b71870a26476ee5009acd"
+      "branch": "r8-workflow-registration",
+      "reason": "Explicit repository and branch instruction selected jonathanblunt1214-lgtm/The-Crucible:r8-workflow-registration.",
+      "explicitOverride": true,
+      "selectedAt": "2026-10-07T16:20:00-04:00",
+      "promptSha256": "198a886a7e574bd6a9f4c34a39efb7d96ed0aa298a0d47ef96ecf305ab9d695e",
+      "affectedPathsSha256": "960991c31919b5fa9acfec5d48d21dffa69df48c7d8a077a55e94bb0eebded84"
     },
     "steps": [
+      "[blocked] Protected registration PR #35 is open at 154ffa4, but hosted Crucible matrix jobs fail at audit:github-security with CRU-0000 fetch failed, collision audit reports overlap with PR #34, and the required monitor returns HTTP 404 for the configured NVIDIA-NIM-CONSOLE repository; no merge, default-branch registration, canary execution, or R8 proof occurred.",
+      "[next] Resolve the exact hosted monitor/security capability failures and the existing PR #34 overlap, then rerun PR #35 checks; merge only on protected green evidence and dispatch the reviewed development ref afterward.",
       "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
       "[done] Strengthened AI Collaboration ORCHESTRATOR-POLICY.json to mechanically require early execution-boundary identification, continuously reserved terminal-verification capacity, conservative cutoff, complete Final Verification, and terminal Devlog recording.",
       "[done] Re-verified AI Collaboration and Crucible remain independent projects joined by a non-containment cross-project policy reference; Nexus and ChatGPT remain excluded from the custom GitHub App package boundary.",
