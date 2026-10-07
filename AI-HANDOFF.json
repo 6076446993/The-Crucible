@@ -115,7 +115,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T02:35:06.000Z"
+    "lastActionAt": "2026-10-07T02:39:18.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -212,36 +212,35 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T02:35:06.000Z",
+      "selectedAt": "2026-10-07T02:39:18.000Z",
       "prompt": "Why did you break the pipeline for a test?",
       "project": "The Crucible",
       "paths": [
         "AI-HANDOFF.json",
-        "DEVLOG.md"
+        "DEVLOG.md",
+        "governingDocuments/scientific-learning-release-plan.md",
+        "governingDocuments/scientific-learning-release-status.json"
       ],
       "promptSha256": "996e53cdca194cd7b5b1cee1771610c65a374a02f539938744dc38cd26580a16",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "affectedPathsSha256": "11549f2c614227f2a408b9b64d59b7e9edee060fa879fe4fced180c235957026"
     },
     "steps": [
-      "[done] Verify the first ownership-only repair still failed: direct cross-system linkage rose from 57 to 59.",
-      "[done] Place r2FailoverProof with ClaimExtractionWorker in the digestive system and expose lock inspection through that existing worker boundary.",
-      "[done] Preserve the fly-by-wire ratchet: r2FailoverProof no longer imports durableLock directly and adds no new digestive-to-boundary dependency.",
-      "[done] Strengthen proof isolation with a dedicated OS-temp root, stripped production learning-path environment, and unchanged pre-existing baseline-candidate digest requirement.",
-      "[pending] Verify exact-tip hosted R2 failover remains green and every-push circulation baseline returns to 57.",
-      "[pending] Preserve R3/R8/R9/R10 as separate blockers.",
-      "[done] Record the exact released mutation-claim IDs required by DEVLOG accountability.",
-      "[pending] Verify exact-tip AI conflict governance, hosted R2 failover, and every-push circulation."
+      "[done] Prove isolated R2 failover with no production queue/store reference or write path.",
+      "[done] Strengthen the proof to require a dedicated OS-temp namespace, stripped production learning-path environment, and preservation of an unrelated pre-existing candidate digest.",
+      "[done] Repair both R2-introduced circulation failures and restore the fly-by-wire ratchet to 57 direct edges with none added.",
+      "[done] Verify exact-tip hosted R2 failover, every-push scheduled tests, AI handoff, AI conflict governance, and CodeQL.",
+      "[done] Synchronize the R2 pass into the scientific-learning release plan/status without changing R3, R8, R9, or promotion authority."
     ],
-    "status": "active",
+    "status": "complete",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T02:35:06.000Z",
-    "currentStep": "Runtime/circulation repair is published; exact released mutation-claim IDs are being added to the DEVLOG accountability record.",
-    "priority": "Restore the pipeline without weakening fly-by-wire or the no-production-state R2 proof boundary.",
+    "lastUpdatedAt": "2026-10-07T02:39:18.000Z",
+    "currentStep": "Complete: R2 is passed with isolated failover/no-loss evidence; the R2-introduced pipeline regressions are repaired. R3 and R8 remain pending, so R9 remains held.",
+    "priority": "Preserve the verified no-production-state R2 boundary. R2 evidence grants no authority over R3, R8, R9, R10, R11, or main promotion.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
       "mutationScope": [],
-      "rule": "Discussion is shared; mutation is exclusive. The stale R8 claim is released without changing R8 behavior; this R2 repair claim is recorded and released atomically."
+      "rule": "Discussion is shared; mutation is exclusive. All R2 repair/evidence-sync claims are released; R8 remains unfinished but its stale mutation lock was released without changing R8 behavior."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -261,7 +260,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "At f8aa9f69523cb01691a6aace0c5c7de25275d625, AI conflict governance failed only because released claims r8-executable-quarantine-publisher-20261004 and repair-r2-circulation-boundary-20261006 were not present by exact taskId in DEVLOG. No runtime or candidate-state failure was reported by that gate.",
+    "verificationStatus": "Reviewed SHA 1033806378cda18f53efc4b589867bc9cfb8c677: hosted R2 run 37562741750 job 112603486637 passed with disposableProofRoot=true, productionStateWritable=false, productionStateReferenced=false, productionLearningEnvironmentInherited=false, baselineCandidatePreserved=true, PID 2193 reclaimed after 30194ms, attempts=2, two unique deterministic candidate IDs, and repeat=0; artifact 11457258905 retained. Every-push scheduled tests pass and audit:circulation reports 57 direct edges with none added on Linux, macOS, and Windows. CodeQL, AI handoff, and AI conflict governance are green. Remaining Self-Test failures are the pre-existing CRU-0006 boundary and Windows R8/workflow-text issue.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -361,50 +360,48 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Verify exact-tip AI conflict governance, hosted R2 failover, and Self-Test circulation after the claim-ID accountability correction.",
+    "nextAction": "Resume the next independent scientific-learning blocker (R3 live discovery or R8 executable-content refusal) under its own governed task; do not reopen R2 unless its proof regresses.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
-        "Hosted R2 failover continues to pass without production state reference or write access.",
-        "The first circulation fix was proven incomplete because it raised direct cross-system links 57 -> 59.",
-        "This correction co-locates r2FailoverProof with extraction in digestive and reuses ClaimExtractionWorker's existing durableLock edge.",
-        "The proof now mechanically requires a dedicated OS-temp root, strips ambient production learning path variables, and proves a pre-existing unrelated candidate survives unchanged.",
-        "The stale R8 mutation lock is released without changing R8 code or declaring its pending canary complete.",
-        "Recorded exact DEVLOG accountability strings for the released R8 claim, the R2 circulation-boundary repair claim, and this governance-only correction claim."
+        "R2 isolated failover is passed with strengthened no-production-path and baseline-candidate-preservation evidence.",
+        "The initial unassigned-module and 57->59 circulation regressions introduced by the R2 proof were both repaired; circulation is back to 57 with none added.",
+        "Exact-tip R2 job, scheduled every-push tests, AI handoff, AI conflict governance, and CodeQL were verified; no R2-caused CI blocker remains.",
+        "Scientific-learning release plan/status now record the strengthened R2 evidence without changing R3/R8/R9 or authorizing promotion."
       ],
       "verification": [
-        "Run 37562305009 R2 job 112602093689 passed at 67d4fe835776815e6d0d9a22bc1c995acbcbeb4a.",
-        "Self-Test job 112602093624 proved the remaining regression precisely: direct linkage 57 -> 59 via learning->digestive and learning->boundary.",
-        "AI conflict governance at f8aa9f6 failed only on OPS-0035 missing exact taskId strings for two released claims."
+        "Run 37562741750 job 112603486637, artifact 11457258905.",
+        "Self-Test run 37562741770: every-push scheduled tests pass; audit:circulation 57 direct edges, none added. Later red states are separate existing blockers.",
+        "CodeQL run 37562741728 green; AI handoff run 37562741806 green; AI conflict run 37562741705 green."
       ],
       "remaining": [
-        "Exact-tip hosted R2 proof and circulation baseline verification for this correction.",
-        "R3 live discovery and R8 executable-content refusal remain pending; R9 remains held.",
-        "R10 retains separate repository-security/monitor blockers."
+        "R3 live governed discovery remains pending.",
+        "R8 executable-content live refusal remains pending.",
+        "R9 remains held until R2-R8 are simultaneously green.",
+        "R10 retains separate repository-security/Windows workflow-text/monitor blockers; R11 remains owner-only."
       ]
     }
   },
   "handoffNotes": {
     "completed": [
-      "Hosted R2 failover continues to pass without production state reference or write access.",
-      "The first circulation fix was proven incomplete because it raised direct cross-system links 57 -> 59.",
-      "This correction co-locates r2FailoverProof with extraction in digestive and reuses ClaimExtractionWorker's existing durableLock edge.",
-      "The proof now mechanically requires a dedicated OS-temp root, strips ambient production learning path variables, and proves a pre-existing unrelated candidate survives unchanged.",
-      "The stale R8 mutation lock is released without changing R8 code or declaring its pending canary complete.",
-      "Recorded exact DEVLOG accountability strings for the released R8 claim, the R2 circulation-boundary repair claim, and this governance-only correction claim."
+      "R2 isolated failover is passed with strengthened no-production-path and baseline-candidate-preservation evidence.",
+      "The initial unassigned-module and 57->59 circulation regressions introduced by the R2 proof were both repaired; circulation is back to 57 with none added.",
+      "Exact-tip R2 job, scheduled every-push tests, AI handoff, AI conflict governance, and CodeQL were verified; no R2-caused CI blocker remains.",
+      "Scientific-learning release plan/status now record the strengthened R2 evidence without changing R3/R8/R9 or authorizing promotion."
     ],
     "verification": [
-      "Run 37562305009 R2 job 112602093689 passed at 67d4fe835776815e6d0d9a22bc1c995acbcbeb4a.",
-      "Self-Test job 112602093624 proved the remaining regression precisely: direct linkage 57 -> 59 via learning->digestive and learning->boundary.",
-      "AI conflict governance at f8aa9f6 failed only on OPS-0035 missing exact taskId strings for two released claims."
+      "Run 37562741750 job 112603486637, artifact 11457258905.",
+      "Self-Test run 37562741770: every-push scheduled tests pass; audit:circulation 57 direct edges, none added. Later red states are separate existing blockers.",
+      "CodeQL run 37562741728 green; AI handoff run 37562741806 green; AI conflict run 37562741705 green."
     ],
     "remaining": [
-      "Exact-tip hosted R2 proof and circulation baseline verification for this correction.",
-      "R3 live discovery and R8 executable-content refusal remain pending; R9 remains held.",
-      "R10 retains separate repository-security/monitor blockers."
+      "R3 live governed discovery remains pending.",
+      "R8 executable-content live refusal remains pending.",
+      "R9 remains held until R2-R8 are simultaneously green.",
+      "R10 retains separate repository-security/Windows workflow-text/monitor blockers; R11 remains owner-only."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -986,6 +983,28 @@
       "acquiredAt": "2026-10-07T02:35:06.000Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T02:35:06.000Z"
+    },
+    {
+      "taskId": "r2-final-evidence-sync-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "governingDocuments/scientific-learning-release-plan.md",
+          "governingDocuments/scientific-learning-release-status.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Synchronize the verified R2 pass into the scientific-learning release plan/status and close the R2 repair handoff without changing any other gate.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T02:39:18.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T02:39:18.000Z"
     }
   ],
   "ownerDecisions": [
