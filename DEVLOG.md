@@ -49,7 +49,7 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
-- **2026-10-06 R2 no-restart failover proof:** Owner approved an isolated R2 proof only if existing candidates cannot be lost by the test. The R2 runner has no production queue/store path, starts a standby before interrupting only the isolated primary, never restarts that primary, and requires exact-tip hosted evidence before R2 can move.
+- **2026-10-06 R2 no-restart failover proof:** Hosted run 37561452928 job 112599419837 passed. The R2 runner had no production queue/store path; primary PID 2382 persisted attempt 1 and was interrupted, the already-running standby reclaimed that owner after 30132ms and completed attempt 2, two unique deterministic candidates were emitted, and repeat processing was zero. Artifact 11457281245 is retained for 90 days. R2 is passed; R3/R8 remain pending and R9 remains held.
 
 
 - **2026-10-06 Synthetic Intelligence logging:** SI is retained as a dedicated Crucible research subject, distinct from generic AGI, with 29 concept hypotheses and nine academic source seeds logged as candidate-only evidence. Scope is logging only: no SI discovery topics, automation, proof, release-gate change, or promotion authority.
@@ -114,7 +114,7 @@ Plain-language summary: Added a development-only R2 failover proof that cannot w
 - Re-read current development governance, handoff, routing, scientific-learning policy/release state, durable-lock behavior and hosted proof boundary before mutation — started 2026-10-07T02:03:22.000Z, finished 2026-10-07T02:17:55.000Z, exit 0.
 - Added the isolated R2 failover runner and regression checks that refuse queue/store paths outside the proof root — started 2026-10-07T02:17:55.000Z, finished 2026-10-07T02:17:55.000Z, exit 0 implementation.
 - Added a separate read-only hosted R2 job with no production custody secrets; it retains bounded failover evidence and authorizes no promotion — started 2026-10-07T02:17:55.000Z, finished 2026-10-07T02:17:55.000Z, exit 0 implementation.
-- No production worker, queue, store, candidate, release gate, R9 state, main branch, or release branch was restarted, reset, or mutated by this implementation. Hosted proof remains pending.
+- No production worker, queue, store, candidate, release gate, R9 state, main branch, or release branch was restarted, reset, or mutated by this implementation. Hosted proof run 37561452928 job 112599419837 passed: primary PID 2382 was reclaimed by the already-running standby after 30132ms, attempt 2 completed with two unique deterministic candidates, repeat processing was zero, and artifact 11457281245 records no production-state reference or write path. R2 is now passed; R3/R8 remain pending and R9 remains held.
 - Hosted AI handoff rejected the first commit because execution-mode wording omitted the required explicit separation from workflow; corrected the handoff wording and rebound the two-file governance follow-up without changing the R2 runner, production state, or gate semantics — started 2026-10-07T02:22:00.000Z, finished 2026-10-07T02:23:00.000Z, exit 0 correction.
 
 
