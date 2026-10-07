@@ -212,7 +212,7 @@
       "explicitOverride": true,
       "selectedAt": "2026-10-07T22:04:08.076Z",
       "promptSha256": "21f1ddaabac80580a9123a1c82eebcf965b1507560df621ad6082a07b5044ef3",
-      "affectedPathsSha256": "9635e682db62a4ea4c8c28988c18032901726227c222b182123edf271ca31e77"
+      "affectedPathsSha256": "65a22d62a74ae4750d2227e119e04c936e03d98f4f538e2a3ead8d673f3e906b"
     },
     "steps": [
       "[done] Updated all monitored repository identities from the stale jonathanblunt1214-lgtm owner to the current 6076446993 owner after hosted monitor evidence showed repository-read failure; locked PR #11 remains read-only and no mutation authority was added.",
