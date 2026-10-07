@@ -49,6 +49,9 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-06 R2 no-restart failover proof:** Owner approved an isolated R2 proof only if existing candidates cannot be lost by the test. The R2 runner has no production queue/store path, starts a standby before interrupting only the isolated primary, never restarts that primary, and requires exact-tip hosted evidence before R2 can move.
+
+
 - **2026-10-06 Synthetic Intelligence logging:** SI is retained as a dedicated Crucible research subject, distinct from generic AGI, with 29 concept hypotheses and nine academic source seeds logged as candidate-only evidence. Scope is logging only: no SI discovery topics, automation, proof, release-gate change, or promotion authority.
 
 - **2026-10-05 scientific-learning release review:** Exact development SHA `ce2c5529919d80cb71fa4f7ba974fcb077ed608f` now has durable evidence for R4-R7. R2 still lacks real restart/resume proof, R3 produced zero admitted URLs after 16 provider aborts, and R8 lacks the executable-content live refusal; R9 has not started, exact-tip CI is red, and no promotion is authorized. The 14-source rescan found 8 hashes in current vetted custody and 6 absent, so it remains pending without re-extraction or duplicate custody.
@@ -104,6 +107,15 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: r2-isolated-failover-proof-20261006 — 2026-10-07T02:17:55.000Z — ChatGPT — mode:work
+
+Plain-language summary: Added a development-only R2 failover proof that cannot write the live candidate queue/store. It uses an isolated canary, interrupts only its isolated primary worker, and requires an already-running standby to reclaim the dead lock and finish without duplicates; R2 remains pending until hosted evidence passes.
+- Re-read current development governance, handoff, routing, scientific-learning policy/release state, durable-lock behavior and hosted proof boundary before mutation — started 2026-10-07T02:03:22.000Z, finished 2026-10-07T02:17:55.000Z, exit 0.
+- Added the isolated R2 failover runner and regression checks that refuse queue/store paths outside the proof root — started 2026-10-07T02:17:55.000Z, finished 2026-10-07T02:17:55.000Z, exit 0 implementation.
+- Added a separate read-only hosted R2 job with no production custody secrets; it retains bounded failover evidence and authorizes no promotion — started 2026-10-07T02:17:55.000Z, finished 2026-10-07T02:17:55.000Z, exit 0 implementation.
+- No production worker, queue, store, candidate, release gate, R9 state, main branch, or release branch was restarted, reset, or mutated by this implementation. Hosted proof remains pending.
+
 
 ### Session: synthetic-intelligence-research-domain-20261006 — 2026-10-07T01:16:27.000Z — ChatGPT — mode:work
 
