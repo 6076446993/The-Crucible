@@ -49,4 +49,4 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - name: Exercise SI content through the R8 safety sandbox
-        run: node --test --test-name-pattern="SI R8 sandbox" test/safeInformationRetrieval.test.js
+        run: node --test --test-name-pattern="SI R8 sandbox|verified scholarly research" test/safeInformationRetrieval.test.js

@@ -98,9 +98,51 @@ function suspiciousText(buffer, contentType) {
   const text = buffer.toString('utf8', 0, Math.min(buffer.length, 2 * 1024 * 1024));
   return INJECTION_PATTERNS.filter((pattern) => pattern.test(text)).map((pattern) => pattern.source);
 }
-function admitDiscoveryCandidateUrls(values, { trustedDomains = [], trustedSuffixes = ['.edu', '.gov', '.org'], extremeVettingSuffixes = ['.science'], deniedDomains = [], newsDomains = NEWS_AGENCY_DOMAINS, maximumResults = 20 } = {}) {
+
+const VERIFIED_SCHOLARLY_DOMAINS_FILE = path.resolve(__dirname, '..', 'governingDocuments', 'verified-scholarly-domains.json');
+
+function loadVerifiedScholarlyDomains(file = VERIFIED_SCHOLARLY_DOMAINS_FILE) {
+  const parsed = JSON.parse(fs.readFileSync(path.resolve(file), 'utf8'));
+  if (parsed?.schemaVersion !== 1 || parsed.policy?.ownerApprovalRequired !== true || !Array.isArray(parsed.domains)) throw new Error('Verified scholarly-domain registry is invalid.');
+  return parsed.domains.map((entry) => {
+    const domain = normalizedHost(entry?.domain);
+    if (!domain || domain.includes('/') || entry?.approvedBy !== 'repository-owner' || entry?.admissionClass !== 'verified-scholarly-domain') throw new Error('Verified scholarly-domain entry is invalid or lacks owner approval.');
+    return {
+      domain,
+      organization:String(entry.organization || '').trim(),
+      authority:String(entry.authority || '').trim(),
+      evidenceUrl:safeUrl(entry.evidenceUrl).toString(),
+      verifiedAt:String(entry.verifiedAt || '').trim(),
+      admissionClass:entry.admissionClass,
+    };
+  });
+}
+
+function scholarlyDiscussionContext(buffer, contentType) {
+  if (!/text|html|json|xml/i.test(contentType)) return false;
+  const text = buffer.toString('utf8', 0, Math.min(buffer.length, 2 * 1024 * 1024));
+  const research = '(?:study|paper|experiment|analysis|authors?|research|evaluation|evaluates?|compares?|describes?|reports?|measures?|examines?|investigates?)';
+  const control = '(?:system\\s*prompt|developer\\s*message)';
+  return new RegExp(`${research}.{0,120}${control}|${control}.{0,120}${research}`, 'i').test(text);
+}
+
+function classifyInstructionSignals(buffer, contentType, host, verifiedScholarlyDomains = []) {
+  const signals = suspiciousText(buffer, contentType);
+  const scholarly = verifiedScholarlyDomains.find((entry) => domainMatches(normalizedHost(host), entry.domain));
+  const contextualDiscussion = Boolean(scholarly) && scholarlyDiscussionContext(buffer, contentType);
+  if (!contextualDiscussion) return { quarantineSignals:signals, discussionSignals:[], scholarly:scholarly || null };
+  const discussionSignals = [];
+  const quarantineSignals = [];
+  for (const signal of signals) {
+    if (signal.includes('system\\s*prompt') || signal.includes('developer\\s*message')) discussionSignals.push(signal);
+    else quarantineSignals.push(signal);
+  }
+  return { quarantineSignals, discussionSignals, scholarly };
+}
+
+function admitDiscoveryCandidateUrls(values, { trustedDomains = [], trustedSuffixes = ['.edu', '.gov', '.org'], verifiedScholarlyDomains = [], extremeVettingSuffixes = ['.science'], deniedDomains = [], newsDomains = NEWS_AGENCY_DOMAINS, maximumResults = 20 } = {}) {
   if (!Array.isArray(values)) throw new Error('Discovery candidates must be an array.');
-  if (!Array.isArray(trustedDomains) || !Array.isArray(trustedSuffixes) || !Array.isArray(extremeVettingSuffixes) || (!trustedDomains.length && !trustedSuffixes.length && !extremeVettingSuffixes.length)) throw new Error('A positive trusted-domain, trusted-suffix, or extreme-vetting-suffix allow-list is required.');
+  if (!Array.isArray(trustedDomains) || !Array.isArray(trustedSuffixes) || !Array.isArray(verifiedScholarlyDomains) || !Array.isArray(extremeVettingSuffixes) || (!trustedDomains.length && !trustedSuffixes.length && !verifiedScholarlyDomains.length && !extremeVettingSuffixes.length)) throw new Error('A positive trusted-domain, trusted-suffix, verified-scholarly-domain, or extreme-vetting-suffix allow-list is required.');
   if (!Number.isSafeInteger(maximumResults) || maximumResults < 1 || maximumResults > 100) throw new Error('maximumResults must be between 1 and 100.');
   const found = [];
   const seen = new Set();
@@ -110,13 +152,14 @@ function admitDiscoveryCandidateUrls(values, { trustedDomains = [], trustedSuffi
     const host = normalizedHost(url.hostname);
     if (domainMatches(host, 'google.com') || ALWAYS_DENIED_DOMAINS.some((rule) => domainMatches(host, rule)) || deniedDomains.some((rule) => domainMatches(host, rule))) continue;
     const extremeSuffix = extremeVettingSuffixes.some((suffix) => host.endsWith(String(suffix).toLowerCase()));
-    const approved = extremeSuffix || trustedDomains.some((rule) => domainMatches(host, rule)) || trustedSuffixes.some((suffix) => host.endsWith(String(suffix).toLowerCase()));
+    const scholarly = verifiedScholarlyDomains.find((entry) => domainMatches(host, entry.domain));
+    const approved = extremeSuffix || Boolean(scholarly) || trustedDomains.some((rule) => domainMatches(host, rule)) || trustedSuffixes.some((suffix) => host.endsWith(String(suffix).toLowerCase()));
     if (!approved) continue;
     const normalized = url.toString();
     if (seen.has(normalized)) continue;
     seen.add(normalized);
     const extremeVetting = extremeSuffix || newsDomains.some((rule) => domainMatches(host, rule));
-    found.push({ url:normalized, host, approved:true, classification:'Insufficient Evidence', state:extremeVetting ? 'extreme-vetting-required' : 'trusted-domain-candidate-url', vetting:extremeVetting ? { primarySourceRequired:true, independentCorroborationRequired:true, contradictionAnalysisRequired:true, publicationReputationIsNotProof:true } : null });
+    found.push({ url:normalized, host, approved:true, classification:'Insufficient Evidence', state:extremeVetting ? 'extreme-vetting-required' : (scholarly ? 'verified-scholarly-domain-candidate-url' : 'trusted-domain-candidate-url'), sourceAuthority:scholarly ? scholarly.admissionClass : (trustedDomains.some((rule) => domainMatches(host, rule)) ? 'explicit-trusted-domain' : 'trusted-suffix'), authorityOrganization:scholarly?.organization || null, authorityEvidenceUrl:scholarly?.evidenceUrl || null, vetting:extremeVetting ? { primarySourceRequired:true, independentCorroborationRequired:true, contradictionAnalysisRequired:true, publicationReputationIsNotProof:true } : (scholarly ? { registryControlled:true, independentCorroborationRequired:true, publicationReputationIsNotProof:true } : null) });
     if (found.length >= maximumResults) break;
   }
   return found;
@@ -239,12 +282,12 @@ class SafeInformationRetriever {
       for await (const chunk of response.body) { length += chunk.length; if (length > this.maximumBytes) throw new Error('Response exceeds the configured size limit.'); chunks.push(Buffer.from(chunk)); }
       const content = Buffer.concat(chunks); const magic = executableMagic(content);
       if (magic || SUSPICIOUS_BINARY_EXTENSION.test(new URL(response.url || current).pathname)) throw new Error(`Executable content quarantined: ${magic || 'suspicious extension'}.`);
-      const injectionSignals = suspiciousText(content, contentType); const metadata = /html|xhtml/.test(contentType) ? metadataFromHtml(content.toString('utf8')) : { author:'not declared', license:'not declared; verify source terms before redistribution' };
+      const finalHost = normalizedHost(new URL(response.url || current).hostname); const instruction = classifyInstructionSignals(content, contentType, finalHost, loadVerifiedScholarlyDomains()); const injectionSignals = instruction.quarantineSignals; const metadata = /html|xhtml/.test(contentType) ? metadataFromHtml(content.toString('utf8')) : { author:'not declared', license:'not declared; verify source terms before redistribution' };
       const parserContent = /html|xhtml/.test(contentType) ? Buffer.from(sanitizeHtml(content.toString('utf8'))) : content;
       // Downstream custody hashes the bytes it actually stores and extracts. Keep the raw
       // transport hash separately so sanitization is still auditable without making the queue
       // claim that sanitized bytes have the response body's digest.
-      const record = { schemaVersion:1, requestedUrl:requested, finalUrl:safeUrl(response.url || current.toString()).toString(), retrievedAt:this.now(), author:metadata.author, license:metadata.license, contentType, contentLength:parserContent.length, contentSha256:sha256(parserContent), retrievedContentLength:length, retrievedContentSha256:sha256(content), redirects, classification:injectionSignals.length ? 'Crucible Issue' : 'Insufficient Evidence', state:injectionSignals.length ? 'quarantined' : 'retrieved-candidate-evidence', quarantineReasons:injectionSignals.map(() => 'prompt-injection-pattern') };
+      const record = { schemaVersion:1, requestedUrl:requested, finalUrl:safeUrl(response.url || current.toString()).toString(), retrievedAt:this.now(), author:metadata.author, license:metadata.license, contentType, contentLength:parserContent.length, contentSha256:sha256(parserContent), retrievedContentLength:length, retrievedContentSha256:sha256(content), redirects, classification:injectionSignals.length ? 'Crucible Issue' : 'Insufficient Evidence', state:injectionSignals.length ? 'quarantined' : 'retrieved-candidate-evidence', quarantineReasons:injectionSignals.map(() => 'prompt-injection-pattern'), researchDiscussionSignals:instruction.discussionSignals, sourceAuthority:instruction.scholarly?.admissionClass || null, authorityOrganization:instruction.scholarly?.organization || null, authorityEvidenceUrl:instruction.scholarly?.evidenceUrl || null };
       this.auditStore.append(record); return { record, content:injectionSignals.length ? null : parserContent };
     } catch (error) {
       this.auditStore.append({ schemaVersion:1, requestedUrl:requested, decisionAt, state:'blocked', classification:'Insufficient Evidence', reason:String(error.message || error) }); throw error;
@@ -252,4 +295,4 @@ class SafeInformationRetriever {
   }
 }
 
-module.exports = { DEFAULT_CONTENT_TYPES, pinnedLookup, pinnedHttpsRequest, INJECTION_PATTERNS, SOCIAL_MEDIA_DENYLIST, NEWS_AGENCY_DOMAINS, privateAddress, safeUrl, sanitizeHtml, admitDiscoveryCandidateUrls, parseGoogleSearchResults, RetrievalAuditStore, SafeInformationRetriever };
+module.exports = { DEFAULT_CONTENT_TYPES, pinnedLookup, pinnedHttpsRequest, INJECTION_PATTERNS, VERIFIED_SCHOLARLY_DOMAINS_FILE, loadVerifiedScholarlyDomains, scholarlyDiscussionContext, classifyInstructionSignals, SOCIAL_MEDIA_DENYLIST, NEWS_AGENCY_DOMAINS, privateAddress, safeUrl, sanitizeHtml, admitDiscoveryCandidateUrls, parseGoogleSearchResults, RetrievalAuditStore, SafeInformationRetriever };

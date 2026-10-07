@@ -569,5 +569,13 @@
     "changesReleaseAuthority": false,
     "gatePassAuthority": false,
     "note": "These sandboxes measure compatibility and rejection behavior. They do not turn SI logging into live discovery automation and cannot satisfy R3 or R8 by themselves."
+  },
+  "gateCompatibilityAdaptation": {
+    "recordedAt": "2026-10-07T03:06:00.000Z",
+    "principle": "Adapt the general scientific-learning gates exposed by SI; create no SI-only exception.",
+    "R3": "Use an owner-governed exact scholarly-domain registry for nonstandard academic publisher/platform domains. The first approved entry is academic.oup.com, supported by Oxford Academic's own OUP identity page. All admitted URLs remain candidate-only Insufficient Evidence.",
+    "R8": "Verified scholarly sources may retain descriptive control-message terminology only when the surrounding text is recognizably research discussion. Other matching control text remains quarantined; override, credential-exfiltration, command-execution, and executable-content signals remain fail-closed.",
+    "gatePassAuthority": false,
+    "promotionAuthorized": false
   }
 }
