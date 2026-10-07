@@ -211,37 +211,33 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T02:23:00.000Z",
+      "selectedAt": "2026-10-07T02:20:27.000Z",
       "prompt": "Do it then",
       "project": "The Crucible",
       "paths": [
         "AI-HANDOFF.json",
-        "DEVLOG.md"
+        "DEVLOG.md",
+        "governingDocuments/scientific-learning-release-status.json"
       ],
       "promptSha256": "24217f07900f99eb68680cdb501689fbd3b02c3ff800f6509bfe167311aacfad",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "affectedPathsSha256": "afd52538de0e70d7e648bae1601594ad6b58262309e4454bc4e448b807b0ed4f"
     },
     "steps": [
       "[done] Keep production queue/store outside the R2 proof process.",
-      "[done] Add isolated canary failover using the production ClaimExtractionWorker and durable lock.",
-      "[pending] Obtain exact-tip hosted evidence before R2 may be recorded satisfied."
+      "[done] Run isolated primary/standby failover without restarting production or the interrupted primary.",
+      "[done] Verify hosted evidence: same dead PID reclaimed after the 30-second floor, attempt 2 completed, unique deterministic candidates emitted, idempotent repeat processed zero.",
+      "[done] Reconcile R2 to passed only from that hosted evidence; leave R3/R8/R9 unchanged."
     ],
-    "status": "in-progress",
+    "status": "complete",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T02:23:00.000Z",
-    "currentStep": "Implementation prepared; exact-tip hosted R2 failover evidence is required before R2 may be recorded satisfied.",
-    "priority": "No production restart, no production queue/store write path, no candidate loss.",
+    "lastUpdatedAt": "2026-10-07T02:20:27.000Z",
+    "currentStep": "Complete: R2 failover behavior is proven in an isolated lane with no production-state path; R3 and R8 remain blockers and R9 remains held.",
+    "priority": "Preserve the no-production-state R2 proof boundary. R2 pass grants no R3/R8/R9 or release authority.",
     "ownership": {
-      "currentClaim": "r2-isolated-failover-proof-20261006",
-      "owner": "openai",
-      "mutationScope": [
-        ".github/workflows/hosted-learning-proof.yml",
-        "AI-HANDOFF.json",
-        "DEVLOG.md",
-        "src/r2FailoverProof.js",
-        "test/durableLock.test.js"
-      ],
-      "rule": "Discussion is shared; mutation is exclusive."
+      "currentClaim": null,
+      "owner": null,
+      "mutationScope": [],
+      "rule": "Discussion is shared; mutation is exclusive. Ownership transfers only by explicit release or handoff."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -261,7 +257,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Hosted AI handoff exposed a wording defect in executionMode.distinction; corrected without changing the isolated R2 proof, production state, release gates, or R9. Exact-tip hosted proof remains required.",
+    "verificationStatus": "Hosted run 37561452928 job 112599419837 passed at b1805b42d722802cc5359695e825b4572d4bd51d. Artifact 11457281245: productionStateWritable=false, productionStateReferenced=false, primary PID 2382 reclaimed after 30132ms, attempts=2, two unique candidate IDs, idempotent repeat=0. The later handoff wording correction d7cbd299 preserved the proof implementation.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -361,18 +357,21 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Verify the corrected exact-tip hosted R2 failover job; only passing executable evidence may advance R2.",
+    "nextAction": "R2 is complete. R3 live discovery and R8 executable-content refusal remain separate; R9 remains held until R2-R8 are green.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
-        "Prepared isolated R2 failover proof with no production-state path."
+        "R2 isolated failover implementation and hosted proof passed.",
+        "Intervening hosted handoff wording correction preserved.",
+        "R2 release status reconciled without changing R3/R8/R9."
       ],
       "remaining": [
-        "Verify exact-tip hosted R2 failover job.",
-        "Only on passing evidence, reconcile R2 status without changing R3/R8/R9."
+        "R3 live governed discovery remains pending.",
+        "R8 executable-content live refusal remains pending.",
+        "R9 remains held."
       ]
     }
   },
