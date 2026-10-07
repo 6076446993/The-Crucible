@@ -55,6 +55,16 @@ test('MCP and named provider integrations route to Plug-in', () => {
   assert.equal(classifyTask({ paths: ['chatgpt-mcp/server.js'] }, registry).branch, 'Plug-in');
 });
 
+test('root dependency security patches are registered core work at the push boundary', () => {
+  const paths = ['package-lock.json', 'AI-HANDOFF.json', 'DEVLOG.md'];
+  const prompt = 'Repair a locked core dependency advisory';
+  const decision = classifyTask({ prompt, paths }, registry);
+  assert.equal(decision.category, 'crucible-core');
+  const record = routingRecord(decision, { prompt, paths });
+  assert.equal(verifyRecordedDecision({ record, repositoryId, repository, branch: 'development', prompt, paths }, registry).ok, true);
+  assert.throws(() => verifyRecordedDecision({ record, repositoryId, repository, branch: 'Plug-in', prompt, paths }, registry), /does not match routed branch/);
+});
+
 test('explicit registered destination overrides automatic wording but cannot create a branch or write main', () => {
   const explicit = classifyTask({
     prompt: 'task routing governance',
