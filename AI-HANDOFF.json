@@ -211,16 +211,15 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T02:20:27.000Z",
+      "selectedAt": "2026-10-07T02:24:00.000Z",
       "prompt": "Do it then",
       "project": "The Crucible",
       "paths": [
         "AI-HANDOFF.json",
-        "DEVLOG.md",
-        "governingDocuments/scientific-learning-release-status.json"
+        "DEVLOG.md"
       ],
       "promptSha256": "24217f07900f99eb68680cdb501689fbd3b02c3ff800f6509bfe167311aacfad",
-      "affectedPathsSha256": "afd52538de0e70d7e648bae1601594ad6b58262309e4454bc4e448b807b0ed4f"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "[done] Keep production queue/store outside the R2 proof process.",
@@ -230,8 +229,8 @@
     ],
     "status": "complete",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T02:20:27.000Z",
-    "currentStep": "Complete: R2 failover behavior is proven in an isolated lane with no production-state path; R3 and R8 remain blockers and R9 remains held.",
+    "lastUpdatedAt": "2026-10-07T02:24:00.000Z",
+    "currentStep": "Complete: R2 is passed from repeated hosted isolated failover evidence; command-log retention is being reconciled mechanically.",
     "priority": "Preserve the no-production-state R2 proof boundary. R2 pass grants no R3/R8/R9 or release authority.",
     "ownership": {
       "currentClaim": null,
@@ -257,7 +256,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Hosted run 37561452928 job 112599419837 passed at b1805b42d722802cc5359695e825b4572d4bd51d. Artifact 11457281245: productionStateWritable=false, productionStateReferenced=false, primary PID 2382 reclaimed after 30132ms, attempts=2, two unique candidate IDs, idempotent repeat=0. The later handoff wording correction d7cbd299 preserved the proof implementation.",
+    "verificationStatus": "Exact-tip run 37561664902 job 112600086371 passed at 7b38b73f26c86cb854d91407049dbf73920a2b39: production state not referenced or writable, primary PID 2160 reclaimed after 30084ms, attempts=2, unique candidates emitted, repeat=0. Artifact 11457406238 retained.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -357,7 +356,7 @@
         "owner": "user"
       }
     ],
-    "nextAction": "R2 is complete. R3 live discovery and R8 executable-content refusal remain separate; R9 remains held until R2-R8 are green.",
+    "nextAction": "R2 complete. R3 and R8 remain pending; R9 remains held.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."

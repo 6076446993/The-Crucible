@@ -231,9 +231,3 @@ Plain-language summary: Reproduced the scheduled failure, installed locked depen
 - CRU-0013 hosted privacy failure analyzed and repaired without weakening privacy rules: obsolete personal noreply fixture replaced by the repository-configured organization noreply identity; AI-HANDOFF route rebound to the exact three-file repair scope — started 2026-10-02T16:46:00.000Z, finished 2026-10-02T16:49:00.000Z, exit 0 repository repair. Hosted rerun remains required; CRU-0006 remains an external Administration-read credential blocker.
 - Fresh run 37036574698 rejected the first CRU-0013 fixture correction at the unit assertion; replaced the literal noreply address with a value derived from the test's configured GitHub identity, preserving both privacy scanning and unit semantics — started 2026-10-02T16:50:19.000Z, finished 2026-10-02T16:51:00.000Z, exit 0 repository repair; hosted rerun required.
 
-### Session: repair-missed-handoff-after-test-registration-20260929 — 2026-09-30T01:25:00.000Z — Codex — mode:work
-
-Plain-language summary: Repaired the chain-of-custody gap left by commit 3d77ec0111e6b80696d1a148af4144e37fdcd990, which registered imported learning tests with the Orchestrator without updating the mandatory handoff pair.
-- Recorded the exact prior project change and preserved its purpose; no test selection rule was weakened — started 2026-09-30T01:25:00.000Z, finished 2026-09-30T01:25:00.000Z, exit 0.
-- Regenerated activePlan.taskRouting for this governance-only follow-up so its affected-path digest exactly matches AI-HANDOFF.json and DEVLOG.md — started 2026-09-30T01:25:00.000Z, finished 2026-09-30T01:25:00.000Z, exit 0.
-- Hosted Self-Test remains required. CRU-0006 repository-security verification and private learning-state access remain external credential boundaries and are not bypassed — started 2026-09-30T01:25:00.000Z, finished 2026-09-30T01:25:00.000Z, exit 0.
