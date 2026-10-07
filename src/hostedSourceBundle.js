@@ -284,4 +284,4 @@ async function main() {
 }
 
 if(require.main===module)main().catch((error)=>{console.error(`[The Crucible] Hosted source bundle failed: ${error.message}`);process.exitCode=1;});
-module.exports={MAGIC,CHUNK_NAME,chunkFile,PROJECT_REPOSITORY_MIGRATIONS,KEY_VARIABLES,ENCRYPTION_KEY_VARIABLE,keyFromEnvironment,candidateKeys,readHeader,provenanceFor,validateIdentity,sha256File,stage,encrypt,decrypt,verifyRestored,hydrateRestored,restageRestored,splitEncrypted,joinEncrypted};
+module.exports={MAGIC,CHUNK_NAME,chunkFile,PROJECT_REPOSITORY_MIGRATIONS,KEY_VARIABLES,ENCRYPTION_KEY_VARIABLE,keyFromEnvironment,candidateKeys,readHeader,provenanceFor,validateIdentity,sourceFilename,sha256File,stage,encrypt,decrypt,verifyRestored,hydrateRestored,restageRestored,splitEncrypted,joinEncrypted};

@@ -50,6 +50,8 @@ GitHub repository identifiers are validated as a single `owner/repository` pair 
 
 ## Exactly what it does
 
+Manual bounded raw intake uses `raw-custody-publisher.yml` on development with the exact reviewed source-register hash. It preserves existing records and rollback ciphertext; only independent Oversight can publish vetted custody. Workflow deployment and live execution remain separate from local test results.
+
 ### On every push and pull request
 
 The caller workflow checks out the project commit that triggered the run, checks out an exact pinned commit of this repository into `.the-crucible-runtime`, and runs with read-only contents, read-only pull-request access, and issue-write permission limited to surfacing a failed run. That checkout uses `persist-credentials: false` and lives only inside that one ephemeral runner: the project has no standing access to this repository, only a one-shot, read-only checkout for the duration of a single check, severed the moment the runner is destroyed. No project that adopts The Crucible can change anything in this repository, during a run or after one.

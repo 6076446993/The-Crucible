@@ -1,0 +1,84 @@
+name: Publish bounded raw learning custody
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_register_sha256:
+        description: Exact reviewed SHA-256 of the nine-seed SI register
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bounded-raw-custody-publisher-development
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      APPROVED_REGISTER_SHA256: ${{ inputs.source_register_sha256 }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Restore raw encrypted intake custody
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$STATE_DEPLOY_KEY"
+          mkdir -p "$RUNNER_TEMP/raw-source-ssh" "$RUNNER_TEMP/raw-source-custody"
+          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/raw-source-ssh/key"
+          chmod 600 "$RUNNER_TEMP/raw-source-ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/raw-source-ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/raw-source-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/raw-source-ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/raw-source-custody/state"
+          sha256sum "$RUNNER_TEMP/raw-source-custody/state/encrypted-chunks.json" | cut -d ' ' -f1 > "$RUNNER_TEMP/raw-source-custody/prior-manifest-sha256"
+          node src/hostedSourceBundle.js join --input-root "$RUNNER_TEMP/raw-source-custody/state" --output "$RUNNER_TEMP/raw-source-custody/source-bundle.enc"
+      - name: Decrypt and prepare the bounded authenticated intake snapshot
+        id: prepare
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+        run: |
+          set -euo pipefail
+          [[ "$APPROVED_REGISTER_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/raw-source-custody/source-bundle.enc" --output "$RUNNER_TEMP/raw-source-custody/source-bundle.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS > /dev/null
+          mkdir -p "$RUNNER_TEMP/raw-source-custody/plaintext" "$RUNNER_TEMP/raw-source-custody/ciphertext"
+          tar -xzf "$RUNNER_TEMP/raw-source-custody/source-bundle.tar.gz" -C "$RUNNER_TEMP/raw-source-custody/plaintext"
+          node src/rawCustodyPublisher.js prepare --root "$RUNNER_TEMP/raw-source-custody/plaintext" --working-root "$RUNNER_TEMP/raw-source-custody/working" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --source-register governingDocuments/synthetic-intelligence-research-register.json --source-register-sha256 "$APPROVED_REGISTER_SHA256" --report "$RUNNER_TEMP/raw-source-custody/intake-report.json" > /dev/null
+          has_changes="$(node -e 'process.stdout.write(String(JSON.parse(require("node:fs").readFileSync(process.env.RUNNER_TEMP+"/raw-source-custody/intake-report.json","utf8")).changed))')"
+          echo "has_changes=$has_changes" >> "$GITHUB_OUTPUT"
+          if [[ "$has_changes" != true ]]; then echo "NO_CHANGE: approved sources are unchanged."; exit 0; fi
+          tar -czf "$RUNNER_TEMP/raw-source-custody/restaged.tar.gz" -C "$RUNNER_TEMP/raw-source-custody/working" manifest.json source-queue.json sources "$(node -e 'process.stdout.write(JSON.parse(require("node:fs").readFileSync(process.env.RUNNER_TEMP+"/raw-source-custody/working/manifest.json","utf8")).learningFile)')"
+          node src/hostedSourceBundle.js encrypt --input "$RUNNER_TEMP/raw-source-custody/restaged.tar.gz" --output "$RUNNER_TEMP/raw-source-custody/restaged.enc" --project-id "$(node -e 'process.stdout.write(JSON.parse(require("node:fs").readFileSync(process.env.RUNNER_TEMP+"/raw-source-custody/working/manifest.json","utf8")).projectId)')" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > /dev/null
+          node src/hostedSourceBundle.js split --input "$RUNNER_TEMP/raw-source-custody/restaged.enc" --output-root "$RUNNER_TEMP/raw-source-custody/ciphertext" > /dev/null
+      - name: Publish ciphertext manifest only to raw custody
+        if: steps.prepare.outputs.has_changes == 'true'
+        run: |
+          set -euo pipefail
+          node src/rawCustodyPublisher.js publish-ciphertext --ciphertext-root "$RUNNER_TEMP/raw-source-custody/ciphertext" --state-root "$RUNNER_TEMP/raw-source-custody/state" --prior-manifest-sha256 "$(cat "$RUNNER_TEMP/raw-source-custody/prior-manifest-sha256")" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > /dev/null
+          git -C "$RUNNER_TEMP/raw-source-custody/state" add encrypted-chunks.json source-bundle-*.enc encrypted-manifest-*.json
+          git -C "$RUNNER_TEMP/raw-source-custody/state" diff --cached --quiet && { echo 'Bounded ciphertext publication produced no state change.' >&2; exit 1; }
+          git -C "$RUNNER_TEMP/raw-source-custody/state" -c user.name='Crucible custody publisher' -c user.email='crucible-custody@users.noreply.github.com' commit -m 'Retain bounded candidate-only SI intake custody'
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/raw-source-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/raw-source-ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git -C "$RUNNER_TEMP/raw-source-custody/state" push origin HEAD
+      - name: Retain metadata-only intake report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: raw-custody-intake-${{ github.run_id }}
+          path: ${{ runner.temp }}/raw-source-custody/intake-report.json*
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Destroy runner plaintext and credentials
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/raw-source-custody" "$RUNNER_TEMP/raw-source-ssh"

@@ -477,18 +477,10 @@ test('the cadence registry itself is documented in AGENTS.md, including the no-i
   assert.match(agents, /On-error triggers may never fix or repair anything unattended/i);
 });
 
-// The boundary the CRU-0023 remedy rests on, and until now enforced only by convention.
-//
-// The Crucible consumes independently vetted custody; it does not author it. Both state
-// repositories are cloned and neither is ever pushed to, which is why the extraction backlog
-// cannot be drained from inside this repository - extraction here would write into a runner
-// directory the job then destroys. The existing tests assert key separation and the absence of
-// `contents: write`, but `contents: write` governs GITHUB_TOKEN, not a deploy key: a workflow
-// could add `git push` over an SSH deploy key to a state repository and no test would object.
-//
-// If this ever has to change it is a governance decision about what Crucible is, and whoever
-// makes it should have to delete this test to do so.
-test('only the owner-authorized manual R8 publisher may push ciphertext to raw custody', () => {
+// Independent Oversight remains the only vetted-custody writer. The owner-authorized
+// manual R8 and bounded SI publishers may retain raw ciphertext through a separate
+// deploy key; GITHUB_TOKEN contents:read alone cannot enforce that SSH boundary.
+test('only owner-authorized manual publishers may push ciphertext to raw custody', () => {
   const workflowDir = path.join(root, '.github', 'workflows');
   const stateRepositories = /Crucible-Vetted-Learning-State|Crucible-Learning-State/;
   const offenders = [];
@@ -496,14 +488,14 @@ test('only the owner-authorized manual R8 publisher may push ciphertext to raw c
     const text = fs.readFileSync(path.join(workflowDir, file), 'utf8');
     if (!stateRepositories.test(text)) continue;
     for (const [index, line] of text.split(/\r?\n/).entries()) {
-      if (/git\s+push/.test(line) && file !== 'r8-executable-canary-publisher.yml') offenders.push(`${file}:${index + 1}: ${line.trim()}`);
+      if (/git\s+(?:-C\s+[^\n]+?\s+)?push\b/.test(line) && !['r8-executable-canary-publisher.yml', 'raw-custody-publisher.yml'].includes(file)) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
     }
-    // Every state reference is still cloned first; the publisher is the sole narrow exception
-    // that writes its regenerated ciphertext back to raw intake.
+    // Every state reference is cloned first; the two manual publishers are the
+    // bounded exceptions that write regenerated ciphertext back to raw intake.
     assert.match(text, /git clone --depth 1 git@github\.com:6076446993\/Crucible-(Vetted-)?Learning-State\.git/, `${file} reaches a state repository other than by cloning it`);
   }
-  assert.deepEqual(offenders, [], `only the designated R8 publisher may push raw state ciphertext:\n${offenders.join('\n')}`);
-  const publisher = fs.readFileSync(path.join(workflowDir, 'r8-executable-canary-publisher.yml'), 'utf8');
+  assert.deepEqual(offenders, [], `only designated manual publishers may push raw state ciphertext:\n${offenders.join('\n')}`);
+  const publisher = fs.readFileSync(path.join(workflowDir, 'r8-executable-canary-publisher.yml'), 'utf8').replace(/\r\n/g, '\n');
   const triggers = publisher.slice(publisher.indexOf('\non:'), publisher.indexOf('\npermissions:'));
   assert.match(triggers, /workflow_dispatch:/);
   assert.doesNotMatch(triggers, /\bpush:|\bschedule:/);

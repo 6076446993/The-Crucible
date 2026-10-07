@@ -113,11 +113,13 @@
     "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence concept/source log only: durable concept hypotheses and academic source seeds with explicit evidence status. It creates no discovery automation, proof, R9 redefinition, or promotion authority.",
     "src/r2FailoverProof.js": "Isolated R2 failover proof: executable state is restricted to a dedicated OS-temp namespace; production learning paths are stripped from child environments; an already-running standby takes over after interruption; a pre-existing candidate must survive unchanged; proof authorizes no promotion.",
     ".github/workflows/si-gate-sandbox.yml": "Read-only development sandbox for logged SI source-seed admission under R3 rules and SI-flavored retrieval safety under R8 rules; no secrets, production-state path, gate-pass authority, or promotion authority.",
-    "governingDocuments/verified-scholarly-domains.json": "Governed exact scholarly-domain registry with first-party authority evidence; candidate admission only, never proof."
+    "governingDocuments/verified-scholarly-domains.json": "Governed exact scholarly-domain registry with first-party authority evidence; candidate admission only, never proof.",
+    "src/rawCustodyPublisher.js": "Bounded, project-bound candidate-only raw custody publisher; preserves original queues, candidates, active knowledge and rollback ciphertext. Never writes vetted custody or satisfies proof.",
+    ".github/workflows/raw-custody-publisher.yml": "Manual development-only exact-register-hash raw custody publication; no unattended discovery, vetted access or promotion authority."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T03:36:04.000Z"
+    "lastActionAt": "2026-10-07T04:30:33.151Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -197,15 +199,15 @@
     "productionBoundary": "Never touch production directly, widen authority, weaken gates, expose credentials, modify unrelated work, invent business logic, or silently resolve governance conflicts."
   },
   "activePlan": {
-    "agent": "ChatGPT",
-    "objective": "Run a bounded real-data Synthetic Intelligence retrieval and extraction pilot without touching raw or vetted production custody.",
-    "currentPrompt": "Try it if its ready",
+    "agent": "Codex",
+    "objective": "Implement governed durable raw custody, then resume exactly nine SI seeds through independent vetting and ordinary scientific verification without production promotion.",
+    "currentPrompt": "can you do it all in order it should be",
     "executionMode": {
       "mode": "work",
-      "agent": "ChatGPT",
-      "purpose": "Exercise the real governed retrieval and claim-extraction path against the nine logged SI source seeds in a disposable hosted lane.",
-      "selectionReason": "The SI safety/admission sandboxes passed, but the general holding-queue to raw-custody publisher does not yet exist; the strongest safe next step is real retrieval/extraction without state credentials.",
-      "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch, proof, verification, governance, release, or promotion authority."
+      "agent": "Codex",
+      "purpose": "Implement and verify ordered SI learning prerequisites.",
+      "selectionReason": "Repository and durable-custody implementation.",
+      "distinction": "Execution mode is separate from agent identity, workflow, repository, and branch authority; it grants no proof or promotion permission."
     },
     "taskRouting": {
       "category": "crucible-core",
@@ -214,32 +216,28 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T03:36:04.000Z",
-      "prompt": "Try it if its ready",
-      "project": "The Crucible",
-      "paths": [
-        "AI-HANDOFF.json",
-        "DEVLOG.md"
-      ],
-      "promptSha256": "c4d943b171899b7fe104dff67bfc32eacecb1d622bdc3426366b7011136e7dc7",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "selectedAt": "2026-10-07T04:24:51.413Z",
+      "promptSha256": "ac460aa4bc44290c12579d278968bff1779143145bf25521f04f084147a235fe",
+      "affectedPathsSha256": "96486f8504b6ff065ec183e0b56db6a989475c3fe48da1caeae69cb2ec3e6a2e"
     },
     "steps": [
-      "[done] Verify production custody still has no general holding-queue to raw-state bridge and do not bypass it.",
-      "[done] Run the real governed retriever and claim extractor against exactly nine logged SI seeds with no production-state credentials.",
-      "[done] Confirm seven sources reached claim-extraction-complete, one PDF remains bounded-continuation pending, one source was retrieval-blocked, and 68 Insufficient Evidence candidates were produced.",
-      "[done] Retain metadata-only pilot evidence after erasing retrieved source bodies and the disposable candidate store."
+      "Implement authenticated snapshot-preserving bounded raw publisher and ciphertext-only publication.",
+      "Verify preservation, repeat-run deduplication, quarantine and executable refusal, encryption and restart custody.",
+      "Publish development changes and inspect exact-tip CI.",
+      "Resume nine sources into durable raw custody only when the manual execution path and credentials are available.",
+      "Trace independent Oversight and Worker lineage, then evaluate eligible claims through ordinary gates.",
+      "Keep R3/R8 release blockers explicit; do not promote or start a held soak."
     ],
-    "status": "complete",
-    "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T03:36:04.000Z",
-    "currentStep": "Complete: bounded real-data SI retrieval/extraction pilot passed with retained metadata-only evidence; durable production ingestion remains deliberately unimplemented.",
+    "status": "handoff-ready",
+    "startedAt": "2026-10-07T04:11:06.782Z",
+    "lastUpdatedAt": "2026-10-07T04:30:33.151Z",
+    "currentStep": "Development implementation verified locally; inspect exact-tip CI after publication, then resume live intake only through authorized manual workflow deployment.",
     "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
       "mutationScope": [],
-      "rule": "Discussion is shared; mutation is exclusive. si-real-data-pilot-20261006 is complete and released."
+      "rule": "si-durable-custody-20261007 is released to the recorded bounded continuation; owner authority and state-preservation controls remain mandatory."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -259,7 +257,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Hosted SI run 37567402124 job 112618156279 passed at development 1297d38912f53c7a1c8963e5298c29d1bc0340df. Exactly nine logged SI seeds were processed by the real retrieval/extraction path: seven claim-extraction-complete, one claim-extraction-forced-pending PDF continuation, one retrieval-blocked (Oxford Academic HTTP 403), 68 total bounded Insufficient Evidence candidates. productionStateReferenced=false and productionStateWritable=false. Metadata-only artifact 11459416913 is retained 30 days with digest sha256:1e9ff3bbcb578b6dce7fe6d63907e5f9f736c036aec9021f271e9f47da5ad9c4.",
+    "verificationStatus": "1008/1008 local tests pass; no new live intake, SI verification or R3/R8 pass is claimed.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -329,13 +327,8 @@
     ],
     "blockers": [
       {
-        "id": "r2-restart-resume-proof-missing",
-        "summary": "No durable exact-tip observation demonstrates a real forced-pending item incrementing attempts and resuming safely after interruption. Current candidate custody and extraction-complete counts do not substitute for that behavior.",
-        "owner": "crucible-learning-maintainer"
-      },
-      {
         "id": "r3-live-discovery-aborted",
-        "summary": "Run 37365316605 used the current NVIDIA NIM model, but all 16 requests aborted and zero URLs were completed, cited, admitted, rejected, or registered. The first complete live discovery-to-candidate cycle remains absent.",
+        "summary": "Latest discovery run 37565999549 has zero searched/completed/cited/admitted URLs; nonzero real provider discovery/admission evidence remains absent.",
         "owner": "provider-or-owner"
       },
       {
@@ -350,55 +343,98 @@
       },
       {
         "id": "exact-tip-ci-red",
-        "summary": "Self-Test fails closed on repository Administration-read access and Windows CRLF workflow assertions; the required PR monitor cannot resolve its private dependency. R10 remains pending.",
+        "summary": "Hosted Administration-read access and private PR-monitor visibility remain unproved; Windows CRLF assertion is repaired locally and awaits exact-tip hosted verification.",
         "owner": "owner-or-repository-administrator"
       },
       {
         "id": "fake-harness-knowledge-version-still-active",
         "summary": "Active v1 candidate cycle-92917a3a1bac7b53ce800d3a08e78b51 remains not corpus-backed. It is not the basis for the R5 pass, and retracting it remains an owner decision.",
         "owner": "user"
+      },
+      {
+        "id": "manual-raw-custody-execution-unavailable",
+        "summary": "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
+        "owner": "owner-or-custody-administrator"
       }
     ],
-    "nextAction": "Do not call this durable live ingestion. A general governed holding-queue/raw-custody publisher is still required before SI candidates can enter Crucible-Learning-State for independent oversight and Learning-Worker consumption.",
+    "nextAction": "Publish development implementation and verify exact-tip hosted checks. No main/release promotion is authorized.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
-        "Real SI retrieval/extraction pilot passed on run 37567402124 job 112618156279.",
-        "Seven of nine sources completed extraction; one MIT Brooks PDF remains bounded continuation work; Oxford Academic was blocked by HTTP 403.",
-        "Sixty-eight bounded Insufficient Evidence candidates were produced.",
-        "Retrieved bodies and disposable candidate state were erased; artifact 11459416913 retains metadata only."
+        "Reused completed pilot run 37567402124 without repeating or changing live queues. R2 remains passed.",
+        "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
+        "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
+        "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
+        "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities."
       ],
       "verification": [
-        "R3 SI sandbox and R8 SI sandbox also passed in run 37567402124.",
-        "Pilot had no production-state credential, reference, write path, proof authority, or promotion authority."
+        "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
+        "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
+        "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
+        "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
+        "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
+        "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass."
       ],
       "remaining": [
-        "Build a general governed raw-custody publisher before any SI pilot result is called durable live ingestion.",
-        "Do not bypass Oxford Academic HTTP 403; use an alternate authorized official source or owner-supplied copy if needed.",
-        "The real R3 and R8 release gates remain separate and pending until their operational definitions are satisfied."
+        "Publish development implementation and verify exact-tip hosted checks. No main/release promotion is authorized.",
+        "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
+        "Run durable nine-seed raw intake with the exact approved register SHA; then trace independently vetted SI custody and actual Worker verification, rather than crediting fixture or disposable candidate results.",
+        "Obtain a nonzero real live provider discovery/admission cycle for R3 and a retained-corpus executable refusal for R8. Both remain release blockers but do not alone block safe intake.",
+        "Resolve Administration-read security access and private PR-monitor visibility; retain R9 hold, independent corpus-backed experiment evidence and owner-only R11 authority."
       ]
+    },
+    "filesTouched": [
+      ".github/workflows/raw-custody-publisher.yml",
+      "AI-HANDOFF.json",
+      "DEVLOG.md",
+      "README.md",
+      "src/rawCustodyPublisher.js",
+      "src/hostedSourceBundle.js",
+      "src/circulationLinkage.js",
+      "src/testCadenceCoreLegacy.js",
+      "test/_testCadenceCore.js",
+      "test/rawCustodyPublisher.test.js",
+      "test/workflow.test.js",
+      "governingDocuments/known-bugs/KNOWN-BUGS.json",
+      "package-lock.json"
+    ],
+    "rawCustodyAuthorization": {
+      "ownerInstruction": "can you do it all in order it should be",
+      "context": "Owner accepted the ordered implementation of a general raw custody publisher, bounded SI intake, independent Oversight, ordinary scientific verification, persistence and release-evidence work.",
+      "maximumSources": 9,
+      "sourceRegister": "governingDocuments/synthetic-intelligence-research-register.json",
+      "rawCustodyWrite": "manual authenticated ciphertext-only intake with preservation and rollback checks",
+      "vettedCustodyWrite": false,
+      "automaticTrigger": false,
+      "promotionAuthorized": false,
+      "existingQueuesMayBeCleared": false
     }
   },
   "handoffNotes": {
     "completed": [
-      "R2 isolated failover is passed with strengthened no-production-path and baseline-candidate-preservation evidence.",
-      "The initial unassigned-module and 57->59 circulation regressions introduced by the R2 proof were both repaired; circulation is back to 57 with none added.",
-      "Exact-tip R2 job, scheduled every-push tests, AI handoff, AI conflict governance, and CodeQL were verified; no R2-caused CI blocker remains.",
-      "Scientific-learning release plan/status now record the strengthened R2 evidence without changing R3/R8/R9 or authorizing promotion."
+      "Reused completed pilot run 37567402124 without repeating or changing live queues. R2 remains passed.",
+      "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
+      "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
+      "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
+      "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities."
     ],
     "verification": [
-      "Run 37562741750 job 112603486637, artifact 11457258905.",
-      "Self-Test run 37562741770: every-push scheduled tests pass; audit:circulation 57 direct edges, none added. Later red states are separate existing blockers.",
-      "CodeQL run 37562741728 green; AI handoff run 37562741806 green; AI conflict run 37562741705 green."
+      "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
+      "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
+      "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
+      "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
+      "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
+      "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass."
     ],
     "remaining": [
-      "R3 live governed discovery remains pending.",
-      "R8 executable-content live refusal remains pending.",
-      "R9 remains held until R2-R8 are simultaneously green.",
-      "R10 retains separate repository-security/Windows workflow-text/monitor blockers; R11 remains owner-only."
+      "Publish development implementation and verify exact-tip hosted checks. No main/release promotion is authorized.",
+      "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
+      "Run durable nine-seed raw intake with the exact approved register SHA; then trace independently vetted SI custody and actual Worker verification, rather than crediting fixture or disposable candidate results.",
+      "Obtain a nonzero real live provider discovery/admission cycle for R3 and a retained-corpus executable refusal for R8. Both remain release blockers but do not alone block safe intake.",
+      "Resolve Administration-read security access and private PR-monitor visibility; retain R9 hold, independent corpus-backed experiment evidence and owner-only R11 authority."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -1080,6 +1116,37 @@
       "acquiredAt": "2026-10-07T03:31:32.000Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T03:31:32.000Z"
+    },
+    {
+      "taskId": "si-durable-custody-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/raw-custody-publisher.yml",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "README.md",
+          "src/rawCustodyPublisher.js",
+          "src/hostedSourceBundle.js",
+          "src/circulationLinkage.js",
+          "src/testCadenceCoreLegacy.js",
+          "test/_testCadenceCore.js",
+          "test/rawCustodyPublisher.test.js",
+          "test/workflow.test.js",
+          "governingDocuments/known-bugs/KNOWN-BUGS.json",
+          "package-lock.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Implement bounded raw custody and resume the nine SI seeds without production promotion or independent vetting bypass",
+      "status": "released",
+      "acquiredAt": "2026-10-07T04:10:36.255Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T04:29:34.466Z"
     }
   ],
   "ownerDecisions": [
