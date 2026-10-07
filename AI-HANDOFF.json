@@ -216,7 +216,7 @@
     },
     "steps": [
       "[done] Updated all monitored repository identities from the stale jonathanblunt1214-lgtm owner to the current 6076446993 owner after hosted monitor evidence showed repository-read failure; locked PR #11 remains read-only and no mutation authority was added.",
-      "[blocked] Protected registration PR #35 remains at the hosted pre-change tip 154ffa4; the monitor rerun received NEXUS_MONITOR_READ_TOKEN but still exited 1 before a healthy report, so the change must be pushed through the governed hook before this repair can be hosted-verified.",
+      "[blocked] Protected registration PR #35 remains at the hosted pre-change tip 154ffa4; the monitor rerun received NEXUS_MONITOR_READ_TOKEN but still exited 1 before a healthy report. The exact route verifier passes for the four-file range, but Git's actual pre-push invocation still supplies no ref-update stream, so no remote write occurred.",
       "[next] Resolve the exact hosted monitor/security capability failures and the existing PR #34 overlap, then rerun PR #35 checks; merge only on protected green evidence and dispatch the reviewed development ref afterward.",
       "[done] Re-read current repository identity, governing handoff, workflow evidence, and exact hosted failures before mutation.",
       "[done] Strengthened AI Collaboration ORCHESTRATOR-POLICY.json to mechanically require early execution-boundary identification, continuously reserved terminal-verification capacity, conservative cutoff, complete Final Verification, and terminal Devlog recording.",
