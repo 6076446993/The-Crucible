@@ -109,11 +109,12 @@
     "src/coordinationGate.js": "The gate: exclusive ownership, DEVLOG accountability, and no credential in any governance artifact.",
     "src/aiHandoffContinuation.js": "How a successor AI reads the governed state and resumes from the last confirmed good point.",
     "src/coordinationCli.js": "Agent-facing commands: continue, claims, claim, release, handoff, providers, consult.",
-    "governingDocuments/TOKEN-HEALTH.json": "Non-secret health declaration for the credentials The Crucible itself consumes. Records presence, authentication, capability and expiry only; never a credential value. A healthy credential proves a door opens and nothing about what is behind it, so it authorizes no promotion and satisfies no proof stage."
+    "governingDocuments/TOKEN-HEALTH.json": "Non-secret health declaration for the credentials The Crucible itself consumes. Records presence, authentication, capability and expiry only; never a credential value. A healthy credential proves a door opens and nothing about what is behind it, so it authorizes no promotion and satisfies no proof stage.",
+    "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence research-domain register: concept hypotheses, academic source seeds, governed discovery topics, and R9-style evidence discipline without redefining canonical R9 or granting proof/promotion authority."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-05T20:51:09.612Z"
+    "lastActionAt": "2026-10-07T01:16:27.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -193,46 +194,47 @@
     "productionBoundary": "Never touch production directly, widen authority, weaken gates, expose credentials, modify unrelated work, invent business logic, or silently resolve governance conflicts."
   },
   "activePlan": {
-    "agent": "Codex",
-    "objective": "Review exact-tip scientific-learning release readiness, advance only durably proven gates, and preserve the owner-source rescan plus independent authority boundaries.",
-    "currentPrompt": "Correct the truncated remote AI-HANDOFF.json blob from ba7e87f99ac7ebe4693c461c9917af777d37639c, preserve the scientific-learning release review unchanged, and record the transport correction in DEVLOG.md without altering any gate or promotion decision.",
+    "agent": "ChatGPT",
+    "objective": "Establish Synthetic Intelligence as a dedicated Crucible research domain, log its academically grounded concept families and source seeds, and feed bounded topics into governed candidate discovery without changing scientific-learning release gates.",
+    "currentPrompt": "Do it and log all concepts and do the same as we did with R9",
     "executionMode": {
       "mode": "work",
-      "agent": "Codex",
-      "purpose": "Exact-tip scientific-learning release evidence review and governed status reconciliation",
-      "selectionReason": "The task requires live hosted evidence, custody-lineage checks, conservative forecasting, and an auditable handoff",
-      "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch or promotion authority."
+      "agent": "ChatGPT",
+      "purpose": "Governed Synthetic Intelligence research-domain registration and candidate-discovery integration",
+      "selectionReason": "The task mutates scientific-learning governance records and the bounded discovery workflow on development, while preserving all existing release gates.",
+      "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch, proof, verification, governance, or promotion authority."
     },
     "taskRouting": {
       "category": "crucible-core",
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
-      "explicitOverride": true,
-      "selectedAt": "2026-10-05T20:51:09.612Z",
-      "prompt": "Correct the truncated remote AI-HANDOFF.json blob from ba7e87f99ac7ebe4693c461c9917af777d37639c, preserve the scientific-learning release review unchanged, and record the transport correction in DEVLOG.md without altering any gate or promotion decision.",
+      "reason": "Affected paths select crucible-core.",
+      "explicitOverride": false,
+      "selectedAt": "2026-10-07T01:16:27.000Z",
+      "prompt": "Do it and log all concepts and do the same as we did with R9",
       "project": "The Crucible",
       "paths": [
+        ".github/workflows/model-pointer-research.yml",
         "AI-HANDOFF.json",
-        "DEVLOG.md"
+        "DEVLOG.md",
+        "governingDocuments/synthetic-intelligence-research-register.json"
       ],
-      "promptSha256": "0d77ca46f5df935bd9ea6adf87155932f9c22a49a2ef4899ff5302b86217e52d",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "promptSha256": "d97221474f1c29a8fdffdb8fd246208e2bb062a9c5891946b9b2dc1708f1f30d",
+      "affectedPathsSha256": "2a09488f0367aae6acd7e9fa3a7295a54f3c607af26269558417a7f494ab7822"
     },
     "steps": [
-      "[done] Reconcile literal origin/development ce2c5529919d80cb71fa4f7ba974fcb077ed608f with retained custody, durable proof, discovery, and exact-tip CI evidence.",
-      "[done] Advance R4-R7 only on durable exact-tip evidence.",
-      "[done] Preserve R2, R3, and R8 as pending; hold R9, R10, and R11; retain an indeterminate rolling target.",
-      "[done] Check the 14 exact owner hashes without re-extracting or duplicating bytes: 8 present, 6 absent, so the rescan remains pending.",
-      "[next] Obtain real-worker restart/resume evidence for R2, one complete live discovery-to-candidate cycle for R3, and the governed executable-content custody cycle for R8.",
-      "[next] Begin the conservative 96-hour soak only after R2-R8 are green; require fresh exact-tip CI and owner authorization before promotion."
+      "[done] Re-read the complete current governing-document set, literal development head, canonical R9 implementation, release status, active PR, and mutation-ownership state before writing.",
+      "[done] Record Synthetic Intelligence as a dedicated candidate-only research domain with a working definition, 29 concept hypotheses, nine academic source seeds, contradiction boundaries, and an explicit non-equivalence between storage/retrieval/consensus and learning.",
+      "[done] Apply R9-style durability/generalization evidence requirements without redefining canonical R9, changing R1-R11, or granting SI any proof or promotion authority.",
+      "[done] Add 22 bounded SI topics to the existing governed model-pointer discovery run while retaining the original 16 topics and staying below the 50-topic ceiling.",
+      "[next] Inspect exact-tip hosted checks and the triggered candidate-discovery run; treat any returned SI URLs as Insufficient Evidence pending the normal retrieval, extraction, corroboration, experiment, verification, contradiction, custody, and R9 pathways."
     ],
     "status": "active",
-    "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-10-05T20:51:09.612Z",
-    "currentStep": "Correct the truncated remote handoff blob, then inspect fresh exact-tip hosted checks without altering any release gate or promoting to main.",
-    "priority": "Keep the rolling target indeterminate until R2, R3, R8, soak, exact-tip CI, and owner authorization are durably complete.",
+    "startedAt": "2026-10-07T00:54:00.000Z",
+    "lastUpdatedAt": "2026-10-07T01:16:27.000Z",
+    "currentStep": "Publish the atomic SI register/discovery/handoff change on development, then inspect exact-tip CI and the triggered model-pointer run without advancing a release gate on color alone.",
+    "priority": "Keep every SI concept candidate-only until it earns the existing scientific proof path; preserve R2, R3, R8, R9, R10 and R11 exactly as currently recorded.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
@@ -257,7 +259,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Reviewed exact development SHA ce2c5529919d80cb71fa4f7ba974fcb077ed608f. Durable run 37337684847 restores the current oversight-vetted encrypted bundle and supports R4-R7. Discovery run 37365316605 admitted zero URLs after all 16 NIM requests aborted. R8 lacks executable-content live evidence. CodeQL and governance checks are green, but Self-Test and the required PR monitor are red. The owner-source rescan found 8/14 hashes in current vetted custody and remains incomplete.",
+    "verificationStatus": "Pre-write governance recheck complete. The SI register is internally bounded at 29 unique concepts, nine source seeds and 22 unique <=80-character discovery topics; the workflow retains 16 existing topics for 38 total, below the 50-topic ceiling. Exact-tip hosted verification is still required after this commit.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -357,7 +359,7 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Commit and push only the atomic release-status, handoff, and DEVLOG reconciliation to development; then inspect fresh exact-tip CI. Do not promote to main or credit any owner-source candidate as verified.",
+    "nextAction": "Inspect exact-tip hosted checks and the SI-bearing model-pointer run. Register discovered URLs as candidates only; do not infer learning, proof, R9 completion, or release readiness.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -376,6 +378,9 @@
   },
   "handoffNotes": {
     "completed": [
+      "Synthetic Intelligence is registered as its own Crucible research domain, distinct from generic AGI, with 29 logged concept hypotheses and nine academic source seeds; every entry is candidate-only Insufficient Evidence.",
+      "The SI register explicitly preserves canonical R9 as the existing 72-96 hour integrity soak and applies R9-style durability/generalization evidence discipline without redefining or bypassing that gate.",
+      "Twenty-two bounded SI research topics are wired into the existing governed model-pointer discovery workflow alongside the original 16 topics, for 38 total under the 50-topic ceiling.",
       "A hosted job refused before startup is distinguishable from one that ran and failed. src/hostedRunStartupDiagnosis.js requires no runner assigned, no step executed, and nothing billed; the first two discriminate and the third deliberately does not, because the successful runs report total_ms 0 as well. A refusal carries no verdict on the code and authorizes no gate change in either direction.",
       "Governed discovery runs on NVIDIA NIM, which is free and already governed, instead of Perplexity, whose API billing a Perplexity Pro subscription does not cover. Every governed bound is unchanged. NIM returns no citations, so URLs are read from the completion text and carried as providerKind model-proposed-pointers, and the candidate sink refuses a pointer candidate that does not state its kind.",
       "endpointFor completes an API root with the provider's own path, so one NVIDIA_NIM_BASE_URL value can be reused verbatim from AI Collaboration instead of silently posting to /v1. An explicit gateway path is still used exactly as configured.",
@@ -420,6 +425,8 @@
       "Fresh hosted verification rejected the first CRU-0013 repair because the unit test uses a synthetic GitHub identity; corrected the fixture to derive the noreply address from config.privacy.githubIdentity so no personal address is embedded and the identity contract remains testable."
     ],
     "verification": [
+      "Pre-write: re-read every AI-HANDOFF governing document including Archive:Devlog-Pruned; development head was 2543a61cee12119b84071a9194f8ca772b428491 and PR #34 targeted that exact pre-SI tip.",
+      "Structural checks: 29 unique SI concept IDs, nine candidate source seeds, 22 unique bounded SI research topics, 38 total workflow topics, canonical R9 unchanged, promotionAuthorized false.",
       "npm run test:all 863/863 at this change. The count rose by one with the evaluateR2 regression test, which was shown failing against the previous implementation before the repair existed.",
       "validate, docs:check, lint:workflows, audit:clutter, audit:privacy, audit:security, audit:ai-conflict-governance, audit:governance, audit:design-brief, audit:core-ref, audit:failure-codes, audit:circulation, audit:coordination and git diff --check all exit 0.",
       "Hosted at 259cf60: eighteen of eighteen Self-Test legs green, CodeQL and both Analyze jobs green, both AI handoff policy and AI conflict governance runs green, both locked-PR guards, monitor sync and the DEVLOG archive job green.",
@@ -434,6 +441,9 @@
       "Fresh Self-Test run 37036574698 proved the first privacy correction incomplete: audit source sanitation no longer drove the failure, but test/privacy.test.js assertion failed. The follow-up derives the technical noreply fixture from the test configuration instead of hard-coding any account identity."
     ],
     "remaining": [
+      "Run and inspect fresh hosted checks on the new exact development SHA; PR #34 cannot inherit proof from its prior head.",
+      "Inspect the triggered model-pointer discovery run. Any SI pointer remains research-approved-pending-retrieval / Insufficient Evidence and must traverse ordinary custody and proof gates.",
+      "Existing scientific-learning blockers remain independently open: R2 restart/resume proof, R3 a complete live discovery-to-candidate cycle, R8 executable-content live refusal, then R9 soak, exact-tip R10, and explicit R11 owner authorization.",
       "Do not weaken handoff, coordination, learning-custody, collision, security, or promotion gates to obtain green cosmetics, and never mark a gate passed on a run that was refused before it started or that exited before emitting a verdict.",
       "Resolved 2026-09-16: the corpus arithmetic difference was a phantom. The custody report counts content-addressed stored files and intakePathways counts sources without content, so sources minus files is the number of sources sharing a file, never the number without content. 534 sources, 128 without content, 406 with content held in 403 files, 3 sharing. The corpus summary now reports sourcesWithContent beside documentsWithContent and a regression test pins both readings.",
       "Second half of the owner's combined choice, in the Vetting-and-Governance-oversite. repository and not this one: have Oversight carry a copy of the gate evidence into independent custody. Crucible now emits gate-evidence.json inside its retained artifact, which is the input that half consumes. Oversight already pushes and is the independent party, so the evidence ends up in custody Crucible does not control - which is the point of splitting it this way.",

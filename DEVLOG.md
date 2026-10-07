@@ -49,19 +49,21 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-06 Synthetic Intelligence research domain:** SI is now a dedicated Crucible research subject, distinct from generic AGI. Its 29 concept hypotheses and nine academic source seeds remain candidate-only; 22 bounded discovery topics are added to the existing model-pointer path. Canonical R9 is unchanged: SI follows the ordinary scientific-learning custody, proof, contradiction and soak rules and gains no special release authority.
+
 - **2026-10-05 scientific-learning release review:** Exact development SHA `ce2c5529919d80cb71fa4f7ba974fcb077ed608f` now has durable evidence for R4-R7. R2 still lacks real restart/resume proof, R3 produced zero admitted URLs after 16 provider aborts, and R8 lacks the executable-content live refusal; R9 has not started, exact-tip CI is red, and no promotion is authorized. The 14-source rescan found 8 hashes in current vetted custody and 6 absent, so it remains pending without re-extraction or duplicate custody.
 
 - **2026-10-04 governed ancestry reconciliation:** Recorded protected `main` as the second parent of the exact tested development tree without changing file content, then rebound task routing to this exact two-file governance follow-up after hosted Self-Test correctly rejected the ancestry-only commit’s stale affected-path digest. Fresh exact-head gates remain mandatory; the required PR monitor is still fail-closed on private `AI-collaboration-` visibility and must not be bypassed.
 
 - **2026-10-04 security-read compatibility:** Direct Crucible workflows now prefer the canonical GitHub Actions secret `CRUCIBLE_SECURITY_READ_TOKEN` and fall back to legacy `SECURITY_READ_TOKEN`. This repairs secret-name drift only; CRU-0006 remains fail-closed until hosted evidence proves Administration-read visibility. No credential value was read, copied, logged, or broadened.
 
-- **Agent:** Codex, R8 executable-content quarantine publisher reconciliation; the authorized five-source candidate-intake checkpoint, scientific-learning state, and Nexus integration state are preserved as separate work.
+- **Agent:** ChatGPT, Synthetic Intelligence research-domain registration; existing scientific-learning release evidence remains separately governed.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** Publish the atomic evidence-only status reconciliation on development and inspect its fresh hosted checks. R4-R7 are passed; R2, R3, R8, R9, R10, and R11 remain incomplete. No main promotion is authorized.
+- **Actual current step:** Follow `AI-HANDOFF.json` for the exact SI plan; publish the candidate-only SI register and bounded discovery topics on `development`, then inspect fresh exact-tip hosted evidence. No release gate moves from this registration.
 - **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
-- **Verification state:** Run 37337684847 durably supports R4-R7 on the current encrypted vetted bundle. Run 37365316605 supports no R3 completion: all 16 NIM requests aborted and zero URLs were admitted. R8 lacks executable-content live evidence. At the reviewed tip, CodeQL and governance checks are green, while Self-Test and the required PR monitor are red. Eight of 14 exact owner hashes are present in current vetted custody; six are absent.
-- **Continuation boundary:** Prove R2 restart/resume behavior, complete one live R3 discovery-to-candidate cycle, and run the governed R8 executable canary through independent retained custody. Only then may the conservative 96-hour soak begin. Learning-Worker extracts candidates; Crucible-Learning-State keeps raw custody; Crucible-Vetted-Learning-State keeps vetted custody; Vetting-and-Governance-oversite retains independent STOP/CLEAR and review authority; The Crucible consumes verified evidence without inheriting those powers.
+- **Verification state:** Pre-write governance, route, topic-count, concept-ID, source-seed and canonical-R9 checks passed. Fresh hosted checks on the new exact development SHA and the SI-bearing discovery run remain required; existing R2/R3/R8/R9/R10/R11 states are unchanged.
+- **Continuation boundary:** Treat every SI result as `Insufficient Evidence` until ordinary retrieval, provenance, extraction, corroboration, pre-registered experiment, distinct verification, negative/regression, scope/generalization, contradiction and custody checks earn otherwise. Canonical R9 remains the ordinary 72-96 hour integrity soak after R2-R8 are green.
 
 ## Released mutation claim accountability
 
@@ -102,6 +104,15 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: synthetic-intelligence-research-domain-20261006 — 2026-10-07T01:16:27.000Z — ChatGPT — mode:work
+
+Plain-language summary: Established Synthetic Intelligence as a dedicated Crucible research domain without treating the label as a proven theory. Logged every current SI concept family and academic source seed as candidate evidence, wired bounded SI discovery into the existing pipeline, preserved canonical R9, and changed no release gate.
+- Re-read the complete governed repository state, literal development head, active release PR, canonical R9 soak implementation, scientific-learning policy/status, conflict ledger, task routing and mutation ownership before writing — started 2026-10-07T00:54:00.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
+- Added the SI research register with 29 unique concept hypotheses, nine academic source seeds, explicit contradiction/failure handling and R9-style durability/generalization requirements; every entry remains Insufficient Evidence with proofStageSatisfied false and promotionAuthorized false — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
+- Added 22 bounded SI discovery topics to the existing 16 model-pointer topics for 38 total under the governed 50-topic ceiling; provider prose, ranking and institutional prestige remain non-proof — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
+- Preserved canonical R9 as the existing 72-96 hour, <=1000-observed-point integrity soak and left R1-R11 release status untouched; PR #34 requires fresh exact-tip evidence after this development mutation — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
+- Pruned only the oldest inline command-log session (failure-code-model-pointer-reconcile-20260929 — 2026-09-30T00:42:00.000Z — Codex — mode:work) after preparing a full pre-prune DEVLOG snapshot for the standing one-file Archive ledger — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
 
 ### Session: scientific-learning-release-review-20261005 — 2026-10-05T20:43:00.000Z — Codex — mode:work
 
@@ -212,26 +223,3 @@ Plain-language summary: Repaired the chain-of-custody gap left by commit 3d77ec0
 - Recorded the exact prior project change and preserved its purpose; no test selection rule was weakened — started 2026-09-30T01:25:00.000Z, finished 2026-09-30T01:25:00.000Z, exit 0.
 - Regenerated activePlan.taskRouting for this governance-only follow-up so its affected-path digest exactly matches AI-HANDOFF.json and DEVLOG.md — started 2026-09-30T01:25:00.000Z, finished 2026-09-30T01:25:00.000Z, exit 0.
 - Hosted Self-Test remains required. CRU-0006 repository-security verification and private learning-state access remain external credential boundaries and are not bypassed — started 2026-09-30T01:25:00.000Z, finished 2026-09-30T01:25:00.000Z, exit 0.
-
-
-### Session: failure-code-model-pointer-reconcile-20260929 — 2026-09-30T00:42:00.000Z — Codex — mode:work
-
-Plain-language summary: Resolved the first dependency exposed by the production learning import and replaced the retired scheduled NVIDIA model.
-- Reconciled failureCodes.js to the production CRU/OPS separation while preserving development-only hosted-state condition 0049 as OPS-0049 — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
-- Preserved production repair-learning/scientific validation conditions 0052 and 0053 without expanding the CRU classification set — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
-- Replaced the EOL model-pointer default with nvidia/nemotron-3.5-lightning-30b-a3b — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
-- Exact-tip Self-Test and scheduled model-pointer execution remain required — started 2026-09-30T00:42:00.000Z, finished 2026-09-30T00:42:00.000Z, exit 0.
-- Migrated the remaining legacy non-bug call sites from CRU-shaped operational throws to explicit OPS throws; true CRU bug/error classifications were preserved — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
-- Added OPS lookup/recovery coverage and changed stale tests to assert OPS for operational harness/coverage conditions rather than re-expanding CRU — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
-- Exact-tip Self-Test remains the acceptance evidence for this reconciliation; private learning-state SSH failures remain external authorization blockers and are not bypassed — started 2026-09-30T00:43:00.000Z, finished 2026-09-30T00:43:00.000Z, exit 0.
-- Separated the inherited 0050 collision: authorized-repair rejection remains OPS-0050 and experiment/toolchain refusal is OPS-0054; neither was promoted into CRU — started 2026-09-30T00:50:00.000Z, finished 2026-09-30T00:50:00.000Z, exit 0.
-- Corrected the coverage fixture so its positive control uses true CRU classification CRU-0002 while retired operational calls remain measurable migration debt — started 2026-09-30T00:50:00.000Z, finished 2026-09-30T00:50:00.000Z, exit 0.
-- Registered the nine imported production modules using the ownership already defined on production main: learningProvenance/repairLearning/preventionCandidateCli/adaptiveLearning/failureRecord in learning, testLifecycle in nerves, and repairLearningGateway/cruPrevention/vettedLearningAdapter in circulation — started 2026-09-30T01:00:00.000Z, finished 2026-09-30T01:00:00.000Z, exit 0.
-- Updated durable gate tests to expect OPS-0049 and preserved historical CRU-0000 as a retired uncoded marker rather than creating OPS-0000 — started 2026-09-30T01:00:00.000Z, finished 2026-09-30T01:00:00.000Z, exit 0.
-- Exact-tip Self-Test, handoff, and CodeQL remain required; durable learning proof remains independently fail-closed on transferred private-state authorization — started 2026-09-30T01:00:00.000Z, finished 2026-09-30T01:00:00.000Z, exit 0.
-- Preserved the 57-edge circulation ratchet by reconciling production ownership: authorizedPrRepair is circulation and nexusCheckMonitor is immune; the baseline was not raised — started 2026-09-30T01:07:00.000Z, finished 2026-09-30T01:07:00.000Z, exit 0.
-- Kept CRU-0000 only as a historical uncoded marker and excluded it from active remedy/test-selection contracts; no catch-all classification was restored — started 2026-09-30T01:07:00.000Z, finished 2026-09-30T01:07:00.000Z, exit 0.
-- Changed the registry test to verify each public CRU/OPS lookup result instead of requiring historical internal registry keys to equal public operational codes — started 2026-09-30T01:14:00.000Z, finished 2026-09-30T01:14:00.000Z, exit 0.
-- Verified CRUCIBLE_SECURITY_READ_TOKEN is injected but cannot read GitHub repository Administration settings; the gate correctly remains fail-closed and requires owner-side token scope rather than a code bypass — started 2026-09-30T01:14:00.000Z, finished 2026-09-30T01:14:00.000Z, exit 0.
-- Rebound the workflow_run auto-repair trigger to 6076446993/The-Crucible on development and added a regression that preserves candidate-only repair/prevention learning with promotionAuthorized false — started 2026-09-30T01:19:00.000Z, finished 2026-09-30T01:19:00.000Z, exit 0.
-- Exact-tip verification remains required before protected promotion; no production branch was edited directly — started 2026-09-30T01:19:00.000Z, finished 2026-09-30T01:19:00.000Z, exit 0.

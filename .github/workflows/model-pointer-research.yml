@@ -93,6 +93,14 @@ jobs:
           npm run learning:pointer-research -- \
             'Android' 'JavaScript' 'HTML' 'CSS' 'Batchfile' 'PowerShell' 'Python' 'TypeScript' \
             'Shell and Bash' 'C' 'C#' 'C++' 'Django' 'Java' 'React' 'React Native' \
+            'Synthetic Intelligence cognitive architecture university research' 'motivated cognition MicroPsi cognitive architecture' \
+            'common model of cognition cognitive architecture' 'cognitive architectures for language agents' 'modular memory AI agents' \
+            'episodic semantic procedural memory agents' 'metacognition reflection AI agents' 'neuro-symbolic concept learning' \
+            'compositional neuro-symbolic concepts continual learning' 'world models long-horizon planning' \
+            'embodied situated intelligence robotics' 'artificial life autonomous agents' 'self-improving AI agents' \
+            'tool use grounded agent decision making' 'social cognition artificial agents' 'multi-agent cognition AI' \
+            'generalization transfer autonomous agents' 'uncertainty calibration autonomous agents' 'causal reasoning intelligent agents' \
+            'cognitive control action selection agents' 'perception grounding intelligent agents' 'AI agent verification provenance governance' \
             | tee .hosted-pointer-research/latest-report.json
       - name: Save project-bound discovery state and holding queue
         if: always()
