@@ -556,5 +556,18 @@
     "noAutomation": true,
     "noDiscoveryWorkflowChange": true,
     "noReleaseGateChange": true
+  },
+  "testEnvironmentAuthorization": {
+    "approvedAt": "2026-10-07T02:38:35.000Z",
+    "ownerInstruction": "Add R3 and R8 SI cases to isolated test environments and test them.",
+    "scope": [
+      "R3 governed discovery admission sandbox over the nine logged SI source seeds",
+      "R8 safe-retrieval sandbox over benign SI prose, scholarly prompt-language, explicit prompt injection, and executable content"
+    ],
+    "liveDiscoveryEnabled": false,
+    "productionStateAccess": false,
+    "changesReleaseAuthority": false,
+    "gatePassAuthority": false,
+    "note": "These sandboxes measure compatibility and rejection behavior. They do not turn SI logging into live discovery automation and cannot satisfy R3 or R8 by themselves."
   }
 }

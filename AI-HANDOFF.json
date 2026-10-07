@@ -111,11 +111,12 @@
     "src/coordinationCli.js": "Agent-facing commands: continue, claims, claim, release, handoff, providers, consult.",
     "governingDocuments/TOKEN-HEALTH.json": "Non-secret health declaration for the credentials The Crucible itself consumes. Records presence, authentication, capability and expiry only; never a credential value. A healthy credential proves a door opens and nothing about what is behind it, so it authorizes no promotion and satisfies no proof stage.",
     "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence concept/source log only: durable concept hypotheses and academic source seeds with explicit evidence status. It creates no discovery automation, proof, R9 redefinition, or promotion authority.",
-    "src/r2FailoverProof.js": "Isolated R2 failover proof: executable state is restricted to a dedicated OS-temp namespace; production learning paths are stripped from child environments; an already-running standby takes over after interruption; a pre-existing candidate must survive unchanged; proof authorizes no promotion."
+    "src/r2FailoverProof.js": "Isolated R2 failover proof: executable state is restricted to a dedicated OS-temp namespace; production learning paths are stripped from child environments; an already-running standby takes over after interruption; a pre-existing candidate must survive unchanged; proof authorizes no promotion.",
+    ".github/workflows/si-gate-sandbox.yml": "Read-only development sandbox for logged SI source-seed admission under R3 rules and SI-flavored retrieval safety under R8 rules; no secrets, production-state path, gate-pass authority, or promotion authority."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T02:39:18.000Z"
+    "lastActionAt": "2026-10-07T02:38:35.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -196,13 +197,13 @@
   },
   "activePlan": {
     "agent": "ChatGPT",
-    "objective": "Repair the R2 proof regression without restarting production, exposing live candidates, or increasing direct cross-system linkage.",
-    "currentPrompt": "Why did you break the pipeline for a test?",
+    "objective": "Add Synthetic Intelligence to isolated R3 and R8 test environments and measure current acceptance/refusal behavior without enabling live SI discovery or touching production learning state.",
+    "currentPrompt": "Add both to the test environments and test it",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
-      "purpose": "Repair the exact hosted Self-Test regression caused by the new R2 proof module being unassigned in Crucible circulation ownership.",
-      "selectionReason": "The hosted failure is a repository implementation regression introduced by the R2 change and requires a governed development repair plus verification.",
+      "purpose": "Implement and host isolated SI R3/R8 sandboxes using existing production admission and retrieval-safety code.",
+      "selectionReason": "The request changes governed repository tests/workflow and requires hosted verification.",
       "distinction": "Execution mode is separate from agent identity and workflow; it grants no branch, proof, verification, governance, release, or promotion authority."
     },
     "taskRouting": {
@@ -212,35 +213,36 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T02:39:18.000Z",
-      "prompt": "Why did you break the pipeline for a test?",
+      "selectedAt": "2026-10-07T02:38:35.000Z",
+      "prompt": "Add both to the test environments and test it",
       "project": "The Crucible",
       "paths": [
+        ".github/workflows/si-gate-sandbox.yml",
         "AI-HANDOFF.json",
         "DEVLOG.md",
-        "governingDocuments/scientific-learning-release-plan.md",
-        "governingDocuments/scientific-learning-release-status.json"
+        "governingDocuments/synthetic-intelligence-research-register.json",
+        "test/automatedModelPointerResearch.test.js",
+        "test/safeInformationRetrieval.test.js"
       ],
-      "promptSha256": "996e53cdca194cd7b5b1cee1771610c65a374a02f539938744dc38cd26580a16",
-      "affectedPathsSha256": "11549f2c614227f2a408b9b64d59b7e9edee060fa879fe4fced180c235957026"
+      "promptSha256": "3ea02d3b3966991ecd77e517a11d87ac3097e65de2cf47c80d848a0b35f4149f",
+      "affectedPathsSha256": "507048745896f92939e7408e668eeee773d8b53937c6ef92cf829f138b38578e"
     },
     "steps": [
-      "[done] Prove isolated R2 failover with no production queue/store reference or write path.",
-      "[done] Strengthen the proof to require a dedicated OS-temp namespace, stripped production learning-path environment, and preservation of an unrelated pre-existing candidate digest.",
-      "[done] Repair both R2-introduced circulation failures and restore the fly-by-wire ratchet to 57 direct edges with none added.",
-      "[done] Verify exact-tip hosted R2 failover, every-push scheduled tests, AI handoff, AI conflict governance, and CodeQL.",
-      "[done] Synchronize the R2 pass into the scientific-learning release plan/status without changing R3, R8, R9, or promotion authority."
+      "[done] Bind the R3 sandbox to the nine logged SI academic source seeds and measure the existing .edu/.org/.gov admission rule.",
+      "[done] Bind the R8 sandbox to ordinary SI research prose, scholarly system-prompt discussion, explicit injection text, and executable magic using the existing SafeInformationRetriever.",
+      "[done] Keep both sandboxes read-only, secret-free, isolated from production learning state, and unable to satisfy release gates.",
+      "[pending] Verify the focused SI sandbox workflow and exact-tip Self-Test/CodeQL/governance."
     ],
-    "status": "complete",
+    "status": "active",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T02:39:18.000Z",
-    "currentStep": "Complete: R2 is passed with isolated failover/no-loss evidence; the R2-introduced pipeline regressions are repaired. R3 and R8 remain pending, so R9 remains held.",
-    "priority": "Preserve the verified no-production-state R2 boundary. R2 evidence grants no authority over R3, R8, R9, R10, R11, or main promotion.",
+    "lastUpdatedAt": "2026-10-07T02:38:35.000Z",
+    "currentStep": "SI R3/R8 sandbox implementation prepared; hosted exact-tip verification is required.",
+    "priority": "Measure SI failure surfaces without changing live discovery, production custody, R3/R8 gate semantics, or R9.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
       "mutationScope": [],
-      "rule": "Discussion is shared; mutation is exclusive. All R2 repair/evidence-sync claims are released; R8 remains unfinished but its stale mutation lock was released without changing R8 behavior."
+      "rule": "Discussion is shared; mutation is exclusive. si-r3-r8-sandbox-20261006 is released atomically with this implementation."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -260,7 +262,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Reviewed SHA 1033806378cda18f53efc4b589867bc9cfb8c677: hosted R2 run 37562741750 job 112603486637 passed with disposableProofRoot=true, productionStateWritable=false, productionStateReferenced=false, productionLearningEnvironmentInherited=false, baselineCandidatePreserved=true, PID 2193 reclaimed after 30194ms, attempts=2, two unique deterministic candidate IDs, and repeat=0; artifact 11457258905 retained. Every-push scheduled tests pass and audit:circulation reports 57 direct edges with none added on Linux, macOS, and Windows. CodeQL, AI handoff, and AI conflict governance are green. Remaining Self-Test failures are the pre-existing CRU-0006 boundary and Windows R8/workflow-text issue.",
+    "verificationStatus": "Implementation pending hosted verification. R3 should admit 8/9 logged SI source seeds under the current suffix rule and reject Oxford University Press on .com; R8 should preserve ordinary SI prose while conservatively quarantining literal system-prompt discussion, explicit injection, and executable content.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -360,28 +362,22 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Resume the next independent scientific-learning blocker (R3 live discovery or R8 executable-content refusal) under its own governed task; do not reopen R2 unless its proof regresses.",
+    "nextAction": "Inspect the exact-tip SI sandbox jobs and standard repository checks; record measured results without advancing live R3/R8 unless their real gate definitions are independently satisfied.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
-        "R2 isolated failover is passed with strengthened no-production-path and baseline-candidate-preservation evidence.",
-        "The initial unassigned-module and 57->59 circulation regressions introduced by the R2 proof were both repaired; circulation is back to 57 with none added.",
-        "Exact-tip R2 job, scheduled every-push tests, AI handoff, AI conflict governance, and CodeQL were verified; no R2-caused CI blocker remains.",
-        "Scientific-learning release plan/status now record the strengthened R2 evidence without changing R3/R8/R9 or authorizing promotion."
+        "Added isolated SI R3 admission coverage against all nine logged source seeds.",
+        "Added isolated SI R8 safe-retrieval coverage for benign SI prose, conservative scholarly prompt-language quarantine, explicit prompt injection, and executable magic.",
+        "Added a read-only, secret-free SI sandbox workflow with no production-state path or promotion authority."
       ],
-      "verification": [
-        "Run 37562741750 job 112603486637, artifact 11457258905.",
-        "Self-Test run 37562741770: every-push scheduled tests pass; audit:circulation 57 direct edges, none added. Later red states are separate existing blockers.",
-        "CodeQL run 37562741728 green; AI handoff run 37562741806 green; AI conflict run 37562741705 green."
-      ],
+      "verification": [],
       "remaining": [
-        "R3 live governed discovery remains pending.",
-        "R8 executable-content live refusal remains pending.",
-        "R9 remains held until R2-R8 are simultaneously green.",
-        "R10 retains separate repository-security/Windows workflow-text/monitor blockers; R11 remains owner-only."
+        "Hosted SI R3 and R8 sandbox jobs must pass at the exact development tip.",
+        "The real R3 live provider cycle and real R8 executable-content custody canary remain separate release-gate work.",
+        "R9 remains held until the real gates pass."
       ]
     }
   },
@@ -1005,6 +1001,30 @@
       "acquiredAt": "2026-10-07T02:39:18.000Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T02:39:18.000Z"
+    },
+    {
+      "taskId": "si-r3-r8-sandbox-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/si-gate-sandbox.yml",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "governingDocuments/synthetic-intelligence-research-register.json",
+          "test/automatedModelPointerResearch.test.js",
+          "test/safeInformationRetrieval.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Add isolated Synthetic Intelligence R3 admission and R8 safety sandboxes and test current rejection behavior without enabling live SI discovery or touching production learning state.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T02:38:35.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T02:38:35.000Z"
     }
   ],
   "ownerDecisions": [
