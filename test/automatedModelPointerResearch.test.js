@@ -203,3 +203,42 @@ test('a never-run topic is due even when the clock ticks between the deadline an
   const widened = new ModelPointerResearchStore(store.root, PROJECT, ['JavaScript', 'Rust'], { now: ticking });
   assert.deepEqual(widened.due().map((item) => item.topic), ['JavaScript', 'Rust']);
 });
+
+test('SI R3 sandbox measures governed admission of the logged academic source seeds', async (t) => {
+  const register = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'governingDocuments', 'synthetic-intelligence-research-register.json'), 'utf8'));
+  const urls = register.candidateSourceSeeds.map((item) => item.url);
+  const admittedByRule = urls.filter((url) => {
+    const host = new URL(url).hostname.toLowerCase();
+    return ['.edu', '.org', '.gov'].some((suffix) => host.endsWith(suffix));
+  });
+
+  const { queue, store } = fixture(t, ['Synthetic Intelligence academic source admission']);
+  const sink = new AtomicSourceQueueCandidateSink(queue, PROJECT, { now: () => '2026-10-07T02:38:35.000Z' });
+  const client = {
+    search: async () => ({
+      citations: urls,
+      searchedAt: '2026-10-07T02:38:35.000Z',
+      provider: 'nvidia-nim',
+      providerKind: MODEL_POINTER_PROVIDER_KIND,
+      model: 'si-r3-sandbox',
+      promptSha256: HASH,
+      responseSha256: HASH,
+    }),
+  };
+
+  const [outcome] = await new AutomatedModelPointerResearch({ store, client, candidateSink: sink }).runDue();
+  assert.equal(outcome.state, 'completed');
+  assert.equal(urls.length, 9, 'the sandbox is bound to the nine logged SI source seeds');
+  assert.equal(admittedByRule.length, 8, 'eight logged SI source seeds currently satisfy the R3 .edu/.org/.gov admission rule');
+  assert.equal(outcome.admitted, admittedByRule.length);
+  assert.equal(outcome.rejected, urls.length - admittedByRule.length);
+  assert.equal(outcome.novel, admittedByRule.length);
+
+  const held = JSON.parse(fs.readFileSync(queue, 'utf8')).links;
+  assert.deepEqual(new Set(held.map((item) => item.url)), new Set(admittedByRule));
+  assert.equal(held.some((item) => new URL(item.url).hostname === 'academic.oup.com'), false,
+    'Oxford University Press is scholarly, but its .com host does not pass the current R3 suffix gate');
+  assert.ok(held.every((item) => item.state === 'research-approved-pending-retrieval'));
+  assert.ok(held.every((item) => item.classification === 'Insufficient Evidence'));
+});
+

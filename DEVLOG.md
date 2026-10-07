@@ -136,6 +136,11 @@ Plain-language summary: Established Synthetic Intelligence as a dedicated Crucib
 - Preserved canonical R9 as the existing 72-96 hour, <=1000-observed-point integrity soak and left R1-R11 release status untouched; PR #34 requires fresh exact-tip evidence after this development mutation — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
 - Pruned only the oldest inline command-log session (failure-code-model-pointer-reconcile-20260929 — 2026-09-30T00:42:00.000Z — Codex — mode:work) after preparing a full pre-prune DEVLOG snapshot for the standing one-file Archive ledger — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
 - Scope correction after user clarification: retained the full SI concept/source log, removed the live-discovery expansion, restored model-pointer-research.yml to its exact pre-SI content, and changed no release gate — started 2026-10-07T01:28:54.000Z, finished 2026-10-07T01:28:54.000Z, exit 0 correction.
+- Owner expanded SI scope from logging-only to isolated testing only for R3 and R8; live SI discovery, production learning-state access, gate-pass authority, release authority, and promotion remain disabled — started 2026-10-07T02:38:35.000Z, finished 2026-10-07T02:38:35.000Z, exit 0 authorization record.
+- Added an R3 SI sandbox over all nine logged academic source seeds using the existing model-pointer admission code; the current rule admits eight `.edu` seeds and rejects the Oxford University Press `.com` seed rather than silently broadening the gate — started 2026-10-07T02:38:35.000Z, finished 2026-10-07T02:38:35.000Z, exit 0 implementation.
+- Added an R8 SI sandbox using the existing SafeInformationRetriever: ordinary SI architecture prose remains candidate evidence, literal scholarly `system prompt` discussion is conservatively quarantined for review, explicit prompt injection is quarantined, and executable magic is refused — started 2026-10-07T02:38:35.000Z, finished 2026-10-07T02:38:35.000Z, exit 0 implementation.
+- Added read-only workflow `.github/workflows/si-gate-sandbox.yml` with no secrets and no production learning-state path; taskId si-r3-r8-sandbox-20261006 released atomically. Hosted exact-tip verification remains required.
+
 
 ### Session: scientific-learning-release-review-20261005 — 2026-10-05T20:43:00.000Z — Codex — mode:work
 
