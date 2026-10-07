@@ -148,6 +148,7 @@ Plain-language summary: Established Synthetic Intelligence as a dedicated Crucib
 - Adapted R8 so verified scholarly research context can retain descriptive control terminology while non-research matches remain fail-closed; executable refusal is unchanged.
 - Updated SI sandbox coverage plus scientific-learning policy/release semantics. R3 and R8 are still pending operational proof; R9 remains held.
 - Released mutation claim `r3-r8-si-general-adaptation-20261006`; implementation blobs were staged without moving `development`, and exact-tip hosted verification remains required.
+- Self-Test on `8c3ea8a453689c4e1bc3881e72432c251660998f` found one session metadata defect: the active task-routing reason was not in the canonical phrase format. Corrected the reason only; R3/R8 code and gate state are unchanged — 2026-10-07T03:18:00.000Z.
 
 
 ### Session: scientific-learning-release-review-20261005 — 2026-10-05T20:43:00.000Z — Codex — mode:work

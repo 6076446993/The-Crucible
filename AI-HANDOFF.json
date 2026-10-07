@@ -212,39 +212,28 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Crucible scientific-learning core and governed tests.",
+      "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T03:06:00.000Z",
+      "selectedAt": "2026-10-07T03:18:00.000Z",
       "prompt": "Figured out how to make it run then do it",
       "project": "The Crucible",
       "paths": [
-        ".github/workflows/si-gate-sandbox.yml",
         "AI-HANDOFF.json",
-        "DEVLOG.md",
-        "README.md",
-        "governingDocuments/scientific-learning-policy.md",
-        "governingDocuments/scientific-learning-release-plan.md",
-        "governingDocuments/synthetic-intelligence-research-register.json",
-        "governingDocuments/verified-scholarly-domains.json",
-        "src/automatedGoogleResearch.js",
-        "src/automatedModelPointerResearch.js",
-        "src/automatedPerplexityResearch.js",
-        "src/safeInformationRetrieval.js",
-        "test/automatedModelPointerResearch.test.js",
-        "test/safeInformationRetrieval.test.js"
+        "DEVLOG.md"
       ],
       "promptSha256": "29df2f174d235141359d2794dc121a8892dea3ba67d53c4754bb7ac40f9cdb94",
-      "affectedPathsSha256": "4c17c20f757f678bd7e959cf5180be4a51bcdd338bbc1b9dbf86cf85fc8e3769"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
-      "[done] Stage the R3/R8 implementation and tests off-branch.",
-      "[pending] Create one atomic development commit from staged blobs.",
-      "[pending] Verify focused SI jobs and standard exact-tip checks."
+      "[done] Adapt R3/R8 research compatibility.",
+      "[done] Pass focused SI R3/R8 tests.",
+      "[done] Correct canonical task-routing reason metadata.",
+      "[pending] Verify exact-tip repository checks."
     ],
     "status": "active",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T03:06:00.000Z",
-    "currentStep": "Implementation blobs staged; atomic commit and hosted verification remain.",
+    "lastUpdatedAt": "2026-10-07T03:18:00.000Z",
+    "currentStep": "Focused SI tests passed; correcting the canonical route metadata and verifying the exact tip.",
     "priority": "Preserve candidate-only admission, fail-closed safety, project isolation, and no promotion authority.",
     "ownership": {
       "currentClaim": null,
@@ -270,7 +259,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Not committed yet; development remains unchanged.",
+    "verificationStatus": "SI sandbox run 37565999560 passed both focused jobs on 8c3ea8a453689c4e1bc3881e72432c251660998f. Self-Test found one session metadata formatting defect in the task-routing reason; implementation tests remained green.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -370,7 +359,7 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Create the atomic development commit from the staged blobs and verify exact-tip hosted checks.",
+    "nextAction": "Verify exact-tip checks after this metadata-only correction.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
