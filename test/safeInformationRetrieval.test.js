@@ -284,3 +284,18 @@ test('SI R8 sandbox separates ordinary research from instruction-like and execut
   await assert.rejects(() => executable.retriever.retrieve('https://docs.example.test/page'), /Executable content quarantined/);
 });
 
+test('verified scholarly research may discuss control-message terminology without becoming an instruction', async (t) => {
+  const url = 'https://academic.oup.com/research/example';
+  const { retriever } = fixture(t, {
+    approvedUrls:[url],
+    responses:[response({ url, body:'The study compares how a system prompt influences a language agent during planning.' })],
+  });
+  const result = await retriever.retrieve(url);
+  assert.equal(result.record.state, 'retrieved-candidate-evidence');
+  assert.equal(result.record.classification, 'Insufficient Evidence');
+  assert.ok(result.content);
+  assert.equal(result.record.sourceAuthority, 'verified-scholarly-domain');
+  assert.equal(result.record.authorityOrganization, 'Oxford University Press');
+  assert.ok(result.record.researchDiscussionSignals.length >= 1);
+});
+

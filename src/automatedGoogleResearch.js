@@ -2,7 +2,7 @@ const crypto = require('node:crypto');
 const dns = require('node:dns').promises;
 const fs = require('node:fs');
 const path = require('node:path');
-const { parseGoogleSearchResults, privateAddress } = require('./safeInformationRetrieval');
+const { parseGoogleSearchResults, privateAddress, loadVerifiedScholarlyDomains } = require('./safeInformationRetrieval');
 const { crucibleError , operationalError} = require('./failureCodes');
 
 const DEFAULT_RESEARCH_INTERVAL_MS = 24 * 60 * 60 * 1000;
@@ -19,12 +19,14 @@ function boundedTopic(value) {
   return topic;
 }
 
-function buildGoogleSearchUrl(topic, { resultCount = 10, trustedSuffixes = ['.edu', '.org', '.gov'] } = {}) {
+function buildGoogleSearchUrl(topic, { resultCount = 10, trustedSuffixes = ['.edu', '.org', '.gov'], trustedDomains = loadVerifiedScholarlyDomains().map((entry) => entry.domain) } = {}) {
   const checked = boundedTopic(topic);
   if (!Number.isSafeInteger(resultCount) || resultCount < 1 || resultCount > 10) throw new Error('Google resultCount must be between 1 and 10.');
   if (!Array.isArray(trustedSuffixes) || !trustedSuffixes.length || trustedSuffixes.some((item) => !['.edu', '.org', '.gov'].includes(item))) throw new Error('Research suffixes must be a non-empty subset of .edu, .org, and .gov.');
+  if (!Array.isArray(trustedDomains) || trustedDomains.some((item) => !/^[a-z0-9.-]+$/i.test(String(item)))) throw new Error('Research trusted domains must be exact DNS host names.');
   const url = new URL('https://www.google.com/search');
-  url.searchParams.set('q', `${checked} (${trustedSuffixes.map((suffix) => `site:${suffix}`).join(' OR ')})`);
+  const siteTerms = [...trustedSuffixes.map((suffix) => `site:${suffix}`), ...trustedDomains.map((domain) => `site:${domain}`)];
+  url.searchParams.set('q', `${checked} (${siteTerms.join(' OR ')})`);
   url.searchParams.set('num', String(resultCount));
   url.searchParams.set('filter', '1');
   url.searchParams.set('safe', 'active');
@@ -118,9 +120,9 @@ class BoundedGoogleSearchClient {
     this.fetchImpl = fetchImpl; this.lookup = lookup; this.killSwitchFile = path.resolve(killSwitchFile); this.maximumBytes = maximumBytes; this.timeoutMs = timeoutMs; this.minimumIntervalMs = minimumIntervalMs; this.now = now; this.lastRequestAt = 0;
   }
 
-  async search(topic, { trustedSuffixes = ['.edu', '.org', '.gov'] } = {}) {
+  async search(topic, { trustedSuffixes = ['.edu', '.org', '.gov'], trustedDomains = loadVerifiedScholarlyDomains().map((entry) => entry.domain) } = {}) {
     if (fs.existsSync(this.killSwitchFile)) throw new Error('Google research kill switch is active.');
-    const searchUrl = new URL(buildGoogleSearchUrl(topic, { trustedSuffixes }));
+    const searchUrl = new URL(buildGoogleSearchUrl(topic, { trustedSuffixes, trustedDomains }));
     if (searchUrl.hostname !== GOOGLE_SEARCH_HOST || searchUrl.pathname !== '/search') throw new Error('Only the fixed Google search endpoint is allowed.');
     const addresses = await this.lookup(searchUrl.hostname, { all:true, verbatim:true });
     if (!Array.isArray(addresses) || !addresses.length || addresses.some((item) => privateAddress(item.address))) throw new Error('Google search resolved to a forbidden network target.');
@@ -171,7 +173,7 @@ class AtomicSourceQueueCandidateSink {
     if (existing) return { created:false, id:existing.id };
     const discoveredAt = this.now(); const id = `${methods[method]}:${sha256(url.toString())}`;
     const discovery = { method, discoveredAt };
-    for (const field of ['querySha256', 'promptSha256', 'responseSha256', 'provider', 'providerKind', 'model']) if (candidate[field] != null) discovery[field] = candidate[field];
+    for (const field of ['querySha256', 'promptSha256', 'responseSha256', 'provider', 'providerKind', 'model', 'sourceAuthority', 'authorityOrganization', 'authorityEvidenceUrl']) if (candidate[field] != null) discovery[field] = candidate[field];
     queue.links.push({ id, catalogSourceId:null, ordinal:null, url:url.toString(), author:'unknown until retrieved', license:'not declared; verify source terms before redistribution', retrievedAt:null, contentSha256:null, classification:'Insufficient Evidence', state:'research-approved-pending-retrieval', retrievalStartedAt:null, finalUrl:null, httpStatus:null, contentType:null, contentLength:null, durablePath:null, publisher:null, blocker:null, discovery });
     queue.updatedAt = discoveredAt;
     const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;
@@ -194,8 +196,10 @@ class AutomatedGoogleResearch {
     for (const entry of this.store.due(at, this.maximumQueriesPerRun)) {
       try {
         const scope = this.scopeProvider ? this.scopeProvider(entry.topic) : { trustedSuffixes:['.edu', '.org', '.gov'], deniedDomains:[] };
-        const search = await this.client.search(entry.topic, { trustedSuffixes:scope.trustedSuffixes });
-        const candidates = parseGoogleSearchResults(search.html, { trustedDomains:[], trustedSuffixes:scope.trustedSuffixes, extremeVettingSuffixes:[], deniedDomains:scope.deniedDomains || [], maximumResults:10 });
+        const scholarly = loadVerifiedScholarlyDomains();
+        const trustedDomains = [...new Set([...(scope.trustedDomains || []), ...scholarly.map((entry) => entry.domain)])];
+        const search = await this.client.search(entry.topic, { trustedSuffixes:scope.trustedSuffixes, trustedDomains });
+        const candidates = parseGoogleSearchResults(search.html, { trustedDomains:scope.trustedDomains || [], trustedSuffixes:scope.trustedSuffixes, verifiedScholarlyDomains:scholarly, extremeVettingSuffixes:[], deniedDomains:scope.deniedDomains || [], maximumResults:10 });
         const known = new Set(this.store.read().discoveredUrls);
         const novel = candidates.filter((candidate) => !known.has(candidate.url));
         const registered = [];

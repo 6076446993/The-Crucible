@@ -142,6 +142,12 @@ Plain-language summary: Established Synthetic Intelligence as a dedicated Crucib
 - Added read-only workflow `.github/workflows/si-gate-sandbox.yml` with no secrets and no production learning-state path; taskId si-r3-r8-sandbox-20261006 released atomically. Hosted exact-tip verification remains required.
 - Hosted SI sandbox run `37563233962` passed both jobs on implementation SHA `08c7303898a54bf63d9170c56f26ba08bd6e6966`: R3 job `112605031591` measured 8/9 logged SI source seeds admitted and the Oxford University Press `.com` seed rejected; R8 job `112605031458` retained ordinary SI prose, quarantined literal scholarly `system prompt` discussion and explicit prompt injection, and refused executable magic — started 2026-10-07T02:42:15.000Z, finished 2026-10-07T02:43:28.000Z, exit 0 hosted verification.
 - Standard Self-Test on the same implementation SHA passed critical code cadence, validation, fly-by-wire, clutter, privacy and security before reaching the pre-existing CRU-0006 repository-security boundary. No SI sandbox regression was observed; real R3/R8 gates remain pending and R9 remains held.
+- Owner approved a general R3/R8 compatibility repair from the SI sandbox findings rather than an SI-only exception — 2026-10-07T03:06:00.000Z.
+- Added a governed exact scholarly-domain registry with Oxford Academic as the first entry; admission remains candidate-only and publisher identity is not proof.
+- Adapted model-pointer, Google, and Perplexity discovery to consume governed scholarly-domain metadata and preserve its source authority in queue provenance.
+- Adapted R8 so verified scholarly research context can retain descriptive control terminology while non-research matches remain fail-closed; executable refusal is unchanged.
+- Updated SI sandbox coverage plus scientific-learning policy/release semantics. R3 and R8 are still pending operational proof; R9 remains held.
+- Released mutation claim `r3-r8-si-general-adaptation-20261006`; implementation blobs were staged without moving `development`, and exact-tip hosted verification remains required.
 
 
 ### Session: scientific-learning-release-review-20261005 — 2026-10-05T20:43:00.000Z — Codex — mode:work
