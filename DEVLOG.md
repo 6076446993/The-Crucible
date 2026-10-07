@@ -1,5 +1,14 @@
 # Development log
 
+### Session: automate Crucible monitor App authentication — 2026-10-07T19:00:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: The PR monitor now mints a short-lived read-only GitHub App installation token from the existing `CRUCIBLE_MONITOR_APP_CLIENT_ID` repository variable and `CRUCIBLE_MONITOR_APP_PRIVATE_KEY` secret, scoped to the installed organization account. The monitor still performs only read operations; no learning-state repository, main branch, or locked PR was mutated.
+
+- **Routing:** explicit owner-authorized `r8-workflow-registration` route accepted the exact `.github/workflows/nexus-check-monitor.yml` path.
+- **Change:** replaced the monitor's dependency on `NEXUS_MONITOR_READ_TOKEN` with the official GitHub App token action and passed the generated token only to the monitor process; no credential value was read or printed.
+- **Verification:** workflow lint passed across 24 workflows; workflow-focused tests passed 32/32. A prior changed-test run generated the existing low-severity local known-bug ledger entry and it was preserved.
+- **Next:** push through the mandatory hook and inspect fresh PR #35 hosted evidence at the exact SHA. R8 custody/canary/promotion and main remain untouched.
+
 ### Session: prefer named security token with compatibility fallback — 2026-10-07T18:12:00-04:00 — ChatGPT — mode:work
 
 Plain-language summary: The Crucible repository currently has `SECURITY_READ_TOKEN`, not `CRUCIBLE_SECURITY_READ_TOKEN`; hosted Self-Test proved the new name was absent by falling back to `GITHUB_TOKEN` and failing closed. Both the Self-Test and PR-monitor workflows now prefer `CRUCIBLE_SECURITY_READ_TOKEN` and fall back only to the existing repository secret, preserving the Administration-read requirement without exposing or weakening a credential.

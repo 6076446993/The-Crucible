@@ -3807,6 +3807,41 @@
         "exitStatus": 1
       },
       "checkedAt": "2026-08-31T16:37:21.514Z"
+    },
+    {
+      "id": "KB-local-4b856a85b5",
+      "foundAt": "2026-10-07T22:52:30.480Z",
+      "retests": [],
+      "severity": "low",
+      "status": "open",
+      "checked": false,
+      "sourceCommit": "local",
+      "categoryResults": [
+        {
+          "category": "maintenance",
+          "severity": "low",
+          "status": "failed",
+          "tests": [
+            "test/workflow.test.js"
+          ]
+        }
+      ],
+      "mainCategories": [
+        "maintenance"
+      ],
+      "tests": [
+        "test/workflow.test.js"
+      ],
+      "selectedTests": [
+        "test/handoffPolicy.test.js",
+        "test/testCadence.test.js",
+        "test/workflow.test.js"
+      ],
+      "attribution": "failing-tests",
+      "lastFailure": {
+        "at": "2026-10-07T22:52:30.480Z",
+        "exitStatus": 1
+      }
     }
   ]
 }
