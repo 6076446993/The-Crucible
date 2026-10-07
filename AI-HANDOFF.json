@@ -110,11 +110,12 @@
     "src/aiHandoffContinuation.js": "How a successor AI reads the governed state and resumes from the last confirmed good point.",
     "src/coordinationCli.js": "Agent-facing commands: continue, claims, claim, release, handoff, providers, consult.",
     "governingDocuments/TOKEN-HEALTH.json": "Non-secret health declaration for the credentials The Crucible itself consumes. Records presence, authentication, capability and expiry only; never a credential value. A healthy credential proves a door opens and nothing about what is behind it, so it authorizes no promotion and satisfies no proof stage.",
-    "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence concept/source log only: durable concept hypotheses and academic source seeds with explicit evidence status. It creates no discovery automation, proof, R9 redefinition, or promotion authority."
+    "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence concept/source log only: durable concept hypotheses and academic source seeds with explicit evidence status. It creates no discovery automation, proof, R9 redefinition, or promotion authority.",
+    "src/r2FailoverProof.js": "Isolated R2 failover proof: executable state is restricted to a dedicated OS-temp namespace; production learning paths are stripped from child environments; an already-running standby takes over after interruption; a pre-existing candidate must survive unchanged; proof authorizes no promotion."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T01:28:54.000Z"
+    "lastActionAt": "2026-10-07T02:33:15.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -195,7 +196,7 @@
   },
   "activePlan": {
     "agent": "ChatGPT",
-    "objective": "Repair the CI regression introduced by the isolated R2 proof without changing its no-production-state boundary or the R2 pass.",
+    "objective": "Repair the R2 proof regression without restarting production, exposing live candidates, or increasing direct cross-system linkage.",
     "currentPrompt": "Why did you break the pipeline for a test?",
     "executionMode": {
       "mode": "work",
@@ -211,36 +212,38 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T02:28:00.000Z",
+      "selectedAt": "2026-10-07T02:33:15.000Z",
       "prompt": "Why did you break the pipeline for a test?",
       "project": "The Crucible",
       "paths": [
         "AI-HANDOFF.json",
         "DEVLOG.md",
-        "src/circulationLinkage.js"
+        "src/circulationLinkage.js",
+        "src/claimExtractionWorker.js",
+        "src/r2FailoverProof.js",
+        "test/durableLock.test.js"
       ],
       "promptSha256": "996e53cdca194cd7b5b1cee1771610c65a374a02f539938744dc38cd26580a16",
-      "affectedPathsSha256": "80833090cfc118215f8a033d16357a8d31ad6a58176070693294cbd21dff8a13"
+      "affectedPathsSha256": "a6a1c997e1f0310ad9be72d5ae024bdb518e3d2b4af19e87933e06ef4f8d4504"
     },
     "steps": [
-      "[done] Identify the exact regression from hosted Self-Test: r2FailoverProof was unassigned in the circulation ownership map.",
-      "[done] Assign r2FailoverProof to the learning system without changing the R2 failover implementation or production-state isolation.",
-      "[pending] Verify exact-tip hosted Self-Test and preserve unrelated pre-existing R8/security blockers separately."
+      "[done] Verify the first ownership-only repair still failed: direct cross-system linkage rose from 57 to 59.",
+      "[done] Place r2FailoverProof with ClaimExtractionWorker in the digestive system and expose lock inspection through that existing worker boundary.",
+      "[done] Preserve the fly-by-wire ratchet: r2FailoverProof no longer imports durableLock directly and adds no new digestive-to-boundary dependency.",
+      "[done] Strengthen proof isolation with a dedicated OS-temp root, stripped production learning-path environment, and unchanged pre-existing baseline-candidate digest requirement.",
+      "[pending] Verify exact-tip hosted R2 failover remains green and every-push circulation baseline returns to 57.",
+      "[pending] Preserve R3/R8/R9/R10 as separate blockers."
     ],
     "status": "active",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T02:28:00.000Z",
-    "currentStep": "Repair committed; exact-tip hosted Self-Test required.",
-    "priority": "Restore CI ownership linkage while preserving the proven R2 no-production-state boundary.",
+    "lastUpdatedAt": "2026-10-07T02:33:15.000Z",
+    "currentStep": "Correct second repair published; exact-tip hosted verification required.",
+    "priority": "Restore the pipeline without weakening fly-by-wire or the no-production-state R2 proof boundary.",
     "ownership": {
-      "currentClaim": "repair-r2-circulation-linkage-20261006",
-      "owner": "openai",
-      "mutationScope": [
-        "AI-HANDOFF.json",
-        "DEVLOG.md",
-        "src/circulationLinkage.js"
-      ],
-      "rule": "Discussion is shared; mutation is exclusive."
+      "currentClaim": null,
+      "owner": null,
+      "mutationScope": [],
+      "rule": "Discussion is shared; mutation is exclusive. The stale R8 claim is released without changing R8 behavior; this R2 repair claim is recorded and released atomically."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -260,7 +263,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Hosted Self-Test at cec477562dc2f52b60f662025866a4327d564cdb failed because src/r2FailoverProof.js was not assigned to any SYSTEMS entry in src/circulationLinkage.js. This is an R2-introduced CI regression; candidate custody was not touched.",
+    "verificationStatus": "At 67d4fe835776815e6d0d9a22bc1c995acbcbeb4a, hosted R2 failover passed, but every-push circulation failed because learning->digestive and learning->boundary direct links raised the ratchet from 57 to 59. This repair removes both new links; hosted verification is pending.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -360,21 +363,27 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Verify the exact-tip Self-Test after assigning r2FailoverProof to the learning system; do not alter R2 evidence, R3, R8, R9, or release state.",
+    "nextAction": "Inspect exact-tip R2 job and Self-Test cadence. Complete only when R2 remains green and circulation no longer reports an R2-introduced failure.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
-        "R2 isolated failover implementation and hosted proof passed.",
-        "Intervening hosted handoff wording correction preserved.",
-        "R2 release status reconciled without changing R3/R8/R9."
+        "Hosted R2 failover continues to pass without production state reference or write access.",
+        "The first circulation fix was proven incomplete because it raised direct cross-system links 57 -> 59.",
+        "This correction co-locates r2FailoverProof with extraction in digestive and reuses ClaimExtractionWorker's existing durableLock edge.",
+        "The proof now mechanically requires a dedicated OS-temp root, strips ambient production learning path variables, and proves a pre-existing unrelated candidate survives unchanged.",
+        "The stale R8 mutation lock is released without changing R8 code or declaring its pending canary complete."
+      ],
+      "verification": [
+        "Run 37562305009 R2 job 112602093689 passed at 67d4fe835776815e6d0d9a22bc1c995acbcbeb4a.",
+        "Self-Test job 112602093624 proved the remaining regression precisely: direct linkage 57 -> 59 via learning->digestive and learning->boundary."
       ],
       "remaining": [
-        "R3 live governed discovery remains pending.",
-        "R8 executable-content live refusal remains pending.",
-        "R9 remains held."
+        "Exact-tip hosted R2 proof and circulation baseline verification for this correction.",
+        "R3 live discovery and R8 executable-content refusal remain pending; R9 remains held.",
+        "R10 retains separate repository-security/monitor blockers."
       ]
     }
   },
@@ -1006,10 +1015,34 @@
         "regions": []
       },
       "purpose": "Reconcile and publish owner-authorized R8 executable-content quarantine custody evidence on development.",
-      "status": "active",
+      "status": "released",
       "acquiredAt": "2026-10-04T13:50:06.229Z",
       "handedOffTo": null,
-      "releasedAt": null
+      "releasedAt": "2026-10-07T02:33:15.000Z"
+    },
+    {
+      "taskId": "repair-r2-circulation-boundary-20261006",
+      "owner": {
+        "provider": "openai",
+        "model": "gpt-5.6-sol",
+        "agent": "ChatGPT"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/circulationLinkage.js",
+          "src/claimExtractionWorker.js",
+          "src/r2FailoverProof.js",
+          "test/durableLock.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Repair R2 proof circulation without raising the fly-by-wire ratchet and strengthen proof isolation/candidate preservation.",
+      "status": "released",
+      "acquiredAt": "2026-10-07T02:33:15.000Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-07T02:33:15.000Z"
     }
   ],
   "ownerDecisions": [

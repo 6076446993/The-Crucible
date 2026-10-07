@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { DurableScientificLearningStore } = require('./scientificLearning');
-const { acquireDurableLock } = require('./durableLock');
+const { acquireDurableLock, inspectLock } = require('./durableLock');
 const { extractPdfTextRange } = require('./pdfTextExtraction');
 const { INJECTION_PATTERNS } = require('./safeInformationRetrieval');
 const { documentFurniture } = require('./documentFurniture');
@@ -95,6 +95,10 @@ class AtomicClaimExtractionQueue {
   lock() { return acquireDurableLock(this.lockFile, { description:'Source queue lock' }); }
 }
 
+function inspectClaimExtractionLock(queueFile, options = {}) {
+  return inspectLock(`${path.resolve(queueFile)}.claim-extraction.lock`, options);
+}
+
 class ClaimExtractionWorker {
   constructor({ queueFile, projectId, learningRoot, corpusRoot = null, extractText = defaultExtractText, now = () => new Date().toISOString(), maximumSources = 25, maximumDocuments = 9, pdfPagesPerBatch = 20, sourceId = null }) {
     if (!projectId || !learningRoot) throw new Error('Repository-bound projectId and learningRoot are required.');
@@ -168,4 +172,4 @@ class ClaimExtractionWorker {
   }
 }
 
-module.exports = { containedSourcePath, cleanText, boundedAssertions, normalizedClaimSha256, defaultExtractText, AtomicClaimExtractionQueue, ClaimExtractionWorker };
+module.exports = { containedSourcePath, cleanText, boundedAssertions, normalizedClaimSha256, defaultExtractText, AtomicClaimExtractionQueue, inspectClaimExtractionLock, ClaimExtractionWorker };
