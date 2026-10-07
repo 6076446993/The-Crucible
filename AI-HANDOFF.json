@@ -117,7 +117,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T03:31:32.000Z"
+    "lastActionAt": "2026-10-07T03:34:08.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -214,28 +214,28 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T03:31:32.000Z",
+      "selectedAt": "2026-10-07T03:34:08.000Z",
       "prompt": "Try it if its ready",
       "project": "The Crucible",
       "paths": [
         ".github/workflows/si-gate-sandbox.yml",
         "AI-HANDOFF.json",
-        "DEVLOG.md",
-        "governingDocuments/synthetic-intelligence-research-register.json"
+        "DEVLOG.md"
       ],
       "promptSha256": "c4d943b171899b7fe104dff67bfc32eacecb1d622bdc3426366b7011136e7dc7",
-      "affectedPathsSha256": "99de168deb55c94f810e483fcc6a93961c026760b528ca1ac510fe9cc598ee34"
+      "affectedPathsSha256": "971a1eca6b066716da8b84323285ea05a483a02f60b686a9a1d70a2105832705"
     },
     "steps": [
-      "[done] Verify that the production custody path still forbids a new general Crucible raw-state writer.",
-      "[done] Add a metadata-only hosted SI pilot that uses the real admission, HTTPS retrieval, and claim-extraction code against exactly nine logged seeds.",
-      "[done] Give the pilot no raw/vetted-state credentials and delete retrieved bodies/candidate store before artifact retention.",
-      "[pending] Inspect the hosted pilot result and report whether any real SI source reached bounded candidate extraction."
+      "[done] Verify that production custody has no general candidate holding-queue to raw-state bridge.",
+      "[done] Run the real governed retriever and claim extractor against the nine SI seeds without production credentials.",
+      "[done] Observe six completed sources, one continuing source, two blocked retrievals, and 68 bounded candidates.",
+      "[done] Repair metadata-only artifact retention without touching retrieval/extraction semantics.",
+      "[pending] Verify rerun and retained metadata artifact."
     ],
     "status": "active",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T03:31:32.000Z",
-    "currentStep": "Disposable real-data SI pilot committed for hosted execution; result pending.",
+    "lastUpdatedAt": "2026-10-07T03:34:08.000Z",
+    "currentStep": "First real-data SI pilot processed 9 seeds and extracted 68 bounded candidates; fixing metadata-artifact retention and rerunning the same pilot.",
     "priority": "Prove real SI processing without weakening custody separation or claiming durable learning.",
     "ownership": {
       "currentClaim": null,
@@ -261,7 +261,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Pending hosted run. Success requires nonzero bounded candidates from real SI source retrieval; a blocked/quarantined source remains an honest result.",
+    "verificationStatus": "Hosted SI run 37567285927 real-data job 112617785288 processed the nine logged seeds with the real retriever and extractor: six sources reached claim-extraction-complete, one remained claim-extraction-forced-pending, two retrievals were blocked, and 68 bounded Insufficient Evidence candidates were extracted. The job conclusion was failure only because the metadata report directory was hidden and upload-artifact defaulted to excluding hidden files.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -361,7 +361,7 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Inspect the exact hosted SI pilot job and retained metadata-only artifact; do not create a production state writer as a workaround.",
+    "nextAction": "Rerun the same no-production-state pilot after enabling hidden-file artifact retention; record the retained evidence and keep durable live ingestion blocked until a general raw-custody publisher exists.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
