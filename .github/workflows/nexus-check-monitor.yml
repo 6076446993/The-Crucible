@@ -29,7 +29,6 @@ jobs:
     timeout-minutes: 10
     env:
       GITHUB_TOKEN: ${{ github.token }}
-      CRUCIBLE_MONITOR_READ_TOKEN: ${{ secrets.CRUCIBLE_MONITOR_READ_TOKEN || secrets.NEXUS_MONITOR_READ_TOKEN }}
       NEXUS_MONITOR_REQUIRED_CHECKS: ${{ inputs.required_checks || '' }}
       CRUCIBLE_REPAIR_ENABLED: 'true'
       CRUCIBLE_REPAIR_TOKEN: ${{ secrets.CRUCIBLE_REPAIR_TOKEN }}
@@ -45,7 +44,30 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
+      - name: Create read-only organization monitor token
+        if: vars.CRUCIBLE_MONITOR_APP_CLIENT_ID != ''
+        id: monitor-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.CRUCIBLE_MONITOR_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CRUCIBLE_MONITOR_APP_PRIVATE_KEY }}
+          owner: '6076446993'
+          repositories: |
+            NVIDIA-NIM-CONSOLE
+            AI-collaboration-
+            The-Crucible
+            Learning-Worker
+            Crucible-Learning-State
+            Crucible-Vetted-Learning-State
+            Vetting-and-Governance-oversite.
+            Nexus-Public-CI
+            Nexus-
+          permission-checks: read
+          permission-pull-requests: read
+          permission-metadata: read
       - name: Run Crucible PR monitor
+        env:
+          CRUCIBLE_MONITOR_READ_TOKEN: ${{ steps.monitor-token.outputs.token || secrets.CRUCIBLE_MONITOR_READ_TOKEN || secrets.NEXUS_MONITOR_READ_TOKEN }}
         run: |
           set -euo pipefail
           mkdir -p artifacts

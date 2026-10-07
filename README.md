@@ -300,7 +300,7 @@ When an AI agent working in the adopting project hits a Crucible-related CI fail
 
 None of this is hypothetical inattention on the agent's part; it is the predictable result of not having stated the boundary before the failure happened. `agent-boundaries.md` states it once, at adoption time, so an agent mid-incident has something concrete to check itself against instead of reasoning the boundary out from first principles under pressure - and so a human reviewing that agent's work has a fixed standard to hold it to.
 
-The PR monitor uses `CRUCIBLE_MONITOR_READ_TOKEN`, falling back to the existing `NEXUS_MONITOR_READ_TOKEN` secret. Its credential must cover the monitored repositories under their current organization owner; secret presence alone does not prove access.
+The PR monitor prefers a read-only GitHub App installation token: set variable `CRUCIBLE_MONITOR_APP_CLIENT_ID` and secret `CRUCIBLE_MONITOR_APP_PRIVATE_KEY`, with Checks, Pull requests, and Metadata read access on the configured organization repositories. It falls back to secrets `CRUCIBLE_MONITOR_READ_TOKEN` or `NEXUS_MONITOR_READ_TOKEN`; secret presence alone does not prove access.
 
 ## Fixing a failing GitHub repository security settings gate
 

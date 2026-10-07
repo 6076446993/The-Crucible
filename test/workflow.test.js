@@ -487,6 +487,14 @@ test('only owner-authorized manual publishers may push ciphertext to raw custody
   for (const file of fs.readdirSync(workflowDir).filter((name) => /\.ya?ml$/i.test(name))) {
     const text = fs.readFileSync(path.join(workflowDir, file), 'utf8');
     if (!stateRepositories.test(text)) continue;
+    if (file === 'nexus-check-monitor.yml') {
+      // Repository names in the installation scope grant observation, never custody.
+      assert.match(text, /permission-checks: read/);
+      assert.match(text, /permission-pull-requests: read/);
+      assert.match(text, /permission-metadata: read/);
+      assert.doesNotMatch(text, /permission-[a-z-]+: write|\bgit\s|STATE_DEPLOY_KEY|SOURCE_BUNDLE_KEY/);
+      continue;
+    }
     for (const [index, line] of text.split(/\r?\n/).entries()) {
       if (/git\s+(?:-C\s+[^\n]+?\s+)?push\b/.test(line) && !['r8-executable-canary-publisher.yml', 'raw-custody-publisher.yml'].includes(file)) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
     }
@@ -577,7 +585,15 @@ test('Crucible PR monitor is PR-scoped and cannot self-block on its own check', 
   assert.match(workflow, /name:\s+Crucible PR monitor/);
   assert.match(workflow, /group:\s+crucible-pr-monitor-\$\{\{ github\.event\.pull_request\.number \|\| github\.run_id \}\}/);
   assert.match(workflow, /GITHUB_TOKEN:\s+\$\{\{ github\.token \}\}/);
-  assert.match(workflow, /CRUCIBLE_MONITOR_READ_TOKEN:\s+\$\{\{ secrets\.CRUCIBLE_MONITOR_READ_TOKEN \|\| secrets\.NEXUS_MONITOR_READ_TOKEN \}\}/);
+  assert.match(workflow, /CRUCIBLE_MONITOR_READ_TOKEN:\s+\$\{\{ steps\.monitor-token\.outputs\.token \|\| secrets\.CRUCIBLE_MONITOR_READ_TOKEN \|\| secrets\.NEXUS_MONITOR_READ_TOKEN \}\}/);
+  assert.match(workflow, /actions\/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1/);
+  const tokenStep = workflow.split('- name: Create read-only organization monitor token')[1].split('- name: Run Crucible PR monitor')[0];
+  assert.match(tokenStep, /owner: '6076446993'/);
+  for (const permission of ['checks', 'pull-requests', 'metadata']) assert.match(tokenStep, new RegExp(`permission-${permission}: read`));
+  assert.doesNotMatch(tokenStep, /permission-[a-z-]+: write|skip-token-revoke: true/);
+  const grantedRepositories = tokenStep.split('repositories: |')[1].split('permission-checks:')[0].trim().split(/\r?\n/).map((line) => line.trim()).sort();
+  const monitoredRepositories = JSON.parse(fs.readFileSync(path.join(root, 'governingDocuments', 'crucible-monitored-repositories.json'), 'utf8')).repositories.filter((repo) => repo.enabled).map((repo) => repo.name.split('/')[1]).sort();
+  assert.deepEqual(grantedRepositories, monitoredRepositories);
   assert.match(workflow, /CRUCIBLE_MONITOR_WAIT_FOR_CHECKS_MS: '600000'/);
   assert.doesNotMatch(workflow, /^\s{2}push:/m);
   assert.match(workflow, /uses:\s+actions\/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02/);
