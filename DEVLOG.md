@@ -8,6 +8,7 @@ Plain-language summary: Replaced the stale `jonathanblunt1214-lgtm/...` monitor 
 - **Change:** updated only the seven monitored repository owner identities; preserved locked PR #11 and `LOCKED_READ_ONLY` behavior.
 - **Verification:** focused orchestrated test run passed 97/97, workflow lint passed across 24 workflows, JSON parsing passed, and `git diff --check` passed.
 - **Hosted state:** monitor run #320 attempt 3 received the masked `NEXUS_MONITOR_READ_TOKEN` but checked out merge SHA `09912bf`; its pre-change monitor process exited 1. No canary, raw custody, vetted custody, or main promotion occurred.
+- **Route correction:** the first push attempt correctly rejected the narrower recorded path digest because this commit also carries the required handoff/log surfaces; regenerated the owner-authorized digest for all three affected paths and kept the same branch/category.
 
 ### Session: align self-test security secret name — 2026-10-07T12:58:47-04:00 — ChatGPT — mode:work
 
