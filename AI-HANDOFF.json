@@ -116,7 +116,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T02:38:35.000Z"
+    "lastActionAt": "2026-10-07T02:43:28.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -211,38 +211,34 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Verification record affects only governed handoff files.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T02:38:35.000Z",
+      "selectedAt": "2026-10-07T02:43:28.000Z",
       "prompt": "Add both to the test environments and test it",
       "project": "The Crucible",
       "paths": [
-        ".github/workflows/si-gate-sandbox.yml",
         "AI-HANDOFF.json",
-        "DEVLOG.md",
-        "governingDocuments/synthetic-intelligence-research-register.json",
-        "test/automatedModelPointerResearch.test.js",
-        "test/safeInformationRetrieval.test.js"
+        "DEVLOG.md"
       ],
       "promptSha256": "3ea02d3b3966991ecd77e517a11d87ac3097e65de2cf47c80d848a0b35f4149f",
-      "affectedPathsSha256": "507048745896f92939e7408e668eeee773d8b53937c6ef92cf829f138b38578e"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "[done] Bind the R3 sandbox to the nine logged SI academic source seeds and measure the existing .edu/.org/.gov admission rule.",
       "[done] Bind the R8 sandbox to ordinary SI research prose, scholarly system-prompt discussion, explicit injection text, and executable magic using the existing SafeInformationRetriever.",
       "[done] Keep both sandboxes read-only, secret-free, isolated from production learning state, and unable to satisfy release gates.",
-      "[pending] Verify the focused SI sandbox workflow and exact-tip Self-Test/CodeQL/governance."
+      "[done] Verify the dedicated SI sandbox workflow on implementation SHA 08c7303898a54bf63d9170c56f26ba08bd6e6966."
     ],
-    "status": "active",
+    "status": "complete",
     "startedAt": "2026-10-07T02:17:55.000Z",
-    "lastUpdatedAt": "2026-10-07T02:38:35.000Z",
-    "currentStep": "SI R3/R8 sandbox implementation prepared; hosted exact-tip verification is required.",
-    "priority": "Measure SI failure surfaces without changing live discovery, production custody, R3/R8 gate semantics, or R9.",
+    "lastUpdatedAt": "2026-10-07T02:43:28.000Z",
+    "currentStep": "Complete: both isolated SI sandboxes passed on hosted run 37563233962; results are compatibility evidence only, not live R3/R8 gate proof.",
+    "priority": "Preserve the measured SI failure surfaces without broadening R3 admission or weakening R8 safety.",
     "ownership": {
       "currentClaim": null,
       "owner": null,
       "mutationScope": [],
-      "rule": "Discussion is shared; mutation is exclusive. si-r3-r8-sandbox-20261006 is released atomically with this implementation."
+      "rule": "Discussion is shared; mutation is exclusive. The SI sandbox claim is released."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -262,7 +258,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Implementation pending hosted verification. R3 should admit 8/9 logged SI source seeds under the current suffix rule and reject Oxford University Press on .com; R8 should preserve ordinary SI prose while conservatively quarantining literal system-prompt discussion, explicit injection, and executable content.",
+    "verificationStatus": "Hosted SI run 37563233962 passed both jobs at implementation SHA 08c7303898a54bf63d9170c56f26ba08bd6e6966. R3 job 112605031591 proved 8/9 logged SI seeds satisfy the current .edu/.org/.gov rule and the Oxford University Press academic.oup.com seed is rejected. R8 job 112605031458 proved ordinary SI architecture prose is retained as Insufficient Evidence, literal scholarly 'system prompt' discussion is conservatively quarantined, explicit prompt injection is quarantined, and PE/DOS executable magic is refused. Standard Self-Test code cadence, validation, fly-by-wire, privacy and security checks reached green before the pre-existing CRU-0006 repository-security boundary; no SI-introduced architecture regression was observed.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -362,22 +358,26 @@
         "owner": "user"
       }
     ],
-    "nextAction": "Inspect the exact-tip SI sandbox jobs and standard repository checks; record measured results without advancing live R3/R8 unless their real gate definitions are independently satisfied.",
+    "nextAction": "Use these findings when preparing the real R3 provider cycle and R8 custody canary: do not broaden the admission suffixes or weaken prompt/executable quarantine merely to make SI pass.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
-        "Added isolated SI R3 admission coverage against all nine logged source seeds.",
-        "Added isolated SI R8 safe-retrieval coverage for benign SI prose, conservative scholarly prompt-language quarantine, explicit prompt injection, and executable magic.",
-        "Added a read-only, secret-free SI sandbox workflow with no production-state path or promotion authority."
+        "Hosted SI R3 discovery sandbox passed on run 37563233962 job 112605031591.",
+        "Hosted SI R8 safety sandbox passed on run 37563233962 job 112605031458.",
+        "R3 measured 8/9 logged SI source seeds admitted by current suffix policy; Oxford University Press on academic.oup.com was rejected.",
+        "R8 preserved ordinary SI prose while quarantining literal system-prompt discussion and explicit prompt injection and refusing executable magic."
       ],
-      "verification": [],
+      "verification": [
+        "SI workflow run 37563233962 concluded success on 08c7303898a54bf63d9170c56f26ba08bd6e6966.",
+        "Self-Test critical cadence, validation, fly-by-wire, clutter, privacy and security checks passed before the existing CRU-0006 repository-security boundary."
+      ],
       "remaining": [
-        "Hosted SI R3 and R8 sandbox jobs must pass at the exact development tip.",
-        "The real R3 live provider cycle and real R8 executable-content custody canary remain separate release-gate work.",
-        "R9 remains held until the real gates pass."
+        "R3 still needs a real scheduled provider run that admits at least one governed URL.",
+        "R8 still needs the real executable-content custody refusal/publisher observation.",
+        "R9 remains held until R2-R8 are simultaneously green."
       ]
     }
   },
