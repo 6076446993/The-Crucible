@@ -115,11 +115,14 @@
     ".github/workflows/si-gate-sandbox.yml": "Read-only development sandbox for logged SI source-seed admission under R3 rules and SI-flavored retrieval safety under R8 rules; no secrets, production-state path, gate-pass authority, or promotion authority.",
     "governingDocuments/verified-scholarly-domains.json": "Governed exact scholarly-domain registry with first-party authority evidence; candidate admission only, never proof.",
     "src/rawCustodyPublisher.js": "Bounded, project-bound candidate-only raw custody publisher; preserves original queues, candidates, active knowledge and rollback ciphertext. Never writes vetted custody or satisfies proof.",
-    ".github/workflows/raw-custody-publisher.yml": "Manual development-only exact-register-hash raw custody publication; no unattended discovery, vetted access or promotion authority."
+    ".github/workflows/raw-custody-publisher.yml": "Manual development-only exact-register-hash raw custody publication; no unattended discovery, vetted access or promotion authority.",
+    "src/ownerFileTransport.js": "Encrypted owner-file request pack/stage/import, candidate-only custody and immutable duplicate-preserving receipts.",
+    ".github/workflows/owner-file-intake.yml": "Manual hash-approved encrypted owner evidence import into private raw custody, no extraction or promotion.",
+    "governingDocuments/owner-file-transport.md": "Owner-file transport operator sequence, authorization, custody and rollback boundaries."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-07T05:08:16.424Z"
+    "lastActionAt": "2026-10-08T04:14:33.835Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -200,14 +203,14 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Narrow governed deployment of manual SI/R8 workflows and repair/verify security and PR-monitor credential access without broad promotion or weakened gates.",
-    "currentPrompt": "Promote it then work The security and PR-monitor credentials",
+    "objective": "Restore authenticated owner-file intake through private encrypted raw custody without loss or promotion.",
+    "currentPrompt": "Fix this missing authenticated intake connection and owner-file transport.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
-      "purpose": "Implement and verify ordered SI learning prerequisites.",
-      "selectionReason": "Repository and durable-custody implementation.",
-      "distinction": "Execution mode is separate from agent identity, workflow, repository, and branch authority; it grants no proof or promotion permission."
+      "purpose": "Owner-authorized implementation and governed intake deployment",
+      "selectionReason": "Current Work runtime can implement and verify the proposed transport.",
+      "distinction": "Execution mode describes the runtime; agent identity and workflow remain separate."
     },
     "taskRouting": {
       "category": "crucible-core",
@@ -216,37 +219,43 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-07T05:02:26.513Z",
-      "promptSha256": "f023f4c62c8b9c48904696c342b77a9b38f9ce8363e0958118e54d360fb5dc1d",
-      "affectedPathsSha256": "2b7850c0eec875b58f23d405df3c04b1061373d5a6836d07b4c87c8c9dcedc41"
+      "selectedAt": "2026-10-08T04:11:41.857Z",
+      "promptSha256": "1a156ce6056d0229f9463c1992e0b2feddefd3c6a979f4d0b2de971601541588",
+      "affectedPathsSha256": "0e89a03e4764d35e6f75d66758e230c89961357ee2e5aaa8bf5548f3da0f6a4b"
     },
     "steps": [
-      "Refresh exact branch and check state.",
-      "Prepare narrow main-based manual workflow deployment and required boundary/documentation updates; preserve unrelated main content.",
-      "Repair existing monitor secret wiring and verify hosted access.",
-      "Inspect/correct organization-scoped security and monitor credentials using GitHub secret storage; never log values.",
-      "Promote through release-to-main only when required checks pass, then resume bounded intake through ordinary gates."
+      "Publish takeover-ready plan and preserve prior repair work.",
+      "Integrate encrypted request pack/stage/import CLI, hosted workflow and governance registration.",
+      "Run required local checks and publish development with exact-head evidence.",
+      "Deploy only the manual owner-file workflow through verified release to main.",
+      "Use existing production credentials to stage exact source request and capture actual intake receipt."
     ],
     "status": "active",
-    "startedAt": "2026-10-07T04:11:06.782Z",
-    "lastUpdatedAt": "2026-10-07T04:47:46.761Z",
-    "currentStep": "Await owner creation/installation and private-key secret entry for the read-only monitor App; test the prepared authentication integration and refresh security/CI before promotion.",
+    "startedAt": "2026-10-08T04:07:39.980600Z",
+    "lastUpdatedAt": "2026-10-08T04:14:33.835Z",
+    "currentStep": 2,
     "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
     "ownership": {
-      "currentClaim": "si-promotion-credential-repair-20261007",
+      "currentClaim": "owner-file-transport-20261008",
       "owner": {
         "provider": "openai",
-        "model": null,
-        "agent": "Codex"
+        "agent": "Codex",
+        "model": null
       },
       "mutationScope": [
         "AI-HANDOFF.json",
         "DEVLOG.md",
-        "README.md",
-        ".github/workflows/nexus-check-monitor.yml",
-        "test/workflow.test.js"
+        "src/ownerFileTransport.js",
+        "test/ownerFileTransport.test.js",
+        ".github/workflows/owner-file-intake.yml",
+        "src/circulationLinkage.js",
+        "src/testCadenceCoreLegacy.js",
+        "test/_testCadenceCore.js",
+        "governingDocuments/owner-file-transport.md",
+        "test/workflow.test.js",
+        "governingDocuments/known-bugs/KNOWN-BUGS.json"
       ],
-      "rule": "Exclusive development repair; owner-authorized narrow promotion artifact only."
+      "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -366,61 +375,36 @@
         "owner": "owner-or-custody-administrator"
       }
     ],
-    "nextAction": "Verify hosted checks at the routing-repair tip. Then obtain separately authorized governed deployment of the two manual workflows; preserve existing raw/vetted state.",
+    "nextAction": "Integrate tested proposal and verify all required gates; never restart R2, clear live locks or promote evidence.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
-        "Reused completed pilot run 37567402124 without repeating or changing live queues. R2 remains passed.",
-        "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
-        "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
-        "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
-        "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities.",
-        "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed.",
-        "Verified development 3020d19fd0eeca122b61eafae059f23dcb76d20a hosted routing/Code/request gates; security CRU-0006 still failed HTTP 403. Main remains f3217f922d2aaa88cda7873220553be2a3b6121c; release remains 1bc3d0a8c1365d345bdf0b02b5b00b7882aed366.",
-        "Owner explicitly authorized narrow manual workflow deployment through release -> main and security/PR-monitor credential repair. No broad development merge is authorized.",
-        "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
-        "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
-        "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
-        "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses."
+        "Tested separate transport proposal: six focused tests and disposable import of five attached PDFs plus two supporting catalogs.",
+        "Prior mutation claim is already released in mutationClaims; preserve its stale activePlan context in ownerFileTransportPriorPlan.",
+        "Integrated candidate-only encrypted transport and exact-request manual workflow; full local suite 1015/1015, zero skipped; change-impact 181/181; required local governance/privacy/security checks passed.",
+        "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e."
       ],
       "remaining": [
-        "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
-        "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
-        "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
-        "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
-        "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
-      ],
-      "verification": [
-        "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
-        "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
-        "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
-        "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
-        "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
-        "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
-        "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested.",
-        "Monitor compatibility focused tests: 46/46, zero skipped.",
-        "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending.",
-        "Read-only App workflow integration: focused monitor/workflow tests 46/46, zero skipped, after distinguishing read-only monitor installation scope from custody-clone transport. Workflow lint passes 28 workflows.",
-        "Full local governed proof: 1009/1009, zero skipped, 40.322 seconds. Hosted Windows 24 job 112638868079 on 2dc9cb07a5aa1135f4ec1216b83fd4c0a90ee3b0 passed and reported security audit 1 repository, 0 issues at 05:01:45Z and 05:02:31Z."
+        "Exact-head hosted development checks and independent review.",
+        "Authorized narrow default workflow deployment.",
+        "Existing-key authenticated request staging and real intake receipt."
       ]
     },
     "filesTouched": [
-      ".github/workflows/raw-custody-publisher.yml",
       "AI-HANDOFF.json",
       "DEVLOG.md",
-      "README.md",
-      "src/rawCustodyPublisher.js",
-      "src/hostedSourceBundle.js",
+      "src/ownerFileTransport.js",
+      "test/ownerFileTransport.test.js",
+      ".github/workflows/owner-file-intake.yml",
       "src/circulationLinkage.js",
       "src/testCadenceCoreLegacy.js",
       "test/_testCadenceCore.js",
-      "test/rawCustodyPublisher.test.js",
+      "governingDocuments/owner-file-transport.md",
       "test/workflow.test.js",
-      "governingDocuments/known-bugs/KNOWN-BUGS.json",
-      "package-lock.json"
+      "governingDocuments/known-bugs/KNOWN-BUGS.json"
     ],
     "rawCustodyAuthorization": {
       "ownerInstruction": "can you do it all in order it should be",
@@ -435,9 +419,10 @@
     },
     "promotionAuthorization": {
       "authorized": true,
-      "prompt": "Promote it then work The security and PR-monitor credentials",
-      "scope": "Narrow deployment of the two manual raw/R8 workflows and necessary governance/test/documentation compatibility; preserves unrelated main content, queues, keys and verification gates.",
-      "path": "release -> main",
+      "ownerReply": "Yes",
+      "proposal": "Authorize takeover of si-promotion-credential-repair-20261007 and deployment of this intake workflow through the verified development -> release -> main path?",
+      "scope": "Narrow owner-file-intake.yml deployment and required governance compatibility only; no broad development promotion.",
+      "path": "development -> release -> main",
       "directMainPushAllowed": false,
       "broadDevelopmentPromotionAllowed": false
     }
@@ -1316,6 +1301,35 @@
       "acquiredAt": "2026-10-07T05:01:46.129Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-07T05:08:16.521Z"
+    },
+    {
+      "taskId": "owner-file-transport-20261008",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/ownerFileTransport.js",
+          "test/ownerFileTransport.test.js",
+          ".github/workflows/owner-file-intake.yml",
+          "src/circulationLinkage.js",
+          "src/testCadenceCoreLegacy.js",
+          "test/_testCadenceCore.js",
+          "governingDocuments/owner-file-transport.md",
+          "test/workflow.test.js",
+          "governingDocuments/known-bugs/KNOWN-BUGS.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-authorized intake repair and narrow governed workflow deployment",
+      "status": "active",
+      "acquiredAt": "2026-10-08T04:06:58.715Z",
+      "handedOffTo": null,
+      "releasedAt": null
     }
   ],
   "ownerDecisions": [
@@ -1610,5 +1624,249 @@
       "Require CRU-0006 to remain fail-closed if neither secret has sufficient access."
     ],
     "authority": "No credential value is read, copied, logged, or broadened; no security requirement is relaxed."
+  },
+  "ownerFileTransportPriorPlan": {
+    "agent": "Codex",
+    "objective": "Narrow governed deployment of manual SI/R8 workflows and repair/verify security and PR-monitor credential access without broad promotion or weakened gates.",
+    "currentPrompt": "Promote it then work The security and PR-monitor credentials",
+    "executionMode": {
+      "mode": "work",
+      "agent": "Codex",
+      "purpose": "Implement and verify ordered SI learning prerequisites.",
+      "selectionReason": "Repository and durable-custody implementation.",
+      "distinction": "Execution mode is separate from agent identity, workflow, repository, and branch authority; it grants no proof or promotion permission."
+    },
+    "taskRouting": {
+      "category": "crucible-core",
+      "repositoryId": 1344890806,
+      "repository": "6076446993/The-Crucible",
+      "branch": "development",
+      "reason": "Affected paths select crucible-core.",
+      "explicitOverride": false,
+      "selectedAt": "2026-10-07T05:02:26.513Z",
+      "promptSha256": "f023f4c62c8b9c48904696c342b77a9b38f9ce8363e0958118e54d360fb5dc1d",
+      "affectedPathsSha256": "2b7850c0eec875b58f23d405df3c04b1061373d5a6836d07b4c87c8c9dcedc41"
+    },
+    "steps": [
+      "Refresh exact branch and check state.",
+      "Prepare narrow main-based manual workflow deployment and required boundary/documentation updates; preserve unrelated main content.",
+      "Repair existing monitor secret wiring and verify hosted access.",
+      "Inspect/correct organization-scoped security and monitor credentials using GitHub secret storage; never log values.",
+      "Promote through release-to-main only when required checks pass, then resume bounded intake through ordinary gates."
+    ],
+    "status": "active",
+    "startedAt": "2026-10-07T04:11:06.782Z",
+    "lastUpdatedAt": "2026-10-07T04:47:46.761Z",
+    "currentStep": "Await owner creation/installation and private-key secret entry for the read-only monitor App; test the prepared authentication integration and refresh security/CI before promotion.",
+    "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
+    "ownership": {
+      "currentClaim": "si-promotion-credential-repair-20261007",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "mutationScope": [
+        "AI-HANDOFF.json",
+        "DEVLOG.md",
+        "README.md",
+        ".github/workflows/nexus-check-monitor.yml",
+        "test/workflow.test.js"
+      ],
+      "rule": "Exclusive development repair; owner-authorized narrow promotion artifact only."
+    },
+    "trustedBoundary": {
+      "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
+      "branch": "development",
+      "establishedBy": "hosted Crucible Self-Test",
+      "evidence": [
+        "Eighteen of eighteen Self-Test legs green: push run 34926863414 and pull-request run 34926865280.",
+        "Local: npm run test:all 862/862; thirteen governance gates and git diff --check exit 0."
+      ],
+      "note": "Commits d9a91da through d21be9a land after this boundary and are the delta a successor must verify.",
+      "establishedAt": "2026-09-15T04:03:54Z",
+      "supersededBy": null
+    },
+    "previousAgent": {
+      "agent": "Codex",
+      "provider": "openai",
+      "handedOverAt": "2026-09-15T09:20:00Z",
+      "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
+    },
+    "verificationStatus": "1008/1008 local tests pass; no new live intake, SI verification or R3/R8 pass is claimed.",
+    "historicalBlockers": [
+      {
+        "id": "oversight-refusal-was-not-honoured",
+        "summary": "Oversight recorded linked-source:5ab0eabad5e6714491c75fabab25d6afdf54218c4bdbfe705592c08de4baef62 quarantined for prompt-injection content, and the corpus it published stores that content at contentSha256 79719cd5979b6351fd2759205433a8311b7a54db821c98fd4e6175937b952a37 anyway. No other source review shares that hash, so this is not one file shared by a duplicate. The refusal was published; the bytes were published with it. That is a custody failure in the independent vetting path rather than in Crucible, and it is the sharpest open item in the pipeline. Crucible side is correct and unchanged: the content-absence check refused to credit it, so no gate moved.",
+        "owner": "user-or-oversight"
+      },
+      {
+        "id": "forty-five-documents-match-the-exfiltration-pattern",
+        "summary": "Run 35067259424 broke the 60 down as 45x (?:reveal|exfiltrat|upload).{0,30}(?:secret|credential|token|key), 17x (?:execute|run).{0,20}(?:command|shell|powershell|bash), 1x system prompt. The over-breadth explanation this session offered covers at most 18; the dominant 45 match the specific pattern, which the documentation samples do not match. Documentation about credential hygiene would match it too, so this is not yet a finding either way - it is the next thing to look at, and it is sharper than the earlier record implied. The report names source ids grouped by pattern so the documents can be opened in vetted custody; no content is quoted into the public run log, because that pattern fires exactly where a real credential would sit. Whether to narrow the pattern list remains an owner safety decision, and it should be taken after looking at those documents rather than before.",
+        "owner": "user-or-claude"
+      },
+      {
+        "id": "consult-not-dispatchable-until-it-reaches-main",
+        "summary": "council-consult.yml is on development and GitHub answers 404 to its dispatch, because workflow_dispatch is only accepted for a workflow present on the default branch, which is main. Measured rather than assumed: every dispatchable workflow here is on main - hosted-learning-proof.yml, model-pointer-research.yml and perplexity-research.yml, at 140, 7 and 1 runs - while council-consult.yml is unknown to the Actions API entirely. A push trigger would not fix it and is refused anyway, because a push-triggered consult egresses on every commit. So the workflow is correct and in place but cannot run until the file reaches main, and reaching main is a promotion that CONSTITUTION.md Promotion Boundary says no AI and no council authorizes. Note the conflict before choosing: promoting all of development would also carry learning-scope changes to main while R8 is pending, against the standing constraint that they stay blocked until every learning gate passes. The narrow option is to carry this one workflow file to main through release, which keeps the learning scope where it is.",
+        "owner": "user"
+      },
+      {
+        "id": "nim-model-never-called",
+        "summary": "nvidia/nemotron-3-nano-30b-a3b has still never been called, and the owner reports doubting the code is finished rather than the model. Crucible own consult path reads complete - createConfiguredAdapters, a real bearer chat adapter with redaction, MultiAiOrchestrator.distribute, corroborate, deliberationFromDistribution - and it fails closed with CRU-0034 and exit 1 when no provider is configured, verified locally. What has never happened is a successful call. The consult workflow is the first thing that will make one on the existing secret, so dispatching it is the test: it either returns a deliberation or fails with a coded error naming the stage.",
+        "owner": "claude"
+      },
+      {
+        "id": "council-unreachable-from-this-session",
+        "summary": "The deployed council cannot be reached from this session and no URL or token changes that: the environment network policy answers 403 to CONNECT for onrender.com, and its allow-list covers Anthropic APIs, package registries and GitHub only. The same policy is why NVIDIA NIM cannot be called from here either. The consult therefore runs on a GitHub runner, which is what the new workflow is for. Configuring the council as an MCP server is for the owner Claude Code on a host with open egress: Streamable HTTP at <deployed-host>/mcp with Authorization: Bearer AI_COLLABORATION_BEARER_TOKEN, the host readable from the Render dashboard or the registered ChatGPT app, since the repository does not record it.",
+        "owner": "user"
+      },
+      {
+        "id": "fake-harness-knowledge-version-still-active",
+        "summary": "Active knowledge v1 in the hosted durable store is candidate cycle-92917a3a1bac7b53ce800d3a08e78b51, boundary \"Node.js ordinary dense arrays of numbers\" - verbatim the module constant of the hardcoded harness deleted at 85d3b59. Deleting the harness did not retract what it promoted. R5 still counts it as a verified knowledge version. Every active version is now marked corpus-backed or not and an unbacked one warns, but nothing is retracted, because retracting durable learning state is an owner decision.",
+        "owner": "user"
+      },
+      {
+        "id": "r4-r7-measured-once",
+        "summary": "R4-R7 read satisfied on two runs, but the experiment behind them ran exactly once. Run 35062311534 confirms run 35013415132 promotion from the durable store rather than from an absent log line, which is stronger evidence - but it restored knowledge instead of learning, so it did not repeat the measurement, and which language harness produced the version is in neither log. They stay reported rather than passed.",
+        "owner": "claude"
+      },
+      {
+        "id": "r3-topics-not-due",
+        "summary": "The pinned discovery model nvidia/nemotron-3-nano-30b-a3b has never been called. All 16 topics consumed their daily slots at 2026-09-15T08:32:29Z against the withdrawn model, so discovery is a no-op until roughly 24 hours later unless discovery state is discarded.",
+        "owner": "user"
+      },
+      {
+        "id": "plan-6-07-partially-blocked",
+        "summary": "This entry records only the factual continuity fields of the owner-supplied 6:07 plan Step 2B. Step 2A (a trusted-verification-boundary principle in AI-collaboration- ORCHESTRATOR-POLICY.json), Step 2C (automated council invocation) and Step 2D (usage-limit continuation) were refused by the session permission classifier as externally-sourced governance content and are NOT installed. The drafted text was handed to the owner for manual review instead.",
+        "owner": "user"
+      },
+      {
+        "id": "owner-source-rescan-pending",
+        "summary": "The 14-identity owner source rescan remains pending and unperformed while R4 custody or retention is blocked. Content hashes and extraction-window history are to be reused; source bytes are not duplicated, custody is not reset, and unchanged windows are not re-extracted merely to call it a rescan.",
+        "owner": "user-or-oversight"
+      },
+      {
+        "id": "five-source-durable-custody-blocked",
+        "summary": "Four authorized public captures and 123 extracted candidate assertions exist only in the project-bound local intake checkpoint. This Crucible checkout has no authorized write path into the independent Learning-Worker, Crucible-Learning-State, Crucible-Vetted-Learning-State, or Vetting-and-Governance-oversite custody repositories. No repository boundary was bypassed and no local candidate was represented as submitted to vetted custody.",
+        "owner": "user-or-custody-administrator"
+      },
+      {
+        "id": "authorized-pdf-native-parser-no-pages",
+        "summary": "The Hundred-Page Machine Learning Book chapter-one PDF is an authorized nine-page public draft with SHA-256 f84e6ba775ef707a0223173dd4e7be524c7e516dd67d879d9ac775dd74e70bf2. Native owner-file intake returned OPS-0043 no_pages even though pdfinfo and pdftotext read it. The exact bytes remain preserved; the deterministic text derivative SHA-256 ce5786cab91691b0325c817a3c986ba1819eff6bea9d67052a6f4ecd0153d3fe was admitted as candidate input. This workaround is not a verification result.",
+        "owner": "crucible-learning-maintainer"
+      },
+      {
+        "id": "agentic-ai-game-plan-source-ineligible",
+        "summary": "Only retailer or review metadata was found for Agentic AI Game Plan. No author-hosted, publisher-hosted, companion, or explicitly authorized excerpt material was located, so the source was rejected before intake rather than scraped, quarantined, or inferred from third-party listings.",
+        "owner": "source-research"
+      }
+    ],
+    "blockers": [
+      {
+        "id": "r3-live-discovery-aborted",
+        "summary": "Latest discovery run 37565999549 has zero searched/completed/cited/admitted URLs; nonzero real provider discovery/admission evidence remains absent.",
+        "owner": "provider-or-owner"
+      },
+      {
+        "id": "r8-executable-live-proof-missing",
+        "summary": "Current custody enforces oversight quarantine and the durable proof credits every R8 behavior except executable-content refusal. The governed canary publisher has not run and no executable bytes may be fabricated or admitted merely to complete the gate.",
+        "owner": "owner-or-custody-administrator"
+      },
+      {
+        "id": "owner-source-rescan-pending",
+        "summary": "Eight of 14 exact owner hashes are present in current vetted custody. Six are absent: 84d73c44d1f22e6b451a15b31c8f6e520fca6d09db82cfa56999920de1c7d693, c183f3ecfac24175a58921c171b1f5749cf84db72ceeac0752c44ef09bf56991, cf6cf8d31f6e6e0a4ec7dd2eecfa4ce9adb620db727d6280a2bb7195d2f95dfb, 29a6c35ca175ce7b67de420b9637db20ac161cf22397c23c31482067f4a63c85, fccaca99a230233486b689d774d41522dadb50260579d9cba8b591485445fb75, and 03ddee53d6e77d35b75c076169b0f60a57129e64d451b523ce72aff51b4cf8cc. No exact retained candidate IDs or full gate outcomes exist for the four new identities' 58 local candidates.",
+        "owner": "user-or-oversight"
+      },
+      {
+        "id": "exact-tip-ci-red",
+        "summary": "Hosted Administration-read access and private PR-monitor visibility remain unproved; Windows CRLF assertion is repaired locally and awaits exact-tip hosted verification.",
+        "owner": "owner-or-repository-administrator"
+      },
+      {
+        "id": "fake-harness-knowledge-version-still-active",
+        "summary": "Active v1 candidate cycle-92917a3a1bac7b53ce800d3a08e78b51 remains not corpus-backed. It is not the basis for the R5 pass, and retracting it remains an owner decision.",
+        "owner": "user"
+      },
+      {
+        "id": "manual-raw-custody-execution-unavailable",
+        "summary": "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
+        "owner": "owner-or-custody-administrator"
+      }
+    ],
+    "nextAction": "Verify hosted checks at the routing-repair tip. Then obtain separately authorized governed deployment of the two manual workflows; preserve existing raw/vetted state.",
+    "evidenceReferences": {
+      "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
+      "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
+    },
+    "handoffNotes": {
+      "completed": [
+        "Reused completed pilot run 37567402124 without repeating or changing live queues. R2 remains passed.",
+        "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
+        "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
+        "Full Orchestrator proof passed 1008/1008 with zero skipped after local dependency restoration and routing repair. Governed known bug KB-local-807d25e632 passed its 43-test retest.",
+        "Patched locked source-map-js 1.2.1 to 1.2.2 for GHSA-68fv-2mgg-jv7q; npm audit reports zero vulnerabilities.",
+        "Hosted first implementation 3292324 failed at unregistered package-lock.json. Registered only that root lockfile as core development work; focused tests pass 36/36 and original 13-path commit now passes the push boundary under the repaired registry. No SI runtime code changed.",
+        "Verified development 3020d19fd0eeca122b61eafae059f23dcb76d20a hosted routing/Code/request gates; security CRU-0006 still failed HTTP 403. Main remains f3217f922d2aaa88cda7873220553be2a3b6121c; release remains 1bc3d0a8c1365d345bdf0b02b5b00b7882aed366.",
+        "Owner explicitly authorized narrow manual workflow deployment through release -> main and security/PR-monitor credential repair. No broad development merge is authorized.",
+        "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
+        "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
+        "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
+        "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses."
+      ],
+      "remaining": [
+        "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
+        "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
+        "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
+        "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
+        "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
+      ],
+      "verification": [
+        "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
+        "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
+        "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
+        "Last disposable SI pilot: 9 admitted, 8 retrieved, 7 extraction-complete, 1 MIT PDF pending, 1 Oxford HTTP403, 68 Insufficient Evidence candidates; no durable candidate store retained.",
+        "Current evidence: R3 run 37565999549 is a zero-throughput no-op; retained-corpus proof run 37567670244 credits R4-R7 but R8 executable refusal is missing.",
+        "Final staged-tree checks: workflow/docs/validation/clutter/privacy/security/failure-codes/circulation and changed selection 103/103 pass; final metadata/workflow/route tests 72/72 pass.",
+        "Run 37571816784 job 112631911181 restored unchanged corpus hashes, confirmed R4-R7 satisfied and R8 pending; no new SI claims were tested.",
+        "Monitor compatibility focused tests: 46/46, zero skipped.",
+        "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending.",
+        "Read-only App workflow integration: focused monitor/workflow tests 46/46, zero skipped, after distinguishing read-only monitor installation scope from custody-clone transport. Workflow lint passes 28 workflows.",
+        "Full local governed proof: 1009/1009, zero skipped, 40.322 seconds. Hosted Windows 24 job 112638868079 on 2dc9cb07a5aa1135f4ec1216b83fd4c0a90ee3b0 passed and reported security audit 1 repository, 0 issues at 05:01:45Z and 05:02:31Z."
+      ]
+    },
+    "filesTouched": [
+      ".github/workflows/raw-custody-publisher.yml",
+      "AI-HANDOFF.json",
+      "DEVLOG.md",
+      "README.md",
+      "src/rawCustodyPublisher.js",
+      "src/hostedSourceBundle.js",
+      "src/circulationLinkage.js",
+      "src/testCadenceCoreLegacy.js",
+      "test/_testCadenceCore.js",
+      "test/rawCustodyPublisher.test.js",
+      "test/workflow.test.js",
+      "governingDocuments/known-bugs/KNOWN-BUGS.json",
+      "package-lock.json"
+    ],
+    "rawCustodyAuthorization": {
+      "ownerInstruction": "can you do it all in order it should be",
+      "context": "Owner accepted the ordered implementation of a general raw custody publisher, bounded SI intake, independent Oversight, ordinary scientific verification, persistence and release-evidence work.",
+      "maximumSources": 9,
+      "sourceRegister": "governingDocuments/synthetic-intelligence-research-register.json",
+      "rawCustodyWrite": "manual authenticated ciphertext-only intake with preservation and rollback checks",
+      "vettedCustodyWrite": false,
+      "automaticTrigger": false,
+      "promotionAuthorized": false,
+      "existingQueuesMayBeCleared": false
+    },
+    "promotionAuthorization": {
+      "authorized": true,
+      "prompt": "Promote it then work The security and PR-monitor credentials",
+      "scope": "Narrow deployment of the two manual raw/R8 workflows and necessary governance/test/documentation compatibility; preserves unrelated main content, queues, keys and verification gates.",
+      "path": "release -> main",
+      "directMainPushAllowed": false,
+      "broadDevelopmentPromotionAllowed": false
+    }
   }
 }

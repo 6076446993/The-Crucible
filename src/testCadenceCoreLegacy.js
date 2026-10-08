@@ -87,6 +87,7 @@ const TEST_MAIN_CATEGORIES = {
     'test/automatedPerplexityResearch.test.js',
     'test/automatedModelPointerResearch.test.js',
     'test/ownerFileIntake.test.js',
+    'test/ownerFileTransport.test.js',
     'test/sourceRetrievalWorker.test.js',
     'test/r8ExecutableCanaryPublisher.test.js',
     'test/rawCustodyPublisher.test.js',
