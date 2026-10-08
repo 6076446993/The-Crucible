@@ -211,3 +211,21 @@ test('a restored queue hash mismatch reports enough to tell different content fr
   const corrupt = build((file) => fs.writeFileSync(file, '{not json'));
   assert.throws(corrupt.run, /unparseable as JSON/);
 });
+
+
+test('rejected decryption closes file descriptors and removes every plaintext attempt before returning', async (t) => {
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-rejected-cleanup-'));
+  t.after(()=>{clearKeys();fs.rmSync(root,{recursive:true,force:true});});clearKeys();
+  const input=path.join(root,'source.txt'),encrypted=path.join(root,'source.enc');
+  fs.writeFileSync(input,'private owner evidence'.repeat(64));
+  const repository='6076446993/The-Crucible',projectId='github:jonathanblunt1214-lgtm/The-Crucible',ref='refs/heads/development';
+  process.env.CRUCIBLE_SOURCE_BUNDLE_KEY=crypto.randomBytes(32).toString('base64');
+  await encrypt({input,output:encrypted,projectId,repository,ref});
+  process.env.CRUCIBLE_SOURCE_BUNDLE_KEY=crypto.randomBytes(32).toString('base64');
+  for(let attempt=0;attempt<8;attempt++) {
+    const target=path.join(root,'target-'+attempt);fs.mkdirSync(target);
+    await assert.rejects(decrypt({input:encrypted,output:path.join(target,'plaintext'),repository,ref,keyNames:['CRUCIBLE_SOURCE_BUNDLE_KEY']}),/No configured key could authenticate/);
+    assert.deepEqual(fs.readdirSync(target),[],'no authenticated output or partial plaintext may remain');
+    fs.rmSync(target,{recursive:true}); // On Windows this also verifies the file handle is closed.
+  }
+});

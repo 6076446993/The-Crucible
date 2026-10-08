@@ -4,6 +4,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { pipeline } = require('node:stream/promises');
+const { operationalError } = require('./failureCodes');
 
 const MAGIC = 'CRUCIBLE-SOURCE-BUNDLE-V1';
 const TAG_BYTES = 16;
@@ -146,13 +147,20 @@ async function decrypt({ input, output, repository, ref, keyNames = KEY_VARIABLE
     const staging = `${output}.${process.pid}.${crypto.randomUUID()}.attempt`;
     try {
       const decipher = crypto.createDecipheriv('aes-256-gcm', candidate.key, Buffer.from(header.iv, 'base64')); decipher.setAAD(encoded); decipher.setAuthTag(tag);
-      await pipeline(fs.createReadStream(input,{start:encoded.length,end:size-TAG_BYTES-1}),decipher,fs.createWriteStream(staging,{flags:'wx',mode:0o600}));
+      const reader = fs.createReadStream(input,{start:encoded.length,end:size-TAG_BYTES-1});
+      const writer = fs.createWriteStream(staging,{flags:'wx',mode:0o600});
+      // Authentication can fail while a file open/close is still outstanding. Wait
+      // for actual descriptor closure before deleting plaintext or trying another key.
+      const closed = [reader, writer].map((stream) => new Promise((resolve) => stream.once('close', resolve)));
+      try { await pipeline(reader, decipher, writer); }
+      finally { reader.destroy(); writer.destroy(); await Promise.all(closed); }
       if (fs.statSync(staging).size !== header.plaintextBytes || sha256File(staging) !== header.plaintextSha256) throw new Error('decrypted content does not match the size and hash its header commits to');
       fs.renameSync(staging, output);
       return { ...header, decryptedWith: candidate.name, provenance: provenanceFor(candidate.name), keysTried: attempts.map((item) => item.name).concat(candidate.name) };
     } catch (error) {
       // A failed attempt leaves nothing behind: a half-written plaintext is still plaintext.
-      try { fs.rmSync(staging, { force: true }); } catch { /* the staging file was never created */ }
+      try { await fs.promises.rm(staging, { force: true, recursive: true, maxRetries: 3, retryDelay: 50 }); }
+      catch (cleanupError) { throw operationalError('OPS-0044', `Rejected source-bundle plaintext cleanup failed: ${cleanupError.code || 'unknown filesystem error'}.`); }
       attempts.push({ name: candidate.name, message: String(error.message || error) });
     }
   }

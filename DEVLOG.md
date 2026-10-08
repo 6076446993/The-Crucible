@@ -133,6 +133,9 @@ Plain-language summary: The owner authorized taking over the intake repair and n
 - Hosted durable run 37726684743 independently restored unchanged queue 4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f and learning c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37; R2 passed, R8 remains pending executable-content.
 - Main-based narrow package full suite 932/932; generated failure retest 25/25, zero skipped. Corrected legacy registration-branch assertion to authorized release destination; local loopback test uses NODE_USE_ENV_PROXY=0 to avoid runner proxy interception. Package hashes bound to exactly six paths; no source-retrieval code or broader scientific delta included.
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+- Hosted Windows Node 20 job 113147788226 exposed rejected-decryption EPERM in ownerFileTransport test during final workload. Corrected hostedSourceBundle to await actual reader/writer closure, require bounded plaintext removal, and fail closed if cleanup fails. Added eight real wrong-key cycles asserting immediate empty/removable directories; authentication checks unchanged.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+- Closed-descriptor/rejected-plaintext cleanup focused tests 16/16 and full change-impact 1016/1016, zero skipped; coordination/privacy/security/circulation/failure/commit checks passed — finished 2026-10-08T04:33:35.233Z, exit 0.
 - Mutation claim owner-file-transport-20261008 remains active for exact-head hosted verification and authorized narrow deployment.
 
 ### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
