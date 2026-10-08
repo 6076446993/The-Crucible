@@ -124,7 +124,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-08T04:33:35.233Z"
+    "lastActionAt": "2026-10-08T04:58:38.545Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -219,11 +219,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-08T04:32:35.945Z",
+      "selectedAt": "2026-10-08T04:56:50.460Z",
       "promptSha256": "1a156ce6056d0229f9463c1992e0b2feddefd3c6a979f4d0b2de971601541588",
-      "affectedPathsSha256": "3bb830c16f5ead260323cdefe0c038bc5d1b24a0cbf4c590e4350dcf864d459d"
+      "affectedPathsSha256": "12483abbe6826f0c0cccb7d9f5251a559dab2b09c3f13a12ed6e089fb0498b1d"
     },
     "steps": [
       "Publish takeover-ready plan and preserve prior repair work.",
@@ -234,7 +234,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-08T04:33:35.233Z",
+    "lastUpdatedAt": "2026-10-08T04:58:38.545Z",
     "currentStep": 2,
     "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
     "ownership": {
@@ -259,7 +259,8 @@
         "governingDocuments/owner-file-intake-release.json",
         "governingDocuments/owner-file-intake-main-compatibility.patch",
         "src/hostedSourceBundle.js",
-        "test/hostedSourceBundle.test.js"
+        "test/hostedSourceBundle.test.js",
+        ".github/workflows/self-test.yml"
       ],
       "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
     },
@@ -393,20 +394,20 @@
         "Integrated candidate-only encrypted transport and exact-request manual workflow; full local suite 1015/1015, zero skipped; change-impact 181/181; required local governance/privacy/security checks passed.",
         "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e.",
         "Prepared narrow main-based six-file package (workflow, two required tests, handoff/log and retained failure ledger); local full suite 932/932 and failure retest 25/25 passed, zero skipped.",
-        "Rejected-decryption descriptor/cleanup repair passed focused 16/16 and full change-impact suite 1016/1016, zero skipped; circulation and failure-code gates unchanged."
+        "Rejected-decryption descriptor/cleanup repair passed focused 16/16 and full change-impact suite 1016/1016, zero skipped; circulation and failure-code gates unchanged.",
+        "c750ac6: eight matrix jobs passed; Windows Node 20 twice passed all tests/audits/precheck but the 10-minute wrapper cancelled the remaining mandatory workload.",
+        "Whole-job budget adjustment passed workflow tests 37/37 and local full change-impact 1016/1016; 4-minute workload command deadlines, two workers/two cycles and all source tests retained."
       ],
       "remaining": [
-        "Exact-head hosted verification of closed-stream/failed-decryption cleanup repair.",
-        "Authorized narrow default workflow deployment.",
-        "Existing-key authenticated request staging and actual intake receipt."
+        "Exact-head completion with sufficient whole-job scheduling budget; unchanged 4-minute per-command deadline, workers/cycles and test coverage.",
+        "Authorized narrow default workflow registration.",
+        "Existing-key authenticated live intake and actual receipt."
       ]
     },
     "filesTouched": [
       "AI-HANDOFF.json",
       "DEVLOG.md",
-      "src/hostedSourceBundle.js",
-      "test/hostedSourceBundle.test.js",
-      "governingDocuments/owner-file-intake-release.json"
+      ".github/workflows/self-test.yml"
     ],
     "rawCustodyAuthorization": {
       "ownerInstruction": "can you do it all in order it should be",
@@ -1327,7 +1328,8 @@
           "governingDocuments/owner-file-intake-release.json",
           "governingDocuments/owner-file-intake-main-compatibility.patch",
           "src/hostedSourceBundle.js",
-          "test/hostedSourceBundle.test.js"
+          "test/hostedSourceBundle.test.js",
+          ".github/workflows/self-test.yml"
         ],
         "regions": []
       },

@@ -25,7 +25,9 @@ jobs:
         os: [ubuntu-latest, windows-2022, macos-latest]
         node: [20, 22, 24]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    # Covers install/audits/full prechecks plus both required workload cycles.
+    # The configured 4-minute deadline per workload command remains unchanged.
+    timeout-minutes: 15
     env:
       GITHUB_TOKEN: ${{ github.token }}
       CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.CRUCIBLE_SECURITY_READ_TOKEN || secrets.SECURITY_READ_TOKEN }}
