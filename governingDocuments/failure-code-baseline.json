@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 2,
+  "recordedAt": "2026-09-29",
+  "uncodedThrowSites": 0,
+  "codedThrowSites": 14,
+  "rule": "This ratchet now measures only legacy non-classification CRU throw sites. Ordinary Error throws represent operational/validation states and MUST NOT be forced into CRU. The legacy count may fall and may never rise; new actual bug/error classes must use an active CRU classification.",
+  "byFile": {}
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "status": "inactive",
+  "authorizationId": "owner-issued-id",
+  "repository": "owner/repository",
+  "pullRequest": 0,
+  "headSha": "0000000000000000000000000000000000000000",
+  "baseBranch": "development",
+  "allowedFailureCodes": ["CRU-0008"],
+  "allowedOperations": ["development-branch-repair", "commit", "push", "retest"],
+  "issuedAt": "2026-01-01T00:00:00.000Z",
+  "expiresAt": "2026-01-01T01:00:00.000Z",
+  "scopeSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "decision": "STOP",
+  "reason": "Template only. An active authorization must be owner-issued and signed.",
+  "oversightSignature": "",
+  "ownerSignature": ""
+}

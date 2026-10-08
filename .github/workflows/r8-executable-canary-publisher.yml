@@ -1,0 +1,15 @@
+name: Publish R8 executable quarantine evidence
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  register:
+    if: github.repository == '6076446993/The-Crucible'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm protected workflow registration
+        run: echo 'R8 publisher registered; dispatch the reviewed development ref for execution.'

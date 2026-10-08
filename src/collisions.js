@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const { assertWellFormedApiUrl, assertSafeRepository } = require('./apiGuard');
+const { isLockedPullRequest } = require('./nexusCheckMonitor');
 
 async function githubJson(url, token, fetchImpl) {
   assertWellFormedApiUrl(url);
@@ -44,6 +45,7 @@ async function auditCollisions(environment = process.env, fetchImpl = globalThis
   const findings = [];
   for (const pull of open) {
     if (pull.number === current) continue;
+    if (isLockedPullRequest(pull, environment.CRUCIBLE_LOCKED_PR_NUMBERS ? environment.CRUCIBLE_LOCKED_PR_NUMBERS.split(',') : [])) continue;
     if ((pull.head?.ref && pull.head.ref === event.pull_request?.base?.ref) || (pull.base?.ref && pull.base.ref === event.pull_request?.head?.ref)) continue;
     const overlap = (await pullFiles(apiBase, repository, pull.number, token, fetchImpl)).filter((file) => currentFiles.has(file.path) && patchesOverlap(currentFiles.get(file.path).patch, file.patch));
     if (overlap.length) {

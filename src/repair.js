@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const { fixCommit } = require('./commit');
 const { scrubPrivacy } = require('./privacy');
 const { fixWorkflowPermissions } = require('./workflowLint');
+const { snapshotFiles, recordRepairObservations } = require('./repairLearningGateway');
 
 // This module exists only to keep The Crucible's own repository green. It
 // must never be reachable for a project that adopts The Crucible: the guard
@@ -10,12 +11,19 @@ const { fixWorkflowPermissions } = require('./workflowLint');
 const ENGINE_PROJECT_ID = 'the-crucible';
 const ENGINE_GITHUB_IDENTITY = 'jonathanblunt1214-lgtm';
 const ENGINE_REPOSITORY = `${ENGINE_GITHUB_IDENTITY}/The-Crucible`;
+// The engine's GitHub repository moved to the 6076446993 owner. Keep the
+// legacy repository as the canonical privacy identity while accepting only
+// this exact host-side alias in Actions; arbitrary adopters remain rejected.
+const ENGINE_REPOSITORY_ALIASES = new Set([
+  ENGINE_REPOSITORY.toLowerCase(),
+  '6076446993/The-Crucible'.toLowerCase(),
+]);
 
 function assertInternalProject(config, environment = process.env) {
   const matchesProject = config.project.projectId === ENGINE_PROJECT_ID;
   const matchesIdentity = config.privacy.githubIdentity === ENGINE_GITHUB_IDENTITY;
   const matchesRepository = environment.GITHUB_ACTIONS !== 'true'
-    || (environment.GITHUB_REPOSITORY || '').toLowerCase() === ENGINE_REPOSITORY.toLowerCase();
+    || ENGINE_REPOSITORY_ALIASES.has((environment.GITHUB_REPOSITORY || '').toLowerCase());
   if (!matchesProject || !matchesIdentity || !matchesRepository) {
     throw new Error(`The internal repair system only runs against The Crucible engine's own repository (project.projectId "${ENGINE_PROJECT_ID}", privacy.githubIdentity "${ENGINE_GITHUB_IDENTITY}", and in GitHub Actions GITHUB_REPOSITORY "${ENGINE_REPOSITORY}"). It never modifies a project that adopts The Crucible, even when this code is run locally against another checkout.`);
   }
@@ -28,8 +36,20 @@ function assertInternalProject(config, environment = process.env) {
 // it never stages, commits, or pushes, and it cannot repair logic bugs,
 // failing tests, or anything requiring human judgment.
 function repairInternalChecks(root, config, options = {}) {
-  assertInternalProject(config, options.environment || process.env);
+  const environment = options.environment || process.env;
+  assertInternalProject(config, environment);
+  const recordRepairOutcome = (outcome, actual, changed = []) => {
+    if (!options.outcomeRecorder) return;
+    const at = (options.observedAt || (() => new Date().toISOString()))();
+    options.outcomeRecorder.record({
+      projectId:config.project.projectId, outcomeId:`repair:${outcome}:${options.repairCandidateId || 'unclassified'}:${environment.GITHUB_SHA || 'working-tree'}:${at}`,
+      lifecycle:'repair', outcome, failureCode:options.failureCode || null, canonicalFailureId:options.canonicalFailureId || null,
+      repairCandidateId:options.repairCandidateId || null, changedPaths:changed, completedChecks:options.completedChecks || [],
+      expected:'repair completes and its declared validation passes', actual, observedAt:at,
+    });
+  };
   const ref = options.ref || '--cached';
+  const before = snapshotFiles(root);
   const privacy = scrubPrivacy(root, config);
   const workflows = fixWorkflowPermissions(root, ['templates']);
   let commit = { changed: [], review: [] };
@@ -40,7 +60,25 @@ function repairInternalChecks(root, config, options = {}) {
     skipReason = 'Commit Gate auto-fix only applies to staged working-tree changes, not already-committed history. Run "npm run repair" locally, before committing, to apply it.';
   }
   const changed = [...new Set([...privacy.changed, ...workflows.changed, ...commit.changed])];
-  return { changed, removedPermissions: workflows.removed, remaining: commit.review || [], skipReason };
+  const learning = recordRepairObservations({
+    root,
+    learningRoot: options.learningRoot || null,
+    projectId: config.project.projectId,
+    repository: environment.GITHUB_REPOSITORY || ENGINE_REPOSITORY,
+    commitSha: environment.GITHUB_SHA || (ref === '--cached' ? 'working-tree' : ref),
+    changed,
+    operation: 'internal-repair',
+    failureCode: options.failureCode || null,
+    canonicalFailureId: options.canonicalFailureId || null,
+    before,
+  });
+  const validationPassed = typeof options.validateRepair === 'function' ? options.validateRepair({ root, changed, privacy, workflows, commit, learning }) === true : (commit.review || []).length === 0;
+  if (!validationPassed) {
+    recordRepairOutcome('repair-failed', 'repair action completed but declared validation did not pass', changed);
+  } else {
+    recordRepairOutcome('repair-succeeded', 'repair action and declared validation passed', changed);
+  }
+  return { changed, removedPermissions: workflows.removed, remaining: commit.review || [], skipReason, learning, validationPassed };
 }
 
 function formatReport(result) {
