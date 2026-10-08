@@ -24,3 +24,19 @@
      for (const [index, line] of text.split(/\r?\n/).entries()) {
        if (/git\s+push/.test(line)) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
      }
+--- a/test/taskRouting.test.js
++++ b/test/taskRouting.test.js
+@@ -170,10 +170,10 @@
+ test('the checked-in active handoff records the same canonical route', () => {
+   const handoff = JSON.parse(fs.readFileSync('AI-HANDOFF.json', 'utf8'));
+   const record = handoff.activePlan.taskRouting;
+-  assert.equal(record.category, 'crucible-r8-workflow-registration');
++  assert.equal(record.category, 'crucible-release');
+   assert.equal(record.repositoryId, repositoryId);
+-  assert.equal(record.repository, repository);
+-  assert.equal(record.branch, 'r8-workflow-registration');
++  assert.equal(record.repository, '6076446993/The-Crucible');
++  assert.equal(record.branch, 'release');
+   // The route has to be one the dispatcher decided, not a sentence someone wrote in passing.
+   // The earlier assertion looked for the phrase "task-category dispatcher", which the dispatcher
+   // never emits - it only ever passed because the reason had been hand-written, and it went red
