@@ -136,6 +136,9 @@ Plain-language summary: The owner authorized taking over the intake repair and n
 - Hosted Windows Node 20 job 113147788226 exposed rejected-decryption EPERM in ownerFileTransport test during final workload. Corrected hostedSourceBundle to await actual reader/writer closure, require bounded plaintext removal, and fail closed if cleanup fails. Added eight real wrong-key cycles asserting immediate empty/removable directories; authentication checks unchanged.
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
 - Closed-descriptor/rejected-plaintext cleanup focused tests 16/16 and full change-impact 1016/1016, zero skipped; coordination/privacy/security/circulation/failure/commit checks passed — finished 2026-10-08T04:33:35.233Z, exit 0.
+- Windows Node 20 job 113150692015 and retry 113153462937 both passed actual tests/audits/precheck but the 10-minute whole-job wrapper cancelled required workload. Expanded only that scheduling envelope to 15 minutes; retained two workers/two cycles, identical commands/matrix/coverage and 4-minute per-command deadlines. No cancellation is credited as a pass.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Project context selects crucible-core.
+- CI envelope compatibility passed workflow tests 37/37, full change-impact 1016/1016 and workflow/coordination/privacy/security/commit checks, zero skipped — finished 2026-10-08T04:58:38.545Z, exit 0.
 - Mutation claim owner-file-transport-20261008 remains active for exact-head hosted verification and authorized narrow deployment.
 
 ### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
