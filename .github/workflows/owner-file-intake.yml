@@ -1,0 +1,88 @@
+name: Governed encrypted owner-file intake
+on:
+  workflow_dispatch:
+    inputs:
+      request_sha256:
+        description: Exact owner-approved SHA-256 of the encrypted request already in private raw custody
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: bounded-raw-custody-publisher-development
+  cancel-in-progress: false
+jobs:
+  intake:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      REQUEST_SHA256: ${{ inputs.request_sha256 }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Restore authenticated raw ciphertext and approved request
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          [[ "$REQUEST_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          test -n "$STATE_DEPLOY_KEY"
+          mkdir -p "$RUNNER_TEMP/owner-intake/ssh"
+          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/owner-intake/ssh/key"
+          chmod 600 "$RUNNER_TEMP/owner-intake/ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/owner-intake/ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/owner-intake/ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/owner-intake/ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/owner-intake/state"
+          node -e 'const f=require("node:fs"),c=require("node:crypto"),p=process.env.RUNNER_TEMP+"/owner-intake/state/owner-intake/"+process.env.REQUEST_SHA256+".enc";const s=f.lstatSync(p);if(!s.isFile()||s.isSymbolicLink()||s.size>192*1024*1024)throw Error("Invalid request file");if(c.createHash("sha256").update(f.readFileSync(p)).digest("hex")!==process.env.REQUEST_SHA256)throw Error("Request hash differs");'
+          git -C "$RUNNER_TEMP/owner-intake/state" rev-parse HEAD > "$RUNNER_TEMP/owner-intake/prior-head"
+          sha256sum "$RUNNER_TEMP/owner-intake/state/encrypted-chunks.json" | cut -d ' ' -f1 > "$RUNNER_TEMP/owner-intake/prior-manifest"
+          node src/hostedSourceBundle.js join --input-root "$RUNNER_TEMP/owner-intake/state" --output "$RUNNER_TEMP/owner-intake/custody.enc" > /dev/null
+      - name: Append candidate-only owner evidence in separate verified snapshot
+        id: prepare
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+        run: |
+          set -euo pipefail
+          node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/owner-intake/custody.enc" --output "$RUNNER_TEMP/owner-intake/custody.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS > /dev/null
+          mkdir -p "$RUNNER_TEMP/owner-intake/raw"
+          tar -xzf "$RUNNER_TEMP/owner-intake/custody.tar.gz" -C "$RUNNER_TEMP/owner-intake/raw"
+          node src/ownerFileTransport.js prepare --root "$RUNNER_TEMP/owner-intake/raw" --working-root "$RUNNER_TEMP/owner-intake/working" --request "$RUNNER_TEMP/owner-intake/state/owner-intake/$REQUEST_SHA256.enc" --request-sha256 "$REQUEST_SHA256" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report "$RUNNER_TEMP/owner-intake/receipt.json" > /dev/null
+          changed="$(node -e 'process.stdout.write(String(JSON.parse(require("node:fs").readFileSync(process.env.RUNNER_TEMP+"/owner-intake/receipt.json","utf8")).changed))')"
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+          if [[ "$changed" != true ]]; then exit 0; fi
+          learning_file="$(node -e 'process.stdout.write(JSON.parse(require("node:fs").readFileSync(process.env.RUNNER_TEMP+"/owner-intake/working/manifest.json","utf8")).learningFile)')"
+          project_id="$(node -e 'process.stdout.write(JSON.parse(require("node:fs").readFileSync(process.env.RUNNER_TEMP+"/owner-intake/working/manifest.json","utf8")).projectId)')"
+          tar -czf "$RUNNER_TEMP/owner-intake/updated.tar.gz" -C "$RUNNER_TEMP/owner-intake/working" manifest.json source-queue.json sources "$learning_file"
+          node src/hostedSourceBundle.js encrypt --input "$RUNNER_TEMP/owner-intake/updated.tar.gz" --output "$RUNNER_TEMP/owner-intake/updated.enc" --project-id "$project_id" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > /dev/null
+          node src/hostedSourceBundle.js split --input "$RUNNER_TEMP/owner-intake/updated.enc" --output-root "$RUNNER_TEMP/owner-intake/incoming" > /dev/null
+      - name: Publish ciphertext with prior-state comparison and retain rollback
+        if: steps.prepare.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          node src/rawCustodyPublisher.js publish-ciphertext --ciphertext-root "$RUNNER_TEMP/owner-intake/incoming" --state-root "$RUNNER_TEMP/owner-intake/state" --prior-manifest-sha256 "$(cat "$RUNNER_TEMP/owner-intake/prior-manifest")" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > /dev/null
+          git -C "$RUNNER_TEMP/owner-intake/state" add encrypted-chunks.json source-bundle-*.enc encrypted-manifest-*.json
+          git -C "$RUNNER_TEMP/owner-intake/state" -c user.name='Crucible custody publisher' -c user.email='git@github.com' commit -m 'Retain candidate-only owner evidence and private catalog metadata'
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/owner-intake/ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/owner-intake/ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git -C "$RUNNER_TEMP/owner-intake/state" push origin HEAD
+          node -e 'const f=require("node:fs"),p=process.env.RUNNER_TEMP+"/owner-intake/receipt.json",r=JSON.parse(f.readFileSync(p,"utf8"));r.publicationStatus="PUBLISHED_RAW_CANDIDATE_CUSTODY";f.writeFileSync(p,JSON.stringify(r,null,2)+"\n");'
+      - name: Record duplicate-only receipt
+        if: steps.prepare.outputs.changed == 'false'
+        run: |
+          node -e 'const f=require("node:fs"),p=process.env.RUNNER_TEMP+"/owner-intake/receipt.json",r=JSON.parse(f.readFileSync(p,"utf8"));r.publicationStatus="ALREADY_PRESENT_NO_PUBLICATION";f.writeFileSync(p,JSON.stringify(r,null,2)+"\n");'
+      - name: Retain bounded intake receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: owner-file-intake-${{ github.run_id }}
+          path: ${{ runner.temp }}/owner-intake/receipt.json
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Destroy runner plaintext and credentials
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/owner-intake"

@@ -496,12 +496,21 @@ test('only owner-authorized manual publishers may push ciphertext to raw custody
       continue;
     }
     for (const [index, line] of text.split(/\r?\n/).entries()) {
-      if (/git\s+(?:-C\s+[^\n]+?\s+)?push\b/.test(line) && !['r8-executable-canary-publisher.yml', 'raw-custody-publisher.yml'].includes(file)) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
+      if (/git\s+(?:-C\s+[^\n]+?\s+)?push\b/.test(line) && !['r8-executable-canary-publisher.yml', 'raw-custody-publisher.yml', 'owner-file-intake.yml'].includes(file)) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
     }
     // Every state reference is cloned first; the two manual publishers are the
     // bounded exceptions that write regenerated ciphertext back to raw intake.
     assert.match(text, /git clone --depth 1 git@github\.com:6076446993\/Crucible-(Vetted-)?Learning-State\.git/, `${file} reaches a state repository other than by cloning it`);
   }
+  const intake = fs.readFileSync(path.join(workflowDir, 'owner-file-intake.yml'), 'utf8');
+  assert.match(intake, /workflow_dispatch:/);
+  assert.doesNotMatch(intake.slice(0, intake.indexOf('permissions:')), /\bpush:|\bschedule:/);
+  assert.match(intake, /^permissions:\n  contents: read\n/m);
+  assert.match(intake, /github.ref == 'refs\/heads\/development'/);
+  assert.match(intake, /request_sha256:/);
+  assert.match(intake, /node src\/ownerFileTransport\.js prepare/);
+  assert.match(intake, /Destroy runner plaintext and credentials[\s\S]*if: always\(\)[\s\S]*rm -rf/);
+  assert.doesNotMatch(intake, /Crucible-Vetted-Learning-State|git[^\n]*push[^\n]*--force/);
   assert.deepEqual(offenders, [], `only designated manual publishers may push raw state ciphertext:\n${offenders.join('\n')}`);
   const publisher = fs.readFileSync(path.join(workflowDir, 'r8-executable-canary-publisher.yml'), 'utf8').replace(/\r\n/g, '\n');
   const triggers = publisher.slice(publisher.indexOf('\non:'), publisher.indexOf('\npermissions:'));

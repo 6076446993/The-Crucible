@@ -49,6 +49,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-08T04:08:22.129Z Owner-file transport takeover:** Owner explicitly authorized the repair takeover and narrow owner-file workflow deployment through release to main. See AI-HANDOFF.json.activePlan; previous plan is preserved in ownerFileTransportPriorPlan. Local focused transport tests passed 6/6; no live queue mutation or source submission.
+
 - **2026-10-07T04:47:46.761Z Narrow SI promotion and credential repair:** Owner authorized the two manual workflow definitions through the governed release path and security/monitor credential repair. See AI-HANDOFF.json.activePlan.promotionAuthorization. Full development promotion is not authorized; GitHub reauthentication completed, and organization-scoped credential generation/secret entry is handed to the owner.
 
 - **2026-10-07T04:11:06.782Z SI durable continuation:** Codex acquired `si-durable-custody-20261007` for the bounded general raw publisher and its tests. The exact owner request and dependency plan are in `AI-HANDOFF.json.activePlan`. Existing live queues and learned state remain untouched; current work is development implementation only.
@@ -111,6 +113,20 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: owner-file-transport-20261008 — 2026-10-08T04:08:22.129Z — Codex — mode:work
+
+Plain-language summary: The owner authorized taking over the intake repair and narrowly deploying its manual workflow. Integrated an encrypted owner-file request and candidate-preserving raw-custody import; no live sources or learned state were changed.
+
+- git fetch origin development main release; node src/taskRoutingCli.js prewrite; node src/coordinationCli.js claim — started 2026-10-08T04:05:43Z, finished 2026-10-08T04:08:22.129Z, exit 0.
+- npm ci --ignore-scripts; git apply tested proposal; synchronized organ ownership and test classification — started 2026-10-08T04:06:58Z, finished 2026-10-08T04:08:22.129Z, exit 0.
+- node --test test/ownerFileTransport.test.js; npm run lint:workflows; npm run audit:circulation — started 2026-10-08T04:07:00Z, finished 2026-10-08T04:08:22.129Z, exit 0 (6/6, 29 workflows, no new bypasses).
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+- Full suite first failed 1005/1015: missing local javac plus stale route/publisher/historical-claim references. Repaired references and explicit publisher assertions; obtained genuine OpenJDK compiler in scratch, no tests skipped or weakened. Final full suite 1015/1015, zero skipped — started 2026-10-08T04:07:54Z, finished 2026-10-08T04:14:33.835Z, exit 0 after recorded failures.
+- precheck change-impact 181/181; validate/docs/workflow/coordination/failure/privacy/security/design/core-reference/AI-conflict/clutter/circulation checks passed — finished 2026-10-08T04:14:33.835Z, exit 0.
+- Preserved complete pre-prune DEVLOG to Archive:Devlog-Pruned in one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e — finished 2026-10-08T04:12:03Z, exit 0.
+- Orchestrator retests resolved both new local failure records KB-local-6074b04549 (90/90) and KB-local-65528d961d (13/13); original failures retained.
+- Mutation claim owner-file-transport-20261008 remains active for exact-head hosted verification and authorized narrow deployment.
 
 ### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
 
@@ -246,24 +262,7 @@ Plain-language summary: Collected four author/publisher-authorized public source
 - `npm test` change-impact maintenance selection — started 2026-10-03T23:57:41.000Z, finished 2026-10-03T23:57:46.589Z, exit 1; 94/103 passed. Nine failures are stale cadence expected-list/count assertions for three already-present auto-discovered CRU/Nexus tests (`cruCodeCatalog`, `diagnosticCouncilEscalation`, `nexusRepairBridge`), not intake failures. Orchestrator persisted low-severity KB-local-ea089cf992; no unrelated repair or suppression was attempted.
 - Four candidate files reached claim-extraction-complete with 123 total `Insufficient Evidence` assertions. Zero claims were verified, promoted, or written to vetted state; zero sources were quarantined. Durable cross-repository transfer remains blocked by missing authorization to the independent custody repositories — finished 2026-10-03T23:55:30.403Z, exit 0 partial checkpoint.
 
-### Session: durable-custody-identity-repair-20261003 — 2026-10-03T13:34:00.000Z — Codex — mode:work
 
-Plain-language summary: The transferred Crucible can now open its existing encrypted learning custody without changing the durable project identity. The exception is exact to this repository, and new negative controls prove it does not admit foreign repositories, altered ciphertext, or unvetted intake as independently vetted evidence.
-- Task route: crucible-core; stable repository ID 1344890806; 6076446993/The-Crucible; development; affected paths select crucible-core.
-- Read current handoff, repository constitution, custody workflow, source-bundle implementation, and relevant scientific-learning/host-isolation policy; reproduced run 37126082352's exact project-identity refusal — started 2026-10-03T13:34:00.000Z, finished 2026-10-03T13:36:05.091Z, exit 0.
-- `npm run route:prewrite -- --prompt ... --project "The Crucible" --path ...` — started 2026-10-03T13:36:05.091Z, finished 2026-10-03T13:36:05.700Z, exit 0; route ready on literal development.
-- Added the exact legacy-project/current-repository binding plus valid-custody, wrong-project/foreign-repository, tampered-ciphertext, and independent-vetting provenance controls — started 2026-10-03T13:36:06.000Z, finished 2026-10-03T13:37:00.000Z, exit 0 repair.
-- `node --test test/hostedSourceBundle.test.js` — started 2026-10-03T13:37:00.000Z, finished 2026-10-03T13:37:00.111Z, exit 1 expected regression; direct legacy equality still admitted the former repository.
-- Tightened migrated identities so the exact current repository replaces, rather than supplements, direct legacy-repository acceptance — started 2026-10-03T13:37:01.000Z, finished 2026-10-03T13:37:10.000Z, exit 0 correction.
-- `node --test test/hostedSourceBundle.test.js && npm test` — started 2026-10-03T13:37:11.000Z, finished 2026-10-03T13:37:13.200Z, exit 0; focused custody 9/9 and change-impact 110/110, zero skipped.
-- `npm ci && npm run test:all` — started 2026-10-03T13:39:50.000Z, finished 2026-10-03T13:40:18.731Z, exit 1; 971/978 passed. The six executable proof failures are exactly the absent real JDK on this runner; the seventh is the expected Devlog-Pruned accountability gap until the development prune is committed and synchronized to Archive. No code assertion failed.
-- Removed only the two local known-bug records generated by those execution-environment/pre-commit conditions; focused source-custody and handoff/workflow suites remain green, while hosted runners must provide the JDK and archive synchronization proof — started 2026-10-03T13:40:19.000Z, finished 2026-10-03T13:41:00.000Z, exit 0.
-- Published atomic development commit d0d86104b9bf227df9396c320dc3b6dfdc6728be. Hosted run 37127071327 proved vetted-state clone, source-bundle join, exact legacy-project/current-repository acceptance, AES-GCM decryption, all restored hashes, and oversight-vetted provenance before exposing the next independent failure: `Weekly envelope binding mismatch` — started 2026-10-03T13:41:57.000Z, finished 2026-10-03T13:42:24.339Z, exit 1 repair trigger.
-- Added a one-entry retained-state migration: the durable project identity stays unchanged, only the exact former Crucible repository/subject binding can restore once, and the next persistence uses the current repository/subject binding. Foreign repositories and altered authentication tags are rejected — started 2026-10-03T13:43:00.000Z, finished 2026-10-03T13:44:00.000Z, exit 0 repair.
-- `node --test --test-name-pattern='retained weekly state migrates' test/hostedLearningProof.test.js && node --test test/hostedSourceBundle.test.js` — started 2026-10-03T13:44:00.000Z, finished 2026-10-03T13:44:01.000Z, exit 0; migration 1/1 and custody 9/9.
-- Re-ran task routing for the expanded exact six-file scope — started 2026-10-03T13:44:29.189Z, finished 2026-10-03T13:44:29.600Z, exit 0; route remains crucible-core on development.
-- Hosted handoff synchronization successfully appended the pruned full DEVLOG snapshot to Archive, but AI-conflict governance attempts 1 and 2 still failed OPS-0035 because their one-branch shallow checkout could not see `origin/Archive`; the ledger itself was fetched and verified to contain the exact released claim — started 2026-10-03T13:45:00.000Z, finished 2026-10-03T13:47:00.000Z, exit 1 validator regression.
-- Added `fetch-depth: 0` only to the read-only AI-conflict governance checkout and a workflow regression proving the coordination step retains Archive visibility. After explicitly fetching Archive locally, accountability passes 10/10 and workflow lint passes all 24 workflows — started 2026-10-03T13:47:00.000Z, finished 2026-10-03T13:48:00.000Z, exit 0 repair.
-- Routed the four-file validator repair scope to crucible-core on development — started 2026-10-03T13:48:12.235Z, finished 2026-10-03T13:48:12.600Z, exit 0.
-- Exact-tip hosted Self-Test, CodeQL, durable proof, ingestion acknowledgement, independent vetting, and consumption verification remain required; no production branch, key, ciphertext, or promotion boundary was changed.
+## Historical mutation accountability
 
+Released claims `scheduled-cadence-repair-20261002` and `monitor-token-diagnostics-20261002` remain preserved in AI-HANDOFF.json. This reference repairs discoverability after session pruning; it does not change their results or custody.
