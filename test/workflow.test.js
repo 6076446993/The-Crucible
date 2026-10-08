@@ -502,7 +502,7 @@ test('only owner-authorized manual publishers may push ciphertext to raw custody
     // bounded exceptions that write regenerated ciphertext back to raw intake.
     assert.match(text, /git clone --depth 1 git@github\.com:6076446993\/Crucible-(Vetted-)?Learning-State\.git/, `${file} reaches a state repository other than by cloning it`);
   }
-  const intake = fs.readFileSync(path.join(workflowDir, 'owner-file-intake.yml'), 'utf8');
+  const intake = fs.readFileSync(path.join(workflowDir, 'owner-file-intake.yml'), 'utf8').replace(/\r\n/g, '\n');
   assert.match(intake, /workflow_dispatch:/);
   assert.doesNotMatch(intake.slice(0, intake.indexOf('permissions:')), /\bpush:|\bschedule:/);
   assert.match(intake, /^permissions:\n  contents: read\n/m);

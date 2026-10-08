@@ -4743,6 +4743,15 @@
             "test/hostedExperimentHarnesses.test.js",
             "test/hostedLearningProof.test.js"
           ]
+        },
+        {
+          "at": "2026-10-08T04:21:16.507Z",
+          "ok": true,
+          "exitStatus": 0,
+          "tests": [
+            "test/hostedExperimentHarnesses.test.js",
+            "test/hostedLearningProof.test.js"
+          ]
         }
       ],
       "severity": "high",
@@ -4895,10 +4904,10 @@
       ],
       "attribution": "failing-tests",
       "lastFailure": {
-        "at": "2026-10-08T04:13:33.712Z",
+        "at": "2026-10-08T04:20:30.744Z",
         "exitStatus": 1
       },
-      "checkedAt": "2026-10-08T04:14:41.034Z"
+      "checkedAt": "2026-10-08T04:21:16.507Z"
     },
     {
       "id": "KB-local-e27b0d5527",
