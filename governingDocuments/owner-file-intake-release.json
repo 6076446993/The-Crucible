@@ -36,5 +36,10 @@
     "developmentTests": "1015/1015 passed, zero skipped",
     "hosted": "pending",
     "mainFullSuite": "932/932 passed, zero skipped; generated failure retest passed"
+  },
+  "authenticatedTransportDependency": {
+    "path": "src/hostedSourceBundle.js",
+    "sha256": "8864e82f5805181cda17b4c45f07b281d798fce3fa41fef791eb173d34b3707a",
+    "reason": "Wait for reader/writer file descriptor closure and require rejected plaintext deletion before returning or trying another key; no authentication gate relaxed."
   }
 }
