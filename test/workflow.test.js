@@ -481,8 +481,22 @@ test('no workflow pushes to a learning state repository, so Crucible stays a con
   const stateRepositories = /Crucible-Vetted-Learning-State|Crucible-Learning-State/;
   const offenders = [];
   for (const file of fs.readdirSync(workflowDir).filter((name) => /\.ya?ml$/i.test(name))) {
-    const text = fs.readFileSync(path.join(workflowDir, file), 'utf8');
+    const text = fs.readFileSync(path.join(workflowDir, file), 'utf8').replace(/\r\n/g, '\n');
     if (!stateRepositories.test(text)) continue;
+    // Owner-approved 2026-10-08 exception: manual raw-intake workflow only.
+    if (file === 'owner-file-intake.yml') {
+      assert.match(text, /workflow_dispatch:/);
+      assert.doesNotMatch(text.slice(0, text.indexOf('permissions:')), /\bpush:|\bschedule:/);
+      assert.match(text, /^permissions:\n  contents: read\n/m);
+      assert.match(text, /github.repository == '6076446993\/The-Crucible' && github.ref == 'refs\/heads\/development'/);
+      assert.match(text, /request_sha256:/);
+      assert.match(text, /git clone --depth 1 git@github\.com:6076446993\/Crucible-Learning-State\.git/);
+      assert.match(text, /node src\/ownerFileTransport\.js prepare/);
+      assert.match(text, /Destroy runner plaintext and credentials[\s\S]*if: always\(\)[\s\S]*rm -rf/);
+      assert.doesNotMatch(text, /Crucible-Vetted-Learning-State|git[^\n]*push[^\n]*--force/);
+      continue;
+    }
+
     for (const [index, line] of text.split(/\r?\n/).entries()) {
       if (/git\s+push/.test(line)) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
     }
