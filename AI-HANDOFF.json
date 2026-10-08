@@ -124,7 +124,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-08T04:21:38.953Z"
+    "lastActionAt": "2026-10-08T04:24:13.955Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -221,9 +221,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-08T04:21:39.007Z",
+      "selectedAt": "2026-10-08T04:24:14.011Z",
       "promptSha256": "1a156ce6056d0229f9463c1992e0b2feddefd3c6a979f4d0b2de971601541588",
-      "affectedPathsSha256": "ee6fdc41810680d5ed5d1092e098cba3550df186e86a4edf9301fed5e8dd4b87"
+      "affectedPathsSha256": "cc2bd0f5d2d156a6c055042e4a416bc08e92bbec926b5084fa1e4b7a2707bee3"
     },
     "steps": [
       "Publish takeover-ready plan and preserve prior repair work.",
@@ -234,7 +234,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-08T04:14:33.835Z",
+    "lastUpdatedAt": "2026-10-08T04:24:13.955Z",
     "currentStep": 2,
     "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
     "ownership": {
@@ -389,7 +389,8 @@
         "Tested separate transport proposal: six focused tests and disposable import of five attached PDFs plus two supporting catalogs.",
         "Prior mutation claim is already released in mutationClaims; preserve its stale activePlan context in ownerFileTransportPriorPlan.",
         "Integrated candidate-only encrypted transport and exact-request manual workflow; full local suite 1015/1015, zero skipped; change-impact 181/181; required local governance/privacy/security checks passed.",
-        "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e."
+        "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e.",
+        "Prepared narrow main-based six-file package (workflow, two required tests, handoff/log and retained failure ledger); local full suite 932/932 and failure retest 25/25 passed, zero skipped."
       ],
       "remaining": [
         "Windows CRLF assertion correction exact-head hosted verification.",
@@ -401,9 +402,7 @@
       "AI-HANDOFF.json",
       "DEVLOG.md",
       "governingDocuments/owner-file-intake-release.json",
-      "governingDocuments/owner-file-intake-main-compatibility.patch",
-      "test/workflow.test.js",
-      "governingDocuments/known-bugs/KNOWN-BUGS.json"
+      "governingDocuments/owner-file-intake-main-compatibility.patch"
     ],
     "rawCustodyAuthorization": {
       "ownerInstruction": "can you do it all in order it should be",

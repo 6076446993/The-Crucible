@@ -131,6 +131,8 @@ Plain-language summary: The owner authorized taking over the intake repair and n
 - Corrected development workflow assertions passed 37/37 against LF and CRLF. Corrected change-impact full selection passed 1015/1015 with the genuine JDK configured; initial missing JAVA_HOME rerun remains recorded in KB-local-65528d961d.
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
 - Hosted durable run 37726684743 independently restored unchanged queue 4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f and learning c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37; R2 passed, R8 remains pending executable-content.
+- Main-based narrow package full suite 932/932; generated failure retest 25/25, zero skipped. Corrected legacy registration-branch assertion to authorized release destination; local loopback test uses NODE_USE_ENV_PROXY=0 to avoid runner proxy interception. Package hashes bound to exactly six paths; no source-retrieval code or broader scientific delta included.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
 - Mutation claim owner-file-transport-20261008 remains active for exact-head hosted verification and authorized narrow deployment.
 
 ### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
