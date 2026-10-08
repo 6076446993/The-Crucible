@@ -118,11 +118,13 @@
     ".github/workflows/raw-custody-publisher.yml": "Manual development-only exact-register-hash raw custody publication; no unattended discovery, vetted access or promotion authority.",
     "src/ownerFileTransport.js": "Encrypted owner-file request pack/stage/import, candidate-only custody and immutable duplicate-preserving receipts.",
     ".github/workflows/owner-file-intake.yml": "Manual hash-approved encrypted owner evidence import into private raw custody, no extraction or promotion.",
-    "governingDocuments/owner-file-transport.md": "Owner-file transport operator sequence, authorization, custody and rollback boundaries."
+    "governingDocuments/owner-file-transport.md": "Owner-file transport operator sequence, authorization, custody and rollback boundaries.",
+    "governingDocuments/owner-file-intake-release.json": "Exact approved narrow main-based registration package hashes; does not authorize broad development promotion.",
+    "governingDocuments/owner-file-intake-main-compatibility.patch": "Main-specific test compatibility for the explicitly owner-authorized manual raw intake exception."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-08T04:14:33.835Z"
+    "lastActionAt": "2026-10-08T04:21:38.953Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -219,9 +221,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-08T04:11:41.857Z",
+      "selectedAt": "2026-10-08T04:21:39.007Z",
       "promptSha256": "1a156ce6056d0229f9463c1992e0b2feddefd3c6a979f4d0b2de971601541588",
-      "affectedPathsSha256": "0e89a03e4764d35e6f75d66758e230c89961357ee2e5aaa8bf5548f3da0f6a4b"
+      "affectedPathsSha256": "ee6fdc41810680d5ed5d1092e098cba3550df186e86a4edf9301fed5e8dd4b87"
     },
     "steps": [
       "Publish takeover-ready plan and preserve prior repair work.",
@@ -253,7 +255,9 @@
         "test/_testCadenceCore.js",
         "governingDocuments/owner-file-transport.md",
         "test/workflow.test.js",
-        "governingDocuments/known-bugs/KNOWN-BUGS.json"
+        "governingDocuments/known-bugs/KNOWN-BUGS.json",
+        "governingDocuments/owner-file-intake-release.json",
+        "governingDocuments/owner-file-intake-main-compatibility.patch"
       ],
       "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
     },
@@ -388,21 +392,16 @@
         "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e."
       ],
       "remaining": [
-        "Exact-head hosted development checks and independent review.",
+        "Windows CRLF assertion correction exact-head hosted verification.",
         "Authorized narrow default workflow deployment.",
-        "Existing-key authenticated request staging and real intake receipt."
+        "Authenticated request staging/import and real receipt."
       ]
     },
     "filesTouched": [
       "AI-HANDOFF.json",
       "DEVLOG.md",
-      "src/ownerFileTransport.js",
-      "test/ownerFileTransport.test.js",
-      ".github/workflows/owner-file-intake.yml",
-      "src/circulationLinkage.js",
-      "src/testCadenceCoreLegacy.js",
-      "test/_testCadenceCore.js",
-      "governingDocuments/owner-file-transport.md",
+      "governingDocuments/owner-file-intake-release.json",
+      "governingDocuments/owner-file-intake-main-compatibility.patch",
       "test/workflow.test.js",
       "governingDocuments/known-bugs/KNOWN-BUGS.json"
     ],
@@ -1321,7 +1320,9 @@
           "test/_testCadenceCore.js",
           "governingDocuments/owner-file-transport.md",
           "test/workflow.test.js",
-          "governingDocuments/known-bugs/KNOWN-BUGS.json"
+          "governingDocuments/known-bugs/KNOWN-BUGS.json",
+          "governingDocuments/owner-file-intake-release.json",
+          "governingDocuments/owner-file-intake-main-compatibility.patch"
         ],
         "regions": []
       },

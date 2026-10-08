@@ -126,6 +126,11 @@ Plain-language summary: The owner authorized taking over the intake repair and n
 - precheck change-impact 181/181; validate/docs/workflow/coordination/failure/privacy/security/design/core-reference/AI-conflict/clutter/circulation checks passed — finished 2026-10-08T04:14:33.835Z, exit 0.
 - Preserved complete pre-prune DEVLOG to Archive:Devlog-Pruned in one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e — finished 2026-10-08T04:12:03Z, exit 0.
 - Orchestrator retests resolved both new local failure records KB-local-6074b04549 (90/90) and KB-local-65528d961d (13/13); original failures retained.
+- Hosted development run 37726684744 exposed one Windows CRLF assertion mismatch in test/workflow.test.js; normalized file line endings before the same permission assertions. Prepared main-based four-file registration manifest and explicit test-compatibility patch, 32/32; no broader development code is promoted.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+- Corrected development workflow assertions passed 37/37 against LF and CRLF. Corrected change-impact full selection passed 1015/1015 with the genuine JDK configured; initial missing JAVA_HOME rerun remains recorded in KB-local-65528d961d.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+- Hosted durable run 37726684743 independently restored unchanged queue 4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f and learning c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37; R2 passed, R8 remains pending executable-content.
 - Mutation claim owner-file-transport-20261008 remains active for exact-head hosted verification and authorized narrow deployment.
 
 ### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "ownerApproval": "2026-10-08 Yes: takeover and narrow workflow deployment only",
+  "sourceCommit": "0cb89f4f83fb17472194e52c6ea420c7fdfcfbcc",
+  "baseMain": "a4c5e6061da978762c8605c551baf3d1f61d2522",
+  "releaseParent": "1bc3d0a8c1365d345bdf0b02b5b00b7882aed366",
+  "scope": "Main-based four-file package only; preserve all unrelated main content; no scientific promotion or custody writes",
+  "files": [
+    {
+      "path": ".github/workflows/owner-file-intake.yml",
+      "sha256": "89e0b6b4edf8ea673bd09e1d768d060658195cb1c31f11524edbfd7adbd19473"
+    },
+    {
+      "path": "test/workflow.test.js",
+      "sha256": "8aa96359b4ef673d71cc38749e915cc9d5a2ab2668a1d16827fb9cd745d20c65"
+    },
+    {
+      "path": "AI-HANDOFF.json",
+      "sha256": "a30c9f4cfe0c366221999bd2f475f2af28a1749fd9372b1a9a85b915da778c18"
+    },
+    {
+      "path": "DEVLOG.md",
+      "sha256": "185ecd710694e53ed2a244ff32723dd976adf8101dc4a2ec2067d7bd1f4deec1"
+    }
+  ],
+  "verification": {
+    "mainWorkflowTests": "32/32 passed, zero skipped",
+    "developmentTests": "1015/1015 passed, zero skipped",
+    "hosted": "pending"
+  }
+}
