@@ -17,6 +17,7 @@
 // evidence that the change did not hold is worth as much as evidence that it did.
 const crypto = require('node:crypto');
 const { LearningExperienceRecorder } = require('./learningExperience');
+const { candidatePacket, sha256: packetSha256 } = require('./evidencePacket');
 
 const sha256 = (value) => crypto.createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
 
@@ -77,6 +78,18 @@ function repairExperience({ projectId, finding, plan, result, actorId = 'code-se
     artifactSha256: sha256({ dependencies: plan.dependencies || [], reversibleChange: plan.reversibleChange || null }),
     actorId: requireText(actorId, 'actorId'),
     observedAt,
+    evidencePacket: candidatePacket({
+      id: `repair-evidence-${packetSha256({ finding, plan, state: result.state }).slice(0, 32)}`,
+      projectId,
+      component: 'repair',
+      claim: boundedClaimFor({ finding, plan, state: result.state }),
+      boundary: requireText(finding.boundary, 'finding.boundary'),
+      provenance: { sourceIds: [requireText(actorId, 'actorId')], baseSha256: finding.baseSha256 || null, actorId },
+      reproducibility: { reproducerSha256: packetSha256({ finding, plan }), command: 'bounded-repair-with-independent-verifier', deterministic: false },
+      rollback: { available: true, strategy: 'restore the pre-repair content' },
+      observability: { traceId: `repair-${packetSha256({ finding, plan }).slice(0, 24)}` },
+      createdAt: observedAt,
+    }),
   };
 }
 

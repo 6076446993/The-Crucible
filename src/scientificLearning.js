@@ -2,6 +2,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { acquireDurableLock } = require('./durableLock');
+const { validateEvidencePacket } = require('./evidencePacket');
 
 const STATES = Object.freeze(['candidate', 'hypothesis', 'experimented', 'causally-proven', 'independently-verified', 'verified', 'quarantined', 'rejected']);
 const CLASSIFICATIONS = Object.freeze(['Rejected Evidence', 'Insufficient Evidence', 'Crucible Issue']);
@@ -16,7 +17,7 @@ const TRANSITIONS = Object.freeze({
   verified: ['quarantined'], quarantined: [], rejected: [],
 });
 
-const CANDIDATE_KEYS = ['schemaVersion', 'id', 'projectId', 'claim', 'claimBoundary', 'generalizationBoundary', 'kind', 'provenance', 'classification', 'createdAt'];
+const CANDIDATE_KEYS = ['schemaVersion', 'id', 'projectId', 'claim', 'claimBoundary', 'generalizationBoundary', 'kind', 'provenance', 'classification', 'createdAt', 'evidencePacket'];
 const PROVENANCE_KEYS = ['sourceType', 'sourceId', 'retrievedAt', 'author', 'license', 'contentSha256', 'learningProvenanceId', 'lifecycleStage', 'failureCode', 'failureCodeStatus'];
 const PROOF_KEYS = ['schemaVersion', 'candidateId', 'projectId', 'hypothesis', 'testedProperty', 'experimentBoundary', 'controls', 'causalIsolation', 'negativeTests', 'regressionTests', 'scopeProof', 'generalizationResult', 'contradictionResult', 'independentVerification', 'completedAt'];
 const EXPERIMENTAL_PROOF_KEYS = PROOF_KEYS.filter((key) => key !== 'independentVerification');
@@ -52,6 +53,10 @@ function validateCandidate(candidate) {
   if (candidate.provenance.failureCodeStatus !== undefined && !['registered', 'pending-registration'].includes(candidate.provenance.failureCodeStatus)) throw new Error('candidate.provenance.failureCodeStatus must be registered or pending-registration.');
   iso(candidate.provenance.retrievedAt, 'candidate.provenance.retrievedAt');
   digest(candidate.provenance.contentSha256, 'candidate.provenance.contentSha256');
+  if (candidate.evidencePacket !== undefined) {
+    const packet = validateEvidencePacket(candidate.evidencePacket);
+    if (!packet.valid) throw new Error(`candidate.evidencePacket is invalid: ${[...packet.missing, ...packet.errors].join(' ')}`);
+  }
   iso(candidate.createdAt, 'candidate.createdAt');
   return Object.freeze(structuredClone(candidate));
 }

@@ -49,7 +49,7 @@ jobs:
           set -euo pipefail
           npm run learning:perplexity-research -- \
             'Android' 'JavaScript' 'HTML' 'CSS' 'Batchfile' 'PowerShell' 'Python' 'TypeScript' \
-            'Shell and Bash' 'C' 'C#' 'C++' 'Django' 'Java' 'React' 'React Native' \
+            'Shell and Bash' 'C' 'C#' 'C++' 'Django' 'Java' 'React' 'React Native' 'Cybersecurity' \
             | tee .hosted-perplexity-research/latest-report.json
       - name: Save project-bound discovery state and holding queue
         if: always()

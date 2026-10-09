@@ -1,3 +1,105 @@
+### Session: key-manager-scope-correction-20261009 — 2026-10-09T22:45:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Corrected the key-manager scope after owner clarification. The manager governs only Crucible project encryption keys (raw intake and oversight-vetted custody); it does not govern Nexus coding credentials, OIDC runners, coding commands, or unrelated project access. The temporary Nexus gateway integration was removed. R8, raw/vetted custody, Archive, and `main` were not changed.
+
+- `route:prewrite` — completed 2026-10-09T22:37:23-04:00, exit 0; selected `crucible-core` → `6076446993/The-Crucible` → `development`.
+- `scope correction` — removed the Nexus runner integration from the manager, dashboard, registry, package scripts, security document, and tests.
+- `verification boundary` — the cleanup is local development work; no Nexus credential was read or changed, and no hosted coding or R8 evidence is claimed.
+
+### Session: shared-monitor-app-key-manager-20261009 — 2026-10-09T22:55:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Wired the existing monitor GitHub App installation as an optional identity source for the Crucible key-manager workflow, while preserving separate authority. The monitor still receives only a read-only installation token; only the manual development key-manager workflow receives the App identity and may write Crucible Actions secrets and development registry fingerprints. The monitor token itself is never passed to key management.
+
+- `route:prewrite` — completed 2026-10-09T22:54:32-04:00, exit 0; selected `crucible-core` → `6076446993/The-Crucible` → `development`.
+- `workflow wiring` — key manager now accepts dedicated App secrets first, then the existing monitor App client ID/private key as a same-installation fallback; no new App installation is required.
+- `authority checks` — monitor permissions remain checks/pull-requests/metadata read; key-manager workflow remains manual, development-only, and `contents: write` for registry publication.
+- `remaining external action` — the installed App must actually have Actions-secrets write and development Contents write permissions; no credential value was read or exposed by this change.
+
+### Session: authoritative-security-research-mapping-20261009 — 2026-10-09T20:00:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Reviewed authoritative key-management, identity, secrets, API, and GitHub Actions guidance and mapped it to Crucible's existing candidate-only controls and development tests. No credentials, durable learning state, R8 behavior, pipeline name, Archive, or `main` changed.
+
+- `route:prewrite` — completed 2026-10-09T19:54:36-04:00, exit 0; selected `crucible-core` for the four governing paths.
+- `web research` — completed 2026-10-09T19:56:00-04:00, exit 0; reviewed NIST SP 800-57/SP 800-63-4, OWASP Secrets Management, GitHub Secure Use/Secrets/OIDC, and IETF OAuth references.
+- `Coursera syllabus inspection` — completed 2026-10-09T19:52:00-04:00, exit 0; inspected Vault, Azure DevOps secrets, API security, and Johns Hopkins DevSecOps course pages as non-authoritative candidate material.
+- `documentation update` — completed 2026-10-09T20:00:00-04:00, exit 0; added source observations, control mappings, and falsifiable development-only tests.
+- `focused verification` — completed 2026-10-09T20:05:00-04:00, exit 0; 39/39 focused tests, JSON parse, `npm run validate`, `npm run audit:security`, `npm run audit:circulation`, and `git diff --check` passed. `audit:handoff` remains blocked by its pre-existing exact-range boundary requirement.
+
+### Session: key-manager-least-privilege-hardening-20261009 — 2026-10-09T16:50:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Corrected the custody key-manager workflow to retain the write capability required for registry publication while keeping checkout credentials disabled and App-token authentication explicit.
+
+- Retained `contents: write` because the key manager must publish non-secret registry fingerprints; the workflow remains manual and development-only.
+- Disabled checkout credential persistence and configured the App token for the intentional registry push.
+- Preserved the existing pipeline name, manual development-only boundary, ciphertext/key cleanup, and explicit R8 exclusion.
+- Local workflow lint and key-manager/security tests pass; hosted App-authority execution remains required for final proof.
+- No credentials, raw/vetted state, R8, Archive, or `main` changed.
+- Added an explicit preflight that fails closed on missing `CRUCIBLE_KEY_MANAGER_APP_ID` or `CRUCIBLE_KEY_MANAGER_PRIVATE_KEY` before key generation; values are never printed.
+
+### Session: cybersecurity-research-progression-20261009 — 2026-10-09T16:40:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Started a staged cybersecurity research progression from university foundations through advanced engineering and current standards, while preserving Crucible’s existing pipeline name and candidate-only gates.
+
+- Recorded MIT OpenCourseWare and Stanford CS155 foundations, then NIST Zero Trust and SSDF advanced material, followed by NIST CSF 2.0, CIS Controls v8.1, OWASP ASVS, RFC 9700, and the NIST SSDF 1.2 draft status.
+- Added twelve bounded security technique candidates spanning threat modeling, least privilege, secure supply chain, audit/incident readiness, vulnerability feedback, authorization-flow verification, and the previously implemented custody controls.
+- Added `governingDocuments/cybersecurity-research-program.json`; no policy activation, durable learning promotion, raw/vetted state, R8, Archive, or `main` change occurred.
+
+### Session: security-hardening-release-plan-20261009 — 2026-10-09T16:20:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Added the owner-approved security-hardening model to the existing scientific-learning release plan without renaming or splitting the Crucible pipeline.
+
+- Documented zero-trust authorization, custody micro-segmentation, one-way evidence flow, encrypted recovery/key management, endpoint/media controls, and continuous fail-closed verification as existing pipeline boundaries and candidate-learning controls.
+- Preserved the candidate-only boundary: these controls do not become active policy or promoted knowledge without durable custody, controlled testing, negative/regression evidence, contradiction analysis, distinct verification, exact-tip hosted proof, and owner authorization.
+- Recorded that the bounded `Cybersecurity` discovery topic uses the existing research providers and 50-topic ceiling.
+- No raw/vetted state, R8, Archive, or `main` changed.
+
+### Session: cybersecurity-research-topic-20261009 — 2026-10-09T16:00:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Added Cybersecurity as a bounded Crucible research topic so security/process improvements can be discovered through the existing governed research paths.
+
+- Added `Cybersecurity` to the model-pointer and Perplexity topic lists.
+- The topic remains candidate-only: daily scheduling, the existing 50-topic ceiling, trusted-domain/source admission, retrieval, corroboration, controlled verification, contradiction handling, and promotion gates are unchanged.
+- No raw/vetted state, R8, Archive, or `main` changed; this is research-scope registration only.
+
+### Session: security-learning-pipeline-20261009 — 2026-10-09T15:30:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Submitted six owner-provided security/process techniques to Crucible’s governed learning path as candidate-only evidence and wired pipeline controls that enforce zero trust, segmentation, one-way evidence, encrypted recovery, endpoint protection, and continuous inhibition.
+
+- Added `src/securityLearning.js`, `src/securityLearningCli.js`, `governingDocuments/security-learning-techniques.json`, and `governingDocuments/security-learning-pipeline.md`; registered the adapter in circulation and security test cadence, plus `npm run learning:security-techniques`.
+- The manifest is explicitly `candidate-only`; missing durable learning custody returns without writing and promotion is always false.
+- Verification: focused security-learning tests 3/3; full `npm run test:all` 1030/1030; workflow lint, validation, and circulation audit passed.
+- No raw/vetted state, R8, Archive, or `main` changed. Durable hosted submission remains pending until the project-bound learning root/key is configured.
+
+### Session: key-manager-zero-trust-hardening-20261009 — 2026-10-09T15:15:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Hardened the automated key manager against wrong-repository, wrong-branch, push-trigger, and unreviewed external-KMS execution while retaining only redacted recovery metadata.
+
+- Commit `a096eae` adds exact `6076446993/The-Crucible` + `development` + manual-dispatch enforcement, with external KMS explicitly refusing until a reviewed broker/OIDC contract exists.
+- The workflow retains a redacted 90-day lifecycle artifact containing key ids, fingerprints, context, and `r8: excluded`; it never uploads key material or plaintext custody.
+- Verification: focused key-manager/policy/dashboard tests 7/7; full `npm run test:all` 1027/1027; workflow lint, validation, security, and circulation audits passed.
+- No raw/vetted state, R8 canary, Archive, or `main` changed. Hosted App/OIDC capability is still pending configuration and exact-run proof.
+
+### Session: automated-source-bundle-key-manager-20261009 — 2026-10-09T15:00:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Added the development-only automated custody-key manager so raw and vetted keys can be bootstrapped or rotated without a human copying key values through chat; the workflow fails closed until its narrowly scoped GitHub App authority exists, and R8 remains explicitly separate.
+
+- Implemented `src/sourceBundleKeyAutomation.js` in commit `101d467`: generates fresh 32-byte raw/vetted keys in runner memory/temp storage, retains prior values only during governed rotation, and emits only redacted key ids/fingerprints.
+- Added `.github/workflows/source-bundle-key-manager.yml`, manual and development-only, using a narrowly scoped GitHub App token plus `gh secret set`; it commits only non-secret registry fingerprints and always destroys runner key material.
+- Added governing documentation and focused tests; no key values, raw/vetted state, Archive, R8 canary, or `main` were touched.
+- Verification: focused key-manager/dashboard tests 6/6; `npm run test:all` 1024/1024; `npm run lint:workflows`, `npm run validate`, and `npm run audit:circulation` passed.
+- Remaining capability blocker: the repository still needs the GitHub App installation and repository secrets `CRUCIBLE_KEY_MANAGER_APP_ID` and `CRUCIBLE_KEY_MANAGER_PRIVATE_KEY`; hosted bootstrap/rotation evidence has not yet run.
+
+### Session: source-bundle-key-manager-20261009 — 2026-10-09T00:00:00.000Z — Codex — mode:regular
+
+Plain-language summary: Added a fail-closed, non-secret key identity and rotation preflight so raw custody and R8 cannot start with an absent, malformed, or silently replaced encryption key.
+
+- Implemented `src/sourceBundleKeyManager.js`; it validates 32-byte base64 secrets and compares their SHA-256 fingerprints with checked-in metadata, without persisting or printing secret values.
+- Added `governingDocuments/source-bundle-key-registry.json` as the non-secret registry. It intentionally remains owner-registration blocked until the real current key ID and fingerprint are supplied; placeholders are not accepted by preflight.
+- Wired the preflight before clone/decrypt in `.github/workflows/raw-custody-publisher.yml` and `.github/workflows/r8-executable-canary-publisher.yml`, preventing another run from touching custody when the key is missing or mismatched.
+- Added focused tests. `node --test test/sourceBundleKeyManager.test.js test/hostedSourceBundle.test.js test/rawCustodyPublisher.test.js` passed 19/19 locally.
+- No raw/vetted state, Archive, main, or historical ciphertext was changed. R8 remains blocked because the original key/plaintext source-of-truth is unavailable; this prevention layer does not fabricate recovery evidence.
+- Next safe action: owner registers the real raw-intake key ID/fingerprint and creates `CRUCIBLE_SOURCE_BUNDLE_KEY` in GitHub repository secrets, then an exact-tip hosted preflight/R8 run can proceed if an approved plaintext rebuild is available.
+
 ### Session: java-constructor-verifier-normalization-20260928 — 2026-09-28T19:20:19.755Z — Codex — mode:work
 
 Plain-language summary: The hosted semantic proof was still failing on Windows because Java compiler symbol names differ across JDK generations. The verifier now normalizes the constructor identity before evaluating the same independent source-tree proof.
@@ -48,6 +150,14 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 # Development log
 
 ## Shared AI handoff
+
+- **2026-10-09T22:10:00-04:00 Language curriculum implementation:** Added candidate-only curriculum metadata and verification focus to `src/languageCatalog.js` for all 15 Crucible language profiles. Research scopes now carry source links, priority, verification focus, `candidateOnly: true`, and `promotionAuthorized: false`; added catalog tests for complete coverage and fail-closed authority. No durable learning state, raw/vetted custody, R8, `main`, or `Archive` changed.
+
+- **2026-10-09T22:05:00-04:00 Language curriculum research registration:** Added a candidate-only Crucible language curriculum subject covering JavaScript, TypeScript, Python, Java, C, C++, C#, PowerShell, shell, HTML, CSS, JSON, React, React Native, and Django. Registered Coursera, Microsoft Learn, Django, and React Native sources plus language-specific fixture, scanner, and verifier tests. No policy activation, durable learning promotion, raw/vetted custody change, R8 change, `main` change, or `Archive` change occurred.
+
+- **2026-10-09T19:45:00-04:00 Password-manager and API-key research registration:** Added two candidate-only security techniques, two further-research subjects, and a non-secret password-manager item specification. No external vault write was claimed because no password-manager connector is available; no credential value was added, and raw/vetted custody, R8, `main`, and `Archive` remain unchanged. See `AI-HANDOFF.json.activePlan`.
+
+- **Pipeline submission checkpoint:** `node src/securityLearningCli.js queue` was attempted twice and failed closed on the existing durable-learning lock with `EPERM` while opening the pending lock file. No candidate records were written; the lock was not deleted or bypassed.
 
 - **2026-10-08T04:08:22.129Z Owner-file transport takeover:** Owner explicitly authorized the repair takeover and narrow owner-file workflow deployment through release to main. See AI-HANDOFF.json.activePlan; previous plan is preserved in ownerFileTransportPriorPlan. Local focused transport tests passed 6/6; no live queue mutation or source submission.
 
@@ -113,6 +223,14 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: password-manager-api-key-research-20261009 — 2026-10-09T23:45:00Z — Codex — mode:regular/default
+
+Plain-language summary: Registered password-manager-safe human access and API-key lifecycle management as candidate-only research and documented a non-secret vault-item specification without writing or exposing credentials.
+
+- `npm run route:prewrite -- --prompt ... --path governingDocuments/security-learning-techniques.json --path governingDocuments/cybersecurity-research-program.json --path governingDocuments/security-learning-pipeline.md --path governingDocuments/password-manager-entry.json --path AI-HANDOFF.json --path DEVLOG.md` — started 2026-10-09T19:39:16.982Z, finished 2026-10-09T19:39:17.695Z, exit 0.
+- Manifest, research-program, pipeline-document, non-secret password-manager specification, handoff and DEVLOG updates — started 2026-10-09T19:40:00.000Z, finished 2026-10-09T19:45:00.000Z, exit 0.
+- `node src/securityLearningCli.js queue` — started 2026-10-09T19:46:00.000Z, finished 2026-10-09T19:46:04.000Z, exit 1; existing durable-learning lock refused pending mutation with EPERM; no candidate records persisted.
 
 ### Session: owner-file-transport-20261008 — 2026-10-08T04:08:22.129Z — Codex — mode:work
 
@@ -249,33 +367,62 @@ Plain-language summary: Atomically aligned current handoff and DEVLOG custody af
 - `repair custody records atomically` — started 2026-10-04T12:28:30Z, finished 2026-10-04T12:29:00Z, exit 0
 
 
-### Session: Repair monitor routing custody — 2026-10-04T12:26:00Z — ChatGPT — mode:work
-
-Plain-language summary: Hosted validation found the native monitor handoff record lacked the routing timestamp required by Crucible governance. Added the missing canonical routing custody without weakening the gate.
-- `inspect hosted Self-Test and AI handoff failures` — started 2026-10-04T12:24:00Z, finished 2026-10-04T12:25:30Z, exit 0
-- `record complete canonical task route and session timestamp` — started 2026-10-04T12:25:30Z, finished 2026-10-04T12:26:00Z, exit 0
-
-
-### Session: Native learning pipeline monitor — 2026-10-04T12:20:00Z — ChatGPT — mode:work
-
-Plain-language summary: Added Crucible-owned monitoring that follows fresh Worker and independent Oversight evidence, advances the durable proof, and emits a governed CRU instead of silently stalling or skipping a failed stage.
-- `canonical task routing check: crucible-core -> development` — started 2026-10-04T12:14:00Z, finished 2026-10-04T12:16:00Z, exit 0
-- `implement native monitor, workflow, CRU-0056, tests, and handoff` — started 2026-10-04T12:16:00Z, finished 2026-10-04T12:22:00Z, exit 0
-
-
-### Session: authorized-five-source-ingestion-20261003 — 2026-10-03T23:55:30.403Z — Codex — mode:work
-
-Plain-language summary: Collected four author/publisher-authorized public sources, admitted their exact public text as candidate-only evidence, extracted 123 bounded assertions, rejected the fifth source before intake for inadequate source authority, and preserved the independent custody blocker without claiming verification.
-- Task route: crucible-core; stable repository ID 1344890806; 6076446993/The-Crucible; development; affected paths AI-HANDOFF.json, DEVLOG.md, and the orchestrator-generated known-bug ledger entry.
-- Confirmed authorized public surfaces for The Hundred-Page Machine Learning Book, Artificial Intelligence: A Guide for Thinking Humans, Writing AI Prompts For Dummies, and Artificial Intelligence All-in-One For Dummies. Recorded source URLs and SHA-256 lineage; no access control was bypassed — started 2026-10-03T23:30:00.000Z, finished 2026-10-03T23:45:00.000Z, exit 0.
-- Native intake rejected the authorized nine-page Burkov PDF with OPS-0043 `no_pages` although pdfinfo and pdftotext read it. Preserved exact PDF hash f84e6ba775ef707a0223173dd4e7be524c7e516dd67d879d9ac775dd74e70bf2 and admitted only its deterministic text derivative hash ce5786cab91691b0325c817a3c986ba1819eff6bea9d67052a6f4ecd0153d3fe; 81 candidate assertions extracted — started 2026-10-03T23:39:00.000Z, finished 2026-10-03T23:47:00.000Z, exit 0 with recorded parser blocker.
-- Content-addressed Macmillan page/excerpt hash ebe6a538a888a4e12468c64f7a4d3e5c406469a92b6b9bc9b59fdf3e9327e36f produced 35 candidates; Wiley product-page hashes d43b86508add8379c565fca3c34434f41988eb2a355ec508e4134ebf05ed3318 and 31fec0aec4f90be4e0a9dfaa7856230ab9f5a9a80cef23319408b3623cd92f3b produced 4 and 3 — started 2026-10-03T23:40:00.000Z, finished 2026-10-03T23:49:00.000Z, exit 0.
-- Agentic AI Game Plan had only retailer/review metadata in the available public results. It was rejected before intake rather than scraped or inferred; no candidate and no quarantine record was created — finished 2026-10-03T23:49:30.000Z, exit 0 fail-closed eligibility decision.
-- `node --test test/ownerFileIntake.test.js test/claimExtractionWorker.test.js test/pdfTextExtraction.test.js test/sourceRetrievalWorker.test.js test/safeInformationRetrieval.test.js` — started 2026-10-03T23:52:00.000Z, finished 2026-10-03T23:52:01.000Z, exit 0; 48/48, zero skipped.
-- `npm test` change-impact maintenance selection — started 2026-10-03T23:57:41.000Z, finished 2026-10-03T23:57:46.589Z, exit 1; 94/103 passed. Nine failures are stale cadence expected-list/count assertions for three already-present auto-discovered CRU/Nexus tests (`cruCodeCatalog`, `diagnosticCouncilEscalation`, `nexusRepairBridge`), not intake failures. Orchestrator persisted low-severity KB-local-ea089cf992; no unrelated repair or suppression was attempted.
-- Four candidate files reached claim-extraction-complete with 123 total `Insufficient Evidence` assertions. Zero claims were verified, promoted, or written to vetted state; zero sources were quarantined. Durable cross-repository transfer remains blocked by missing authorization to the independent custody repositories — finished 2026-10-03T23:55:30.403Z, exit 0 partial checkpoint.
-
-
 ## Historical mutation accountability
 
 Released claims `scheduled-cadence-repair-20261002` and `monitor-token-diagnostics-20261002` remain preserved in AI-HANDOFF.json. This reference repairs discoverability after session pruning; it does not change their results or custody.
+### Session: coursera-engineering-research-20261009 — 2026-10-09T20:10:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Inspected Coursera syllabi for coding assistants, debugging, optimization, testing, and application-security work, then mapped the useful practices to Crucible's candidate-only engineering controls. No pipeline rename, policy activation, custody, R8, Archive, or `main` change occurred.
+
+- `route:prewrite` — completed 2026-10-09T20:01:58-04:00, exit 0; selected `crucible-core` for the research-program and pipeline documentation paths.
+- `Coursera browser syllabus inspection` — completed 2026-10-09T20:08:00-04:00, exit 0; inspected coding-assistant, systematic debugging, performance optimization, and application-security testing outlines; the requested testing page was unavailable at its guessed URL and was retained only from the catalog result.
+- `standards follow-up research` — completed 2026-10-09T20:09:00-04:00, exit 0; reviewed SLSA provenance/verification, OpenTelemetry observability, OWASP ASVS, and NIST SSDF references.
+- `documentation mapping` — completed 2026-10-09T20:10:00-04:00, exit 0; added candidate-only course observations, Crucible-wide findings, and development-only test ideas.
+### Session: evidence-packet-gate-across-crucible-20261009 — 2026-10-10T00:35:00Z — Codex — mode:work
+
+Plain-language summary: Added one candidate-only evidence packet contract across Crucible's main intake, retrieval, extraction, repair, and diagnostic boundaries so improvements carry provenance, tests, security status, verification, rollback, and observability without weakening existing promotion gates.
+
+- `route:prewrite` — completed 2026-10-09T20:10:48-04:00, exit 0; selected `crucible-core`, repository `6076446993/The-Crucible`, branch `development`.
+- `implementation` — completed 2026-10-09T20:30:00-04:00, exit 0; added `src/evidencePacket.js`, candidate schema support, and attachments at owner intake, retrieval, extraction, repair, and pipeline diagnostics.
+- `focused tests` — completed 2026-10-09T20:31:00-04:00, exit 0; 71/71 affected tests passed, zero skipped.
+- `component expansion` — completed 2026-10-10T00:42:00Z, exit 0; added packet propagation to security-repair feedback and monthly-refresh candidate claims, and synchronized the cadence registry and bounded DEVLOG archive.
+- `full verification` — completed 2026-10-10T00:44:00Z, exit 0; orchestrated full suite 1033/1033 passed, zero skipped; validation, security, circulation, workflow lint, documentation, route binding, handoff, and diff checks passed.
+- `custody boundary` — completed 2026-10-09T20:35:00-04:00, exit 0; no credentials, raw/vetted state, R8, `main`, or `Archive` changed.
+
+### Session: candidate-research-subjects-and-accountability-20261009 — 2026-10-09T21:43:40-04:00 — Codex — mode:regular
+
+Plain-language summary: Registered additional Coursera-derived engineering subjects and the knowledge/power accountability principle as candidate-only Crucible evidence; no policy, custody, R8, pipeline name, `main`, or `Archive` change occurred.
+- `route:prewrite` — completed 2026-10-09T21:43:40-04:00, exit 0; selected `crucible-core` for the three governing paths.
+- `candidate manifests` — added runtime observability, distributed/concurrent resilience, property/contract/mutation testing, supply-chain provenance, and accountable automation subjects with Coursera/standards references.
+- `philosophy mapping` — recorded `Knowledge may inform action; it may not authorize itself` with provenance, uncertainty, independent verification, owner authorization, kill-switch, and rollback requirements.
+- `queue submission` — attempted through `src/securityLearningCli.js queue`; failed closed on the existing durable-learning lock (`EPERM` pending lock), so no durable learning state changed and no submission is claimed.
+- `focused verification` — JSON parsing, security-learning/evidence-packet tests 6/6, and governance audit passed; existing generated known-bug ledger remains preserved and uncommitted.
+
+### Session: architecture-quality-evidence-packet-20261009 — 2026-10-09T21:48:31-04:00 — Codex — mode:regular
+
+Plain-language summary: Implemented optional architecture-quality evidence on the shared Crucible packet and registered related systems-architecture and engineering-ethics research as candidate-only; no promotion, custody, R8, `main`, or `Archive` change occurred.
+- `implementation` — added quality attributes, trade-offs, threat model, stakeholders, and rollback-impact fields with fail-closed validation when review is required.
+- `research mapping` — added Coursera systems-architecture/software-architecture, CMU SEI quality-attributes, IEEE/ACM ethics, and NIST SSDF references.
+- `focused verification` — evidence-packet and security-learning tests 7/7 passed; both research manifests parse successfully.
+### Session: task-routing-handoff-repair-20261009 — 2026-10-09T22:08:07-04:00 — Codex — mode:regular
+
+Plain-language summary: Rebound the checked-in active handoff's task-routing record to its exact current repair prompt and affected-path digest, fixing the deterministic handoff mismatch without changing curriculum metadata, custody, R8, Archive, or `main`.
+
+- `route:prewrite` — completed 2026-10-09T22:08:07-04:00, exit 0; selected `crucible-core` for `6076446993/The-Crucible` on `development`.
+- `repair scope` — limited to `AI-HANDOFF.json` and `DEVLOG.md`; no source, test, learning-state, credential, workflow, R8, Archive, or `main` mutation.
+- `verification` — task-routing 14/14, language-catalog 6/6, `npm run validate`, `npm run test:all` 1036/1036, and `git diff --check` passed.
+
+### Session: monitor-app-key-manager-permission-update-20261009 — 2026-10-09T19:02:23-04:00 — Codex — mode:work
+
+Plain-language summary: Updated the existing organization-installed Crucible Monitor GitHub App so the manual Crucible key-manager workflow can use its identity for repository secret and development-content writes while the monitor workflow remains read-only; no key value, raw/vetted state, R8, `main`, or `Archive` changed.
+
+- `route:prewrite` — completed 2026-10-09T19:02:07-04:00, exit 0; selected `crucible-core` for `6076446993/The-Crucible:development` with affected paths `AI-HANDOFF.json` and `DEVLOG.md`.
+- `github-app-update` — organization App `crucible-monitor` (App ID 5230024, installation 169035381) accepted the update; installation now visibly reports read-only checks/metadata/pull requests plus read/write code and secrets across its seven selected repositories.
+- `verification` — existing local implementation commit `194368c`; no credentials were read or exposed, and the required hosted key-manager run remains pending until the owner-configured key-manager secrets exist.
+
+### Session: custody-key-manager-publish-route-20261009 — 2026-10-09T19:09:31-04:00 — Codex — mode:work
+
+Plain-language summary: The first development publish attempt failed closed because the recorded route covered only the prior documentation edit. The exact route was regenerated for the complete pending development diff before retrying; no main push or secret operation occurred.
+
+- `route:prewrite` — completed 2026-10-09T23:09:31Z, exit 0; selected `crucible-core` for `6076446993/The-Crucible:development`, prompt `Manage Crucible custody keys`, affected-path digest `90d1765af20ffe120cf0c7cc54b88d8bc1d1bacf3011fb4fb83f0689c7ba28d9`.
+- `verification` — initial push was rejected by OPS-0045 due to the stale route digest; the regenerated route covers the exact pending development paths. Known-bug ledger remains unstaged.

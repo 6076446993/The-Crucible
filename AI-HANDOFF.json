@@ -111,6 +111,7 @@
     "src/coordinationCli.js": "Agent-facing commands: continue, claims, claim, release, handoff, providers, consult.",
     "governingDocuments/TOKEN-HEALTH.json": "Non-secret health declaration for the credentials The Crucible itself consumes. Records presence, authentication, capability and expiry only; never a credential value. A healthy credential proves a door opens and nothing about what is behind it, so it authorizes no promotion and satisfies no proof stage.",
     "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence concept/source log only: durable concept hypotheses and academic source seeds with explicit evidence status. It creates no discovery automation, proof, R9 redefinition, or promotion authority.",
+    "governingDocuments/cybersecurity-research-program.json": "Three-stage candidate-only cybersecurity progression: university foundations, advanced security engineering, and current standards; implementation remains bound to the existing pipeline and Crucible gates.",
     "src/r2FailoverProof.js": "Isolated R2 failover proof: executable state is restricted to a dedicated OS-temp namespace; production learning paths are stripped from child environments; an already-running standby takes over after interruption; a pre-existing candidate must survive unchanged; proof authorizes no promotion.",
     ".github/workflows/si-gate-sandbox.yml": "Read-only development sandbox for logged SI source-seed admission under R3 rules and SI-flavored retrieval safety under R8 rules; no secrets, production-state path, gate-pass authority, or promotion authority.",
     "governingDocuments/verified-scholarly-domains.json": "Governed exact scholarly-domain registry with first-party authority evidence; candidate admission only, never proof.",
@@ -124,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-08T04:58:38.545Z"
+    "lastActionAt": "2026-10-09T19:45:00.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -205,8 +206,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Restore authenticated owner-file intake through private encrypted raw custody without loss or promotion.",
-    "currentPrompt": "Fix this missing authenticated intake connection and owner-file transport.",
+    "objective": "Use one installed GitHub App for Crucible monitoring and custody-key management while preserving strict read-only monitor authority and isolated key-manager write authority.",
+    "currentPrompt": "Manage Crucible custody keys",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -221,22 +222,22 @@
       "branch": "development",
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-08T04:56:50.460Z",
-      "promptSha256": "1a156ce6056d0229f9463c1992e0b2feddefd3c6a979f4d0b2de971601541588",
-      "affectedPathsSha256": "12483abbe6826f0c0cccb7d9f5251a559dab2b09c3f13a12ed6e089fb0498b1d"
+      "selectedAt": "2026-10-09T23:09:31.498Z",
+      "promptSha256": "9184a74bae1fd8fa23890cfe79b2ba03737724ba387e64906fa1fd7ef1611c7b",
+      "affectedPathsSha256": "90d1765af20ffe120cf0c7cc54b88d8bc1d1bacf3011fb4fb83f0689c7ba28d9"
     },
     "steps": [
-      "Publish takeover-ready plan and preserve prior repair work.",
-      "Integrate encrypted request pack/stage/import CLI, hosted workflow and governance registration.",
-      "Run required local checks and publish development with exact-head evidence.",
-      "Deploy only the manual owner-file workflow through verified release to main.",
-      "Use existing production credentials to stage exact source request and capture actual intake receipt."
+      "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
+      "Keep monitor minting limited to checks, pull-requests, and metadata read permissions.",
+      "Give the key-manager workflow the App identity only for Actions-secret and development Contents writes.",
+      "Run workflow, key-manager, validation, security, circulation, handoff, and diff checks.",
+      "Commit on development only; preserve raw/vetted custody, R8, main and Archive boundaries."
     ],
-    "status": "active",
+    "status": "in-progress",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-08T04:58:38.545Z",
-    "currentStep": 2,
-    "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
+    "lastUpdatedAt": "2026-10-09T23:09:31.498Z",
+    "currentStep": 4,
+    "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
       "owner": {
@@ -258,8 +259,20 @@
         "governingDocuments/known-bugs/KNOWN-BUGS.json",
         "governingDocuments/owner-file-intake-release.json",
         "governingDocuments/owner-file-intake-main-compatibility.patch",
-        "src/hostedSourceBundle.js",
+      "src/hostedSourceBundle.js",
         "test/hostedSourceBundle.test.js",
+        "src/evidencePacket.js",
+        "test/evidencePacket.test.js",
+        "governingDocuments/evidence-packet-gate.md",
+        "src/scientificLearning.js",
+        "src/learningExperience.js",
+        "src/claimExtractionWorker.js",
+        "src/repairEvidence.js",
+        "src/ownerFileIntake.js",
+        "src/safeInformationRetrieval.js",
+        "src/pipelineTracer.js",
+        "src/codeSecurityOrganism.js",
+        "src/monthlyKnowledgeRefresh.js",
         ".github/workflows/self-test.yml"
       ],
       "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
@@ -282,7 +295,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "1008/1008 local tests pass; no new live intake, SI verification or R3/R8 pass is claimed.",
+    "verificationStatus": "One installed GitHub App is supported for both monitor and key-manager workflows. The monitor mints only checks/pull-requests/metadata read authority; the key manager receives the App identity only in its manual development workflow and uses Actions-secret plus development Contents write authority for Crucible custody keys. GitHub organization installation 169035381 accepted the Crucible Monitor permission update on 2026-10-09, showing read/write access to code and secrets while retaining read-only checks/metadata/pull requests. No monitor token is passed to key management; no credentials, live intake, durable learning promotion, or R8 pass is claimed.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -407,7 +420,11 @@
     "filesTouched": [
       "AI-HANDOFF.json",
       "DEVLOG.md",
-      ".github/workflows/self-test.yml"
+      "governingDocuments/source-bundle-key-manager.md",
+      ".github/workflows/source-bundle-key-manager.yml",
+      ".github/workflows/nexus-check-monitor.yml",
+      "test/keyManagerPolicy.test.js",
+      "test/workflow.test.js"
     ],
     "rawCustodyAuthorization": {
       "ownerInstruction": "can you do it all in order it should be",
@@ -1563,6 +1580,51 @@
       }
     }
   },
+  "keyManagerAutomation": {
+    "status": "IMPLEMENTED_PENDING_HOSTED_APP_AUTHORITY",
+    "updatedOn": "2026-10-09",
+    "objective": "Prevent future raw/vetted custody-key loss without exposing key values or changing R8 behavior.",
+    "implementation": "Commits 101d467 and a096eae add development-only manual bootstrap/rotation for CRUCIBLE_SOURCE_BUNDLE_KEY and CRUCIBLE_VETTED_BUNDLE_KEY, exact repository/development/manual-dispatch checks, a redacted recovery report, and an explicit external-KMS capability boundary. Previous values are retained during the dual-key window and only SHA-256 fingerprints reach the registry.",
+    "verification": "Local focused key-manager/policy/dashboard tests 7/7; full npm run test:all 1027/1027; workflow lint, validate, security, and circulation audits passed.",
+    "remainingWork": [
+      "Install a narrowly scoped GitHub App on 6076446993/The-Crucible with Actions secret write and development Contents write authority.",
+      "Create CRUCIBLE_KEY_MANAGER_APP_ID and CRUCIBLE_KEY_MANAGER_PRIVATE_KEY as repository secrets, then dispatch the development-only manager in bootstrap mode.",
+      "Hosted execution must prove secret writes and registry fingerprint commit; no plaintext key or R8 state may be retained.",
+      "An external KMS/OIDC backend remains intentionally unavailable until its broker contract, audience, and least-privilege role are reviewed."
+    ],
+    "authority": "No key values were read, generated for custody, or written during this local implementation. R8 remains separately blocked and untouched."
+  },
+  "securityLearningPipeline": {
+    "status": "IMPLEMENTED_CANDIDATE_ONLY_PENDING_DURABLE_CUSTODY",
+    "updatedOn": "2026-10-09",
+    "objective": "Submit owner-provided zero-trust and boundary techniques to Crucible learning as candidate-only security/process evidence and secure the pipeline with those controls.",
+    "implementation": "Added src/securityLearning.js, src/securityLearningCli.js, governingDocuments/security-learning-techniques.json, and governingDocuments/security-learning-pipeline.md. Six techniques enter only as security-process-observation / Insufficient Evidence candidates; no direct promotion or policy activation.",
+    "verification": "Focused security-learning tests 3/3; full npm run test:all 1030/1030; workflow lint, validation, and circulation audit passed.",
+    "remainingWork": [
+      "Configure the project-bound durable learning root/key and run npm run learning:security-techniques through the real hosted custody path.",
+      "Run declared hypotheses, controlled reproduction, negative/regression tests, contradiction analysis, and distinct independent verification before any activation.",
+      "Keep R8 separate and preserve the existing exact-tip release gates."
+    ],
+    "authority": "No candidate was written to durable learning custody in this session because no configured learning root was present; no promotion authority was added."
+  },
+  "securityHardeningRuntime": {
+    "status": "IMPLEMENTED_LOCAL_PENDING_HOSTED_RUN",
+    "updatedOn": "2026-10-09",
+    "implementation": "Hardened the existing custody key-manager workflow with explicit contents write capability required for registry publication, checkout credential persistence disabled, an explicit fail-closed preflight for CRUCIBLE_KEY_MANAGER_APP_ID and CRUCIBLE_KEY_MANAGER_PRIVATE_KEY, and secret/registry operations authenticated by the narrowly scoped GitHub App token. The existing pipeline name and R8 exclusion remain unchanged.",
+    "verification": "Workflow lint and local security/key-manager tests pass; hosted execution is still required to prove the App token can write only the intended registry and secrets.",
+    "remainingWork": [
+      "Run the manual development key-manager workflow with the configured App installation and verify secret writes, registry fingerprint commit, and cleanup.",
+      "Preserve no-plaintext and R8-excluded evidence; do not broaden permissions if the hosted run fails."
+    ],
+    "authority": "No credentials were read or generated locally and no raw/vetted state, R8, Archive, or main changed."
+  },
+  "cybersecurityResearchTopic": {
+    "status": "ADDED_TO_BOUNDED_DISCOVERY_CANDIDATE_ONLY",
+    "updatedOn": "2026-10-09",
+    "topic": "Cybersecurity",
+    "implementation": "Added Cybersecurity to the existing model-pointer and Perplexity bounded topic lists. It is subject to the same daily scheduling, 50-topic ceiling, URL admission, source retrieval, and candidate-only learning gates.",
+    "authority": "This expands research scope only; it does not authorize policy activation, proof, promotion, raw custody, or vetted custody."
+  },
   "nexusSystemIntegration": {
     "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
     "contract": "governingDocuments/NEXUS-SYSTEM-CONFORMANCE.md",
@@ -1819,13 +1881,15 @@
         "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
         "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
         "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
-        "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses."
+        "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses.",
+        "Registered password-manager-human-access and api-key-lifecycle-management as candidate-only security techniques and further-research subjects; created only a non-secret password-manager item specification."
       ],
       "remaining": [
         "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
         "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
         "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
         "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
+        "The security-learning CLI submission was attempted twice and failed closed on the existing durable-store lock with EPERM while opening the pending lock file; do not delete or bypass the lock. Retry only after the owning process or governed lock-recovery path clears it.",
         "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
       ],
       "verification": [
@@ -1876,5 +1940,28 @@
       "directMainPushAllowed": false,
       "broadDevelopmentPromotionAllowed": false
     }
+  },
+  "sourceBundleKeyManager": {
+    "status": "IMPLEMENTED_PENDING_OWNER_REGISTRATION_AND_HOSTED_VERIFICATION",
+    "updatedOn": "2026-10-09",
+    "objective": "Prevent another raw-custody loss by requiring non-secret key identity and rotation metadata to match runner secrets before decrypt or re-encrypt.",
+    "implementation": "src/sourceBundleKeyManager.js validates 32-byte base64 secrets and SHA-256 fingerprints from governingDocuments/source-bundle-key-registry.json; raw-custody-publisher.yml and r8-executable-canary-publisher.yml fail closed before clone/decrypt when metadata or secrets are absent or mismatched.",
+    "security": "Only key IDs and fingerprints are persisted. Secret values remain in GitHub Actions secrets and are never printed or committed.",
+    "verification": "Focused key-manager, hostedSourceBundle, and raw custody tests pass locally. Hosted exact-tip workflow verification remains required.",
+    "blockers": [
+      "Owner must register the current raw-intake key ID and SHA-256 fingerprint in source-bundle-key-registry.json through the governed development path.",
+      "CRUCIBLE_SOURCE_BUNDLE_KEY and optional previous key must exist in the repository secret store; no historical key was recoverable from ciphertext.",
+      "R8 still requires an approved plaintext/source-of-truth rebuild before any new encrypted custody can be published."
+    ],
+    "affectedPaths": [
+      "src/sourceBundleKeyManager.js",
+      "src/circulationLinkage.js",
+      "governingDocuments/source-bundle-key-registry.json",
+      "test/sourceBundleKeyManager.test.js",
+      ".github/workflows/raw-custody-publisher.yml",
+      ".github/workflows/r8-executable-canary-publisher.yml",
+      "AI-HANDOFF.json",
+      "DEVLOG.md"
+    ]
   }
 }

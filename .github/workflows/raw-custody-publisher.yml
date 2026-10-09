@@ -29,6 +29,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Preflight raw custody key registry
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+        run: node src/sourceBundleKeyManager.js preflight raw
       - name: Restore raw encrypted intake custody
         env:
           STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
