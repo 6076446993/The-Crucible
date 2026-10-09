@@ -206,8 +206,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Repair and verify the deterministic task-routing handoff mismatch while preserving candidate-only curriculum metadata and all custody, R8, main, and Archive boundaries.",
-    "currentPrompt": "Repair the deterministic task-routing failure reported by KB-local-b11194389e, preserve exact prompt/path digests and candidate curriculum metadata, add regression coverage, and verify without changing custody, R8, main, or Archive.",
+    "objective": "Make the Crucible key manager govern the Nexus coding gateway without exposing or inventing credentials, while preserving candidate-only learning, custody, R8, main, and Archive boundaries.",
+    "currentPrompt": "work on the key manager and get it working and handling this like this",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -223,20 +223,20 @@
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
       "selectedAt": "2026-10-09T22:08:07.928Z",
-      "promptSha256": "f0d9bcf1898fec50d934bf1efc1bb85b49296286db5ad297087176cf4a832ff2",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "promptSha256": "471f186af2af1070ee74b9998c7011b7ff6ee182056a241fa710e2419ba4afa0",
+      "affectedPathsSha256": "b898890cd029a0738044527be4a3352103210732788af592f411ad246355f1a1"
     },
     "steps": [
-      "Reproduce the deterministic task-routing mismatch from KB-local-b11194389e.",
-      "Refresh the exact current prompt and affected-path digests in the checked-in handoff.",
-      "Run focused routing and curriculum tests plus validation and diff checks.",
-      "Run the full local governance suite and preserve any independently generated known-bug ledger entries.",
+      "Define the Nexus coding gateway as a non-secret GitHub OIDC machine identity with exact repository, ref, and audience.",
+      "Expose only redacted runner/key status in the dashboard and fail closed on static credentials or missing OIDC context.",
+      "Run focused tests plus validation, security, circulation, workflow-lint, and diff checks.",
+      "Record the hosted OIDC gateway deployment as the remaining capability boundary; do not fabricate credentials or R8 evidence.",
       "Commit on development only; preserve raw/vetted custody, R8, main and Archive boundaries."
     ],
-    "status": "handoff-ready",
+    "status": "in-progress",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-09T22:10:00Z",
-    "currentStep": 5,
+    "lastUpdatedAt": "2026-10-10T00:20:00Z",
+    "currentStep": 4,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -295,7 +295,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Shared evidence-packet contract implemented across owner intake, safe retrieval, claim extraction, repair evidence, security-repair feedback, monthly refresh claims, and pipeline diagnostics. Full local orchestrated proof passes 1033/1033 with zero skipped; security, validation, circulation, workflow-lint, docs, routing, cadence, and diff checks pass. No live intake, durable learning promotion, SI verification, or R8 pass is claimed.",
+    "verificationStatus": "Key-manager runner boundary implemented and locally verified: exact Nexus repository/ref/audience, GitHub OIDC presence, and rejection of static runner credentials. Redacted dashboard and runner-preflight status are wired; focused key-manager tests, validation, security, circulation, workflow lint, and diff checks pass. Hosted OIDC gateway deployment and exact Nexus runner command remain unverified; no credentials, live intake, durable learning promotion, or R8 pass is claimed.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -420,10 +420,14 @@
     "filesTouched": [
       "AI-HANDOFF.json",
       "DEVLOG.md",
-      "governingDocuments/cybersecurity-research-program.json",
-      "src/languageCatalog.js",
-      "test/languageCatalog.test.js",
-      ".github/workflows/self-test.yml"
+      "governingDocuments/security-learning-pipeline.md",
+      "governingDocuments/source-bundle-key-registry.json",
+      "src/sourceBundleKeyManager.js",
+      "src/sourceBundleKeyDashboard.js",
+      "templates/source-bundle-key-dashboard.html",
+      "test/sourceBundleKeyManager.test.js",
+      "test/sourceBundleKeyDashboard.test.js",
+      "package.json"
     ],
     "rawCustodyAuthorization": {
       "ownerInstruction": "can you do it all in order it should be",

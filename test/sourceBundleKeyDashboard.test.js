@@ -12,6 +12,8 @@ test('dashboard exposes custody status without accepting or printing secrets', (
   assert.doesNotMatch(html, /CRUCIBLE_SOURCE_BUNDLE_KEY\s*=/);
   assert.equal(typeof status().raw.ok, 'boolean');
   assert.equal(typeof status().vetted.ok, 'boolean');
+  assert.equal(typeof status().runner.ok, 'boolean');
+  assert.equal(status().runner.integration, 'nexus-coding-gateway');
 });
 
 test('dashboard authentication fails closed and compares the password safely', () => {

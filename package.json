@@ -40,6 +40,7 @@
     "learning:readiness": "node src/scientificLearningCli.js readiness",
     "dashboard:key-custody": "node src/sourceBundleKeyDashboard.js",
     "key-manager:generate": "node src/sourceBundleKeyAutomation.js generate",
+    "key-manager:runner-preflight": "node src/sourceBundleKeyManager.js runner-preflight",
     "learning:security-techniques": "node src/securityLearningCli.js queue",
     "learning:ingest": "node src/scientificLearningCli.js ingest",
     "learning:status": "node src/scientificLearningCli.js status",

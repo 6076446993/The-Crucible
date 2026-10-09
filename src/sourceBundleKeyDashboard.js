@@ -4,7 +4,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { inspect } = require('./sourceBundleKeyManager');
+const { inspect, inspectRunner, RUNNER_INTEGRATION } = require('./sourceBundleKeyManager');
 
 const dashboard = path.join(__dirname, '..', 'templates', 'source-bundle-key-dashboard.html');
 
@@ -19,7 +19,12 @@ function familyStatus(family) {
   }
 }
 
-function status() { return { raw: familyStatus('raw'), vetted: familyStatus('vetted') }; }
+function runnerStatus() {
+  try { return { ok: true, ...inspectRunner(process.env), reason: 'OIDC runner contract is available without exposing a credential.' }; }
+  catch (error) { return { ok: false, integration: RUNNER_INTEGRATION.id, repository: RUNNER_INTEGRATION.repository, ref: RUNNER_INTEGRATION.ref, audience: RUNNER_INTEGRATION.audience, reason: error.message }; }
+}
+
+function status() { return { raw: familyStatus('raw'), vetted: familyStatus('vetted'), runner: runnerStatus() }; }
 
 function authorized(request, username, password) {
   const header = request.headers.authorization || '';
