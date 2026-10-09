@@ -18,7 +18,7 @@ const {
 
 const registry = loadTaskRouting();
 const repositoryId = 1344890806;
-const repository = 'jonathanblunt1214-lgtm/The-Crucible';
+const repository = '6076446993/The-Crucible';
 
 test('canonical routing registry is development-owned and uses a stable repository ID', () => {
   assert.equal(validateTaskRouting(registry), true);
@@ -154,8 +154,8 @@ test('CLI parsing is shell-free and remote identity parsing accepts HTTPS and SS
     prompt: 'hello; whoami',
     'owner-authorized': true,
   });
-  assert.equal(repositoryFromRemote('https://github.com/jonathanblunt1214-lgtm/The-Crucible.git'), repository);
-  assert.equal(repositoryFromRemote('git@github.com:jonathanblunt1214-lgtm/The-Crucible.git'), repository);
+  assert.equal(repositoryFromRemote('https://github.com/6076446993/The-Crucible.git'), repository);
+  assert.equal(repositoryFromRemote('git@github.com:6076446993/The-Crucible.git'), repository);
   assert.throws(() => repositoryFromRemote('https://example.com/owner/repo.git'), /OPS-0045/);
 });
 
@@ -170,10 +170,10 @@ test('pre-write rerouting finds an attached branch or one unambiguous exact-tip 
 test('the checked-in active handoff records the same canonical route', () => {
   const handoff = JSON.parse(fs.readFileSync('AI-HANDOFF.json', 'utf8'));
   const record = handoff.activePlan.taskRouting;
-  assert.equal(record.category, 'crucible-release');
+  assert.equal(record.category, 'crucible-r8-workflow-registration');
   assert.equal(record.repositoryId, repositoryId);
   assert.equal(record.repository, '6076446993/The-Crucible');
-  assert.equal(record.branch, 'release');
+  assert.equal(record.branch, 'r8-workflow-registration');
   // The route has to be one the dispatcher decided, not a sentence someone wrote in passing.
   // The earlier assertion looked for the phrase "task-category dispatcher", which the dispatcher
   // never emits - it only ever passed because the reason had been hand-written, and it went red

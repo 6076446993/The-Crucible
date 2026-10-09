@@ -210,7 +210,7 @@
       "branch": "r8-workflow-registration",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:r8-workflow-registration.",
       "explicitOverride": true,
-    "selectedAt": "2026-10-09T23:26:20.223Z",
+    "selectedAt": "2026-10-09T23:31:11.312Z",
       "promptSha256": "b9151aa926a8781d5fb649d41954f084f3ad1a371077d7a2376a9c720797dc0d",
     "affectedPathsSha256": "a8964978408e911be0e0d3a97ff7dba75a08a5534d5a520ebe3c5d8fa87b63a5"
     },
