@@ -12,15 +12,5 @@
       "previous": null,
       "rotation": { "status": "blocked-until-owner-registers-key", "dualKeyWindowRequired": true }
     }
-  },
-  "integrations": {
-    "nexus-coding-gateway": {
-      "authentication": "github-oidc",
-      "repository": "6076446993/Nexus",
-      "ref": "refs/heads/Development-branch",
-      "audience": "crucible-nexus-coding",
-      "staticCredentialEnv": null,
-      "r8": "excluded"
-    }
   }
 }

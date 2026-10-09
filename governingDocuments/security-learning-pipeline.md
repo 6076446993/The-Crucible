@@ -119,15 +119,3 @@ packet. When `reviewRequired` is true, missing quality attributes, trade-offs,
 threat model, stakeholders, or rollback impact makes the packet structurally
 invalid. Existing packets remain compatible; this field grants no promotion or
 policy authority.
-## Nexus coding gateway credential boundary
-
-The key manager now registers the Nexus coding gateway as a separate machine
-identity. It is bound to `6076446993/Nexus` on
-`refs/heads/Development-branch` and the audience `crucible-nexus-coding`.
-The intended credential is GitHub OIDC, not a long-lived bearer token or a
-new encryption-key family. `node src/sourceBundleKeyManager.js
-runner-preflight` fails closed on a wrong repository, branch, audience,
-missing OIDC token context, or any static runner token/key environment value.
-The dashboard shows only this redacted contract status. R8 remains explicitly
-excluded, and no runner credential value is stored in the registry, dashboard,
-learning state, or logs.

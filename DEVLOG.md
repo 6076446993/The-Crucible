@@ -1,11 +1,10 @@
-### Session: nexus-coding-gateway-key-manager-20261009 — 2026-10-09T20:20:00-04:00 — Codex — mode:regular
+### Session: key-manager-scope-correction-20261009 — 2026-10-09T22:45:00-04:00 — Codex — mode:regular
 
-Plain-language summary: Extended the Crucible key manager to govern Nexus coding-runner credentials without accepting a static token or key. The manager now requires the exact `6076446993/Nexus` `Development-branch` identity, GitHub Actions OIDC context, and audience `crucible-nexus-coding`; the dashboard exposes only redacted runner state and the CLI provides `key-manager:runner-preflight`. R8, raw/vetted custody, Archive, and `main` were not changed.
+Plain-language summary: Corrected the key-manager scope after owner clarification. The manager governs only Crucible project encryption keys (raw intake and oversight-vetted custody); it does not govern Nexus coding credentials, OIDC runners, coding commands, or unrelated project access. The temporary Nexus gateway integration was removed. R8, raw/vetted custody, Archive, and `main` were not changed.
 
-- `route:prewrite` — completed 2026-10-09T20:10:00-04:00, exit 0; selected `crucible-core` → `6076446993/The-Crucible` → `development`.
-- `focused verification` — 12/12 key-manager/dashboard/automation/policy tests passed; `npm run validate`, `npm run audit:security`, `npm run audit:circulation`, `npm run lint:workflows`, and `git diff --check` passed.
-- `security boundary` — no credential value was read, generated, printed, persisted, or substituted; static `CRUCIBLE_CODING_GATE_TOKEN`/`CRUCIBLE_CODING_GATE_KEY` is rejected.
-- `remaining capability` — the hosted OIDC coding gateway and its exact Nexus runner command are not configured in this local checkout; no live Nexus write or hosted R8 proof is claimed.
+- `route:prewrite` — completed 2026-10-09T22:37:23-04:00, exit 0; selected `crucible-core` → `6076446993/The-Crucible` → `development`.
+- `scope correction` — removed the Nexus runner integration from the manager, dashboard, registry, package scripts, security document, and tests.
+- `verification boundary` — the cleanup is local development work; no Nexus credential was read or changed, and no hosted coding or R8 evidence is claimed.
 
 ### Session: authoritative-security-research-mapping-20261009 — 2026-10-09T20:00:00-04:00 — Codex — mode:regular
 
