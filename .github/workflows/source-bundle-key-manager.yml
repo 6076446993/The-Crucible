@@ -32,8 +32,8 @@ jobs:
           node-version: 22
       - name: Validate key-manager App credentials are configured
         env:
-          KEY_MANAGER_APP_ID: ${{ secrets.CRUCIBLE_KEY_MANAGER_APP_ID }}
-          KEY_MANAGER_PRIVATE_KEY: ${{ secrets.CRUCIBLE_KEY_MANAGER_PRIVATE_KEY }}
+          KEY_MANAGER_APP_ID: ${{ secrets.CRUCIBLE_KEY_MANAGER_APP_ID || vars.CRUCIBLE_MONITOR_APP_CLIENT_ID }}
+          KEY_MANAGER_PRIVATE_KEY: ${{ secrets.CRUCIBLE_KEY_MANAGER_PRIVATE_KEY || secrets.CRUCIBLE_MONITOR_APP_PRIVATE_KEY }}
         run: |
           set -euo pipefail
           test -n "$KEY_MANAGER_APP_ID" || { echo 'Missing CRUCIBLE_KEY_MANAGER_APP_ID'; exit 1; }
@@ -43,8 +43,8 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379 # v2
         with:
-          app-id: ${{ secrets.CRUCIBLE_KEY_MANAGER_APP_ID }}
-          private-key: ${{ secrets.CRUCIBLE_KEY_MANAGER_PRIVATE_KEY }}
+          app-id: ${{ secrets.CRUCIBLE_KEY_MANAGER_APP_ID || vars.CRUCIBLE_MONITOR_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CRUCIBLE_KEY_MANAGER_PRIVATE_KEY || secrets.CRUCIBLE_MONITOR_APP_PRIVATE_KEY }}
           owner: 6076446993
           repositories: The-Crucible
       - name: Generate or rotate ephemeral custody keys

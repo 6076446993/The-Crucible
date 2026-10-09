@@ -206,8 +206,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Keep the Crucible key manager limited to the encryption keys used by Crucible projects, with no Nexus coding-gateway authority, while preserving custody, R8, main, and Archive boundaries.",
-    "currentPrompt": "key manager only governs the key our projects use nothing else",
+    "objective": "Use one installed GitHub App for Crucible monitoring and custody-key management while preserving strict read-only monitor authority and isolated key-manager write authority.",
+    "currentPrompt": "but on the same installed app",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -223,19 +223,19 @@
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
       "selectedAt": "2026-10-09T22:08:07.928Z",
-      "promptSha256": "25aabe4c2ad9ad45485b6009d25b6a3f819cb74d3b397f8af411482b67cba50f",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "promptSha256": "aa0ce1d0f571a12cf443688ee5c1f5cac5b42bdfccd242a15ae329b33b02999b",
+      "affectedPathsSha256": "a4c3a2dc09b648b1107a2fb932a730f1af27a7629217b15a717e3e2e56ba6845"
     },
     "steps": [
-      "Remove the Nexus coding-gateway/OIDC integration from the key manager and its redacted dashboard.",
-      "Restore the key manager's sole raw-intake and oversight-vetted encryption-key scope.",
-      "Run focused key-manager tests plus validation, security, circulation, workflow-lint, handoff, and diff checks.",
-      "Record that no coding-runner credential or Nexus authority is managed here.",
+      "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
+      "Keep monitor minting limited to checks, pull-requests, and metadata read permissions.",
+      "Give the key-manager workflow the App identity only for Actions-secret and development Contents writes.",
+      "Run workflow, key-manager, validation, security, circulation, handoff, and diff checks.",
       "Commit on development only; preserve raw/vetted custody, R8, main and Archive boundaries."
     ],
     "status": "in-progress",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-09T22:45:00Z",
+    "lastUpdatedAt": "2026-10-09T22:55:00Z",
     "currentStep": 4,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -295,7 +295,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Key manager remains limited to raw-intake and oversight-vetted encryption-key validation and rotation metadata. The Nexus coding-gateway/OIDC integration was removed after owner clarification. Focused key-manager tests and governance checks remain required; no credentials, live intake, durable learning promotion, or R8 pass is claimed.",
+    "verificationStatus": "One installed GitHub App is supported for both monitor and key-manager workflows. The monitor mints only checks/pull-requests/metadata read authority; the key manager receives the App identity only in its manual development workflow and uses Actions-secret plus development Contents write authority for Crucible custody keys. No monitor token is passed to key management; no credentials, live intake, durable learning promotion, or R8 pass is claimed.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -420,14 +420,11 @@
     "filesTouched": [
       "AI-HANDOFF.json",
       "DEVLOG.md",
-      "governingDocuments/security-learning-pipeline.md",
-      "governingDocuments/source-bundle-key-registry.json",
-      "package.json",
-      "src/sourceBundleKeyDashboard.js",
-      "src/sourceBundleKeyManager.js",
-      "templates/source-bundle-key-dashboard.html",
-      "test/sourceBundleKeyDashboard.test.js",
-      "test/sourceBundleKeyManager.test.js"
+      "governingDocuments/source-bundle-key-manager.md",
+      ".github/workflows/source-bundle-key-manager.yml",
+      ".github/workflows/nexus-check-monitor.yml",
+      "test/keyManagerPolicy.test.js",
+      "test/workflow.test.js"
     ],
     "rawCustodyAuthorization": {
       "ownerInstruction": "can you do it all in order it should be",

@@ -608,6 +608,17 @@ test('Crucible PR monitor is PR-scoped and cannot self-block on its own check', 
   assert.match(workflow, /uses:\s+actions\/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02/);
 });
 
+test('the key manager may share the monitor App installation without sharing monitor authority', () => {
+  const keyManager = fs.readFileSync(path.join(root, '.github', 'workflows', 'source-bundle-key-manager.yml'), 'utf8');
+  const monitor = fs.readFileSync(path.join(root, '.github', 'workflows', 'nexus-check-monitor.yml'), 'utf8');
+  assert.match(keyManager, /CRUCIBLE_KEY_MANAGER_APP_ID \|\| vars\.CRUCIBLE_MONITOR_APP_CLIENT_ID/);
+  assert.match(keyManager, /CRUCIBLE_KEY_MANAGER_PRIVATE_KEY \|\| secrets\.CRUCIBLE_MONITOR_APP_PRIVATE_KEY/);
+  assert.match(keyManager, /permissions:\s*\n  contents: write/);
+  assert.doesNotMatch(keyManager, /CRUCIBLE_MONITOR_READ_TOKEN|NEXUS_MONITOR_READ_TOKEN/);
+  assert.match(monitor, /permission-checks: read/);
+  assert.doesNotMatch(monitor, /permission-[a-z-]+: write/);
+});
+
 
 test('the required block gate delegates to the PR monitor without recursion', () => {
   const workflow = fs.readFileSync(path.join(root,'.github','workflows','block-pr-7.yml'),'utf8');

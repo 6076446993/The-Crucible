@@ -9,10 +9,14 @@ committed, uploaded, or shown by the Nexus dashboard.
 
 The workflow requires a narrowly-scoped GitHub App installed on
 `6076446993/The-Crucible` with Actions-secrets write access and Contents write
-access on `development`. Its bootstrap credentials are themselves stored as
-repository secrets named `CRUCIBLE_KEY_MANAGER_APP_ID` and
-`CRUCIBLE_KEY_MANAGER_PRIVATE_KEY`. Missing credentials fail closed. The
-workflow is manual-only and development-only; it never touches `main`.
+access on `development`. The same installed App may also be used by the
+read-only PR monitor: the key-manager workflow accepts either its dedicated
+repository secrets `CRUCIBLE_KEY_MANAGER_APP_ID` and
+`CRUCIBLE_KEY_MANAGER_PRIVATE_KEY`, or the monitor App identity
+`CRUCIBLE_MONITOR_APP_CLIENT_ID` and `CRUCIBLE_MONITOR_APP_PRIVATE_KEY`.
+The monitor workflow still mints a read-only token and never receives the
+key-manager write path. Missing credentials fail closed. The workflow is
+manual-only and development-only; it never touches `main`.
 
 Bootstrap creates `CRUCIBLE_SOURCE_BUNDLE_KEY` and
 `CRUCIBLE_VETTED_BUNDLE_KEY`. Rotation retains the currently configured values

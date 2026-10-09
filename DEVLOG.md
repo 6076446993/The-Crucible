@@ -6,6 +6,15 @@ Plain-language summary: Corrected the key-manager scope after owner clarificatio
 - `scope correction` — removed the Nexus runner integration from the manager, dashboard, registry, package scripts, security document, and tests.
 - `verification boundary` — the cleanup is local development work; no Nexus credential was read or changed, and no hosted coding or R8 evidence is claimed.
 
+### Session: shared-monitor-app-key-manager-20261009 — 2026-10-09T22:55:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Wired the existing monitor GitHub App installation as an optional identity source for the Crucible key-manager workflow, while preserving separate authority. The monitor still receives only a read-only installation token; only the manual development key-manager workflow receives the App identity and may write Crucible Actions secrets and development registry fingerprints. The monitor token itself is never passed to key management.
+
+- `route:prewrite` — completed 2026-10-09T22:54:32-04:00, exit 0; selected `crucible-core` → `6076446993/The-Crucible` → `development`.
+- `workflow wiring` — key manager now accepts dedicated App secrets first, then the existing monitor App client ID/private key as a same-installation fallback; no new App installation is required.
+- `authority checks` — monitor permissions remain checks/pull-requests/metadata read; key-manager workflow remains manual, development-only, and `contents: write` for registry publication.
+- `remaining external action` — the installed App must actually have Actions-secrets write and development Contents write permissions; no credential value was read or exposed by this change.
+
 ### Session: authoritative-security-research-mapping-20261009 — 2026-10-09T20:00:00-04:00 — Codex — mode:regular
 
 Plain-language summary: Reviewed authoritative key-management, identity, secrets, API, and GitHub Actions guidance and mapped it to Crucible's existing candidate-only controls and development tests. No credentials, durable learning state, R8 behavior, pipeline name, Archive, or `main` changed.
