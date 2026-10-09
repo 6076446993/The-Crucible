@@ -195,7 +195,7 @@
   "activePlan": {
     "agent": "ChatGPT",
     "objective": "Complete the prevention feedback loop and add adaptive meta-learning so verified outcome evidence can improve the learning strategy without bypassing scientific or governance gates.",
-    "currentPrompt": "Automate the Crucible read-only PR monitor with the installed GitHub App using its client ID and private key; run focused tests and verify protected PR #35 checks without bypassing security or touching main.",
+    "currentPrompt": "Register the automated Crucible custody key manager on the owner-authorized protected workflow-registration branch; run focused checks and merge only the narrow protected PR without bypassing security or touching main.",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
@@ -206,13 +206,13 @@
     "taskRouting": {
       "category": "crucible-r8-workflow-registration",
       "repositoryId": 1344890806,
-      "repository": "jonathanblunt1214-lgtm/The-Crucible",
+      "repository": "6076446993/The-Crucible",
       "branch": "r8-workflow-registration",
-      "reason": "Explicit repository and branch instruction selected jonathanblunt1214-lgtm/The-Crucible:r8-workflow-registration.",
+      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:r8-workflow-registration.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-07T22:55:48.010Z",
-      "promptSha256": "a7c945896f1c7a0249b5d3e9227f441f9a9f929b0caccd9cf43caf772496f551",
-      "affectedPathsSha256": "8fdb9dc4ebf36f8e3c53f9e81349a6e5057c843307f46249218fa51252559966"
+      "selectedAt": "2026-10-09T23:22:38.701Z",
+      "promptSha256": "b9151aa926a8781d5fb649d41954f084f3ad1a371077d7a2376a9c720797dc0d",
+      "affectedPathsSha256": "5e42cfd4a51eb02abde12a788c385cfd54ce455cd04e5f4e62569d9f20b96b19"
     },
     "steps": [
       "[done] Updated all monitored repository identities from the stale jonathanblunt1214-lgtm owner to the current 6076446993 owner after hosted monitor evidence showed repository-read failure; locked PR #11 remains read-only and no mutation authority was added.",
@@ -270,7 +270,7 @@
     ],
     "status": "active",
     "startedAt": "2026-09-13T05:06:01Z",
-    "lastUpdatedAt": "2026-09-29T16:38:41.720Z",
+    "lastUpdatedAt": "2026-10-09T23:22:38.701Z",
     "currentStep": 26,
     "verification": "Hosted CI must pass AI handoff policy, Crucible self-test, and preflight/vetted-learning adapter tests before merge.",
     "remainingWork": "Resolve CI findings, merge PR #32 when green, then connect AI-collaboration- and NVIDIA-NIM-CONSOLE to consume the same vetted prevention intelligence."
