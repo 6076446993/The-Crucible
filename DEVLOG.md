@@ -1,3 +1,11 @@
+### Session: cybersecurity-research-progression-20261009 — 2026-10-09T16:40:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Started a staged cybersecurity research progression from university foundations through advanced engineering and current standards, while preserving Crucible’s existing pipeline name and candidate-only gates.
+
+- Recorded MIT OpenCourseWare and Stanford CS155 foundations, then NIST Zero Trust and SSDF advanced material, followed by NIST CSF 2.0, CIS Controls v8.1, OWASP ASVS, RFC 9700, and the NIST SSDF 1.2 draft status.
+- Added twelve bounded security technique candidates spanning threat modeling, least privilege, secure supply chain, audit/incident readiness, vulnerability feedback, authorization-flow verification, and the previously implemented custody controls.
+- Added `governingDocuments/cybersecurity-research-program.json`; no policy activation, durable learning promotion, raw/vetted state, R8, Archive, or `main` change occurred.
+
 ### Session: security-hardening-release-plan-20261009 — 2026-10-09T16:20:00-04:00 — Codex — mode:regular
 
 Plain-language summary: Added the owner-approved security-hardening model to the existing scientific-learning release plan without renaming or splitting the Crucible pipeline.

@@ -111,6 +111,7 @@
     "src/coordinationCli.js": "Agent-facing commands: continue, claims, claim, release, handoff, providers, consult.",
     "governingDocuments/TOKEN-HEALTH.json": "Non-secret health declaration for the credentials The Crucible itself consumes. Records presence, authentication, capability and expiry only; never a credential value. A healthy credential proves a door opens and nothing about what is behind it, so it authorizes no promotion and satisfies no proof stage.",
     "governingDocuments/synthetic-intelligence-research-register.json": "Owner-approved Synthetic Intelligence concept/source log only: durable concept hypotheses and academic source seeds with explicit evidence status. It creates no discovery automation, proof, R9 redefinition, or promotion authority.",
+    "governingDocuments/cybersecurity-research-program.json": "Three-stage candidate-only cybersecurity progression: university foundations, advanced security engineering, and current standards; implementation remains bound to the existing pipeline and Crucible gates.",
     "src/r2FailoverProof.js": "Isolated R2 failover proof: executable state is restricted to a dedicated OS-temp namespace; production learning paths are stripped from child environments; an already-running standby takes over after interruption; a pre-existing candidate must survive unchanged; proof authorizes no promotion.",
     ".github/workflows/si-gate-sandbox.yml": "Read-only development sandbox for logged SI source-seed admission under R3 rules and SI-flavored retrieval safety under R8 rules; no secrets, production-state path, gate-pass authority, or promotion authority.",
     "governingDocuments/verified-scholarly-domains.json": "Governed exact scholarly-domain registry with first-party authority evidence; candidate admission only, never proof.",
@@ -124,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-08T04:58:38.545Z"
+    "lastActionAt": "2026-10-09T20:40:00.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",

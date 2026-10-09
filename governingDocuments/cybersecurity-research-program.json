@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "evidenceStatus": "candidate-only",
+  "program": "Crucible cybersecurity progression",
+  "purpose": "A staged research program for foundational cybersecurity, advanced security engineering, and current standards. Sources guide hypotheses and controls; they are not proof or policy activation.",
+  "scope": "The existing Crucible pipeline and its project-bound repositories, workflows, custody stores, workers, dashboards, and release paths.",
+  "phases": [
+    {
+      "id": "foundations",
+      "order": 1,
+      "learningFocus": ["threat modeling", "secure system design", "least privilege", "authentication and authorization", "web and network attack/defense", "auditability"],
+      "sources": [
+        { "authority": "MIT OpenCourseWare", "title": "Computer Systems Security 6.5660", "url": "https://ocw.mit.edu/courses/6-5660-computer-systems-security-spring-2024/" },
+        { "authority": "Stanford University", "title": "CS155 Computer and Network Security", "url": "https://cs155.stanford.edu/" },
+        { "authority": "MIT OpenCourseWare", "title": "Computer Systems Security 6.858", "url": "https://ocw.mit.edu/courses/6-858-computer-systems-security-fall-2014/pages/syllabus/" }
+      ],
+      "techniqueIds": ["threat-model-and-asset-inventory", "least-privilege-authentication", "audit-incident-readiness"]
+    },
+    {
+      "id": "advanced",
+      "order": 2,
+      "learningFocus": ["zero trust", "identity-tier policy", "secure software development", "software supply-chain security", "vulnerability feedback", "resilient recovery"],
+      "sources": [
+        { "authority": "NIST", "title": "SP 800-207 Zero Trust Architecture", "url": "https://csrc.nist.gov/pubs/sp/800/207/final" },
+        { "authority": "NIST", "title": "SP 800-207A Cloud-Native Zero Trust Access Control", "url": "https://csrc.nist.gov/pubs/sp/800/207/A/final" },
+        { "authority": "NIST", "title": "SP 800-218 Secure Software Development Framework", "url": "https://csrc.nist.gov/pubs/sp/800/218/final" }
+      ],
+      "techniqueIds": ["zero-trust-boundary", "custody-micro-segmentation", "secure-supply-chain-development", "vulnerability-management-feedback"]
+    },
+    {
+      "id": "modern-standards",
+      "order": 3,
+      "learningFocus": ["cybersecurity risk governance", "prioritized safeguards", "application verification", "OAuth security best current practice", "continuous detection and recovery"],
+      "sources": [
+        { "authority": "NIST", "title": "Cybersecurity Framework 2.0", "url": "https://www.nist.gov/cyberframework" },
+        { "authority": "Center for Internet Security", "title": "CIS Critical Security Controls v8.1", "url": "https://www.cisecurity.org/controls/v8-1" },
+        { "authority": "OWASP Foundation", "title": "Application Security Verification Standard", "url": "https://owasp.org/projects/asvs" },
+        { "authority": "IETF", "title": "RFC 9700 OAuth 2.0 Security Best Current Practice", "url": "https://datatracker.ietf.org/doc/html/rfc9700/" },
+        { "authority": "NIST", "title": "SSDF 1.2 project update (draft status)", "url": "https://csrc.nist.gov/projects/ssdf/publications" }
+      ],
+      "techniqueIds": ["encrypted-recovery-custody", "endpoint-media-control", "continuous-verification-kill-switch", "application-verification-and-auth-flow"]
+    }
+  ],
+  "implementationContract": {
+    "existingPipelineNamePreserved": true,
+    "candidateOnly": true,
+    "activationRequires": ["project-bound durable custody", "falsifiable hypothesis", "controlled reproduction", "negative and regression tests", "contradiction analysis", "distinct independent verification", "exact-tip hosted evidence", "owner authorization"],
+    "promotionAuthorized": false
+  }
+}
