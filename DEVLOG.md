@@ -1,5 +1,14 @@
 # Development log
 
+### Session: register automated Crucible custody key manager — 2026-10-09T00:00:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: Repaired the protected R8 workflow-registration branch to the current `6076446993/The-Crucible` repository identity and added the manual-only development key-manager workflow. It uses the existing GitHub App boundary, writes only encrypted custody secrets and non-secret fingerprints, and destroys runner key material on every exit path; it does not touch learning state or `main`.
+
+- **Routing:** owner-authorized `r8-workflow-registration` route, current repository identity, and exact workflow path.
+- **Change:** added `.github/workflows/source-bundle-key-manager.yml`; historical stale-owner entries below remain unchanged as audit history.
+- **Verification:** focused workflow lint and tests are required before the protected PR is opened; no secret values were read or recorded.
+- **Next:** push this narrow registration change through the mandatory hook, open the protected PR, and merge only after required checks are green.
+
 ### Session: automate Crucible monitor App authentication — 2026-10-07T19:00:00-04:00 — ChatGPT — mode:work
 
 Plain-language summary: The PR monitor now mints a short-lived read-only GitHub App installation token from the existing `CRUCIBLE_MONITOR_APP_CLIENT_ID` repository variable and `CRUCIBLE_MONITOR_APP_PRIVATE_KEY` secret, scoped to the installed organization account. The monitor still performs only read operations; no learning-state repository, main branch, or locked PR was mutated.
