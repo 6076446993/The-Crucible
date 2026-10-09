@@ -206,8 +206,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Register password-manager-safe human access and API-key lifecycle management as candidate-only Crucible security research without exposing credentials or changing the pipeline name.",
-    "currentPrompt": "Add password-manager and API-key-management research subjects to Crucible's candidate-only security learning pipeline and further-research program; create only a non-secret password-manager record/specification if supported, preserve the pipeline name, update handoff and DEVLOG",
+    "objective": "Map authoritative key-management, identity, secrets, API, and GitHub Actions security guidance to Crucible's candidate-only controls without exposing credentials or changing the pipeline name.",
+    "currentPrompt": "Review authoritative NIST SP 800-57/SP 800-63-4, OWASP Secrets Management, GitHub Secure Use/Secrets/OIDC, and IETF OAuth guidance; record evidence-backed mappings and development-only tests in the existing candidate-only Crucible security pipeline while preserving R8, custody, branch, and pipeline boundaries.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -223,19 +223,20 @@
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
       "selectedAt": "2026-10-09T19:39:16.982Z",
-      "promptSha256": "890827342937dceeac0897de6332787ca2eca74a0a30aad1b969ffc987b79ee4",
-      "affectedPathsSha256": "c577bedc62fe1827bfef39951b56b67af2f713ab6278cd58f8074878dfaf3d75"
+      "promptSha256": "2953c248680e2cd2a6c182134d950223167460e1e40fdf018919b1f807799db6",
+      "affectedPathsSha256": "618fcc7caa92f691a1150512ac8e2bc0de04231459483f5cf8d5415b82e91263"
     },
     "steps": [
-      "Register both subjects as candidate-only security techniques and further-research entries.",
-      "Record a non-secret password-manager item specification without claiming an external vault write.",
-      "Run focused manifest, provenance, routing, documentation and handoff checks.",
+      "Register password-manager and API-key lifecycle subjects as candidate-only research.",
+      "Review authoritative NIST SP 800-57/SP 800-63-4, OWASP Secrets Management, GitHub Secure Use/Secrets/OIDC, and IETF OAuth guidance.",
+      "Record source observations, control mappings, and falsifiable development-only tests without ingesting credential values.",
+      "Run focused JSON, documentation, security, routing, and handoff checks.",
       "Commit on development only; preserve raw/vetted custody, R8, main and Archive boundaries."
     ],
-    "status": "active",
+    "status": "complete",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-09T19:45:00.000Z",
-    "currentStep": 1,
+    "lastUpdatedAt": "2026-10-09T20:06:00.000Z",
+    "currentStep": 5,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -282,7 +283,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "1008/1008 local tests pass; no new live intake, SI verification or R3/R8 pass is claimed.",
+    "verificationStatus": "39/39 focused security-learning, routing, and handoff tests pass; JSON parse, validate, security gate, circulation audit, and diff-check pass. The pre-existing audit:handoff exact-range boundary remains blocked; no live intake, durable learning promotion, SI verification, or R8 pass is claimed.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",

@@ -1,3 +1,13 @@
+### Session: authoritative-security-research-mapping-20261009 — 2026-10-09T20:00:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Reviewed authoritative key-management, identity, secrets, API, and GitHub Actions guidance and mapped it to Crucible's existing candidate-only controls and development tests. No credentials, durable learning state, R8 behavior, pipeline name, Archive, or `main` changed.
+
+- `route:prewrite` — completed 2026-10-09T19:54:36-04:00, exit 0; selected `crucible-core` for the four governing paths.
+- `web research` — completed 2026-10-09T19:56:00-04:00, exit 0; reviewed NIST SP 800-57/SP 800-63-4, OWASP Secrets Management, GitHub Secure Use/Secrets/OIDC, and IETF OAuth references.
+- `Coursera syllabus inspection` — completed 2026-10-09T19:52:00-04:00, exit 0; inspected Vault, Azure DevOps secrets, API security, and Johns Hopkins DevSecOps course pages as non-authoritative candidate material.
+- `documentation update` — completed 2026-10-09T20:00:00-04:00, exit 0; added source observations, control mappings, and falsifiable development-only tests.
+- `focused verification` — completed 2026-10-09T20:05:00-04:00, exit 0; 39/39 focused tests, JSON parse, `npm run validate`, `npm run audit:security`, `npm run audit:circulation`, and `git diff --check` passed. `audit:handoff` remains blocked by its pre-existing exact-range boundary requirement.
+
 ### Session: key-manager-least-privilege-hardening-20261009 — 2026-10-09T16:50:00-04:00 — Codex — mode:regular
 
 Plain-language summary: Corrected the custody key-manager workflow to retain the write capability required for registry publication while keeping checkout credentials disabled and App-token authentication explicit.

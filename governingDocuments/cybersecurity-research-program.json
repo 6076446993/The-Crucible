@@ -4,6 +4,44 @@
   "program": "Crucible cybersecurity progression",
   "purpose": "A staged research program for foundational cybersecurity, advanced security engineering, and current standards. Sources guide hypotheses and controls; they are not proof or policy activation.",
   "scope": "The existing Crucible pipeline and its project-bound repositories, workflows, custody stores, workers, dashboards, and release paths.",
+  "authoritativeSourcesReviewed": [
+    {
+      "authority": "NIST",
+      "title": "Key Management Guidelines (SP 800-57 family)",
+      "url": "https://csrc.nist.gov/Projects/Key-Management/Key-Management-Guidelines",
+      "observations": ["Protect key material and metadata against disclosure, substitution, and modification.", "Treat generation, storage, distribution, rotation, revocation, backup, and destruction as separate governed lifecycle functions."]
+    },
+    {
+      "authority": "NIST",
+      "title": "SP 800-63-4 Digital Identity Guidelines",
+      "url": "https://csrc.nist.gov/pubs/sp/800/63/4/2pd",
+      "observations": ["Bind authentication and federation to assurance, lifecycle, session, and privacy requirements."]
+    },
+    {
+      "authority": "OWASP",
+      "title": "Secrets Management Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+      "observations": ["Centralize storage, provisioning, auditing, rotation, and access control; scope CI/CD identities to only required secrets and services."]
+    },
+    {
+      "authority": "GitHub",
+      "title": "Actions Secure Use Reference",
+      "url": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "observations": ["Default GITHUB_TOKEN permissions to read-only, rotate secrets, keep actions current, and avoid granting automation pull-request approval authority."]
+    },
+    {
+      "authority": "GitHub",
+      "title": "Actions OpenID Connect Reference",
+      "url": "https://docs.github.com/en/actions/reference/security/oidc",
+      "observations": ["Use exact repository/ref/audience trust conditions and the minimum id-token permission when replacing long-lived cloud credentials."]
+    },
+    {
+      "authority": "GitHub",
+      "title": "Actions Secrets Reference",
+      "url": "https://docs.github.com/en/actions/reference/security/secrets",
+      "observations": ["Keep secret use within explicit repository or organization scope and do not treat secret names as proof of configured values."]
+    }
+  ],
   "furtherResearch": [
     {
       "id": "password-manager-human-access",
@@ -12,7 +50,8 @@
       "sources": [
         { "authority": "NIST", "title": "SP 800-63B digital identity guidance", "url": "https://pages.nist.gov/800-63-4/sp800-63b.html" },
         { "authority": "NIST", "title": "SP 800-63B-4 implementation FAQs", "url": "https://pages.nist.gov/800-63-4-Implementation-Resources/faqs/" },
-        { "authority": "OWASP", "title": "Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" }
+        { "authority": "OWASP", "title": "Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" },
+        { "authority": "NIST", "title": "SP 800-57 Key Management Guidelines", "url": "https://csrc.nist.gov/Projects/Key-Management/Key-Management-Guidelines" }
       ],
       "status": "candidate-research-only"
     },
@@ -23,9 +62,33 @@
       "sources": [
         { "authority": "OWASP", "title": "Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" },
         { "authority": "IETF", "title": "RFC 9700 OAuth 2.0 Security Best Current Practice", "url": "https://datatracker.ietf.org/doc/html/rfc9700/" },
-        { "authority": "OWASP", "title": "REST Security Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html" }
+        { "authority": "OWASP", "title": "REST Security Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html" },
+        { "authority": "GitHub", "title": "Actions OpenID Connect Reference", "url": "https://docs.github.com/en/actions/reference/security/oidc" },
+        { "authority": "GitHub", "title": "Actions Secure Use Reference", "url": "https://docs.github.com/en/actions/reference/security/secure-use" }
       ],
       "status": "candidate-research-only"
+    }
+  ],
+  "controlMappings": [
+    {
+      "techniqueId": "encrypted-recovery-custody",
+      "evidence": ["NIST SP 800-57 lifecycle separation and protection against substitution/modification", "OWASP centralized secret storage, audit, rotation, and scoped CI access"],
+      "developmentTests": ["Reject absent or mismatched key fingerprints before decrypt", "Verify rotation overlap and revocation without persisting plaintext", "Verify recovery metadata cannot substitute ciphertext or key identity"]
+    },
+    {
+      "techniqueId": "least-privilege-authentication",
+      "evidence": ["GitHub Secure Use default read-only token permissions", "GitHub OIDC exact subject/audience trust conditions"],
+      "developmentTests": ["Reject wrong repository/ref/audience/actor", "Reject workflows lacking only the exact permission required", "Verify no automation can approve or merge its own pull request"]
+    },
+    {
+      "techniqueId": "application-verification-and-auth-flow",
+      "evidence": ["NIST SP 800-63-4 authentication and federation lifecycle requirements", "GitHub OIDC claim binding"],
+      "developmentTests": ["Reject replayed, expired, wrong-origin, wrong-audience, and missing-state tokens", "Verify redacted audit output contains no credential or key value"]
+    },
+    {
+      "techniqueId": "secure-supply-chain-development",
+      "evidence": ["GitHub Secure Use guidance on action updates, token permissions, and workflow approval risk"],
+      "developmentTests": ["Pin action references and detect dependency drift", "Require exact-tip provenance and security checks before retention"]
     }
   ],
   "phases": [
