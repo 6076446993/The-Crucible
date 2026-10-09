@@ -227,6 +227,64 @@
         { "authority": "NIST", "title": "Zero Trust Architecture", "url": "https://csrc.nist.gov/pubs/sp/800/207/final" }
       ],
       "status": "candidate-research-only"
+    },
+    {
+      "id": "crucible-language-curriculum-and-toolchains",
+      "title": "Language-specific coding, runtime, and toolchain curriculum",
+      "question": "Which reputable language courses and official documentation should inform Crucible's language profiles, fixtures, security scanners, and independent experiment/verifier harnesses without treating course completion as proof?",
+      "languages": [
+        "javascript",
+        "typescript",
+        "python",
+        "java",
+        "c",
+        "c++",
+        "c#",
+        "powershell",
+        "shell",
+        "html",
+        "css",
+        "json",
+        "react",
+        "react-native",
+        "django"
+      ],
+      "priority": "high",
+      "courseSources": [
+        { "authority": "Coursera / University of Michigan", "title": "Web Development Fundamentals: HTML, CSS, and JavaScript", "url": "https://www.coursera.org/learn/web-development-fundamentals-html-css-javascript" },
+        { "authority": "Coursera / Scrimba", "title": "Learn JavaScript", "url": "https://www.coursera.org/learn/learn-javascript" },
+        { "authority": "Coursera", "title": "Learn TypeScript", "url": "https://www.coursera.org/learn/learn-typescript" },
+        { "authority": "Coursera / Princeton University", "title": "Algorithms, Part I", "url": "https://www.coursera.org/learn/algorithms-part1" },
+        { "authority": "Coursera / University of California San Diego", "title": "Data Structures", "url": "https://www.coursera.org/learn/data-structures" },
+        { "authority": "Coursera / Microsoft", "title": "C# Programming Fundamentals and Development Environment", "url": "https://www.coursera.org/learn/c-sharp-programming-fundamentals-and-development-environment" },
+        { "authority": "Coursera / Meta", "title": "React Native", "url": "https://www.coursera.org/learn/react-native-course" },
+        { "authority": "Coursera / University of Michigan", "title": "JavaScript, jQuery, and JSON", "url": "https://www.coursera.org/learn/javascript-jquery-json" },
+        { "authority": "Coursera / University of London", "title": "Data-driven websites: JSON, APIs and Templates", "url": "https://www.coursera.org/learn/web-data" },
+        { "authority": "Coursera", "title": "Command Line Interfaces and Scripting", "url": "https://www.coursera.org/learn/command-line-interfaces-and-scripting-clis" },
+        { "authority": "Coursera", "title": "Apply PowerShell Scripting for Automation and Projects", "url": "https://www.coursera.org/learn/apply-powershell-scripting-for-automation-and-projects" }
+      ],
+      "officialSources": [
+        { "authority": "Microsoft Learn", "title": "Introduction to scripting in PowerShell", "url": "https://learn.microsoft.com/en-in/training/modules/script-with-powershell/" },
+        { "authority": "Django", "title": "Django at a glance", "url": "https://docs.djangoproject.com/en/6.1/intro/overview/" },
+        { "authority": "React Native", "title": "Getting started", "url": "https://reactnative.dev/docs/getting-started" },
+        { "authority": "Microsoft Learn", "title": "Create and modify scripts by using Windows PowerShell", "url": "https://learn.microsoft.com/en-us/training/paths/create-modify-script-use-windows-powershell/" }
+      ],
+      "syllabusObservations": [
+        "Prioritize JavaScript and TypeScript because the active Crucible implementation is JavaScript-heavy and its typed interfaces, async behavior, and test contracts affect nearly every boundary.",
+        "Use Python and Java for extraction, data, and verifier tooling; use C, C++, and C# for native-toolchain, memory-safety, and cross-language fixture coverage.",
+        "Use PowerShell and shell for Windows/CI automation, but require explicit path handling, input validation, error propagation, signing, and fail-closed behavior.",
+        "Treat HTML, CSS, React, and React Native as dashboard/operator-surface skills, with accessibility, authentication boundaries, state handling, and no secret exposure.",
+        "Treat JSON as a data-contract and canonicalization skill, not as a general-purpose programming language; validate schemas, hashes, provenance, and rejection behavior.",
+        "Use Django as a Python web-stack profile only where a real service boundary exists; verify ORM, authentication, CSRF, migrations, and deployment behavior independently."
+      ],
+      "crucibleApplication": "Add course and official-document links as candidate research inputs to the existing pipeline; map each language to concrete fixture, scanner, compiler, parser, or verifier tests and retain the current no-substitution rule for unavailable harnesses.",
+      "developmentTests": [
+        "Verify every catalog profile has an explicit extension mapping, source-language fixture, and distinct experiment/verifier path before a claim can advance.",
+        "Reject a language-learning claim when the named compiler, runtime, parser, or harness is unavailable; never substitute another language.",
+        "Add negative tests for shell/PowerShell injection, JSON canonicalization and schema confusion, web authentication/CSRF boundaries, and native memory/FFI hazards where applicable.",
+        "Compare course-derived hypotheses against official language/runtime documentation and independent controlled tests before durable retention."
+      ],
+      "status": "candidate-research-only"
     }
   ],
   "controlMappings": [
