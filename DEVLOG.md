@@ -134,6 +134,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-09T22:10:00-04:00 Language curriculum implementation:** Added candidate-only curriculum metadata and verification focus to `src/languageCatalog.js` for all 15 Crucible language profiles. Research scopes now carry source links, priority, verification focus, `candidateOnly: true`, and `promotionAuthorized: false`; added catalog tests for complete coverage and fail-closed authority. No durable learning state, raw/vetted custody, R8, `main`, or `Archive` changed.
+
 - **2026-10-09T22:05:00-04:00 Language curriculum research registration:** Added a candidate-only Crucible language curriculum subject covering JavaScript, TypeScript, Python, Java, C, C++, C#, PowerShell, shell, HTML, CSS, JSON, React, React Native, and Django. Registered Coursera, Microsoft Learn, Django, and React Native sources plus language-specific fixture, scanner, and verifier tests. No policy activation, durable learning promotion, raw/vetted custody change, R8 change, `main` change, or `Archive` change occurred.
 
 - **2026-10-09T19:45:00-04:00 Password-manager and API-key research registration:** Added two candidate-only security techniques, two further-research subjects, and a non-secret password-manager item specification. No external vault write was claimed because no password-manager connector is available; no credential value was added, and raw/vetted custody, R8, `main`, and `Archive` remain unchanged. See `AI-HANDOFF.json.activePlan`.

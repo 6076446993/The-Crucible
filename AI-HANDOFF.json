@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Register and verify candidate-only language curriculum research for Crucible's coding profiles without activating policy or changing custody, R8, main, or Archive.",
-    "currentPrompt": "Use Coursera and reputable university or official-language sources to add candidate-only learning research for every Crucible language profile, submit it through the existing research-program boundary without activating policy or promoting learning, and preserve custody, R8, main, and Archive.",
+    "currentPrompt": "Implement candidate-only language curriculum metadata and verification focus in the existing Crucible language catalog, add tests, and submit through the existing research pipeline without activating policy, changing custody, R8, main, or Archive.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-09T21:55:44.973Z",
-      "promptSha256": "2a27499e59f7832eed08fd51c510f5e4169655dcdf308d9077a8245d189b61be",
-      "affectedPathsSha256": "5e7d1e0d04b45c0115eab1081a5a0f9366c71cb5ea53aadd3a05437d33831fea"
+      "selectedAt": "2026-10-09T22:00:59.765Z",
+      "promptSha256": "055bec03bafce249b10b7d0ef7a12c430857ed7baa073bff3fd2f08a0ebeb869",
+      "affectedPathsSha256": "cedf92d9beb068bb3f041680d7d152a35177de8035d958dbb0ba2f0eae5a5a3d"
     },
     "steps": [
       "Inventory the language profiles and actual Crucible source usage.",
@@ -235,8 +235,8 @@
     ],
     "status": "handoff-ready",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-09T22:05:00Z",
-    "currentStep": 1,
+    "lastUpdatedAt": "2026-10-09T22:10:00Z",
+    "currentStep": 3,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -421,6 +421,8 @@
       "AI-HANDOFF.json",
       "DEVLOG.md",
       "governingDocuments/cybersecurity-research-program.json",
+      "src/languageCatalog.js",
+      "test/languageCatalog.test.js",
       ".github/workflows/self-test.yml"
     ],
     "rawCustodyAuthorization": {
