@@ -195,7 +195,7 @@
   "activePlan": {
     "agent": "ChatGPT",
     "objective": "Complete the prevention feedback loop and add adaptive meta-learning so verified outcome evidence can improve the learning strategy without bypassing scientific or governance gates.",
-    "currentPrompt": "Register the automated Crucible custody key manager on the owner-authorized protected workflow-registration branch; run focused checks and merge only the narrow protected PR without bypassing security or touching main.",
+    "currentPrompt": "Register Crucible custody key manager workflow",
     "executionMode": {
       "mode": "work",
       "agent": "ChatGPT",
