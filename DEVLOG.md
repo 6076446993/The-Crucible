@@ -1,3 +1,14 @@
+### Session: source-bundle-key-manager-20261009 — 2026-10-09T00:00:00.000Z — Codex — mode:regular
+
+Plain-language summary: Added a fail-closed, non-secret key identity and rotation preflight so raw custody and R8 cannot start with an absent, malformed, or silently replaced encryption key.
+
+- Implemented `src/sourceBundleKeyManager.js`; it validates 32-byte base64 secrets and compares their SHA-256 fingerprints with checked-in metadata, without persisting or printing secret values.
+- Added `governingDocuments/source-bundle-key-registry.json` as the non-secret registry. It intentionally remains owner-registration blocked until the real current key ID and fingerprint are supplied; placeholders are not accepted by preflight.
+- Wired the preflight before clone/decrypt in `.github/workflows/raw-custody-publisher.yml` and `.github/workflows/r8-executable-canary-publisher.yml`, preventing another run from touching custody when the key is missing or mismatched.
+- Added focused tests. `node --test test/sourceBundleKeyManager.test.js test/hostedSourceBundle.test.js test/rawCustodyPublisher.test.js` passed 19/19 locally.
+- No raw/vetted state, Archive, main, or historical ciphertext was changed. R8 remains blocked because the original key/plaintext source-of-truth is unavailable; this prevention layer does not fabricate recovery evidence.
+- Next safe action: owner registers the real raw-intake key ID/fingerprint and creates `CRUCIBLE_SOURCE_BUNDLE_KEY` in GitHub repository secrets, then an exact-tip hosted preflight/R8 run can proceed if an approved plaintext rebuild is available.
+
 ### Session: java-constructor-verifier-normalization-20260928 — 2026-09-28T19:20:19.755Z — Codex — mode:work
 
 Plain-language summary: The hosted semantic proof was still failing on Windows because Java compiler symbol names differ across JDK generations. The verifier now normalizes the constructor identity before evaluating the same independent source-tree proof.

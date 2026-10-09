@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Non-secret identity and rotation metadata for Crucible encrypted custody keys. Secret values are never stored here.",
+  "families": {
+    "raw-intake": {
+      "current": { "id": "REQUIRED_OWNER_KEY_ID", "sha256": "REQUIRED_64_HEX_FINGERPRINT" },
+      "previous": null,
+      "rotation": { "status": "blocked-until-owner-registers-key", "dualKeyWindowRequired": true }
+    },
+    "oversight-vetted": {
+      "current": { "id": "REQUIRED_OWNER_KEY_ID", "sha256": "REQUIRED_64_HEX_FINGERPRINT" },
+      "previous": null,
+      "rotation": { "status": "blocked-until-owner-registers-key", "dualKeyWindowRequired": true }
+    }
+  }
+}
