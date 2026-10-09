@@ -71,7 +71,7 @@ jobs:
           set -euo pipefail
           gh auth setup-git
           git config user.name 'Crucible key manager'
-          git config user.email 'crucible-key-manager@users.noreply.github.com'
+          git config user.email 'crucible-key-manager'
           git add governingDocuments/source-bundle-key-registry.json
           git diff --cached --quiet && { echo 'No registry metadata change.'; exit 0; }
           git commit -m 'Update automated custody key fingerprints'
