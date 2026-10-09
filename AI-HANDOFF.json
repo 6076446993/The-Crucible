@@ -1577,6 +1577,19 @@
     ],
     "authority": "No key values were read, generated for custody, or written during this local implementation. R8 remains separately blocked and untouched."
   },
+  "securityLearningPipeline": {
+    "status": "IMPLEMENTED_CANDIDATE_ONLY_PENDING_DURABLE_CUSTODY",
+    "updatedOn": "2026-10-09",
+    "objective": "Submit owner-provided zero-trust and boundary techniques to Crucible learning as candidate-only security/process evidence and secure the pipeline with those controls.",
+    "implementation": "Added src/securityLearning.js, src/securityLearningCli.js, governingDocuments/security-learning-techniques.json, and governingDocuments/security-learning-pipeline.md. Six techniques enter only as security-process-observation / Insufficient Evidence candidates; no direct promotion or policy activation.",
+    "verification": "Focused security-learning tests 3/3; full npm run test:all 1030/1030; workflow lint, validation, and circulation audit passed.",
+    "remainingWork": [
+      "Configure the project-bound durable learning root/key and run npm run learning:security-techniques through the real hosted custody path.",
+      "Run declared hypotheses, controlled reproduction, negative/regression tests, contradiction analysis, and distinct independent verification before any activation.",
+      "Keep R8 separate and preserve the existing exact-tip release gates."
+    ],
+    "authority": "No candidate was written to durable learning custody in this session because no configured learning root was present; no promotion authority was added."
+  },
   "nexusSystemIntegration": {
     "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
     "contract": "governingDocuments/NEXUS-SYSTEM-CONFORMANCE.md",

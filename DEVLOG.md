@@ -1,3 +1,12 @@
+### Session: security-learning-pipeline-20261009 — 2026-10-09T15:30:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Submitted six owner-provided security/process techniques to Crucible’s governed learning path as candidate-only evidence and wired pipeline controls that enforce zero trust, segmentation, one-way evidence, encrypted recovery, endpoint protection, and continuous inhibition.
+
+- Added `src/securityLearning.js`, `src/securityLearningCli.js`, `governingDocuments/security-learning-techniques.json`, and `governingDocuments/security-learning-pipeline.md`; registered the adapter in circulation and security test cadence, plus `npm run learning:security-techniques`.
+- The manifest is explicitly `candidate-only`; missing durable learning custody returns without writing and promotion is always false.
+- Verification: focused security-learning tests 3/3; full `npm run test:all` 1030/1030; workflow lint, validation, and circulation audit passed.
+- No raw/vetted state, R8, Archive, or `main` changed. Durable hosted submission remains pending until the project-bound learning root/key is configured.
+
 ### Session: key-manager-zero-trust-hardening-20261009 — 2026-10-09T15:15:00-04:00 — Codex — mode:regular
 
 Plain-language summary: Hardened the automated key manager against wrong-repository, wrong-branch, push-trigger, and unreviewed external-KMS execution while retaining only redacted recovery metadata.
