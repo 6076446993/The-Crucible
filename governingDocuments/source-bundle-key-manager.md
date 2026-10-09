@@ -21,5 +21,16 @@ Rotation cannot proceed if either current key is unavailable. Lost keys remain
 unrecoverable by design; recovery requires the existing external custody/KMS
 authority, not a replacement value.
 
+Execution is additionally bound to the exact repository, the `development` ref,
+and a manual `workflow_dispatch` event. The workflow retains only a 90-day
+redacted lifecycle report containing key ids, fingerprints, context, and the
+explicit `r8: excluded` marker. It never uploads key material or plaintext
+custody.
+
+An external KMS/OIDC backend is a deliberate capability boundary, not an
+unimplemented fallback: selecting it currently fails closed until a reviewed
+broker contract, audience, and provider-specific least-privilege role are
+configured. The current GitHub-App path remains the only executable backend.
+
 This manager is separate from R8. It does not admit canaries, decrypt learning
 state, or alter executable-content quarantine behavior.

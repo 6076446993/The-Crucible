@@ -7,6 +7,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { FAMILIES, readRegistry, fingerprint, decodeKey } = require('./sourceBundleKeyManager');
+const { assertExecutionContext, recoveryManifest } = require('./keyManagerPolicy');
 
 function keyId(family, sha256) { return `crucible-${family}-${sha256.slice(0, 16)}`; }
 
@@ -52,12 +53,13 @@ function applyRegistry(plan) {
   return plan.registry;
 }
 
-function writePlan(plan, outputDir, registryFile) {
+function writePlan(plan, outputDir, registryFile, context = null) {
   fs.mkdirSync(outputDir, { recursive: true });
   for (const item of plan.plans) {
     fs.writeFileSync(path.join(outputDir, item.currentSecret), `${item.current.base64}\n`, { mode: 0o600 });
     if (item.previous) fs.writeFileSync(path.join(outputDir, item.previousSecret), `${item.previous.base64}\n`, { mode: 0o600 });
   }
+  if (context) fs.writeFileSync(path.join(outputDir, 'key-manager-report.json'), `${JSON.stringify(recoveryManifest({ mode: plan.mode, context, plans: plan.plans }), null, 2)}\n`);
   fs.writeFileSync(registryFile, `${JSON.stringify(applyRegistry(plan), null, 2)}\n`);
 }
 
@@ -66,8 +68,9 @@ function main(argv = process.argv.slice(2)) {
   const arg = (name, fallback) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : fallback; };
   const outputDir = path.resolve(arg('--output-dir', process.env.RUNNER_TEMP ? path.join(process.env.RUNNER_TEMP, 'crucible-key-manager') : 'key-manager-output'));
   const registryFile = path.resolve(arg('--registry', path.join(__dirname, '..', 'governingDocuments', 'source-bundle-key-registry.json')));
+  const context = assertExecutionContext(process.env);
   const plan = buildPlan({ registryFile, mode: arg('--mode', 'bootstrap') });
-  writePlan(plan, outputDir, registryFile);
+  writePlan(plan, outputDir, registryFile, context);
   process.stdout.write(JSON.stringify({ mode: plan.mode, families: plan.plans.map(p => ({ family: p.registryName, currentKeyId: p.current.id, currentFingerprint: p.current.sha256, previousConfigured: Boolean(p.previous) })) }) + '\n');
 }
 

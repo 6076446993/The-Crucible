@@ -41,6 +41,7 @@ jobs:
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
           CRUCIBLE_VETTED_BUNDLE_KEY: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY }}
+          CRUCIBLE_KEY_MANAGER_BACKEND: github-app
         run: |
           set -euo pipefail
           node src/sourceBundleKeyAutomation.js generate --mode "${{ inputs.mode }}" --output-dir "$RUNNER_TEMP/crucible-key-manager" --registry governingDocuments/source-bundle-key-registry.json
@@ -62,6 +63,14 @@ jobs:
           git diff --cached --quiet && { echo 'No registry metadata change.'; exit 0; }
           git commit -m 'Update automated custody key fingerprints'
           git push origin HEAD:development
+      - name: Retain redacted lifecycle evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: crucible-key-manager-${{ github.run_id }}
+          path: ${{ runner.temp }}/crucible-key-manager/key-manager-report.json
+          if-no-files-found: warn
+          retention-days: 90
       - name: Destroy runner key material and credentials
         if: always()
         run: rm -rf "$RUNNER_TEMP/crucible-key-manager"
