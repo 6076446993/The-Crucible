@@ -376,3 +376,11 @@ Plain-language summary: Collected four author/publisher-authorized public source
 ## Historical mutation accountability
 
 Released claims `scheduled-cadence-repair-20261002` and `monitor-token-diagnostics-20261002` remain preserved in AI-HANDOFF.json. This reference repairs discoverability after session pruning; it does not change their results or custody.
+### Session: coursera-engineering-research-20261009 — 2026-10-09T20:10:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Inspected Coursera syllabi for coding assistants, debugging, optimization, testing, and application-security work, then mapped the useful practices to Crucible's candidate-only engineering controls. No pipeline rename, policy activation, custody, R8, Archive, or `main` change occurred.
+
+- `route:prewrite` — completed 2026-10-09T20:01:58-04:00, exit 0; selected `crucible-core` for the research-program and pipeline documentation paths.
+- `Coursera browser syllabus inspection` — completed 2026-10-09T20:08:00-04:00, exit 0; inspected coding-assistant, systematic debugging, performance optimization, and application-security testing outlines; the requested testing page was unavailable at its guessed URL and was retained only from the catalog result.
+- `standards follow-up research` — completed 2026-10-09T20:09:00-04:00, exit 0; reviewed SLSA provenance/verification, OpenTelemetry observability, OWASP ASVS, and NIST SSDF references.
+- `documentation mapping` — completed 2026-10-09T20:10:00-04:00, exit 0; added candidate-only course observations, Crucible-wide findings, and development-only test ideas.

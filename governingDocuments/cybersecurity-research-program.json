@@ -42,6 +42,81 @@
       "observations": ["Keep secret use within explicit repository or organization scope and do not treat secret names as proof of configured values."]
     }
   ],
+  "courseraEngineeringResearch": [
+    {
+      "id": "coding-assistant-review-and-verification",
+      "title": "Coding assistants with review, testing, and secure boundaries",
+      "courseSources": [
+        { "title": "Generative AI Coding Assistants for Developers", "url": "https://www.coursera.org/learn/generative-ai-coding-assistants-for-developers" },
+        { "title": "Software Development Practices", "url": "https://www.coursera.org/learn/software-development-practices-sdp" }
+      ],
+      "syllabusObservations": ["AI assistance is useful for suggestions, refactoring, debugging, documentation, testing, and collaborative review.", "Assistant output still requires human review, security checks, tests, provenance, and repository policy enforcement."],
+      "crucibleApplication": "Use assistants only as bounded proposal generators; require route checks, diff review, focused tests, security scans, exact-tip verification, and no credential or custody access.",
+      "developmentTests": ["Reject assistant-generated changes without tests or provenance", "Require secret and executable-content scans before retention", "Compare assistant proposal against the task boundary and changed-path route"]
+    },
+    {
+      "id": "systematic-debugging-and-bug-fixing",
+      "title": "Hypothesis-driven debugging and regression repair",
+      "courseSources": [
+        { "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "title": "Writing, Running, and Fixing Code in C", "url": "https://www.coursera.org/learn/writing-running-fixing-code" }
+      ],
+      "syllabusObservations": ["Use a scientific, hypothesis-driven workflow, profiling, observability, and structured root-cause analysis.", "A bug fix should be paired with a reproducer and regression test."],
+      "crucibleApplication": "Require deterministic reproduction, smallest safe repair, negative test, regression test, and exact failure/run lineage; never mask a failure by weakening a gate.",
+      "developmentTests": ["Reproduce a known bug before editing", "Require a failing test then a passing regression test", "Reject fixes that alter unrelated paths or suppress the original failure"]
+    },
+    {
+      "id": "performance-optimization-and-profiling",
+      "title": "Measured optimization and scalability",
+      "courseSources": [
+        { "title": "Performance Optimization and Scalability", "url": "https://www.coursera.org/learn/performance-optimization-and-scalability" },
+        { "title": "Data Structures and Performance", "url": "https://www.coursera.org/learn/data-structures-optimizing-performance" }
+      ],
+      "syllabusObservations": ["Optimization topics include profiling, caching, asynchronous work, scalability, query and code bottlenecks, and before/after comparison.", "AI suggestions for optimization must be measured rather than accepted by intuition."],
+      "crucibleApplication": "Add benchmark baselines and resource budgets only where a measured bottleneck exists; preserve correctness, security, determinism, and evidence custody.",
+      "developmentTests": ["Require reproducible before/after measurements", "Reject an optimization that regresses correctness, security, memory, or tail latency", "Verify cache invalidation and asynchronous failure handling"]
+    },
+    {
+      "id": "testing-strategy-and-regression",
+      "title": "Testing strategy, automation, and regression coverage",
+      "courseSources": [
+        { "title": "Software Testing and Automation", "url": "https://www.coursera.org/learn/software-testing-and-automation-sta" },
+        { "title": "Foundations of Software Testing and Validation", "url": "https://www.coursera.org/learn/foundations-of-software-testing-and-validation" },
+        { "title": "Practical Software Testing", "url": "https://www.coursera.org/learn/practical-software-testing" }
+      ],
+      "syllabusObservations": ["Use layered unit, integration, system, acceptance, security, performance, regression, smoke, mutation, and soak testing.", "Test plans and precise bug reports improve repeatability and historical traceability."],
+      "crucibleApplication": "Extend the existing focused-to-integration-to-broad cadence with claim-specific negative tests, regression coverage, mutation checks, and exact hosted evidence without weakening required checks.",
+      "developmentTests": ["Require every repair to add or reference a regression test", "Exercise negative, mutation, concurrency, soak, and rollback cases where the boundary warrants them", "Reject skipped required tests and stale exact-tip results"]
+    },
+    {
+      "id": "application-security-testing-and-debugging",
+      "title": "Application-security testing and secure bug repair",
+      "courseSources": [
+        { "title": "Application Security Testing and Debugging", "url": "https://www.coursera.org/learn/application-security-testing-and-debugging" }
+      ],
+      "syllabusObservations": ["Combines manual and automated security testing, attacker thinking, and systematic debugging.", "Security testing should be integrated into the delivery workflow rather than deferred to release."],
+      "crucibleApplication": "Route security findings into candidate learning with exact signatures, reproduction, remediation ownership, and verification; never turn a course claim into active policy.",
+      "developmentTests": ["Run security tests against changed boundaries", "Require a reproducible finding and a distinct verifier for remediation", "Preserve redacted evidence and reject unsupported security claims"]
+    }
+  ],
+  "generalCrucibleReview": {
+    "scope": ["coding assistant", "optimization", "bug fixing", "testing", "discovery", "retrieval", "extraction", "custody", "workers", "dashboard", "release"],
+    "findings": [
+      "Coding assistance should accelerate proposals, not authorize mutations.",
+      "Optimization must be measurement-led and must not trade away correctness, security, or provenance.",
+      "Bug fixing needs reproducible failure, bounded repair, regression evidence, and recurrence review.",
+      "Testing quality improves when claim-specific negative, regression, mutation, soak, and hosted exact-tip checks are explicit.",
+      "The same evidence contract should span discovery through release: exact inputs, bounded effects, redacted lineage, independent verification, and fail-closed behavior."
+    ],
+    "standardsForNextResearch": [
+      { "title": "SLSA v1.2 provenance and verification", "url": "https://slsa.dev/spec/v1.2/verifying-artifacts" },
+      { "title": "OpenTelemetry observability primer", "url": "https://opentelemetry.io/docs/concepts/observability-primer/" },
+      { "title": "OWASP Application Security Verification Standard", "url": "https://owasp.org/projects/asvs" },
+      { "title": "NIST Secure Software Development Framework", "url": "https://csrc.nist.gov/pubs/sp/800/218/final" }
+    ],
+    "candidateOnly": true,
+    "developmentTests": ["Trace one change from task route through test, hosted run, artifact provenance, and release decision", "Reject missing lineage or unauthorized cross-boundary writes", "Compare performance, reliability, security, and learning metrics before and after a bounded change"]
+  },
   "furtherResearch": [
     {
       "id": "password-manager-human-access",

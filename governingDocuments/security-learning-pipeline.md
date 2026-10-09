@@ -61,3 +61,37 @@ plaintext leakage in reports and artifacts, replayed or wrong-origin sessions,
 and dependency/action drift. Every failure must stop before secret or custody
 mutation. No pipeline name, promotion boundary, R8 behavior, or durable
 learning status changes as a result of this mapping.
+
+## Engineering capability research mapping
+
+Coursera syllabi were inspected for coding-assistant use, systematic debugging,
+performance optimization, testing, and application-security testing. They are
+candidate training material, not authoritative proof and not a license to let
+an assistant mutate Crucible without review.
+
+- Coding assistants can propose code, refactors, tests, documentation, and
+  review changes. Crucible must require task routing, changed-path review,
+  secret/executable scans, tests, provenance, and exact-tip verification before
+  any retention or release decision.
+- Debugging material emphasizes a hypothesis, deterministic reproduction,
+  profiling or observability, a bounded repair, and a regression test. Crucible
+  should reject fixes that suppress failures or widen unrelated scope.
+- Optimization material emphasizes measured baselines, profiling, caching,
+  query and architecture bottlenecks, and before/after comparison. Crucible
+  should reject an optimization that regresses correctness, security, memory,
+  reliability, or evidence lineage.
+- Testing material emphasizes layered tests, regression, mutation, smoke,
+  security, performance, concurrency, and soak cases plus precise defect
+  reports. Crucible should extend claim-specific negative and regression checks
+  without removing required suites or treating skipped tests as success.
+- Application-security testing material emphasizes SAST/DAST, manual testing,
+  vulnerability reproduction, secure debugging, and actionable remediation
+  reports. Findings remain candidate-only until independent verification.
+
+The broader Crucible review maps these practices across discovery, retrieval,
+extraction, custody, workers, dashboards, and release: proposals may be fast,
+but authority, provenance, bounded effects, redacted evidence, and fail-closed
+verification remain mandatory at every boundary. Follow-up standards research
+now includes SLSA provenance verification, OpenTelemetry traces/metrics/logs,
+OWASP ASVS, and NIST SSDF. No active policy, pipeline name, R8 behavior, or
+durable learning state changed.
