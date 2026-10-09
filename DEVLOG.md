@@ -420,6 +420,14 @@ Plain-language summary: Updated the existing organization-installed Crucible Mon
 - `github-app-update` — organization App `crucible-monitor` (App ID 5230024, installation 169035381) accepted the update; installation now visibly reports read-only checks/metadata/pull requests plus read/write code and secrets across its seven selected repositories.
 - `verification` — existing local implementation commit `194368c`; no credentials were read or exposed, and the required hosted key-manager run remains pending until the owner-configured key-manager secrets exist.
 
+### Session: custody-key-manager-dispatch-registration-blocker-20261009 — 2026-10-09T19:13:03-04:00 — Codex — mode:work
+
+Plain-language summary: Published the governed development history through the pre-push gate, but GitHub does not expose the manual key-manager workflow because the workflow is not registered on the repository default branch. No workflow run or key mutation started.
+
+- `push` — `origin/development` advanced to `22d746f84accf728ac8da08804c1a4474c26add5`; pre-push routing, workflow lint, changed tests, validation, clutter, privacy, and security checks passed after replacing the privacy-audit email with a non-email identity.
+- `dispatch` — GitHub Actions returned `This workflow does not exist` for `.github/workflows/source-bundle-key-manager.yml`; the protected default-branch workflow-registration path is the exact remaining capability boundary.
+- `custody` — no repository secret values, raw/vetted state, R8, `main`, or Archive changed; unrelated `KNOWN-BUGS.json` remains unstaged.
+
 ### Session: custody-key-manager-publish-route-20261009 — 2026-10-09T19:09:31-04:00 — Codex — mode:work
 
 Plain-language summary: The first development publish attempt failed closed because the recorded route covered only the prior documentation edit. The exact route was regenerated for the complete pending development diff before retrying; no main push or secret operation occurred.
