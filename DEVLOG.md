@@ -127,6 +127,8 @@ Plain-language summary: PR #28 now treats a repair as evidence rather than a con
 
 ## Shared AI handoff
 
+- Owner-file workflow registration: follow the dev plan in AI-HANDOFF.json activePlan. Narrow release package only (workflow, two compatibility tests, handoff/log and retained failure ledger); source implementation stays on development. Candidate custody and actual intake receipt remain unmodified/pending.
+
 - **Agent:** Claude, free-discovery repair and scientific-learning rolling release review.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
@@ -138,6 +140,16 @@ Plain-language summary: PR #28 now treats a repair as evidence rather than a con
 ## Command log archive
 
 Chain-of-custody record for recent units of work. Newest first; maximum 10 sessions and 180 days. Older history remains available through Git history. Every entry pruned from this archive is also recorded, as a full DEVLOG.md snapshot with a plain-language summary, in `Devlog-Pruned` on `Archive`.
+
+### Session: owner-file-workflow-registration-20261008 — 2026-10-08T04:18:50.515Z — Codex — mode:work
+
+Plain-language summary: The owner authorized registering the encrypted owner-file intake workflow through release. This main-based package carries only that workflow, two required test compatibility changes and governance/failure records; scientific learning remains on development.
+
+- Source implementation published on development at 0cb89f4f83fb17472194e52c6ea420c7fdfcfbcc; full local suite 1015/1015, zero skipped.
+- Manual workflow compatibility on current main passed 32/32 — started 2026-10-08T04:17:00Z, finished 2026-10-08T04:18:50.515Z, exit 0.
+- Mutation claim owner-file-workflow-registration-20261008 covers exactly six package files; owner authorization is preserved in activePlan.promotionAuthorization.
+- Full main-based suite first failed 930/932 on the prior registration-branch assertion and this runner's Node proxy environment. Updated only the route assertion to the explicitly approved release destination; reran real loopback checks with NODE_USE_ENV_PROXY=0. Full suite 932/932, zero skipped; KB-local-a04994e45b retest 25/25 passed — finished 2026-10-08T04:23:49.622Z, exit 0.
+- Registration claim released after preparing exact package. Hosted release checks, workflow registration and real intake receipt remain pending. No production custody or source key was reset.
 
 ### Session: Nexus PR monitor repair and exact-tip verification — 2026-09-28T17:55:00Z — ChatGPT — mode:work
 
