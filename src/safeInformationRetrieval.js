@@ -9,6 +9,7 @@ const dns = require('node:dns').promises;
 const https = require('node:https');
 const { executableMagic, SUSPICIOUS_BINARY_EXTENSION } = require('./security');
 const { crucibleError } = require('./failureCodes');
+const { candidatePacket } = require('./evidencePacket');
 
 const DEFAULT_CONTENT_TYPES = Object.freeze(['text/html', 'application/xhtml+xml', 'text/plain', 'application/pdf', 'application/json']);
 const SOCIAL_MEDIA_DENYLIST = Object.freeze([
@@ -287,7 +288,7 @@ class SafeInformationRetriever {
       // Downstream custody hashes the bytes it actually stores and extracts. Keep the raw
       // transport hash separately so sanitization is still auditable without making the queue
       // claim that sanitized bytes have the response body's digest.
-      const record = { schemaVersion:1, requestedUrl:requested, finalUrl:safeUrl(response.url || current.toString()).toString(), retrievedAt:this.now(), author:metadata.author, license:metadata.license, contentType, contentLength:parserContent.length, contentSha256:sha256(parserContent), retrievedContentLength:length, retrievedContentSha256:sha256(content), redirects, classification:injectionSignals.length ? 'Crucible Issue' : 'Insufficient Evidence', state:injectionSignals.length ? 'quarantined' : 'retrieved-candidate-evidence', quarantineReasons:injectionSignals.map(() => 'prompt-injection-pattern'), researchDiscussionSignals:instruction.discussionSignals, sourceAuthority:instruction.scholarly?.admissionClass || null, authorityOrganization:instruction.scholarly?.organization || null, authorityEvidenceUrl:instruction.scholarly?.evidenceUrl || null };
+      const record = { schemaVersion:1, requestedUrl:requested, finalUrl:safeUrl(response.url || current.toString()).toString(), retrievedAt:this.now(), author:metadata.author, license:metadata.license, contentType, contentLength:parserContent.length, contentSha256:sha256(parserContent), retrievedContentLength:length, retrievedContentSha256:sha256(content), redirects, classification:injectionSignals.length ? 'Crucible Issue' : 'Insufficient Evidence', state:injectionSignals.length ? 'quarantined' : 'retrieved-candidate-evidence', quarantineReasons:injectionSignals.map(() => 'prompt-injection-pattern'), researchDiscussionSignals:instruction.discussionSignals, sourceAuthority:instruction.scholarly?.admissionClass || null, authorityOrganization:instruction.scholarly?.organization || null, authorityEvidenceUrl:instruction.scholarly?.evidenceUrl || null, evidencePacket:candidatePacket({ id:`retrieval-evidence-${sha256(parserContent).slice(0, 32)}`, projectId:'retrieval', component:'safe-information-retrieval', claim:`Retrieved content from ${requested} is untrusted candidate evidence.`, boundary:`requested URL ${requested}`, provenance:{ sourceIds:[requested], contentSha256:sha256(parserContent) }, observability:{ traceId:`retrieve-${sha256(requested).slice(0, 24)}` }, createdAt:this.now() }) };
       this.auditStore.append(record); return { record, content:injectionSignals.length ? null : parserContent };
     } catch (error) {
       this.auditStore.append({ schemaVersion:1, requestedUrl:requested, decisionAt, state:'blocked', classification:'Insufficient Evidence', reason:String(error.message || error) }); throw error;

@@ -206,8 +206,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Evaluate Coursera coding-assistant, optimization, debugging, bug-fixing, testing, and general Crucible engineering practices as candidate-only research without changing the pipeline name or activating policy.",
-    "currentPrompt": "Review Coursera syllabi for coding-assistant capability, optimization, debugging, bug fixing, testing, and broader Crucible engineering improvements; record candidate-only research mappings and development-only verification ideas without changing the pipeline name or activating policy.",
+    "objective": "Apply a shared evidence-packet gate across Crucible intake, retrieval, extraction, repair, workers, diagnostics, learning, custody, dashboards, and release boundaries without renaming the pipeline or changing main or Archive.",
+    "currentPrompt": "Implement an automated evidence-packet gate across Crucible components so every repair, research, retrieval, extraction, worker, dashboard, and promotion candidate carries exact provenance, reproducibility, tests, security results, independent verification, rollback, and observability metadata; integrate it without renaming the pipeline or changing main/Archive.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -223,19 +223,19 @@
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
       "selectedAt": "2026-10-09T20:01:58.150Z",
-      "promptSha256": "e91e4eda314f7b0c982b1e270839bd5b924d4244f3d40074c28fe48d85ff44d2",
-      "affectedPathsSha256": "8132f988e720e768ba681498a6c83216f81a2c2f05c5115c83a4fad94596c0b5"
+      "promptSha256": "cd510e8467770a81eddaaac4a7b4ce3ea146d7de40d9da60fc887ad333fa9c38",
+      "affectedPathsSha256": "4256247d262e5b0c81bd0dc2d86498dc2708d30326ccf8fe86b50cf1dccdba38"
     },
     "steps": [
       "Inspect Coursera syllabi for coding-assistant, debugging, optimization, testing, and application-security practices.",
-      "Map useful observations to Crucible's coding, bug-fix, optimization, testing, and cross-pipeline boundaries as candidate-only research.",
-      "Add authoritative follow-up sources and falsifiable development-only tests without changing the pipeline name or activating policy.",
-      "Run focused JSON, documentation, security, routing, and handoff checks.",
+      "Define the shared evidence-packet schema and fail-closed readiness assertion.",
+      "Attach candidate packets at owner intake, retrieval, extraction, repair, security repair, monthly refresh, and pipeline diagnostic boundaries while preserving existing schemas and custody.",
+      "Run focused affected-component tests plus JSON, documentation, security, routing, cadence, and handoff checks.",
       "Commit on development only; preserve raw/vetted custody, R8, main and Archive boundaries."
     ],
-    "status": "complete",
+    "status": "handoff-ready",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-09T20:20:00.000Z",
+    "lastUpdatedAt": "2026-10-10T00:45:00Z",
     "currentStep": 5,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -259,8 +259,20 @@
         "governingDocuments/known-bugs/KNOWN-BUGS.json",
         "governingDocuments/owner-file-intake-release.json",
         "governingDocuments/owner-file-intake-main-compatibility.patch",
-        "src/hostedSourceBundle.js",
+      "src/hostedSourceBundle.js",
         "test/hostedSourceBundle.test.js",
+        "src/evidencePacket.js",
+        "test/evidencePacket.test.js",
+        "governingDocuments/evidence-packet-gate.md",
+        "src/scientificLearning.js",
+        "src/learningExperience.js",
+        "src/claimExtractionWorker.js",
+        "src/repairEvidence.js",
+        "src/ownerFileIntake.js",
+        "src/safeInformationRetrieval.js",
+        "src/pipelineTracer.js",
+        "src/codeSecurityOrganism.js",
+        "src/monthlyKnowledgeRefresh.js",
         ".github/workflows/self-test.yml"
       ],
       "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
@@ -283,7 +295,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "39/39 focused security-learning, routing, and handoff tests pass; JSON parse, validate, security gate, circulation audit, and diff-check pass for the Coursera engineering research mapping. No live intake, durable learning promotion, SI verification, or R8 pass is claimed.",
+    "verificationStatus": "Shared evidence-packet contract implemented across owner intake, safe retrieval, claim extraction, repair evidence, security-repair feedback, monthly refresh claims, and pipeline diagnostics. Full local orchestrated proof passes 1033/1033 with zero skipped; security, validation, circulation, workflow-lint, docs, routing, cadence, and diff checks pass. No live intake, durable learning promotion, SI verification, or R8 pass is claimed.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",

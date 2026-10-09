@@ -36,7 +36,7 @@ const SYSTEMS = Object.freeze({
   // carries, not an organ of its own. Placing it in circulation is also the only placement that
   // works: an edge to circulation is the wire rather than the cable, so every organ may look a
   // code up without that becoming a new direct organ-to-organ connection.
-  circulation: ['cruCodeCatalog', 'cruCodeCatalogCli', 'nexusRepairBridge', 'nexusRepairBridgeCli', 'organismCirculation', 'organismRuntime', 'productionOrganism', 'repairLearningGateway', 'authorizedPrRepair', 'oversightReflex', 'circulationLinkage', 'gradedOversightResponse', 'findingLedger', 'failureCodes', 'cruPrevention', 'vettedLearningAdapter', 'providerCirculation', 'toolchainCirculation'],
+  circulation: ['cruCodeCatalog', 'cruCodeCatalogCli', 'nexusRepairBridge', 'nexusRepairBridgeCli', 'organismCirculation', 'organismRuntime', 'productionOrganism', 'repairLearningGateway', 'authorizedPrRepair', 'oversightReflex', 'circulationLinkage', 'gradedOversightResponse', 'findingLedger', 'failureCodes', 'cruPrevention', 'vettedLearningAdapter', 'providerCirculation', 'toolchainCirculation', 'evidencePacket'],
 });
 
 // Every organ that must have a handler on the bus before the organism may run. Circulation is

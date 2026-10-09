@@ -203,7 +203,7 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
-### Session: password-manager-api-key-research-20261009 — 2026-10-09T19:45:00-04:00 — Codex — mode:regular
+### Session: password-manager-api-key-research-20261009 — 2026-10-09T23:45:00Z — Codex — mode:regular/default
 
 Plain-language summary: Registered password-manager-safe human access and API-key lifecycle management as candidate-only research and documented a non-secret vault-item specification without writing or exposing credentials.
 
@@ -346,33 +346,6 @@ Plain-language summary: Atomically aligned current handoff and DEVLOG custody af
 - `repair custody records atomically` — started 2026-10-04T12:28:30Z, finished 2026-10-04T12:29:00Z, exit 0
 
 
-### Session: Repair monitor routing custody — 2026-10-04T12:26:00Z — ChatGPT — mode:work
-
-Plain-language summary: Hosted validation found the native monitor handoff record lacked the routing timestamp required by Crucible governance. Added the missing canonical routing custody without weakening the gate.
-- `inspect hosted Self-Test and AI handoff failures` — started 2026-10-04T12:24:00Z, finished 2026-10-04T12:25:30Z, exit 0
-- `record complete canonical task route and session timestamp` — started 2026-10-04T12:25:30Z, finished 2026-10-04T12:26:00Z, exit 0
-
-
-### Session: Native learning pipeline monitor — 2026-10-04T12:20:00Z — ChatGPT — mode:work
-
-Plain-language summary: Added Crucible-owned monitoring that follows fresh Worker and independent Oversight evidence, advances the durable proof, and emits a governed CRU instead of silently stalling or skipping a failed stage.
-- `canonical task routing check: crucible-core -> development` — started 2026-10-04T12:14:00Z, finished 2026-10-04T12:16:00Z, exit 0
-- `implement native monitor, workflow, CRU-0056, tests, and handoff` — started 2026-10-04T12:16:00Z, finished 2026-10-04T12:22:00Z, exit 0
-
-
-### Session: authorized-five-source-ingestion-20261003 — 2026-10-03T23:55:30.403Z — Codex — mode:work
-
-Plain-language summary: Collected four author/publisher-authorized public sources, admitted their exact public text as candidate-only evidence, extracted 123 bounded assertions, rejected the fifth source before intake for inadequate source authority, and preserved the independent custody blocker without claiming verification.
-- Task route: crucible-core; stable repository ID 1344890806; 6076446993/The-Crucible; development; affected paths AI-HANDOFF.json, DEVLOG.md, and the orchestrator-generated known-bug ledger entry.
-- Confirmed authorized public surfaces for The Hundred-Page Machine Learning Book, Artificial Intelligence: A Guide for Thinking Humans, Writing AI Prompts For Dummies, and Artificial Intelligence All-in-One For Dummies. Recorded source URLs and SHA-256 lineage; no access control was bypassed — started 2026-10-03T23:30:00.000Z, finished 2026-10-03T23:45:00.000Z, exit 0.
-- Native intake rejected the authorized nine-page Burkov PDF with OPS-0043 `no_pages` although pdfinfo and pdftotext read it. Preserved exact PDF hash f84e6ba775ef707a0223173dd4e7be524c7e516dd67d879d9ac775dd74e70bf2 and admitted only its deterministic text derivative hash ce5786cab91691b0325c817a3c986ba1819eff6bea9d67052a6f4ecd0153d3fe; 81 candidate assertions extracted — started 2026-10-03T23:39:00.000Z, finished 2026-10-03T23:47:00.000Z, exit 0 with recorded parser blocker.
-- Content-addressed Macmillan page/excerpt hash ebe6a538a888a4e12468c64f7a4d3e5c406469a92b6b9bc9b59fdf3e9327e36f produced 35 candidates; Wiley product-page hashes d43b86508add8379c565fca3c34434f41988eb2a355ec508e4134ebf05ed3318 and 31fec0aec4f90be4e0a9dfaa7856230ab9f5a9a80cef23319408b3623cd92f3b produced 4 and 3 — started 2026-10-03T23:40:00.000Z, finished 2026-10-03T23:49:00.000Z, exit 0.
-- Agentic AI Game Plan had only retailer/review metadata in the available public results. It was rejected before intake rather than scraped or inferred; no candidate and no quarantine record was created — finished 2026-10-03T23:49:30.000Z, exit 0 fail-closed eligibility decision.
-- `node --test test/ownerFileIntake.test.js test/claimExtractionWorker.test.js test/pdfTextExtraction.test.js test/sourceRetrievalWorker.test.js test/safeInformationRetrieval.test.js` — started 2026-10-03T23:52:00.000Z, finished 2026-10-03T23:52:01.000Z, exit 0; 48/48, zero skipped.
-- `npm test` change-impact maintenance selection — started 2026-10-03T23:57:41.000Z, finished 2026-10-03T23:57:46.589Z, exit 1; 94/103 passed. Nine failures are stale cadence expected-list/count assertions for three already-present auto-discovered CRU/Nexus tests (`cruCodeCatalog`, `diagnosticCouncilEscalation`, `nexusRepairBridge`), not intake failures. Orchestrator persisted low-severity KB-local-ea089cf992; no unrelated repair or suppression was attempted.
-- Four candidate files reached claim-extraction-complete with 123 total `Insufficient Evidence` assertions. Zero claims were verified, promoted, or written to vetted state; zero sources were quarantined. Durable cross-repository transfer remains blocked by missing authorization to the independent custody repositories — finished 2026-10-03T23:55:30.403Z, exit 0 partial checkpoint.
-
-
 ## Historical mutation accountability
 
 Released claims `scheduled-cadence-repair-20261002` and `monitor-token-diagnostics-20261002` remain preserved in AI-HANDOFF.json. This reference repairs discoverability after session pruning; it does not change their results or custody.
@@ -384,3 +357,13 @@ Plain-language summary: Inspected Coursera syllabi for coding assistants, debugg
 - `Coursera browser syllabus inspection` — completed 2026-10-09T20:08:00-04:00, exit 0; inspected coding-assistant, systematic debugging, performance optimization, and application-security testing outlines; the requested testing page was unavailable at its guessed URL and was retained only from the catalog result.
 - `standards follow-up research` — completed 2026-10-09T20:09:00-04:00, exit 0; reviewed SLSA provenance/verification, OpenTelemetry observability, OWASP ASVS, and NIST SSDF references.
 - `documentation mapping` — completed 2026-10-09T20:10:00-04:00, exit 0; added candidate-only course observations, Crucible-wide findings, and development-only test ideas.
+### Session: evidence-packet-gate-across-crucible-20261009 — 2026-10-10T00:35:00Z — Codex — mode:work
+
+Plain-language summary: Added one candidate-only evidence packet contract across Crucible's main intake, retrieval, extraction, repair, and diagnostic boundaries so improvements carry provenance, tests, security status, verification, rollback, and observability without weakening existing promotion gates.
+
+- `route:prewrite` — completed 2026-10-09T20:10:48-04:00, exit 0; selected `crucible-core`, repository `6076446993/The-Crucible`, branch `development`.
+- `implementation` — completed 2026-10-09T20:30:00-04:00, exit 0; added `src/evidencePacket.js`, candidate schema support, and attachments at owner intake, retrieval, extraction, repair, and pipeline diagnostics.
+- `focused tests` — completed 2026-10-09T20:31:00-04:00, exit 0; 71/71 affected tests passed, zero skipped.
+- `component expansion` — completed 2026-10-10T00:42:00Z, exit 0; added packet propagation to security-repair feedback and monthly-refresh candidate claims, and synchronized the cadence registry and bounded DEVLOG archive.
+- `full verification` — completed 2026-10-10T00:44:00Z, exit 0; orchestrated full suite 1033/1033 passed, zero skipped; validation, security, circulation, workflow lint, documentation, route binding, handoff, and diff checks passed.
+- `custody boundary` — completed 2026-10-09T20:35:00-04:00, exit 0; no credentials, raw/vetted state, R8, `main`, or `Archive` changed.

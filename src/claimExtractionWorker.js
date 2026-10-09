@@ -8,6 +8,7 @@ const { extractPdfTextRange } = require('./pdfTextExtraction');
 const { INJECTION_PATTERNS } = require('./safeInformationRetrieval');
 const { documentFurniture } = require('./documentFurniture');
 const { extractDocumentText } = require('./htmlTextExtraction');
+const { candidatePacket } = require('./evidencePacket');
 
 function sha256(value) { return crypto.createHash('sha256').update(value).digest('hex'); }
 function normalizedClaimSha256(value) { return sha256(cleanText(value).toLowerCase()); }
@@ -113,7 +114,7 @@ class ClaimExtractionWorker {
 
   candidate(source, assertion, boundary, createdAt) {
     const assertionSha = normalizedClaimSha256(assertion);
-    return { schemaVersion:1, id:`extracted-${sha256(`${source.id}\n${assertionSha}`).slice(0, 32)}`, projectId:this.projectId, claim:assertion, claimBoundary:boundary, generalizationBoundary:'Untrusted source assertion only; no correctness, causation, current-version applicability, recommendation, or generalization is verified by extraction.', kind:'extracted-source-assertion', provenance:{ sourceType:source.mediaType || source.contentType || 'retrieved-web-document', sourceId:source.id, retrievedAt:source.retrievedAt || createdAt, author:source.author || source.publisher || 'not declared', license:source.license || 'not declared; verify source terms before redistribution', contentSha256:source.contentSha256 }, classification:'Insufficient Evidence', createdAt };
+    return { schemaVersion:1, id:`extracted-${sha256(`${source.id}\n${assertionSha}`).slice(0, 32)}`, projectId:this.projectId, claim:assertion, claimBoundary:boundary, generalizationBoundary:'Untrusted source assertion only; no correctness, causation, current-version applicability, recommendation, or generalization is verified by extraction.', kind:'extracted-source-assertion', provenance:{ sourceType:source.mediaType || source.contentType || 'retrieved-web-document', sourceId:source.id, retrievedAt:source.retrievedAt || createdAt, author:source.author || source.publisher || 'not declared', license:source.license || 'not declared; verify source terms before redistribution', contentSha256:source.contentSha256 }, evidencePacket:candidatePacket({ id:`extracted-evidence-${sha256(`${source.id}\n${assertionSha}`).slice(0, 32)}`, projectId:this.projectId, component:'claim-extraction', claim:assertion, boundary, provenance:{ sourceIds:[source.id], contentSha256:source.contentSha256 }, observability:{ traceId:`extract-${sha256(source.id).slice(0, 24)}` }, createdAt }), classification:'Insufficient Evidence', createdAt };
   }
 
   run() {
