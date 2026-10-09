@@ -91,6 +91,7 @@ const TEST_MAIN_CATEGORIES = {
     'test/sourceRetrievalWorker.test.js',
     'test/sourceBundleKeyManager.test.js',
     'test/sourceBundleKeyDashboard.test.js',
+    'test/sourceBundleKeyAutomation.test.js',
     'test/r8ExecutableCanaryPublisher.test.js',
     'test/rawCustodyPublisher.test.js',
     'test/aiProviderAdapters.test.js',

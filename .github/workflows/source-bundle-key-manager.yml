@@ -1,0 +1,67 @@
+name: Manage Crucible custody keys
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Bootstrap missing keys or rotate existing keys
+        required: true
+        type: choice
+        options: [bootstrap, rotate]
+        default: bootstrap
+
+permissions:
+  contents: write
+
+concurrency:
+  group: crucible-key-manager-development
+  cancel-in-progress: false
+
+jobs:
+  manage:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48a516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: development
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+      - name: Mint narrowly scoped GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379 # v2
+        with:
+          app-id: ${{ secrets.CRUCIBLE_KEY_MANAGER_APP_ID }}
+          private-key: ${{ secrets.CRUCIBLE_KEY_MANAGER_PRIVATE_KEY }}
+          owner: 6076446993
+          repositories: The-Crucible
+      - name: Generate or rotate ephemeral custody keys
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_VETTED_BUNDLE_KEY: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY }}
+        run: |
+          set -euo pipefail
+          node src/sourceBundleKeyAutomation.js generate --mode "${{ inputs.mode }}" --output-dir "$RUNNER_TEMP/crucible-key-manager" --registry governingDocuments/source-bundle-key-registry.json
+      - name: Store current and previous values without exposing them
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          for secret in CRUCIBLE_SOURCE_BUNDLE_KEY CRUCIBLE_VETTED_BUNDLE_KEY CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS; do
+            file="$RUNNER_TEMP/crucible-key-manager/$secret"
+            if [ -f "$file" ]; then gh secret set "$secret" --repo "$GITHUB_REPOSITORY" < "$file"; fi
+          done
+      - name: Commit non-secret registry fingerprints
+        run: |
+          set -euo pipefail
+          git config user.name 'Crucible key manager'
+          git config user.email 'crucible-key-manager@users.noreply.github.com'
+          git add governingDocuments/source-bundle-key-registry.json
+          git diff --cached --quiet && { echo 'No registry metadata change.'; exit 0; }
+          git commit -m 'Update automated custody key fingerprints'
+          git push origin HEAD:development
+      - name: Destroy runner key material and credentials
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/crucible-key-manager"
