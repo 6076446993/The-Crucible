@@ -4,6 +4,30 @@
   "program": "Crucible cybersecurity progression",
   "purpose": "A staged research program for foundational cybersecurity, advanced security engineering, and current standards. Sources guide hypotheses and controls; they are not proof or policy activation.",
   "scope": "The existing Crucible pipeline and its project-bound repositories, workflows, custody stores, workers, dashboards, and release paths.",
+  "furtherResearch": [
+    {
+      "id": "password-manager-human-access",
+      "title": "Password managers and protected human intervention",
+      "question": "How should Crucible protect operator dashboard and break-glass credentials while supporting password-manager autofill without exposing secrets to the pipeline?",
+      "sources": [
+        { "authority": "NIST", "title": "SP 800-63B digital identity guidance", "url": "https://pages.nist.gov/800-63-4/sp800-63b.html" },
+        { "authority": "NIST", "title": "SP 800-63B-4 implementation FAQs", "url": "https://pages.nist.gov/800-63-4-Implementation-Resources/faqs/" },
+        { "authority": "OWASP", "title": "Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "api-key-lifecycle-management",
+      "title": "API-key and machine-identity lifecycle management",
+      "question": "How should Crucible issue, scope, rotate, revoke, audit and recover machine credentials without putting encryption keys or long-lived tokens into human workflows?",
+      "sources": [
+        { "authority": "OWASP", "title": "Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" },
+        { "authority": "IETF", "title": "RFC 9700 OAuth 2.0 Security Best Current Practice", "url": "https://datatracker.ietf.org/doc/html/rfc9700/" },
+        { "authority": "OWASP", "title": "REST Security Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html" }
+      ],
+      "status": "candidate-research-only"
+    }
+  ],
   "phases": [
     {
       "id": "foundations",
@@ -38,7 +62,7 @@
         { "authority": "IETF", "title": "RFC 9700 OAuth 2.0 Security Best Current Practice", "url": "https://datatracker.ietf.org/doc/html/rfc9700/" },
         { "authority": "NIST", "title": "SSDF 1.2 project update (draft status)", "url": "https://csrc.nist.gov/projects/ssdf/publications" }
       ],
-      "techniqueIds": ["encrypted-recovery-custody", "endpoint-media-control", "continuous-verification-kill-switch", "application-verification-and-auth-flow"]
+      "techniqueIds": ["encrypted-recovery-custody", "endpoint-media-control", "continuous-verification-kill-switch", "application-verification-and-auth-flow", "password-manager-human-access", "api-key-lifecycle-management"]
     }
   ],
   "implementationContract": {

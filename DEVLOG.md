@@ -124,6 +124,10 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-09T19:45:00-04:00 Password-manager and API-key research registration:** Added two candidate-only security techniques, two further-research subjects, and a non-secret password-manager item specification. No external vault write was claimed because no password-manager connector is available; no credential value was added, and raw/vetted custody, R8, `main`, and `Archive` remain unchanged. See `AI-HANDOFF.json.activePlan`.
+
+- **Pipeline submission checkpoint:** `node src/securityLearningCli.js queue` was attempted twice and failed closed on the existing durable-learning lock with `EPERM` while opening the pending lock file. No candidate records were written; the lock was not deleted or bypassed.
+
 - **2026-10-08T04:08:22.129Z Owner-file transport takeover:** Owner explicitly authorized the repair takeover and narrow owner-file workflow deployment through release to main. See AI-HANDOFF.json.activePlan; previous plan is preserved in ownerFileTransportPriorPlan. Local focused transport tests passed 6/6; no live queue mutation or source submission.
 
 - **2026-10-07T04:47:46.761Z Narrow SI promotion and credential repair:** Owner authorized the two manual workflow definitions through the governed release path and security/monitor credential repair. See AI-HANDOFF.json.activePlan.promotionAuthorization. Full development promotion is not authorized; GitHub reauthentication completed, and organization-scoped credential generation/secret entry is handed to the owner.
@@ -188,6 +192,14 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: password-manager-api-key-research-20261009 — 2026-10-09T19:45:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Registered password-manager-safe human access and API-key lifecycle management as candidate-only research and documented a non-secret vault-item specification without writing or exposing credentials.
+
+- `npm run route:prewrite -- --prompt ... --path governingDocuments/security-learning-techniques.json --path governingDocuments/cybersecurity-research-program.json --path governingDocuments/security-learning-pipeline.md --path governingDocuments/password-manager-entry.json --path AI-HANDOFF.json --path DEVLOG.md` — started 2026-10-09T19:39:16.982Z, finished 2026-10-09T19:39:17.695Z, exit 0.
+- Manifest, research-program, pipeline-document, non-secret password-manager specification, handoff and DEVLOG updates — started 2026-10-09T19:40:00.000Z, finished 2026-10-09T19:45:00.000Z, exit 0.
+- `node src/securityLearningCli.js queue` — started 2026-10-09T19:46:00.000Z, finished 2026-10-09T19:46:04.000Z, exit 1; existing durable-learning lock refused pending mutation with EPERM; no candidate records persisted.
 
 ### Session: owner-file-transport-20261008 — 2026-10-08T04:08:22.129Z — Codex — mode:work
 

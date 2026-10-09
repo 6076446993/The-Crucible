@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-09T20:40:00.000Z"
+    "lastActionAt": "2026-10-09T19:45:00.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -206,8 +206,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Restore authenticated owner-file intake through private encrypted raw custody without loss or promotion.",
-    "currentPrompt": "Implement a fail-closed Crucible raw source-bundle key registry and preflight on development to prevent another lost-key R8 custody run. Add only non-secret key identity/rotation metadata, validate CRUCIBLE_SOURCE_BUNDLE_KEY and optional previous key before any decrypt/re-encrypt, wire the existing raw-custody and R8 publisher workflows to preflight, add focused tests, and update AI-HANDOFF.json and DEVLOG.md. Do not rebuild or mutate raw/vetted custody, do not add secret values, do not touch main or Archive.",
+    "objective": "Register password-manager-safe human access and API-key lifecycle management as candidate-only Crucible security research without exposing credentials or changing the pipeline name.",
+    "currentPrompt": "Add password-manager and API-key-management research subjects to Crucible's candidate-only security learning pipeline and further-research program; create only a non-secret password-manager record/specification if supported, preserve the pipeline name, update handoff and DEVLOG",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,22 +222,21 @@
       "branch": "development",
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-09T18:25:00.857Z",
-      "promptSha256": "ea37521394a25710092d41c05f22a3974d65b9fdb16291d71bdef1ae999930fb",
-      "affectedPathsSha256": "d097aa5a113f58e90137e97559fd8f7cb70c0e1cf0277f6c96fb0a453fdd1ccb"
+      "selectedAt": "2026-10-09T19:39:16.982Z",
+      "promptSha256": "890827342937dceeac0897de6332787ca2eca74a0a30aad1b969ffc987b79ee4",
+      "affectedPathsSha256": "c577bedc62fe1827bfef39951b56b67af2f713ab6278cd58f8074878dfaf3d75"
     },
     "steps": [
-      "Publish takeover-ready plan and preserve prior repair work.",
-      "Integrate encrypted request pack/stage/import CLI, hosted workflow and governance registration.",
-      "Run required local checks and publish development with exact-head evidence.",
-      "Deploy only the manual owner-file workflow through verified release to main.",
-      "Use existing production credentials to stage exact source request and capture actual intake receipt."
+      "Register both subjects as candidate-only security techniques and further-research entries.",
+      "Record a non-secret password-manager item specification without claiming an external vault write.",
+      "Run focused manifest, provenance, routing, documentation and handoff checks.",
+      "Commit on development only; preserve raw/vetted custody, R8, main and Archive boundaries."
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-08T04:58:38.545Z",
-    "currentStep": 2,
-    "priority": "Preserve the successful SI processing evidence while keeping raw/vetted custody and proof/promotion boundaries unchanged.",
+    "lastUpdatedAt": "2026-10-09T19:45:00.000Z",
+    "currentStep": 1,
+    "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
       "owner": {
@@ -1865,13 +1864,15 @@
         "Corrected monitor env to canonical CRUCIBLE_MONITOR_READ_TOKEN or existing NEXUS_MONITOR_READ_TOKEN; 46 focused monitor/workflow tests passed, zero skipped.",
         "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
         "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
-        "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses."
+        "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses.",
+        "Registered password-manager-human-access and api-key-lifecycle-management as candidate-only security techniques and further-research subjects; created only a non-secret password-manager item specification."
       ],
       "remaining": [
         "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
         "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
         "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
         "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
+        "The security-learning CLI submission was attempted twice and failed closed on the existing durable-store lock with EPERM while opening the pending lock file; do not delete or bypass the lock. Retry only after the owning process or governed lock-recovery path clears it.",
         "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
       ],
       "verification": [
