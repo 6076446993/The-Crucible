@@ -1590,6 +1590,13 @@
     ],
     "authority": "No candidate was written to durable learning custody in this session because no configured learning root was present; no promotion authority was added."
   },
+  "cybersecurityResearchTopic": {
+    "status": "ADDED_TO_BOUNDED_DISCOVERY_CANDIDATE_ONLY",
+    "updatedOn": "2026-10-09",
+    "topic": "Cybersecurity",
+    "implementation": "Added Cybersecurity to the existing model-pointer and Perplexity bounded topic lists. It is subject to the same daily scheduling, 50-topic ceiling, URL admission, source retrieval, and candidate-only learning gates.",
+    "authority": "This expands research scope only; it does not authorize policy activation, proof, promotion, raw custody, or vetted custody."
+  },
   "nexusSystemIntegration": {
     "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
     "contract": "governingDocuments/NEXUS-SYSTEM-CONFORMANCE.md",

@@ -1,3 +1,11 @@
+### Session: cybersecurity-research-topic-20261009 — 2026-10-09T16:00:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Added Cybersecurity as a bounded Crucible research topic so security/process improvements can be discovered through the existing governed research paths.
+
+- Added `Cybersecurity` to the model-pointer and Perplexity topic lists.
+- The topic remains candidate-only: daily scheduling, the existing 50-topic ceiling, trusted-domain/source admission, retrieval, corroboration, controlled verification, contradiction handling, and promotion gates are unchanged.
+- No raw/vetted state, R8, Archive, or `main` changed; this is research-scope registration only.
+
 ### Session: security-learning-pipeline-20261009 — 2026-10-09T15:30:00-04:00 — Codex — mode:regular
 
 Plain-language summary: Submitted six owner-provided security/process techniques to Crucible’s governed learning path as candidate-only evidence and wired pipeline controls that enforce zero trust, segmentation, one-way evidence, encrypted recovery, endpoint protection, and continuous inhibition.
