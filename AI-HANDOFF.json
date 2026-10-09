@@ -210,9 +210,9 @@
       "branch": "r8-workflow-registration",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:r8-workflow-registration.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-09T23:22:38.701Z",
+    "selectedAt": "2026-10-09T23:26:03.343Z",
       "promptSha256": "b9151aa926a8781d5fb649d41954f084f3ad1a371077d7a2376a9c720797dc0d",
-      "affectedPathsSha256": "5e42cfd4a51eb02abde12a788c385cfd54ce455cd04e5f4e62569d9f20b96b19"
+    "affectedPathsSha256": "db4594d9a0042a8f1edbb531756c9be046420f5cd8e232dd0e7e0969b4b92f24"
     },
     "steps": [
       "[done] Updated all monitored repository identities from the stale jonathanblunt1214-lgtm owner to the current 6076446993 owner after hosted monitor evidence showed repository-read failure; locked PR #11 remains read-only and no mutation authority was added.",
