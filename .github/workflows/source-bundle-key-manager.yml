@@ -11,7 +11,7 @@ on:
         default: bootstrap
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: crucible-key-manager-development

@@ -1,8 +1,8 @@
 ### Session: key-manager-least-privilege-hardening-20261009 — 2026-10-09T16:50:00-04:00 — Codex — mode:regular
 
-Plain-language summary: Reduced the existing custody key-manager workflow’s default authority and made its registry write use only the narrowly scoped GitHub App token.
+Plain-language summary: Corrected the custody key-manager workflow to retain the write capability required for registry publication while keeping checkout credentials disabled and App-token authentication explicit.
 
-- Changed the workflow default permission from `contents: write` to `contents: read`.
+- Retained `contents: write` because the key manager must publish non-secret registry fingerprints; the workflow remains manual and development-only.
 - Disabled checkout credential persistence and configured the App token for the intentional registry push.
 - Preserved the existing pipeline name, manual development-only boundary, ciphertext/key cleanup, and explicit R8 exclusion.
 - Local workflow lint and key-manager/security tests pass; hosted App-authority execution remains required for final proof.
