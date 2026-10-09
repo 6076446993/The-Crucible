@@ -1,3 +1,12 @@
+### Session: key-manager-zero-trust-hardening-20261009 — 2026-10-09T15:15:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Hardened the automated key manager against wrong-repository, wrong-branch, push-trigger, and unreviewed external-KMS execution while retaining only redacted recovery metadata.
+
+- Commit `a096eae` adds exact `6076446993/The-Crucible` + `development` + manual-dispatch enforcement, with external KMS explicitly refusing until a reviewed broker/OIDC contract exists.
+- The workflow retains a redacted 90-day lifecycle artifact containing key ids, fingerprints, context, and `r8: excluded`; it never uploads key material or plaintext custody.
+- Verification: focused key-manager/policy/dashboard tests 7/7; full `npm run test:all` 1027/1027; workflow lint, validation, security, and circulation audits passed.
+- No raw/vetted state, R8 canary, Archive, or `main` changed. Hosted App/OIDC capability is still pending configuration and exact-run proof.
+
 ### Session: automated-source-bundle-key-manager-20261009 — 2026-10-09T15:00:00-04:00 — Codex — mode:regular
 
 Plain-language summary: Added the development-only automated custody-key manager so raw and vetted keys can be bootstrapped or rotated without a human copying key values through chat; the workflow fails closed until its narrowly scoped GitHub App authority exists, and R8 remains explicitly separate.
