@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-09T21:44:53.750Z",
+      "selectedAt": "2026-10-09T21:45:19.005Z",
       "promptSha256": "d5267de1c73404465148fb2926f2be688360abd0169fa20a4525c2e958809e37",
-      "affectedPathsSha256": "b8b2331ff1c411ff7e469281c6e009e258686b627250a209f1b6e8d23f6e1e77"
+      "affectedPathsSha256": "a624659a6ba5fb1069a385273a6226ca9929c3814838e7ba1801210b04893d81"
     },
     "steps": [
       "Inspect Coursera syllabi for coding-assistant, debugging, optimization, testing, and application-security practices.",
