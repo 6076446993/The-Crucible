@@ -7,6 +7,7 @@ Plain-language summary: Corrected the custody key-manager workflow to retain the
 - Preserved the existing pipeline name, manual development-only boundary, ciphertext/key cleanup, and explicit R8 exclusion.
 - Local workflow lint and key-manager/security tests pass; hosted App-authority execution remains required for final proof.
 - No credentials, raw/vetted state, R8, Archive, or `main` changed.
+- Added an explicit preflight that fails closed on missing `CRUCIBLE_KEY_MANAGER_APP_ID` or `CRUCIBLE_KEY_MANAGER_PRIVATE_KEY` before key generation; values are never printed.
 
 ### Session: cybersecurity-research-progression-20261009 — 2026-10-09T16:40:00-04:00 — Codex — mode:regular
 
