@@ -95,3 +95,20 @@ verification remain mandatory at every boundary. Follow-up standards research
 now includes SLSA provenance verification, OpenTelemetry traces/metrics/logs,
 OWASP ASVS, and NIST SSDF. No active policy, pipeline name, R8 behavior, or
 durable learning state changed.
+
+## Additional candidate subjects submitted 2026-10-09
+
+The following subjects are now registered in both the security-technique
+manifest and the further-research register. They remain candidate-only:
+
+- Runtime observability, incident response, and trace correlation.
+- Distributed systems, concurrency, restart safety, and idempotent publication.
+- Property, contract, mutation, and metamorphic testing.
+- Secure software supply-chain provenance for dependencies, actions, builds, and artifacts.
+- Human factors and accountable automation, applying the rule: knowledge may inform action; it may not authorize itself.
+
+The immediate implementation target is runtime evidence correlation. The
+existing evidence packet already spans Crucible boundaries; the next controlled
+experiment must show one secret-free trace from route through verification and
+rollback with exact input/output digests, actor, status, failure reason, and
+rollback reference. This record is a candidate observation, not release proof.

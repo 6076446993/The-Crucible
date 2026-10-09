@@ -117,6 +117,25 @@
     "candidateOnly": true,
     "developmentTests": ["Trace one change from task route through test, hosted run, artifact provenance, and release decision", "Reject missing lineage or unauthorized cross-boundary writes", "Compare performance, reliability, security, and learning metrics before and after a bounded change"]
   },
+  "philosophyAndGovernance": {
+    "evidenceStatus": "candidate-only",
+    "knowledgeIsPower": {
+      "principle": "Knowledge increases the ability to predict, coordinate, and act; it does not by itself establish truth, wisdom, permission, or moral authority.",
+      "crucibleApplication": "Require provenance, uncertainty, reproducibility, source independence, and scoped authorization before an observation can influence a governed action."
+    },
+    "powerCorruptsWithoutAccountability": {
+      "principle": "Concentrated authority without independent review, equal standards, dissent, or revocation creates incentives for self-justification and unchecked error.",
+      "crucibleApplication": "No worker, dashboard, verifier, or evidence packet may authorize its own promotion; retain independent verification, owner approval, kill-switch, rollback, and immutable audit lineage."
+    },
+    "designRule": "Knowledge may inform action; it may not authorize itself.",
+    "activationRequires": ["falsifiable hypothesis", "controlled reproduction", "negative and regression tests", "contradiction analysis", "distinct independent verification", "exact-tip hosted evidence", "owner authorization"]
+  },
+  "immediateImprovement": {
+    "id": "runtime-evidence-correlation",
+    "status": "candidate-research-only",
+    "description": "Make the existing evidence packet operational by correlating redacted runtime events across every component boundary with exact input/output digests, actor, status, failure reason, and rollback reference.",
+    "successMeasure": "A controlled failure produces one complete, secret-free trace from route through verification and rollback without granting promotion authority."
+  },
   "furtherResearch": [
     {
       "id": "password-manager-human-access",
@@ -140,6 +159,59 @@
         { "authority": "OWASP", "title": "REST Security Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html" },
         { "authority": "GitHub", "title": "Actions OpenID Connect Reference", "url": "https://docs.github.com/en/actions/reference/security/oidc" },
         { "authority": "GitHub", "title": "Actions Secure Use Reference", "url": "https://docs.github.com/en/actions/reference/security/secure-use" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "runtime-observability-and-incident-response",
+      "title": "Runtime observability, incident response, and trace correlation",
+      "question": "How should Crucible correlate redacted runtime events across intake, retrieval, workers, custody, dashboards, and release checks while preserving secret-free evidence and rollbackability?",
+      "sources": [
+        { "authority": "Coursera", "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "authority": "OpenTelemetry", "title": "Observability primer", "url": "https://opentelemetry.io/docs/concepts/observability-primer/" },
+        { "authority": "NIST", "title": "Secure Software Development Framework", "url": "https://csrc.nist.gov/pubs/sp/800/218/final" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "distributed-concurrency-resilience",
+      "title": "Distributed systems, concurrency, and restart safety",
+      "question": "How should Crucible make queue, worker, lock, retry, and publication behavior idempotent and fail-closed under races, restarts, and partial writes?",
+      "sources": [
+        { "authority": "Coursera", "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "authority": "NIST", "title": "Secure Software Development Framework", "url": "https://csrc.nist.gov/pubs/sp/800/218/final" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "property-contract-mutation-testing",
+      "title": "Property, contract, mutation, and metamorphic testing",
+      "question": "Which generated, mutated, and contract-level tests expose boundary failures that example-based tests miss without weakening the required suite?",
+      "sources": [
+        { "authority": "Coursera", "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "authority": "OWASP", "title": "Application Security Verification Standard", "url": "https://owasp.org/projects/asvs" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "secure-supply-chain-provenance",
+      "title": "Secure software supply-chain provenance",
+      "question": "How should Crucible verify dependencies, actions, build provenance, and artifacts before any retention or release boundary?",
+      "sources": [
+        { "authority": "Coursera", "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "authority": "SLSA", "title": "Artifact verification", "url": "https://slsa.dev/spec/v1.2/verifying-artifacts" },
+        { "authority": "GitHub", "title": "Actions secure use", "url": "https://docs.github.com/en/actions/reference/security/secure-use" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "power-accountability-and-human-factors",
+      "title": "Human factors, power concentration, and accountable automation",
+      "question": "How should Crucible prevent capable automation from becoming self-authorizing, suppressing dissent, or bypassing independent review and rollback?",
+      "sources": [
+        { "authority": "Monticello", "title": "Knowledge is power quotation analysis", "url": "https://www.monticello.org/encyclopedia/knowledge-power-quotation" },
+        { "authority": "Online Library of Liberty", "title": "Lord Acton on power and moral standards", "url": "https://oll.libertyfund.org/quotes/214" },
+        { "authority": "NIST", "title": "Zero Trust Architecture", "url": "https://csrc.nist.gov/pubs/sp/800/207/final" }
       ],
       "status": "candidate-research-only"
     }
