@@ -376,3 +376,10 @@ Plain-language summary: Registered additional Coursera-derived engineering subje
 - `philosophy mapping` — recorded `Knowledge may inform action; it may not authorize itself` with provenance, uncertainty, independent verification, owner authorization, kill-switch, and rollback requirements.
 - `queue submission` — attempted through `src/securityLearningCli.js queue`; failed closed on the existing durable-learning lock (`EPERM` pending lock), so no durable learning state changed and no submission is claimed.
 - `focused verification` — JSON parsing, security-learning/evidence-packet tests 6/6, and governance audit passed; existing generated known-bug ledger remains preserved and uncommitted.
+
+### Session: architecture-quality-evidence-packet-20261009 — 2026-10-09T21:48:31-04:00 — Codex — mode:regular
+
+Plain-language summary: Implemented optional architecture-quality evidence on the shared Crucible packet and registered related systems-architecture and engineering-ethics research as candidate-only; no promotion, custody, R8, `main`, or `Archive` change occurred.
+- `implementation` — added quality attributes, trade-offs, threat model, stakeholders, and rollback-impact fields with fail-closed validation when review is required.
+- `research mapping` — added Coursera systems-architecture/software-architecture, CMU SEI quality-attributes, IEEE/ACM ethics, and NIST SSDF references.
+- `focused verification` — evidence-packet and security-learning tests 7/7 passed; both research manifests parse successfully.

@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Apply a shared evidence-packet gate across Crucible intake, retrieval, extraction, repair, workers, diagnostics, learning, custody, dashboards, and release boundaries without renaming the pipeline or changing main or Archive.",
-    "currentPrompt": "Register Coursera-derived debugging, observability, distributed-resilience, property/mutation-testing, supply-chain, and accountable-automation research as candidate-only Crucible evidence; record the knowledge-versus-power governance principle and runtime-evidence-correlation improvement without renaming the pipeline or changing custody, R8, main, or Archive.",
+    "currentPrompt": "Add architecture-quality and engineering-ethics evidence to the existing Crucible evidence packet; register the research subject and implement optional quality attributes, trade-offs, threat model, and rollback metadata without renaming the pipeline or changing custody, R8, main, or Archive.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-09T21:45:19.005Z",
-      "promptSha256": "d5267de1c73404465148fb2926f2be688360abd0169fa20a4525c2e958809e37",
-      "affectedPathsSha256": "a624659a6ba5fb1069a385273a6226ca9929c3814838e7ba1801210b04893d81"
+      "selectedAt": "2026-10-09T21:48:31.314Z",
+      "promptSha256": "cfe5c8f0808b81af2438e015decdfc41e58b50a5ac14cce7bcc2585a6bcdc2f9",
+      "affectedPathsSha256": "de994afd7f6401cc5f62918094420d257d3c8a4dadcdad2258bcbabdf8563332"
     },
     "steps": [
       "Inspect Coursera syllabi for coding-assistant, debugging, optimization, testing, and application-security practices.",

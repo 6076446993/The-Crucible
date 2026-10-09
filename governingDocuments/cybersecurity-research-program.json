@@ -136,6 +136,19 @@
     "description": "Make the existing evidence packet operational by correlating redacted runtime events across every component boundary with exact input/output digests, actor, status, failure reason, and rollback reference.",
     "successMeasure": "A controlled failure produces one complete, secret-free trace from route through verification and rollback without granting promotion authority."
   },
+  "architectureQualityContract": {
+    "status": "candidate-research-only",
+    "packetField": "architecture",
+    "requiredWhenReviewed": ["qualityAttributes", "tradeoffs", "threatModel", "stakeholders", "rollbackImpact"],
+    "principle": "Architecture decisions must expose quality trade-offs and ethical impact before implementation; no architecture packet grants promotion authority.",
+    "sources": [
+      { "authority": "Coursera", "title": "Introduction to Systems Architecture", "url": "https://www.coursera.org/learn/introduction-to-systems-architecture" },
+      { "authority": "Coursera", "title": "Software Architecture", "url": "https://www.coursera.org/learn/software-architecture" },
+      { "authority": "CMU Software Engineering Institute", "title": "Quality Attributes", "url": "https://www.sei.cmu.edu/library/quality-attributes/" },
+      { "authority": "IEEE/ACM", "title": "Software Engineering Code of Ethics", "url": "https://techethics.ieee.org/resources/ieee-frameworks/" },
+      { "authority": "NIST", "title": "Secure Software Development Framework", "url": "https://csrc.nist.gov/Projects/ssdf" }
+    ]
+  },
   "furtherResearch": [
     {
       "id": "password-manager-human-access",

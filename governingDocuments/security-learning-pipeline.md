@@ -106,9 +106,16 @@ manifest and the further-research register. They remain candidate-only:
 - Property, contract, mutation, and metamorphic testing.
 - Secure software supply-chain provenance for dependencies, actions, builds, and artifacts.
 - Human factors and accountable automation, applying the rule: knowledge may inform action; it may not authorize itself.
+- Architecture-quality and engineering-ethics review: every architecture-affecting change declares quality attributes, stakeholders, threats, trade-offs, and rollback impact.
 
 The immediate implementation target is runtime evidence correlation. The
 existing evidence packet already spans Crucible boundaries; the next controlled
 experiment must show one secret-free trace from route through verification and
 rollback with exact input/output digests, actor, status, failure reason, and
 rollback reference. This record is a candidate observation, not release proof.
+
+Architecture-quality evidence is now an optional field on the shared evidence
+packet. When `reviewRequired` is true, missing quality attributes, trade-offs,
+threat model, stakeholders, or rollback impact makes the packet structurally
+invalid. Existing packets remain compatible; this field grants no promotion or
+policy authority.

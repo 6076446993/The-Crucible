@@ -33,3 +33,16 @@ test('ready assertion fails closed when one gate is missing', () => {
   const packet = createEvidencePacket({ projectId:'p', component:'worker', claim:'bounded claim', boundary:'one window', observability:{traceId:'trace-1'} });
   assert.throws(() => requireReadyEvidencePacket(packet), /not promotion-ready/);
 });
+
+test('architecture-quality packets require explicit attributes, trade-offs, threats, and rollback impact', () => {
+  const packet = createEvidencePacket({
+    projectId:'p', component:'architecture-review', claim:'bounded architecture decision', boundary:'one component',
+    architecture:{reviewRequired:true, qualityAttributes:['security','reliability'], tradeoffs:['latency vs. durability'], threatModel:['cross-boundary write'], stakeholders:['operator'], rollbackImpact:'restore prior component contract'},
+    observability:{traceId:'trace-architecture'},
+  });
+  assert.equal(validateEvidencePacket(packet).valid, true);
+  assert.equal(validateEvidencePacket(packet).ready, false);
+  const missing = createEvidencePacket({ projectId:'p', component:'architecture-review', claim:'bounded architecture decision', boundary:'one component', architecture:{reviewRequired:true}, observability:{traceId:'trace-architecture'} });
+  assert.equal(validateEvidencePacket(missing).valid, false);
+  assert.match(validateEvidencePacket(missing).errors.join(' '), /architecture\.qualityAttributes/);
+});
