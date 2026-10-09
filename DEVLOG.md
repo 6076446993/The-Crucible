@@ -1,5 +1,14 @@
 # Development log
 
+### Session: repair key-manager action references — 2026-10-09T19:45:00-04:00 — ChatGPT — mode:work
+
+Plain-language summary: The first post-merge custody-key bootstrap failed before secret access because two immutable GitHub Action references in the new workflow were invalid. The workflow now uses the repository's verified checkout SHA and full App-token action SHA; no key material or learning state changed.
+
+- **Evidence:** bootstrap run `38005597938` failed closed during action resolution only; no generation, secret write, registry update, or runner key material occurred.
+- **Repair:** corrected `.github/workflows/source-bundle-key-manager.yml` to the existing verified action SHAs.
+- **Verification:** workflow lint and workflow-focused tests passed locally; the corrected workflow requires the protected PR path before another bootstrap attempt.
+- **Next:** merge the narrow action-reference repair through protected checks, then rerun development bootstrap and inspect only redacted lifecycle evidence.
+
 ### Session: register automated Crucible custody key manager — 2026-10-09T00:00:00-04:00 — ChatGPT — mode:work
 
 Plain-language summary: Repaired the protected R8 workflow-registration branch to the current `6076446993/The-Crucible` repository identity and added the manual-only development key-manager workflow. It uses the existing GitHub App boundary, writes only encrypted custody secrets and non-secret fingerprints, and destroys runner key material on every exit path; it does not touch learning state or `main`.
