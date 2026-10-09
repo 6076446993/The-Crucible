@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use one installed GitHub App for Crucible monitoring and custody-key management while preserving strict read-only monitor authority and isolated key-manager write authority.",
-    "currentPrompt": "but on the same installed app",
+    "currentPrompt": "Confirm the Crucible Monitor permission update",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-09T22:08:07.928Z",
-      "promptSha256": "aa0ce1d0f571a12cf443688ee5c1f5cac5b42bdfccd242a15ae329b33b02999b",
-      "affectedPathsSha256": "a4c3a2dc09b648b1107a2fb932a730f1af27a7629217b15a717e3e2e56ba6845"
+      "selectedAt": "2026-10-09T23:04:34.255Z",
+      "promptSha256": "00fb46013d14f8a077f09d9ea7aecf9179d278b7ec1678301b798a8e07770e3d",
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -235,7 +235,7 @@
     ],
     "status": "in-progress",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-09T22:55:00Z",
+    "lastUpdatedAt": "2026-10-09T23:05:01.3246112Z",
     "currentStep": 4,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -295,7 +295,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "One installed GitHub App is supported for both monitor and key-manager workflows. The monitor mints only checks/pull-requests/metadata read authority; the key manager receives the App identity only in its manual development workflow and uses Actions-secret plus development Contents write authority for Crucible custody keys. No monitor token is passed to key management; no credentials, live intake, durable learning promotion, or R8 pass is claimed.",
+    "verificationStatus": "One installed GitHub App is supported for both monitor and key-manager workflows. The monitor mints only checks/pull-requests/metadata read authority; the key manager receives the App identity only in its manual development workflow and uses Actions-secret plus development Contents write authority for Crucible custody keys. GitHub organization installation 169035381 accepted the Crucible Monitor permission update on 2026-10-09, showing read/write access to code and secrets while retaining read-only checks/metadata/pull requests. No monitor token is passed to key management; no credentials, live intake, durable learning promotion, or R8 pass is claimed.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",

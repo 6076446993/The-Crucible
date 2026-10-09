@@ -411,3 +411,11 @@ Plain-language summary: Rebound the checked-in active handoff's task-routing rec
 - `route:prewrite` — completed 2026-10-09T22:08:07-04:00, exit 0; selected `crucible-core` for `6076446993/The-Crucible` on `development`.
 - `repair scope` — limited to `AI-HANDOFF.json` and `DEVLOG.md`; no source, test, learning-state, credential, workflow, R8, Archive, or `main` mutation.
 - `verification` — task-routing 14/14, language-catalog 6/6, `npm run validate`, `npm run test:all` 1036/1036, and `git diff --check` passed.
+
+### Session: monitor-app-key-manager-permission-update-20261009 — 2026-10-09T19:02:23-04:00 — Codex — mode:work
+
+Plain-language summary: Updated the existing organization-installed Crucible Monitor GitHub App so the manual Crucible key-manager workflow can use its identity for repository secret and development-content writes while the monitor workflow remains read-only; no key value, raw/vetted state, R8, `main`, or `Archive` changed.
+
+- `route:prewrite` — completed 2026-10-09T19:02:07-04:00, exit 0; selected `crucible-core` for `6076446993/The-Crucible:development` with affected paths `AI-HANDOFF.json` and `DEVLOG.md`.
+- `github-app-update` — organization App `crucible-monitor` (App ID 5230024, installation 169035381) accepted the update; installation now visibly reports read-only checks/metadata/pull requests plus read/write code and secrets across its seven selected repositories.
+- `verification` — existing local implementation commit `194368c`; no credentials were read or exposed, and the required hosted key-manager run remains pending until the owner-configured key-manager secrets exist.
