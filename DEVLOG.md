@@ -1,3 +1,12 @@
+### Session: security-hardening-release-plan-20261009 — 2026-10-09T16:20:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Added the owner-approved security-hardening model to the existing scientific-learning release plan without renaming or splitting the Crucible pipeline.
+
+- Documented zero-trust authorization, custody micro-segmentation, one-way evidence flow, encrypted recovery/key management, endpoint/media controls, and continuous fail-closed verification as existing pipeline boundaries and candidate-learning controls.
+- Preserved the candidate-only boundary: these controls do not become active policy or promoted knowledge without durable custody, controlled testing, negative/regression evidence, contradiction analysis, distinct verification, exact-tip hosted proof, and owner authorization.
+- Recorded that the bounded `Cybersecurity` discovery topic uses the existing research providers and 50-topic ceiling.
+- No raw/vetted state, R8, Archive, or `main` changed.
+
 ### Session: cybersecurity-research-topic-20261009 — 2026-10-09T16:00:00-04:00 — Codex — mode:regular
 
 Plain-language summary: Added Cybersecurity as a bounded Crucible research topic so security/process improvements can be discovered through the existing governed research paths.

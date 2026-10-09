@@ -4,6 +4,19 @@
 
 The scientific-learning system remains on `development`. A rolling forecast is not authorization to promote learning scope. Promotion of scientific-learning files or behavior to `main` requires every gate below to be complete, a final exact-tip green run, and explicit repository-owner approval. Independently releasable non-learning changes are not blocked by this plan, but their diff and dependencies must first be proven isolated from learning scope and they must follow the repository's normal governed release path.
 
+## Security hardening carried by the existing pipeline
+
+The existing Crucible learning pipeline is secured in place; security hardening does not rename, replace, or split the pipeline. The following controls are part of the system boundary and are also submitted as candidate-only security/process learning evidence through `src/securityLearning.js` and `src/securityLearningCli.js`:
+
+- **Zero-trust authorization:** every repository, branch, worker, dashboard, custody, and promotion action remains bound to its exact project identity, branch, authority, and verification result.
+- **Micro-segmentation:** raw custody, vetted custody, learning workers, retrieval, oversight, and user-facing dashboard paths remain separate, with no downstream component gaining upstream write authority.
+- **One-way evidence flow:** discovery and retrieval can produce candidate evidence, but cannot write vetted state, satisfy proof, or promote knowledge; upstream custody is never authored by downstream learning consumers.
+- **Encrypted recovery and key management:** raw/vetted state and recovery artifacts use the existing authenticated encryption and managed-key boundaries; plaintext keys and custody are never placed in chat, logs, or governance files.
+- **Endpoint and media control:** retrieval and intake reject executable or unsafe content, private/local targets, disallowed media, oversized or malformed inputs, and untrusted instructions before persistence.
+- **Continuous verification and inhibition:** kill switches, exact-tip checks, contradiction quarantine, independent verification, rollback, and fail-closed health gates inhibit unsafe or unverifiable transitions.
+
+These controls are implementation and candidate-learning scope, not an automatic policy activation or release exception. Their manifest remains explicitly `candidate-only`; no item becomes active policy or promoted knowledge until it has project-bound durable custody, a falsifiable hypothesis and controlled reproduction, negative/regression testing, contradiction analysis, distinct independent verification, exact-tip hosted evidence, and owner authorization. The `Cybersecurity` discovery topic is registered in the existing bounded research providers under the same rules and the existing 50-topic ceiling.
+
 ## Rolling forecast
 
 - Initial forecast: **2026-09-14 at 12:00 PM America/New_York**.
