@@ -367,3 +367,12 @@ Plain-language summary: Added one candidate-only evidence packet contract across
 - `component expansion` — completed 2026-10-10T00:42:00Z, exit 0; added packet propagation to security-repair feedback and monthly-refresh candidate claims, and synchronized the cadence registry and bounded DEVLOG archive.
 - `full verification` — completed 2026-10-10T00:44:00Z, exit 0; orchestrated full suite 1033/1033 passed, zero skipped; validation, security, circulation, workflow lint, documentation, route binding, handoff, and diff checks passed.
 - `custody boundary` — completed 2026-10-09T20:35:00-04:00, exit 0; no credentials, raw/vetted state, R8, `main`, or `Archive` changed.
+
+### Session: candidate-research-subjects-and-accountability-20261009 — 2026-10-09T21:43:40-04:00 — Codex — mode:regular
+
+Plain-language summary: Registered additional Coursera-derived engineering subjects and the knowledge/power accountability principle as candidate-only Crucible evidence; no policy, custody, R8, pipeline name, `main`, or `Archive` change occurred.
+- `route:prewrite` — completed 2026-10-09T21:43:40-04:00, exit 0; selected `crucible-core` for the three governing paths.
+- `candidate manifests` — added runtime observability, distributed/concurrent resilience, property/contract/mutation testing, supply-chain provenance, and accountable automation subjects with Coursera/standards references.
+- `philosophy mapping` — recorded `Knowledge may inform action; it may not authorize itself` with provenance, uncertainty, independent verification, owner authorization, kill-switch, and rollback requirements.
+- `queue submission` — attempted through `src/securityLearningCli.js queue`; failed closed on the existing durable-learning lock (`EPERM` pending lock), so no durable learning state changed and no submission is claimed.
+- `focused verification` — JSON parsing, security-learning/evidence-packet tests 6/6, and governance audit passed; existing generated known-bug ledger remains preserved and uncommitted.

@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Apply a shared evidence-packet gate across Crucible intake, retrieval, extraction, repair, workers, diagnostics, learning, custody, dashboards, and release boundaries without renaming the pipeline or changing main or Archive.",
-    "currentPrompt": "Implement an automated evidence-packet gate across Crucible components so every repair, research, retrieval, extraction, worker, dashboard, and promotion candidate carries exact provenance, reproducibility, tests, security results, independent verification, rollback, and observability metadata; integrate it without renaming the pipeline or changing main/Archive.",
+    "currentPrompt": "Register Coursera-derived debugging, observability, distributed-resilience, property/mutation-testing, supply-chain, and accountable-automation research as candidate-only Crucible evidence; record the knowledge-versus-power governance principle and runtime-evidence-correlation improvement without renaming the pipeline or changing custody, R8, main, or Archive.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-09T20:01:58.150Z",
-      "promptSha256": "cd510e8467770a81eddaaac4a7b4ce3ea146d7de40d9da60fc887ad333fa9c38",
-      "affectedPathsSha256": "4256247d262e5b0c81bd0dc2d86498dc2708d30326ccf8fe86b50cf1dccdba38"
+      "selectedAt": "2026-10-09T21:44:53.750Z",
+      "promptSha256": "d5267de1c73404465148fb2926f2be688360abd0169fa20a4525c2e958809e37",
+      "affectedPathsSha256": "b8b2331ff1c411ff7e469281c6e009e258686b627250a209f1b6e8d23f6e1e77"
     },
     "steps": [
       "Inspect Coursera syllabi for coding-assistant, debugging, optimization, testing, and application-security practices.",
@@ -236,7 +236,7 @@
     "status": "handoff-ready",
     "startedAt": "2026-10-08T04:07:39.980600Z",
     "lastUpdatedAt": "2026-10-10T00:45:00Z",
-    "currentStep": 5,
+      "currentStep": 6,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
