@@ -419,3 +419,10 @@ Plain-language summary: Updated the existing organization-installed Crucible Mon
 - `route:prewrite` — completed 2026-10-09T19:02:07-04:00, exit 0; selected `crucible-core` for `6076446993/The-Crucible:development` with affected paths `AI-HANDOFF.json` and `DEVLOG.md`.
 - `github-app-update` — organization App `crucible-monitor` (App ID 5230024, installation 169035381) accepted the update; installation now visibly reports read-only checks/metadata/pull requests plus read/write code and secrets across its seven selected repositories.
 - `verification` — existing local implementation commit `194368c`; no credentials were read or exposed, and the required hosted key-manager run remains pending until the owner-configured key-manager secrets exist.
+
+### Session: custody-key-manager-publish-route-20261009 — 2026-10-09T19:09:31-04:00 — Codex — mode:work
+
+Plain-language summary: The first development publish attempt failed closed because the recorded route covered only the prior documentation edit. The exact route was regenerated for the complete pending development diff before retrying; no main push or secret operation occurred.
+
+- `route:prewrite` — completed 2026-10-09T23:09:31Z, exit 0; selected `crucible-core` for `6076446993/The-Crucible:development`, prompt `Manage Crucible custody keys`, affected-path digest `90d1765af20ffe120cf0c7cc54b88d8bc1d1bacf3011fb4fb83f0689c7ba28d9`.
+- `verification` — initial push was rejected by OPS-0045 due to the stale route digest; the regenerated route covers the exact pending development paths. Known-bug ledger remains unstaged.
