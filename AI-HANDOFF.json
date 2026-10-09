@@ -206,8 +206,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Register and verify candidate-only language curriculum research for Crucible's coding profiles without activating policy or changing custody, R8, main, or Archive.",
-    "currentPrompt": "Implement candidate-only language curriculum metadata and verification focus in the existing Crucible language catalog, add tests, and submit through the existing research pipeline without activating policy, changing custody, R8, main, or Archive.",
+    "objective": "Repair and verify the deterministic task-routing handoff mismatch while preserving candidate-only curriculum metadata and all custody, R8, main, and Archive boundaries.",
+    "currentPrompt": "Repair the deterministic task-routing failure reported by KB-local-b11194389e, preserve exact prompt/path digests and candidate curriculum metadata, add regression coverage, and verify without changing custody, R8, main, or Archive.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,21 +222,21 @@
       "branch": "development",
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-09T22:00:59.765Z",
-      "promptSha256": "055bec03bafce249b10b7d0ef7a12c430857ed7baa073bff3fd2f08a0ebeb869",
-      "affectedPathsSha256": "cedf92d9beb068bb3f041680d7d152a35177de8035d958dbb0ba2f0eae5a5a3d"
+      "selectedAt": "2026-10-09T22:08:07.928Z",
+      "promptSha256": "f0d9bcf1898fec50d934bf1efc1bb85b49296286db5ad297087176cf4a832ff2",
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
-      "Inventory the language profiles and actual Crucible source usage.",
-      "Research reputable Coursera, university, and official language/runtime material for every profile.",
-      "Register the sources as candidate-only research in the existing cybersecurity research program.",
-      "Validate JSON, configuration, handoff, and full local governance tests without mutating durable learning state.",
+      "Reproduce the deterministic task-routing mismatch from KB-local-b11194389e.",
+      "Refresh the exact current prompt and affected-path digests in the checked-in handoff.",
+      "Run focused routing and curriculum tests plus validation and diff checks.",
+      "Run the full local governance suite and preserve any independently generated known-bug ledger entries.",
       "Commit on development only; preserve raw/vetted custody, R8, main and Archive boundaries."
     ],
     "status": "handoff-ready",
     "startedAt": "2026-10-08T04:07:39.980600Z",
     "lastUpdatedAt": "2026-10-09T22:10:00Z",
-    "currentStep": 3,
+    "currentStep": 5,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",

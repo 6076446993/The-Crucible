@@ -387,3 +387,10 @@ Plain-language summary: Implemented optional architecture-quality evidence on th
 - `implementation` — added quality attributes, trade-offs, threat model, stakeholders, and rollback-impact fields with fail-closed validation when review is required.
 - `research mapping` — added Coursera systems-architecture/software-architecture, CMU SEI quality-attributes, IEEE/ACM ethics, and NIST SSDF references.
 - `focused verification` — evidence-packet and security-learning tests 7/7 passed; both research manifests parse successfully.
+### Session: task-routing-handoff-repair-20261009 — 2026-10-09T22:08:07-04:00 — Codex — mode:regular
+
+Plain-language summary: Rebound the checked-in active handoff's task-routing record to its exact current repair prompt and affected-path digest, fixing the deterministic handoff mismatch without changing curriculum metadata, custody, R8, Archive, or `main`.
+
+- `route:prewrite` — completed 2026-10-09T22:08:07-04:00, exit 0; selected `crucible-core` for `6076446993/The-Crucible` on `development`.
+- `repair scope` — limited to `AI-HANDOFF.json` and `DEVLOG.md`; no source, test, learning-state, credential, workflow, R8, Archive, or `main` mutation.
+- `verification` — task-routing 14/14, language-catalog 6/6, `npm run validate`, `npm run test:all` 1036/1036, and `git diff --check` passed.
