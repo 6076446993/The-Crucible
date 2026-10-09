@@ -1,3 +1,13 @@
+### Session: key-manager-least-privilege-hardening-20261009 — 2026-10-09T16:50:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Reduced the existing custody key-manager workflow’s default authority and made its registry write use only the narrowly scoped GitHub App token.
+
+- Changed the workflow default permission from `contents: write` to `contents: read`.
+- Disabled checkout credential persistence and configured the App token for the intentional registry push.
+- Preserved the existing pipeline name, manual development-only boundary, ciphertext/key cleanup, and explicit R8 exclusion.
+- Local workflow lint and key-manager/security tests pass; hosted App-authority execution remains required for final proof.
+- No credentials, raw/vetted state, R8, Archive, or `main` changed.
+
 ### Session: cybersecurity-research-progression-20261009 — 2026-10-09T16:40:00-04:00 — Codex — mode:regular
 
 Plain-language summary: Started a staged cybersecurity research progression from university foundations through advanced engineering and current standards, while preserving Crucible’s existing pipeline name and candidate-only gates.

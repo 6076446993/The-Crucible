@@ -11,7 +11,7 @@ on:
         default: bootstrap
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: crucible-key-manager-development
@@ -26,6 +26,7 @@ jobs:
       - uses: actions/checkout@d23441a48a516b6c34aea4fa41551a30e30af803 # v6
         with:
           ref: development
+          persist-credentials: false
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
@@ -55,8 +56,11 @@ jobs:
             if [ -f "$file" ]; then gh secret set "$secret" --repo "$GITHUB_REPOSITORY" < "$file"; fi
           done
       - name: Commit non-secret registry fingerprints
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           set -euo pipefail
+          gh auth setup-git
           git config user.name 'Crucible key manager'
           git config user.email 'crucible-key-manager@users.noreply.github.com'
           git add governingDocuments/source-bundle-key-registry.json

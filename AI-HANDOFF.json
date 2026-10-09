@@ -1591,6 +1591,17 @@
     ],
     "authority": "No candidate was written to durable learning custody in this session because no configured learning root was present; no promotion authority was added."
   },
+  "securityHardeningRuntime": {
+    "status": "IMPLEMENTED_LOCAL_PENDING_HOSTED_RUN",
+    "updatedOn": "2026-10-09",
+    "implementation": "Hardened the existing custody key-manager workflow with read-only default GITHUB_TOKEN permissions, checkout credential persistence disabled, and registry push authenticated only by the narrowly scoped GitHub App token. The existing pipeline name and R8 exclusion remain unchanged.",
+    "verification": "Workflow lint and local security/key-manager tests pass; hosted execution is still required to prove the App token can write only the intended registry and secrets.",
+    "remainingWork": [
+      "Run the manual development key-manager workflow with the configured App installation and verify secret writes, registry fingerprint commit, and cleanup.",
+      "Preserve no-plaintext and R8-excluded evidence; do not broaden permissions if the hosted run fails."
+    ],
+    "authority": "No credentials were read or generated locally and no raw/vetted state, R8, Archive, or main changed."
+  },
   "cybersecurityResearchTopic": {
     "status": "ADDED_TO_BOUNDED_DISCOVERY_CANDIDATE_ONLY",
     "updatedOn": "2026-10-09",
