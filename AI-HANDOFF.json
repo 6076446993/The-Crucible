@@ -1563,6 +1563,19 @@
       }
     }
   },
+  "keyManagerAutomation": {
+    "status": "IMPLEMENTED_PENDING_HOSTED_APP_AUTHORITY",
+    "updatedOn": "2026-10-09",
+    "objective": "Prevent future raw/vetted custody-key loss without exposing key values or changing R8 behavior.",
+    "implementation": "Commit 101d467 adds development-only manual bootstrap/rotation for CRUCIBLE_SOURCE_BUNDLE_KEY and CRUCIBLE_VETTED_BUNDLE_KEY, retaining previous values during the dual-key window and writing only SHA-256 fingerprints to the registry.",
+    "verification": "Local focused key-manager/dashboard tests 6/6; full npm run test:all 1024/1024; workflow lint, validate, and circulation audit passed.",
+    "remainingWork": [
+      "Install a narrowly scoped GitHub App on 6076446993/The-Crucible with Actions secret write and development Contents write authority.",
+      "Create CRUCIBLE_KEY_MANAGER_APP_ID and CRUCIBLE_KEY_MANAGER_PRIVATE_KEY as repository secrets, then dispatch the development-only manager in bootstrap mode.",
+      "Hosted execution must prove secret writes and registry fingerprint commit; no plaintext key or R8 state may be retained."
+    ],
+    "authority": "No key values were read, generated for custody, or written during this local implementation. R8 remains separately blocked and untouched."
+  },
   "nexusSystemIntegration": {
     "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
     "contract": "governingDocuments/NEXUS-SYSTEM-CONFORMANCE.md",

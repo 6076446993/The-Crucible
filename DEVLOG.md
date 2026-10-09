@@ -1,3 +1,13 @@
+### Session: automated-source-bundle-key-manager-20261009 — 2026-10-09T15:00:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Added the development-only automated custody-key manager so raw and vetted keys can be bootstrapped or rotated without a human copying key values through chat; the workflow fails closed until its narrowly scoped GitHub App authority exists, and R8 remains explicitly separate.
+
+- Implemented `src/sourceBundleKeyAutomation.js` in commit `101d467`: generates fresh 32-byte raw/vetted keys in runner memory/temp storage, retains prior values only during governed rotation, and emits only redacted key ids/fingerprints.
+- Added `.github/workflows/source-bundle-key-manager.yml`, manual and development-only, using a narrowly scoped GitHub App token plus `gh secret set`; it commits only non-secret registry fingerprints and always destroys runner key material.
+- Added governing documentation and focused tests; no key values, raw/vetted state, Archive, R8 canary, or `main` were touched.
+- Verification: focused key-manager/dashboard tests 6/6; `npm run test:all` 1024/1024; `npm run lint:workflows`, `npm run validate`, and `npm run audit:circulation` passed.
+- Remaining capability blocker: the repository still needs the GitHub App installation and repository secrets `CRUCIBLE_KEY_MANAGER_APP_ID` and `CRUCIBLE_KEY_MANAGER_PRIVATE_KEY`; hosted bootstrap/rotation evidence has not yet run.
+
 ### Session: source-bundle-key-manager-20261009 — 2026-10-09T00:00:00.000Z — Codex — mode:regular
 
 Plain-language summary: Added a fail-closed, non-secret key identity and rotation preflight so raw custody and R8 cannot start with an absent, malformed, or silently replaced encryption key.
