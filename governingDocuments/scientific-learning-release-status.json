@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+  "projectId": "github:6076446993/The-Crucible",
   "branch": "development",
-  "developmentSha": "1033806378cda18f53efc4b589867bc9cfb8c677",
-  "updatedAt": "2026-10-07T02:39:18.000Z",
+  "developmentSha": "1199af5cb36166b997345bb9b0e5c5931713c75e",
+  "updatedAt": "2026-10-10T06:23:00-04:00",
   "rollingTarget": null,
   "rollingTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
   "timezone": "America/New_York",
@@ -18,12 +18,12 @@
     "R5": "passed; exact-tip run 37337684847 affirmatively restored a corpus-backed verified Java knowledge version (candidate extracted-46e181f05a9c6f5dab5b9c21be5f07f3) with the controlled experiment and distinct verifier evidence retained from the real corpus cycle. Active v1 candidate cycle-92917a3a1bac7b53ce800d3a08e78b51 remains NOT corpus-backed and is not the basis for this pass; retraction remains an owner decision.",
     "R6": "passed; exact-tip run 37337684847 restored the active corpus-backed verified version from encrypted state and affirmatively reported verified-only retrieval satisfied, while unverified and superseded states remained unavailable through retrieval.",
     "R7": "passed; exact-tip run 37337684847 restored the retained supersession/rollback history and affirmatively reported R7 satisfied; the audited prior-version state and active retrieval pointer survived cross-run encrypted retention.",
-    "R8": "pending; the current independent oversight bundle now enforces all 25 quarantines, removes 25 source payloads and 12 linked candidates, and the exact-tip proof credits prompt-injection refusal plus URL, content-hash, bounded-claim duplicate, blocked-source, contradiction, and kill-switch observations. Executable-content refusal remains undemonstrated: no retained source has executable magic and the owner-authorized real publisher/canary has not run. The proof correctly exited red with only this sub-gate missing.",
+    "R8": "pending; protected development dispatch run 38044694390 job 114191751834 at exact SHA 1199af5cb36166b997345bb9b0e5c5931713c75e reached the real publisher but failed closed before canary execution or any write. The existing ciphertext header identifies the legacy github:jonathanblunt1214-lgtm/The-Crucible custody identity and plaintext hash 3e312164b0dd944b1859c6e663d44fb1a1796db8285715e2a16fb545c412c446; CRUCIBLE_SOURCE_BUNDLE_KEY and CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS could not authenticate it. No executable bytes, raw state, vetted state, or durable publication changed. R8 remains undemonstrated until the original key is restored or an owner-authorized plaintext/source-of-truth rebuild re-encrypts the corpus under a new key.",
     "R9": "held; the required soak is 72-96 continuous hours with at most 1000 observed data points and cannot start until R2-R8 are simultaneously passed. Forecasting uses the conservative 96-hour edge.",
     "R10": "pending; at reviewed exact SHA 1033806378cda18f53efc4b589867bc9cfb8c677, CodeQL, AI handoff, AI conflict governance, scheduled every-push tests, and the circulation ratchet are green for the R2 change; audit:circulation reports 57 direct edges and none added. Self-Test remains red for the pre-existing CRU-0006 repository Administration-read/security-settings boundary, and Windows also retains the known R8/workflow-text CRLF assertion. The required PR monitor remains a separate blocker. R2 introduced no remaining Self-Test architecture regression.",
     "R11": "pending; no owner authorization exists for an exact all-green learning-release SHA, and this review performs no promotion."
   },
-  "blockingReason": "The rolling target remains indeterminate. R2 and R4-R7 now have durable hosted evidence and are passed. R3 completed zero discovery topics because all 16 NVIDIA NIM requests aborted, and R8 still lacks the live executable-content refusal/publisher observation. R9 therefore has not started and adds a conservative 96 continuous hours only after R2-R8 are simultaneously green. Exact-tip R10 is also red: Self-Test cannot read repository Administration with CRUCIBLE_SECURITY_READ_TOKEN, Windows workflow-text assertions observe CRLF, and the required private-repository monitor cannot resolve its dependency. The current vetted bundle is internally self-consistent and retained, but only 8 of the 14 owner-source hashes are present; 84d73c44d1f22e6b451a15b31c8f6e520fca6d09db82cfa56999920de1c7d693, c183f3ecfac24175a58921c171b1f5749cf84db72ceeac0752c44ef09bf56991, cf6cf8d31f6e6e0a4ec7dd2eecfa4ce9adb620db727d6280a2bb7195d2f95dfb, 29a6c35ca175ce7b67de420b9637db20ac161cf22397c23c31482067f4a63c85, fccaca99a230233486b689d774d41522dadb50260579d9cba8b591485445fb75, and 03ddee53d6e77d35b75c076169b0f60a57129e64d451b523ce72aff51b4cf8cc are absent, so the rescan remains pending and no candidate record is credited as reevaluated.",
+  "blockingReason": "The rolling target remains indeterminate. R2 and R4-R7 have durable hosted evidence and are passed. R3 completed zero discovery topics because all 16 NVIDIA NIM requests aborted. R8 protected dispatch run 38044694390 reached the real publisher at exact SHA 1199af5cb36166b997345bb9b0e5c5931713c75e but failed closed because the configured custody keys do not authenticate the existing ciphertext, whose header is stamped for legacy github:jonathanblunt1214-lgtm/The-Crucible. No canary or state write occurred; the original key cannot be derived from ciphertext. R9 therefore has not started and adds a conservative 96 continuous hours only after R2-R8 are simultaneously green. Exact-tip R10 remains separately red. The 14-source rescan remains pending and no candidate record is credited as reevaluated.",
   "history": [
     {
       "recordedAt": "2026-08-30T20:33:00Z",
@@ -225,6 +225,13 @@
       "newTarget": null,
       "newTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
       "reason": "R2 evidence was strengthened on reviewed exact SHA 1033806378cda18f53efc4b589867bc9cfb8c677. Hosted run 37562741750 job 112603486637 proved the disposable-root/no-production-path failover plus preservation of a pre-existing unrelated candidate; artifact 11457258905 is retained. The R2-introduced circulation regressions were repaired: every-push scheduled tests pass and audit:circulation is back to the recorded 57-edge baseline with none added. CodeQL, AI handoff, and AI conflict governance are green. R3 and R8 remain pending, R9 held, and R10 retains separate existing blockers, so no release target or promotion authority changes."
+    },
+    {
+      "recordedAt": "2026-10-10T06:23:00-04:00",
+      "priorTarget": null,
+      "newTarget": null,
+      "newTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
+      "reason": "Protected R8 dispatch run 38044694390 job 114191751834 executed the real development publisher at exact SHA 1199af5cb36166b997345bb9b0e5c5931713c75e and failed closed before canary execution or publication. The encrypted bundle header identifies legacy github:jonathanblunt1214-lgtm/The-Crucible and neither configured source-bundle key authenticated it. No raw/vetted state or executable bytes changed. R8 remains pending until the original key is restored or an owner-authorized plaintext/source-of-truth rebuild is available; no target or gate advances."
     }
   ]
 }

@@ -466,7 +466,7 @@
       "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
       "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
       "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
-      "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
+      "Raw custody now has configured secret names, but the configured CRUCIBLE_SOURCE_BUNDLE_KEY and optional previous key do not authenticate the existing ciphertext stamped for legacy github:jonathanblunt1214-lgtm/The-Crucible; restore the original key or obtain an owner-authorized plaintext/source-of-truth rebuild before any re-encryption. Do not derive, guess, or replace the key from ciphertext.",
       "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
     ],
     "verification": [
@@ -480,7 +480,8 @@
       "Monitor compatibility focused tests: 46/46, zero skipped.",
       "Owner saved security secret; GitHub metadata confirms updated SECURITY_READ_TOKEN and token 20724374 scoped to organization 6076446993/The-Crucible, read-only Administration/Contents/Metadata; fresh hosted API proof pending.",
       "Read-only App workflow integration: focused monitor/workflow tests 46/46, zero skipped, after distinguishing read-only monitor installation scope from custody-clone transport. Workflow lint passes 28 workflows.",
-      "Full local governed proof: 1009/1009, zero skipped, 40.322 seconds. Hosted Windows 24 job 112638868079 on 2dc9cb07a5aa1135f4ec1216b83fd4c0a90ee3b0 passed and reported security audit 1 repository, 0 issues at 05:01:45Z and 05:02:31Z."
+      "Full local governed proof: 1009/1009, zero skipped, 40.322 seconds. Hosted Windows 24 job 112638868079 on 2dc9cb07a5aa1135f4ec1216b83fd4c0a90ee3b0 passed and reported security audit 1 repository, 0 issues at 05:01:45Z and 05:02:31Z.",
+      "Protected R8 dispatch run 38044694390 job 114191751834 executed the real development publisher at exact SHA 1199af5cb36166b997345bb9b0e5c5931713c75e and failed closed before canary execution or publication: neither configured source-bundle key authenticated the ciphertext, whose header identifies legacy github:jonathanblunt1214-lgtm/The-Crucible. No raw/vetted state or executable bytes changed."
     ]
   },
   "mutationOwnershipPolicy": {

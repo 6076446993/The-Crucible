@@ -232,6 +232,16 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: r8-executable-publisher-dispatch-20261010 — 2026-10-10T06:23:00-04:00 — Codex — mode:regular/default
+
+Plain-language summary: The protected R8 registration path was exercised from the exact development tip. The real publisher ran and failed closed before the executable canary or any custody write because the configured source-bundle keys do not authenticate the existing encrypted bundle.
+
+- Dispatch: GitHub Actions run `38044694390`, job `114191751834`, exact development SHA `1199af5cb36166b997345bb9b0e5c5931713c75e`.
+- Hosted evidence: the ciphertext header identifies legacy `github:jonathanblunt1214-lgtm/The-Crucible` custody and plaintext hash `3e312164b0dd944b1859c6e663d44fb1a1796db8285715e2a16fb545c412c446`; both configured key candidates failed authentication.
+- Boundary: no canary ran, no executable bytes were executed or admitted, and no raw, vetted, or durable state changed. The failure is not repaired by generating another key: the original key cannot be derived from ciphertext.
+- Required next action: restore the original key that wrote this bundle, or obtain an owner-authorized plaintext/source-of-truth rebuild and re-encrypt under a new key. Do not guess, print, or replace a custody key from ciphertext.
+- Verification: `AI-HANDOFF.json` and `governingDocuments/scientific-learning-release-status.json` record the exact run, SHA, and blocker; JSON parsing passes. The pre-existing test-generated known-bug ledger changes remain preserved and were not discarded.
+
 ### Session: password-manager-api-key-research-20261009 — 2026-10-09T23:45:00Z — Codex — mode:regular/default
 
 Plain-language summary: Registered password-manager-safe human access and API-key lifecycle management as candidate-only research and documented a non-secret vault-item specification without writing or exposing credentials.
