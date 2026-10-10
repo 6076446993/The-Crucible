@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use one installed GitHub App for Crucible monitoring and custody-key management while preserving strict read-only monitor authority and isolated key-manager write authority.",
-    "currentPrompt": "Continue exact-tip Crucible key-manager verification from hosted run 38012262704: preserve the failed-closed invalid raw key blocker, do not overwrite or delete custody keys, and rerun bootstrap only after the authoritative 32-byte base64 key is restored; no main, R8, raw/vetted state, Archive, or credential values.",
+    "currentPrompt": "Register the existing CRUCIBLE_SOURCE_BUNDLE_KEY non-secret key ID and SHA-256 fingerprint in the Crucible key manager registry on development without exposing or replacing the secret; then rerun R8 only after hosted registration and preflight succeed. No main, Archive, or credential values.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-10T01:14:21.136Z",
-      "promptSha256": "8037432044b45eb9ddfb50cdc2a7f6b7f2f687b8bec06810b2fb1b2486e8275b",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "selectedAt": "2026-10-10T09:26:19.722Z",
+      "promptSha256": "2504e1a1a521093527a81f76f199e87a1314acf8bd4a182684794e7648f48e52",
+      "affectedPathsSha256": "44511dd09b34c65c45984e57c9f217ca7fdafd64f9061959b7c5c3e0dead23eb"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
