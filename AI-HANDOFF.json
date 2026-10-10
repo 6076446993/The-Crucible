@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use one installed GitHub App for Crucible monitoring and custody-key management while preserving strict read-only monitor authority and isolated key-manager write authority.",
-    "currentPrompt": "Register custody key manager workflow on the default branch",
+    "currentPrompt": "Repair the development-only Crucible custody key-manager workflow action references, update handoff and DEVLOG, commit and push to development, then rerun bootstrap and verify redacted lifecycle evidence; no main, R8, raw/vetted state, Archive, or credential values.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -220,11 +220,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Project context selects crucible-core.",
-      "explicitOverride": false,
-      "selectedAt": "2026-10-09T23:13:03.549Z",
-      "promptSha256": "942cafce9894fdd27721473f1b2372bbef299d0558f7fd30847222c13ad05620",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
+      "explicitOverride": true,
+      "selectedAt": "2026-10-10T01:09:09.141Z",
+      "promptSha256": "ad115fc624c4cb38a53d66e2979b891a565c2197833bd27c3bfd316c3f0644e1",
+      "affectedPathsSha256": "234c589ee8a4b9d8101ab1b7345878cb86a9489f4822e57d4a4c7f8f10b1c022"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -1942,16 +1942,17 @@
     }
   },
   "sourceBundleKeyManager": {
-    "status": "IMPLEMENTED_PENDING_OWNER_REGISTRATION_AND_HOSTED_VERIFICATION",
+    "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION_AFTER_DEVELOPMENT_REPAIR",
     "updatedOn": "2026-10-09",
     "objective": "Prevent another raw-custody loss by requiring non-secret key identity and rotation metadata to match runner secrets before decrypt or re-encrypt.",
     "implementation": "src/sourceBundleKeyManager.js validates 32-byte base64 secrets and SHA-256 fingerprints from governingDocuments/source-bundle-key-registry.json; raw-custody-publisher.yml and r8-executable-canary-publisher.yml fail closed before clone/decrypt when metadata or secrets are absent or mismatched.",
     "security": "Only key IDs and fingerprints are persisted. Secret values remain in GitHub Actions secrets and are never printed or committed.",
-    "verification": "Focused key-manager, hostedSourceBundle, and raw custody tests pass locally. Hosted exact-tip workflow verification remains required.",
+    "verification": "Focused key-manager, hostedSourceBundle, raw custody, syntax, and governed workflow tests pass locally. Development run 38011902706 failed closed before secret access because its stale branch workflow referenced invalid action SHAs; the development branch now carries only the corrected immutable references. Hosted exact-tip workflow verification remains required.",
     "blockers": [
       "Owner must register the current raw-intake key ID and SHA-256 fingerprint in source-bundle-key-registry.json through the governed development path.",
       "CRUCIBLE_SOURCE_BUNDLE_KEY and optional previous key must exist in the repository secret store; no historical key was recoverable from ciphertext.",
-      "R8 still requires an approved plaintext/source-of-truth rebuild before any new encrypted custody can be published."
+      "R8 still requires an approved plaintext/source-of-truth rebuild before any new encrypted custody can be published.",
+      "The corrected action references must be accepted by the protected development branch before bootstrap is retried."
     ],
     "affectedPaths": [
       "src/sourceBundleKeyManager.js",
