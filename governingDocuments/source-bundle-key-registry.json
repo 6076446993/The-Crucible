@@ -3,14 +3,29 @@
   "purpose": "Non-secret identity and rotation metadata for Crucible encrypted custody keys. Secret values are never stored here.",
   "families": {
     "raw-intake": {
-      "current": { "id": "REQUIRED_OWNER_KEY_ID", "sha256": "REQUIRED_64_HEX_FINGERPRINT" },
-      "previous": null,
-      "rotation": { "status": "blocked-until-owner-registers-key", "dualKeyWindowRequired": true }
+      "current": {
+        "id": "crucible-raw-918e00cbfc8c98ab",
+        "sha256": "918e00cbfc8c98abb6f7f38c9db9e1cc675aae3aa417000ab2b01f7911298535"
+      },
+      "previous": {
+        "id": "REQUIRED_OWNER_KEY_ID",
+        "sha256": "ae53e21b8a1641af61fa7e53c5ccfe90e1fb50b6680baed5bc39eac4ba1c8bb5"
+      },
+      "rotation": {
+        "status": "bootstrapped-by-automated-key-manager",
+        "dualKeyWindowRequired": true
+      }
     },
     "oversight-vetted": {
-      "current": { "id": "REQUIRED_OWNER_KEY_ID", "sha256": "REQUIRED_64_HEX_FINGERPRINT" },
+      "current": {
+        "id": "REQUIRED_OWNER_KEY_ID",
+        "sha256": "REQUIRED_64_HEX_FINGERPRINT"
+      },
       "previous": null,
-      "rotation": { "status": "blocked-until-owner-registers-key", "dualKeyWindowRequired": true }
+      "rotation": {
+        "status": "blocked-until-owner-registers-key",
+        "dualKeyWindowRequired": true
+      }
     }
   }
 }
