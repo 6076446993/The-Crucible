@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use one installed GitHub App for Crucible monitoring and custody-key management while preserving strict read-only monitor authority and isolated key-manager write authority.",
-    "currentPrompt": "Repair the development-only Crucible custody key-manager workflow action references, update handoff and DEVLOG, commit and push to development, then rerun bootstrap and verify redacted lifecycle evidence; no main, R8, raw/vetted state, Archive, or credential values.",
+    "currentPrompt": "Continue exact-tip Crucible key-manager verification from hosted run 38012262704: preserve the failed-closed invalid raw key blocker, do not overwrite or delete custody keys, and rerun bootstrap only after the authoritative 32-byte base64 key is restored; no main, R8, raw/vetted state, Archive, or credential values.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-10T01:09:09.141Z",
-      "promptSha256": "ad115fc624c4cb38a53d66e2979b891a565c2197833bd27c3bfd316c3f0644e1",
-      "affectedPathsSha256": "234c589ee8a4b9d8101ab1b7345878cb86a9489f4822e57d4a4c7f8f10b1c022"
+      "selectedAt": "2026-10-10T01:14:21.136Z",
+      "promptSha256": "8037432044b45eb9ddfb50cdc2a7f6b7f2f687b8bec06810b2fb1b2486e8275b",
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -235,8 +235,8 @@
     ],
     "status": "in-progress",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-09T23:13:03.549Z",
-    "currentStep": 4,
+    "lastUpdatedAt": "2026-10-10T01:14:00.000Z",
+    "currentStep": 5,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -1947,12 +1947,12 @@
     "objective": "Prevent another raw-custody loss by requiring non-secret key identity and rotation metadata to match runner secrets before decrypt or re-encrypt.",
     "implementation": "src/sourceBundleKeyManager.js validates 32-byte base64 secrets and SHA-256 fingerprints from governingDocuments/source-bundle-key-registry.json; raw-custody-publisher.yml and r8-executable-canary-publisher.yml fail closed before clone/decrypt when metadata or secrets are absent or mismatched.",
     "security": "Only key IDs and fingerprints are persisted. Secret values remain in GitHub Actions secrets and are never printed or committed.",
-    "verification": "Focused key-manager, hostedSourceBundle, raw custody, syntax, and governed workflow tests pass locally. Development run 38011902706 failed closed before secret access because its stale branch workflow referenced invalid action SHAs; the development branch now carries only the corrected immutable references. Hosted exact-tip workflow verification remains required.",
+    "verification": "Focused key-manager, hostedSourceBundle, raw custody, syntax, and governed workflow tests pass locally. Exact-tip development run 38012262704 at 918ed3ed3bbaecdb82f3081c30986a0d8a1733a7 reached the real manager, validated the App credentials and minted its token, then failed closed because CRUCIBLE_SOURCE_BUNDLE_KEY did not decode to exactly 32 bytes. No secret write or registry mutation occurred; runner cleanup passed and secret values were never exposed. Hosted exact-tip action-reference repair is verified; valid authoritative custody-key input is the remaining blocker.",
     "blockers": [
       "Owner must register the current raw-intake key ID and SHA-256 fingerprint in source-bundle-key-registry.json through the governed development path.",
-      "CRUCIBLE_SOURCE_BUNDLE_KEY and optional previous key must exist in the repository secret store; no historical key was recoverable from ciphertext.",
+      "CRUCIBLE_SOURCE_BUNDLE_KEY currently exists but is invalid; it must be replaced only with the authoritative 32-byte base64 raw-custody key. Do not delete or overwrite blindly because existing ciphertext may depend on the original key. Optional previous key is needed only for a governed rotation window.",
       "R8 still requires an approved plaintext/source-of-truth rebuild before any new encrypted custody can be published.",
-      "The corrected action references must be accepted by the protected development branch before bootstrap is retried."
+      "The corrected action references are accepted at development 918ed3ed3bbaecdb82f3081c30986a0d8a1733a7; rerun bootstrap only after restoring a valid authoritative key."
     ],
     "affectedPaths": [
       "src/sourceBundleKeyManager.js",

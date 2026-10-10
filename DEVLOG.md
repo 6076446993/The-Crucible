@@ -442,3 +442,12 @@ Plain-language summary: The development-based key-manager workflow failed closed
 - **Repair:** `.github/workflows/source-bundle-key-manager.yml` now uses the verified checkout and full App-token action SHAs.
 - **Verification:** `git diff --check`, JavaScript syntax checks, and the governed test orchestrator passed locally; hosted verification is required after this development update.
 - **Next:** publish this narrow development repair, then rerun manual `bootstrap` on `development` and inspect only redacted lifecycle evidence.
+
+### Session: hosted key-manager exact-tip verification — 2026-10-09T21:14:00-04:00 — Codex — mode:regular
+
+Plain-language summary: The corrected development workflow reached the real key-manager path and failed closed because the configured raw custody secret is not a valid 32-byte base64 key; no key, registry, raw/vetted state, R8, Archive, or `main` state changed.
+
+- **Hosted evidence:** run `38012262704`, exact `development` head `918ed3ed3bbaecdb82f3081c30986a0d8a1733a7`, validated credentials and minted the narrowly scoped App token, then failed at `Generate or rotate ephemeral custody keys` with `CRUCIBLE_SOURCE_BUNDLE_KEY must decode to exactly 32 bytes.`
+- **Safety:** runner cleanup succeeded; secret values were not read into chat or persisted. The manager correctly skipped secret writes and registry mutation after validation failure.
+- **Blocker:** the repository secret named `CRUCIBLE_SOURCE_BUNDLE_KEY` must be replaced only with the existing authoritative 32-byte base64 raw-custody key (or the owner/custody administrator must authorize a separately governed source-of-truth rebuild). Do not delete or overwrite it blindly: an unknown replacement can make existing ciphertext unrecoverable.
+- **Next:** restore a valid authoritative key, then rerun manual `bootstrap` on `development`; R8 remains a separate pending gate.
