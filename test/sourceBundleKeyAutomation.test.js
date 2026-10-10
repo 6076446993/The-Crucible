@@ -47,6 +47,15 @@ test('rotation fails closed when either current key is unavailable', () => {
   assert.throws(() => buildPlan({ registryFile: file, env: {}, mode: 'rotate' }), /KEY_MANAGER_ROTATION_REQUIRES_EXISTING_KEY/);
 });
 
+test('bootstrap fails closed on malformed existing material unless replacement is explicitly authorized', () => {
+  const { file } = registryFile();
+  const env = { CRUCIBLE_SOURCE_BUNDLE_KEY: 'not-a-32-byte-key' };
+  assert.throws(() => buildPlan({ registryFile: file, env, mode: 'bootstrap', family: 'raw' }), /KEY_MANAGER_BOOTSTRAP_REQUIRES_EXPLICIT_INVALID_REPLACEMENT/);
+  const plan = buildPlan({ registryFile: file, env, mode: 'bootstrap', family: 'raw', allowInvalidReplacement: true });
+  assert.equal(plan.plans[0].replacedInvalid, true);
+  assert.equal(Buffer.from(plan.plans[0].current.base64, 'base64').length, 32);
+});
+
 test('register fingerprints an existing raw key without replacing or persisting it', () => {
   const { dir, file } = registryFile();
   const raw = crypto.randomBytes(32).toString('base64');
