@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-10T14:30:00-04:00 Key-manager PAT fallback:** Hosted bootstrap run 38042987213 generated a valid replacement but the App token received HTTP 403 while writing the repository secret. The manual development workflow now prefers `CRUCIBLE_KEY_MANAGER_TOKEN` (fine-grained PAT with repository Secrets and Contents write) and keeps the App path as fallback; no key or custody state persisted and R8 remains pending.
+
 - **2026-10-10T09:25:00-04:00 Key-manager existing-secret registration:** Added a manual-only `register` mode to the development key-manager workflow. It fingerprints an existing `CRUCIBLE_SOURCE_BUNDLE_KEY` or vetted key in runner memory, persists only non-secret ID/SHA-256 metadata, never replaces or exports the secret, and fails closed when the selected secret is absent. Local automation tests passed 6/6 and workflow lint passed; this is not hosted until committed/pushed to development. R8 remains pending and no custody changed.
 
 - **2026-10-09T22:10:00-04:00 Language curriculum implementation:** Added candidate-only curriculum metadata and verification focus to `src/languageCatalog.js` for all 15 Crucible language profiles. Research scopes now carry source links, priority, verification focus, `candidateOnly: true`, and `promotionAuthorized: false`; added catalog tests for complete coverage and fail-closed authority. No durable learning state, raw/vetted custody, R8, `main`, or `Archive` changed.

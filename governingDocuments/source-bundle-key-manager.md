@@ -4,10 +4,15 @@ The Crucible now has a fail-closed automation path for the two encrypted custody
 families: `raw-intake` and `oversight-vetted`. The workflow generates or rotates
 32-byte keys in ephemeral runner storage, updates only non-secret fingerprints in
 `source-bundle-key-registry.json`, and writes the secret values to repository
-Actions secrets through a GitHub App token. Secret values are never printed,
+Actions secrets through a narrowly scoped GitHub App token or fine-grained PAT.
+Secret values are never printed,
 committed, uploaded, or shown by the Nexus dashboard.
 
-The workflow requires a narrowly-scoped GitHub App installed on
+The preferred workflow credential is the organization secret
+`CRUCIBLE_KEY_MANAGER_TOKEN`, a fine-grained PAT limited to
+`6076446993/The-Crucible` with repository **Secrets: Read and write** and
+**Contents: Read and write**. If that secret is absent, the workflow falls
+back to a narrowly-scoped GitHub App installed on
 `6076446993/The-Crucible` with Actions-secrets write access and Contents write
 access on `development`. The same installed App may also be used by the
 read-only PR monitor: the key-manager workflow accepts either its dedicated

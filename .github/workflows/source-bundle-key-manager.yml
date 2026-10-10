@@ -33,6 +33,8 @@ jobs:
     if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      KEY_MANAGER_TOKEN: ${{ secrets.CRUCIBLE_KEY_MANAGER_TOKEN }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -41,17 +43,23 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
-      - name: Validate key-manager App credentials are configured
+      - name: Validate key-manager credentials are configured
         env:
+          KEY_MANAGER_TOKEN: ${{ secrets.CRUCIBLE_KEY_MANAGER_TOKEN }}
           KEY_MANAGER_APP_ID: ${{ secrets.CRUCIBLE_KEY_MANAGER_APP_ID || vars.CRUCIBLE_MONITOR_APP_CLIENT_ID }}
           KEY_MANAGER_PRIVATE_KEY: ${{ secrets.CRUCIBLE_KEY_MANAGER_PRIVATE_KEY || secrets.CRUCIBLE_MONITOR_APP_PRIVATE_KEY }}
         run: |
           set -euo pipefail
-          test -n "$KEY_MANAGER_APP_ID" || { echo 'Missing CRUCIBLE_KEY_MANAGER_APP_ID'; exit 1; }
-          test -n "$KEY_MANAGER_PRIVATE_KEY" || { echo 'Missing CRUCIBLE_KEY_MANAGER_PRIVATE_KEY'; exit 1; }
-          echo 'Key-manager App credentials are configured; values were not displayed.'
+          if [ -n "$KEY_MANAGER_TOKEN" ]; then
+            echo 'Key-manager PAT is configured; value was not displayed.'
+          else
+            test -n "$KEY_MANAGER_APP_ID" || { echo 'Missing CRUCIBLE_KEY_MANAGER_TOKEN and App ID'; exit 1; }
+            test -n "$KEY_MANAGER_PRIVATE_KEY" || { echo 'Missing CRUCIBLE_KEY_MANAGER_TOKEN and App private key'; exit 1; }
+            echo 'Key-manager App credentials are configured; values were not displayed.'
+          fi
       - name: Mint narrowly scoped GitHub App token
         id: app-token
+        if: ${{ env.KEY_MANAGER_TOKEN == '' }}
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
         with:
           app-id: ${{ secrets.CRUCIBLE_KEY_MANAGER_APP_ID || vars.CRUCIBLE_MONITOR_APP_CLIENT_ID }}
@@ -62,13 +70,13 @@ jobs:
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
           CRUCIBLE_VETTED_BUNDLE_KEY: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY }}
-          CRUCIBLE_KEY_MANAGER_BACKEND: github-app
+          CRUCIBLE_KEY_MANAGER_BACKEND: ${{ secrets.CRUCIBLE_KEY_MANAGER_TOKEN != '' && 'github-pat' || 'github-app' }}
         run: |
           set -euo pipefail
           node src/sourceBundleKeyAutomation.js generate --mode "${{ inputs.mode }}" --family "${{ inputs.family }}" --allow-invalid-replacement "${{ inputs.confirm_invalid_replacement }}" --output-dir "$RUNNER_TEMP/crucible-key-manager" --registry governingDocuments/source-bundle-key-registry.json
       - name: Store current and previous values without exposing them
         env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ secrets.CRUCIBLE_KEY_MANAGER_TOKEN || steps.app-token.outputs.token }}
         run: |
           set -euo pipefail
           if [ "${{ inputs.mode }}" = register ]; then exit 0; fi
@@ -78,7 +86,7 @@ jobs:
           done
       - name: Commit non-secret registry fingerprints
         env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ secrets.CRUCIBLE_KEY_MANAGER_TOKEN || steps.app-token.outputs.token }}
         run: |
           set -euo pipefail
           gh auth setup-git
