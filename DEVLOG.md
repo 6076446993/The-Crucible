@@ -453,3 +453,11 @@ Plain-language summary: The corrected development workflow reached the real key-
 - **Safety:** runner cleanup succeeded; secret values were not read into chat or persisted. The manager correctly skipped secret writes and registry mutation after validation failure.
 - **Blocker:** the repository secret named `CRUCIBLE_SOURCE_BUNDLE_KEY` must be replaced only with the existing authoritative 32-byte base64 raw-custody key (or the owner/custody administrator must authorize a separately governed source-of-truth rebuild). Do not delete or overwrite it blindly: an unknown replacement can make existing ciphertext unrecoverable.
 - **Next:** restore a valid authoritative key, then rerun manual `bootstrap` on `development`; R8 remains a separate pending gate.
+### Session: guarded-key-manager-bootstrap-repair-20261010 — 2026-10-10T09:45:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Repaired the development-only key-manager bootstrap path so malformed existing key material cannot be silently replaced. Bootstrap now fails closed unless the owner explicitly enables invalid-key replacement; the generated replacement remains runner-only until the governed secret-write step, and only non-secret fingerprints enter the registry. R8, raw/vetted custody, `main`, and Archive were not changed.
+
+- `route:prewrite` — completed 2026-10-10T09:47:04-04:00, exit 0; selected `crucible-core` → `6076446993/The-Crucible` → `development` with the exact affected workflow, automation, key-manager policy, tests, handoff, and DEVLOG paths.
+- `hosted evidence` — bootstrap run `38042179085` failed closed at the existing malformed-secret decode check; no secret, registry, decrypt, or custody state changed.
+- `repair` — added `confirm_invalid_replacement` workflow input and matching automation/test coverage; malformed existing material remains blocked unless that explicit owner-controlled confirmation is true.
+- `verification` — focused key-manager automation tests 7/7 passed; workflow lint passed across 30 workflows.

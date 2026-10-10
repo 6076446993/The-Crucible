@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use one installed GitHub App for Crucible monitoring and custody-key management while preserving strict read-only monitor authority and isolated key-manager write authority.",
-    "currentPrompt": "Register the existing CRUCIBLE_SOURCE_BUNDLE_KEY non-secret key ID and SHA-256 fingerprint in the Crucible key manager registry on development without exposing or replacing the secret",
+    "currentPrompt": "Repair the development-only Crucible custody key-manager bootstrap so malformed existing key material cannot be silently replaced; add explicit owner confirmation for invalid-key replacement, preserve fail-closed custody, update tests and handoff/devlog, and never touch main or Archive",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-10T09:26:19.722Z",
-      "promptSha256": "2504e1a1a521093527a81f76f199e87a1314acf8bd4a182684794e7648f48e52",
-      "affectedPathsSha256": "44511dd09b34c65c45984e57c9f217ca7fdafd64f9061959b7c5c3e0dead23eb"
+    "selectedAt": "2026-10-10T09:47:04.965Z",
+    "promptSha256": "e330944dfac75057aed13283fbcc75a5dbe41a5894b0b5cf6f5cc6d24dee6866",
+    "affectedPathsSha256": "f3902a586d246459bc428b74cbdcb8d6fe43c50c16772f0770cffbf418a53be0"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -1942,17 +1942,17 @@
     }
   },
   "sourceBundleKeyManager": {
-    "status": "REGISTER_MODE_IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
+    "status": "BOOTSTRAP_INVALID_KEY_GUARD_IMPLEMENTED_PENDING_OWNER_CONFIRMATION",
     "updatedOn": "2026-10-10",
     "objective": "Prevent another raw-custody loss by requiring non-secret key identity and rotation metadata to match runner secrets before decrypt or re-encrypt.",
-    "implementation": "src/sourceBundleKeyManager.js validates 32-byte base64 secrets and SHA-256 fingerprints from governingDocuments/source-bundle-key-registry.json; sourceBundleKeyAutomation.js now has a register mode and the manual key-manager workflow can fingerprint an existing raw or vetted secret without replacing or persisting it; raw-custody-publisher.yml and r8-executable-canary-publisher.yml still fail closed before clone/decrypt when metadata or secrets are absent or mismatched.",
+    "implementation": "src/sourceBundleKeyManager.js validates 32-byte base64 secrets and SHA-256 fingerprints from governingDocuments/source-bundle-key-registry.json; sourceBundleKeyAutomation.js has register mode plus a bootstrap guard that refuses malformed existing material unless the owner explicitly confirms replacement; the manual key-manager workflow records only non-secret metadata and raw-custody-publisher.yml/r8-executable-canary-publisher.yml still fail closed before clone/decrypt when metadata or secrets are absent or mismatched.",
     "security": "Only key IDs and fingerprints are persisted. Secret values remain in GitHub Actions secrets and are never printed or committed.",
-    "verification": "Focused key-manager automation tests pass 6/6; workflow lint passes. The existing development run 38040779818 at 9c7e80a60f915854b4dc08fc87ddc08892be778d received the organization secrets but failed closed before custody because raw-intake registry metadata remained placeholder values. No secret write, registry mutation, decrypt, or publication occurred. The new register path is local-only until this change is committed and hosted on development.",
+    "verification": "Focused key-manager automation tests pass 7/7; workflow lint passes. Hosted runs 38041649972 attempt 2 and 38042179085 run 7 both validated App credentials but failed closed because CRUCIBLE_SOURCE_BUNDLE_KEY does not decode to exactly 32 bytes. No secret write, registry mutation, decrypt, or publication occurred. The new bootstrap guard is local until committed and hosted on development.",
     "blockers": [
-      "The new register-mode workflow must be hosted on development, then manually dispatched for family raw; it will write only the non-secret key ID and SHA-256 fingerprint to source-bundle-key-registry.json and will not replace the organization secret.",
-      "CRUCIBLE_SOURCE_BUNDLE_KEY must decode to exactly 32 bytes. Do not delete or overwrite blindly because existing ciphertext may depend on the original key. Optional previous key is needed only for a governed rotation window.",
+      "The guarded bootstrap workflow must be hosted on development, then manually dispatched with family raw and confirm_invalid_replacement=true only after the owner accepts replacement of the malformed secret; it writes the generated secret through GitHub Actions and only non-secret key ID/SHA-256 metadata to source-bundle-key-registry.json.",
+      "CRUCIBLE_SOURCE_BUNDLE_KEY must decode to exactly 32 bytes. Bootstrap now refuses malformed existing material unless explicit workflow confirmation is supplied; existing ciphertext may still depend on the original key, so replacement remains an owner/custody decision. Optional previous key is needed only for a governed rotation window.",
       "R8 still requires an approved plaintext/source-of-truth rebuild before any new encrypted custody can be published.",
-      "The corrected action references are accepted at development 918ed3ed3bbaecdb82f3081c30986a0d8a1733a7; rerun bootstrap only after restoring a valid authoritative key."
+      "The current development key-manager tip is f399ecb2d1f747f448427edc6aa8c06452c72303; the next safe action is to host this guard, then dispatch bootstrap only with explicit invalid-replacement confirmation if the owner accepts a new authoritative key."
     ],
     "affectedPaths": [
       "src/sourceBundleKeyManager.js",

@@ -15,6 +15,11 @@ on:
         type: choice
         options: [raw, vetted]
         default: raw
+      confirm_invalid_replacement:
+        description: Explicitly authorize replacing malformed existing key material during bootstrap
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -60,7 +65,7 @@ jobs:
           CRUCIBLE_KEY_MANAGER_BACKEND: github-app
         run: |
           set -euo pipefail
-          node src/sourceBundleKeyAutomation.js generate --mode "${{ inputs.mode }}" --family "${{ inputs.family }}" --output-dir "$RUNNER_TEMP/crucible-key-manager" --registry governingDocuments/source-bundle-key-registry.json
+          node src/sourceBundleKeyAutomation.js generate --mode "${{ inputs.mode }}" --family "${{ inputs.family }}" --allow-invalid-replacement "${{ inputs.confirm_invalid_replacement }}" --output-dir "$RUNNER_TEMP/crucible-key-manager" --registry governingDocuments/source-bundle-key-registry.json
       - name: Store current and previous values without exposing them
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}

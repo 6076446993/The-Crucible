@@ -18,10 +18,21 @@ function generateKey(randomBytes = crypto.randomBytes) {
   return { key, base64: key.toString('base64'), sha256 };
 }
 
-function familyPlan(name, env, registry) {
+function familyPlan(name, env, registry, { allowInvalidReplacement = false } = {}) {
   const family = FAMILIES[name];
   const registered = registry.families[family.registry];
-  const existing = env[family.current] ? decodeKey(env[family.current], family.current) : null;
+  let existing = null;
+  let replacedInvalid = false;
+  if (env[family.current]) {
+    try {
+      existing = decodeKey(env[family.current], family.current);
+    } catch (error) {
+      if (!allowInvalidReplacement) {
+        throw new Error(`KEY_MANAGER_BOOTSTRAP_REQUIRES_EXPLICIT_INVALID_REPLACEMENT:${family.current}`);
+      }
+      replacedInvalid = true;
+    }
+  }
   const next = generateKey();
   const previous = existing ? { key: existing, base64: existing.toString('base64'), sha256: fingerprint(existing), id: registered.current.id } : null;
   return {
@@ -30,6 +41,7 @@ function familyPlan(name, env, registry) {
     previousSecret: family.previous,
     current: { id: keyId(name, next.sha256), sha256: next.sha256, key: next.key, base64: next.base64 },
     previous,
+    replacedInvalid,
   };
 }
 
@@ -55,12 +67,14 @@ function registerFamilyPlan(name, env, registry) {
   };
 }
 
-function buildPlan({ env = process.env, registryFile, mode = 'bootstrap', family = null } = {}) {
+function buildPlan({ env = process.env, registryFile, mode = 'bootstrap', family = null, allowInvalidReplacement = false } = {}) {
   if (!['bootstrap', 'rotate', 'register'].includes(mode)) throw new Error('KEY_MANAGER_MODE_INVALID');
   if (mode === 'register' && !['raw', 'vetted'].includes(family)) throw new Error('KEY_MANAGER_REGISTER_FAMILY_REQUIRED');
   const registry = readRegistry(registryFile);
   const names = family ? [family] : ['raw', 'vetted'];
-  const plans = names.map(name => mode === 'register' ? registerFamilyPlan(name, env, registry) : familyPlan(name, env, registry));
+  const plans = names.map(name => mode === 'register'
+    ? registerFamilyPlan(name, env, registry)
+    : familyPlan(name, env, registry, { allowInvalidReplacement: mode === 'bootstrap' && allowInvalidReplacement }));
   if (mode === 'rotate') {
     for (const plan of plans) if (!plan.previous) throw new Error(`KEY_MANAGER_ROTATION_REQUIRES_EXISTING_KEY:${plan.currentSecret}`);
   }
@@ -93,7 +107,12 @@ function main(argv = process.argv.slice(2)) {
   const outputDir = path.resolve(arg('--output-dir', process.env.RUNNER_TEMP ? path.join(process.env.RUNNER_TEMP, 'crucible-key-manager') : 'key-manager-output'));
   const registryFile = path.resolve(arg('--registry', path.join(__dirname, '..', 'governingDocuments', 'source-bundle-key-registry.json')));
   const context = assertExecutionContext(process.env);
-  const plan = buildPlan({ registryFile, mode: arg('--mode', 'bootstrap'), family: arg('--family', null) });
+  const plan = buildPlan({
+    registryFile,
+    mode: arg('--mode', 'bootstrap'),
+    family: arg('--family', null),
+    allowInvalidReplacement: arg('--allow-invalid-replacement', 'false') === 'true',
+  });
   writePlan(plan, outputDir, registryFile, context);
   process.stdout.write(JSON.stringify({ mode: plan.mode, families: plan.plans.map(p => ({ family: p.registryName, currentKeyId: p.current.id, currentFingerprint: p.current.sha256, previousConfigured: Boolean(p.previous) })) }) + '\n');
 }

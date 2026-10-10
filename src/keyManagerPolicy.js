@@ -24,6 +24,7 @@ function recoveryManifest({ mode, context, plans }) {
       currentKeyId: item.current.id,
       currentFingerprint: item.current.sha256,
       previousConfigured: Boolean(item.previous),
+      invalidExistingReplaced: Boolean(item.replacedInvalid),
     })),
     r8: 'excluded',
   };
