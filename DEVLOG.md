@@ -434,3 +434,11 @@ Plain-language summary: The first development publish attempt failed closed beca
 
 - `route:prewrite` — completed 2026-10-09T23:09:31Z, exit 0; selected `crucible-core` for `6076446993/The-Crucible:development`, prompt `Manage Crucible custody keys`, affected-path digest `90d1765af20ffe120cf0c7cc54b88d8bc1d1bacf3011fb4fb83f0689c7ba28d9`.
 - `verification` — initial push was rejected by OPS-0045 due to the stale route digest; the regenerated route covers the exact pending development paths. Known-bug ledger remains unstaged.
+### Session: development key-manager action-reference repair — 2026-10-09T21:10:00-04:00 — Codex — mode:regular
+
+Plain-language summary: The development-based key-manager workflow failed closed during action resolution because its pinned checkout and App-token references were invalid. Updated only those two immutable references to the verified full SHAs; no credentials, registry values, raw/vetted state, R8, Archive, or `main` changed.
+
+- **Evidence:** development bootstrap run `38011902706` at `cd24b575aceb5b47a526093d13bb9ca184efc119` failed before secret access; GitHub reported both unresolved action references.
+- **Repair:** `.github/workflows/source-bundle-key-manager.yml` now uses the verified checkout and full App-token action SHAs.
+- **Verification:** `git diff --check`, JavaScript syntax checks, and the governed test orchestrator passed locally; hosted verification is required after this development update.
+- **Next:** publish this narrow development repair, then rerun manual `bootstrap` on `development` and inspect only redacted lifecycle evidence.
