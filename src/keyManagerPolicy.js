@@ -9,7 +9,7 @@ function assertExecutionContext(env = process.env) {
   if (env.GITHUB_EVENT_NAME !== 'workflow_dispatch') throw new Error('KEY_MANAGER_MANUAL_DISPATCH_REQUIRED');
   const backend = env.CRUCIBLE_KEY_MANAGER_BACKEND || 'github-app';
   if (backend === 'external-kms') throw new Error('KEY_MANAGER_EXTERNAL_KMS_NOT_CONFIGURED');
-  if (backend !== 'github-app') throw new Error('KEY_MANAGER_BACKEND_INVALID');
+  if (!['github-app', 'github-pat'].includes(backend)) throw new Error('KEY_MANAGER_BACKEND_INVALID');
   return { repository: EXPECTED_REPOSITORY, ref: EXPECTED_REF, event: 'workflow_dispatch', backend };
 }
 

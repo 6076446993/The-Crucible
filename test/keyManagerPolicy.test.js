@@ -17,6 +17,10 @@ test('external KMS is an explicit capability boundary until a broker is configur
   assert.throws(() => assertExecutionContext({ ...good, CRUCIBLE_KEY_MANAGER_BACKEND: 'external-kms' }), /KEY_MANAGER_EXTERNAL_KMS_NOT_CONFIGURED/);
 });
 
+test('fine-grained PAT is accepted for repository secret writes', () => {
+  assert.equal(assertExecutionContext({ ...good, CRUCIBLE_KEY_MANAGER_BACKEND: 'github-pat' }).backend, 'github-pat');
+});
+
 test('recovery manifest is redacted and explicitly excludes R8', () => {
   const report = recoveryManifest({ mode: 'bootstrap', context: assertExecutionContext(good), plans: [{ registryName: 'raw-intake', current: { id: 'id', sha256: 'a'.repeat(64) }, previous: null }] });
   assert.equal(report.r8, 'excluded');
