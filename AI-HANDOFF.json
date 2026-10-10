@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use one installed GitHub App for Crucible monitoring and custody-key management while preserving strict read-only monitor authority and isolated key-manager write authority.",
-    "currentPrompt": "Register the existing CRUCIBLE_SOURCE_BUNDLE_KEY non-secret key ID and SHA-256 fingerprint in the Crucible key manager registry on development without exposing or replacing the secret; then rerun R8 only after hosted registration and preflight succeed. No main, Archive, or credential values.",
+    "currentPrompt": "Register the existing CRUCIBLE_SOURCE_BUNDLE_KEY non-secret key ID and SHA-256 fingerprint in the Crucible key manager registry on development without exposing or replacing the secret",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
