@@ -86,7 +86,7 @@ jobs:
           done
       - name: Commit non-secret registry fingerprints
         env:
-          GH_TOKEN: ${{ secrets.CRUCIBLE_KEY_MANAGER_TOKEN || steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           gh auth setup-git
