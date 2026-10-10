@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- **2026-10-10T14:50:00-04:00 Secret storage passed; registry push isolated:** Hosted run 38044001482 successfully stored the replacement custody secret with `CRUCIBLE_KEY_MANAGER_TOKEN`. Its registry fingerprint commit failed only because the PAT was also used for Git and lacked Contents write. The workflow now uses the scoped `GITHUB_TOKEN` for the non-secret registry push; no raw/vetted custody or R8 state changed.
+
 - **2026-10-10T14:40:00-04:00 PAT backend validation repair:** Hosted run 38043831347 confirmed the organization PAT reached the runner, but the application rejected the new `github-pat` backend before key generation. The policy and focused test now accept the PAT backend; no key or custody state changed.
 
 - **2026-10-10T14:30:00-04:00 Key-manager PAT fallback:** Hosted bootstrap run 38042987213 generated a valid replacement but the App token received HTTP 403 while writing the repository secret. The manual development workflow now prefers `CRUCIBLE_KEY_MANAGER_TOKEN` (fine-grained PAT with repository Secrets and Contents write) and keeps the App path as fallback; no key or custody state persisted and R8 remains pending.
