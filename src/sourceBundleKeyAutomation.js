@@ -33,10 +33,34 @@ function familyPlan(name, env, registry) {
   };
 }
 
-function buildPlan({ env = process.env, registryFile, mode = 'bootstrap' } = {}) {
-  if (!['bootstrap', 'rotate'].includes(mode)) throw new Error('KEY_MANAGER_MODE_INVALID');
+function registerFamilyPlan(name, env, registry) {
+  const family = FAMILIES[name];
+  const registered = registry.families[family.registry];
+  const existing = decodeKey(env[family.current], family.current);
+  if (!existing) throw new Error(`KEY_MANAGER_REGISTER_REQUIRES_EXISTING_KEY:${family.current}`);
+  const sha256 = fingerprint(existing);
+  return {
+    registryName: family.registry,
+    currentSecret: family.current,
+    previousSecret: family.previous,
+    current: {
+      id: registered.current?.id && !registered.current.id.startsWith('REQUIRED_')
+        ? registered.current.id
+        : keyId(name, sha256),
+      sha256,
+      key: existing,
+      base64: existing.toString('base64'),
+    },
+    previous: null,
+  };
+}
+
+function buildPlan({ env = process.env, registryFile, mode = 'bootstrap', family = null } = {}) {
+  if (!['bootstrap', 'rotate', 'register'].includes(mode)) throw new Error('KEY_MANAGER_MODE_INVALID');
+  if (mode === 'register' && !['raw', 'vetted'].includes(family)) throw new Error('KEY_MANAGER_REGISTER_FAMILY_REQUIRED');
   const registry = readRegistry(registryFile);
-  const plans = ['raw', 'vetted'].map(name => familyPlan(name, env, registry));
+  const names = family ? [family] : ['raw', 'vetted'];
+  const plans = names.map(name => mode === 'register' ? registerFamilyPlan(name, env, registry) : familyPlan(name, env, registry));
   if (mode === 'rotate') {
     for (const plan of plans) if (!plan.previous) throw new Error(`KEY_MANAGER_ROTATION_REQUIRES_EXISTING_KEY:${plan.currentSecret}`);
   }
@@ -55,7 +79,7 @@ function applyRegistry(plan) {
 
 function writePlan(plan, outputDir, registryFile, context = null) {
   fs.mkdirSync(outputDir, { recursive: true });
-  for (const item of plan.plans) {
+  for (const item of plan.plans) if (plan.mode !== 'register') {
     fs.writeFileSync(path.join(outputDir, item.currentSecret), `${item.current.base64}\n`, { mode: 0o600 });
     if (item.previous) fs.writeFileSync(path.join(outputDir, item.previousSecret), `${item.previous.base64}\n`, { mode: 0o600 });
   }
@@ -64,12 +88,12 @@ function writePlan(plan, outputDir, registryFile, context = null) {
 }
 
 function main(argv = process.argv.slice(2)) {
-  if (argv[0] !== 'generate') throw new Error('Usage: sourceBundleKeyAutomation.js generate --output-dir DIR --registry PATH [--mode bootstrap|rotate]');
+  if (argv[0] !== 'generate') throw new Error('Usage: sourceBundleKeyAutomation.js generate --output-dir DIR --registry PATH [--mode bootstrap|rotate|register] [--family raw|vetted]');
   const arg = (name, fallback) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : fallback; };
   const outputDir = path.resolve(arg('--output-dir', process.env.RUNNER_TEMP ? path.join(process.env.RUNNER_TEMP, 'crucible-key-manager') : 'key-manager-output'));
   const registryFile = path.resolve(arg('--registry', path.join(__dirname, '..', 'governingDocuments', 'source-bundle-key-registry.json')));
   const context = assertExecutionContext(process.env);
-  const plan = buildPlan({ registryFile, mode: arg('--mode', 'bootstrap') });
+  const plan = buildPlan({ registryFile, mode: arg('--mode', 'bootstrap'), family: arg('--family', null) });
   writePlan(plan, outputDir, registryFile, context);
   process.stdout.write(JSON.stringify({ mode: plan.mode, families: plan.plans.map(p => ({ family: p.registryName, currentKeyId: p.current.id, currentFingerprint: p.current.sha256, previousConfigured: Boolean(p.previous) })) }) + '\n');
 }

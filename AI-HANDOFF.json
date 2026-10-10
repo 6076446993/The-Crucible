@@ -1942,15 +1942,15 @@
     }
   },
   "sourceBundleKeyManager": {
-    "status": "IMPLEMENTED_PENDING_HOSTED_VERIFICATION_AFTER_DEVELOPMENT_REPAIR",
-    "updatedOn": "2026-10-09",
+    "status": "REGISTER_MODE_IMPLEMENTED_PENDING_HOSTED_VERIFICATION",
+    "updatedOn": "2026-10-10",
     "objective": "Prevent another raw-custody loss by requiring non-secret key identity and rotation metadata to match runner secrets before decrypt or re-encrypt.",
-    "implementation": "src/sourceBundleKeyManager.js validates 32-byte base64 secrets and SHA-256 fingerprints from governingDocuments/source-bundle-key-registry.json; raw-custody-publisher.yml and r8-executable-canary-publisher.yml fail closed before clone/decrypt when metadata or secrets are absent or mismatched.",
+    "implementation": "src/sourceBundleKeyManager.js validates 32-byte base64 secrets and SHA-256 fingerprints from governingDocuments/source-bundle-key-registry.json; sourceBundleKeyAutomation.js now has a register mode and the manual key-manager workflow can fingerprint an existing raw or vetted secret without replacing or persisting it; raw-custody-publisher.yml and r8-executable-canary-publisher.yml still fail closed before clone/decrypt when metadata or secrets are absent or mismatched.",
     "security": "Only key IDs and fingerprints are persisted. Secret values remain in GitHub Actions secrets and are never printed or committed.",
-    "verification": "Focused key-manager, hostedSourceBundle, raw custody, syntax, and governed workflow tests pass locally. Exact-tip development run 38012262704 at 918ed3ed3bbaecdb82f3081c30986a0d8a1733a7 reached the real manager, validated the App credentials and minted its token, then failed closed because CRUCIBLE_SOURCE_BUNDLE_KEY did not decode to exactly 32 bytes. No secret write or registry mutation occurred; runner cleanup passed and secret values were never exposed. Hosted exact-tip action-reference repair is verified; valid authoritative custody-key input is the remaining blocker.",
+    "verification": "Focused key-manager automation tests pass 6/6; workflow lint passes. The existing development run 38040779818 at 9c7e80a60f915854b4dc08fc87ddc08892be778d received the organization secrets but failed closed before custody because raw-intake registry metadata remained placeholder values. No secret write, registry mutation, decrypt, or publication occurred. The new register path is local-only until this change is committed and hosted on development.",
     "blockers": [
-      "Owner must register the current raw-intake key ID and SHA-256 fingerprint in source-bundle-key-registry.json through the governed development path.",
-      "CRUCIBLE_SOURCE_BUNDLE_KEY currently exists but is invalid; it must be replaced only with the authoritative 32-byte base64 raw-custody key. Do not delete or overwrite blindly because existing ciphertext may depend on the original key. Optional previous key is needed only for a governed rotation window.",
+      "The new register-mode workflow must be hosted on development, then manually dispatched for family raw; it will write only the non-secret key ID and SHA-256 fingerprint to source-bundle-key-registry.json and will not replace the organization secret.",
+      "CRUCIBLE_SOURCE_BUNDLE_KEY must decode to exactly 32 bytes. Do not delete or overwrite blindly because existing ciphertext may depend on the original key. Optional previous key is needed only for a governed rotation window.",
       "R8 still requires an approved plaintext/source-of-truth rebuild before any new encrypted custody can be published.",
       "The corrected action references are accepted at development 918ed3ed3bbaecdb82f3081c30986a0d8a1733a7; rerun bootstrap only after restoring a valid authoritative key."
     ],
@@ -1961,6 +1961,9 @@
       "test/sourceBundleKeyManager.test.js",
       ".github/workflows/raw-custody-publisher.yml",
       ".github/workflows/r8-executable-canary-publisher.yml",
+      ".github/workflows/source-bundle-key-manager.yml",
+      "src/sourceBundleKeyAutomation.js",
+      "test/sourceBundleKeyAutomation.test.js",
       "AI-HANDOFF.json",
       "DEVLOG.md"
     ]

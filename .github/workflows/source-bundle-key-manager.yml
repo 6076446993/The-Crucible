@@ -4,11 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: Bootstrap missing keys or rotate existing keys
+        description: Register an existing key, bootstrap missing keys, or rotate existing keys
         required: true
         type: choice
-        options: [bootstrap, rotate]
-        default: bootstrap
+        options: [register, bootstrap, rotate]
+        default: register
+      family:
+        description: Key family for register mode
+        required: true
+        type: choice
+        options: [raw, vetted]
+        default: raw
 
 permissions:
   contents: write
@@ -47,19 +53,20 @@ jobs:
           private-key: ${{ secrets.CRUCIBLE_KEY_MANAGER_PRIVATE_KEY || secrets.CRUCIBLE_MONITOR_APP_PRIVATE_KEY }}
           owner: 6076446993
           repositories: The-Crucible
-      - name: Generate or rotate ephemeral custody keys
+      - name: Register, generate, or rotate custody keys
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
           CRUCIBLE_VETTED_BUNDLE_KEY: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY }}
           CRUCIBLE_KEY_MANAGER_BACKEND: github-app
         run: |
           set -euo pipefail
-          node src/sourceBundleKeyAutomation.js generate --mode "${{ inputs.mode }}" --output-dir "$RUNNER_TEMP/crucible-key-manager" --registry governingDocuments/source-bundle-key-registry.json
+          node src/sourceBundleKeyAutomation.js generate --mode "${{ inputs.mode }}" --family "${{ inputs.family }}" --output-dir "$RUNNER_TEMP/crucible-key-manager" --registry governingDocuments/source-bundle-key-registry.json
       - name: Store current and previous values without exposing them
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           set -euo pipefail
+          if [ "${{ inputs.mode }}" = register ]; then exit 0; fi
           for secret in CRUCIBLE_SOURCE_BUNDLE_KEY CRUCIBLE_VETTED_BUNDLE_KEY CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS; do
             file="$RUNNER_TEMP/crucible-key-manager/$secret"
             if [ -f "$file" ]; then gh secret set "$secret" --repo "$GITHUB_REPOSITORY" < "$file"; fi
