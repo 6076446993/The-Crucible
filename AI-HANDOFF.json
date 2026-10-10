@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-09T19:45:00.000Z"
+    "lastActionAt": "2026-10-11T03:50:00.000Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
-    "currentPrompt": "Use CRUCIBLE_KEY_MANAGER_TOKEN organization secret for the development-only custody key manager, retain App fallback, and verify guarded bootstrap without touching main or Archive",
+    "currentPrompt": "Rebuild only failed R8 custody from preserved local source stage using the designated development-only self-hosted publisher; do not touch main or bypass hooks",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -223,8 +223,8 @@
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
     "selectedAt": "2026-10-10T09:47:04.965Z",
-    "promptSha256": "6be8a5fe790e8f57a8cc2b6c492387ed20fbff940b2dd7f41ee4b44d663584ca",
-    "affectedPathsSha256": "f67ae8168ab8ade96a23245fb0c462080c8ec2fea1aff631a0d2d7f51e457abd"
+    "promptSha256": "3068bdb8f2a56e7ab6d43fdb350ddab6d14e820160ebf49530462e10da3a93ff",
+    "affectedPathsSha256": "1361fbfafca2eeb43e881e46c4ca6af90b087e6ab83c8433168ef0066888d9e3"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -1864,7 +1864,7 @@
         "owner": "owner-or-custody-administrator"
       }
     ],
-    "nextAction": "Verify hosted checks at the routing-repair tip. Then obtain separately authorized governed deployment of the two manual workflows; preserve existing raw/vetted state.",
+    "nextAction": "Register an owner-authorized Windows self-hosted runner with labels self-hosted,crucible-r8 and CRUCIBLE_R8_SOURCE_ROOT set to the preserved local source stage; then dispatch the development-only r8-self-hosted-rebuild workflow and verify ciphertext-only publication plus genuine R8 refusal proof.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -1883,13 +1883,14 @@
         "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
         "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
         "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses.",
-        "Registered password-manager-human-access and api-key-lifecycle-management as candidate-only security techniques and further-research subjects; created only a non-secret password-manager item specification."
+        "Registered password-manager-human-access and api-key-lifecycle-management as candidate-only security techniques and further-research subjects; created only a non-secret password-manager item specification.",
+        "Added development-only .github/workflows/r8-self-hosted-rebuild.yml. It keeps plaintext on the owner-controlled runner, reuses verify/hydrate/restage and the real R8 prepare/publish primitives, publishes only ciphertext/manifest, and cleans temporary plaintext/credentials on every exit path. The preserved source stage was cloned and restaged locally; no raw/vetted state, main, or Archive changed."
       ],
       "remaining": [
         "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
         "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
         "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
-        "Raw custody still requires the absent CRUCIBLE_SOURCE_BUNDLE_KEY and R8 canary URL/trusted-domains secrets; preserve existing encryption/deploy identities rather than generating replacement state keys.",
+        "Raw custody now has a replacement key through the governed secret-write path, but R8 still requires the development-only self-hosted rebuild. No runner with labels self-hosted,crucible-r8 is registered yet; configure CRUCIBLE_R8_SOURCE_ROOT to the preserved local source stage before dispatch.",
         "The security-learning CLI submission was attempted twice and failed closed on the existing durable-store lock with EPERM while opening the pending lock file; do not delete or bypass the lock. Retry only after the owning process or governed lock-recovery path clears it.",
         "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain."
       ],
@@ -1943,17 +1944,17 @@
     }
   },
   "sourceBundleKeyManager": {
-    "status": "BOOTSTRAP_INVALID_KEY_GUARD_IMPLEMENTED_PENDING_OWNER_CONFIRMATION",
+    "status": "RAW_KEY_BOOTSTRAP_COMPLETED_R8_REBUILD_PENDING",
     "updatedOn": "2026-10-10",
     "objective": "Prevent another raw-custody loss by requiring non-secret key identity and rotation metadata to match runner secrets before decrypt or re-encrypt.",
     "implementation": "src/sourceBundleKeyManager.js validates 32-byte base64 secrets and SHA-256 fingerprints from governingDocuments/source-bundle-key-registry.json; sourceBundleKeyAutomation.js has register mode plus a bootstrap guard that refuses malformed existing material unless the owner explicitly confirms replacement; the manual key-manager workflow records only non-secret metadata and raw-custody-publisher.yml/r8-executable-canary-publisher.yml still fail closed before clone/decrypt when metadata or secrets are absent or mismatched.",
     "security": "Only key IDs and fingerprints are persisted. Secret values remain in GitHub Actions secrets and are never printed or committed.",
-    "verification": "Focused key-manager automation tests pass 7/7; workflow lint passes. Hosted runs 38041649972 attempt 2 and 38042179085 run 7 both validated App credentials but failed closed because CRUCIBLE_SOURCE_BUNDLE_KEY does not decode to exactly 32 bytes. No secret write, registry mutation, decrypt, or publication occurred. The new bootstrap guard is local until committed and hosted on development.",
+    "verification": "Focused key-manager automation tests pass 7/7; workflow lint passes. Hosted bootstrap run 38048839977 on development commit 1199af5cb36166b997345bb9b0e5c5931713c75e completed successfully with mode bootstrap, raw family, and explicit malformed-key replacement confirmation. The generated secret value was not exposed; only the governed secret-write path and non-secret fingerprint metadata were used. No decrypt or raw/vetted publication occurred.",
     "blockers": [
-      "The guarded bootstrap workflow must be hosted on development, then manually dispatched with family raw and confirm_invalid_replacement=true only after the owner accepts replacement of the malformed secret; it writes the generated secret through GitHub Actions and only non-secret key ID/SHA-256 metadata to source-bundle-key-registry.json.",
+      "The new raw key is now stored through the governed GitHub Actions secret-write path. Existing ciphertext remains unauthenticated under the replacement key; do not claim recovery or overwrite custody without a fresh source-of-truth rebuild.",
       "CRUCIBLE_SOURCE_BUNDLE_KEY must decode to exactly 32 bytes. Bootstrap now refuses malformed existing material unless explicit workflow confirmation is supplied; existing ciphertext may still depend on the original key, so replacement remains an owner/custody decision. Optional previous key is needed only for a governed rotation window.",
-      "R8 still requires an approved plaintext/source-of-truth rebuild before any new encrypted custody can be published.",
-      "The current development key-manager tip is f399ecb2d1f747f448427edc6aa8c06452c72303; the next safe action is to host this guard, then dispatch bootstrap only with explicit invalid-replacement confirmation if the owner accepts a new authoritative key."
+      "R8 still requires an approved plaintext/source-of-truth rebuild before any new encrypted custody can be published. The implementation is local at f3c83c82915123f0492c3bfd4d63b9e162b221ac; the governed pre-push hook was retried after refreshing origin/development to b68d1f7e2def760999e5767bd42f4c74873502f0, then failed closed with `received no ref update to verify`. No bypass was used and no remote state changed.",
+      "R8 run 38048979612 at development SHA b68d1f7e2def760999e5767bd42f4c74873502f0 reached the real decrypt gate and failed closed because the existing Crucible-Learning-State ciphertext was written under a different key. No state publication occurred. Remaining action is an authorized hosted rebuild from the preserved plaintext source-of-truth under the new key, followed by ciphertext-only publication and genuine refusal proof."
     ],
     "affectedPaths": [
       "src/sourceBundleKeyManager.js",
