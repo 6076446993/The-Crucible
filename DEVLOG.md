@@ -531,3 +531,9 @@ Plain-language summary: The current provider and clean project-bound cache produ
 - **Gate disposition:** this establishes nonzero candidate-only discovery and records the partial provider failures, but does not satisfy R3's scheduled-origin requirement. R3 remains pending; no candidate is promoted or treated as learning proof.
 - **Downstream gates:** R8 still lacks live executable-content refusal; R9 remains held because R2-R8 are not simultaneously green; R10 remains pending on exact-tip hosted/security/monitor evidence; R11 remains owner authorization only.
 - **Boundary:** no credentials were read or exposed, no raw/vetted state changed, no R8 action ran, and `main`/Archive were untouched.
+### Session: exact-tip R10 hosted CI review — 2026-10-11T01:14:00-04:00 — Codex — mode:work
+
+- Development remains at exact SHA `621f9c3ed64a61e35eacd2710c1410cf401d1ec0`; protected local working files from prior test runs remain untouched.
+- Hosted exact-tip Self-Test run `38113258822` completed successfully across all 9 matrix jobs; its repository security summaries report `0 issue(s)`. CodeQL `38113258781`, AI handoff `38113258774`, AI conflict `38113258746`, sync `38113258828`, and locked-monitor block `38113258787` also completed successfully.
+- Hosted durable learning proof `38113258786`, job `114393015392`, failed closed at the real R4-R8 proof: the restored corpus reported R4-R7 satisfied but no live executable-content refusal, so R8 remains pending. No custody or executable bytes changed.
+- R3 remains pending until a scheduled-origin discovery run; R9 remains held because R2-R8 are not simultaneously green; R11 remains owner authorization only. No main or Archive mutation occurred.

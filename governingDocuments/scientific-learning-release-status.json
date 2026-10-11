@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "projectId": "github:6076446993/The-Crucible",
   "branch": "development",
-  "developmentSha": "ac3c6a37ceebc1257c37f516fa9cd9f81a60037c",
-  "updatedAt": "2026-10-11T00:55:00-04:00",
+  "developmentSha": "621f9c3ed64a61e35eacd2710c1410cf401d1ec0",
+  "updatedAt": "2026-10-11T01:14:00-04:00",
   "rollingTarget": null,
   "rollingTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
   "timezone": "America/New_York",
@@ -20,10 +20,10 @@
     "R7": "passed; exact-tip run 37337684847 restored the retained supersession/rollback history and affirmatively reported R7 satisfied; the audited prior-version state and active retrieval pointer survived cross-run encrypted retention.",
     "R8": "pending; protected development dispatch run 38110712781 at exact SHA eee72b4a6cff1fa9dac321d63401d5f35c30e365 is pending for the designated self-hosted runner labels self-hosted,crucible-r8. The publisher implementation passed all local protected checks and preserves ephemeral decrypt/rehydrate, real SafeInformationRetriever refusal, ciphertext-only publication, and cleanup, but no matching runner has accepted the job, so no canary has run and no raw/vetted state changed.",
     "R9": "held; the required soak is 72-96 continuous hours with at most 1000 observed data points and cannot start until R2-R8 are simultaneously passed. Forecasting uses the conservative 96-hour edge.",
-    "R10": "pending; exact development SHA ac3c6a37ceebc1257c37f516fa9cd9f81a60037c has local validate and workflow-lint green, but the hosted R3 run 38111994882 is partial/failed with 14 blocked topics and exact-tip release evidence is not all green. The pre-existing CRU-0006 repository Administration-read/security-settings boundary and required PR monitor remain separate blockers; no R10 promotion evidence exists.",
+    "R10": "pending; exact development SHA 621f9c3ed64a61e35eacd2710c1410cf401d1ec0 has hosted Self-Test run 38113258822 successful across all 9 matrix jobs, CodeQL 38113258781 successful, AI handoff 38113258774 successful, AI conflict 38113258746 successful, sync 38113258828 successful, locked-monitor block 38113258787 successful, and repository security report 0 issues. Hosted durable learning proof 38113258786 failed at job 114393015392 because the real restored corpus still lacks a live executable-content refusal; it explicitly reports R4-R7 satisfied and R8 pending. Exact-tip R10 therefore remains pending; no promotion evidence exists.",
     "R11": "pending; no owner authorization exists for an exact all-green learning-release SHA, and this review performs no promotion."
   },
-  "blockingReason": "The rolling target remains indeterminate. R2 and R4-R7 retain their prior hosted evidence. R3 now has nonzero candidate throughput in push-triggered run 38111994882 (17 searched, 16 admitted/novel, 14 blocked), but the run is partial and not scheduled-origin, so R3 remains pending. R8 is still pending because no live executable-content refusal has been retained. R9 therefore has not started and adds a conservative 96 continuous hours only after R2-R8 are simultaneously green. Exact-tip R10 remains pending while hosted Self-Test/CodeQL/durable proof and the CRU-0006 Administration-read and PR-monitor boundaries are unresolved. R11 remains owner-authorized only. The 14-source rescan remains pending and no candidate record is credited as reevaluated.",
+  "blockingReason": "The rolling target remains indeterminate. R2 and R4-R7 retain prior hosted evidence. R3 has nonzero candidate throughput in push-triggered run 38111994882 (17 searched, 16 admitted/novel, 14 blocked), but still lacks the required scheduled-origin run. R8 is still pending because exact-tip durable proof run 38113258786 job 114393015392 reports no live executable-content refusal in the restored corpus. R9 therefore has not started and adds a conservative 96 continuous hours only after R2-R8 are simultaneously green. Exact-tip R10 improved materially: Self-Test 38113258822, CodeQL 38113258781, handoff 38113258774, conflict 38113258746, sync 38113258828, and locked-monitor block 38113258787 are green, but durable proof 38113258786 is red on R8. R11 remains owner-authorized only. The 14-source rescan remains pending and no candidate record is credited as reevaluated.",
   "history": [
     {
       "recordedAt": "2026-08-30T20:33:00Z",
@@ -253,6 +253,13 @@
       "newTarget": null,
       "newTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
       "reason": "Exact-tip push run 38111994882 at SHA ac3c6a37ceebc1257c37f516fa9cd9f81a60037c used the current z-ai/glm-5.3-flash provider and clean v3 cache. It searched 17 topics, completed 3, blocked 14, admitted 16 and registered 16 novel candidate URLs; retained artifact 11692058257 records the candidate-only report. This establishes nonzero discovery throughput but not the scheduled-origin R3 gate because the run was push-triggered and partial. R8 remains pending, R9 held, R10 not all-green, and R11 unauthorized."
+    },
+    {
+      "recordedAt": "2026-10-11T01:14:00-04:00",
+      "priorTarget": null,
+      "newTarget": null,
+      "newTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
+      "reason": "Exact-tip hosted CI materially changed at development SHA 621f9c3ed64a61e35eacd2710c1410cf401d1ec0: Self-Test 38113258822 completed all 9 matrix jobs successfully with repository security report 0 issues; CodeQL 38113258781, AI handoff 38113258774, AI conflict 38113258746, sync 38113258828, and locked-monitor block 38113258787 are green. Durable proof 38113258786 job 114393015392 failed closed because the real restored corpus has no live executable-content refusal, explicitly leaving R8 pending. R3 still lacks scheduled-origin evidence, R9 remains held, R10 remains pending on durable proof, and R11 remains unauthorized."
     }
   ]
 }
