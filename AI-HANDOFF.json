@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
-    "currentPrompt": "Record exact hosted R3 discovery evidence and update scientific-learning release status, handoff, and DEVLOG; keep R3 pending unless scheduled-origin and durable gate criteria are satisfied; do not touch main or Archive",
+    "currentPrompt": "Record exact-tip hosted R10 CI result after Self-Test success and durable proof failure; preserve R3 and R8 pending, keep R9 held and R11 unauthorized; update status, handoff, and DEVLOG only; do not touch main or Archive",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,8 +222,8 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-11T04:55:36.019Z",
-      "promptSha256": "332027b4bae60704918bbfa00f22934c6af0038e35c51ba8ec1795968209a546",
+      "selectedAt": "2026-10-11T05:11:40.979Z",
+      "promptSha256": "7fabb1ce5a71e76324b437d51cc508b18707cd649fa33ef3af106b4fddf50adb",
       "affectedPathsSha256": "afd52538de0e70d7e648bae1601594ad6b58262309e4454bc4e448b807b0ed4f"
     },
     "steps": [
@@ -235,7 +235,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-11T00:55:00.000Z",
+    "lastUpdatedAt": "2026-10-11T01:14:00.000Z",
     "currentStep": 5,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -295,7 +295,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Exact development tip is ac3c6a37ceebc1257c37f516fa9cd9f81a60037c. Hosted R3 run 38111994882 job 114389296000 completed partially with z-ai/glm-5.3-flash: 17 topics searched, 3 completed, 14 blocked, 16 admitted and 16 novel candidate URLs retained in artifact 11692058257 (ZIP SHA-256 94657a336b2592cdaefe3916dea032046eb52bf5ee957a6bf627fe8e3af0d3bf). This is push-triggered evidence, not the required scheduled-origin gate, so R3 remains pending. R8 has no live executable-content refusal, R9 is held, R10 is not exact-tip green, and R11 remains unauthorized. Main and Archive are untouched.",
+    "verificationStatus": "Exact development tip is 621f9c3ed64a61e35eacd2710c1410cf401d1ec0. Hosted exact-tip Self-Test 38113258822 completed successfully across all 9 matrix jobs with repository security report 0 issues; CodeQL 38113258781, AI handoff 38113258774, AI conflict 38113258746, sync 38113258828, and locked-monitor block 38113258787 are successful. Durable learning proof 38113258786 job 114393015392 failed closed because the restored real corpus has no live executable-content refusal; it explicitly reports R4-R7 satisfied and R8 pending. R3 remains pending scheduled-origin evidence, R9 remains held, R10 is not all-green, and R11 remains unauthorized. Main and Archive are untouched.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
