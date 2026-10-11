@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      CRUCIBLE_LEARNING_PROJECT_ID: github:jonathanblunt1214-lgtm/The-Crucible
+      CRUCIBLE_LEARNING_PROJECT_ID: github:6076446993/The-Crucible
       CRUCIBLE_LEARNING_ROOT: .hosted-perplexity-research
       CRUCIBLE_SOURCE_QUEUE: .hosted-perplexity-research/source-queue.json
       CRUCIBLE_PERPLEXITY_MAX_QUERIES: '50'
