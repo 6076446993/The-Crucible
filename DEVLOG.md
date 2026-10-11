@@ -241,6 +241,7 @@ Plain-language summary: Reconciled the R8 repair onto the current development ti
 - Status/handoff — recorded the exact SHA, run, and unchanged R3/R9/R10/R11 blockers; no gate was weakened or marked complete.
 - `test/ownerFileTransport.test.js` — normalized Windows tar paths before the archive command, fixing the deterministic `Cannot connect to C: resolve failed` harness failure without changing custody behavior; focused retest passed locally and the protected push is being rerun.
 - Hosted exact-tip follow-up — run `38110513574` exposed the legacy `activePlan.status` value `in-progress`; changed only the handoff state to governed `active`, with no custody or gate-state change.
+- Exact-tip continuation — repaired the route digest for the handoff-only follow-up, protected push advanced development to `eee72b4a6cff1fa9dac321d63401d5f35c30e365`, and hosted AI handoff policy passed. Fresh R8 dispatch `38110712781` remains pending before any job step because no `self-hosted,crucible-r8` runner accepted it; no canary or custody write occurred.
 
 ### Session: R8 same-machine rebuild path — 2026-10-10T16:00:00Z — Codex — mode:regular/default
 

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "projectId": "github:6076446993/The-Crucible",
   "branch": "development",
-  "developmentSha": "5a78404e9e40c895b881c6e208ba20eaca71a3a4",
-  "updatedAt": "2026-10-10T23:55:00-04:00",
+  "developmentSha": "eee72b4a6cff1fa9dac321d63401d5f35c30e365",
+  "updatedAt": "2026-10-11T00:15:00-04:00",
   "rollingTarget": null,
   "rollingTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
   "timezone": "America/New_York",
@@ -18,12 +18,12 @@
     "R5": "passed; exact-tip run 37337684847 affirmatively restored a corpus-backed verified Java knowledge version (candidate extracted-46e181f05a9c6f5dab5b9c21be5f07f3) with the controlled experiment and distinct verifier evidence retained from the real corpus cycle. Active v1 candidate cycle-92917a3a1bac7b53ce800d3a08e78b51 remains NOT corpus-backed and is not the basis for this pass; retraction remains an owner decision.",
     "R6": "passed; exact-tip run 37337684847 restored the active corpus-backed verified version from encrypted state and affirmatively reported verified-only retrieval satisfied, while unverified and superseded states remained unavailable through retrieval.",
     "R7": "passed; exact-tip run 37337684847 restored the retained supersession/rollback history and affirmatively reported R7 satisfied; the audited prior-version state and active retrieval pointer survived cross-run encrypted retention.",
-    "R8": "pending; protected development dispatch run 38109749249 at exact SHA 5a78404e9e40c895b881c6e208ba20eaca71a3a4 is queued for the designated self-hosted runner labels self-hosted,crucible-r8. The publisher implementation passed all local protected checks and preserves ephemeral decrypt/rehydrate, real SafeInformationRetriever refusal, ciphertext-only publication, and cleanup, but no matching runner is registered, so no canary has run and no raw/vetted state changed.",
+    "R8": "pending; protected development dispatch run 38110712781 at exact SHA eee72b4a6cff1fa9dac321d63401d5f35c30e365 is pending for the designated self-hosted runner labels self-hosted,crucible-r8. The publisher implementation passed all local protected checks and preserves ephemeral decrypt/rehydrate, real SafeInformationRetriever refusal, ciphertext-only publication, and cleanup, but no matching runner has accepted the job, so no canary has run and no raw/vetted state changed.",
     "R9": "held; the required soak is 72-96 continuous hours with at most 1000 observed data points and cannot start until R2-R8 are simultaneously passed. Forecasting uses the conservative 96-hour edge.",
-    "R10": "pending; at reviewed exact SHA 1033806378cda18f53efc4b589867bc9cfb8c677, CodeQL, AI handoff, AI conflict governance, scheduled every-push tests, and the circulation ratchet are green for the R2 change; audit:circulation reports 57 direct edges and none added. Self-Test remains red for the pre-existing CRU-0006 repository Administration-read/security-settings boundary, and Windows also retains the known R8/workflow-text CRLF assertion. The required PR monitor remains a separate blocker. R2 introduced no remaining Self-Test architecture regression.",
+    "R10": "pending; at exact development SHA eee72b4a6cff1fa9dac321d63401d5f35c30e365, AI handoff policy, AI conflict governance, sync monitoring, and locked-PR blocking are green; Self-Test, CodeQL, and durable learning proof remain in progress. The pre-existing CRU-0006 repository Administration-read/security-settings boundary and required PR monitor remain separate blockers; no R10 promotion evidence exists.",
     "R11": "pending; no owner authorization exists for an exact all-green learning-release SHA, and this review performs no promotion."
   },
-  "blockingReason": "The rolling target remains indeterminate. R2 and R4-R7 have durable hosted evidence and are passed. R3 completed zero discovery topics because all 16 NVIDIA NIM requests aborted. R8 is now rebuilt and pushed at exact development SHA 5a78404e9e40c895b881c6e208ba20eaca71a3a4; dispatch run 38109749249 is queued because no self-hosted runner with labels self-hosted,crucible-r8 is registered. No canary or state write has occurred. R9 therefore has not started and adds a conservative 96 continuous hours only after R2-R8 are simultaneously green. Exact-tip R10 remains separately red. The 14-source rescan remains pending and no candidate record is credited as reevaluated.",
+  "blockingReason": "The rolling target remains indeterminate. R2 and R4-R7 have durable hosted evidence and are passed. R3 completed zero discovery topics because all 16 NVIDIA NIM requests aborted. R8 is rebuilt and pushed at exact development SHA eee72b4a6cff1fa9dac321d63401d5f35c30e365; dispatch run 38110712781 is pending because no self-hosted runner with labels self-hosted,crucible-r8 has accepted it. No canary or state write has occurred. R9 therefore has not started and adds a conservative 96 continuous hours only after R2-R8 are simultaneously green. Exact-tip R10 remains pending while Self-Test, CodeQL, durable proof, CRU-0006, and the PR monitor are unresolved. The 14-source rescan remains pending and no candidate record is credited as reevaluated.",
   "history": [
     {
       "recordedAt": "2026-08-30T20:33:00Z",
@@ -239,6 +239,13 @@
       "newTarget": null,
       "newTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
       "reason": "R8 repair was pushed through the protected development path at exact SHA 5a78404e9e40c895b881c6e208ba20eaca71a3a4 after route verification and all 104 selected local checks passed. Dispatch run 38109749249 is queued on the required self-hosted runner labels self-hosted,crucible-r8; no canary or custody write has occurred. The implementation remains fail-closed and no release target or gate advances until a matching owner-controlled runner executes it."
+    },
+    {
+      "recordedAt": "2026-10-11T00:15:00-04:00",
+      "priorTarget": null,
+      "newTarget": null,
+      "newTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
+      "reason": "The handoff-policy blocker was repaired and the protected push advanced development to exact SHA eee72b4a6cff1fa9dac321d63401d5f35c30e365. Protected local verification passed 104 selected tests plus validation, clutter, privacy, and security audits; hosted handoff policy, conflict governance, sync, and locked-PR blocking are green. R8 dispatch run 38110712781 is pending on the required self-hosted runner labels self-hosted,crucible-r8, so no canary or custody write has occurred. Self-Test, CodeQL, and durable learning proof remain in progress; R3, R9, R10, and R11 remain blocked."
     }
   ]
 }
