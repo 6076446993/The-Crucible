@@ -46,8 +46,8 @@ jobs:
     timeout-minutes: 30
     env:
       CRUCIBLE_LEARNING_PROJECT_ID: github:6076446993/The-Crucible
-      CRUCIBLE_LEARNING_ROOT: .hosted-pointer-research
-      CRUCIBLE_SOURCE_QUEUE: .hosted-pointer-research/source-queue.json
+      CRUCIBLE_LEARNING_ROOT: .hosted-pointer-research-6076446993
+      CRUCIBLE_SOURCE_QUEUE: .hosted-pointer-research-6076446993/source-queue.json
       CRUCIBLE_DISCOVERY_MAX_QUERIES: '50'
       CRUCIBLE_DISCOVERY_PROVIDER: nvidia-nim
       NVIDIA_NIM_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
@@ -73,7 +73,7 @@ jobs:
       - name: Restore project-bound discovery state and holding queue
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
-          path: .hosted-pointer-research
+          path: .hosted-pointer-research-6076446993
           key: model-pointer-research-${{ github.repository_id }}-${{ github.run_id }}
           restore-keys: |
             model-pointer-research-${{ github.repository_id }}-
@@ -93,12 +93,12 @@ jobs:
           npm run learning:pointer-research -- \
             'Android' 'JavaScript' 'HTML' 'CSS' 'Batchfile' 'PowerShell' 'Python' 'TypeScript' \
             'Shell and Bash' 'C' 'C#' 'C++' 'Django' 'Java' 'React' 'React Native' 'Cybersecurity' \
-            | tee .hosted-pointer-research/latest-report.json
+            | tee .hosted-pointer-research-6076446993/latest-report.json
       - name: Save project-bound discovery state and holding queue
         if: always()
         uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
-          path: .hosted-pointer-research
+          path: .hosted-pointer-research-6076446993
           key: model-pointer-research-${{ github.repository_id }}-${{ github.run_id }}
       - name: Retain the bounded candidate holding report
         if: always()
@@ -106,8 +106,8 @@ jobs:
         with:
           name: model-pointer-research-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            .hosted-pointer-research/latest-report.json
-            .hosted-pointer-research/automated-model-pointer-research.json
-            .hosted-pointer-research/source-queue.json
+            .hosted-pointer-research-6076446993/latest-report.json
+            .hosted-pointer-research-6076446993/automated-model-pointer-research.json
+            .hosted-pointer-research-6076446993/source-queue.json
           if-no-files-found: error
           retention-days: 30

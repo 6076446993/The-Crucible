@@ -515,4 +515,7 @@ Plain-language summary: Corrected the live model-pointer and Perplexity discover
 - `route:prewrite` — completed 2026-10-11T04:17:30-04:00; selected `crucible-core` → `6076446993/The-Crucible` → `development`; exact affected-path digest recorded in `AI-HANDOFF.json`.
 - `workflow correction` — replaced the stale owner identity in `model-pointer-research.yml` and `perplexity-research.yml`; replaced the retired Lightning default with `meta/llama-3.1-8b-instruct`; repository variable override remains supported.
 - `focused verification` — model-pointer tests, workflow tests, workflow lint, and validation passed locally before commit; hosted evidence is still required.
+- `hosted R3 run 38111273190` — exact SHA `b449906c494d2c2828d3adc0d57975f8d1e177bf` reached the runner, but initialization failed closed with `OPS-0042` because the restored cache queue carried the retired project identity. No candidate URLs or learning state were written.
+- `repair continuation` — namespace the cached discovery root by current repository identity (`6076446993`) so stale project-bound cache contents cannot be consumed or overwrite the new queue; preserve the prior cache unchanged and rerun hosted verification.
+- `protected-route reconciliation` — regenerated the task-routing digest for the exact three-file follow-up after the first push attempt correctly failed closed on a scope mismatch; no bypass or remote write was used.
 - `boundary` — no credentials were read or exposed, no raw/vetted state changed, no R8 action ran, and `main`/Archive were untouched.
