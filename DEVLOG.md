@@ -240,6 +240,7 @@ Plain-language summary: Reconciled the R8 repair onto the current development ti
 - `gh workflow run 377913299 --ref development` — dispatched `38109749249` at the exact SHA; job `114382668947` remains queued with zero steps, confirming the self-hosted runner capability blocker before any custody action.
 - Status/handoff — recorded the exact SHA, run, and unchanged R3/R9/R10/R11 blockers; no gate was weakened or marked complete.
 - `test/ownerFileTransport.test.js` — normalized Windows tar paths before the archive command, fixing the deterministic `Cannot connect to C: resolve failed` harness failure without changing custody behavior; focused retest passed locally and the protected push is being rerun.
+- Hosted exact-tip follow-up — run `38110513574` exposed the legacy `activePlan.status` value `in-progress`; changed only the handoff state to governed `active`, with no custody or gate-state change.
 
 ### Session: R8 same-machine rebuild path — 2026-10-10T16:00:00Z — Codex — mode:regular/default
 
