@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-11T21:10:28.339Z"
+    "lastActionAt": "2026-10-11T21:37:56.650Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -221,11 +221,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-11T21:20:13.264Z",
+      "selectedAt": "2026-10-11T21:37:56.793Z",
       "promptSha256": "d6e60da413fd11698defde6f1fdaa34fbf6f03ce65fd0484df0651df3d0d57d8",
-      "affectedPathsSha256": "ed7d01b883c0b45835d622b28eafeebf94ec30a0fe6b32c00680f2878355ee4f"
+      "affectedPathsSha256": "4715f792a2d68c7f43ef57068dc877ff199f4320b845c44b9a6675a97e64d4e7"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -236,8 +236,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-11T21:10:28.339Z",
-    "currentStep": "Replace the unusable raw archive from verified retained plaintext and current candidate snapshot, using existing raw key through encrypted private transfer. Do not rotate keys or require old-archive decryption.",
+    "lastUpdatedAt": "2026-10-11T21:37:56.650Z",
+    "currentStep": "Archive replacement verified. Resume separate governed R8 executable-content proof; no R2 restart or automatic promotion. Downstream projects remain held.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -512,11 +512,28 @@
       "candidates": 29799,
       "historicalCandidateIdsPreserved": 2162,
       "historicalSourceHashesPreserved": 403,
-      "status": "IMPLEMENTING_NOT_PUBLISHED"
+      "status": "PUBLISHED_AND_INDEPENDENTLY_AUTHENTICATED"
+    },
+    "archiveReplacementReceipt": {
+      "implementationSha": "2db7a44293f9108bad0b4ad4403601b0216b471a",
+      "publicationRun": 38176876189,
+      "independentAuthenticationRun": 38176984983,
+      "stateRevision": "e627a695b1898ea7bcc24f884d066bf835868a30",
+      "ciphertextSha256": "738822930f5b86dc90de20e0c1112fedaa6af0b7857b9bc454491190c4539549",
+      "archiveSha256": "db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b",
+      "existingRawKeyUsed": true,
+      "temporaryTransportSecretRemoved": true,
+      "oldCiphertextRetained": true,
+      "sourceFiles": 425,
+      "sourceRecords": 541,
+      "candidates": 29799,
+      "historicalQueueIdsPreserved": 534,
+      "authorizesPromotion": false
     }
   },
   "handoffNotes": {
     "completed": [
+      "Raw archive replaced under the existing registered key: hosted encryption and isolated restore run 38176876189; independent published-archive authentication run 38176984983; state e627a695b1898ea7bcc24f884d066bf835868a30. All originals and historical source/candidate IDs retained; temporary transport secret removed.",
       "Reused completed pilot run 37567402124 without repeating or changing live queues. R2 remains passed.",
       "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
       "Eight focused custody tests passed, including real extraction, encryption and fresh-process restoration. Combined intake/retrieval/extraction/safety/custody tests passed 53/53.",
@@ -534,7 +551,7 @@
       "Verified exact-tip CodeQL success on dfa1863; default owner-file intake workflow is present. Added oldest-request-first continuation ordering."
     ],
     "remaining": [
-      "Owner-authorized replacement raw archive: encrypted private transfer, existing-key encryption, isolated restore, rollback-preserving compare-and-swap publication and exact hosted receipts.",
+      "R8 executable-content quarantine proof remains pending in exact implementation run 38176245684; archive replacement does not satisfy scientific or promotion gates.",
       "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
       "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
       "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",

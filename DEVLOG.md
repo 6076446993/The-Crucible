@@ -151,7 +151,7 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
-- 2026-10-11T21:04:48.669Z, Codex: dev plan `AI-HANDOFF.json.activePlan.currentPrompt`, `activePlan.archiveReplacementAuthorization`, and `handoffNotes.completed/remaining` govern the owner-authorized raw archive replacement. Existing GitHub custody key is retained. Verified local replacement preserves 29,799 candidates, all 2,162 historical candidate IDs and all 403 historical source hashes. Implementing encrypted private transfer and isolated existing-key restore; hosted publication is pending.
+- 2026-10-11T21:04:48.669Z, Codex: dev plan `AI-HANDOFF.json.activePlan.currentPrompt`, `activePlan.archiveReplacementAuthorization`, and `handoffNotes.completed/remaining` govern the owner-authorized raw archive replacement. Existing GitHub custody key is retained. Verified local replacement preserves 29,799 candidates, all 2,162 historical candidate IDs and all 403 historical source hashes. Completed existing-key archive replacement and isolated restore in run 38176876189; independently authenticated the published ciphertext in run 38176984983. R8 remains separately pending.
 
 - Oldest-intake prerequisite, 2026-10-11T16:50:00Z, Codex: expanded existing encrypted custody verification to authenticate retained raw ciphertext using only configured current/previous raw keys. Successful authentication produces metadata only; temporary plaintext and credentials are always deleted and never uploaded. No queue, key, private custody push or active knowledge mutation is added. 50 workflow/source-bundle tests pass; actual hosted result remains pending.
 
@@ -252,7 +252,7 @@ Released mutation claims remain durable facts even after their detailed session 
 Plain-language summary: Continue the owner's archive replacement using the already configured key and preserved real sources; encrypted transfer and hosted restore remain under verification.
 
 - preflight, isolated checkout and retained plaintext comparison — started 2026-10-11T20:53:00Z, finished 2026-10-11T21:04:48.669Z; exact development route verified; historical candidate IDs and source hashes preserved.
-- implementation and verification — started 2026-10-11T21:04:48.669Z, finish pending; no hosted publication or new custody key is claimed.
+- implementation and verification — started 2026-10-11T21:04:48.669Z, finished 2026-10-11T21:37:56.650Z; implementation 2db7a44293f9108bad0b4ad4403601b0216b471a passed 194 local tests, all nine hosted self-tests, CodeQL, handoff and conflict gates. Rebuild 38176876189 published state e627a695b1898ea7bcc24f884d066bf835868a30 with existing raw key and isolated restore; independent authentication 38176984983 matched the approved archive hash. Old manifest/chunks retained, temporary transport secret removed. R8 remains separately pending; no promotion.
 
 
 ### Session: R8 protected push and live dispatch — 2026-10-11T03:55:00Z — Codex — mode:work
