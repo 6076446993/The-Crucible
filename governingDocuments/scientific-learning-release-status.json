@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "projectId": "github:6076446993/The-Crucible",
   "branch": "development",
-  "developmentSha": "eee72b4a6cff1fa9dac321d63401d5f35c30e365",
-  "updatedAt": "2026-10-11T00:15:00-04:00",
+  "developmentSha": "ac3c6a37ceebc1257c37f516fa9cd9f81a60037c",
+  "updatedAt": "2026-10-11T00:55:00-04:00",
   "rollingTarget": null,
   "rollingTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
   "timezone": "America/New_York",
@@ -13,17 +13,17 @@
   "gates": {
     "R1": "passed",
     "R2": "passed; exact-tip hosted run 37562741750 job 112603486637 at reviewed development SHA 1033806378cda18f53efc4b589867bc9cfb8c677 proved isolated live-worker failover with a dedicated disposable OS-temp root. The proof reported disposableProofRoot true, productionStateWritable false, productionStateReferenced false, productionLearningEnvironmentInherited false, and baselineCandidatePreserved true. The isolated primary persisted attempt 1, PID 2193 was terminated, the already-running standby reclaimed that exact owner after 30194ms, completed attempt 2, emitted two unique deterministic bounded candidate IDs, and an idempotent repeat processed zero items. Artifact 11457258905 is retained for 90 days. No existing production candidate was in the proof writable failure domain.",
-    "R3": "pending; exact-tip model-discovery run 37365316605 used nvidia/nemotron-3.5-lightning-30b-a3b and passed readiness, but every one of 16 due topics ended blocked with NVIDIA NIM request aborted. It completed, cited, admitted, rejected, and registered zero URLs, so no first live discovery-to-candidate cycle exists.",
+    "R3": "pending; exact-tip hosted run 38111994882 job 114389296000 at SHA ac3c6a37ceebc1257c37f516fa9cd9f81a60037c used z-ai/glm-5.3-flash with a clean v3 project-bound cache. It searched 17 topics, completed 3, blocked 14, cited 30, admitted 16, rejected 14, and registered 16 novel candidate URLs; artifact model-pointer-research-38111994882-1 (ID 11692058257, ZIP SHA-256 94657a336b2592cdaefe3916dea032046eb52bf5ee957a6bf627fe8e3af0d3bf) is retained. This push-triggered run proves nonzero governed candidate throughput, but R3 still requires a scheduled-origin run; no gate is marked passed until that provenance requirement is met.",
     "R4": "passed; exact-tip durable proof run 37337684847 restored and consumed the real independently vetted encrypted bundle, verified queue SHA-256 4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f and learning SHA-256 c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37 over 378 retained source files / 295230063 bytes with plaintextRetained false, restored corpus-backed knowledge, and affirmatively reported R4 satisfied. Artifact 11356792426 retained the downstream proof state for 90 days.",
     "R5": "passed; exact-tip run 37337684847 affirmatively restored a corpus-backed verified Java knowledge version (candidate extracted-46e181f05a9c6f5dab5b9c21be5f07f3) with the controlled experiment and distinct verifier evidence retained from the real corpus cycle. Active v1 candidate cycle-92917a3a1bac7b53ce800d3a08e78b51 remains NOT corpus-backed and is not the basis for this pass; retraction remains an owner decision.",
     "R6": "passed; exact-tip run 37337684847 restored the active corpus-backed verified version from encrypted state and affirmatively reported verified-only retrieval satisfied, while unverified and superseded states remained unavailable through retrieval.",
     "R7": "passed; exact-tip run 37337684847 restored the retained supersession/rollback history and affirmatively reported R7 satisfied; the audited prior-version state and active retrieval pointer survived cross-run encrypted retention.",
     "R8": "pending; protected development dispatch run 38110712781 at exact SHA eee72b4a6cff1fa9dac321d63401d5f35c30e365 is pending for the designated self-hosted runner labels self-hosted,crucible-r8. The publisher implementation passed all local protected checks and preserves ephemeral decrypt/rehydrate, real SafeInformationRetriever refusal, ciphertext-only publication, and cleanup, but no matching runner has accepted the job, so no canary has run and no raw/vetted state changed.",
     "R9": "held; the required soak is 72-96 continuous hours with at most 1000 observed data points and cannot start until R2-R8 are simultaneously passed. Forecasting uses the conservative 96-hour edge.",
-    "R10": "pending; at exact development SHA eee72b4a6cff1fa9dac321d63401d5f35c30e365, AI handoff policy, AI conflict governance, sync monitoring, and locked-PR blocking are green; Self-Test, CodeQL, and durable learning proof remain in progress. The pre-existing CRU-0006 repository Administration-read/security-settings boundary and required PR monitor remain separate blockers; no R10 promotion evidence exists.",
+    "R10": "pending; exact development SHA ac3c6a37ceebc1257c37f516fa9cd9f81a60037c has local validate and workflow-lint green, but the hosted R3 run 38111994882 is partial/failed with 14 blocked topics and exact-tip release evidence is not all green. The pre-existing CRU-0006 repository Administration-read/security-settings boundary and required PR monitor remain separate blockers; no R10 promotion evidence exists.",
     "R11": "pending; no owner authorization exists for an exact all-green learning-release SHA, and this review performs no promotion."
   },
-  "blockingReason": "The rolling target remains indeterminate. R2 and R4-R7 have durable hosted evidence and are passed. R3 completed zero discovery topics because all 16 NVIDIA NIM requests aborted. R8 is rebuilt and pushed at exact development SHA eee72b4a6cff1fa9dac321d63401d5f35c30e365; dispatch run 38110712781 is pending because no self-hosted runner with labels self-hosted,crucible-r8 has accepted it. No canary or state write has occurred. R9 therefore has not started and adds a conservative 96 continuous hours only after R2-R8 are simultaneously green. Exact-tip R10 remains pending while Self-Test, CodeQL, durable proof, CRU-0006, and the PR monitor are unresolved. The 14-source rescan remains pending and no candidate record is credited as reevaluated.",
+  "blockingReason": "The rolling target remains indeterminate. R2 and R4-R7 retain their prior hosted evidence. R3 now has nonzero candidate throughput in push-triggered run 38111994882 (17 searched, 16 admitted/novel, 14 blocked), but the run is partial and not scheduled-origin, so R3 remains pending. R8 is still pending because no live executable-content refusal has been retained. R9 therefore has not started and adds a conservative 96 continuous hours only after R2-R8 are simultaneously green. Exact-tip R10 remains pending while hosted Self-Test/CodeQL/durable proof and the CRU-0006 Administration-read and PR-monitor boundaries are unresolved. R11 remains owner-authorized only. The 14-source rescan remains pending and no candidate record is credited as reevaluated.",
   "history": [
     {
       "recordedAt": "2026-08-30T20:33:00Z",
@@ -246,6 +246,13 @@
       "newTarget": null,
       "newTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
       "reason": "The handoff-policy blocker was repaired and the protected push advanced development to exact SHA eee72b4a6cff1fa9dac321d63401d5f35c30e365. Protected local verification passed 104 selected tests plus validation, clutter, privacy, and security audits; hosted handoff policy, conflict governance, sync, and locked-PR blocking are green. R8 dispatch run 38110712781 is pending on the required self-hosted runner labels self-hosted,crucible-r8, so no canary or custody write has occurred. Self-Test, CodeQL, and durable learning proof remain in progress; R3, R9, R10, and R11 remain blocked."
+    },
+    {
+      "recordedAt": "2026-10-11T00:55:00-04:00",
+      "priorTarget": null,
+      "newTarget": null,
+      "newTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
+      "reason": "Exact-tip push run 38111994882 at SHA ac3c6a37ceebc1257c37f516fa9cd9f81a60037c used the current z-ai/glm-5.3-flash provider and clean v3 cache. It searched 17 topics, completed 3, blocked 14, admitted 16 and registered 16 novel candidate URLs; retained artifact 11692058257 records the candidate-only report. This establishes nonzero discovery throughput but not the scheduled-origin R3 gate because the run was push-triggered and partial. R8 remains pending, R9 held, R10 not all-green, and R11 unauthorized."
     }
   ]
 }
