@@ -58,7 +58,7 @@ jobs:
       # ended its life on 2026-08-26 - so the id has to be somewhere a reviewer can read it,
       # diff it, and date it. Secrets is no longer consulted for it at all; a repository
       # variable still overrides this default, and it prints in the log the way this one does.
-      NVIDIA_NIM_MODEL: ${{ vars.NVIDIA_NIM_MODEL || 'deepseek-ai/deepseek-v4-flash' }}
+      NVIDIA_NIM_MODEL: ${{ vars.NVIDIA_NIM_MODEL || 'z-ai/glm-5.3-flash' }}
       # The base URL stays readable from either tab: it is configuration too, but unlike the
       # model there is a working default in the registry, so a missing value is not a failure.
       NVIDIA_NIM_BASE_URL: ${{ vars.NVIDIA_NIM_BASE_URL || secrets.NVIDIA_NIM_BASE_URL }}
@@ -74,9 +74,9 @@ jobs:
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: .hosted-pointer-research-6076446993
-          key: model-pointer-research-v2-${{ github.repository_id }}-${{ github.run_id }}
+          key: model-pointer-research-v3-${{ github.repository_id }}-${{ github.run_id }}
           restore-keys: |
-            model-pointer-research-v2-${{ github.repository_id }}-
+            model-pointer-research-v3-${{ github.repository_id }}-
       - name: Install locked dependencies
         run: npm ci
       - name: Initialize the candidate-only holding queue
@@ -99,7 +99,7 @@ jobs:
         uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: .hosted-pointer-research-6076446993
-          key: model-pointer-research-v2-${{ github.repository_id }}-${{ github.run_id }}
+          key: model-pointer-research-v3-${{ github.repository_id }}-${{ github.run_id }}
       - name: Retain the bounded candidate holding report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
