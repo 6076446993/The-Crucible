@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-11T16:28:21.881Z"
+    "lastActionAt": "2026-10-11T21:10:28.339Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -207,24 +207,25 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
-    "currentPrompt": "Read-only raw key compatibility probe to unblock oldest owner intake",
+    "currentPrompt": "ok so do it",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
-      "purpose": "Owner-authorized implementation and governed intake deployment",
-      "selectionReason": "Current Work runtime can implement and verify the proposed transport.",
-      "distinction": "Execution mode describes the runtime; agent identity and workflow remain separate."
+      "purpose": "Implement and verify secure encrypted raw archive replacement",
+      "reason": "Owner explicitly requested actual command/file/repository execution.",
+      "selectionReason": "Owner explicitly requested actual command/file/repository execution.",
+      "distinction": "Execution mode is separate from agent identity and workflow."
     },
     "taskRouting": {
       "category": "crucible-core",
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
-      "explicitOverride": true,
-      "selectedAt": "2026-10-11T16:50:05.890Z",
-      "promptSha256": "93bb75b257ed58f43f23aaf4e257cac7de8c81177e13aef272035ac9d370b9d3",
-      "affectedPathsSha256": "bb63fd1df2a1f1401f15b341b1acb452e6ece8a6431db9d86b29864a2a84b1dc"
+      "reason": "Affected paths select crucible-core.",
+      "explicitOverride": false,
+      "selectedAt": "2026-10-11T21:20:13.264Z",
+      "promptSha256": "d6e60da413fd11698defde6f1fdaa34fbf6f03ce65fd0484df0651df3d0d57d8",
+      "affectedPathsSha256": "ed7d01b883c0b45835d622b28eafeebf94ec30a0fe6b32c00680f2878355ee4f"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -235,8 +236,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-11T16:50:00Z",
-    "currentStep": "Resume oldest tracked owner-file intake: verify complete custody copies and existing raw key before live staging; do not flush or restart the pipeline.",
+    "lastUpdatedAt": "2026-10-11T21:10:28.339Z",
+    "currentStep": "Replace the unusable raw archive from verified retained plaintext and current candidate snapshot, using existing raw key through encrypted private transfer. Do not rotate keys or require old-archive decryption.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -261,19 +262,8 @@
         "governingDocuments/owner-file-intake-main-compatibility.patch",
         "src/hostedSourceBundle.js",
         "test/hostedSourceBundle.test.js",
-        "src/evidencePacket.js",
-        "test/evidencePacket.test.js",
-        "governingDocuments/evidence-packet-gate.md",
-        "src/scientificLearning.js",
-        "src/learningExperience.js",
-        "src/claimExtractionWorker.js",
-        "src/repairEvidence.js",
-        "src/ownerFileIntake.js",
-        "src/safeInformationRetrieval.js",
-        "src/pipelineTracer.js",
-        "src/codeSecurityOrganism.js",
-        "src/monthlyKnowledgeRefresh.js",
         ".github/workflows/self-test.yml",
+        "src/claimExtractionWorker.js",
         "test/claimExtractionWorker.test.js",
         "test/pdfTextExtraction.test.js",
         "src/ciDiagnosticOrgan.js",
@@ -286,7 +276,11 @@
         "test/sourceBundleKeyAutomation.test.js",
         "src/aiHandoffContinuation.js",
         "test/aiHandoffContinuation.test.js",
-        ".github/workflows/hosted-source-bootstrap.yml"
+        ".github/workflows/hosted-source-bootstrap.yml",
+        "test/rawCustodyRebuildWorkflow.test.js",
+        "README.md",
+        ".github/workflows/raw-custody-publisher.yml",
+        "test/rawCustodyPublisher.test.js"
       ],
       "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
     },
@@ -489,7 +483,37 @@
         "R8 existing self-hosted runner prerequisites must be available; no unsafe publisher dispatch."
       ]
     },
-    "priorCurrentPrompt": "Keep working and remember oldest relevant work gets completed first"
+    "priorCurrentPrompt": "Keep working and remember oldest relevant work gets completed first",
+    "archiveReplacementPriorPrompt": "Read-only raw key compatibility probe to unblock oldest owner intake",
+    "archiveReplacementPriorRouting": {
+      "category": "crucible-core",
+      "repositoryId": 1344890806,
+      "repository": "6076446993/The-Crucible",
+      "branch": "development",
+      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
+      "explicitOverride": true,
+      "selectedAt": "2026-10-11T16:50:05.890Z",
+      "promptSha256": "93bb75b257ed58f43f23aaf4e257cac7de8c81177e13aef272035ac9d370b9d3",
+      "affectedPathsSha256": "bb63fd1df2a1f1401f15b341b1acb452e6ece8a6431db9d86b29864a2a84b1dc"
+    },
+    "archiveReplacementAuthorization": {
+      "recordedAt": "2026-10-11T21:04:48.669Z",
+      "ownerMessages": [
+        "the entire key",
+        "that key is lost so I want it rotated to the one you have",
+        "the old archive is the problem and why were rotating",
+        "you have the new key in github and in the key management system",
+        "ok so do it"
+      ],
+      "interpretation": "Replace unusable raw ciphertext under the already configured replacement key; preserve historical ciphertext and candidate/source lineage; encrypted private transfer and verified restore, no new custody key or promotion.",
+      "archiveSha256": "db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b",
+      "sourceRecords": 541,
+      "distinctSources": 425,
+      "candidates": 29799,
+      "historicalCandidateIdsPreserved": 2162,
+      "historicalSourceHashesPreserved": 403,
+      "status": "IMPLEMENTING_NOT_PUBLISHED"
+    }
   },
   "handoffNotes": {
     "completed": [
@@ -510,6 +534,7 @@
       "Verified exact-tip CodeQL success on dfa1863; default owner-file intake workflow is present. Added oldest-request-first continuation ordering."
     ],
     "remaining": [
+      "Owner-authorized replacement raw archive: encrypted private transfer, existing-key encryption, isolated restore, rollback-preserving compare-and-swap publication and exact hosted receipts.",
       "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
       "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
       "Prepare and verify the narrow default-branch workflow deployment without merging the unrelated 123-file development delta. Existing release policy expects a validated development tip; any narrowed artifact must retain the development-first gates and explicit owner scope.",
@@ -1416,7 +1441,11 @@
           "test/sourceBundleKeyAutomation.test.js",
           "src/aiHandoffContinuation.js",
           "test/aiHandoffContinuation.test.js",
-          ".github/workflows/hosted-source-bootstrap.yml"
+          ".github/workflows/hosted-source-bootstrap.yml",
+          "test/rawCustodyRebuildWorkflow.test.js",
+          "README.md",
+          ".github/workflows/raw-custody-publisher.yml",
+          "test/rawCustodyPublisher.test.js"
         ],
         "regions": []
       },

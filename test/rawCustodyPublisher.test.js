@@ -152,3 +152,31 @@ test('complete candidate snapshot survives archive encryption and independent pr
   const candidates = read(path.join(restoredRoot, manifest.learningFile)).payload.candidateRecords;
   assert.equal(candidates.length, 2); assert.equal(candidates.every((record) => record.state === 'candidate' && Object.values(record.gates).every((gate) => gate === false)), true);
 });
+
+{
+const workflow=fs.readFileSync(path.join(__dirname,'../.github/workflows/owner-file-intake.yml'),'utf8').replace(/\r\n/g,'\n');
+const rebuild=workflow.slice(workflow.indexOf('  replace-raw-archive:'));
+const serialization=workflow.slice(workflow.indexOf('concurrency:'),workflow.indexOf('jobs:'));
+test('archive replacement is manual, exact-development, scoped and serialized',()=>{
+  for(const guard of ["github.event_name == 'workflow_dispatch'","github.repository == '6076446993/The-Crucible'","github.ref == 'refs/heads/development'",'bounded-raw-custody-publisher-development','cancel-in-progress: false'])assert.ok((rebuild+serialization).includes(guard));
+  assert.ok(rebuild.includes('CRUCIBLE_REBUILD_TRANSPORT_[A-F0-9]{32}'));
+});
+test('replacement never decrypts prior archive or generates a custody key',()=>{
+  assert.ok(!rebuild.includes('sourceBundleKeyAutomation.js'));
+  assert.ok(!rebuild.includes('source-bundle.enc" --output'));
+  assert.ok(rebuild.includes('--keys CRUCIBLE_REBUILD_TRANSPORT_KEY'));
+  assert.ok(rebuild.includes('--keys CRUCIBLE_SOURCE_BUNDLE_KEY'));
+  assert.ok(rebuild.includes('sourceBundleKeyManager.js preflight raw'));
+});
+test('publication follows authenticated exact-archive and isolated source verification',()=>{
+  assert.ok(rebuild.indexOf('test "$(sha256sum')<rebuild.indexOf('publish-ciphertext'));
+  assert.ok(rebuild.indexOf('encrypted-restore.json')<rebuild.indexOf('publish-ciphertext'));
+  for(const guard of ['EXPECTED_STATE_HEAD','EXPECTED_MANIFEST_SHA256','--prior-manifest-sha256','ls-remote origin refs/heads/main','historicalCiphertextRetained=true','authorizesPromotion=false'])assert.ok(rebuild.includes(guard));
+});
+test('runner rejects links and path traversal and always destroys plaintext',()=>{
+  assert.ok(rebuild.includes('Unsafe archive path'));assert.ok(rebuild.includes('Archive links and special files refused'));
+  assert.ok(rebuild.includes('if: always()\n        run: rm -rf "$RUNNER_TEMP/raw-rebuild"'));
+  assert.ok(!rebuild.includes('path: ${{ runner.temp }}'));
+});
+
+}

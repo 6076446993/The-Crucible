@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-11T21:04:48.669Z, Codex: dev plan `AI-HANDOFF.json.activePlan.currentPrompt`, `activePlan.archiveReplacementAuthorization`, and `handoffNotes.completed/remaining` govern the owner-authorized raw archive replacement. Existing GitHub custody key is retained. Verified local replacement preserves 29,799 candidates, all 2,162 historical candidate IDs and all 403 historical source hashes. Implementing encrypted private transfer and isolated existing-key restore; hosted publication is pending.
+
 - Oldest-intake prerequisite, 2026-10-11T16:50:00Z, Codex: expanded existing encrypted custody verification to authenticate retained raw ciphertext using only configured current/previous raw keys. Successful authentication produces metadata only; temporary plaintext and credentials are always deleted and never uploaded. No queue, key, private custody push or active knowledge mutation is added. 50 workflow/source-bundle tests pass; actual hosted result remains pending.
 
 - Oldest-first continuation, 2026-10-11T16:46:00Z, Codex: oldest tracked unfinished intake request dated 2026-10-07 remains first. Added original request dates and executable continuation ordering; status refreshes do not reset age, blocked older work retains priority, unknown ages require triage. The default owner-file workflow is readable, replacing its historical registration blocker; complete live custody backup and raw-key compatibility remain unverified. CodeQL passed at dfa1863. No live intake receipt, flush or restart is claimed.
@@ -245,6 +247,14 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: encrypted raw archive replacement — 2026-10-11T21:04:48.669Z — Codex — mode:work
+
+Plain-language summary: Continue the owner's archive replacement using the already configured key and preserved real sources; encrypted transfer and hosted restore remain under verification.
+
+- preflight, isolated checkout and retained plaintext comparison — started 2026-10-11T20:53:00Z, finished 2026-10-11T21:04:48.669Z; exact development route verified; historical candidate IDs and source hashes preserved.
+- implementation and verification — started 2026-10-11T21:04:48.669Z, finish pending; no hosted publication or new custody key is claimed.
+
+
 ### Session: R8 protected push and live dispatch — 2026-10-11T03:55:00Z — Codex — mode:work
 
 Plain-language summary: Reconciled the R8 repair onto the current development tip, regenerated the exact route record, passed the protected local checks, pushed only to development, and dispatched the existing manual R8 publisher. The repair is now hosted at exact SHA `5a78404e9e40c895b881c6e208ba20eaca71a3a4`; hosted run `38109749249` is queued because no owner-controlled runner with labels `self-hosted,crucible-r8` is registered. No canary, raw/vetted custody, `main`, or `Archive` changed.
@@ -264,6 +274,8 @@ Continuation — evidence-bound diagnosis, 2026-10-11: Implemented read-only dia
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
 
 
+
+
 ### Session: R8 same-machine rebuild path — 2026-10-10T16:00:00Z — Codex — mode:regular/default
 
 Plain-language summary: Added a manual-only, development-only self-hosted workflow for rebuilding R8 ciphertext from the preserved local source stage without moving plaintext through GitHub. The workflow reuses the existing verify/hydrate, executable-canary prepare, encrypt/split, and ciphertext-only publication primitives, and destroys runner temporary files and credentials on every exit path.
@@ -275,6 +287,8 @@ Plain-language summary: Added a manual-only, development-only self-hosted workfl
 - `development push` — attempted after refreshing `origin/development` to `b68d1f7e2def760999e5767bd42f4c74873502f0`; the governed pre-push hook failed closed with `received no ref update to verify`. No bypass was used and no remote, raw/vetted state, `main`, or Archive changed.
 - `history reconciliation` — rebased the two local R8 repair commits onto current origin/development; the protected dry-run then reached the route check and failed only on the stale affected-path digest. Route regenerated to include the exact four-file development diff; no remote write occurred.
 
+
+
 ### Session: r8-executable-publisher-dispatch-20261010 — 2026-10-10T06:23:00-04:00 — Codex — mode:regular/default
 
 Plain-language summary: The protected R8 registration path was exercised from the exact development tip. The real publisher ran and failed closed before the executable canary or any custody write because the configured source-bundle keys do not authenticate the existing encrypted bundle.
@@ -285,6 +299,8 @@ Plain-language summary: The protected R8 registration path was exercised from th
 - Required next action: restore the original key that wrote this bundle, or obtain an owner-authorized plaintext/source-of-truth rebuild and re-encrypt under a new key. Do not guess, print, or replace a custody key from ciphertext.
 - Verification: `AI-HANDOFF.json` and `governingDocuments/scientific-learning-release-status.json` record the exact run, SHA, and blocker; JSON parsing passes. The pre-existing test-generated known-bug ledger changes remain preserved and were not discarded.
 
+
+
 ### Session: password-manager-api-key-research-20261009 — 2026-10-09T23:45:00Z — Codex — mode:regular/default
 
 Plain-language summary: Registered password-manager-safe human access and API-key lifecycle management as candidate-only research and documented a non-secret vault-item specification without writing or exposing credentials.
@@ -292,6 +308,8 @@ Plain-language summary: Registered password-manager-safe human access and API-ke
 - `npm run route:prewrite -- --prompt ... --path governingDocuments/security-learning-techniques.json --path governingDocuments/cybersecurity-research-program.json --path governingDocuments/security-learning-pipeline.md --path governingDocuments/password-manager-entry.json --path AI-HANDOFF.json --path DEVLOG.md` — started 2026-10-09T19:39:16.982Z, finished 2026-10-09T19:39:17.695Z, exit 0.
 - Manifest, research-program, pipeline-document, non-secret password-manager specification, handoff and DEVLOG updates — started 2026-10-09T19:40:00.000Z, finished 2026-10-09T19:45:00.000Z, exit 0.
 - `node src/securityLearningCli.js queue` — started 2026-10-09T19:46:00.000Z, finished 2026-10-09T19:46:04.000Z, exit 1; existing durable-learning lock refused pending mutation with EPERM; no candidate records persisted.
+
+
 
 ### Session: owner-file-transport-20261008 — 2026-10-08T04:08:22.129Z — Codex — mode:work
 
@@ -319,6 +337,8 @@ Plain-language summary: The owner authorized taking over the intake repair and n
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Project context selects crucible-core.
 - CI envelope compatibility passed workflow tests 37/37, full change-impact 1016/1016 and workflow/coordination/privacy/security/commit checks, zero skipped — finished 2026-10-08T04:58:38.545Z, exit 0.
 - Mutation claim owner-file-transport-20261008 remains active for exact-head hosted verification and authorized narrow deployment.
+
+
 
 ### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
 
@@ -349,6 +369,8 @@ Plain-language summary: Added a manually operated, bounded way to retain SI sour
 - Exact implementation commit 3292324d0c94613724ed537d74b0238ddf89ec52 was pushed to development. Hosted Self-Test 37571816849 job 112631911580 exposed unregistered package-lock.json; claim si-lockfile-route-repair-20261007 repaired its core path registration and added a push-boundary regression — started 2026-10-07T04:32:04.110Z, finished 2026-10-07T04:33:05.965Z, exit 0; 36/36 focused tests; original 13-path push validates under the repaired registry. Claim released 2026-10-07T04:33:05.965Z after verification. No runtime re-extraction or live queue action occurred.
 - Live boundary: no raw bundle/deploy credentials are available locally; manual workflow_dispatch is not registered until its file exists on the default branch. Do not deploy to main or rerun R2/live queues as a workaround. R3/R8 remain explicit release blockers.
 
+
+
 ### Session: r2-isolated-failover-proof-20261006 — 2026-10-07T02:17:55.000Z — ChatGPT — mode:work
 
 Plain-language summary: Added a development-only R2 failover proof that cannot write the live candidate queue/store. It uses an isolated canary, interrupts only its isolated primary worker, and requires an already-running standby to reclaim the dead lock and finish without duplicates; R2 remains pending until hosted evidence passes.
@@ -367,6 +389,8 @@ Plain-language summary: Added a development-only R2 failover proof that cannot w
 - Exact-tip strengthened R2 proof passed on reviewed SHA `1033806378cda18f53efc4b589867bc9cfb8c677`: run 37562741750 job 112603486637 reported disposableProofRoot true, productionStateWritable false, productionStateReferenced false, productionLearningEnvironmentInherited false, baselineCandidatePreserved true, primary PID 2193 reclaimed after 30194ms, attempt 2 complete, two unique deterministic candidate IDs, repeat 0; artifact 11457258905 retained — started 2026-10-07T02:36:11.000Z, finished 2026-10-07T02:36:45.000Z, exit 0 hosted proof.
 - Verified the R2-introduced circulation regressions are gone: exact-tip Self-Test scheduled tests pass and audit:circulation reports 57 direct edges with none added across Linux, macOS and Windows. CodeQL, AI handoff and AI conflict governance are green; remaining red checks are the pre-existing CRU-0006 security boundary and Windows R8/workflow-text issue — started 2026-10-07T02:36:05.000Z, finished 2026-10-07T02:39:18.000Z, exit 0 R2 regression verification.
 - Released mutation claim `r2-final-evidence-sync-20261006` after synchronizing the strengthened R2 evidence into the release plan/status. R3 and R8 remain pending, R9 remains held, and no promotion authority was created — started 2026-10-07T02:39:18.000Z, finished 2026-10-07T02:39:18.000Z, exit 0 evidence synchronization.
+
+
 
 ### Session: synthetic-intelligence-research-domain-20261006 — 2026-10-07T01:16:27.000Z — ChatGPT — mode:work
 
@@ -398,6 +422,8 @@ Plain-language summary: Established Synthetic Intelligence as a dedicated Crucib
 - This proves real SI retrieval/extraction compatibility, not durable live ingestion: no general governed holding-queue to raw-custody publisher exists yet, so nothing was written to `Crucible-Learning-State` or `Crucible-Vetted-Learning-State`, no proof stage advanced, and no promotion was authorized.
 
 
+
+
 ### Session: scientific-learning-release-review-20261005 — 2026-10-05T20:43:00.000Z — Codex — mode:work
 
 Plain-language summary: Reconciled the literal development tip with retained custody, durable learning proof, live discovery, and hosted CI. R4-R7 now pass on durable evidence; R2, R3, and R8 remain pending, so the rolling target stays indeterminate and no promotion is authorized.
@@ -407,20 +433,6 @@ Plain-language summary: Reconciled the literal development tip with retained cus
 - Checked all 14 owner-source hashes against current vetted custody without duplicating bytes or re-extracting windows: 8 present and 6 absent. No exact retained candidate IDs or full gate outcomes exist for the four new identities' 58 local candidates, so the rescan remains pending — started 2026-10-05T20:39:00.000Z, finished 2026-10-05T20:42:00.000Z, exit 0.
 - R9 remains held and the conservative forecast is still at least 96 hours after the last of R2-R8 passes. R10 is red on Administration-read security access, Windows CRLF workflow assertions, and private monitor visibility. R11 and main promotion remain unauthorized — started 2026-10-05T20:42:00.000Z, finished 2026-10-05T20:43:00.000Z, exit 0.
 - Corrected the truncated remote AI-HANDOFF.json blob from commit ba7e87f99ac7ebe4693c461c9917af777d37639c after hosted coordination failed closed on invalid JSON; the release status, gate decisions, source-rescan result, and no-promotion boundary are unchanged — started 2026-10-05T20:50:19.000Z, finished 2026-10-05T20:51:09.612Z, exit 0 correction.
-
-### Session: r8-executable-custody-publisher-20261004 — 2026-10-04T13:45:54.967Z — Codex — mode:work
-
-Plain-language summary: Reconciled the owner-authorized R8 executable-content quarantine publisher with the current development tip without weakening the custody boundary. The publisher remains unexecuted until its governed development commit is pushed and the manual hosted run supplies real evidence.
-- Reconciled the publisher with origin/development `33012290b148361bab984e0b5657f724daeadd29`, preserving newer candidate-intake facts and the separate custody boundary — started 2026-10-04T13:42:00.000Z, finished 2026-10-04T13:45:54.967Z, exit 0.
-- Under one-time owner authorization, released the stale monitor-token-diagnostics claim and acquired the R8 publisher scope; no foreign working-tree change was overwritten — started 2026-10-04T13:45:54.899Z, finished 2026-10-04T13:45:54.967Z, exit 0.
-- Repaired the Archive-only pre-push route so the standing one-file `Devlog-Pruned` retention exception no longer incorrectly requires a development `AI-HANDOFF.json`; the canonical repository and exact one-file scope remain mandatory — started 2026-10-04T19:17:54.118Z, finished 2026-10-04T19:17:54.118Z, exit 0 correction.
-- Reclassified the four discovered but unmapped live test modules into their existing governed categories, restoring exact complete-coverage reconciliation at 122/122 without relaxing ambiguity isolation or cadence selection — started 2026-10-04T19:20:44.844Z, finished 2026-10-04T19:55:00.000Z, exit 0.
-- Restored full pre-push integrity after the complete cadence exposed two existing omissions: assigned the R8 raw-custody publisher and pipeline monitor to their actual organs, synchronized published diagnostic vocabulary with CRU-0056, and removed the legacy cross-organ diagnostic helper import without changing the Windows-safe invocation — started 2026-10-04T20:10:00.000Z, finished 2026-10-04T20:13:00.000Z, exit 0.
-- Corrected the privacy guard so its narrowly named non-person custody committer identity remains valid instead of being rewritten into an unusable Git email; arbitrary personal email addresses remain blocked — started 2026-10-04T20:22:00.000Z, finished 2026-10-04T20:25:00.000Z, exit 0.
-- Rebound the active route record to the exact final 17-file development diff after the push guard rejected a stale extra path; no remote reference moved — started 2026-10-04T20:30:00.000Z, finished 2026-10-04T20:30:00.000Z, exit 0 correction.
-- The manual R8 workflow still requires ciphertext-only raw publication, genuine retrieval refusal, always-run temporary-data cleanup, and independently verified downstream custody before R8 can be reported satisfied.
-
-Routing custody note: exact prompt/path SHA-256 bindings repaired for AI-HANDOFF.json + DEVLOG.md.
 
 ## Historical mutation accountability
 
