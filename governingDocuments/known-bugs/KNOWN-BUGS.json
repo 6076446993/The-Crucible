@@ -5004,6 +5004,116 @@
         "at": "2026-10-03T23:57:46.589Z",
         "exitStatus": 1
       }
+    },
+    {
+      "id": "KB-local-9e0f2fe766",
+      "foundAt": "2026-10-11T21:17:59.391Z",
+      "retests": [
+        {
+          "at": "2026-10-11T21:19:59.022Z",
+          "ok": true,
+          "exitStatus": 0,
+          "tests": [
+            "test/taskRouting.test.js",
+            "test/testCadence.test.js"
+          ]
+        }
+      ],
+      "severity": "low",
+      "status": "resolved",
+      "checked": true,
+      "sourceCommit": "local",
+      "categoryResults": [
+        {
+          "category": "maintenance",
+          "severity": "low",
+          "status": "failed",
+          "tests": [
+            "test/taskRouting.test.js",
+            "test/testCadence.test.js"
+          ]
+        }
+      ],
+      "mainCategories": [
+        "maintenance"
+      ],
+      "tests": [
+        "test/taskRouting.test.js",
+        "test/testCadence.test.js"
+      ],
+      "selectedTests": [
+        "test/code-check.test.js",
+        "test/collisions.test.js",
+        "test/coreRefIntegrity.test.js",
+        "test/docSync.test.js",
+        "test/folderTopology.test.js",
+        "test/handoffPolicy.test.js",
+        "test/r8ExecutableCanaryPublisher.test.js",
+        "test/rawCustodyPublisher.test.js",
+        "test/rawCustodyRebuildWorkflow.test.js",
+        "test/taskRouting.test.js",
+        "test/testCadence.test.js",
+        "test/workflow.test.js"
+      ],
+      "attribution": "failing-tests",
+      "lastFailure": {
+        "at": "2026-10-11T21:17:59.391Z",
+        "exitStatus": 1
+      },
+      "checkedAt": "2026-10-11T21:19:59.022Z"
+    },
+    {
+      "id": "KB-local-b11194389e",
+      "foundAt": "2026-10-11T21:19:24.028Z",
+      "retests": [
+        {
+          "at": "2026-10-11T21:19:59.314Z",
+          "ok": true,
+          "exitStatus": 0,
+          "tests": [
+            "test/taskRouting.test.js"
+          ]
+        }
+      ],
+      "severity": "low",
+      "status": "resolved",
+      "checked": true,
+      "sourceCommit": "local",
+      "categoryResults": [
+        {
+          "category": "maintenance",
+          "severity": "low",
+          "status": "failed",
+          "tests": [
+            "test/taskRouting.test.js"
+          ]
+        }
+      ],
+      "mainCategories": [
+        "maintenance"
+      ],
+      "tests": [
+        "test/taskRouting.test.js"
+      ],
+      "selectedTests": [
+        "test/code-check.test.js",
+        "test/collisions.test.js",
+        "test/coreRefIntegrity.test.js",
+        "test/docSync.test.js",
+        "test/folderTopology.test.js",
+        "test/handoffPolicy.test.js",
+        "test/r8ExecutableCanaryPublisher.test.js",
+        "test/rawCustodyPublisher.test.js",
+        "test/taskRouting.test.js",
+        "test/testCadence.test.js",
+        "test/workflow.test.js"
+      ],
+      "attribution": "failing-tests",
+      "lastFailure": {
+        "at": "2026-10-11T21:19:24.028Z",
+        "exitStatus": 1
+      },
+      "checkedAt": "2026-10-11T21:19:59.314Z"
     }
   ]
 }

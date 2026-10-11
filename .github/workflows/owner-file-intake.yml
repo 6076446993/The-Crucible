@@ -4,8 +4,28 @@ on:
     inputs:
       request_sha256:
         description: Exact owner-approved SHA-256 of the encrypted request already in private raw custody
-        required: true
+        required: false
         type: string
+      rebuild_transport_sha256:
+        description: Owner-approved encrypted rebuild transport SHA-256; blank runs the existing read-only probe
+        type: string
+        required: false
+      archive_sha256:
+        description: Owner-approved replacement plaintext archive SHA-256
+        type: string
+        required: false
+      transport_key_secret:
+        description: Unique temporary CRUCIBLE_REBUILD_TRANSPORT_ secret name; never a custody key
+        type: string
+        required: false
+      expected_state_head:
+        description: Exact private custody revision after encrypted transport staging
+        type: string
+        required: false
+      expected_manifest_sha256:
+        description: Exact prior encrypted-chunks.json SHA-256 for compare-and-swap
+        type: string
+        required: false
 permissions:
   contents: read
 concurrency:
@@ -13,7 +33,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   intake:
-    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development' && inputs.rebuild_transport_sha256 == ''
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
@@ -86,3 +106,93 @@ jobs:
       - name: Destroy runner plaintext and credentials
         if: always()
         run: rm -rf "$RUNNER_TEMP/owner-intake"
+  replace-raw-archive:
+    if: github.event_name == 'workflow_dispatch' && github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development' && inputs.rebuild_transport_sha256 != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      TRANSPORT_SHA256: ${{ inputs.rebuild_transport_sha256 }}
+      ARCHIVE_SHA256: ${{ inputs.archive_sha256 }}
+      TRANSPORT_SECRET_NAME: ${{ inputs.transport_key_secret }}
+      EXPECTED_STATE_HEAD: ${{ inputs.expected_state_head }}
+      EXPECTED_MANIFEST_SHA256: ${{ inputs.expected_manifest_sha256 }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+      - name: Validate exact owner-approved rebuild inputs
+        run: |
+          set -euo pipefail
+          [[ "$TRANSPORT_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          [[ "$ARCHIVE_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          [[ "$EXPECTED_STATE_HEAD" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$EXPECTED_MANIFEST_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          [[ "$TRANSPORT_SECRET_NAME" =~ ^CRUCIBLE_REBUILD_TRANSPORT_[A-F0-9]{32}$ ]]
+          mkdir -p "$RUNNER_TEMP/raw-rebuild/ssh" raw-rebuild-receipt
+      - name: Restore ciphertext transport from existing private custody
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$STATE_DEPLOY_KEY"
+          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/raw-rebuild/ssh/key"
+          chmod 600 "$RUNNER_TEMP/raw-rebuild/ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/raw-rebuild/ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/raw-rebuild/ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/raw-rebuild/ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/raw-rebuild/state"
+          test "$(git -C "$RUNNER_TEMP/raw-rebuild/state" rev-parse HEAD)" = "$EXPECTED_STATE_HEAD"
+          test "$(sha256sum "$RUNNER_TEMP/raw-rebuild/state/encrypted-chunks.json" | cut -d ' ' -f1)" = "$EXPECTED_MANIFEST_SHA256"
+          node src/hostedSourceBundle.js join --input-root "$RUNNER_TEMP/raw-rebuild/state/rebuild-incoming/$TRANSPORT_SHA256" --output "$RUNNER_TEMP/raw-rebuild/transport.enc" > /dev/null
+          test "$(sha256sum "$RUNNER_TEMP/raw-rebuild/transport.enc" | cut -d ' ' -f1)" = "$TRANSPORT_SHA256"
+      - name: Authenticate transport and verify replacement source-of-truth
+        env:
+          CRUCIBLE_REBUILD_TRANSPORT_KEY: ${{ secrets[inputs.transport_key_secret] }}
+        run: |
+          set -euo pipefail
+          node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/raw-rebuild/transport.enc" --output "$RUNNER_TEMP/raw-rebuild/replacement.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_REBUILD_TRANSPORT_KEY > /dev/null
+          test "$(sha256sum "$RUNNER_TEMP/raw-rebuild/replacement.tar.gz" | cut -d ' ' -f1)" = "$ARCHIVE_SHA256"
+          tar -tzf "$RUNNER_TEMP/raw-rebuild/replacement.tar.gz" | node -e 'let s="";process.stdin.on("data",b=>s+=b).on("end",()=>{for(const n of s.trim().split("\n")){if(n.startsWith("/")||n.includes("\\")||n.split("/").includes(".."))throw Error("Unsafe archive path");}});'
+          tar -tvzf "$RUNNER_TEMP/raw-rebuild/replacement.tar.gz" | node -e 'let s="";process.stdin.on("data",b=>s+=b).on("end",()=>{for(const n of s.trim().split("\n")){if(!["-","d"].includes(n[0]))throw Error("Archive links and special files refused");}});'
+          mkdir "$RUNNER_TEMP/raw-rebuild/raw"
+          tar -xzf "$RUNNER_TEMP/raw-rebuild/replacement.tar.gz" -C "$RUNNER_TEMP/raw-rebuild/raw"
+          node src/hostedSourceBundle.js verify --root "$RUNNER_TEMP/raw-rebuild/raw" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report raw-rebuild-receipt/source-verification.json --provenance raw-intake > /dev/null
+          node -e 'const f=require("node:fs"),p=process.env.RUNNER_TEMP+"/raw-rebuild/raw/",m=JSON.parse(f.readFileSync(p+"manifest.json")),q=JSON.parse(f.readFileSync(p+"source-queue.json")),l=JSON.parse(f.readFileSync(p+m.learningFile));if(m.sourceFiles.length!==425||q.documents.length+q.links.length!==541||l.payload.candidateRecords.length!==29799||l.payload.projectId!==m.projectId)throw Error("Approved rebuild counts or identity differ");'
+      - name: Encrypt with existing registered raw key and prove isolated restore
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+        run: |
+          set -euo pipefail
+          node src/sourceBundleKeyManager.js preflight raw > raw-rebuild-receipt/key-identity.json
+          node -e 'const r=JSON.parse(require("node:fs").readFileSync("raw-rebuild-receipt/key-identity.json"));if(r.currentFingerprint!=="3c38a04e631031dfa98e2d96937f32ac8a997e60aa879ff289718e29c4e85ea8")throw Error("Owner-approved replacement key changed");'
+          node src/hostedSourceBundle.js encrypt --input "$RUNNER_TEMP/raw-rebuild/replacement.tar.gz" --output "$RUNNER_TEMP/raw-rebuild/replacement.enc" --project-id github:jonathanblunt1214-lgtm/The-Crucible --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > /dev/null
+          node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/raw-rebuild/replacement.enc" --output "$RUNNER_TEMP/raw-rebuild/roundtrip.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY > /dev/null
+          test "$(sha256sum "$RUNNER_TEMP/raw-rebuild/roundtrip.tar.gz" | cut -d ' ' -f1)" = "$ARCHIVE_SHA256"
+          mkdir "$RUNNER_TEMP/raw-rebuild/isolated-restore"
+          tar -xzf "$RUNNER_TEMP/raw-rebuild/roundtrip.tar.gz" -C "$RUNNER_TEMP/raw-rebuild/isolated-restore"
+          node src/hostedSourceBundle.js verify --root "$RUNNER_TEMP/raw-rebuild/isolated-restore" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report raw-rebuild-receipt/encrypted-restore.json --provenance raw-intake > /dev/null
+          node src/hostedSourceBundle.js split --input "$RUNNER_TEMP/raw-rebuild/replacement.enc" --output-root "$RUNNER_TEMP/raw-rebuild/incoming" > /dev/null
+      - name: Switch ciphertext manifest with rollback and exact revision checks
+        run: |
+          set -euo pipefail
+          node src/rawCustodyPublisher.js publish-ciphertext --ciphertext-root "$RUNNER_TEMP/raw-rebuild/incoming" --state-root "$RUNNER_TEMP/raw-rebuild/state" --prior-manifest-sha256 "$EXPECTED_MANIFEST_SHA256" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > raw-rebuild-receipt/publication.json
+          git -C "$RUNNER_TEMP/raw-rebuild/state" add encrypted-chunks.json 'source-bundle-*.enc' 'encrypted-manifest-*.json'
+          git -C "$RUNNER_TEMP/raw-rebuild/state" -c user.name='Crucible custody publisher' -c user.email='git@github.com' commit -m 'Replace unusable raw archive under existing registered key; retain prior ciphertext'
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/raw-rebuild/ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/raw-rebuild/ssh/known_hosts -o StrictHostKeyChecking=yes"
+          test "$(git -C "$RUNNER_TEMP/raw-rebuild/state" ls-remote origin refs/heads/main | cut -f1)" = "$EXPECTED_STATE_HEAD"
+          git -C "$RUNNER_TEMP/raw-rebuild/state" push origin HEAD:main
+          git -C "$RUNNER_TEMP/raw-rebuild/state" rev-parse HEAD > raw-rebuild-receipt/published-state-revision.txt
+          node -e 'const f=require("node:fs"),p="raw-rebuild-receipt/publication.json",r=JSON.parse(f.readFileSync(p));r.publicationStatus="PUBLISHED_REPLACEMENT_RAW_CUSTODY";r.newCustodyKeyGenerated=false;r.oldArchiveDecryptionRequired=false;r.historicalCiphertextRetained=true;r.authorizesPromotion=false;f.writeFileSync(p,JSON.stringify(r,null,2)+"\n");'
+      - name: Destroy temporary plaintext and transport credentials
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/raw-rebuild"
+      - name: Retain redacted exact-run rebuild receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: raw-archive-rebuild-${{ github.run_id }}
+          path: raw-rebuild-receipt
+          if-no-files-found: warn
+          retention-days: 90
