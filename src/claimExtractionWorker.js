@@ -65,14 +65,25 @@ function defaultExtractText(source, pageStart, pageEnd, environment = process.en
   if (!source.durablePath || !fs.existsSync(source.durablePath)) throw new Error('Durable source content is missing.');
   if (source.mediaType === 'application/pdf') {
     const attempts = [];
+    const timeout = Number(environment.CRUCIBLE_PDF_TIMEOUT_MS ?? 60000);
+    if (!Number.isSafeInteger(timeout) || timeout < 1 || timeout > 120000) throw new Error('PDF extraction timeout must be a whole number from 1 through 120000 milliseconds.');
+    // A deadline uses a hard termination signal: spawnSync can otherwise wait forever
+    // for a child that ignores SIGTERM. Never learn from a timed-out partial window
+    // or silently substitute a lower-fidelity parser for a slow but valid document.
+    const processOptions = { encoding:'utf8', shell:false, windowsHide:true, maxBuffer:8 * 1024 * 1024, timeout, killSignal:'SIGKILL' };
+    const requireWithinDeadline = (result, tier) => {
+      if (result.error?.code === 'ETIMEDOUT') throw new Error(`PDF extraction timed out (${tier}) after ${timeout}ms for ${source.id}; the page window remains pending. ${attempts.join(' | ')}`);
+    };
     const executable = environment.CRUCIBLE_PDFTOTEXT || 'pdftotext';
-    const result = spawn(executable, ['-f', String(pageStart), '-l', String(pageEnd), '-enc', 'UTF-8', source.durablePath, '-'], { encoding:'utf8', shell:false, windowsHide:true, maxBuffer:8 * 1024 * 1024 });
+    const result = spawn(executable, ['-f', String(pageStart), '-l', String(pageEnd), '-enc', 'UTF-8', source.durablePath, '-'], processOptions);
+    requireWithinDeadline(result, 'pdftotext');
     if (!result.error && result.status === 0) return result.stdout;
     attempts.push(`pdftotext: ${result.error?.message || `exited ${result.status}`}`);
 
     const python = environment.CRUCIBLE_PYTHON;
     if (python) {
-      const fallback = spawn(python, [path.join(__dirname, '..', 'scripts', 'extractPdfText.py'), source.durablePath, String(pageStart), String(pageEnd)], { encoding:'utf8', shell:false, windowsHide:true, maxBuffer:8 * 1024 * 1024 });
+      const fallback = spawn(python, [path.join(__dirname, '..', 'scripts', 'extractPdfText.py'), source.durablePath, String(pageStart), String(pageEnd)], processOptions);
+      requireWithinDeadline(fallback, 'pypdf');
       if (!fallback.error && fallback.status === 0) return fallback.stdout;
       attempts.push(`pypdf: ${fallback.error ? fallback.error.message : `exited ${fallback.status}: ${String(fallback.stderr || '').trim()}`}`);
     } else {
@@ -92,7 +103,23 @@ function defaultExtractText(source, pageStart, pageEnd, environment = process.en
 class AtomicClaimExtractionQueue {
   constructor(file, projectId) { this.file = path.resolve(file); this.projectId = projectId; this.lockFile = `${this.file}.claim-extraction.lock`; }
   read() { const queue = JSON.parse(fs.readFileSync(this.file, 'utf8')); if (queue?.schemaVersion !== 1 || queue.projectId !== this.projectId || !Array.isArray(queue.documents) || !Array.isArray(queue.links)) throw new Error('Source queue is invalid or belongs to another project.'); return queue; }
-  write(queue) { const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`; fs.writeFileSync(temporary, `${JSON.stringify(queue, null, 2)}\n`, { flag:'wx', mode:0o600 }); fs.renameSync(temporary, this.file); }
+  write(queue, io = fs) {
+    const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;
+    let descriptor;
+    let created = false;
+    try {
+      descriptor = io.openSync(temporary, 'wx', 0o600); created = true;
+      io.writeFileSync(descriptor, `${JSON.stringify(queue, null, 2)}\n`, 'utf8');
+      // Flush the complete file before replacing the prior generation. This is not
+      // a claim that the directory entry survives power loss on every filesystem.
+      io.fsyncSync(descriptor);
+      io.closeSync(descriptor); descriptor = undefined;
+      io.renameSync(temporary, this.file);
+    } finally {
+      try { if (descriptor !== undefined) io.closeSync(descriptor); }
+      finally { if (created) io.rmSync(temporary, { force:true }); }
+    }
+  }
   lock() { return acquireDurableLock(this.lockFile, { description:'Source queue lock' }); }
 }
 

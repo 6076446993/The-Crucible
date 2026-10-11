@@ -49,21 +49,22 @@ test('checks an exact git range without a shell', () => {
   const result = checkHandoffRange(SHA_A, SHA_B, (command, args, options) => {
     invocations.push({ command, args, options });
     if (args[0] === 'diff') return { status:0, stdout:'AGENTS.md\nDEVLOG.md\nAI-HANDOFF.json\n', stderr:'' };
-    if (args[1] === `${SHA_B}:AI-HANDOFF.json`) return { status:0, stdout:JSON.stringify(PLAN), stderr:'' };
+    if (args[1]?.endsWith(':AI-HANDOFF.json')) return { status:0, stdout:JSON.stringify(PLAN), stderr:'' };
     if (args[1] === `${SHA_B}:DEVLOG.md`) return { status:0, stdout:DEVLOG_OK, stderr:'' };
     throw new Error(`unexpected invocation: ${args.join(' ')}`);
   });
   assert.equal(result.ok, true);
   assert.deepEqual(invocations[0].args, ['diff', '--name-only', SHA_A, SHA_B]);
   assert.deepEqual(invocations[1].args, ['show', `${SHA_B}:AI-HANDOFF.json`]);
-  assert.deepEqual(invocations[2].args, ['show', `${SHA_B}:DEVLOG.md`]);
+  assert.deepEqual(invocations[2].args, ['show', `${SHA_A}:AI-HANDOFF.json`]);
+  assert.deepEqual(invocations[3].args, ['show', `${SHA_B}:DEVLOG.md`]);
   assert.equal(invocations.every((item) => item.options.shell === false), true);
 });
 
 test('rejects a git range whose DEVLOG.md lacks the chain-of-custody command log archive', () => {
   const result = checkHandoffRange(SHA_A, SHA_B, (command, args) => {
     if (args[0] === 'diff') return { status:0, stdout:'DEVLOG.md\nAI-HANDOFF.json\n', stderr:'' };
-    if (args[1] === `${SHA_B}:AI-HANDOFF.json`) return { status:0, stdout:JSON.stringify(PLAN), stderr:'' };
+    if (args[1]?.endsWith(':AI-HANDOFF.json')) return { status:0, stdout:JSON.stringify(PLAN), stderr:'' };
     return { status:0, stdout:'# Development log\n\n## Shared AI handoff\n\nSee AI-HANDOFF.json for the dev plan, but nothing else.\n', stderr:'' };
   });
   assert.equal(result.ok, false);
@@ -73,7 +74,7 @@ test('rejects a git range whose DEVLOG.md lacks the chain-of-custody command log
 test('rejects a git range whose DEVLOG.md archive holds more than the 10-session cap', () => {
   const result = checkHandoffRange(SHA_A, SHA_B, (command, args) => {
     if (args[0] === 'diff') return { status:0, stdout:'DEVLOG.md\nAI-HANDOFF.json\n', stderr:'' };
-    if (args[1] === `${SHA_B}:AI-HANDOFF.json`) return { status:0, stdout:JSON.stringify(PLAN), stderr:'' };
+    if (args[1]?.endsWith(':AI-HANDOFF.json')) return { status:0, stdout:JSON.stringify(PLAN), stderr:'' };
     return { status:0, stdout:devlogWithSessions(MAX_ARCHIVE_SESSIONS + 1), stderr:'' };
   });
   assert.equal(result.ok, false);
@@ -91,7 +92,7 @@ test('rejects a git range whose DEVLOG.md archive has a session older than the 1
   ].join('\n');
   const result = checkHandoffRange(SHA_A, SHA_B, (command, args) => {
     if (args[0] === 'diff') return { status:0, stdout:'DEVLOG.md\nAI-HANDOFF.json\n', stderr:'' };
-    if (args[1] === `${SHA_B}:AI-HANDOFF.json`) return { status:0, stdout:JSON.stringify(PLAN), stderr:'' };
+    if (args[1]?.endsWith(':AI-HANDOFF.json')) return { status:0, stdout:JSON.stringify(PLAN), stderr:'' };
     return { status:0, stdout:oldDevlog, stderr:'' };
   });
   assert.equal(result.ok, false);
@@ -276,4 +277,20 @@ test('rejects untrusted commit range input before invoking git', () => {
   });
   assert.equal(result.ok, false);
   assert.equal(invoked, false);
+});
+
+test('work ledger prevents dropped deliverables and stale facts masquerading as current', () => {
+  const { validateWorkLedger } = require('../src/handoffPolicy');
+  const now = Date.parse('2026-10-11T16:00:00Z');
+  const item = {id:'R8',deliverable:'executable refusal proof',owner:'Codex',nextAction:'check runner',evidence:'run 123 pending',observedAt:'2026-10-10T16:00:00Z',maxEvidenceAgeHours:1,status:'blocked',reason:'runner unavailable'};
+  const ledger = {schemaVersion:1,items:[item]};
+  assert.equal(validateWorkLedger(ledger,null,now).ok,false);
+  item.freshness='historical';
+  assert.equal(validateWorkLedger(ledger,null,now).ok,true);
+  assert.equal(validateWorkLedger({schemaVersion:1,items:[]},ledger,now).ok,false);
+  assert.equal(validateWorkLedger(null,ledger,now).ok,false);
+  item.status='verified';
+  assert.equal(validateWorkLedger(ledger,null,now).ok,false);
+  item.verification='run 124 proves refusal';
+  assert.equal(validateWorkLedger(ledger,null,now).ok,true);
 });

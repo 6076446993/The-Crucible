@@ -218,6 +218,56 @@ function verifyRestored({ root, repository, ref, reportFile, provenance = 'raw-i
   fs.mkdirSync(path.dirname(reportFile),{recursive:true}); fs.writeFileSync(reportFile,`${JSON.stringify(report,null,2)}\n`,{mode:0o600}); return report;
 }
 
+function recoveryInventory({ root, repository, ref, reportFile }) {
+  const manifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.json'), 'utf8'));
+  validateIdentity(manifest.projectId, repository, ref);
+  const queueFile = path.join(root, 'source-queue.json');
+  if (sha256File(queueFile) !== manifest.queueSha256 ||
+      sha256File(path.join(root, manifest.learningFile)) !== manifest.learningSha256) throw new Error('Recovery inventory requires intact queue and learning custody.');
+  const queue = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
+  const sources = [...queue.documents, ...queue.links];
+  const unfinished = sources.filter(s => ['retrieval-blocked', 'research-approved-pending-retrieval', 'claim-extraction-forced-pending', 'claim-extraction-in-progress'].includes(s.state));
+  const entries = unfinished.map(s => {
+    let locator = null, locatorRedacted = false;
+    if (s.url) {
+      try { const u = new URL(s.url); locatorRedacted = Boolean(u.username || u.password || u.search || u.hash);
+        u.username = ''; u.password = ''; u.search = ''; u.hash = ''; locator = ['https:', 'http:'].includes(u.protocol) ? u.href : null;
+      } catch { locatorRedacted = true; }
+    }
+    // Free-form error messages and local filenames may expose credentials or
+    // owner paths. Report only bounded operational codes and source identities.
+    const codes = String(s.blocker || s.claimExtraction?.lastError || '').match(/(?:OPS|CRU)-\d{4}/g) || [];
+    return { sourceId: s.id, state: s.state, locator, locatorRedacted, contentSha256: s.contentSha256 || null,
+      blockerCodes: [...new Set(codes)], candidateIds: [...(s.claimExtraction?.candidateIds || [])],
+      nextPage: s.claimExtraction?.nextPage || null, completedWindows: (s.claimExtraction?.windows || []).length,
+      retryAuthorized: false };
+  });
+  const report = { schemaVersion: 1, projectId: manifest.projectId, repository, ref,
+    queueSha256: manifest.queueSha256, learningSha256: manifest.learningSha256,
+    totalSources: sources.length, unfinishedSources: entries.length, entries,
+    locatorPolicy: 'query, fragment and credentials omitted; use original private custody for exact retries',
+    backupComplete: false, promotionAuthorized: false };
+  fs.writeFileSync(reportFile, JSON.stringify(report, null, 2) + '\n', { mode: 0o600, flag: 'wx' });
+  return { unfinishedSources: entries.length, totalSources: sources.length, reportSha256: sha256File(reportFile), promotionAuthorized: false };
+}
+
+function verifyCiphertextCopy({ referenceRoot, backupRoot }) {
+  if (fs.realpathSync(referenceRoot) === fs.realpathSync(backupRoot)) throw new Error('A backup copy must be a separate directory.');
+  const read = root => JSON.parse(fs.readFileSync(path.join(root, 'encrypted-chunks.json'), 'utf8'));
+  const reference = read(referenceRoot), backup = read(backupRoot);
+  if (JSON.stringify(reference) !== JSON.stringify(backup) || !Array.isArray(backup.chunks) || !backup.chunks.length) throw new Error('Backup manifest differs from reference custody.');
+  const digest = crypto.createHash('sha256'); let bytes = 0;
+  for (const chunk of backup.chunks) {
+    const file = chunkFile(backupRoot, chunk.name), stat = fs.lstatSync(file);
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.size !== chunk.bytes || sha256File(file) !== chunk.sha256) throw new Error('Backup chunk failed verification.');
+    digest.update(fs.readFileSync(file)); bytes += stat.size;
+  }
+  if (bytes !== backup.encryptedBytes || digest.digest('hex') !== backup.encryptedSha256) throw new Error('Backup reassembled hash differs.');
+  return { schemaVersion: 1, encryptedSha256: backup.encryptedSha256, encryptedBytes: bytes,
+    ciphertextCopyVerified: true, storageIndependenceVerified: false, restoreVerified: false,
+    backupComplete: false, promotionAuthorized: false };
+}
+
 function hydrateRestored({ root, repository, ref }) {
   const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));validateIdentity(manifest.projectId,repository,ref);
   const queueFile=path.join(root,'source-queue.json');const queue=JSON.parse(fs.readFileSync(queueFile,'utf8'));validateIdentity(queue.projectId,repository,ref);
@@ -282,6 +332,8 @@ async function main() {
   if(command==='encrypt') return console.log(JSON.stringify(await encrypt({input:value('--input'),output:value('--output'),projectId:value('--project-id'),repository:value('--repository'),ref:value('--ref')})));
   const optional=(name)=>{const i=args.indexOf(name);return i<0||!args[i+1]?null:args[i+1];};
   if(command==='header') return console.log(JSON.stringify(readHeader(value('--input')).header));
+  if(command==='inventory')return console.log(JSON.stringify(recoveryInventory({root:value('--root'),repository:value('--repository'),ref:value('--ref'),reportFile:value('--report')})));
+  if(command==='verify-backup')return console.log(JSON.stringify(verifyCiphertextCopy({referenceRoot:value('--reference-root'),backupRoot:value('--backup-root')})));
   if(command==='decrypt'){const keys=optional('--keys');return console.log(JSON.stringify(await decrypt({input:value('--input'),output:value('--output'),repository:value('--repository'),ref:value('--ref'),...(keys?{keyNames:keys.split(',').map((item)=>item.trim()).filter(Boolean)}:{})})));}
   if(command==='verify') return console.log(JSON.stringify(verifyRestored({root:value('--root'),repository:value('--repository'),ref:value('--ref'),reportFile:value('--report'),...(optional('--provenance')?{provenance:optional('--provenance')}:{})})));
   if(command==='hydrate') return console.log(JSON.stringify(hydrateRestored({root:value('--root'),repository:value('--repository'),ref:value('--ref')})));
@@ -292,4 +344,4 @@ async function main() {
 }
 
 if(require.main===module)main().catch((error)=>{console.error(`[The Crucible] Hosted source bundle failed: ${error.message}`);process.exitCode=1;});
-module.exports={MAGIC,CHUNK_NAME,chunkFile,PROJECT_REPOSITORY_MIGRATIONS,KEY_VARIABLES,ENCRYPTION_KEY_VARIABLE,keyFromEnvironment,candidateKeys,readHeader,provenanceFor,validateIdentity,sourceFilename,sha256File,stage,encrypt,decrypt,verifyRestored,hydrateRestored,restageRestored,splitEncrypted,joinEncrypted};
+module.exports={MAGIC,CHUNK_NAME,chunkFile,PROJECT_REPOSITORY_MIGRATIONS,KEY_VARIABLES,ENCRYPTION_KEY_VARIABLE,keyFromEnvironment,candidateKeys,readHeader,provenanceFor,validateIdentity,sourceFilename,sha256File,stage,encrypt,decrypt,recoveryInventory,verifyCiphertextCopy,verifyRestored,hydrateRestored,restageRestored,splitEncrypted,joinEncrypted};

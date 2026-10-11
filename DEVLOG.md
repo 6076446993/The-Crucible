@@ -151,6 +151,13 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- Current continuation, 2026-10-11T16:34:00Z, Codex: stable unfinished deliverables and all 62 research concepts are now individually tracked in `AI-HANDOFF.json.workLedger`. Previous prose remains historical. Research is not implementation; local verification is not hosted deployment.
+- Evidence freshness: every tracked item carries its original observation time, maximum evidence age and an explicit historical label. Updating prose does not refresh its evidence. Exact-range handoff validation rejects removed IDs, unexplained deferral/rejection and unsupported completion.
+- Test relevance finding: 1,058 assertions span 130 test files. The lifecycle registry is absent, so no measured retirement decisions exist. Full-suite execution previously skipped reduced-cadence tests; corrected locally. `node src/testLifecycle.js` now exposes missing/stale reviews and exact duplicate candidates without deleting tests.
+- Verification: 70 focused handoff/lifecycle/workflow tests pass; exact-range handoff passed. Native Git publication lacks authentication; connector publication remains pending equivalent pre-push checks. Prior extraction/diagnostic commit fba42baa passed 1,058 tests with the real Java compiler. Both remain local pending publication. Full backup and R8 canary readiness remain unfinished tracked work.
+
+- **2026-10-11 diagnostic improvement continuation:** See `AI-HANDOFF.json` activePlan.diagnosticImprovements and intakeHardening. Local read-only exact-run stage diagnosis and earlier extraction hardening remain uncommitted. Real hosted evidence replay identifies scientific-proof failure after successful vetted decrypt; no live state or key changed. Full local suite now 1058/1058 passed with the actual OpenJDK compiler module. Hosted diagnosis wiring, private recovery inventory and ciphertext-copy verification are locally validated; publication and full backup remain pending.
+
 - **2026-10-10T14:50:00-04:00 Secret storage passed; registry push isolated:** Hosted run 38044001482 successfully stored the replacement custody secret with `CRUCIBLE_KEY_MANAGER_TOKEN`. Its registry fingerprint commit failed only because the PAT was also used for Git and lacked Contents write. The workflow now uses the scoped `GITHUB_TOKEN` for the non-secret registry push; no raw/vetted custody or R8 state changed.
 
 - **2026-10-10T14:40:00-04:00 PAT backend validation repair:** Hosted run 38043831347 confirmed the organization PAT reached the runner, but the application rejected the new `github-pat` backend before key generation. The policy and focused test now accept the PAT backend; no key or custody state changed.
@@ -242,6 +249,14 @@ Plain-language summary: Reconciled the R8 repair onto the current development ti
 - `test/ownerFileTransport.test.js` — normalized Windows tar paths before the archive command, fixing the deterministic `Cannot connect to C: resolve failed` harness failure without changing custody behavior; focused retest passed locally and the protected push is being rerun.
 - Hosted exact-tip follow-up — run `38110513574` exposed the legacy `activePlan.status` value `in-progress`; changed only the handoff state to governed `active`, with no custody or gate-state change.
 - Exact-tip continuation — repaired the route digest for the handoff-only follow-up, protected push advanced development to `eee72b4a6cff1fa9dac321d63401d5f35c30e365`, and hosted AI handoff policy passed. Fresh R8 dispatch `38110712781` remains pending before any job step because no `self-hosted,crucible-r8` runner accepted it; no canary or custody write occurred.
+
+
+Continuation — evidence-bound diagnosis, 2026-10-11: Implemented read-only diagnosis from exact-run GitHub job evidence so a later proof failure does not become an invented decryption failure. Preserved existing local timeout/atomic-publication work and all live pipeline state.
+- Validation continuation: `node --test test/ciDiagnosticOrgan.test.js test/hostedSourceBundle.test.js test/workflow.test.js` passed 65/65; `JAVA_HOME=/workspace/scratch/0010ebf4b64c/java-tools npm run test:all` passed 1058/1058, zero skipped. Java compiler was the real installed jdk.compiler module (17.0.20), not a simulated result.
+- Workflow permissions, configuration, security, privacy, governance, circulation and diff checks passed. Real hosted report replay diagnoses R8 pending after vetted custody restoration.
+- No live custody, queue, lock, key or active knowledge mutation; R8 publisher requires its configured self-hosted runner and approved source prerequisites.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+
 
 ### Session: R8 same-machine rebuild path — 2026-10-10T16:00:00Z — Codex — mode:regular/default
 

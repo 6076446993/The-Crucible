@@ -149,6 +149,10 @@ jobs:
           # what makes that enough.
           CRUCIBLE_OVERSIGHT_CUSTODY_REPORT: ${{ runner.temp }}/crucible-source-restore/ciphertext/encrypted-custody-report.json
         run: node src/hostedLearningProof.js
+      - name: Diagnose observed proof stages without repair authority
+        if: always()
+        continue-on-error: true
+        run: node src/ciDiagnosticOrgan.js diagnose-proof hosted-learning-proof/report.json hosted-learning-proof/corpus-custody.json
       - name: Destroy runner plaintext
         if: always()
         run: rm -rf "$RUNNER_TEMP/crucible-source-restore" "$RUNNER_TEMP/crucible-state-ssh"
@@ -160,6 +164,7 @@ jobs:
           path: |
             hosted-learning-proof/report.json
             hosted-learning-proof/corpus-custody.json
+            hosted-learning-proof/diagnosis.json
             .hosted-learning-cache/store.envelope.json
             .hosted-learning-cache/gate-evidence.json
           if-no-files-found: error
