@@ -517,4 +517,5 @@ Plain-language summary: Corrected the live model-pointer and Perplexity discover
 - `focused verification` — model-pointer tests, workflow tests, workflow lint, and validation passed locally before commit; hosted evidence is still required.
 - `hosted R3 run 38111273190` — exact SHA `b449906c494d2c2828d3adc0d57975f8d1e177bf` reached the runner, but initialization failed closed with `OPS-0042` because the restored cache queue carried the retired project identity. No candidate URLs or learning state were written.
 - `repair continuation` — namespace the cached discovery root by current repository identity (`6076446993`) so stale project-bound cache contents cannot be consumed or overwrite the new queue; preserve the prior cache unchanged and rerun hosted verification.
+- `protected-route reconciliation` — regenerated the task-routing digest for the exact three-file follow-up after the first push attempt correctly failed closed on a scope mismatch; no bypass or remote write was used.
 - `boundary` — no credentials were read or exposed, no raw/vetted state changed, no R8 action ran, and `main`/Archive were untouched.
