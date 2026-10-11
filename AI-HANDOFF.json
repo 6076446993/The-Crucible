@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
-    "currentPrompt": "Rebuild only failed R8 custody from preserved local source stage using the designated development-only self-hosted publisher; do not touch main or bypass hooks",
+    "currentPrompt": "Record exact hosted R3 discovery evidence and update scientific-learning release status, handoff, and DEVLOG; keep R3 pending unless scheduled-origin and durable gate criteria are satisfied; do not touch main or Archive",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-11T04:31:56.754Z",
-      "promptSha256": "3068bdb8f2a56e7ab6d43fdb350ddab6d14e820160ebf49530462e10da3a93ff",
-      "affectedPathsSha256": "258d5541c160772dec7e453430e22fd08de287e5de5c6f57f2a8d90289f3995a"
+      "selectedAt": "2026-10-11T04:55:36.019Z",
+      "promptSha256": "332027b4bae60704918bbfa00f22934c6af0038e35c51ba8ec1795968209a546",
+      "affectedPathsSha256": "afd52538de0e70d7e648bae1601594ad6b58262309e4454bc4e448b807b0ed4f"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -235,7 +235,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-10T23:55:00.000Z",
+    "lastUpdatedAt": "2026-10-11T00:55:00.000Z",
     "currentStep": 5,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -295,7 +295,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "R8 repair is pushed at exact development SHA 5a78404e9e40c895b881c6e208ba20eaca71a3a4. Protected route verification and all 104 selected local checks passed; hosted dispatch 38109749249 is queued on self-hosted,crucible-r8. No canary, raw/vetted state, or durable publication has occurred because no matching owner-controlled runner is registered. R3 remains zero-throughput after provider aborts; R9 is held; R10 and R11 remain pending.",
+    "verificationStatus": "Exact development tip is ac3c6a37ceebc1257c37f516fa9cd9f81a60037c. Hosted R3 run 38111994882 job 114389296000 completed partially with z-ai/glm-5.3-flash: 17 topics searched, 3 completed, 14 blocked, 16 admitted and 16 novel candidate URLs retained in artifact 11692058257 (ZIP SHA-256 94657a336b2592cdaefe3916dea032046eb52bf5ee957a6bf627fe8e3af0d3bf). This is push-triggered evidence, not the required scheduled-origin gate, so R3 remains pending. R8 has no live executable-content refusal, R9 is held, R10 is not exact-tip green, and R11 remains unauthorized. Main and Archive are untouched.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",

@@ -522,3 +522,12 @@ Plain-language summary: Corrected the live model-pointer and Perplexity discover
 - `hosted state-window correction` — run 38111654553 verified the new model path but found the prior blocked attempt’s daily state checkpoint, so it safely searched zero topics. The cache key is versioned for the new model window; the previous cache remains retained and untouched.
 - `hosted model availability` — the clean-cache push run 38111822458 executed 17 real topics but NVIDIA returned HTTP 410 for `deepseek-ai/deepseek-v4-flash` (retired 2026-08-07), so no candidate URLs were admitted. NVIDIA’s current API page lists `z-ai/glm-5.3-flash`; the default is being updated for the final hosted attempt.
 - `boundary` — no credentials were read or exposed, no raw/vetted state changed, no R8 action ran, and `main`/Archive were untouched.
+
+### Session: R3 hosted candidate-throughput review — 2026-10-11T00:55:00-04:00 — Codex — mode:work
+
+Plain-language summary: The current provider and clean project-bound cache produced real candidate throughput, but the release gate remains pending because the run was push-triggered and partial rather than scheduled-origin.
+
+- **Hosted evidence:** run `38111994882`, job `114389296000`, exact SHA `ac3c6a37ceebc1257c37f516fa9cd9f81a60037`; provider `z-ai/glm-5.3-flash`; 17 topics searched, 3 completed, 14 blocked, 30 citations, 16 admitted and 16 novel candidate URLs. Artifact `model-pointer-research-38111994882-1`, ID `11692058257`, retained ZIP SHA-256 `94657a336b2592cdaefe3916dea032046eb52bf5ee957a6bf627fe8e3af0d3bf`.
+- **Gate disposition:** this establishes nonzero candidate-only discovery and records the partial provider failures, but does not satisfy R3's scheduled-origin requirement. R3 remains pending; no candidate is promoted or treated as learning proof.
+- **Downstream gates:** R8 still lacks live executable-content refusal; R9 remains held because R2-R8 are not simultaneously green; R10 remains pending on exact-tip hosted/security/monitor evidence; R11 remains owner authorization only.
+- **Boundary:** no credentials were read or exposed, no raw/vetted state changed, no R8 action ran, and `main`/Archive were untouched.
