@@ -224,7 +224,7 @@
       "explicitOverride": false,
     "selectedAt": "2026-10-10T09:47:04.965Z",
     "promptSha256": "3068bdb8f2a56e7ab6d43fdb350ddab6d14e820160ebf49530462e10da3a93ff",
-    "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+    "affectedPathsSha256": "afd52538de0e70d7e648bae1601594ad6b58262309e4454bc4e448b807b0ed4f"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
