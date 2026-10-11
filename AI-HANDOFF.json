@@ -222,7 +222,7 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-11T04:28:43.417Z",
+      "selectedAt": "2026-10-11T04:31:56.754Z",
       "promptSha256": "3068bdb8f2a56e7ab6d43fdb350ddab6d14e820160ebf49530462e10da3a93ff",
       "affectedPathsSha256": "258d5541c160772dec7e453430e22fd08de287e5de5c6f57f2a8d90289f3995a"
     },
