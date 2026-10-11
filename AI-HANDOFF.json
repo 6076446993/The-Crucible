@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-    "selectedAt": "2026-10-10T09:47:04.965Z",
+      "selectedAt": "2026-10-11T04:17:30.143Z",
     "promptSha256": "3068bdb8f2a56e7ab6d43fdb350ddab6d14e820160ebf49530462e10da3a93ff",
-    "affectedPathsSha256": "afd52538de0e70d7e648bae1601594ad6b58262309e4454bc4e448b807b0ed4f"
+    "affectedPathsSha256": "8b2299385676400c1d6294136843f66a82068ff4f1498bf72044ef51bbd874b6"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",

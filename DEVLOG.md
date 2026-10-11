@@ -508,3 +508,11 @@ Plain-language summary: The real R8 publisher was dispatched on `development` af
 
 - **Hosted evidence:** run `38048979612`, exact development SHA `b68d1f7e2def760999e5767bd42f4c74873502f0`; preflight and custody restore passed, decrypt failed with the governed authentication error, and cleanup ran.
 - **Blocker:** the existing ciphertext was written under an unavailable prior key. A replacement key cannot decrypt it; a fresh encrypted bundle must be built under the new key from the preserved plaintext source-of-truth through an authorized hosted transfer path.
+### Session: R3 discovery workflow repair — 2026-10-11T04:20:00-04:00 — Codex — mode:work
+
+Plain-language summary: Corrected the live model-pointer and Perplexity discovery workflows to use the current `6076446993/The-Crucible` project identity and a currently documented NVIDIA NIM model default, while preserving candidate-only admission and the development-only boundary. R3 remains pending until a fresh hosted run produces durable candidate evidence.
+
+- `route:prewrite` — completed 2026-10-11T04:17:30-04:00; selected `crucible-core` → `6076446993/The-Crucible` → `development`; exact affected-path digest recorded in `AI-HANDOFF.json`.
+- `workflow correction` — replaced the stale owner identity in `model-pointer-research.yml` and `perplexity-research.yml`; replaced the retired Lightning default with `meta/llama-3.1-8b-instruct`; repository variable override remains supported.
+- `focused verification` — model-pointer tests, workflow tests, workflow lint, and validation passed locally before commit; hosted evidence is still required.
+- `boundary` — no credentials were read or exposed, no raw/vetted state changed, no R8 action ran, and `main`/Archive were untouched.
