@@ -4755,8 +4755,8 @@
         }
       ],
       "severity": "high",
-      "status": "resolved",
-      "checked": true,
+      "status": "open",
+      "checked": false,
       "sourceCommit": "local",
       "categoryResults": [
         {
@@ -4814,6 +4814,7 @@
         "test/durableLock.test.js",
         "test/ecosystem.test.js",
         "test/engine.test.js",
+        "test/evidencePacket.test.js",
         "test/externalAiFirewall.test.js",
         "test/failureCodes.test.js",
         "test/failureIssue.test.js",
@@ -4837,6 +4838,7 @@
         "test/injectedGovernanceAdaptive.test.js",
         "test/installGitHooks.test.js",
         "test/intakePathways.test.js",
+        "test/keyManagerPolicy.test.js",
         "test/knowledgeLifecycle.test.js",
         "test/languageCatalog.test.js",
         "test/languageExperimentRegistry.test.js",
@@ -4885,11 +4887,15 @@
         "test/scientificLearning.test.js",
         "test/scopePreRegistration.test.js",
         "test/security.test.js",
+        "test/securityLearning.test.js",
         "test/semanticAnalysis.test.js",
         "test/semanticCorroboration.test.js",
         "test/snapshot.test.js",
         "test/soakGate.test.js",
         "test/soakRun.test.js",
+        "test/sourceBundleKeyAutomation.test.js",
+        "test/sourceBundleKeyDashboard.test.js",
+        "test/sourceBundleKeyManager.test.js",
         "test/sourceIndependence.test.js",
         "test/sourceRetrievalWorker.test.js",
         "test/suiteSelection.test.js",
@@ -4904,7 +4910,7 @@
       ],
       "attribution": "failing-tests",
       "lastFailure": {
-        "at": "2026-10-08T04:20:30.744Z",
+        "at": "2026-10-11T16:26:21.214Z",
         "exitStatus": 1
       },
       "checkedAt": "2026-10-08T04:21:16.507Z"

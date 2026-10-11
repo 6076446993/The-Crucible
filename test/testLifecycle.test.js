@@ -84,3 +84,31 @@ test('partial redundancy reduces cadence instead of archiving', () => {
   const proposal = proposeTestDisposition({ entry, assessment, preservedCoverage:true, reason:'high overlap with active suite' });
   assert.equal(proposal.proposedState, 'reduced-cadence');
 });
+
+test('full proof includes reduced-cadence tests and rejects ambiguous lifecycle decisions', t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'lifecycle-full-'));
+  t.after(() => fs.rmSync(root, { recursive:true, force:true }));
+  const registryFile = path.join(root, 'registry.json');
+  const entry = {test:'test/slow.test.js',state:'reduced-cadence',hypothesisId:'H-slow',reason:'measured redundant coverage',evidence:['coverage proof'],reviewedAt:'2026-10-11T16:00:00Z'};
+  fs.writeFileSync(registryFile, JSON.stringify({schemaVersion:1,tests:[entry]}));
+  assert.deepEqual(executableTests([entry.test], {registryFile}).selected, []);
+  assert.deepEqual(executableTests([entry.test], {registryFile,includeHistorical:true}).selected, [entry.test]);
+  fs.writeFileSync(registryFile, JSON.stringify({schemaVersion:1,tests:[entry,entry]}));
+  assert.throws(() => executableTests([entry.test], {registryFile}), /Duplicate/);
+});
+
+test('relevance audit exposes missing reviews, stale decisions and duplicates without retiring tests', t => {
+  const {lifecycleAudit} = require('../src/testLifecycle');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'lifecycle-audit-'));
+  t.after(() => fs.rmSync(root,{recursive:true,force:true}));
+  fs.mkdirSync(path.join(root,'test'));fs.mkdirSync(path.join(root,'governingDocuments'));
+  fs.writeFileSync(path.join(root,'test/a.test.js'),'same');fs.writeFileSync(path.join(root,'test/b.test.js'),'same');
+  const entry={test:'test/deleted.test.js',state:'active',hypothesisId:'H',reason:'coverage',evidence:[],reviewedAt:'2020-01-01T00:00:00Z'};
+  fs.writeFileSync(path.join(root,'governingDocuments/test-lifecycle.json'),JSON.stringify({schemaVersion:1,tests:[entry]}));
+  const report=lifecycleAudit({root,now:Date.parse('2026-10-11T16:00:00Z')});
+  assert.deepEqual(report.unreviewed,['test/a.test.js','test/b.test.js']);
+  assert.deepEqual(report.exactDuplicateCandidates,[['test/a.test.js','test/b.test.js']]);
+  assert.deepEqual(report.missingTests,['test/deleted.test.js']);
+  assert.deepEqual(report.staleReviews,['test/deleted.test.js']);
+  assert.equal(report.retirementAuthorized,false);
+});

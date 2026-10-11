@@ -6,6 +6,50 @@ const path = require('node:path');
 const zlib = require('node:zlib');
 const { extractPdfText, extractPdfTextRange } = require('../src/pdfTextExtraction');
 const { defaultExtractText } = require('../src/claimExtractionWorker');
+const { spawnSync } = require('node:child_process');
+
+test('a real nonterminating extractor is killed at its configured deadline', t => {
+  const file = tempFile(t, flatePdf());
+  const started = Date.now();
+  assert.throws(() => defaultExtractText({ id: 'doc:hung', durablePath: file, mediaType: 'application/pdf' }, 1, 1,
+    { CRUCIBLE_PDF_TIMEOUT_MS: '300' }, (_exe, _args, options) => spawnSync(process.execPath,
+      ['-e', 'process.on("SIGTERM", () => {}); setInterval(() => {}, 1000);'], options)), /PDF extraction timed out/);
+  assert.ok(Date.now() - started < 5000, 'hung child must not block the test indefinitely');
+});
+
+test('PDF process timeout refuses partial output and does not fall through to another parser', t => {
+  const file = tempFile(t, flatePdf());
+  const source = { id: 'doc:timeout', durablePath: file, mediaType: 'application/pdf' };
+  let calls = 0;
+  assert.throws(() => defaultExtractText(source, 1, 1, {}, (_exe, _args, options) => {
+    calls += 1;
+    assert.equal(options.timeout, 60000);
+    assert.equal(options.killSignal, 'SIGKILL');
+    return { error: Object.assign(new Error('timed out'), { code: 'ETIMEDOUT' }), status: null, stdout: 'Partial text must not become evidence.' };
+  }), /PDF extraction timed out/);
+  assert.equal(calls, 1);
+});
+
+test('Python PDF fallback receives the same deadline and blocks on timeout', t => {
+  const file = tempFile(t, flatePdf());
+  let calls = 0;
+  assert.throws(() => defaultExtractText({ id: 'doc:python-timeout', durablePath: file, mediaType: 'application/pdf' }, 1, 1,
+    { CRUCIBLE_PYTHON: 'fixture-python', CRUCIBLE_PDF_TIMEOUT_MS: '250' }, (_exe, _args, options) => {
+      assert.equal(options.timeout, 250);
+      calls += 1;
+      return calls === 1 ? { error: Object.assign(new Error('missing'), { code: 'ENOENT' }) }
+        : { error: Object.assign(new Error('timed out'), { code: 'ETIMEDOUT' }), status: null, stdout: 'Partial.' };
+    }), /timed out \(pypdf\)/);
+  assert.equal(calls, 2);
+});
+
+test('PDF deadlines reject disabled, malformed or over-budget values before spawning', t => {
+  const file = tempFile(t, flatePdf());
+  for (const value of ['0', '-1', 'Infinity', 'NaN', '120001', '1.5']) {
+    assert.throws(() => defaultExtractText({ id: 'doc:invalid', durablePath: file, mediaType: 'application/pdf' }, 1, 1,
+      { CRUCIBLE_PDF_TIMEOUT_MS: value }, () => { assert.fail('invalid deadline reached process execution'); }), /timeout/);
+  }
+});
 
 // Fixtures are generated rather than committed: a binary cannot be reviewed in a diff,
 // and the facts asserted below then live next to the assertions that depend on them.

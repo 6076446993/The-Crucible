@@ -38,7 +38,9 @@ function readTestLifecycle(file) {
   if (!file || !fs.existsSync(file)) return { schemaVersion:1, tests:[] };
   const value = JSON.parse(fs.readFileSync(file, 'utf8'));
   if (value.schemaVersion !== 1 || !Array.isArray(value.tests)) throw new Error('test lifecycle registry is invalid.');
-  return { schemaVersion:1, tests:value.tests.map(validateEntry) };
+  const tests = value.tests.map(validateEntry);
+  if (new Set(tests.map(entry => entry.test)).size !== tests.length) throw new Error('Duplicate test lifecycle entries are forbidden.');
+  return { schemaVersion:1, tests };
 }
 
 function executableTests(tests, { registryFile = path.join('governingDocuments', 'test-lifecycle.json'), includeHistorical = false } = {}) {
@@ -49,7 +51,7 @@ function executableTests(tests, { registryFile = path.join('governingDocuments',
     const lifecycle = byTest.get(test);
     if (!lifecycle || lifecycle.state === 'active') selected.push(test);
     else if (lifecycle.state === 'challenged') { selected.push(test); challenged.push(lifecycle); }
-    else if (lifecycle.state === 'reduced-cadence') skipped.push(lifecycle);
+    else if (lifecycle.state === 'reduced-cadence' && !includeHistorical) skipped.push(lifecycle);
     else if (includeHistorical) selected.push(test);
     else skipped.push(lifecycle);
   }
@@ -121,3 +123,24 @@ function transitionFromVerifiedEvolution({ current, verifiedRecord, reviewedAt =
 
 module.exports = { STATES, EVOLUTION_KIND, validateEntry, readTestLifecycle, executableTests, marginalUtilityAssessment, proposeTestDisposition, reactivateFromEvidence, testEvolutionCandidate, transitionFromVerifiedEvolution };
 
+
+// Read-only maintenance inventory. Missing review evidence is a gap, never permission
+// to retire a test. Exact duplicates are review candidates, not coverage equivalence.
+function lifecycleAudit({root = process.cwd(), now = Date.now(), maxAgeDays = 30} = {}) {
+  const files = fs.readdirSync(path.join(root,'test')).filter(f => f.endsWith('.test.js')).sort().map(f => `test/${f}`);
+  const registry = readTestLifecycle(path.join(root,'governingDocuments','test-lifecycle.json'));
+  const byTest = new Map(registry.tests.map(entry => [entry.test,entry]));
+  const groups = new Map();
+  for (const file of files) {
+    const hash = crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex');
+    groups.set(hash,[...(groups.get(hash)||[]),file]);
+  }
+  return {schemaVersion:1,testFiles:files.length,registryPresent:fs.existsSync(path.join(root,'governingDocuments','test-lifecycle.json')),
+    unreviewed:files.filter(file => !byTest.has(file)),
+    staleReviews:registry.tests.filter(entry => now-Date.parse(entry.reviewedAt)>maxAgeDays*86400000).map(entry=>entry.test),
+    missingTests:registry.tests.filter(entry=>!files.includes(entry.test)).map(entry=>entry.test),
+    exactDuplicateCandidates:[...groups.values()].filter(group=>group.length>1),
+    retirementAuthorized:false};
+}
+module.exports.lifecycleAudit = lifecycleAudit;
+if (require.main === module) console.log(JSON.stringify(lifecycleAudit(), null, 2));
