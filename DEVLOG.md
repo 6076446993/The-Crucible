@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- Oldest-first continuation, 2026-10-11T16:46:00Z, Codex: oldest tracked unfinished intake request dated 2026-10-07 remains first. Added original request dates and executable continuation ordering; status refreshes do not reset age, blocked older work retains priority, unknown ages require triage. The default owner-file workflow is readable, replacing its historical registration blocker; complete live custody backup and raw-key compatibility remain unverified. CodeQL passed at dfa1863. No live intake receipt, flush or restart is claimed.
+
 - Refresh 2026-10-11T16:39:30Z, Codex: published 53090052, exact-tree pre-push checks passed. Hosted diagnose-proof succeeded, decrypt/hash verification passed, R4–R7 satisfied and R8 pending. Publisher 38110712781 is cancelled with zero jobs. Verified SARIF localized two incomplete regex escaping alerts to pre-existing key-leak tests; changed only those assertions to literal containment. Hosted follow-up verification remains pending.
 
 - Current continuation, 2026-10-11T16:34:00Z, Codex: stable unfinished deliverables and all 62 research concepts are now individually tracked in `AI-HANDOFF.json.workLedger`. Previous prose remains historical. Research is not implementation; local verification is not hosted deployment.
