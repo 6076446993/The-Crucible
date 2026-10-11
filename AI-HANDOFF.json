@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
-    "currentPrompt": "Keep working and remember oldest relevant work gets completed first",
+    "currentPrompt": "Read-only raw key compatibility probe to unblock oldest owner intake",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-11T16:46:03.140Z",
-      "promptSha256": "5267c9ae2cb93c48ec16903b700fa941a0074381581e3a76d26d6df530f35a0d",
-      "affectedPathsSha256": "3db49dbe028dee672042df6188a7e853ee95ba2a02f8ce0dc864f82c358687d7"
+      "selectedAt": "2026-10-11T16:50:05.890Z",
+      "promptSha256": "93bb75b257ed58f43f23aaf4e257cac7de8c81177e13aef272035ac9d370b9d3",
+      "affectedPathsSha256": "bb63fd1df2a1f1401f15b341b1acb452e6ece8a6431db9d86b29864a2a84b1dc"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -235,7 +235,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-11T16:46:00Z",
+    "lastUpdatedAt": "2026-10-11T16:50:00Z",
     "currentStep": "Resume oldest tracked owner-file intake: verify complete custody copies and existing raw key before live staging; do not flush or restart the pipeline.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -285,7 +285,8 @@
         "test/testLifecycle.test.js",
         "test/sourceBundleKeyAutomation.test.js",
         "src/aiHandoffContinuation.js",
-        "test/aiHandoffContinuation.test.js"
+        "test/aiHandoffContinuation.test.js",
+        ".github/workflows/hosted-source-bootstrap.yml"
       ],
       "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
     },
@@ -488,7 +489,7 @@
         "R8 existing self-hosted runner prerequisites must be available; no unsafe publisher dispatch."
       ]
     },
-    "priorCurrentPrompt": "Resolve literal key-leak assertions reported by CodeQL and refresh continuation evidence"
+    "priorCurrentPrompt": "Keep working and remember oldest relevant work gets completed first"
   },
   "handoffNotes": {
     "completed": [
@@ -534,7 +535,8 @@
       "Protected R8 dispatch run 38044694390 job 114191751834 executed the real development publisher at exact SHA 1199af5cb36166b997345bb9b0e5c5931713c75e and failed closed before canary execution or publication: neither configured source-bundle key authenticated the ciphertext, whose header identifies legacy github:jonathanblunt1214-lgtm/The-Crucible. No raw/vetted state or executable bytes changed.",
       "Local diagnostics/custody/extraction suite 1058/1058 passed with real OpenJDK 17.0.20 compiler module; security/privacy/workflow/circulation/coordination checks passed.",
       "31 handoff/lifecycle tests passed locally; test inventory reports 130 files with no lifecycle registry, no test retirement authorized.",
-      "70 handoff/lifecycle/workflow tests passed; exact-range handoff passed. Native Git publication lacks authentication; use authorized connector after equivalent pre-push verification."
+      "70 handoff/lifecycle/workflow tests passed; exact-range handoff passed. Native Git publication lacks authentication; use authorized connector after equivalent pre-push verification.",
+      "50 workflow/source-bundle tests passed for read-only raw authentication probe; no key generation or live publication command added; temp plaintext always cleaned and excluded from uploads."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -1413,7 +1415,8 @@
           "test/testLifecycle.test.js",
           "test/sourceBundleKeyAutomation.test.js",
           "src/aiHandoffContinuation.js",
-          "test/aiHandoffContinuation.test.js"
+          "test/aiHandoffContinuation.test.js",
+          ".github/workflows/hosted-source-bootstrap.yml"
         ],
         "regions": []
       },
@@ -2081,11 +2084,11 @@
       {
         "id": "pipeline-key-recovery",
         "deliverable": "Check current-key compatibility with raw ciphertext",
-        "status": "pending",
-        "evidence": "Vetted key decrypt succeeded; raw-key compatibility not established",
-        "nextAction": "Use authenticated read-only raw-custody decrypt verification",
+        "status": "in-progress",
+        "evidence": "Read-only hosted raw authentication probe added; only configured raw current/previous key names, no generated replacements",
+        "nextAction": "Inspect actual hosted authentication outcome before planning intake",
         "owner": "Codex",
-        "observedAt": "2026-10-11T16:34:00Z",
+        "observedAt": "2026-10-11T16:50:00Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "originatedAt": "2026-10-11"
@@ -3025,8 +3028,8 @@
         "deliverable": "Submit original owner PDFs and supporting catalogs through authenticated governed intake",
         "status": "blocked",
         "owner": "Codex",
-        "nextAction": "Verify full raw/vetted custody backup and raw-key compatibility; then stage original files and obtain actual live receipt",
-        "reason": "Current connection cannot obtain full private ciphertext bytes or access existing production key for authenticated staging; no complete backup verified",
+        "nextAction": "Read hosted raw key probe result, then verify full private custody backup before request staging",
+        "reason": "Full custody backup and raw-key compatibility remain unverified; hosted read-only key probe is now being deployed",
         "evidence": "Default-branch owner-file-intake.yml readable on 2026-10-11; local transport roundtrip verified previously; no actual live receipt",
         "observedAt": "2026-10-11T16:44:00Z",
         "maxEvidenceAgeHours": 24,

@@ -228,7 +228,7 @@ test('daily Perplexity discovery retains a candidate-only holding queue without 
   assert.doesNotMatch(workflow, /Crucible-(Vetted-)?Learning-State|git\s+push|contents: write|pull-requests: write|issues: write/);
 });
 
-test('GitHub verifies owner queue ciphertext without receiving a decryption key or plaintext', () => {
+test('GitHub authenticates retained raw ciphertext without publishing or replacing state', () => {
   const workflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'hosted-source-bootstrap.yml'), 'utf8');
   assert.match(workflow, /branches:\s*\n\s*- development/);
   assert.match(workflow, /CRUCIBLE_LEARNING_STATE_DEPLOY_KEY/);
@@ -237,7 +237,11 @@ test('GitHub verifies owner queue ciphertext without receiving a decryption key 
   assert.match(workflow, /node src\/hostedSourceBundle\.js join/);
   assert.match(workflow, /node src\/hostedSourceBundle\.js join/);
   assert.match(workflow, /decrypted:false/);
-  assert.doesNotMatch(workflow, /CRUCIBLE_SOURCE_BUNDLE_KEY|hostedSourceBundle\.js decrypt|hostedSourceBundle\.js verify/);
+  assert.match(workflow, /--keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS/);
+  assert.match(workflow, /hostedSourceBundle\.js decrypt/);
+  assert.doesNotMatch(workflow, /git .*push|key-manager|generate|hostedSourceBundle\.js encrypt/);
+  const upload = workflow.slice(workflow.indexOf('name: Retain bounded ciphertext report only'));
+  assert.doesNotMatch(upload, /authenticated\.tar\.gz|source-bundle\.enc/);
   assert.match(workflow, /Destroy runner ciphertext and credentials[\s\S]*if: always\(\)/);
   assert.doesNotMatch(workflow, /contents: write|pull-requests: write|issues: write/);
   assert.doesNotMatch(workflow, /CRUCIBLE_SOURCE_BOOTSTRAP_TOKEN|CRUCIBLE_SOURCE_BUNDLE_ASSET_API_URL/);
