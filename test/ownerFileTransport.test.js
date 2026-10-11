@@ -9,6 +9,7 @@ const { publishCiphertext } = require('../src/rawCustodyPublisher');
 const { ClaimExtractionWorker } = require('../src/claimExtractionWorker');
 const repository = '6076446993/The-Crucible', ref = 'refs/heads/development', projectId = 'github:jonathanblunt1214-lgtm/The-Crucible';
 const sha = (x) => crypto.createHash('sha256').update(x).digest('hex'); const read = (x) => JSON.parse(fs.readFileSync(x, 'utf8'));
+const tarArchive = (root, archive, cwd, members, flags) => execFileSync('tar', [flags, path.basename(archive), '-C', path.relative(root, cwd), ...members], { cwd: root });
 function fixture(t) {
  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'owner-transport-proof-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
  const priorKey = process.env.CRUCIBLE_SOURCE_BUNDLE_KEY; process.env.CRUCIBLE_SOURCE_BUNDLE_KEY = crypto.randomBytes(32).toString('base64'); t.after(()=>{if(priorKey===undefined)delete process.env.CRUCIBLE_SOURCE_BUNDLE_KEY;else process.env.CRUCIBLE_SOURCE_BUNDLE_KEY=priorKey;});
@@ -49,12 +50,12 @@ test('candidate-only snapshot reencrypts and publishes by prior-hash lease with 
  const state=path.join(f.root,'state'),incoming=path.join(f.root,'incoming');
  for(const [custody,stem,folder] of [[f.raw,'old',state],[f.options.workingRoot,'new',incoming]]){
   const m=read(path.join(custody,'manifest.json'));const archive=path.join(f.root,stem+'.tar.gz');const encrypted=path.join(f.root,stem+'.enc');
-  execFileSync('tar',['-czf',archive,'-C',custody,'manifest.json','source-queue.json','sources',m.learningFile]);
+  tarArchive(f.root, archive, custody, ['manifest.json','source-queue.json','sources',m.learningFile], '-czf');
   await encrypt({input:archive,output:encrypted,projectId,repository,ref});splitEncrypted({input:encrypted,outputRoot:folder});
  }
  const prior=sha256File(path.join(state,'encrypted-chunks.json'));const r=publishCiphertext({ciphertextRoot:incoming,stateRoot:state,expectedPriorManifestSha256:prior,repository,ref});assert.equal(r.authorizesPromotion,false);assert.equal(sha256File(path.join(state,r.rollbackManifest)),prior);
  assert.throws(()=>publishCiphertext({ciphertextRoot:incoming,stateRoot:state,expectedPriorManifestSha256:prior,repository,ref}),/moved since restoration/);
- const joined=path.join(f.root,'published.enc');joinEncrypted({inputRoot:state,output:joined});const archive=path.join(f.root,'published.tar.gz');await decrypt({input:joined,output:archive,repository,ref,keyNames:['CRUCIBLE_SOURCE_BUNDLE_KEY']});const restored=path.join(f.root,'fresh');fs.mkdirSync(restored);execFileSync('tar',['-xzf',archive,'-C',restored]);
+ const joined=path.join(f.root,'published.enc');joinEncrypted({inputRoot:state,output:joined});const archive=path.join(f.root,'published.tar.gz');await decrypt({input:joined,output:archive,repository,ref,keyNames:['CRUCIBLE_SOURCE_BUNDLE_KEY']});const restored=path.join(f.root,'fresh');fs.mkdirSync(restored);execFileSync('tar',['-xzf',path.basename(archive),'-C','fresh'],{cwd:f.root});
  const verified=verifyRestored({root:restored,repository,ref,reportFile:path.join(f.root,'verified.json')});assert.equal(verified.documents,2);assert.equal(verified.projectId,projectId);assert.equal(verified.vetted,false);assert.equal(read(path.join(restored,'source-queue.json')).documents.filter(x=>x.state==='claim-extraction-forced-pending').length,1);
 });
 
