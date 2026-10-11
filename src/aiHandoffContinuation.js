@@ -82,14 +82,27 @@ function resolveCurrentStep(active) {
   return { currentStep: null, source: 'none', stepCount: 0 };
 }
 
+// Original request age determines continuation order, not the latest status edit.
+// Unknown ages remain visible for triage; blocked older work retains its place.
+function oldestRelevantWork(ledger) {
+  const pending = (ledger?.items || []).filter(item => item.relevant !== false && !['verified','rejected'].includes(item.status));
+  const age = item => { const time = Date.parse(item.originatedAt); return Number.isFinite(time) ? time : -Infinity; };
+  const ordered = [...pending].sort((a,b) => age(a)-age(b) || String(a.id).localeCompare(String(b.id)));
+  return {policy:'oldest-relevant-first', orderedIds:ordered.map(item=>item.id),
+    unknownAgeIds:ordered.filter(item=>!Number.isFinite(Date.parse(item.originatedAt))).map(item=>item.id),
+    next:ordered[0] || null};
+}
+
 function inspectHandoff(root) {
   const plan = readJson(path.join(root, 'AI-HANDOFF.json'));
   if (!plan) return { present: false, objective: null, status: null, currentStep: null, currentStepSource: 'none', stepCount: 0, claims: [], blockers: [], nextActions: [], completed: [], verification: [] };
   const active = plan.activePlan || {};
   const notes = plan.handoffNotes || {};
   const step = resolveCurrentStep(active);
+  const workOrder = oldestRelevantWork(plan.workLedger);
   return {
     present: true,
+    workOrder,
     agent: active.agent || null,
     objective: active.objective || null,
     status: active.status || null,
@@ -280,6 +293,11 @@ function formatContinuationReport(report) {
   lines.push(`Resume from ${report.resumeFrom || 'unknown commit'} on ${report.branch || 'unknown branch'} (${report.git.clean ? 'clean tree' : `${report.git.uncommitted.length} uncommitted path(s), preserved`}).`);
   lines.push(`Plan: ${report.handoff.objective || 'none recorded'} [${report.handoff.status || 'no status'}], ${report.handoff.stepCount} step(s).`);
   lines.push(`Stopped at (${report.handoff.currentStepSource}): ${report.handoff.currentStep || 'none recorded'}`);
+  if (report.handoff.workOrder?.next) {
+    const next = report.handoff.workOrder.next;
+    lines.push(`Oldest relevant work: ${next.id} (${next.originatedAt || 'age unknown'}, ${next.status}): ${next.nextAction}`);
+    if (next.reason) lines.push(`Preserved blocker: ${next.reason}`);
+  }
   lines.push(`DEVLOG: ${report.devlog.sessions} session(s), ${report.devlog.order}; latest ${report.devlog.latest || 'none'}.`);
   lines.push(`Conflicts: ${report.conflicts.total} recorded, ${report.conflicts.open.length} open (${report.conflicts.inDeliberation.length} in AI deliberation, ${report.conflicts.awaitingOwner.length} awaiting the owner, ${report.conflicts.repositoryWideStops.length} repository-wide).`);
   lines.push(`Claimed scopes: ${report.heldScopes.length ? report.heldScopes.map((item) => `${item.taskId} (${item.owner})`).join(', ') : 'none'}.`);
@@ -292,7 +310,7 @@ function formatContinuationReport(report) {
 
 module.exports = {
   DEFAULT_GOVERNANCE_CHECKS,
-  gitState, resolveCurrentStep, awaitsOwner, freezeKind,
+  oldestRelevantWork, gitState, resolveCurrentStep, awaitsOwner, freezeKind,
   inspectHandoff, inspectConflicts, inspectDevlog, inspectGovernance,
   inspectForContinuation, assertReadyToContinue, assertMutationAllowed, formatContinuationReport,
 };

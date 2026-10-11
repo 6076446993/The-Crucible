@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
-    "currentPrompt": "Resolve literal key-leak assertions reported by CodeQL and refresh continuation evidence",
+    "currentPrompt": "Keep working and remember oldest relevant work gets completed first",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-11T16:39:51.252Z",
-      "promptSha256": "1e4fd7f8cbeb6a2c611ca4e582d4c718500855906bc94a933c8abec7f854d0ed",
-      "affectedPathsSha256": "87622f9abfb5bcb9143fa737f24feeca661c026df88dc294b846a07c450641de"
+      "selectedAt": "2026-10-11T16:46:03.140Z",
+      "promptSha256": "5267c9ae2cb93c48ec16903b700fa941a0074381581e3a76d26d6df530f35a0d",
+      "affectedPathsSha256": "3db49dbe028dee672042df6188a7e853ee95ba2a02f8ce0dc864f82c358687d7"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -235,8 +235,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-11T16:39:30Z",
-    "currentStep": 5,
+    "lastUpdatedAt": "2026-10-11T16:46:00Z",
+    "currentStep": "Resume oldest tracked owner-file intake: verify complete custody copies and existing raw key before live staging; do not flush or restart the pipeline.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -283,7 +283,9 @@
         "src/testLifecycle.js",
         "test/handoffPolicy.test.js",
         "test/testLifecycle.test.js",
-        "test/sourceBundleKeyAutomation.test.js"
+        "test/sourceBundleKeyAutomation.test.js",
+        "src/aiHandoffContinuation.js",
+        "test/aiHandoffContinuation.test.js"
       ],
       "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
     },
@@ -486,7 +488,7 @@
         "R8 existing self-hosted runner prerequisites must be available; no unsafe publisher dispatch."
       ]
     },
-    "priorCurrentPrompt": "Improve devlog unfinished-work preservation and freshness; repair test lifecycle execution and audit relevance"
+    "priorCurrentPrompt": "Resolve literal key-leak assertions reported by CodeQL and refresh continuation evidence"
   },
   "handoffNotes": {
     "completed": [
@@ -503,7 +505,8 @@
       "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
       "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses.",
       "Added stable unfinished-work ledger including all 62 researched concepts; implemented handoff continuity/freshness gate and full-suite lifecycle correction.",
-      "Published pipeline/devlog improvements at 53090052; new diagnosis step succeeded hosted. Replaced two CodeQL-flagged regex assertions with literal containment."
+      "Published pipeline/devlog improvements at 53090052; new diagnosis step succeeded hosted. Replaced two CodeQL-flagged regex assertions with literal containment.",
+      "Verified exact-tip CodeQL success on dfa1863; default owner-file intake workflow is present. Added oldest-request-first continuation ordering."
     ],
     "remaining": [
       "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
@@ -513,7 +516,8 @@
       "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain.",
       "Publish diagnostic and inventory improvements on development and verify hosted checks; preserve all live queues and keys.",
       "Publish both local implementation commits; verify hosted checks; complete encrypted backup before R8 publisher writes. All concepts retain individual unfinished IDs.",
-      "R8 publisher was cancelled without jobs; full custody backup and runner readiness remain unresolved. Verify new exact-tip CodeQL and platform CI."
+      "R8 publisher was cancelled without jobs; full custody backup and runner readiness remain unresolved. Verify new exact-tip CodeQL and platform CI.",
+      "Oldest tracked owner-file live intake from 2026-10-07 remains blocked on full authenticated custody backup and raw-key compatibility; default workflow registration is no longer assumed missing."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -1407,7 +1411,9 @@
           "src/testLifecycle.js",
           "test/handoffPolicy.test.js",
           "test/testLifecycle.test.js",
-          "test/sourceBundleKeyAutomation.test.js"
+          "test/sourceBundleKeyAutomation.test.js",
+          "src/aiHandoffContinuation.js",
+          "test/aiHandoffContinuation.test.js"
         ],
         "regions": []
       },
@@ -2043,7 +2049,8 @@
         "owner": "Codex",
         "observedAt": "2026-10-11T16:39:30Z",
         "maxEvidenceAgeHours": 24,
-        "freshness": "historical"
+        "freshness": "historical",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "pipeline-backup",
@@ -2055,7 +2062,8 @@
         "observedAt": "2026-10-11T16:34:00Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
-        "reason": "Proof artifact is not full pipeline backup"
+        "reason": "Proof artifact is not full pipeline backup",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "pipeline-R8",
@@ -2067,7 +2075,8 @@
         "observedAt": "2026-10-11T16:39:30Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
-        "reason": "Canary publication prerequisites unresolved"
+        "reason": "Canary publication prerequisites unresolved",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "pipeline-key-recovery",
@@ -2078,7 +2087,8 @@
         "owner": "Codex",
         "observedAt": "2026-10-11T16:34:00Z",
         "maxEvidenceAgeHours": 24,
-        "freshness": "historical"
+        "freshness": "historical",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "research-NMI",
@@ -2089,7 +2099,8 @@
         "owner": "Codex",
         "observedAt": "2026-10-11T16:34:00Z",
         "maxEvidenceAgeHours": 24,
-        "freshness": "historical"
+        "freshness": "historical",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "research-pipeline",
@@ -2100,7 +2111,8 @@
         "owner": "Codex",
         "observedAt": "2026-10-11T16:34:00Z",
         "maxEvidenceAgeHours": 24,
-        "freshness": "historical"
+        "freshness": "historical",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "test-relevance",
@@ -2111,7 +2123,8 @@
         "owner": "Codex",
         "observedAt": "2026-10-11T16:34:00Z",
         "maxEvidenceAgeHours": 24,
-        "freshness": "historical"
+        "freshness": "historical",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "devlog-continuity",
@@ -2122,7 +2135,8 @@
         "owner": "Codex",
         "observedAt": "2026-10-11T16:34:00Z",
         "maxEvidenceAgeHours": 24,
-        "freshness": "historical"
+        "freshness": "historical",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-001",
@@ -2135,7 +2149,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Report blocked intake separately from its suspected cause.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-002",
@@ -2148,7 +2163,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Compare end-to-end source processing with internal stage results.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-003",
@@ -2161,7 +2177,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Measure stage latency, arrival/completion rate, errors and capacity together.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-004",
@@ -2174,7 +2191,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Record p95/p99 extraction time and timeout counts rather than averages alone.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-005",
@@ -2187,7 +2205,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Bind each alert to a specific evidence-backed next action.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-006",
@@ -2200,7 +2219,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Group repeated equivalent failures while preserving occurrence counts.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-007",
@@ -2213,7 +2233,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Store suspected causes with evidence for and against each.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-008",
@@ -2226,7 +2247,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Choose read-only checks that distinguish competing causes.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-009",
@@ -2239,7 +2261,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Change one relevant condition per disposable reproduction.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-010",
@@ -2252,7 +2275,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Trace failed outcomes through actual stage dependencies.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-011",
@@ -2265,7 +2289,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Carry project, run, source and attempt identifiers across stages.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-012",
@@ -2278,7 +2303,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Record stage nesting and start/end outcomes.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-013",
@@ -2291,7 +2317,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Emit structured events around shared I/O and subprocess boundaries.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-014",
@@ -2304,7 +2331,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Retain every failure event and sample routine successes with explicit rates.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-015",
@@ -2317,7 +2345,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Define an objective for eligible sources completed within a stated window.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-016",
@@ -2330,7 +2359,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Track consumption of an agreed failure or delay budget.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-017",
@@ -2343,7 +2373,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Require short and long windows to identify persistent degradation.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-018",
@@ -2356,7 +2387,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Choose subprocess deadlines from measured latency and a hard cap.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-019",
@@ -2369,7 +2401,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Retry transient network failures; stop on policy or authentication errors.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-020",
@@ -2382,7 +2415,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Increase retry spacing within a bounded maximum delay.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-021",
@@ -2395,7 +2429,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Spread independent retry attempts across time.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-022",
@@ -2408,7 +2443,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Select one retry coordinator rather than multiplying nested retries.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-023",
@@ -2421,7 +2457,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Limit retries by available tokens and report budget exhaustion.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-024",
@@ -2434,7 +2471,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Bind intake operations to source identity, content hash and operation intent.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-025",
@@ -2447,7 +2485,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Reject reuse of an operation identifier with changed content or parameters.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-026",
@@ -2460,7 +2499,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Retain operation outcomes long enough to handle delayed retries.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-027",
@@ -2473,7 +2513,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Bound work per slow dependency while other sources continue.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-028",
@@ -2486,7 +2527,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Stop downstream work when its caller's budget is exhausted.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-029",
@@ -2499,7 +2541,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Normalize component, stage, severity and timestamps while preserving original hashes.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-030",
@@ -2512,7 +2555,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Join worker, custody and proof records through verified identifiers.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-031",
@@ -2525,7 +2569,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Protect access and authenticate retained log/report artifacts.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-032",
@@ -2538,7 +2583,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Record artifact expiry and alert before essential evidence disappears.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-033",
@@ -2551,7 +2597,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Capture immutable failure evidence before selecting a repair.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-034",
@@ -2564,7 +2611,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Validate independent backup completeness and integrity before restoration.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-035",
@@ -2577,7 +2625,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Check restored behavior and state consistency before closing an incident.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-036",
@@ -2590,7 +2639,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Track each key version and ciphertext references separately by custody family.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-037",
@@ -2603,7 +2653,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Require recoverable protected key backups independent of operational storage.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-038",
@@ -2616,7 +2667,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Refuse destruction while retained ciphertext still requires a key.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-039",
@@ -2629,7 +2681,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Check candidate/source/hash relationships across custody and worker observations.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-040",
@@ -2642,7 +2695,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Retain the bounded state transitions preceding an invariant failure.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-041",
@@ -2655,7 +2709,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Compare successful runs to propose assertions for review.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-042",
@@ -2668,7 +2723,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Use historical failures to challenge proposed normal-state relationships.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-043",
@@ -2681,7 +2737,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Derive disposable fault tests from dependencies of a known-good outcome.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-044",
@@ -2694,7 +2751,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Test meaningful pairs of failures in disposable custody.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-045",
@@ -2707,7 +2765,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Reduce a copied failing input to the smallest reproducing case.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-046",
@@ -2720,7 +2779,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Distinguish reproduced failure, successful run and unresolved test.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-047",
@@ -2733,7 +2793,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Compare predicates across passing and failing runs to rank suspects.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-048",
@@ -2746,7 +2807,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Cluster distinct failure evidence before calculating suspiciousness.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-049",
@@ -2759,7 +2821,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Specify acceptable queue/store states at each publication boundary.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-050",
@@ -2772,7 +2835,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Test restart from every disposable interrupted-write checkpoint.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-051",
@@ -2785,7 +2849,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Explore deterministic interleavings around lock/read/write/release.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-052",
@@ -2798,7 +2863,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Record a failing schedule seed and event order.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-053",
@@ -2811,7 +2877,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Cluster verified edits by structural bug pattern before proposing reuse.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-054",
@@ -2824,7 +2891,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Rank known repair templates using local syntax and failure context.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-055",
@@ -2837,7 +2905,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Retrieve independently verified repairs with compatible environment and bug type.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-056",
@@ -2850,7 +2919,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Re-run the originating detector and independent tests on every candidate patch.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-057",
@@ -2863,7 +2933,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Attribute subprocess time and memory observations to source/tier/attempt.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-058",
@@ -2876,7 +2947,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Compare PDFs, HTML and text within compatible workload groups.",
-        "priority": "P1"
+        "priority": "P1",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-059",
@@ -2889,7 +2961,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Compare a changed worker with baseline on separate disposable copies.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-060",
@@ -2902,7 +2975,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Check both relative differences and absolute preservation constraints.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-061",
@@ -2915,7 +2989,8 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Record observed events, decisions and failed approaches with exact evidence.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "DIAG-062",
@@ -2928,19 +3003,36 @@
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "adaptation": "Convert each accepted lesson into an owned regression test and completion receipt.",
-        "priority": "P0"
+        "priority": "P0",
+        "originatedAt": "2026-10-11"
       },
       {
         "id": "codeql-literal-leak-checks",
         "deliverable": "Resolve two incomplete-sanitization alerts in key-leak tests",
         "owner": "Codex",
-        "status": "implemented-local",
-        "evidence": "SARIF artifact 11708453504 verified by SHA256; both alerts target regex key-leak assertions",
+        "status": "verified",
+        "evidence": "Exact-tip CodeQL success; 39 focused tests and pre-push checks passed",
         "nextAction": "Verify replacement containment assertions and exact-tip CodeQL",
-        "observedAt": "2026-10-11T16:39:30Z",
+        "observedAt": "2026-10-11T16:44:00Z",
+        "maxEvidenceAgeHours": 24,
+        "freshness": "historical",
+        "originatedAt": "2026-10-11",
+        "verification": "CodeQL check succeeded at dfa1863dd25f9cbedde32c6356688e1a9942acf5"
+      },
+      {
+        "id": "owner-file-live-intake",
+        "originatedAt": "2026-10-07",
+        "deliverable": "Submit original owner PDFs and supporting catalogs through authenticated governed intake",
+        "status": "blocked",
+        "owner": "Codex",
+        "nextAction": "Verify full raw/vetted custody backup and raw-key compatibility; then stage original files and obtain actual live receipt",
+        "reason": "Current connection cannot obtain full private ciphertext bytes or access existing production key for authenticated staging; no complete backup verified",
+        "evidence": "Default-branch owner-file-intake.yml readable on 2026-10-11; local transport roundtrip verified previously; no actual live receipt",
+        "observedAt": "2026-10-11T16:44:00Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "historical"
       }
-    ]
+    ],
+    "continuationPolicy": "Oldest relevant unfinished request first. Preserve original request dates across status updates. Blocked older work stays first and its prerequisites are worked before newer improvements; unknown ages require triage rather than guessing."
   }
 }
