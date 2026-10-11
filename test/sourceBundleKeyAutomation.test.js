@@ -27,7 +27,7 @@ test('bootstrap generates two 32-byte keys and redacted metadata', () => {
   writePlan(plan, output, file);
   const persisted = fs.readFileSync(file, 'utf8');
   for (const item of plan.plans) {
-    assert.doesNotMatch(persisted, new RegExp(item.current.base64.replace(/[+/=]/g, '\\$&')));
+    assert.equal(persisted.includes(item.current.base64), false);
   }
   assert.ok(fs.existsSync(path.join(output, 'CRUCIBLE_SOURCE_BUNDLE_KEY')));
 });
@@ -69,7 +69,7 @@ test('register fingerprints an existing raw key without replacing or persisting 
   const output = path.join(dir, 'register-output');
   writePlan(plan, output, file);
   assert.equal(fs.existsSync(path.join(output, 'CRUCIBLE_SOURCE_BUNDLE_KEY')), false);
-  assert.doesNotMatch(fs.readFileSync(file, 'utf8'), new RegExp(raw.replace(/[+/=]/g, '\\$&')));
+  assert.equal(fs.readFileSync(file, 'utf8').includes(raw), false);
 });
 
 test('register requires an existing key and an explicit family', () => {

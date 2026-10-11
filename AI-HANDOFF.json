@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
-    "currentPrompt": "Improve devlog unfinished-work preservation and freshness; repair test lifecycle execution and audit relevance",
+    "currentPrompt": "Resolve literal key-leak assertions reported by CodeQL and refresh continuation evidence",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-11T16:35:03.065Z",
-      "promptSha256": "a858b0d8af1764bde4e5d9f57316ae8f249768f4277a603cd3173e5932df0e71",
-      "affectedPathsSha256": "9e2b271ca60e973cbadbe00e267845a68a19682abb7304b2f4bec9b8db6ef837"
+      "selectedAt": "2026-10-11T16:39:51.252Z",
+      "promptSha256": "1e4fd7f8cbeb6a2c611ca4e582d4c718500855906bc94a933c8abec7f854d0ed",
+      "affectedPathsSha256": "87622f9abfb5bcb9143fa737f24feeca661c026df88dc294b846a07c450641de"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -235,7 +235,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-11T16:34:00Z",
+    "lastUpdatedAt": "2026-10-11T16:39:30Z",
     "currentStep": 5,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -282,7 +282,8 @@
         "src/handoffPolicy.js",
         "src/testLifecycle.js",
         "test/handoffPolicy.test.js",
-        "test/testLifecycle.test.js"
+        "test/testLifecycle.test.js",
+        "test/sourceBundleKeyAutomation.test.js"
       ],
       "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
     },
@@ -485,7 +486,7 @@
         "R8 existing self-hosted runner prerequisites must be available; no unsafe publisher dispatch."
       ]
     },
-    "priorCurrentPrompt": "Do it then continue last step"
+    "priorCurrentPrompt": "Improve devlog unfinished-work preservation and freshness; repair test lifecycle execution and audit relevance"
   },
   "handoffNotes": {
     "completed": [
@@ -501,7 +502,8 @@
       "Read credential metadata only: SECURITY_READ_TOKEN personal-owner token 18761517 has no repository access or permissions; NEXUS_MONITOR_READ_TOKEN token 20324653 targets personal owner with broad write access, not organization 6076446993. Actual stored values are unreadable and were not inspected.",
       "Prepared unsubmitted organization-scoped security token form: The-Crucible only, Administration/Contents/Metadata read-only, expiry 2026-11-06, plus existing SECURITY_READ_TOKEN update form for owner entry.",
       "Security token 20724374 saved by owner to SECURITY_READ_TOKEN. Hosted attempt 2 run 37572009351 job 112638176000 proved API access and identified disabled secret scanning/push protection; enabled both in GitHub UI without additional licenses.",
-      "Added stable unfinished-work ledger including all 62 researched concepts; implemented handoff continuity/freshness gate and full-suite lifecycle correction."
+      "Added stable unfinished-work ledger including all 62 researched concepts; implemented handoff continuity/freshness gate and full-suite lifecycle correction.",
+      "Published pipeline/devlog improvements at 53090052; new diagnosis step succeeded hosted. Replaced two CodeQL-flagged regex assertions with literal containment."
     ],
     "remaining": [
       "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
@@ -510,7 +512,8 @@
       "Raw custody now has configured secret names, but the configured CRUCIBLE_SOURCE_BUNDLE_KEY and optional previous key do not authenticate the existing ciphertext stamped for legacy github:jonathanblunt1214-lgtm/The-Crucible; restore the original key or obtain an owner-authorized plaintext/source-of-truth rebuild before any re-encryption. Do not derive, guess, or replace the key from ciphertext.",
       "Execute the durable nine-seed intake, independent corroboration/Worker verification, real nonzero R3 discovery and retained-corpus R8 executable refusal after deployment/credentials. Preserve R2 and every live queue; R3/R8 release blockers and R9 hold remain.",
       "Publish diagnostic and inventory improvements on development and verify hosted checks; preserve all live queues and keys.",
-      "Publish both local implementation commits; verify hosted checks; complete encrypted backup before R8 publisher writes. All concepts retain individual unfinished IDs."
+      "Publish both local implementation commits; verify hosted checks; complete encrypted backup before R8 publisher writes. All concepts retain individual unfinished IDs.",
+      "R8 publisher was cancelled without jobs; full custody backup and runner readiness remain unresolved. Verify new exact-tip CodeQL and platform CI."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -1403,7 +1406,8 @@
           "src/handoffPolicy.js",
           "src/testLifecycle.js",
           "test/handoffPolicy.test.js",
-          "test/testLifecycle.test.js"
+          "test/testLifecycle.test.js",
+          "test/sourceBundleKeyAutomation.test.js"
         ],
         "regions": []
       },
@@ -2033,11 +2037,11 @@
       {
         "id": "pipeline-diagnostics",
         "deliverable": "Publish tested extraction and evidence-bound diagnosis upgrades",
-        "status": "implemented-local",
-        "evidence": "local commit fba42baa; previous full test run 1058/1058",
-        "nextAction": "Publish development and verify checks at actual remote tip",
+        "status": "in-progress",
+        "evidence": "Published commit 53090052; hosted diagnose-proof succeeded in run 38156151294; handoff and conflict checks passed",
+        "nextAction": "Verify follow-up exact-tip CI including CodeQL",
         "owner": "Codex",
-        "observedAt": "2026-10-11T16:34:00Z",
+        "observedAt": "2026-10-11T16:39:30Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "historical"
       },
@@ -2057,10 +2061,10 @@
         "id": "pipeline-R8",
         "deliverable": "Demonstrate governed executable-content refusal",
         "status": "blocked",
-        "evidence": "Run 38152447862 decrypted successfully; R8 pending",
+        "evidence": "Run 38156151294 decrypt/hash checks passed, R8 pending; publisher run 38110712781 cancelled with zero jobs",
         "nextAction": "Refresh self-hosted runner and canary publisher readiness after verified backup",
         "owner": "Codex",
-        "observedAt": "2026-10-11T16:34:00Z",
+        "observedAt": "2026-10-11T16:39:30Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "reason": "Canary publication prerequisites unresolved"
@@ -2925,6 +2929,17 @@
         "freshness": "historical",
         "adaptation": "Convert each accepted lesson into an owned regression test and completion receipt.",
         "priority": "P0"
+      },
+      {
+        "id": "codeql-literal-leak-checks",
+        "deliverable": "Resolve two incomplete-sanitization alerts in key-leak tests",
+        "owner": "Codex",
+        "status": "implemented-local",
+        "evidence": "SARIF artifact 11708453504 verified by SHA256; both alerts target regex key-leak assertions",
+        "nextAction": "Verify replacement containment assertions and exact-tip CodeQL",
+        "observedAt": "2026-10-11T16:39:30Z",
+        "maxEvidenceAgeHours": 24,
+        "freshness": "historical"
       }
     ]
   }

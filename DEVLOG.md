@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- Refresh 2026-10-11T16:39:30Z, Codex: published 53090052, exact-tree pre-push checks passed. Hosted diagnose-proof succeeded, decrypt/hash verification passed, R4–R7 satisfied and R8 pending. Publisher 38110712781 is cancelled with zero jobs. Verified SARIF localized two incomplete regex escaping alerts to pre-existing key-leak tests; changed only those assertions to literal containment. Hosted follow-up verification remains pending.
+
 - Current continuation, 2026-10-11T16:34:00Z, Codex: stable unfinished deliverables and all 62 research concepts are now individually tracked in `AI-HANDOFF.json.workLedger`. Previous prose remains historical. Research is not implementation; local verification is not hosted deployment.
 - Evidence freshness: every tracked item carries its original observation time, maximum evidence age and an explicit historical label. Updating prose does not refresh its evidence. Exact-range handoff validation rejects removed IDs, unexplained deferral/rejection and unsupported completion.
 - Test relevance finding: 1,058 assertions span 130 test files. The lifecycle registry is absent, so no measured retirement decisions exist. Full-suite execution previously skipped reduced-cadence tests; corrected locally. `node src/testLifecycle.js` now exposes missing/stale reviews and exact duplicate candidates without deleting tests.
