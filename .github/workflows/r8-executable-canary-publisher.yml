@@ -13,7 +13,7 @@ concurrency:
 jobs:
   publish:
     if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, crucible-r8]
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -27,44 +27,49 @@ jobs:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
           CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
         run: node src/sourceBundleKeyManager.js preflight raw
-      - name: Restore raw encrypted intake custody
-        env:
-          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
-        run: |
-          set -euo pipefail
-          test -n "$STATE_DEPLOY_KEY"
-          mkdir -p "$RUNNER_TEMP/r8-source-ssh" "$RUNNER_TEMP/r8-source-custody"
-          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/r8-source-ssh/key"
-          chmod 600 "$RUNNER_TEMP/r8-source-ssh/key"
-          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/r8-source-ssh/known_hosts"
-          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/r8-source-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/r8-source-ssh/known_hosts -o StrictHostKeyChecking=yes"
-          git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/r8-source-custody/state"
-          node src/hostedSourceBundle.js join --input-root "$RUNNER_TEMP/r8-source-custody/state" --output "$RUNNER_TEMP/r8-source-custody/source-bundle.enc"
-      - name: Decrypt, retrieve, and restage the R8 refusal
+      - name: Prepare and encrypt the R8 refusal from the local source stage
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
           CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
           CRUCIBLE_R8_EXECUTABLE_CANARY_URL: ${{ secrets.CRUCIBLE_R8_EXECUTABLE_CANARY_URL }}
           CRUCIBLE_RETRIEVAL_TRUSTED_DOMAINS: ${{ secrets.CRUCIBLE_R8_EXECUTABLE_CANARY_TRUSTED_DOMAINS }}
+        shell: pwsh
         run: |
-          set -euo pipefail
-          test -n "$CRUCIBLE_R8_EXECUTABLE_CANARY_URL"
-          node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/r8-source-custody/source-bundle.enc" --output "$RUNNER_TEMP/r8-source-custody/source-bundle.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS > /dev/null
-          mkdir -p "$RUNNER_TEMP/r8-source-custody/plaintext" "$RUNNER_TEMP/r8-source-custody/ciphertext"
-          tar -xzf "$RUNNER_TEMP/r8-source-custody/source-bundle.tar.gz" -C "$RUNNER_TEMP/r8-source-custody/plaintext"
-          node src/r8ExecutableCanaryPublisher.js prepare --root "$RUNNER_TEMP/r8-source-custody/plaintext" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report "$RUNNER_TEMP/r8-source-custody/r8-report.json" > /dev/null
-          tar -czf "$RUNNER_TEMP/r8-source-custody/restaged.tar.gz" -C "$RUNNER_TEMP/r8-source-custody/plaintext" .
-          node src/hostedSourceBundle.js encrypt --input "$RUNNER_TEMP/r8-source-custody/restaged.tar.gz" --output "$RUNNER_TEMP/r8-source-custody/restaged.enc" --project-id "github:$GITHUB_REPOSITORY" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > /dev/null
-          node src/hostedSourceBundle.js split --input "$RUNNER_TEMP/r8-source-custody/restaged.enc" --output-root "$RUNNER_TEMP/r8-source-custody/ciphertext" > /dev/null
+          $ErrorActionPreference = 'Stop'
+          if ([string]::IsNullOrWhiteSpace($env:CRUCIBLE_R8_SOURCE_ROOT)) { throw 'CRUCIBLE_R8_SOURCE_ROOT is required on the self-hosted runner.' }
+          if (!(Test-Path -LiteralPath $env:CRUCIBLE_R8_SOURCE_ROOT -PathType Container)) { throw 'Configured R8 source stage does not exist.' }
+          if ([string]::IsNullOrWhiteSpace($env:CRUCIBLE_R8_EXECUTABLE_CANARY_URL)) { throw 'CRUCIBLE_R8_EXECUTABLE_CANARY_URL is required.' }
+          $temp = Join-Path $env:RUNNER_TEMP 'r8-source-custody'
+          New-Item -ItemType Directory -Force -Path $temp, (Join-Path $temp 'ciphertext') | Out-Null
+          node src/hostedSourceBundle.js verify --root $env:CRUCIBLE_R8_SOURCE_ROOT --repository $env:GITHUB_REPOSITORY --ref $env:GITHUB_REF --report (Join-Path $temp 'custody-report.json') | Out-Null
+          node src/hostedSourceBundle.js hydrate --root $env:CRUCIBLE_R8_SOURCE_ROOT --repository $env:GITHUB_REPOSITORY --ref $env:GITHUB_REF | Out-Null
+          node src/r8ExecutableCanaryPublisher.js prepare --root $env:CRUCIBLE_R8_SOURCE_ROOT --repository $env:GITHUB_REPOSITORY --ref $env:GITHUB_REF --report (Join-Path $temp 'r8-report.json') | Out-Null
+          tar -czf (Join-Path $temp 'restaged.tar.gz') -C $env:CRUCIBLE_R8_SOURCE_ROOT .
+          node src/hostedSourceBundle.js encrypt --input (Join-Path $temp 'restaged.tar.gz') --output (Join-Path $temp 'restaged.enc') --project-id ('github:' + $env:GITHUB_REPOSITORY) --repository $env:GITHUB_REPOSITORY --ref $env:GITHUB_REF | Out-Null
+          node src/hostedSourceBundle.js split --input (Join-Path $temp 'restaged.enc') --output-root (Join-Path $temp 'ciphertext') | Out-Null
       - name: Publish ciphertext manifest only to raw custody
+        shell: pwsh
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
         run: |
-          set -euo pipefail
-          node src/r8ExecutableCanaryPublisher.js publish-ciphertext --ciphertext-root "$RUNNER_TEMP/r8-source-custody/ciphertext" --state-root "$RUNNER_TEMP/r8-source-custody/state" > /dev/null
-          git -C "$RUNNER_TEMP/r8-source-custody/state" add encrypted-chunks.json source-bundle.part-*.enc
-          git -C "$RUNNER_TEMP/r8-source-custody/state" diff --cached --quiet && { echo 'R8 ciphertext publication produced no state change.' >&2; exit 1; }
-          git -C "$RUNNER_TEMP/r8-source-custody/state" -c user.name='Crucible custody publisher' -c user.email='crucible-custody@users.noreply.github.com' commit -m 'Record R8 executable-content quarantine refusal'
-          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/r8-source-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/r8-source-ssh/known_hosts -o StrictHostKeyChecking=yes"
-          git -C "$RUNNER_TEMP/r8-source-custody/state" push origin HEAD
+          $ErrorActionPreference = 'Stop'
+          $temp = Join-Path $env:RUNNER_TEMP 'r8-source-custody'
+          if ([string]::IsNullOrWhiteSpace($env:STATE_DEPLOY_KEY)) { throw 'CRUCIBLE_LEARNING_STATE_DEPLOY_KEY is required.' }
+          $ssh = Join-Path $temp 'ssh'
+          $state = Join-Path $temp 'state'
+          New-Item -ItemType Directory -Force -Path $ssh | Out-Null
+          Set-Content -LiteralPath (Join-Path $ssh 'key') -Value $env:STATE_DEPLOY_KEY -NoNewline
+          Set-Content -LiteralPath (Join-Path $ssh 'known_hosts') -Value 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' -NoNewline
+          $env:GIT_SSH_COMMAND = "ssh -i `"$(Join-Path $ssh 'key')`" -o IdentitiesOnly=yes -o UserKnownHostsFile=`"$(Join-Path $ssh 'known_hosts')`" -o StrictHostKeyChecking=yes"
+          git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git $state
+          node src/r8ExecutableCanaryPublisher.js publish-ciphertext --ciphertext-root (Join-Path $temp 'ciphertext') --state-root $state | Out-Null
+          git -C $state add encrypted-chunks.json source-bundle.part-*.enc
+          git -C $state diff --cached --quiet; if ($LASTEXITCODE -eq 0) { throw 'R8 ciphertext publication produced no state change.' }
+          git -C $state -c user.name='Crucible custody publisher' -c user.email='crucible-custody@users.noreply.github.com' commit -m 'Record R8 executable-content quarantine refusal'
+          git -C $state push origin HEAD
       - name: Destroy runner plaintext and credentials
         if: always()
-        run: rm -rf "$RUNNER_TEMP/r8-source-custody" "$RUNNER_TEMP/r8-source-ssh"
+        shell: pwsh
+        run: |
+          # Unix-hosted equivalent is rm -rf; this runner is Windows and uses the guarded native removal below.
+          Remove-Item -LiteralPath (Join-Path $env:RUNNER_TEMP 'r8-source-custody'), (Join-Path $env:RUNNER_TEMP 'r8-source-ssh') -Recurse -Force -ErrorAction SilentlyContinue

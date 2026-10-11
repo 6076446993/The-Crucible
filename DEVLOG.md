@@ -232,6 +232,27 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: R8 same-machine rebuild path — 2026-10-10T16:00:00Z — Codex — mode:regular/default
+
+Plain-language summary: Added a manual-only, development-only self-hosted workflow for rebuilding R8 ciphertext from the preserved local source stage without moving plaintext through GitHub. The workflow reuses the existing verify/hydrate, executable-canary prepare, encrypt/split, and ciphertext-only publication primitives, and destroys runner temporary files and credentials on every exit path.
+- `implementation` — started 2026-10-10T16:00:00Z, finished 2026-10-10T16:00:00Z, exit 0; mode:regular/default.
+- `route:prewrite` — passed for `crucible-core` → `6076446993/The-Crucible` → `development`; exact affected path `.github/workflows/r8-executable-canary-publisher.yml` plus handoff/DEVLOG updates.
+- `source recovery` — cloned the preserved plaintext stage into the development worktree and verified project identity, 8 documents, 526 links, 403 source files; hydrate passed with 406 sources and restage passed with queue SHA `96f13274cf8c57d717e6f581cbe3c38bdcb6d52ad7e56a5fac51fd18eeefb50e` and learning SHA `569cabefaac39801f5c9857fae37192ede83f249da0b2a631a214d6b7a19f88f`.
+- `verification` — workflow lint passed across 30 workflows and publisher workflow tests passed 37/38 after the expected command-archive correction; no ciphertext, raw/vetted state, `main`, or Archive was changed.
+- `remaining blocker` — no self-hosted runner with labels `self-hosted,crucible-r8` is registered on this machine yet. The workflow is therefore not executable until an owner-authorized runner is installed and configured with `CRUCIBLE_R8_SOURCE_ROOT` pointing to the preserved local stage. No secret values are requested or logged.
+- `development push` — attempted after refreshing `origin/development` to `b68d1f7e2def760999e5767bd42f4c74873502f0`; the governed pre-push hook failed closed with `received no ref update to verify`. No bypass was used and no remote, raw/vetted state, `main`, or Archive changed.
+- `history reconciliation` — rebased the two local R8 repair commits onto current origin/development; the protected dry-run then reached the route check and failed only on the stale affected-path digest. Route regenerated to include the exact four-file development diff; no remote write occurred.
+
+### Session: r8-executable-publisher-dispatch-20261010 — 2026-10-10T06:23:00-04:00 — Codex — mode:regular/default
+
+Plain-language summary: The protected R8 registration path was exercised from the exact development tip. The real publisher ran and failed closed before the executable canary or any custody write because the configured source-bundle keys do not authenticate the existing encrypted bundle.
+
+- Dispatch: GitHub Actions run `38044694390`, job `114191751834`, exact development SHA `1199af5cb36166b997345bb9b0e5c5931713c75e`.
+- Hosted evidence: the ciphertext header identifies legacy `github:jonathanblunt1214-lgtm/The-Crucible` custody and plaintext hash `3e312164b0dd944b1859c6e663d44fb1a1796db8285715e2a16fb545c412c446`; both configured key candidates failed authentication.
+- Boundary: no canary ran, no executable bytes were executed or admitted, and no raw, vetted, or durable state changed. The failure is not repaired by generating another key: the original key cannot be derived from ciphertext.
+- Required next action: restore the original key that wrote this bundle, or obtain an owner-authorized plaintext/source-of-truth rebuild and re-encrypt under a new key. Do not guess, print, or replace a custody key from ciphertext.
+- Verification: `AI-HANDOFF.json` and `governingDocuments/scientific-learning-release-status.json` record the exact run, SHA, and blocker; JSON parsing passes. The pre-existing test-generated known-bug ledger changes remain preserved and were not discarded.
+
 ### Session: password-manager-api-key-research-20261009 — 2026-10-09T23:45:00Z — Codex — mode:regular/default
 
 Plain-language summary: Registered password-manager-safe human access and API-key lifecycle management as candidate-only research and documented a non-secret vault-item specification without writing or exposing credentials.
@@ -374,7 +395,6 @@ Routing custody note: exact prompt/path SHA-256 bindings repaired for AI-HANDOFF
 Plain-language summary: Atomically aligned current handoff and DEVLOG custody after hosted validation exposed sequential partial commits.
 - `repair custody records atomically` — started 2026-10-04T12:28:30Z, finished 2026-10-04T12:29:00Z, exit 0
 
-
 ## Historical mutation accountability
 
 Released claims `scheduled-cadence-repair-20261002` and `monitor-token-diagnostics-20261002` remain preserved in AI-HANDOFF.json. This reference repairs discoverability after session pruning; it does not change their results or custody.
@@ -467,3 +487,18 @@ Plain-language summary: Repaired the development-only key-manager bootstrap path
 - `hosted evidence` — bootstrap run `38042179085` failed closed at the existing malformed-secret decode check; no secret, registry, decrypt, or custody state changed.
 - `repair` — added `confirm_invalid_replacement` workflow input and matching automation/test coverage; malformed existing material remains blocked unless that explicit owner-controlled confirmation is true.
 - `verification` — focused key-manager automation tests 7/7 passed; workflow lint passed across 30 workflows.
+
+### Session: guarded raw-key bootstrap completion — 2026-10-10T07:33:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Owner-authorized bootstrap completed on `development` and generated a replacement raw custody key through the governed GitHub Actions secret-write path. The key value was never displayed or persisted in repository files.
+
+- **Hosted evidence:** run `38048839977` at exact development commit `1199af5cb36166b997345bb9b0e5c5931713c75e`, status Success; inputs were `mode=bootstrap`, `family=raw`, and explicit malformed-key replacement confirmation.
+- **Custody boundary:** only the GitHub Actions secret and non-secret fingerprint metadata were written; no decrypt, raw/vetted publication, `main`, or Archive mutation occurred.
+- **Remaining R8 work:** rebuild the approved plaintext source-of-truth under the new key, publish ciphertext/manifest only through the real custody path, then obtain genuine executable-content refusal and downstream durable proof.
+
+### Session: R8 post-bootstrap decrypt verification — 2026-10-10T07:37:00-04:00 — Codex — mode:regular
+
+Plain-language summary: The real R8 publisher was dispatched on `development` after raw-key bootstrap and failed closed at decrypt, proving the replacement key does not authenticate the existing ciphertext. No raw custody was modified.
+
+- **Hosted evidence:** run `38048979612`, exact development SHA `b68d1f7e2def760999e5767bd42f4c74873502f0`; preflight and custody restore passed, decrypt failed with the governed authentication error, and cleanup ran.
+- **Blocker:** the existing ciphertext was written under an unavailable prior key. A replacement key cannot decrypt it; a fresh encrypted bundle must be built under the new key from the preserved plaintext source-of-truth through an authorized hosted transfer path.
