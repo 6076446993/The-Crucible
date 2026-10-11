@@ -220,11 +220,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
-      "explicitOverride": true,
+      "reason": "Affected paths select crucible-core.",
+      "explicitOverride": false,
     "selectedAt": "2026-10-10T09:47:04.965Z",
     "promptSha256": "3068bdb8f2a56e7ab6d43fdb350ddab6d14e820160ebf49530462e10da3a93ff",
-    "affectedPathsSha256": "1361fbfafca2eeb43e881e46c4ca6af90b087e6ab83c8433168ef0066888d9e3"
+    "affectedPathsSha256": "afa2dcc706a6211b715273247d7190ed8f6af38bc28b79caf885ed3fa2b83e96"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -235,7 +235,7 @@
     ],
     "status": "in-progress",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-10T01:14:00.000Z",
+    "lastUpdatedAt": "2026-10-10T23:55:00.000Z",
     "currentStep": 5,
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -295,7 +295,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "The key-manager workflow now prefers organization secret CRUCIBLE_KEY_MANAGER_TOKEN (fine-grained PAT with repository Secrets and Contents write) and retains the GitHub App path only as fallback. Local changed-test execution passed 114/114. Hosted run 38042987213 generated a valid replacement but failed closed at repository-secret storage with HTTP 403 because the App path lacked secret-write authority; no key or custody state persisted. R8 remains pending.",
+    "verificationStatus": "R8 repair is pushed at exact development SHA 5a78404e9e40c895b881c6e208ba20eaca71a3a4. Protected route verification and all 104 selected local checks passed; hosted dispatch 38109749249 is queued on self-hosted,crucible-r8. No canary, raw/vetted state, or durable publication has occurred because no matching owner-controlled runner is registered. R3 remains zero-throughput after provider aborts; R9 is held; R10 and R11 remain pending.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
