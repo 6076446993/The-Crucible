@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   ciphertext-custody:
-    name: Verify ciphertext without decrypting
+    name: Verify retained ciphertext and raw key
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -35,6 +35,18 @@ jobs:
             git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/crucible-ciphertext/state"
           node src/hostedSourceBundle.js join --input-root "$RUNNER_TEMP/crucible-ciphertext/state" --output "$RUNNER_TEMP/crucible-ciphertext/source-bundle.enc"
           node -e "const fs=require('fs'),c=require('crypto');const f=process.argv[1],b=fs.readFileSync(f);console.log(JSON.stringify({schemaVersion:1,repository:process.env.GITHUB_REPOSITORY,ref:process.env.GITHUB_REF,ciphertextBytes:b.length,ciphertextSha256:c.createHash('sha256').update(b).digest('hex'),decrypted:false,authorizesPromotion:false}))" "$RUNNER_TEMP/crucible-ciphertext/source-bundle.enc" > hosted-source-bootstrap/report.json
+      - name: Authenticate retained raw custody with existing keys only
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+        run: |
+          set -euo pipefail
+          node src/hostedSourceBundle.js decrypt \
+            --input "$RUNNER_TEMP/crucible-ciphertext/source-bundle.enc" \
+            --output "$RUNNER_TEMP/crucible-ciphertext/authenticated.tar.gz" \
+            --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" \
+            --keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS \
+            > hosted-source-bootstrap/raw-key-compatibility.json
       - name: Destroy runner ciphertext and credentials
         if: always()
         run: rm -rf "$RUNNER_TEMP/crucible-ciphertext" "$RUNNER_TEMP/crucible-state-ssh"
@@ -43,6 +55,8 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: hosted-source-ciphertext-${{ github.run_id }}
-          path: hosted-source-bootstrap/report.json
+          path: |
+            hosted-source-bootstrap/report.json
+            hosted-source-bootstrap/raw-key-compatibility.json
           if-no-files-found: error
           retention-days: 90
