@@ -128,7 +128,7 @@ async function prepare({ root, workingRoot, repository, ref, sourceRegister, exp
   fs.mkdirSync(path.dirname(reportFile), { recursive: true }); fs.writeFileSync(reportFile, `${JSON.stringify(report, null, 2)}\n`, { mode: 0o600 }); return report;
 }
 
-function publishCiphertext({ ciphertextRoot, stateRoot, expectedPriorManifestSha256, repository, ref }) {
+function publishCiphertext({ ciphertextRoot, stateRoot, expectedPriorManifestSha256, repository, ref, legacyIndexedChunks = false }) {
   const state = path.resolve(stateRoot); const priorFile = path.join(state, 'encrypted-chunks.json');
   regular(priorFile);
   const held = new AtomicClaimExtractionQueue(priorFile, `github:${repository}`).lock();
@@ -143,7 +143,12 @@ function publishCiphertext({ ciphertextRoot, stateRoot, expectedPriorManifestSha
       const { header } = readHeader(joined); validateIdentity(header.projectId, repository, ref);
     }
     if (readHeader(path.join(checkRoot, 'prior.enc')).header.projectId !== readHeader(path.join(checkRoot, 'incoming.enc')).header.projectId) fail('incoming encrypted project identity changed');
-    const chunks = incoming.chunks.map((chunk) => ({ ...chunk, name: `source-bundle-${chunk.sha256}.enc` }));
+    // The independent receiver accepts the original indexed format. Allocate NEW indices,
+    // never overwrite an existing generation merely to preserve that wire contract.
+    const usedIndices = fs.readdirSync(state).map(name => /^source-bundle\.part-(\d{4})\.enc$/.exec(name)).filter(Boolean).map(match => Number(match[1]));
+    const firstIndex = Math.max(-1, ...usedIndices) + 1;
+    if (legacyIndexedChunks && firstIndex + incoming.chunks.length > 10000) fail('indexed ciphertext namespace exhausted');
+    const chunks = incoming.chunks.map((chunk, index) => ({ ...chunk, name: legacyIndexedChunks ? `source-bundle.part-${String(firstIndex + index).padStart(4, '0')}.enc` : `source-bundle-${chunk.sha256}.enc` }));
     for (let index = 0; index < chunks.length; index += 1) {
       const chunk = chunks[index]; const destination = chunkFile(state, chunk.name);
       if (fs.existsSync(destination)) { regular(destination); if (sha256File(destination) !== chunk.sha256) fail('immutable encrypted chunk collision'); }
@@ -166,7 +171,7 @@ function publishCiphertext({ ciphertextRoot, stateRoot, expectedPriorManifestSha
 async function main() {
   const [command, ...args] = process.argv.slice(2); const value = (name) => { const i = args.indexOf(name); if (i < 0 || !args[i + 1]) fail(`${name} is required`); return args[i + 1]; };
   if (command === 'prepare') return prepare({ root: value('--root'), workingRoot: value('--working-root'), repository: value('--repository'), ref: value('--ref'), sourceRegister: value('--source-register'), expectedRegisterSha256: value('--source-register-sha256'), reportFile: value('--report') });
-  if (command === 'publish-ciphertext') return publishCiphertext({ ciphertextRoot: value('--ciphertext-root'), stateRoot: value('--state-root'), expectedPriorManifestSha256: value('--prior-manifest-sha256'), repository: value('--repository'), ref: value('--ref') });
+  if (command === 'publish-ciphertext') return publishCiphertext({ ciphertextRoot: value('--ciphertext-root'), stateRoot: value('--state-root'), expectedPriorManifestSha256: value('--prior-manifest-sha256'), repository: value('--repository'), ref: value('--ref'), legacyIndexedChunks: args.includes('--legacy-indexed-chunks') });
   fail('usage: prepare|publish-ciphertext');
 }
 if (require.main === module) main().then((result) => console.log(JSON.stringify(result))).catch((error) => { console.error(`[The Crucible] ${error.message}`); process.exitCode = 1; });

@@ -25,6 +25,21 @@ function fixture(t, overrides = {}) {
   return { root, calls, retriever };
 }
 
+test('unsupported MIME executable signatures are refused without consuming the body', async (t) => {
+  let resumed = false; let closed = false;
+  const reply = response({ type:'application/octet-stream', body:'MZ123456' });
+  reply.body = (async function* () { try { yield Buffer.from('M'); yield Buffer.from('Z123456'); resumed = true; yield Buffer.alloc(1024); } finally { closed = true; } })();
+  const { retriever, root } = fixture(t, { responses:[reply] });
+  await assert.rejects(() => retriever.retrieve('https://docs.example.test/page'), /Executable content quarantined: Windows PE executable/);
+  assert.equal(resumed, false); assert.equal(closed, true);
+  assert.ok(!fs.readdirSync(root).some(name => /exe|source/i.test(name)));
+});
+
+test('unsupported MIME without executable signature remains rejected', async (t) => {
+  const { retriever } = fixture(t, { responses:[response({ type:'application/octet-stream', body:'ordinary unsupported bytes' })] });
+  await assert.rejects(() => retriever.retrieve('https://docs.example.test/page'), /Content type application\/octet-stream is not allowed/);
+});
+
 test('HTML sanitization reaches a fixed point for nested active content', () => {
   const sanitized = sanitizeHtml('<script><script>unsafe()</script></script><form><form>private</form></form><p onclick="run()">Safe evidence</p>');
   assert.doesNotMatch(sanitized, /<\/?(?:script|form)\b|onclick=/i);

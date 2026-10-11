@@ -104,7 +104,7 @@ test('preservation guard rejects candidate changes, lost sources, and knowledge 
   const promoted = structuredClone(learning); promoted.payload.activeVersion = null; assert.throws(() => assertPreserved(queue, queue, learning, promoted, new Set()), /learned state changed/);
 });
 
-test('ciphertext publication survives fresh-process restore, preserves rollback and rejects stale or tampered input', async (t) => {
+for (const legacyIndexedChunks of [false, true]) test(`ciphertext publication (${legacyIndexedChunks ? 'independent receiver indexed' : 'content addressed'}) preserves rollback and rejects stale or tampered input`, async (t) => {
   const f = fixture(t); const priorKey = process.env.CRUCIBLE_SOURCE_BUNDLE_KEY; process.env.CRUCIBLE_SOURCE_BUNDLE_KEY = crypto.randomBytes(32).toString('base64');
   t.after(() => { if (priorKey === undefined) delete process.env.CRUCIBLE_SOURCE_BUNDLE_KEY; else process.env.CRUCIBLE_SOURCE_BUNDLE_KEY = priorKey; });
   const state = path.join(f.root, 'state'); const incoming = path.join(f.root, 'incoming'); const oldPlain = path.join(f.root, 'old.bin'); const newPlain = path.join(f.root, 'new.bin');
@@ -113,7 +113,8 @@ test('ciphertext publication survives fresh-process restore, preserves rollback 
     const encrypted = path.join(f.root, `${name}.enc`); await encrypt({ input: plain, output: encrypted, projectId, repository, ref }); splitEncrypted({ input: encrypted, outputRoot });
   }
   fs.writeFileSync(path.join(state, 'README.md'), 'unrelated metadata'); const oldManifestHash = sha256File(path.join(state, 'encrypted-chunks.json'));
-  const published = publishCiphertext({ ciphertextRoot: incoming, stateRoot: state, expectedPriorManifestSha256: oldManifestHash, repository, ref });
+  const published = publishCiphertext({ ciphertextRoot: incoming, stateRoot: state, expectedPriorManifestSha256: oldManifestHash, repository, ref, legacyIndexedChunks });
+  if (legacyIndexedChunks) assert.ok(read(path.join(state, 'encrypted-chunks.json')).chunks.every(chunk => /^source-bundle\.part-\d{4}\.enc$/.test(chunk.name) && chunk.name !== 'source-bundle.part-0000.enc'));
   assert.equal(published.authorizesPromotion, false); assert.equal(sha256File(path.join(state, published.rollbackManifest)), oldManifestHash); assert.equal(fs.readFileSync(path.join(state, 'README.md'), 'utf8'), 'unrelated metadata');
   assert.equal(fs.existsSync(path.join(state, 'source-bundle.part-0000.enc')), true, 'previous ciphertext is retained');
   const joined = path.join(f.root, 'joined.enc'); const bundleCli = path.join(__dirname, '../src/hostedSourceBundle.js');

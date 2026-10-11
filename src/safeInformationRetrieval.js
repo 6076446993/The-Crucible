@@ -277,8 +277,21 @@ class SafeInformationRetriever {
       }
       if (!response.ok) throw new Error(`HTTP ${response.status}.`);
       const contentType = (response.headers.get('content-type') || '').split(';')[0].trim().toLowerCase();
-      if (!this.allowedContentTypes.includes(contentType)) throw new Error(`Content type ${contentType || 'missing'} is not allowed.`);
       const declared = Number(response.headers.get('content-length') || 0); if (declared > this.maximumBytes) throw new Error('Declared content length exceeds the configured limit.');
+      if (!this.allowedContentTypes.includes(contentType)) {
+        // Rejection stays mandatory. Inspect only the signature so an actual executable
+        // refusal is distinguishable from a generic MIME refusal; never retain its body.
+        const prefix = Buffer.alloc(8); let used = 0;
+        for await (const chunk of response.body) {
+          const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+          const take = Math.min(prefix.length - used, bytes.length);
+          bytes.copy(prefix, used, 0, take); used += take;
+          if (used === prefix.length) break;
+        }
+        const signature = executableMagic(prefix.subarray(0, used));
+        if (signature) throw new Error(`Executable content quarantined: ${signature}.`);
+        throw new Error(`Content type ${contentType || 'missing'} is not allowed.`);
+      }
       const chunks = []; let length = 0;
       for await (const chunk of response.body) { length += chunk.length; if (length > this.maximumBytes) throw new Error('Response exceeds the configured size limit.'); chunks.push(Buffer.from(chunk)); }
       const content = Buffer.concat(chunks); const magic = executableMagic(content);

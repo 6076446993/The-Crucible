@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-11T21:37:56.650Z"
+    "lastActionAt": "2026-10-11T21:59:51.067Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -207,7 +207,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
-    "currentPrompt": "ok so do it",
+    "currentPrompt": "The failure details show a separate R8 blocker: missing executable-content quarantine proof. research this and resolve it.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -221,11 +221,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Project context selects crucible-core.",
+      "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-11T21:37:56.793Z",
-      "promptSha256": "d6e60da413fd11698defde6f1fdaa34fbf6f03ce65fd0484df0651df3d0d57d8",
-      "affectedPathsSha256": "4715f792a2d68c7f43ef57068dc877ff199f4320b845c44b9a6675a97e64d4e7"
+      "selectedAt": "2026-10-11T21:57:29.810Z",
+      "promptSha256": "3cfbffea63ead510d11dcfe04484b595acce650fed394cbac03934ad7fa49b5c",
+      "affectedPathsSha256": "2db64e3ee752563b42abac8f145d7a9173c616a2517a87c6afab78927e9c9fc8"
     },
     "steps": [
       "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
@@ -236,8 +236,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-11T21:37:56.650Z",
-    "currentStep": "Archive replacement verified. Resume separate governed R8 executable-content proof; no R2 restart or automatic promotion. Downstream projects remain held.",
+    "lastUpdatedAt": "2026-10-11T21:59:51.067Z",
+    "currentStep": "Repair R8 hosted publisher, obtain genuine live executable refusal without persisted bytes, publish rollback-safe raw custody, request independent Oversight, and verify R8 from vetted state.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -280,7 +280,13 @@
         "test/rawCustodyRebuildWorkflow.test.js",
         "README.md",
         ".github/workflows/raw-custody-publisher.yml",
-        "test/rawCustodyPublisher.test.js"
+        "test/rawCustodyPublisher.test.js",
+        ".github/workflows/r8-executable-canary-publisher.yml",
+        "src/safeInformationRetrieval.js",
+        "test/safeInformationRetrieval.test.js",
+        "src/r8ExecutableCanaryPublisher.js",
+        "test/r8ExecutableCanaryPublisher.test.js",
+        "src/rawCustodyPublisher.js"
       ],
       "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
     },
@@ -529,6 +535,40 @@
       "candidates": 29799,
       "historicalQueueIdsPreserved": 534,
       "authorizesPromotion": false
+    },
+    "r8PriorPrompt": "ok so do it",
+    "r8Repair": {
+      "observedAt": "2026-10-11T21:51:43.911Z",
+      "status": "IMPLEMENTED_LOCAL_LIVE_REFUSAL_VERIFIED_HOSTED_PENDING",
+      "runnerCount": 0,
+      "staleRunsCancelled": [
+        38110879490,
+        38110529101
+      ],
+      "canaryUrl": "https://raw.githubusercontent.com/pypa/distlib/454a87c64f0b545138dc4798aa833a4ff8ac2377/distlib/w64.exe",
+      "canarySource": "Official PyPA distlib Windows launcher; never executed or retained",
+      "research": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+        "https://distlib.readthedocs.io/en/latest/tutorial.html",
+        "https://github.com/pypa/distlib"
+      ],
+      "changes": [
+        "Hosted runner restores authenticated current raw custody instead of requiring nonexistent self-hosted runner/local stage.",
+        "Unsupported MIME remains rejected; bounded eight-byte signature prefix records actual executable refusal without retaining the body.",
+        "Existing candidates, source records and learned state preserved.",
+        "Shared raw-publisher concurrency, exact prior revision/hash, isolated encrypted restore and immutable rollback; unsafe legacy deletion publisher disabled."
+      ],
+      "localProofSourceId": "owner-delegated-url:665240c955e789e20de831efb45383291122f99e77beaaf74b97a39c4bb72c6f",
+      "rawPublicationPending": true,
+      "independentOversightPending": true,
+      "R8Passed": false,
+      "receiverCompatibility": "Independent Oversight accepts original indexed chunk format; new publication allocates unused indices and retains all old chunks.",
+      "independentReceiverAuthority": "Owner authorization requested for inbound-key synchronization and dispatch; Oversight policy prohibits Crucible configuring or triggering the review.",
+      "receiverKeyMetadata": {
+        "oversightUpdatedAt": "2026-09-01T15:05:47Z",
+        "currentRawUpdatedAt": "2026-10-10T11:33:49Z",
+        "actualMismatchNotYetTested": true
+      }
     }
   },
   "handoffNotes": {
@@ -1462,7 +1502,13 @@
           "test/rawCustodyRebuildWorkflow.test.js",
           "README.md",
           ".github/workflows/raw-custody-publisher.yml",
-          "test/rawCustodyPublisher.test.js"
+          "test/rawCustodyPublisher.test.js",
+          ".github/workflows/r8-executable-canary-publisher.yml",
+          "src/safeInformationRetrieval.js",
+          "test/safeInformationRetrieval.test.js",
+          "src/r8ExecutableCanaryPublisher.js",
+          "test/r8ExecutableCanaryPublisher.test.js",
+          "src/rawCustodyPublisher.js"
         ],
         "regions": []
       },
