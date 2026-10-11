@@ -1,13 +1,12 @@
 'use strict';
 
-// The sole raw-custody publisher used for the owner-authorized R8 executable-format
-// canary. It deliberately handles only a restored, authenticated bundle and ciphertext;
-// the workflow owns decryption, encryption, and runner cleanup.
+// Prepare an actual executable refusal in authenticated raw custody. The workflow
+// uses rawCustodyPublisher for rollback-safe publication and owns runner cleanup.
 const fs = require('node:fs');
 const path = require('node:path');
-const crypto = require('node:crypto');
 const { verifyRestored, hydrateRestored, restageRestored, chunkFile, sha256File } = require('./hostedSourceBundle');
 const { run: runRetrievalCli } = require('./sourceRetrievalWorkerCli');
+const { assertPreserved } = require('./rawCustodyPublisher');
 
 function required(value, name) { if (!value || !String(value).trim()) throw new Error(`${name} is required.`); return String(value).trim(); }
 function readQueue(root) { return JSON.parse(fs.readFileSync(path.join(root, 'source-queue.json'), 'utf8')); }
@@ -18,6 +17,9 @@ function plainFile(root, name) { return path.resolve(root, name); }
 async function prepare({ root, repository, ref, canaryUrl, reportFile, environment = process.env }) {
   const custody = verifyRestored({ root, repository, ref, reportFile: `${reportFile}.custody`, provenance: 'raw-intake' });
   const hydrated = hydrateRestored({ root, repository, ref });
+  const beforeQueue = readQueue(root);
+  const learningName = JSON.parse(fs.readFileSync(path.join(root, 'manifest.json'), 'utf8')).learningFile;
+  const beforeLearning = JSON.parse(fs.readFileSync(path.join(root, learningName), 'utf8'));
   const beforeFiles = sourceFileNames(root);
   const runtime = {
     ...environment,
@@ -43,6 +45,9 @@ async function prepare({ root, repository, ref, canaryUrl, reportFile, environme
   if (JSON.stringify(source).includes('MZ') || JSON.stringify(source).includes('PK\u0003\u0004')) throw new Error('R8 canary queue record contains executable bytes.');
   const afterFiles = sourceFileNames(root);
   if (JSON.stringify(beforeFiles) !== JSON.stringify(afterFiles)) throw new Error('R8 canary created durable source bytes.');
+  const afterLearning = JSON.parse(fs.readFileSync(path.join(root, learningName), 'utf8'));
+  assertPreserved(beforeQueue, readQueue(root), beforeLearning, afterLearning, new Set([admitted.sourceId]));
+  if (JSON.stringify(beforeLearning) !== JSON.stringify(afterLearning)) throw new Error('R8 canary changed existing learned state.');
   const manifest = restageRestored({ root, repository, ref });
   const report = {
     schemaVersion: 1,
@@ -54,6 +59,9 @@ async function prepare({ root, repository, ref, canaryUrl, reportFile, environme
     state: source.state,
     quarantineReason: source.blocker,
     executableContentPersisted: false,
+    existingQueueRecordsPreserved: true,
+    existingCandidatesPreserved: beforeLearning.payload.candidateRecords.length,
+    learnedStateUnchanged: true,
     durableSourceFilesBefore: beforeFiles.length,
     durableSourceFilesAfter: afterFiles.length,
     queueSha256: manifest.queueSha256,
@@ -76,29 +84,8 @@ function verifiedManifest(root) {
   return manifest;
 }
 
-function publishCiphertext({ ciphertextRoot, stateRoot }) {
-  const incoming = verifiedManifest(ciphertextRoot);
-  const prior = verifiedManifest(stateRoot);
-  const state = path.resolve(stateRoot);
-  const pending = [];
-  for (const chunk of incoming.chunks) {
-    const destination = chunkFile(state, chunk.name);
-    const temporary = `${destination}.r8-pending-${crypto.randomUUID()}`;
-    fs.copyFileSync(chunkFile(ciphertextRoot, chunk.name), temporary, fs.constants.COPYFILE_EXCL);
-    pending.push({ destination, temporary });
-  }
-  const manifestTemporary = path.join(state, `encrypted-chunks.json.r8-pending-${crypto.randomUUID()}`);
-  fs.copyFileSync(path.join(ciphertextRoot, 'encrypted-chunks.json'), manifestTemporary, fs.constants.COPYFILE_EXCL);
-  try {
-    for (const chunk of prior.chunks) fs.rmSync(chunkFile(state, chunk.name), { force: false });
-    fs.rmSync(path.join(state, 'encrypted-chunks.json'), { force: false });
-    for (const file of pending) fs.renameSync(file.temporary, file.destination);
-    fs.renameSync(manifestTemporary, path.join(state, 'encrypted-chunks.json'));
-  } finally {
-    for (const file of pending) fs.rmSync(file.temporary, { force: true });
-    fs.rmSync(manifestTemporary, { force: true });
-  }
-  return { encryptedSha256: incoming.encryptedSha256, chunks: incoming.chunks.length };
+function publishCiphertext() {
+  throw new Error('The legacy R8 publisher cannot preserve rollback custody. Use rawCustodyPublisher.publishCiphertext with an exact prior manifest hash.');
 }
 
 async function main() {
