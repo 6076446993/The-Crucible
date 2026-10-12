@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-12T02:38:03.985Z"
+    "lastActionAt": "2026-10-12T02:46:08.361Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -222,7 +222,7 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-12T02:34:10.652Z",
+      "selectedAt": "2026-10-12T02:44:09.499Z",
       "promptSha256": "a55be57d96762511218182ec8afad99ed0c6af094d7c09725d71c797bb53371b",
       "affectedPathsSha256": "258d5541c160772dec7e453430e22fd08de287e5de5c6f57f2a8d90289f3995a"
     },
@@ -235,8 +235,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-12T02:38:03.985Z",
-    "currentStep": "Publish isolated manual NVIDIA acceptance option; dispatch once using existing authorization; retain actual positive or negative receipt. Keep production policy manual.",
+    "lastUpdatedAt": "2026-10-12T02:46:08.361Z",
+    "currentStep": "Publish actual negative acceptance receipt and one default-budget retest after the five-minute failure interval. Dispatch once; keep independent Oversight and activation held.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -1166,7 +1166,7 @@
         "productionDiscoveryJob": "skipped for acceptance-only dispatch",
         "maxRealInferenceCalls": 5,
         "maxSelectionProbes": 3,
-        "maxOutputTokensPerCall": 256,
+        "maxOutputTokensPerCall": 1024,
         "maxRequestMs": 30000,
         "credentials": "existing NVIDIA_NIM_API_KEY repository secret only; no exports or replacements",
         "modelAllowlist": "existing selector approved model IDs only",
@@ -1185,7 +1185,38 @@
           "failed": 0,
           "skipped": 0
         },
-        "status": "implemented; dispatch and actual result pending"
+        "status": "real first selection passed; controlled-retirement alternate empty; one default-budget retest prepared",
+        "firstActualRun": {
+          "run": 38196752958,
+          "job": 114641009152,
+          "sourceCommit": "a5eaa59512e59ce26c246903239d6f5817972655",
+          "conclusion": "failure",
+          "actualInferenceCalls": 5,
+          "allFourApprovedModelsListed": true,
+          "unapprovedModelsIgnored": 76,
+          "passedProbeModels": [
+            "nvidia/nemotron-3-super-120b-a12b",
+            "nvidia/nemotron-3-ultra-550b-a55b"
+          ],
+          "initialLiveModel": "nvidia/nemotron-3-ultra-550b-a55b",
+          "controlledRetirementSelectedAlternate": "nvidia/nemotron-3-super-120b-a12b",
+          "actualFailureCode": "CRU-0036",
+          "actualFailureReason": "NVIDIA NIM returned an empty completion on alternate inference at the artificial 256-token test limit",
+          "failureMessageSha256": "418470e60fa7bcdacd9c7afc2cb881bab45b95560e19a4b50c3a498d88b26a4c",
+          "receiptSha256": "5aca38b5e4dbac0768dd0f5f856de3f7ba0e321ff6dc58a13a545b01037db3a7",
+          "artifactId": 11724210982,
+          "artifactDigest": "sha256:9e66fbade18dc67923095045b1851dd3786c1b22969048943da8fe4fdccbf773",
+          "noActivation": true,
+          "noPaidFallback": true
+        },
+        "correctiveAction": "Retain the failed run and retry once using the implementation default 1024-token ceiling, still at most five inference calls and three probes; no production config change",
+        "earliestRetryAt": "2026-10-12T02:46:40Z",
+        "nativeDefaultBudgetDriverTests": {
+          "passed": 3,
+          "failed": 0,
+          "quotaAndMissingModelsFailClosed": true,
+          "noLiveCalls": true
+        }
       }
     }
   },

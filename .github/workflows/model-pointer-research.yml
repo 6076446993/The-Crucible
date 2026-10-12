@@ -131,7 +131,7 @@ jobs:
       NVIDIA_NIM_MODEL: ${{ vars.NVIDIA_NIM_MODEL || 'z-ai/glm-5.3-flash' }}
       NVIDIA_NIM_BASE_URL: ${{ vars.NVIDIA_NIM_BASE_URL || secrets.NVIDIA_NIM_BASE_URL }}
       NVIDIA_NIM_MAX_PROBES: '3'
-      CRUCIBLE_DISCOVERY_MAX_OUTPUT_TOKENS: '256'
+      CRUCIBLE_DISCOVERY_MAX_OUTPUT_TOKENS: '1024'
       CRUCIBLE_DISCOVERY_REQUEST_TIMEOUT_MS: '30000'
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -152,11 +152,12 @@ jobs:
           const { createProviderAdapter } = require('./src/aiProviderAdapters');
           const { NvidiaModelAutoSelector, PROBE_PROMPT, urlPointers } = require('./src/nvidiaModelAutoSelector');
           const report = { sourceRevision:process.env.GITHUB_SHA, requests:0, diagnostics:[], policyActivation:false,
+            maxInferenceCalls:5, maxOutputTokensPerCall:1024, maxSelectionProbes:3, maxRequestMs:30000,
             productionStateChanged:false, paidFallback:false, freeEntitlementVerified:false,
             retirementFault:'controlled HTTP 410 injection at adapter boundary, not a natural provider retirement',
             independentOversight:'still required', authorizesActivation:false, authorizesPromotion:false };
           const digest = value => crypto.createHash('sha256').update(String(value)).digest('hex');
-          const real = createProviderAdapter('nvidia-nim', { env:process.env, maxTokens:256, timeoutMs:30000 });
+          const real = createProviderAdapter('nvidia-nim', { env:process.env, maxTokens:1024, timeoutMs:30000 });
           const counted = { run:async request => {
             if (report.requests >= 5) throw Error('Acceptance inference-call budget exhausted');
             report.requests += 1;
@@ -187,7 +188,10 @@ jobs:
             report.selectionAndControlledRecovery = 'blocked';
             report.failureMessageSha256 = digest(error.message);
             report.failureStatus = /HTTP\s+(\d{3})/.exec(error.message)?.[1] || null;
-            report.failureReason = 'No approved live selection/recovery proof; retained negative result, no provider workaround';
+            report.failureCode = /\[(CRU-\d{4}|OPS-\d{4})\]/.exec(error.message)?.[1] || null;
+            report.failureReason = /returned an empty completion\./.test(error.message)
+              ? 'Provider returned an empty completion within the bounded output-token budget'
+              : 'No approved live selection/recovery proof; retained negative result, no provider workaround';
             process.exitCode = 1;
           }).finally(() => {
             fs.writeFileSync('nvidia-acceptance.json', JSON.stringify(report, null, 2) + '\n', { mode:0o600 });
