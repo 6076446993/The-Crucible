@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-12T02:05:00.735Z"
+    "lastActionAt": "2026-10-12T02:11:28.846Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -235,7 +235,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-12T02:05:00.735Z",
+    "lastUpdatedAt": "2026-10-12T02:11:28.846Z",
     "currentStep": "Publish only scoped NVIDIA and atomic governance delta to development; verify exact-tip hosted checks. Automatic activation, live acceptance and independent Oversight remain pending.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -1044,7 +1044,13 @@
           "source": "native-full-final.log",
           "earlierFailuresRetained": true
         },
-        "requiredLocalAudits": "workflow lint, docs check, configuration, clutter, privacy, security, circulation and coordination passed"
+        "requiredLocalAudits": "workflow lint, docs check, configuration, clutter, privacy, security, circulation and coordination passed",
+        "repairedTreeFullSuite": {
+          "passed": 1101,
+          "failed": 0,
+          "skipped": 0,
+          "log": "native-full-privacy-repaired.log"
+        }
       },
       "preexistingDirtyHashes": [
         {
@@ -1086,7 +1092,19 @@
           "src/testCadenceCoreLegacy.js"
         ]
       },
-      "testFixtureMaintenance": "Matching the approved NVIDIA test registry entry in its existing exact-list assertion; no check weakened"
+      "testFixtureMaintenance": "Matching the approved NVIDIA test registry entry in its existing exact-list assertion; no check weakened",
+      "publicationFailure": {
+        "stage": "native pre-push privacy",
+        "failureCode": "CRU-0013",
+        "reason": "Synthetic user-info URL in negative test was classified as an email address; no real credential or personal address involved",
+        "sourceCommit": "17b9cfd6c3c56374832bbd40e47f83945feb88da",
+        "evidence": "native-push.log",
+        "observedAt": "2026-10-12T02:07:56.729Z",
+        "correctiveAction": "Construct synthetic user-info separator at runtime; retain endpoint-denial assertion; force hosted policy manual pending independent acceptance",
+        "earliestWorkRetryAt": "2026-10-12T02:12:56.729Z",
+        "retest": "Privacy audit passed; repaired-tree full native suite 1101/1101 with zero skipped; focused selector/workflow 69/69."
+      },
+      "activationHold": "Hosted workflow hard-pinned manual; no repository variable can activate auto before acceptance"
     }
   },
   "handoffNotes": {

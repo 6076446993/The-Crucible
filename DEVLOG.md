@@ -271,6 +271,10 @@ Plain-language summary: The actual custody owner explicitly paused overlapping w
 - `local required audits` — completed before 2026-10-12T02:05:00.735Z, exit 0; workflow lint, docs check, configuration, clutter, privacy, security, circulation and coordination.
 - `publication boundary` — preserve initial failures; no new hosted or live acceptance yet, automatic policy manual.
 
+- `pre-push refusal and corrective repair` — observed 2026-10-12T02:07:56.729Z, exit 1; CRU-0013 rejected a synthetic user-info URL as an email; publication did not occur. Rebuilt the same negative fixture without a literal address and hard-pinned hosted model policy manual. Retry not before 2026-10-12T02:12:56.729Z; previous failure preserved.
+
+- `privacy-repaired native retest` — completed before 2026-10-12T02:11:28.846Z, exit 0; 1101/1101 full suite, 69/69 selector/workflow focused, privacy audit passes; automatic hosted selection held manual.
+
 ### Session: R8 live executable refusal repair — 2026-10-11T21:51:43.911Z — Codex — mode:work
 
 Plain-language summary: Repaired the missing R8 execution path and verified a real executable refusal in isolated local custody. Hosted and independent gate verification are pending.
