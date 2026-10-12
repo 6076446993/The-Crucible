@@ -132,7 +132,7 @@ jobs:
       NVIDIA_NIM_BASE_URL: ${{ vars.NVIDIA_NIM_BASE_URL || secrets.NVIDIA_NIM_BASE_URL }}
       NVIDIA_NIM_MAX_PROBES: '3'
       CRUCIBLE_DISCOVERY_MAX_OUTPUT_TOKENS: '1024'
-      CRUCIBLE_DISCOVERY_REQUEST_TIMEOUT_MS: '30000'
+      CRUCIBLE_DISCOVERY_REQUEST_TIMEOUT_MS: '90000'
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -152,12 +152,12 @@ jobs:
           const { createProviderAdapter } = require('./src/aiProviderAdapters');
           const { NvidiaModelAutoSelector, PROBE_PROMPT, urlPointers } = require('./src/nvidiaModelAutoSelector');
           const report = { sourceRevision:process.env.GITHUB_SHA, requests:0, diagnostics:[], policyActivation:false,
-            maxInferenceCalls:5, maxOutputTokensPerCall:1024, maxSelectionProbes:3, maxRequestMs:30000,
+            maxInferenceCalls:5, maxOutputTokensPerCall:1024, maxSelectionProbes:3, maxRequestMs:90000,
             productionStateChanged:false, paidFallback:false, freeEntitlementVerified:false,
             retirementFault:'controlled HTTP 410 injection at adapter boundary, not a natural provider retirement',
             independentOversight:'still required', authorizesActivation:false, authorizesPromotion:false };
           const digest = value => crypto.createHash('sha256').update(String(value)).digest('hex');
-          const real = createProviderAdapter('nvidia-nim', { env:process.env, maxTokens:1024, timeoutMs:30000 });
+          const real = createProviderAdapter('nvidia-nim', { env:process.env, maxTokens:1024, timeoutMs:90000 });
           const counted = { run:async request => {
             if (report.requests >= 5) throw Error('Acceptance inference-call budget exhausted');
             report.requests += 1;

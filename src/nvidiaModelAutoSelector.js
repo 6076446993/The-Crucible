@@ -2,6 +2,7 @@
 // Governed NVIDIA-only model-selection for R3 URL-pointer discovery.
 // This module does not grant source authority, turn pointers into citations, or access paid providers.
 const crypto = require('node:crypto');
+const { operationalError } = require('./failureCodes');
 const { endpointFor } = require('./aiProviderRegistry');
 
 const DEFAULT_FREE_IDS = Object.freeze([
@@ -17,7 +18,7 @@ const ALLOWED_SUFFIXES = ['.gov', '.org', '.edu'];
 function sha256(value) { return crypto.createHash('sha256').update(value).digest('hex'); }
 function boundedInteger(value, fallback, min, max, label) {
   const num = value == null || value === '' ? fallback : Number(value);
-  if (!Number.isSafeInteger(num) || num < min || num > max) throw new Error(`R3 model selector: ${label} must be ${min}–${max}`);
+  if (!Number.isSafeInteger(num) || num < min || num > max) throw operationalError('OPS-0042', `R3 model selector: ${label} must be ${min}–${max}`);
   return num;
 }
 function requirements(env = {}) {
@@ -41,14 +42,14 @@ function allowedFreeIds(env) {
   const custom = String(env.NVIDIA_NIM_FREE_MODELS || '').trim();
   if (!custom) return [...DEFAULT_FREE_IDS];
   const ids = custom.split(',').map(s => s.trim()).filter(Boolean);
-  if (ids.length < 1 || ids.length > 15 || ids.some(x => !MODEL_ID.test(x)) || new Set(ids).size !== ids.length) throw new Error('Invalid approved-free model allowlist');
+  if (ids.length < 1 || ids.length > 15 || ids.some(x => !MODEL_ID.test(x)) || new Set(ids).size !== ids.length) throw operationalError('OPS-0042', 'Invalid approved-free model allowlist');
   return ids;
 }
 function modelInventoryUrl(env) {
   const endpoint = new URL(endpointFor('nvidia-nim', env));
   // Secret is never sent to another host or following redirects through this selector.
   const approvedHost = 'integrate.api.nvidia.com'; // Host is fixed: never send credentials to an environment-selected host.
-  if (endpoint.protocol !== 'https:' || endpoint.hostname.toLowerCase() !== approvedHost || !endpoint.pathname.endsWith('/chat/completions') || endpoint.search || endpoint.hash || endpoint.username || endpoint.password) throw new Error('Model inventory endpoint is not approved');
+  if (endpoint.protocol !== 'https:' || endpoint.hostname.toLowerCase() !== approvedHost || !endpoint.pathname.endsWith('/chat/completions') || endpoint.search || endpoint.hash || endpoint.username || endpoint.password) throw operationalError('OPS-0042', 'Model inventory endpoint is not approved');
   endpoint.pathname = endpoint.pathname.slice(0, -'/chat/completions'.length) + '/models';
   return endpoint.toString();
 }
@@ -62,7 +63,7 @@ function authorizationOrQuotaError(error) {
 
 class NvidiaModelAutoSelector {
   constructor({ env=process.env, adapter, fetchImpl=globalThis.fetch, now=()=>new Date().toISOString(), onDiagnostic=()=>{} }={}) {
-    if (!adapter?.run || typeof fetchImpl !== 'function') throw new Error('Model selector requires adapter and network transport');
+    if (!adapter?.run || typeof fetchImpl !== 'function') throw operationalError('OPS-0042', 'Model selector requires adapter and network transport');
     this.env=env; this.adapter=adapter; this.fetch=fetchImpl; this.now=now; this.log=onDiagnostic;
     this.requirements=requirements(env); this.approved=allowedFreeIds(env);
     this.inventory=null; this.selected=null; this.retired=new Set(); this.audit=[];
@@ -75,7 +76,7 @@ class NvidiaModelAutoSelector {
   }
   async list() {
     const key=String(this.env.NVIDIA_NIM_API_KEY||'').trim();
-    if (!key) throw new Error('NVIDIA_NIM_API_KEY missing; no model selected');
+    if (!key) throw operationalError('OPS-0042', 'NVIDIA_NIM_API_KEY missing; no model selected');
     const uri=modelInventoryUrl(this.env);
     const controller=new AbortController();
     const timer=setTimeout(()=>controller.abort(),Math.min(10000,this.requirements.maxRequestMs));
@@ -83,19 +84,19 @@ class NvidiaModelAutoSelector {
     try {
       response=await this.fetch(uri,{method:'GET',headers:{authorization:`Bearer ${key}`,accept:'application/json'},signal:controller.signal,redirect:'error'});
       const announced = Number(response?.headers?.get?.('content-length') || 0);
-      if (announced > 1000000) throw new Error('Inventory response is too large');
+      if (announced > 1000000) throw operationalError('OPS-0042', 'Inventory response is too large');
       raw=await response.text();
-    } catch (e) { this.record('MODEL_INVENTORY_FAILED',{reason:'network_or_timeout'}); throw new Error('NVIDIA model inventory unavailable; discovery held'); }
+    } catch (e) { this.record('MODEL_INVENTORY_FAILED',{reason:'network_or_timeout'}); throw operationalError('OPS-0042', 'NVIDIA model inventory unavailable; discovery held'); }
     finally { clearTimeout(timer); }
-    if (!response || response.status!==200 || raw.length>1000000) { this.record('MODEL_INVENTORY_FAILED',{status:response?.status||null}); throw new Error(`NVIDIA model inventory rejected (${response?.status||'invalid'})`); }
+    if (!response || response.status!==200 || raw.length>1000000) { this.record('MODEL_INVENTORY_FAILED',{status:response?.status||null}); throw operationalError('OPS-0042', `NVIDIA model inventory rejected (${response?.status||'invalid'})`); }
     let value;
-    try { value=JSON.parse(raw); } catch { throw new Error('NVIDIA model inventory returned invalid JSON'); }
-    if (!Array.isArray(value.data)) throw new Error('NVIDIA model inventory lacks model data');
+    try { value=JSON.parse(raw); } catch { throw operationalError('OPS-0042', 'NVIDIA model inventory returned invalid JSON'); }
+    if (!Array.isArray(value.data)) throw operationalError('OPS-0042', 'NVIDIA model inventory lacks model data');
     const observed=new Set(value.data.filter(x=>x && typeof x.id==='string' && MODEL_ID.test(x.id)).map(x=>x.id));
     const eligible=this.approved.filter(id=>observed.has(id) && !this.retired.has(id));
     this.inventory=eligible;
     this.record('MODEL_INVENTORY_OBSERVED',{ availableApproved:eligible, approvedMissing:this.approved.filter(id=>!observed.has(id)), unapprovedCount:[...observed].filter(id=>!this.approved.includes(id)).length, inventoryDigest:sha256(raw) });
-    if (!eligible.length) throw new Error('No currently listed and preapproved free NIM model; needs governed free-eligibility review');
+    if (!eligible.length) throw operationalError('OPS-0042', 'No currently listed and preapproved free NIM model; needs governed free-eligibility review');
     return eligible;
   }
   async select() {
@@ -118,12 +119,14 @@ class NvidiaModelAutoSelector {
         outcomes.push({model,score,latency,pointerCount:pointers.length});
         this.record('MODEL_PROBE_PASSED',{model,latencyMs:latency,pointerCount:pointers.length});
       } catch(e) {
-        if (authorizationOrQuotaError(e)) { this.record('MODEL_PROBE_BLOCKED',{model,reason:'auth_or_quota'}); throw new Error('NVIDIA authentication/quota failure; do not bypass to other billed provider'); }
+        if (authorizationOrQuotaError(e)) { this.record('MODEL_PROBE_BLOCKED',{model,reason:'auth_or_quota'}); throw operationalError('OPS-0042', 'NVIDIA authentication/quota failure; do not bypass to other billed provider'); }
         if (retirementError(e)) this.retired.add(model);
-        this.record('MODEL_PROBE_FAILED',{model,reason:retirementError(e)?'retired_or_unavailable':'invalid_or_timed_out'});
+        this.record('MODEL_PROBE_FAILED',{model,reason:retirementError(e)?'retired_or_unavailable':'invalid_or_timed_out',
+          failureCode:e.crucibleCode || null, operationalCode:e.operationalCode || null,
+          failureMessageSha256:sha256(String(e.message || e))});
       }
     }
-    if (!outcomes.length) throw new Error('No preapproved listed NVIDIA model passed bounded R3 probe');
+    if (!outcomes.length) throw operationalError('OPS-0042', 'No preapproved listed NVIDIA model passed bounded R3 probe');
     outcomes.sort((a,b)=>b.score-a.score || a.model.localeCompare(b.model));
     this.ranked=outcomes;
     this.selected=outcomes[0].model;
@@ -135,8 +138,8 @@ class NvidiaModelAutoSelector {
       const model=await this.select();
       try {
         const response=await this.adapter.run({prompt,model});
-        if (!String(response?.text||'').trim()) throw new Error('empty completion');
-        if (response.model && response.model !== model) throw new Error('NVIDIA served unexpected model identity');
+        if (!String(response?.text||'').trim()) throw operationalError('OPS-0042', 'empty completion');
+        if (response.model && response.model !== model) throw operationalError('OPS-0042', 'NVIDIA served unexpected model identity');
         return { ...response, model:response.model || model };
       } catch(e) {
         if (authorizationOrQuotaError(e)) throw e;
@@ -145,7 +148,7 @@ class NvidiaModelAutoSelector {
         this.record('MODEL_RETIRED_DURING_RUN',{model,reason:'not_found_or_gone'});
       }
     }
-    throw new Error('Model fallback exhausted');
+    throw operationalError('OPS-0042', 'Model fallback exhausted');
   }
 }
 module.exports={NvidiaModelAutoSelector,requirements,allowedFreeIds,modelInventoryUrl,retirementError,authorizationOrQuotaError,urlPointers,DEFAULT_FREE_IDS,PROBE_PROMPT};

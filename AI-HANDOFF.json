@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-12T02:46:08.361Z"
+    "lastActionAt": "2026-10-12T02:57:37.350Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-12T02:44:09.499Z",
+      "selectedAt": "2026-10-12T02:53:49.766Z",
       "promptSha256": "a55be57d96762511218182ec8afad99ed0c6af094d7c09725d71c797bb53371b",
-      "affectedPathsSha256": "258d5541c160772dec7e453430e22fd08de287e5de5c6f57f2a8d90289f3995a"
+      "affectedPathsSha256": "b1669d1ab3861cebbd3afd5aa2a3450923143a0a8571e755ba3cf5c4bb8312ca"
     },
     "steps": [
       "Preserve existing dirty preimages and record authorized bounded handoff",
@@ -235,8 +235,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-12T02:46:08.361Z",
-    "currentStep": "Publish actual negative acceptance receipt and one default-budget retest after the five-minute failure interval. Dispatch once; keep independent Oversight and activation held.",
+    "lastUpdatedAt": "2026-10-12T02:57:37.350Z",
+    "currentStep": "Publish structured diagnostics and actual-default isolated test limits, dispatch final bounded acceptance attempt, retain actual evidence and leave automatic activation held for independent acceptance.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -1050,6 +1050,11 @@
           "failed": 0,
           "skipped": 0,
           "log": "native-full-privacy-repaired.log"
+        },
+        "latestFullNative": {
+          "passed": 1104,
+          "failed": 0,
+          "skipped": 0
         }
       },
       "preexistingDirtyHashes": [
@@ -1167,7 +1172,7 @@
         "maxRealInferenceCalls": 5,
         "maxSelectionProbes": 3,
         "maxOutputTokensPerCall": 1024,
-        "maxRequestMs": 30000,
+        "maxRequestMs": 90000,
         "credentials": "existing NVIDIA_NIM_API_KEY repository secret only; no exports or replacements",
         "modelAllowlist": "existing selector approved model IDs only",
         "custodyAndQueueWrites": false,
@@ -1216,8 +1221,30 @@
           "failed": 0,
           "quotaAndMissingModelsFailClosed": true,
           "noLiveCalls": true
+        },
+        "secondActualRun": {
+          "sourceCommit": "99ee25aea5fae6471517a183f1365a81cbdc8d9f",
+          "run": 38197286368,
+          "job": 114642677650,
+          "conclusion": "failure",
+          "requests": 4,
+          "initialLiveModel": "nvidia/nemotron-3-super-120b-a12b",
+          "actualReason": "Only Super qualified within three probes: GLM probe failed and Ultra reached 30-second test timeout; controlled retirement exhausted qualified survivors without bypassing probe cap",
+          "artifactId": 11724330245,
+          "artifactDigest": "sha256:e5670f730ad81b165f7771bbc74bca794d18f5647c326c7e28ce4b901b50b769",
+          "failureMessageSha256": "a64c3a306dd346e48677979affbbba9c24070ebec63a5a23a223ccd21a9c96d3"
+        },
+        "finalDefaultLimitsAttempt": {
+          "maxInferenceCalls": 5,
+          "maxSelectionProbes": 3,
+          "maxOutputTokensPerCall": 1024,
+          "maxRequestMs": 90000,
+          "earliestRetryAt": "2026-10-12T02:55:22Z",
+          "reason": "Use both actual implementation defaults, not the shorter artificial timeout; no relaxation of production bounds",
+          "status": "prepared, actual result pending"
         }
-      }
+      },
+      "structuredDiagnostics": "Selector control failures use existing OPS-0042; provider probe failures retain assigned CRU/OPS code and SHA-256 without raw provider errors"
     }
   },
   "handoffNotes": {
