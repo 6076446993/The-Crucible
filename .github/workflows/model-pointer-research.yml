@@ -80,6 +80,8 @@ jobs:
             model-pointer-research-v3-${{ github.repository_id }}-
       - name: Install locked dependencies
         run: npm ci
+      - name: Verify governed NVIDIA selector and security regressions
+        run: node src/testCadence.js category security
       - name: Initialize the candidate-only holding queue
         run: npm run learning:pointer-research-init
       # Fails closed and names the exact missing variable, so an unconfigured provider is

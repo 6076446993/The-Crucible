@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-12T02:11:28.846Z"
+    "lastActionAt": "2026-10-12T02:24:03.929Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -206,7 +206,7 @@
   },
   "activePlan": {
     "agent": "Codex NVIDIA bounded integration",
-    "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
+    "objective": "Implement and verify the owner-authorized NVIDIA-only model discovery, selection, retirement recovery, provenance and diagnostics on development; preserve prior custody/R8 continuation.",
     "currentPrompt": "Implement the owner-authorized Autonomous NVIDIA Replacement System on development only: discovery, eligibility, ranking, replacement, retirement fallback, provenance, diagnostics and focused tests. Preserve custody, R2, all 62 DIAG identifiers and independent Oversight; no paid fallback, activation, version or promotion.",
     "executionMode": {
       "mode": "work",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-12T02:03:29.999Z",
+      "selectedAt": "2026-10-12T02:23:19.846Z",
       "promptSha256": "a55be57d96762511218182ec8afad99ed0c6af094d7c09725d71c797bb53371b",
-      "affectedPathsSha256": "a4b59a2ee0c348887f242911bb32d4eb1b36da63fd8b4a9b016954887b41c329"
+      "affectedPathsSha256": "9eea9d6934831d5cc2b8afe689c2cd04d80311fd6a88bc9524dcd7a705e2542d"
     },
     "steps": [
       "Preserve existing dirty preimages and record authorized bounded handoff",
@@ -235,8 +235,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-12T02:11:28.846Z",
-    "currentStep": "Publish only scoped NVIDIA and atomic governance delta to development; verify exact-tip hosted checks. Automatic activation, live acceptance and independent Oversight remain pending.",
+    "lastUpdatedAt": "2026-10-12T02:24:03.929Z",
+    "currentStep": "Publish hosted failure repair after five-minute interval; verify exact repaired-SHA CI/security category. Keep auto manual and preserve live/independent acceptance blockers.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -1104,7 +1104,52 @@
         "earliestWorkRetryAt": "2026-10-12T02:12:56.729Z",
         "retest": "Privacy audit passed; repaired-tree full native suite 1101/1101 with zero skipped; focused selector/workflow 69/69."
       },
-      "activationHold": "Hosted workflow hard-pinned manual; no repository variable can activate auto before acceptance"
+      "activationHold": "Hosted workflow hard-pinned manual; no repository variable can activate auto before acceptance",
+      "hostedEvidence": {
+        "sourceCommit": "3a70ac292bd9eacf72d3635b1cdef097e38c751d",
+        "selfTest": 38195025564,
+        "discovery": 38195025656,
+        "discoveryResult": {
+          "searched": 0,
+          "admitted": 0,
+          "modelsUsed": [],
+          "policy": "manual",
+          "notLiveAcceptance": true
+        },
+        "handoff": 38195025643,
+        "archiveCommit": "d43a2718825b545f6b3794056d5c1ee0f6e4c082",
+        "codeQL": 38195025648,
+        "durableProof": {
+          "run": 38195025624,
+          "conclusion": "failure",
+          "reason": "R8 executable-content refusal missing from restored corpus; original custody work remains separate"
+        }
+      },
+      "hostedTestRepair": {
+        "failedJobs": [
+          114635675815,
+          114635675873
+        ],
+        "failure": "Retirement test incorrectly required B although latency ranking may legitimately choose eligible C",
+        "correctiveAction": "Assert approved non-retired survivor and explicit exclusion of retired A; preserve ranking logic and safety checks",
+        "nativeRetest": {
+          "passed": 1102,
+          "failed": 0,
+          "skipped": 0
+        },
+        "earliestPublicationRetryAt": "2026-10-12T02:21:59Z",
+        "hostedRetest": "pending exact repaired commit"
+      },
+      "hostedCoverage": "Existing model-pointer workflow runs governed security category including NVIDIA selector; no live inference in these tests.",
+      "noopReporting": "Zero due topics reports NVIDIA_AUTO_NOT_RUN rather than claiming an unexecuted automatic probe; negative regression test added.",
+      "routeRefusal": {
+        "sourceCommit": "812ea3b1f569a2006f42906bc240a1477849a6c9",
+        "failureCode": "OPS-0045",
+        "actualReason": "Route retained twelve paths although next push changes exactly five paths since published 3a70ac2",
+        "correctiveAction": "Native prewrite regenerated for exact five-path push delta; no routing rule or gate changed",
+        "failureAt": "2026-10-12T02:22:26.997Z",
+        "earliestRetryAt": "2026-10-12T02:27:26.997Z"
+      }
     }
   },
   "handoffNotes": {
