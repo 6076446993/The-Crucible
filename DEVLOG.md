@@ -283,6 +283,9 @@ Plain-language summary: The actual custody owner explicitly paused overlapping w
 - `hosted NVIDIA component verification` — exact cc420f8 run 38195959444 job 114638538016 passed 275 security-category tests, including retirement and zero-due-topic assertions; zero live searches/admissions, not live acceptance.
 - `isolated bounded live acceptance implementation` — observed 2026-10-12T02:38:03.985Z; existing manual workflow gains acceptance_only input, no new task/workflow/schedule. Maximum five inference calls, three probes, 256 output tokens and 30-second requests; no intake/custody writes, activation or paid fallback. Actual workflow heredoc passed three offline success/quota/missing-model scenarios; focused workflow/selector tests 70/70. Existing secret remains in hosted runner only; actual dispatch/result pending.
 
+- `real NVIDIA acceptance negative receipt` — run 38196752958 job 114641009152 on a5eaa59 made exactly five inference calls: all four approved models listed, 76 unapproved ignored, Super/Ultra probes passed, Ultra initial inference passed, controlled retirement selected Super, then CRU-0036 empty alternate completion at 256 tokens. No activation or fallback provider. Artifact 11724210982 digest sha256:9e66fbade18dc67923095045b1851dd3786c1b22969048943da8fe4fdccbf773 retains negative evidence.
+- `bounded corrective retest` — prepared 2026-10-12T02:46:08.361Z; change only acceptance output ceiling to the implementation default 1024, at most five inference calls/three probes; three offline driver scenarios pass. One retry not before 2026-10-12T02:46:40Z. Actual retest still pending.
+
 ### Session: R8 live executable refusal repair — 2026-10-11T21:51:43.911Z — Codex — mode:work
 
 Plain-language summary: Repaired the missing R8 execution path and verified a real executable refusal in isolated local custody. Hosted and independent gate verification are pending.
