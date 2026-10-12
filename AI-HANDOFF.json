@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-12T02:57:37.350Z"
+    "lastActionAt": "2026-10-12T03:11:48.728Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -220,11 +220,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-12T02:53:49.766Z",
+      "selectedAt": "2026-10-12T03:06:13.282Z",
       "promptSha256": "a55be57d96762511218182ec8afad99ed0c6af094d7c09725d71c797bb53371b",
-      "affectedPathsSha256": "b1669d1ab3861cebbd3afd5aa2a3450923143a0a8571e755ba3cf5c4bb8312ca"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "Preserve existing dirty preimages and record authorized bounded handoff",
@@ -233,10 +233,10 @@
       "Publish only NVIDIA changes and atomic governance; verify exact-tip CI",
       "Record live acceptance limitations, return bounded ownership, checkpoint unfinished custody/R3/R8"
     ],
-    "status": "active",
+    "status": "handoff-ready",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-12T02:57:37.350Z",
-    "currentStep": "Publish structured diagnostics and actual-default isolated test limits, dispatch final bounded acceptance attempt, retain actual evidence and leave automatic activation held for independent acceptance.",
+    "lastUpdatedAt": "2026-10-12T03:11:48.728Z",
+    "currentStep": "NVIDIA implementation and native/hosted/controlled-live tests complete; automatic policy remains manual pending independent Oversight and account entitlement. Original holder resumes only previously authorized custody prerequisites from nvidiaPriorPlan; preserve unfinished R3/R8/R9 and exact dirty preimages.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -987,8 +987,11 @@
         ],
         "regions": []
       },
-      "returnRequired": true,
-      "unrelatedWritesProhibited": true
+      "returnRequired": false,
+      "unrelatedWritesProhibited": true,
+      "returnedAt": "2026-10-12T03:11:48.728Z",
+      "returnedToThread": "01a12c93-41fd-7511-93f7-58c69a3ed622",
+      "returnedClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011"
     },
     "nvidiaIntegration": {
       "sourceZipSha256": "54239480f126aa1b5aac49400970f921f8306a52925b7db8c9885552fa643e36",
@@ -1005,7 +1008,7 @@
         "README.md"
       ],
       "activation": "manual default; no automatic fallback activation authorized before live acceptance",
-      "status": "implemented-and-native-verified-awaiting-hosted-and-independent-live-acceptance",
+      "status": "implemented-published-native-hosted-and-controlled-live-verified; production activation held",
       "issue40": "community pre-intake hold remains open and separate",
       "rollback": "Revert only NVIDIA atomic commit; preserve all pre-existing R8 dirty bytes and original claim continuation.",
       "verification": {
@@ -1190,7 +1193,7 @@
           "failed": 0,
           "skipped": 0
         },
-        "status": "real first selection passed; controlled-retirement alternate empty; one default-budget retest prepared",
+        "status": "passed at actual defaults, prior negative trials retained",
         "firstActualRun": {
           "run": 38196752958,
           "job": 114641009152,
@@ -1241,10 +1244,200 @@
           "maxRequestMs": 90000,
           "earliestRetryAt": "2026-10-12T02:55:22Z",
           "reason": "Use both actual implementation defaults, not the shorter artificial timeout; no relaxation of production bounds",
-          "status": "prepared, actual result pending"
+          "status": "passed",
+          "run": 38198020896
         }
       },
-      "structuredDiagnostics": "Selector control failures use existing OPS-0042; provider probe failures retain assigned CRU/OPS code and SHA-256 without raw provider errors"
+      "structuredDiagnostics": "Selector control failures use existing OPS-0042; provider probe failures retain assigned CRU/OPS code and SHA-256 without raw provider errors",
+      "liveAcceptance": {
+        "runId": 38198020896,
+        "jobId": 114644963869,
+        "conclusion": "success",
+        "receipt": {
+          "sourceRevision": "eca6fe4010e5fbb1f1e3ed780cccf32897cf94fb",
+          "requests": 5,
+          "diagnostics": [
+            {
+              "at": "2026-10-12T03:00:25.499Z",
+              "event": "MODEL_INVENTORY_OBSERVED",
+              "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+              "availableApproved": [
+                "z-ai/glm-5.3-flash",
+                "nvidia/nemotron-3-super-120b-a12b",
+                "nvidia/nemotron-3-ultra-550b-a55b",
+                "meta/muse-glimmer-30b"
+              ],
+              "approvedMissing": [],
+              "unapprovedCount": 76,
+              "inventoryDigest": "2e7d19e2a7d4d8602a2b039de78b4af3e8b45920d34f50393947e53457d6849d",
+              "authorizesPromotion": false
+            },
+            {
+              "at": "2026-10-12T03:00:54.768Z",
+              "event": "MODEL_PROBE_FAILED",
+              "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+              "model": "z-ai/glm-5.3-flash",
+              "reason": "invalid_or_timed_out",
+              "failureCode": "CRU-0036",
+              "operationalCode": null,
+              "failureMessageSha256": "418470e60fa7bcdacd9c7afc2cb881bab45b95560e19a4b50c3a498d88b26a4c",
+              "authorizesPromotion": false
+            },
+            {
+              "at": "2026-10-12T03:01:00.602Z",
+              "event": "MODEL_PROBE_PASSED",
+              "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+              "model": "nvidia/nemotron-3-super-120b-a12b",
+              "latencyMs": 5834,
+              "pointerCount": 2,
+              "authorizesPromotion": false
+            },
+            {
+              "at": "2026-10-12T03:01:19.342Z",
+              "event": "MODEL_PROBE_PASSED",
+              "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+              "model": "nvidia/nemotron-3-ultra-550b-a55b",
+              "latencyMs": 18740,
+              "pointerCount": 2,
+              "authorizesPromotion": false
+            },
+            {
+              "at": "2026-10-12T03:01:19.342Z",
+              "event": "MODEL_SELECTED",
+              "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+              "model": "nvidia/nemotron-3-super-120b-a12b",
+              "probeScore": 194.166,
+              "optionsProbed": 2,
+              "authorizesPromotion": false
+            },
+            {
+              "at": "2026-10-12T03:01:23.581Z",
+              "event": "MODEL_RETIRED_DURING_RUN",
+              "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+              "model": "nvidia/nemotron-3-super-120b-a12b",
+              "reason": "not_found_or_gone",
+              "authorizesPromotion": false
+            },
+            {
+              "at": "2026-10-12T03:01:23.693Z",
+              "event": "MODEL_INVENTORY_OBSERVED",
+              "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+              "availableApproved": [
+                "z-ai/glm-5.3-flash",
+                "nvidia/nemotron-3-ultra-550b-a55b",
+                "meta/muse-glimmer-30b"
+              ],
+              "approvedMissing": [],
+              "unapprovedCount": 76,
+              "inventoryDigest": "2e7d19e2a7d4d8602a2b039de78b4af3e8b45920d34f50393947e53457d6849d",
+              "authorizesPromotion": false
+            },
+            {
+              "at": "2026-10-12T03:01:23.693Z",
+              "event": "MODEL_SELECTED",
+              "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+              "model": "nvidia/nemotron-3-ultra-550b-a55b",
+              "probeScore": 181.26,
+              "optionsProbed": 1,
+              "authorizesPromotion": false
+            }
+          ],
+          "policyActivation": false,
+          "maxInferenceCalls": 5,
+          "maxOutputTokensPerCall": 1024,
+          "maxSelectionProbes": 3,
+          "maxRequestMs": 90000,
+          "productionStateChanged": false,
+          "paidFallback": false,
+          "freeEntitlementVerified": false,
+          "retirementFault": "controlled HTTP 410 injection at adapter boundary, not a natural provider retirement",
+          "independentOversight": "still required",
+          "authorizesActivation": false,
+          "authorizesPromotion": false,
+          "initialModel": "nvidia/nemotron-3-super-120b-a12b",
+          "initialPointersSha256": "563ec9a771e59317f9c497a6762702c163250a9ddca42048f252ad037412eba0",
+          "alternateModel": "nvidia/nemotron-3-ultra-550b-a55b",
+          "alternatePointersSha256": "ee596ab1997ee1a82cc20db3b4d5b48036be17c2a97336a0d1d60ea61117a697",
+          "selectionAndControlledRecovery": "passed",
+          "probesUsed": 3
+        },
+        "artifactId": 11723773075,
+        "artifactDigest": "sha256:aae9e95e5edfaefcfe120c8189098c7c236db7b408cbadf469b5bf53bee97b72"
+      },
+      "nativeVerification": {
+        "passed": 1104,
+        "failed": 0,
+        "skipped": 0,
+        "context": "Existing canonical checkout with preserved unrelated dirty R8 files; committed NVIDIA source independently exercised by hosted jobs"
+      },
+      "hostedComponentVerification": {
+        "runId": 38197952887,
+        "jobId": 114644757987,
+        "passed": 277,
+        "failed": 0
+      },
+      "actualSourceCommit": "eca6fe4010e5fbb1f1e3ed780cccf32897cf94fb",
+      "activationBlockers": [
+        "Independent Oversight acceptance not complete; original raw-key sync/independent workflow prerequisites remain separate",
+        "Account-specific free entitlement/billed spend not independently verified"
+      ],
+      "productionPolicy": "manual, hard-pinned in hosted workflow",
+      "actualModelObservations": [
+        {
+          "model": "z-ai/glm-5.3-flash",
+          "state": "listed; observed empty completion in bounded probe, ineligible for this run",
+          "failureCode": "CRU-0036",
+          "failureMessageSha256": "418470e60fa7bcdacd9c7afc2cb881bab45b95560e19a4b50c3a498d88b26a4c"
+        },
+        {
+          "model": "nvidia/nemotron-3-super-120b-a12b",
+          "state": "qualified and initial live inference passed"
+        },
+        {
+          "model": "nvidia/nemotron-3-ultra-550b-a55b",
+          "state": "qualified and live alternate inference passed after controlled retirement"
+        },
+        {
+          "model": "meta/muse-glimmer-30b",
+          "state": "listed and retained, unprobed because three-probe budget was exhausted; not rejected or dropped"
+        }
+      ],
+      "inferenceAccounting": {
+        "trials": [
+          {
+            "run": 38196752958,
+            "requests": 5,
+            "maxOutputTokensPerCall": 256,
+            "conclusion": "failure"
+          },
+          {
+            "run": 38197286368,
+            "requests": 4,
+            "maxOutputTokensPerCall": 1024,
+            "conclusion": "failure"
+          },
+          {
+            "run": 38198020896,
+            "requests": 5,
+            "maxOutputTokensPerCall": 1024,
+            "conclusion": "success"
+          }
+        ],
+        "totalRequests": 14,
+        "maxAggregateOutputTokenCeilings": 10496,
+        "actualTokens": "not reported by existing adapter",
+        "billedAmount": "not independently verified",
+        "paidFallback": false
+      },
+      "implementationAccounting": {
+        "sixFeaturePaths": "applied and committed",
+        "requiredNativeRegistrations": "owner approved and applied",
+        "matchingRegistryTestAssertion": "updated without weakening checks",
+        "issue40": "separate original community pre-intake hold remains open; no community scope completion claimed",
+        "diagnosticSubjects": "all 62 original IDs retained unchanged; no blanket completion",
+        "freshPolicySession": "unverified separately from static integrity",
+        "promotion": "not authorized or performed"
+      }
     }
   },
   "handoffNotes": {
@@ -1278,7 +1471,8 @@
       "Publish both local implementation commits; verify hosted checks; complete encrypted backup before R8 publisher writes. All concepts retain individual unfinished IDs.",
       "R8 publisher was cancelled without jobs; full custody backup and runner readiness remain unresolved. Verify new exact-tip CodeQL and platform CI.",
       "Oldest tracked owner-file live intake from 2026-10-07 remains blocked on full authenticated custody backup and raw-key compatibility; default workflow registration is no longer assumed missing.",
-      "NVIDIA exact-tip hosted CI, account-approved bounded live selection/retirement recovery and independent acceptance; automatic mode stays manual."
+      "NVIDIA exact-tip hosted CI, account-approved bounded live selection/retirement recovery and independent acceptance; automatic mode stays manual.",
+      "NVIDIA automatic mode remains held for independent Oversight/account entitlement; two earlier live negatives and listed-unprobed Muse retained. Original custody/R3/R8/R9 continuation unchanged."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -1296,7 +1490,8 @@
       "Local diagnostics/custody/extraction suite 1058/1058 passed with real OpenJDK 17.0.20 compiler module; security/privacy/workflow/circulation/coordination checks passed.",
       "31 handoff/lifecycle tests passed locally; test inventory reports 130 files with no lifecycle registry, no test retirement authorized.",
       "70 handoff/lifecycle/workflow tests passed; exact-range handoff passed. Native Git publication lacks authentication; use authorized connector after equivalent pre-push verification.",
-      "50 workflow/source-bundle tests passed for read-only raw authentication probe; no key generation or live publication command added; temp plaintext always cleaned and excluded from uploads."
+      "50 workflow/source-bundle tests passed for read-only raw authentication probe; no key generation or live publication command added; temp plaintext always cleaned and excluded from uploads.",
+      "NVIDIA exact eca6fe4: 1104 native tests, 277 hosted component tests, live acceptance 38198020896 passed five real calls/three probes with controlled retirement and real alternate; no scientific-learning or activation authority."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -2225,10 +2420,74 @@
         "regions": []
       },
       "purpose": "Explicit bounded handoff by actual claim holder thread 01a12c93-41fd-7511-93f7-58c69a3ed622, 2026-10-11 21:44 EDT; six NVIDIA paths plus shared governance/README only; preserve pending R8 preimages.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-12T01:50:12.334Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "releasedAt": "2026-10-12T03:11:48.728Z"
+    },
+    {
+      "taskId": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/ownerFileTransport.js",
+          "test/ownerFileTransport.test.js",
+          ".github/workflows/owner-file-intake.yml",
+          "src/circulationLinkage.js",
+          "src/testCadenceCoreLegacy.js",
+          "test/_testCadenceCore.js",
+          "governingDocuments/owner-file-transport.md",
+          "test/workflow.test.js",
+          "governingDocuments/known-bugs/KNOWN-BUGS.json",
+          "governingDocuments/owner-file-intake-release.json",
+          "governingDocuments/owner-file-intake-main-compatibility.patch",
+          "src/hostedSourceBundle.js",
+          "test/hostedSourceBundle.test.js",
+          ".github/workflows/self-test.yml",
+          "src/claimExtractionWorker.js",
+          "test/claimExtractionWorker.test.js",
+          "test/pdfTextExtraction.test.js",
+          "src/ciDiagnosticOrgan.js",
+          "test/ciDiagnosticOrgan.test.js",
+          ".github/workflows/hosted-learning-proof.yml",
+          "src/handoffPolicy.js",
+          "src/testLifecycle.js",
+          "test/handoffPolicy.test.js",
+          "test/testLifecycle.test.js",
+          "test/sourceBundleKeyAutomation.test.js",
+          "src/aiHandoffContinuation.js",
+          "test/aiHandoffContinuation.test.js",
+          ".github/workflows/hosted-source-bootstrap.yml",
+          "test/rawCustodyRebuildWorkflow.test.js",
+          "README.md",
+          ".github/workflows/raw-custody-publisher.yml",
+          "test/rawCustodyPublisher.test.js",
+          ".github/workflows/r8-executable-canary-publisher.yml",
+          "src/safeInformationRetrieval.js",
+          "test/safeInformationRetrieval.test.js",
+          "src/r8ExecutableCanaryPublisher.js",
+          "test/r8ExecutableCanaryPublisher.test.js",
+          "src/rawCustodyPublisher.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Return original custody scope to its actual holder after bounded NVIDIA integration; no new authority or automatic activation",
+      "status": "active",
+      "acquiredAt": "2026-10-12T03:11:48.728Z",
       "handedOffTo": null,
-      "releasedAt": null
+      "releasedAt": null,
+      "resumeOf": "owner-file-transport-20261008",
+      "originalAcquiredAt": "2026-10-08T04:06:58.715Z"
     }
   ],
   "ownerDecisions": [
