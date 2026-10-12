@@ -280,6 +280,9 @@ Plain-language summary: The actual custody owner explicitly paused overlapping w
 
 - `route refusal and exact-delta repair` — observed 2026-10-12T02:22:26.997Z, exit 1; OPS-0045 refused the twelve-path route on a five-path follow-up push. Regenerated native prewrite for the exact five changed paths; no gate bypass. Retry not before 2026-10-12T02:27:26.997Z.
 
+- `hosted NVIDIA component verification` — exact cc420f8 run 38195959444 job 114638538016 passed 275 security-category tests, including retirement and zero-due-topic assertions; zero live searches/admissions, not live acceptance.
+- `isolated bounded live acceptance implementation` — observed 2026-10-12T02:38:03.985Z; existing manual workflow gains acceptance_only input, no new task/workflow/schedule. Maximum five inference calls, three probes, 256 output tokens and 30-second requests; no intake/custody writes, activation or paid fallback. Actual workflow heredoc passed three offline success/quota/missing-model scenarios; focused workflow/selector tests 70/70. Existing secret remains in hosted runner only; actual dispatch/result pending.
+
 ### Session: R8 live executable refusal repair — 2026-10-11T21:51:43.911Z — Codex — mode:work
 
 Plain-language summary: Repaired the missing R8 execution path and verified a real executable refusal in isolated local custody. Hosted and independent gate verification are pending.

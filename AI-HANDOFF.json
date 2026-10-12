@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-12T02:24:03.929Z"
+    "lastActionAt": "2026-10-12T02:38:03.985Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -222,9 +222,9 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-12T02:23:19.846Z",
+      "selectedAt": "2026-10-12T02:34:10.652Z",
       "promptSha256": "a55be57d96762511218182ec8afad99ed0c6af094d7c09725d71c797bb53371b",
-      "affectedPathsSha256": "9eea9d6934831d5cc2b8afe689c2cd04d80311fd6a88bc9524dcd7a705e2542d"
+      "affectedPathsSha256": "258d5541c160772dec7e453430e22fd08de287e5de5c6f57f2a8d90289f3995a"
     },
     "steps": [
       "Preserve existing dirty preimages and record authorized bounded handoff",
@@ -235,8 +235,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-12T02:24:03.929Z",
-    "currentStep": "Publish hosted failure repair after five-minute interval; verify exact repaired-SHA CI/security category. Keep auto manual and preserve live/independent acceptance blockers.",
+    "lastUpdatedAt": "2026-10-12T02:38:03.985Z",
+    "currentStep": "Publish isolated manual NVIDIA acceptance option; dispatch once using existing authorization; retain actual positive or negative receipt. Keep production policy manual.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008",
@@ -1149,6 +1149,43 @@
         "correctiveAction": "Native prewrite regenerated for exact five-path push delta; no routing rule or gate changed",
         "failureAt": "2026-10-12T02:22:26.997Z",
         "earliestRetryAt": "2026-10-12T02:27:26.997Z"
+      },
+      "latestHostedComponentEvidence": {
+        "sourceCommit": "cc420f826f459bb56c9499122e767d55629210aa",
+        "run": 38195959444,
+        "job": 114638538016,
+        "testsPassed": 275,
+        "testsFailed": 0,
+        "liveProviderCalls": 0,
+        "retirementAndNoopRegressions": "passed"
+      },
+      "isolatedLiveAcceptance": {
+        "authority": "Original owner request: test authorized NVIDIA candidates with bounded costs and no paid fallback",
+        "workflow": ".github/workflows/model-pointer-research.yml",
+        "manualInput": "acceptance_only=true",
+        "productionDiscoveryJob": "skipped for acceptance-only dispatch",
+        "maxRealInferenceCalls": 5,
+        "maxSelectionProbes": 3,
+        "maxOutputTokensPerCall": 256,
+        "maxRequestMs": 30000,
+        "credentials": "existing NVIDIA_NIM_API_KEY repository secret only; no exports or replacements",
+        "modelAllowlist": "existing selector approved model IDs only",
+        "custodyAndQueueWrites": false,
+        "retirementFault": "explicit controlled HTTP410 adapter fault followed by actual alternate inference; not a natural service retirement",
+        "authorizesActivation": false,
+        "independentOversight": "still required",
+        "nativeDriverTests": {
+          "passed": 3,
+          "failClosedQuota": true,
+          "failClosedMissingModels": true,
+          "noLiveInference": true
+        },
+        "workflowSelectorTests": {
+          "passed": 70,
+          "failed": 0,
+          "skipped": 0
+        },
+        "status": "implemented; dispatch and actual result pending"
       }
     }
   },
