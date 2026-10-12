@@ -151,6 +151,9 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-12T02:05:00.735Z: see dev plan AI-HANDOFF.json.activePlan.nvidiaIntegration and nvidiaHandoff. NVIDIA-only implementation and owner-approved native wiring pass all 1101 tests. Exact-tip hosted checks and independent live acceptance remain pending; automatic policy manual. Original custody/R3/R8 continuation and pending dirty R8 edits preserved.
+
+
 - 2026-10-11T21:51:43.911Z, Codex: see `AI-HANDOFF.json.activePlan.currentPrompt` and `activePlan.r8Repair` for the owner-requested R8 executable-refusal repair. Local live HTTPS retrieval refused the pinned official executable without source-byte persistence; hosted publication, independent Oversight and exact-tip R8 proof remain pending.
 
 - 2026-10-11T21:04:48.669Z, Codex: dev plan `AI-HANDOFF.json.activePlan.currentPrompt`, `activePlan.archiveReplacementAuthorization`, and `handoffNotes.completed/remaining` govern the owner-authorized raw archive replacement. Existing GitHub custody key is retained. Verified local replacement preserves 29,799 candidates, all 2,162 historical candidate IDs and all 403 historical source hashes. Completed existing-key archive replacement and isolated restore in run 38176876189; independently authenticated the published ciphertext in run 38176984983. R8 remains separately pending.
@@ -248,6 +251,29 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: owner-file-transport-20261008-nvidia-handoff — 2026-10-12T01:50:12.334Z — Codex — mode:work
+
+Plain-language summary: The actual custody owner explicitly paused overlapping work and handed shared governance files over for one NVIDIA-only integration. Existing pending R8 changes remain preserved and excluded from publication.
+
+- `route:prewrite` — started 2026-10-12T01:48:51.804Z, finished 2026-10-12T01:48:51.804Z, exit 0; category crucible-core; repositoryId 1344890806; 6076446993/The-Crucible:development; explicit owner route.
+- `preimage backup and handoff` — started 2026-10-12T01:50:12.334Z, finished 2026-10-12T01:50:12.334Z, exit 0; preserved all six dirty files; original claim owner-file-transport-20261008 handed off with actual holder consent.
+- `artifact preparation` — 29 native selector tests and 9 generator tests pass locally; original Windows mock loader failure preserved and repaired only in test portability; no live or hosted acceptance claimed.
+
+- `native focused component tests` — output file observed from 2026-10-12T01:55:13.188Z to 2026-10-12T01:55:13.367Z, exit 0; final result 43/43, zero skipped; actual registry used, outbound NVIDIA mocked. Original preparation 9/9 generator tests also passed.
+- `native full-system proof` — output file observed from 2026-10-12T01:51:37.445Z to 2026-10-12T01:52:25.997Z, exit 1; 1087/1101 passed, 14 failed, zero skipped; failures retained in checkpoint, no hosted success claimed.
+- `audits and remote refresh` — finished 2026-10-12T01:56:21.808Z; workflow lint, configuration and security pass; coordination passes after fetching existing origin/Archive. Circulation refuses the unregistered NVIDIA module. Corrected dispatcher record uses affected paths without altering dispatcher rules.
+- `routing retest` — output file observed 2026-10-12T01:56:45.209Z, exit 0; 14/14 passed, zero skipped.
+- `authority boundary` — two native registry lines remain unapplied following automatic approval-review rejection of actual holder's authorization message; uncommitted changes retained and no workflow dispatched.
+
+- `owner approval and native repair` — observed 2026-10-12T02:05:00.735Z; owner approved both NVIDIA entries; matching fixed-list test assertion updated without weakening checks.
+- `full native retest` — artifact observed 2026-10-12T02:03:33.823Z to 2026-10-12T02:04:16.271Z, exit 0; 1101/1101 passed, zero skipped.
+- `local required audits` — completed before 2026-10-12T02:05:00.735Z, exit 0; workflow lint, docs check, configuration, clutter, privacy, security, circulation and coordination.
+- `publication boundary` — preserve initial failures; no new hosted or live acceptance yet, automatic policy manual.
+
+- `pre-push refusal and corrective repair` — observed 2026-10-12T02:07:56.729Z, exit 1; CRU-0013 rejected a synthetic user-info URL as an email; publication did not occur. Rebuilt the same negative fixture without a literal address and hard-pinned hosted model policy manual. Retry not before 2026-10-12T02:12:56.729Z; previous failure preserved.
+
+- `privacy-repaired native retest` — completed before 2026-10-12T02:11:28.846Z, exit 0; 1101/1101 full suite, 69/69 selector/workflow focused, privacy audit passes; automatic hosted selection held manual.
 
 ### Session: R8 live executable refusal repair — 2026-10-11T21:51:43.911Z — Codex — mode:work
 
@@ -419,34 +445,6 @@ Plain-language summary: Added a development-only R2 failover proof that cannot w
 
 
 
-### Session: synthetic-intelligence-research-domain-20261006 — 2026-10-07T01:16:27.000Z — ChatGPT — mode:work
-
-Plain-language summary: Established Synthetic Intelligence as a dedicated Crucible research domain without treating the label as a proven theory. Logged every current SI concept family and academic source seed as candidate evidence, wired bounded SI discovery into the existing pipeline, preserved canonical R9, and changed no release gate.
-- Re-read the complete governed repository state, literal development head, active release PR, canonical R9 soak implementation, scientific-learning policy/status, conflict ledger, task routing and mutation ownership before writing — started 2026-10-07T00:54:00.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
-- Added the SI research register with 29 unique concept hypotheses, nine academic source seeds, explicit contradiction/failure handling and R9-style durability/generalization requirements; every entry remains Insufficient Evidence with proofStageSatisfied false and promotionAuthorized false — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
-- Added 22 bounded SI discovery topics to the existing 16 model-pointer topics for 38 total under the governed 50-topic ceiling; provider prose, ranking and institutional prestige remain non-proof — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
-- Preserved canonical R9 as the existing 72-96 hour, <=1000-observed-point integrity soak and left R1-R11 release status untouched; PR #34 requires fresh exact-tip evidence after this development mutation — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
-- Pruned only the oldest inline command-log session (failure-code-model-pointer-reconcile-20260929 — 2026-09-30T00:42:00.000Z — Codex — mode:work) after preparing a full pre-prune DEVLOG snapshot for the standing one-file Archive ledger — started 2026-10-07T01:16:27.000Z, finished 2026-10-07T01:16:27.000Z, exit 0.
-- Scope correction after user clarification: retained the full SI concept/source log, removed the live-discovery expansion, restored model-pointer-research.yml to its exact pre-SI content, and changed no release gate — started 2026-10-07T01:28:54.000Z, finished 2026-10-07T01:28:54.000Z, exit 0 correction.
-- Owner expanded SI scope from logging-only to isolated testing only for R3 and R8; live SI discovery, production learning-state access, gate-pass authority, release authority, and promotion remain disabled — started 2026-10-07T02:38:35.000Z, finished 2026-10-07T02:38:35.000Z, exit 0 authorization record.
-- Added an R3 SI sandbox over all nine logged academic source seeds using the existing model-pointer admission code; the current rule admits eight `.edu` seeds and rejects the Oxford University Press `.com` seed rather than silently broadening the gate — started 2026-10-07T02:38:35.000Z, finished 2026-10-07T02:38:35.000Z, exit 0 implementation.
-- Added an R8 SI sandbox using the existing SafeInformationRetriever: ordinary SI architecture prose remains candidate evidence, literal scholarly `system prompt` discussion is conservatively quarantined for review, explicit prompt injection is quarantined, and executable magic is refused — started 2026-10-07T02:38:35.000Z, finished 2026-10-07T02:38:35.000Z, exit 0 implementation.
-- Added read-only workflow `.github/workflows/si-gate-sandbox.yml` with no secrets and no production learning-state path; taskId si-r3-r8-sandbox-20261006 released atomically. Hosted exact-tip verification remains required.
-- Hosted SI sandbox run `37563233962` passed both jobs on implementation SHA `08c7303898a54bf63d9170c56f26ba08bd6e6966`: R3 job `112605031591` measured 8/9 logged SI source seeds admitted and the Oxford University Press `.com` seed rejected; R8 job `112605031458` retained ordinary SI prose, quarantined literal scholarly `system prompt` discussion and explicit prompt injection, and refused executable magic — started 2026-10-07T02:42:15.000Z, finished 2026-10-07T02:43:28.000Z, exit 0 hosted verification.
-- Standard Self-Test on the same implementation SHA passed critical code cadence, validation, fly-by-wire, clutter, privacy and security before reaching the pre-existing CRU-0006 repository-security boundary. No SI sandbox regression was observed; real R3/R8 gates remain pending and R9 remains held.
-- Owner approved a general R3/R8 compatibility repair from the SI sandbox findings rather than an SI-only exception — 2026-10-07T03:06:00.000Z.
-- Added a governed exact scholarly-domain registry with Oxford Academic as the first entry; admission remains candidate-only and publisher identity is not proof.
-- Adapted model-pointer, Google, and Perplexity discovery to consume governed scholarly-domain metadata and preserve its source authority in queue provenance.
-- Adapted R8 so verified scholarly research context can retain descriptive control terminology while non-research matches remain fail-closed; executable refusal is unchanged.
-- Updated SI sandbox coverage plus scientific-learning policy/release semantics. R3 and R8 are still pending operational proof; R9 remains held.
-- Released mutation claim `r3-r8-si-general-adaptation-20261006`; implementation blobs were staged without moving `development`, and exact-tip hosted verification remains required.
-- Self-Test on `8c3ea8a453689c4e1bc3881e72432c251660998f` found one session metadata defect: the active task-routing reason was not in the canonical phrase format. Corrected the reason only; R3/R8 code and gate state are unchanged — 2026-10-07T03:18:00.000Z.
-- Owner authorized a bounded real-data SI pilot only if the current path was ready. The production raw-custody bridge is not ready and was not bypassed; instead the existing SI workflow now runs the real governed admission, HTTPS retrieval, and claim-extraction code against exactly the nine logged source seeds in a disposable runner with no raw/vetted-state credential — 2026-10-07T03:31:32.000Z.
-- The pilot retains only admission/retrieval/extraction metadata and a sanitized per-source summary, destroys retrieved source bodies and the disposable candidate store before artifact retention, cannot satisfy a proof stage or promotion, and fails closed if zero real bounded candidates are produced. Mutation claim `si-real-data-pilot-20261006` released atomically; hosted result pending.
-- First real-data pilot run `37567285927`, job `112617785288`, used the real retriever and extractor on all nine logged SI seeds with no production-state credentials. Six sources reached `claim-extraction-complete`, one remained `claim-extraction-forced-pending`, two retrievals were blocked, and 68 bounded `Insufficient Evidence` candidates were extracted. Oxford Academic returned HTTP 403 and the CMU source hit a transient DNS `EAI_AGAIN`; no source was promoted or written to raw/vetted custody — 2026-10-07T03:33:42.000Z.
-- The pilot job's only terminal failure was metadata retention: `.si-pilot-report` is a hidden directory and `upload-artifact` excludes hidden files unless told otherwise. Enabled hidden-file retention without changing processing semantics; rerun required for durable pilot evidence — 2026-10-07T03:34:08.000Z.
-- Rerun `37567402124`, job `112618156279`, passed the bounded real-data SI pilot at `1297d38912f53c7a1c8963e5298c29d1bc0340df`: 9 seeds processed, 7 `claim-extraction-complete`, 1 MIT Brooks PDF still `claim-extraction-forced-pending`, 1 Oxford Academic source blocked by HTTP 403, and 68 total bounded `Insufficient Evidence` candidates. Production state was neither referenced nor writable, retrieved bodies/disposable candidate state were erased, and metadata-only artifact `11459416913` (sha256:1e9ff3bbcb578b6dce7fe6d63907e5f9f736c036aec9021f271e9f47da5ad9c4) is retained for 30 days — finished 2026-10-07T03:36:04.000Z, exit 0.
-- This proves real SI retrieval/extraction compatibility, not durable live ingestion: no general governed holding-queue to raw-custody publisher exists yet, so nothing was written to `Crucible-Learning-State` or `Crucible-Vetted-Learning-State`, no proof stage advanced, and no promotion was authorized.
 
 ## Historical mutation accountability
 

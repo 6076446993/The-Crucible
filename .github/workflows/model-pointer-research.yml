@@ -50,6 +50,7 @@ jobs:
       CRUCIBLE_SOURCE_QUEUE: .hosted-pointer-research-6076446993/source-queue.json
       CRUCIBLE_DISCOVERY_MAX_QUERIES: '50'
       CRUCIBLE_DISCOVERY_PROVIDER: nvidia-nim
+      NVIDIA_NIM_MODEL_POLICY: 'manual' # Hold automatic selection until independent live acceptance.
       NVIDIA_NIM_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
       # The model id is pinned here, in version control, on purpose. Reading it from Secrets was
       # a mistake that cost a run: a model id is configuration rather than a credential, so

@@ -123,7 +123,7 @@ class AutomatedModelPointerResearch {
         // model's guess from a provider's citation without re-deriving it from the run.
         for (const candidate of novel) registered.push(await this.candidateSink.register({ ...candidate, discoveredBy:'automated-model-pointer-discovery', provider:search.provider, providerKind:search.providerKind, model:search.model, promptSha256:search.promptSha256, responseSha256:search.responseSha256 }));
         this.store.recordRun(entry.topic, { searchedAt:search.searchedAt, intervalMs:this.intervalMs, candidates:novel, state:'completed', cited:search.citations.length, provider:search.provider, providerKind:search.providerKind, model:search.model, promptSha256:search.promptSha256, responseSha256:search.responseSha256 });
-        outcomes.push({ topic:entry.topic, state:'completed', cited:search.citations.length, admitted:candidates.length, rejected:Math.max(0, search.citations.length - candidates.length), novel:novel.length, providerKind:search.providerKind, registered });
+        outcomes.push({ topic:entry.topic, state:'completed', cited:search.citations.length, admitted:candidates.length, rejected:Math.max(0, search.citations.length - candidates.length), novel:novel.length, providerKind:search.providerKind, model:search.model, registered });
       } catch (error) {
         // A blocked topic still consumes its daily slot, exactly as the other discovery paths
         // behave: a provider outage must not become an unbounded retry loop against the vendor.
