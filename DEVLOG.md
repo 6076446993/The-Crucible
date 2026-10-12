@@ -278,6 +278,8 @@ Plain-language summary: The actual custody owner explicitly paused overlapping w
 - `exact hosted failure diagnosis and repair` — observed 2026-10-12T02:21:36.414Z; Self-Test run 38195025564 failed retirement assertion on macOS22 job 114635675815 and Ubuntu24 job 114635675873 because valid latency ranking selected C instead of B. Repaired assertion preserves approved/non-retired checks; full native retest 1102/1102, zero skipped. Added governed security-category coverage to existing discovery workflow and a no-op reporting regression.
 - `independent evidence boundaries` — discovery 38195025656 searched zero topics; not live acceptance. Handoff 38195025643 archived one exact DEVLOG snapshot in d43a2718825b545f6b3794056d5c1ee0f6e4c082. Durable proof 38195025624 still failed R8 executable-content evidence; no gate bypass. Hosted retry not before 2026-10-12T02:21:59Z.
 
+- `route refusal and exact-delta repair` — observed 2026-10-12T02:22:26.997Z, exit 1; OPS-0045 refused the twelve-path route on a five-path follow-up push. Regenerated native prewrite for the exact five changed paths; no gate bypass. Retry not before 2026-10-12T02:27:26.997Z.
+
 ### Session: R8 live executable refusal repair — 2026-10-11T21:51:43.911Z — Codex — mode:work
 
 Plain-language summary: Repaired the missing R8 execution path and verified a real executable refusal in isolated local custody. Hosted and independent gate verification are pending.
