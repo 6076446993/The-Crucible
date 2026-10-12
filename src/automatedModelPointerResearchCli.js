@@ -80,7 +80,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
     projectId,
     provider:provider.id,
     model:autoModel ? null : model,
-    modelSelection:autoModel ? 'NVIDIA_AUTO_PROBED' : 'MANUAL_CONFIGURED',
+    modelSelection:autoModel ? (outcomes.some(item=>item.model) ? 'NVIDIA_AUTO_PROBED' : 'NVIDIA_AUTO_NOT_RUN') : 'MANUAL_CONFIGURED',
     modelsUsed:[...new Set(outcomes.map(item=>item.model).filter(Boolean))],
     // Named in every report so a reader never has to infer whether these URLs were citations or
     // a model's guesses. They are candidates either way; the distinction is about what they are

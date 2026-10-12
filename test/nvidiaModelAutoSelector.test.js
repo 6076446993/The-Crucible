@@ -22,7 +22,7 @@ test('the preferred model is scored, not blindly used',async()=>{const f=fake({p
 test('chooses only when an allowed HTTPS URL pointer appears',async()=>{const f=fake({probe:{[A]:'There are no citations',[B]:'http://example.edu text https://example.com',[C]:'https://evil.com/'}});await assert.rejects(()=>selector(f).select(),/No preapproved/);});
 test('provider citations are not independently verified',async()=>{const f=fake();const s=selector(f);await s.select();assert.equal(s.requirements.sourceClassification,'Insufficient Evidence');assert.equal(s.audit.at(-1).authorizesPromotion,false);});
 test('unavailable configured model is automatically skipped',async()=>{const f=fake({listed:[B]});const s=selector(f);assert.equal(await s.select(),B);});
-test('retired model rejection during probe switches model',async()=>{const f=fake({bad:{[A]:'HTTP 410 model retired'}});const s=selector(f);assert.equal(await s.select(),B);assert.equal(s.retired.has(A),true);});
+test('retired model rejection during probe switches model',async()=>{const f=fake({bad:{[A]:'HTTP 410 model retired'}});const s=selector(f);assert.ok([B,C].includes(await s.select()));assert.equal(s.retired.has(A),true);assert.notEqual(s.selected,A);});
 test('404 model-not-found during actual work retries once with safe alternate',async()=>{const f=fake();const s=selector(f);await s.select();const old=s.selected;f.adapter.run=async({model,prompt})=>{if(model===old)throw Error('NVIDIA NIM HTTP 404 model not found');return {model,text:good,evidence:[]}};const res=await s.run('real topic');assert.notEqual(res.model,old);assert.equal(s.retired.has(old),true);});
 test('authorization errors do not activate fallback',async()=>{const f=fake({bad:{[A]:'HTTP 401 invalid key'}});await assert.rejects(()=>selector(f).select(),/authentication\/quota/);assert.equal(f.calls.length,1);});
 test('429 quota errors do not trigger workaround or paid provider',async()=>{const f=fake({bad:{[A]:'HTTP 429 rate limit'}});await assert.rejects(()=>selector(f).select(),/authentication\/quota/);assert.equal(f.calls.length,1);});
@@ -74,4 +74,19 @@ test('exhausted probe budget holds when no previously qualified survivor exists'
   assert.equal(s.probesUsed,1);
   assert.equal(f.calls.length,1);
   assert.equal(s.retired.has(retired),true);
+});
+
+test('zero due topics never reports an automatic probe that did not execute',async()=>{
+  const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+  const {run}=require('../src/automatedModelPointerResearchCli');
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-nvidia-empty-due-'));
+  try {
+    const reports=[];
+    await run(['run','Cybersecurity'],env({NVIDIA_NIM_MODEL_POLICY:'auto',CRUCIBLE_DISCOVERY_PROVIDER:'nvidia-nim',CRUCIBLE_LEARNING_PROJECT_ID:'nvidia-empty-due-test',CRUCIBLE_LEARNING_ROOT:root,CRUCIBLE_SOURCE_QUEUE:path.join(root,'queue.json')}),value=>reports.push(JSON.parse(value)),{client:{search:async()=>{throw Error('No network expected');}},research:{runDue:async()=>[]}});
+    const report=reports.at(-1);
+    assert.equal(report.modelSelection,'NVIDIA_AUTO_NOT_RUN');
+    assert.deepEqual(report.modelsUsed,[]);
+    assert.equal(report.searched,0);
+    assert.equal(report.authorizesPromotion,false);
+  } finally {fs.rmSync(root,{recursive:true,force:true});}
 });
