@@ -90,3 +90,18 @@ test('zero due topics never reports an automatic probe that did not execute',asy
     assert.equal(report.authorizesPromotion,false);
   } finally {fs.rmSync(root,{recursive:true,force:true});}
 });
+
+test('selection control failures carry the existing discovery operational code',async()=>{
+  assert.throws(()=>requirements(env({NVIDIA_NIM_MAX_PROBES:4})),error=>error.operationalCode==='OPS-0042');
+  const f=fake();const s=selector(f,{NVIDIA_NIM_API_KEY:''});
+  await assert.rejects(()=>s.select(),error=>error.operationalCode==='OPS-0042');
+  assert.equal(f.calls.length,0);
+});
+
+test('probe diagnostics retain provider failure code and message hash without raw errors',async()=>{
+  const {crucibleError}=require('../src/failureCodes');const f=fake();
+  f.adapter.run=async({model})=>{if(model===A)throw crucibleError('CRU-0036','bounded provider empty completion');return {model,text:good};};
+  const s=selector(f);await s.select();const failed=s.audit.find(item=>item.event==='MODEL_PROBE_FAILED');
+  assert.equal(failed.failureCode,'CRU-0036');assert.match(failed.failureMessageSha256,/^[a-f0-9]{64}$/);
+  assert.ok(!JSON.stringify(s.audit).includes('bounded provider empty completion'));
+});
