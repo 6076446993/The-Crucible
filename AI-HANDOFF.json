@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-12T03:11:48.728Z"
+    "lastActionAt": "2026-10-12T03:25:43.005Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -222,7 +222,7 @@
       "branch": "development",
       "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-12T03:06:13.282Z",
+      "selectedAt": "2026-10-12T03:25:44.112Z",
       "promptSha256": "a55be57d96762511218182ec8afad99ed0c6af094d7c09725d71c797bb53371b",
       "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
@@ -235,11 +235,11 @@
     ],
     "status": "handoff-ready",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-12T03:11:48.728Z",
+    "lastUpdatedAt": "2026-10-12T03:25:43.005Z",
     "currentStep": "NVIDIA implementation and native/hosted/controlled-live tests complete; automatic policy remains manual pending independent Oversight and account entitlement. Original holder resumes only previously authorized custody prerequisites from nvidiaPriorPlan; preserve unfinished R3/R8/R9 and exact dirty preimages.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
-      "currentClaim": "owner-file-transport-20261008",
+      "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
       "owner": {
         "provider": "openai",
         "agent": "Codex",
@@ -287,7 +287,9 @@
         "test/r8ExecutableCanaryPublisher.test.js",
         "src/rawCustodyPublisher.js"
       ],
-      "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
+      "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody.",
+      "originalTaskId": "owner-file-transport-20261008",
+      "originalAcquiredAt": "2026-10-08T04:06:58.715Z"
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",

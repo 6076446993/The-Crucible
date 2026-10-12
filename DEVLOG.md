@@ -151,6 +151,9 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-12T03:25:43.005Z, Codex: reconciled activePlan.ownership.currentClaim to the sole active returned claim owner-file-transport-20261008-resumed-after-nvidia-20261011. Original task owner-file-transport-20261008 and original acquisition time 2026-10-08T04:06:58.715Z remain unchanged. See activePlan.nvidiaPriorPlan for the preserved custody/R8 continuation; this correction does not dispatch or complete R8/Oversight work.
+
+
 - 2026-10-12T02:05:00.735Z: see dev plan AI-HANDOFF.json.activePlan.nvidiaIntegration and nvidiaHandoff. NVIDIA-only implementation and owner-approved native wiring pass all 1101 tests. Exact-tip hosted checks and independent live acceptance remain pending; automatic policy manual. Original custody/R3/R8 continuation and pending dirty R8 edits preserved.
 
 
