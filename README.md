@@ -502,4 +502,9 @@ R8 repair: the manual publisher now runs on a GitHub-hosted runner, restores cur
 
 Independent receiver compatibility: new R8 ciphertext chunks use previously unused indexed names accepted by Oversight; earlier chunks are retained. Oversight inbound-key configuration and review dispatch require an explicit owner override under its independent policy.
 
+Owner-authorized independent receiver update: the manual R8 publisher can optionally seal the existing registered raw key to Oversight's fixed GitHub recipient public key. This emits only a one-day encrypted update package; the owner-authenticated host applies it before dispatching the existing independent workflow. Verifier code, decisions and vetted keys stay unchanged.
+
+
 NVIDIA model selection supports governed candidate URL discovery with an owner-approved model allowlist, bounded probes, model provenance and retirement recovery. `NVIDIA_NIM_MODEL_POLICY` defaults to `manual`; keep it off until exact-tip hosted checks, account-authorized live acceptance and independent verification pass.
+
+R8 continuation (2026-10-13): existing owner authorization is retained; transfer stays default off. Hosted run 38328578079 successfully decrypted vetted custody but still lacked executable-refusal evidence. Separate encrypted RAW/VETTED backup copies are being established on the owner-preferred D: drive before any live publication; no gate completion is claimed.

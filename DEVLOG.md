@@ -151,11 +151,12 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-13T04:12:49.754Z, Codex: resumed returned custody claim; see activePlan.r8Repair for exact d92890c hosted R8 failure, owner-approved default-off receiver transfer, protected dirty preimages and separate D-drive encrypted backup progress. No live custody, key or independent review changed.
+
 - 2026-10-12T03:25:43.005Z, Codex: reconciled activePlan.ownership.currentClaim to the sole active returned claim owner-file-transport-20261008-resumed-after-nvidia-20261011. Original task owner-file-transport-20261008 and original acquisition time 2026-10-08T04:06:58.715Z remain unchanged. See activePlan.nvidiaPriorPlan for the preserved custody/R8 continuation; this correction does not dispatch or complete R8/Oversight work.
 
 
 - 2026-10-12T02:05:00.735Z: see dev plan AI-HANDOFF.json.activePlan.nvidiaIntegration and nvidiaHandoff. NVIDIA-only implementation and owner-approved native wiring pass all 1101 tests. Exact-tip hosted checks and independent live acceptance remain pending; automatic policy manual. Original custody/R3/R8 continuation and pending dirty R8 edits preserved.
-
 
 - 2026-10-11T21:51:43.911Z, Codex: see `AI-HANDOFF.json.activePlan.currentPrompt` and `activePlan.r8Repair` for the owner-requested R8 executable-refusal repair. Local live HTTPS retrieval refused the pinned official executable without source-byte persistence; hosted publication, independent Oversight and exact-tip R8 proof remain pending.
 
@@ -307,6 +308,10 @@ Plain-language summary: Repaired the missing R8 execution path and verified a re
 - publication and hosted independent proof — pending; no R8 gate completion is claimed.
 
 
+- resume verification — 2026-10-13T04:12:49.754Z; host Git confirms intact checkout; policy matches independent receipt; 32 focused R8 tests passed; unregistered synthetic key refused before output; latest hosted VETTED decryption succeeds but R8 refusal remains missing. Full encrypted copies are downloading on D:; no scientific gate advanced.
+
+- publication repair — 2026-10-13T04:16:53Z; initial required pre-push refused an inconsistent returned agent identity before remote changes. Restored actual holder Codex; all 38 workflow tests now pass. Five-minute delay before publication retry retained.
+
 ### Session: encrypted raw archive replacement — 2026-10-11T21:04:48.669Z — Codex — mode:work
 
 Plain-language summary: Continue the owner's archive replacement using the already configured key and preserved real sources; encrypted transfer and hosted restore remain under verification.
@@ -368,6 +373,8 @@ Plain-language summary: The protected R8 registration path was exercised from th
 
 
 
+
+- `owner authorization` — 2026-10-11T18:01:00-04:00: owner approved one-time inbound raw-key sync and existing independent Oversight dispatch; implementation prepares only fixed-recipient GitHub sealed ciphertext, default off, with one-day retention and no verifier/vetted-key mutation.
 
 ### Session: password-manager-api-key-research-20261009 — 2026-10-09T23:45:00Z — Codex — mode:regular/default
 

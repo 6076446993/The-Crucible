@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-12T03:25:43.005Z"
+    "lastActionAt": "2026-10-13T04:15:53.629Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -205,14 +205,14 @@
     "productionBoundary": "Never touch production directly, widen authority, weaken gates, expose credentials, modify unrelated work, invent business logic, or silently resolve governance conflicts."
   },
   "activePlan": {
-    "agent": "Codex NVIDIA bounded integration",
+    "agent": "Codex",
     "objective": "Implement and verify the owner-authorized NVIDIA-only model discovery, selection, retirement recovery, provenance and diagnostics on development; preserve prior custody/R8 continuation.",
-    "currentPrompt": "Implement the owner-authorized Autonomous NVIDIA Replacement System on development only: discovery, eligibility, ranking, replacement, retirement fallback, provenance, diagnostics and focused tests. Preserve custody, R2, all 62 DIAG identifiers and independent Oversight; no paid fallback, activation, version or promotion.",
+    "currentPrompt": "The failure details show a separate R8 blocker: missing executable-content quarantine proof. research this and resolve it.",
     "executionMode": {
       "mode": "work",
-      "agent": "Codex NVIDIA bounded integration",
-      "purpose": "Actual local Windows implementation and native testing",
-      "selectionReason": "Immediate owner-authorized scoped repository implementation",
+      "agent": "Codex",
+      "purpose": "Resume returned custody and repair R8 executable refusal with independent proof",
+      "selectionReason": "Existing owner-authorized actual command/file/repository continuation",
       "distinction": "Execution mode is separate from agent identity and workflow."
     },
     "taskRouting": {
@@ -220,11 +220,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Project context selects crucible-core.",
+      "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-12T03:25:44.112Z",
-      "promptSha256": "a55be57d96762511218182ec8afad99ed0c6af094d7c09725d71c797bb53371b",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "selectedAt": "2026-10-13T04:12:49.925Z",
+      "promptSha256": "3cfbffea63ead510d11dcfe04484b595acce650fed394cbac03934ad7fa49b5c",
+      "affectedPathsSha256": "31146d5ca752b6c7b846d478cb9e185d6e0ed52987a5b9413118fcd132b27bdc"
     },
     "steps": [
       "Preserve existing dirty preimages and record authorized bounded handoff",
@@ -235,8 +235,8 @@
     ],
     "status": "handoff-ready",
     "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-12T03:25:43.005Z",
-    "currentStep": "NVIDIA implementation and native/hosted/controlled-live tests complete; automatic policy remains manual pending independent Oversight and account entitlement. Original holder resumes only previously authorized custody prerequisites from nvidiaPriorPlan; preserve unfinished R3/R8/R9 and exact dirty preimages.",
+    "lastUpdatedAt": "2026-10-13T04:15:53.629Z",
+    "currentStep": "Verify separate encrypted RAW/VETTED copies and restore bindings, publish default-off fixed-recipient key transfer, then owner-authorized receiver synchronization and independent R8 proof.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -569,6 +569,34 @@
         "oversightUpdatedAt": "2026-09-01T15:05:47Z",
         "currentRawUpdatedAt": "2026-10-10T11:33:49Z",
         "actualMismatchNotYetTested": true
+      },
+      "receiverAuthorization": {
+        "status": "owner-authorized",
+        "ownerReply": "Authorize key sync and independent run",
+        "scope": "One-time synchronization of only Oversight CRUCIBLE_SOURCE_BUNDLE_KEY to registered raw fingerprint 3c38a04e and dispatch of existing independent-oversight.yml; verifier code, decisions and vetted keys unchanged.",
+        "transfer": "Fixed GitHub receiver public-key sealed ciphertext; owner-authenticated host applies secret update; no raw-key export."
+      },
+      "resumedAt": "2026-10-13T04:12:49.754Z",
+      "latestHostedFailure": {
+        "runId": 38328578079,
+        "commit": "d92890cb3e3057833c95bae68dae0b54a0569aac",
+        "vettedDecryption": "successful",
+        "missing": "executable-content refusal",
+        "R8Passed": false
+      },
+      "preimageReceipt": "work/r8-resume-20261013/preimages.json",
+      "backupCheckpoint": {
+        "root": "D:\\Documents\\ChatGPT\\Crucible-Custody-Backups\\20261013-raw-vetted",
+        "rawRevision": "e627a695b1898ea7bcc24f884d066bf835868a30",
+        "vettedRevision": "d0e9be11bf5c6fc77c84f0222923b1a599090ece",
+        "status": "encrypted copies downloading; full hash verification and restore binding pending"
+      },
+      "lastPublicationFailure": {
+        "at": "2026-10-13T04:15:53.629Z",
+        "stage": "required local pre-push",
+        "reason": "plan agent and execution-mode agent differed after returned handoff",
+        "correctiveAction": "restore actual holder Codex in both fields",
+        "remoteChanged": false
       }
     },
     "nvidiaPriorPlan": {
@@ -603,7 +631,7 @@
       ],
       "status": "active",
       "startedAt": "2026-10-08T04:07:39.980600Z",
-      "lastUpdatedAt": "2026-10-11T21:59:51.067Z",
+      "lastUpdatedAt": "2026-10-11T22:04:37.089Z",
       "currentStep": "Repair R8 hosted publisher, obtain genuine live executable refusal without persisted bytes, publish rollback-safe raw custody, request independent Oversight, and verify R8 from vetted state.",
       "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
       "ownership": {
@@ -935,6 +963,12 @@
           "oversightUpdatedAt": "2026-09-01T15:05:47Z",
           "currentRawUpdatedAt": "2026-10-10T11:33:49Z",
           "actualMismatchNotYetTested": true
+        },
+        "receiverAuthorization": {
+          "status": "owner-authorized",
+          "ownerReply": "Authorize key sync and independent run",
+          "scope": "One-time synchronization of only Oversight CRUCIBLE_SOURCE_BUNDLE_KEY to registered raw fingerprint 3c38a04e and dispatch of existing independent-oversight.yml; verifier code, decisions and vetted keys unchanged.",
+          "transfer": "Fixed GitHub receiver public-key sealed ciphertext; owner-authenticated host applies secret update; no raw-key export."
         }
       }
     },
