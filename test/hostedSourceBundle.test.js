@@ -1,6 +1,43 @@
 'use strict';
 const test=require('node:test'); const assert=require('node:assert/strict'); const crypto=require('node:crypto'); const fs=require('node:fs'); const os=require('node:os'); const path=require('node:path');
 const {stage,encrypt,decrypt,verifyRestored,hydrateRestored,restageRestored,splitEncrypted,joinEncrypted}=require('../src/hostedSourceBundle');
+
+test('the transferred Crucible accepts only its exact durable custody identity',async(t)=>{
+  const legacyProjectId='github:jonathanblunt1214-lgtm/The-Crucible';
+  const currentRepository='6076446993/The-Crucible';
+  const ref='refs/heads/development';
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-custody-migration-'));
+  const plaintext=path.join(root,'corpus.tar.gz'); fs.writeFileSync(plaintext,Buffer.from('independently vetted corpus'.repeat(80)));
+  const encrypted=path.join(root,'bundle.enc');
+  t.after(clearKeys); clearKeys();
+  process.env.CRUCIBLE_SOURCE_BUNDLE_KEY=crypto.randomBytes(32).toString('base64');
+  await encrypt({input:plaintext,output:encrypted,projectId:legacyProjectId,repository:currentRepository,ref});
+  process.env.CRUCIBLE_VETTED_BUNDLE_KEY=process.env.CRUCIBLE_SOURCE_BUNDLE_KEY;
+  delete process.env.CRUCIBLE_SOURCE_BUNDLE_KEY;
+  const restored=path.join(root,'restored.tar.gz');
+  const accepted=await decrypt({input:encrypted,output:restored,repository:currentRepository,ref});
+  assert.equal(accepted.provenance,'oversight-vetted');
+  assert.deepEqual(fs.readFileSync(restored),fs.readFileSync(plaintext));
+
+  for(const foreignRepository of ['6076446993/Nexus-','someone-else/The-Crucible','jonathanblunt1214-lgtm/The-Crucible']){
+    await assert.rejects(decrypt({input:encrypted,output:path.join(root,`${foreignRepository.replaceAll('/','-')}.tar.gz`),repository:foreignRepository,ref}),/project identity does not match/);
+  }
+});
+
+test('custody migration does not weaken ciphertext authentication or independent-vetting provenance',async(t)=>{
+  const projectId='github:jonathanblunt1214-lgtm/The-Crucible'; const repository='6076446993/The-Crucible'; const ref='refs/heads/development';
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-custody-negative-')); const plaintext=path.join(root,'corpus.tar.gz'); fs.writeFileSync(plaintext,Buffer.from('bounded corpus'.repeat(100)));
+  const encrypted=path.join(root,'bundle.enc'); t.after(clearKeys); clearKeys();
+  process.env.CRUCIBLE_SOURCE_BUNDLE_KEY=crypto.randomBytes(32).toString('base64');
+  await encrypt({input:plaintext,output:encrypted,projectId,repository,ref});
+
+  const raw=await decrypt({input:encrypted,output:path.join(root,'raw.tar.gz'),repository,ref});
+  assert.equal(raw.provenance,'raw-intake','an accepted migrated identity cannot turn an intake key into independent vetting');
+
+  const tampered=path.join(root,'tampered.enc'); const bytes=fs.readFileSync(encrypted); bytes[bytes.length-17]^=1; fs.writeFileSync(tampered,bytes);
+  await assert.rejects(decrypt({input:tampered,output:path.join(root,'tampered.tar.gz'),repository,ref}),/No configured key could authenticate/);
+  assert.equal(fs.existsSync(path.join(root,'tampered.tar.gz')),false,'tampered custody leaves no plaintext behind');
+});
 test('stages, encrypts, restores, and verifies a project-bound source queue without local paths',async()=>{
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-source-bundle-')); const sourceRoot=path.join(root,'local','sources'); const staging=path.join(root,'stage'); fs.mkdirSync(sourceRoot,{recursive:true});
   const content=Buffer.from('bounded untrusted source'); const digest=crypto.createHash('sha256').update(content).digest('hex'); const local=path.join(sourceRoot,`${digest}.html`); fs.writeFileSync(local,content);
@@ -173,4 +210,53 @@ test('a restored queue hash mismatch reports enough to tell different content fr
   // An unreadable queue is still a refusal, and says so rather than pretending it counted anything.
   const corrupt = build((file) => fs.writeFileSync(file, '{not json'));
   assert.throws(corrupt.run, /unparseable as JSON/);
+});
+
+
+test('rejected decryption closes file descriptors and removes every plaintext attempt before returning', async (t) => {
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-rejected-cleanup-'));
+  t.after(()=>{clearKeys();fs.rmSync(root,{recursive:true,force:true});});clearKeys();
+  const input=path.join(root,'source.txt'),encrypted=path.join(root,'source.enc');
+  fs.writeFileSync(input,'private owner evidence'.repeat(64));
+  const repository='6076446993/The-Crucible',projectId='github:jonathanblunt1214-lgtm/The-Crucible',ref='refs/heads/development';
+  process.env.CRUCIBLE_SOURCE_BUNDLE_KEY=crypto.randomBytes(32).toString('base64');
+  await encrypt({input,output:encrypted,projectId,repository,ref});
+  process.env.CRUCIBLE_SOURCE_BUNDLE_KEY=crypto.randomBytes(32).toString('base64');
+  for(let attempt=0;attempt<8;attempt++) {
+    const target=path.join(root,'target-'+attempt);fs.mkdirSync(target);
+    await assert.rejects(decrypt({input:encrypted,output:path.join(target,'plaintext'),repository,ref,keyNames:['CRUCIBLE_SOURCE_BUNDLE_KEY']}),/No configured key could authenticate/);
+    assert.deepEqual(fs.readdirSync(target),[],'no authenticated output or partial plaintext may remain');
+    fs.rmSync(target,{recursive:true}); // On Windows this also verifies the file handle is closed.
+  }
+});
+
+const { recoveryInventory, verifyCiphertextCopy } = require('../src/hostedSourceBundle');
+test('recovery inventory preserves custody, excludes completed/quarantined work and redacts locators', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-inventory-')); t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const queue = { projectId: 'github:owner/repo', documents: [], links: [
+    { id: 'pending', state: 'retrieval-blocked', url: 'https://user:password@example.org/paper?token=secret#private', blocker: 'OPS-0044 token=secret', claimExtraction: { candidateIds: ['retained'], nextPage: 3, windows: [1] } },
+    { id: 'complete', state: 'claim-extraction-complete' }, { id: 'quarantine', state: 'quarantined' },
+  ] };
+  const queueFile = path.join(root, 'source-queue.json'), learning = path.join(root, 'learning.json');
+  fs.writeFileSync(queueFile, JSON.stringify(queue)); fs.writeFileSync(learning, '{}');
+  const digest = f => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+  fs.writeFileSync(path.join(root, 'manifest.json'), JSON.stringify({ projectId: queue.projectId, queueSha256: digest(queueFile), learningFile: 'learning.json', learningSha256: digest(learning) }));
+  const original = fs.readFileSync(queueFile), reportFile = path.join(root, 'inventory.json');
+  assert.equal(recoveryInventory({ root, repository: 'owner/repo', ref: 'refs/heads/development', reportFile }).unfinishedSources, 1);
+  const report = JSON.parse(fs.readFileSync(reportFile));
+  assert.equal(report.entries[0].locator, 'https://example.org/paper'); assert.equal(report.entries[0].locatorRedacted, true);
+  assert.deepEqual(report.entries[0].candidateIds, ['retained']); assert.deepEqual(report.entries[0].blockerCodes, ['OPS-0044']);
+  assert.doesNotMatch(fs.readFileSync(reportFile, 'utf8'), /password|token=secret/); assert.deepEqual(fs.readFileSync(queueFile), original);
+  fs.appendFileSync(queueFile, ' '); assert.throws(() => recoveryInventory({ root, repository: 'owner/repo', ref: 'refs/heads/development', reportFile: path.join(root, 'another.json') }), /intact queue/);
+});
+test('backup copy verification checks every byte without calling a ciphertext copy a complete restore', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-backup-')); t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const input = path.join(root, 'bundle.enc'); fs.writeFileSync(input, Buffer.alloc(3000, 17));
+  const referenceRoot = path.join(root, 'reference'), backupRoot = path.join(root, 'copy');
+  splitEncrypted({ input, outputRoot: referenceRoot, maximumBytes: 1024 }); fs.cpSync(referenceRoot, backupRoot, { recursive: true });
+  const result = verifyCiphertextCopy({ referenceRoot, backupRoot }); assert.equal(result.ciphertextCopyVerified, true); assert.equal(result.backupComplete, false); assert.equal(result.restoreVerified, false);
+  assert.throws(() => verifyCiphertextCopy({ referenceRoot, backupRoot: referenceRoot }), /separate directory/);
+  const manifest = JSON.parse(fs.readFileSync(path.join(backupRoot, 'encrypted-chunks.json')));
+  fs.writeFileSync(path.join(backupRoot, manifest.chunks[0].name), Buffer.alloc(1024, 18));
+  assert.throws(() => verifyCiphertextCopy({ referenceRoot, backupRoot }), /chunk failed/);
 });

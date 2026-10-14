@@ -1,9 +1,6 @@
 const fs = require('node:fs');
 const { assertWellFormedApiUrl, assertSafeRepository } = require('./apiGuard');
 
-// The engine repository moved into the owning organization. Keep one exact
-// identity here so security/core-ref checks do not follow GitHub redirects;
-// the API client deliberately rejects redirects to prevent ambiguous custody.
 const ENGINE_REPOSITORY = '6076446993/The-Crucible';
 const PROJECT_REPOSITORY_MANIFEST = '.thecrucible-repositories.json';
 const MISSING_PERMISSION_HINT = 'no token with repository-administration read access was available (GITHUB_TOKEN cannot be granted this - there is no such "permissions:" key)';
@@ -191,7 +188,17 @@ async function auditGithubRepositorySecurity(config, environment = process.env, 
       findings.push({ repository: target, type: 'unable to verify required GitHub security settings', detail: error.message, remediation: 'GITHUB_REPOSITORY should always be a plain "owner/repo" string, set automatically by GitHub Actions - if it is not, something upstream of this gate is misconfigured.' });
       continue;
     }
-    const status = await fetchRepositorySecurity(apiBase, target, token, fetchImpl);
+    let status;
+    try {
+      status = await fetchRepositorySecurity(apiBase, target, token, fetchImpl);
+    } catch (error) {
+      // Never copy arbitrary transport messages: they may contain credentials.
+      const rawCode = error.cause?.code || error.code || error.name;
+      const code = /^[A-Z][A-Z0-9_]{1,63}$/.test(rawCode || '') ? rawCode
+        : error.name === 'AbortError' ? 'TIMEOUT' : 'NETWORK_ERROR';
+      status = { repository: target, reachable: false, statusCode: null,
+        reason: `GitHub API transport failed after 3 attempts (${code})`, transportCode: code };
+    }
     status.gate = {
       sourceRepository: repository,
       targetRepository: status.repository,

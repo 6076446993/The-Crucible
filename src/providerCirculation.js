@@ -8,6 +8,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { createProviderAdapter } = require('./aiProviderAdapters');
+const { NvidiaModelAutoSelector, requirements: nvidiaModelRequirements } = require('./nvidiaModelAutoSelector');
 const { describeProvider, credentialPresent, modelFor } = require('./aiProviderRegistry');
 const { crucibleError , operationalError} = require('./failureCodes');
 
@@ -108,16 +109,27 @@ class ModelPointerTransport {
   constructor({ env = process.env, providerId = 'nvidia-nim', adapter = null, killSwitchFile, model = null, now = () => new Date().toISOString() } = {}) {
     this.env = env;
     this.providerId = providerId;
-    this.adapter = adapter || createProviderAdapter(providerId, { env });
+    const autoNvidia = providerId === 'nvidia-nim' && env.NVIDIA_NIM_MODEL_POLICY === 'auto';
+    const limit = autoNvidia ? nvidiaModelRequirements(env) : null;
+    this.adapter = adapter || createProviderAdapter(providerId, { env, ...(limit ? { maxTokens:limit.maxDiscoveryTokens, timeoutMs:limit.maxRequestMs } : {}) });
     this.killSwitchFile = path.resolve(killSwitchFile);
     this.model = model ? String(model).trim() : null;
     this.now = now;
+    // No additional provider, no unreviewed billing or change to the ordinary manual path.
+    this.selector = autoNvidia
+      ? new NvidiaModelAutoSelector({ env, adapter:this.adapter, now,
+          onDiagnostic:(entry) => {
+            const file = path.join(path.dirname(this.killSwitchFile), 'nvidia-model-selection-diagnostics.jsonl');
+            if (fs.existsSync(file) && !fs.lstatSync(file).isFile()) throw new Error('Invalid model diagnostic ledger');
+            fs.appendFileSync(file, JSON.stringify({ technique:'NVIDIA_MODEL_AUTO_SELECTION', ...entry }) + '\n', { flag:'a', mode:0o600 });
+          } })
+      : null;
   }
 
   async search(topic) {
     if (fs.existsSync(this.killSwitchFile)) throw operationalError('OPS-0042', `${this.providerId} research kill switch is active.`);
     const prompt = discoveryPrompt(topic);
-    const result = await this.adapter.run({ prompt, ...(this.model ? { model: this.model } : {}) });
+    const result = this.selector ? await this.selector.run(prompt) : await this.adapter.run({ prompt, ...(this.model ? { model: this.model } : {}) });
     // Prefer real citations if a provider ever starts sending them; fall back to the prose.
     const cited = Array.isArray(result.evidence) ? result.evidence.filter(Boolean).map(String) : [];
     const citations = cited.length ? cited.slice(0, MAXIMUM_CITATIONS_PER_TOPIC) : extractUrlsFromText(result.text);

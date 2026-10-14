@@ -32,15 +32,20 @@ on:
 
 permissions:
   contents: read
+  checks: read
+  pull-requests: read
 
 jobs:
   block:
     runs-on: ubuntu-latest
     env:
       LOCKED_PR_NUMBERS: "7 9 11"
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Fail only for a locked, permanent CI-monitoring hook PR
+        if: github.event_name == 'pull_request'
         run: |
+          set -euo pipefail
           number="${{ github.event.pull_request.number }}"
           for locked in $LOCKED_PR_NUMBERS; do
             if [ "$number" = "$locked" ]; then
@@ -48,4 +53,24 @@ jobs:
               exit 1
             fi
           done
-          echo "Not a locked monitoring PR - nothing to block."
+      - name: Wait for the Crucible PR monitor aggregate gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha="${{ github.event.pull_request.head.sha }}"
+          deadline=$(( $(date +%s) + 660 ))
+          while [ "$(date +%s)" -lt "$deadline" ]; do
+            state="$(gh api "repos/$GITHUB_REPOSITORY/commits/$sha/check-runs?per_page=100" --jq '[.check_runs[] | select(.name == "Monitor all Crucible-monitored PRs")] | sort_by(.id) | last | if . == null then "missing" elif .status != "completed" then "pending" elif .conclusion == "success" then "success" else "failure" end')"
+            case "$state" in
+              success) echo "Crucible PR monitor passed for $sha."; exit 0 ;;
+              failure) echo "Crucible PR monitor failed for $sha." >&2; exit 1 ;;
+              missing|pending) sleep 10 ;;
+              *) echo "Unexpected Crucible PR monitor state: $state" >&2; exit 1 ;;
+            esac
+          done
+          echo "Timed out waiting for the Crucible PR monitor for $sha." >&2
+          exit 1
+      - name: Development pushes have no PR monitor dependency
+        if: github.event_name == 'push'
+        run: echo "Development push - PR monitor aggregation is only enforced on pull requests."

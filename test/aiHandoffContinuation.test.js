@@ -120,6 +120,14 @@ test('failed governance checks cannot authorize mutation', (t) => {
   assert.throws(() => assertMutationAllowed(failed, { actor: OPENAI, paths: ['src/a.js'] }), (error) => error.operationalCode === 'OPS-0037');
 });
 
+test('the real coordinator runs its required governance audits through the bundled npm CLI', () => {
+  const root = path.join(__dirname, '..');
+  const report = inspectForContinuation(root, { runChecks: true });
+  assert.equal(report.governance.ran, true);
+  assert.equal(report.governanceVerified, true, JSON.stringify(report.governance));
+  assert.equal(report.mayMutate, true, report.blockers.join('\n'));
+});
+
 test('an actor without a claim cannot mutate, and one with a matching claim can', (t) => {
   const root = fixture(t, { claims: [claim('task-a', OPENAI, ['src/a.js'])] });
   const report = verified(inspectForContinuation(root));
@@ -221,4 +229,15 @@ test('a missing handoff file leaves the inspection incomplete', (t) => {
   assert.equal(report.inspectionComplete, false);
   assert.equal(report.mayMutate, false);
   assert.throws(() => assertReadyToContinue(report, { actor: OPENAI }), (error) => error.operationalCode === 'OPS-0037');
+});
+
+
+test('oldest relevant work survives status refreshes and remains first when blocked', () => {
+  const {oldestRelevantWork} = require('../src/aiHandoffContinuation');
+  const older={id:'intake',originatedAt:'2026-10-07T00:00:00Z',observedAt:'2026-10-11T16:00:00Z',status:'blocked',nextAction:'verify backup'};
+  const newer={id:'research',originatedAt:'2026-10-11T00:00:00Z',status:'pending'};
+  const result=oldestRelevantWork({items:[newer,older,{id:'done',originatedAt:'2020-01-01',status:'verified'},{id:'other-project',originatedAt:'2020-01-01',status:'pending',relevant:false}]});
+  assert.deepEqual(result.orderedIds,['intake','research']);
+  assert.equal(result.next.id,'intake');assert.equal(result.next.status,'blocked');
+  assert.deepEqual(oldestRelevantWork({items:[newer,{id:'unknown',status:'pending'}]}).unknownAgeIds,['unknown']);
 });

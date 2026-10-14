@@ -44,6 +44,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
   if (!projectId || !root || !queue) throw operationalError('OPS-0042', 'CRUCIBLE_LEARNING_PROJECT_ID, CRUCIBLE_LEARNING_ROOT, and CRUCIBLE_SOURCE_QUEUE are required.');
   const provider = selectedProvider(env);
   const model = provider.model;
+  const autoModel = provider.id === 'nvidia-nim' && env.NVIDIA_NIM_MODEL_POLICY === 'auto';
 
   if (command === 'init') {
     const queueFile = ensureHoldingQueue(queue, projectId);
@@ -54,17 +55,17 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
   if (command === 'readiness') {
     const missing = [];
     if (!provider.credentialPresent) missing.push(provider.credentialEnv);
-    if (!model) missing.push(provider.modelEnv);
+    if (!model && !autoModel) missing.push(provider.modelEnv);
     if (!fs.existsSync(path.resolve(queue))) missing.push('CRUCIBLE_SOURCE_QUEUE');
     const ready = missing.length === 0;
-    output(JSON.stringify({ ready, projectId, provider:provider.id, root:path.resolve(root), queue:path.resolve(queue), model, missing, authorizesPromotion:false }));
+    output(JSON.stringify({ ready, projectId, provider:provider.id, root:path.resolve(root), queue:path.resolve(queue), model:autoModel ? null : model, modelSelection:autoModel ? 'REQUIRES_LIVE_MODEL_PROBE' : 'MANUAL_CONFIGURED', missing, authorizesPromotion:false }));
     if (!ready) throw crucibleError('CRU-0033', `${provider.label} discovery is not ready; missing ${missing.join(', ')}.`);
     return;
   }
 
   if (command !== 'run' || !topics.length) throw operationalError('OPS-0042', 'Usage: automatedModelPointerResearchCli.js run <approved-topic> [approved-topic ...]');
   if (!provider.credentialPresent) throw crucibleError('CRU-0033', `${provider.label} discovery requires ${provider.credentialEnv}.`);
-  if (!model) throw crucibleError('CRU-0033', `${provider.label} discovery requires ${provider.modelEnv}. There is deliberately no default model.`);
+  if (!model && !autoModel) throw crucibleError('CRU-0033', `${provider.label} discovery requires ${provider.modelEnv}. There is deliberately no default model.`);
 
   const queueFile = ensureHoldingQueue(queue, projectId);
   const maximumQueriesPerRun = env.CRUCIBLE_DISCOVERY_MAX_QUERIES === undefined ? MAXIMUM_QUERIES_PER_RUN : Number(env.CRUCIBLE_DISCOVERY_MAX_QUERIES);
@@ -78,7 +79,9 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
     overallState:outcomes.some((item) => item.state === 'blocked') ? 'partial' : 'completed',
     projectId,
     provider:provider.id,
-    model,
+    model:autoModel ? null : model,
+    modelSelection:autoModel ? (outcomes.some(item=>item.model) ? 'NVIDIA_AUTO_PROBED' : 'NVIDIA_AUTO_NOT_RUN') : 'MANUAL_CONFIGURED',
+    modelsUsed:[...new Set(outcomes.map(item=>item.model).filter(Boolean))],
     // Named in every report so a reader never has to infer whether these URLs were citations or
     // a model's guesses. They are candidates either way; the distinction is about what they are
     // evidence of, which is nothing until they are retrieved and hashed.
@@ -90,7 +93,7 @@ async function run(argv = process.argv.slice(2), env = process.env, output = con
     admitted:outcomes.reduce((sum, item) => sum + item.admitted, 0),
     rejected:outcomes.reduce((sum, item) => sum + item.rejected, 0),
     novel:outcomes.reduce((sum, item) => sum + item.novel, 0),
-    outcomes:outcomes.map((item) => ({ topic:item.topic, state:item.state, cited:item.cited, admitted:item.admitted, rejected:item.rejected, novel:item.novel, reason:item.reason || null, candidateIds:(item.registered || []).map((entry) => entry?.id).filter(Boolean) })),
+    outcomes:outcomes.map((item) => ({ topic:item.topic, state:item.state, cited:item.cited, admitted:item.admitted, rejected:item.rejected, novel:item.novel, reason:item.reason || null, model:item.model || null, candidateIds:(item.registered || []).map((entry) => entry?.id).filter(Boolean) })),
     authorizesPromotion:false,
   };
   output(JSON.stringify(report));

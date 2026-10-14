@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "policy": {
+    "ownerApprovalRequired": true,
+    "publicationReputationIsNotProof": true,
+    "exactDomainRequired": true
+  },
+  "domains": [
+    {
+      "domain": "academic.oup.com",
+      "organization": "Oxford University Press",
+      "authority": "Department of the University of Oxford",
+      "evidenceUrl": "https://academic.oup.com/pages/about-oxford-academic/about-oxford-university-press",
+      "verifiedAt": "2026-10-07T03:06:00.000Z",
+      "approvedBy": "repository-owner",
+      "admissionClass": "verified-scholarly-domain"
+    }
+  ]
+}

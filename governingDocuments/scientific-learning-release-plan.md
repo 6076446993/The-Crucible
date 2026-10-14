@@ -4,6 +4,19 @@
 
 The scientific-learning system remains on `development`. A rolling forecast is not authorization to promote learning scope. Promotion of scientific-learning files or behavior to `main` requires every gate below to be complete, a final exact-tip green run, and explicit repository-owner approval. Independently releasable non-learning changes are not blocked by this plan, but their diff and dependencies must first be proven isolated from learning scope and they must follow the repository's normal governed release path.
 
+## Security hardening carried by the existing pipeline
+
+The existing Crucible learning pipeline is secured in place; security hardening does not rename, replace, or split the pipeline. The following controls are part of the system boundary and are also submitted as candidate-only security/process learning evidence through `src/securityLearning.js` and `src/securityLearningCli.js`:
+
+- **Zero-trust authorization:** every repository, branch, worker, dashboard, custody, and promotion action remains bound to its exact project identity, branch, authority, and verification result.
+- **Micro-segmentation:** raw custody, vetted custody, learning workers, retrieval, oversight, and user-facing dashboard paths remain separate, with no downstream component gaining upstream write authority.
+- **One-way evidence flow:** discovery and retrieval can produce candidate evidence, but cannot write vetted state, satisfy proof, or promote knowledge; upstream custody is never authored by downstream learning consumers.
+- **Encrypted recovery and key management:** raw/vetted state and recovery artifacts use the existing authenticated encryption and managed-key boundaries; plaintext keys and custody are never placed in chat, logs, or governance files.
+- **Endpoint and media control:** retrieval and intake reject executable or unsafe content, private/local targets, disallowed media, oversized or malformed inputs, and untrusted instructions before persistence.
+- **Continuous verification and inhibition:** kill switches, exact-tip checks, contradiction quarantine, independent verification, rollback, and fail-closed health gates inhibit unsafe or unverifiable transitions.
+
+These controls are implementation and candidate-learning scope, not an automatic policy activation or release exception. Their manifest remains explicitly `candidate-only`; no item becomes active policy or promoted knowledge until it has project-bound durable custody, a falsifiable hypothesis and controlled reproduction, negative/regression testing, contradiction analysis, distinct independent verification, exact-tip hosted evidence, and owner authorization. The `Cybersecurity` discovery topic is registered in the existing bounded research providers under the same rules and the existing 50-topic ceiling.
+
 ## Rolling forecast
 
 - Initial forecast: **2026-09-14 at 12:00 PM America/New_York**.
@@ -18,8 +31,8 @@ The scientific-learning system remains on `development`. A rolling forecast is n
 | Gate | Required proof | Current state |
 | --- | --- | --- |
 | R1 Architecture | Durable scientific state machine, safe retrieval, automated Google discovery, monthly refresh, versioning, and rollback are implemented and locally/hosted green. | Passed at `55d3c60bb8034067e643cd39636784a19b991660`. |
-| R2 Extraction worker | A real worker consumes `claim-extraction-forced-pending`, increments attempts, persists bounded candidate IDs, and resumes safely after interruption. | In progress: live batches reduced forced web sources from 393 to 288, advanced all seven PDFs to page 11, and persisted candidate IDs without promotion. Restart proof remains pending. |
-| R3 Live governed discovery | A scheduled executable discovery provider completes one real bounded run, records its audit, rejects disallowed results, and atomically registers only novel `.edu`, `.org`, or `.gov` URLs. Provider prose, citations alone, and model agreement are not evidence. | Pending a scheduled run that admits at least one governed candidate URL. |
+| R2 Extraction worker | A real worker consumes `claim-extraction-forced-pending`, increments attempts, persists bounded candidate IDs, and resumes safely after interruption. | **Passed.** Exact-tip hosted failover on reviewed development SHA `1033806378cda18f53efc4b589867bc9cfb8c677` used only a disposable OS-temp proof root, inherited no production learning paths, persisted attempt 1, interrupted only the isolated primary, let an already-running standby reclaim that exact PID after the owner-set 30-second floor, completed attempt 2, emitted unique deterministic bounded candidates, preserved an unrelated pre-existing candidate digest, and processed zero items on repeat. Production queue/store were neither referenced nor writable. |
+| R3 Live governed discovery | A scheduled executable discovery provider completes one real bounded run, records its audit, rejects disallowed results, and atomically registers only novel URLs that match `.edu`, `.org`, `.gov`, an explicit trusted domain, or an exact owner-approved provenance-backed scholarly-domain registry entry. Provider prose, citations alone, publisher prestige, and model agreement are not evidence. | Pending a scheduled run that admits at least one governed candidate URL. |
 | R4 End-to-end candidate | At least one real source proceeds from search or owner ingest through safe retrieval, provenance hashing, bounded claim extraction, deduplication, and candidate custody. | Pending. |
 | R5 Independent verification | At least one low-risk claim persists a hash-bound pre-result hypothesis/test-variable plan, then completes controls, causal isolation where applicable, negative/regression tests, deterministic scope proof, contradiction analysis, and a distinct verifier against that unchanged plan. | Pending; zero verified knowledge versions. |
 | R6 Verified-only retrieval | The active verified version is retrieved and used within its tested boundary while unverified and superseded records remain unavailable. | Pending live proof. |

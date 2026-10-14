@@ -22,11 +22,19 @@
       "enabled": true
     },
     {
+      "name": "6076446993/Crucible-Learning-State",
+      "enabled": true
+    },
+    {
       "name": "6076446993/Crucible-Vetted-Learning-State",
       "enabled": true
     },
     {
       "name": "6076446993/Vetting-and-Governance-oversite.",
+      "enabled": true
+    },
+    {
+      "name": "6076446993/Nexus-Public-CI",
       "enabled": true
     },
     {

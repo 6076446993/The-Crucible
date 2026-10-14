@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "ownerApproval": "2026-10-08 Yes: takeover and narrow workflow deployment only",
+  "sourceCommit": "0cb89f4f83fb17472194e52c6ea420c7fdfcfbcc",
+  "baseMain": "a4c5e6061da978762c8605c551baf3d1f61d2522",
+  "releaseParent": "1bc3d0a8c1365d345bdf0b02b5b00b7882aed366",
+  "scope": "Main-based six-file package: intake workflow, workflow/routing test compatibility, handoff/log and mandatory retained failure ledger only; preserve all unrelated main content; no scientific promotion or custody writes",
+  "files": [
+    {
+      "path": ".github/workflows/owner-file-intake.yml",
+      "sha256": "89e0b6b4edf8ea673bd09e1d768d060658195cb1c31f11524edbfd7adbd19473"
+    },
+    {
+      "path": "test/workflow.test.js",
+      "sha256": "8aa96359b4ef673d71cc38749e915cc9d5a2ab2668a1d16827fb9cd745d20c65"
+    },
+    {
+      "path": "AI-HANDOFF.json",
+      "sha256": "48b28e956b18300c4b9e271237882b404c51cb846b1e703afe6e52201d6ddd88"
+    },
+    {
+      "path": "DEVLOG.md",
+      "sha256": "591118c7640b919ed45747ac26e880ff61f6170951529a026ec8e14435bb61ad"
+    },
+    {
+      "path": "test/taskRouting.test.js",
+      "sha256": "e4fa43d8faa10d6984d27faedb24b70742d3733acee9412e9e4a28ecda49e970"
+    },
+    {
+      "path": "governingDocuments/known-bugs/KNOWN-BUGS.json",
+      "sha256": "b4fe552bb30e49793212f69c082f743ffe15f614033c8b98dd3b0d000d5a2eac"
+    }
+  ],
+  "verification": {
+    "mainWorkflowTests": "32/32 passed, zero skipped",
+    "developmentTests": "1015/1015 passed, zero skipped",
+    "hosted": "pending",
+    "mainFullSuite": "932/932 passed, zero skipped; generated failure retest passed"
+  },
+  "authenticatedTransportDependency": {
+    "path": "src/hostedSourceBundle.js",
+    "sha256": "8864e82f5805181cda17b4c45f07b281d798fce3fa41fef791eb173d34b3707a",
+    "reason": "Wait for reader/writer file descriptor closure and require rejected plaintext deletion before returning or trying another key; no authentication gate relaxed."
+  }
+}

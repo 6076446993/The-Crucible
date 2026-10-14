@@ -203,3 +203,40 @@ test('a never-run topic is due even when the clock ticks between the deadline an
   const widened = new ModelPointerResearchStore(store.root, PROJECT, ['JavaScript', 'Rust'], { now: ticking });
   assert.deepEqual(widened.due().map((item) => item.topic), ['JavaScript', 'Rust']);
 });
+
+test('SI R3 sandbox measures governed admission of the logged academic source seeds', async (t) => {
+  const register = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'governingDocuments', 'synthetic-intelligence-research-register.json'), 'utf8'));
+  const urls = register.candidateSourceSeeds.map((item) => item.url);
+
+  const { queue, store } = fixture(t, ['Synthetic Intelligence academic source admission']);
+  const sink = new AtomicSourceQueueCandidateSink(queue, PROJECT, { now: () => '2026-10-07T03:06:00.000Z' });
+  const client = {
+    search: async () => ({
+      citations: urls,
+      searchedAt: '2026-10-07T03:06:00.000Z',
+      provider: 'nvidia-nim',
+      providerKind: MODEL_POINTER_PROVIDER_KIND,
+      model: 'si-r3-sandbox',
+      promptSha256: HASH,
+      responseSha256: HASH,
+    }),
+  };
+
+  const [outcome] = await new AutomatedModelPointerResearch({ store, client, candidateSink: sink }).runDue();
+  assert.equal(outcome.state, 'completed');
+  assert.equal(urls.length, 9);
+  assert.equal(outcome.admitted, 9);
+  assert.equal(outcome.rejected, 0);
+  assert.equal(outcome.novel, 9);
+
+  const held = JSON.parse(fs.readFileSync(queue, 'utf8')).links;
+  assert.equal(held.length, 9);
+  const oup = held.find((item) => new URL(item.url).hostname === 'academic.oup.com');
+  assert.ok(oup);
+  assert.equal(oup.discovery.sourceAuthority, 'verified-scholarly-domain');
+  assert.equal(oup.discovery.authorityOrganization, 'Oxford University Press');
+  assert.match(oup.discovery.authorityEvidenceUrl, /^https:\/\/academic\.oup\.com\//);
+  assert.ok(held.every((item) => item.state === 'research-approved-pending-retrieval'));
+  assert.ok(held.every((item) => item.classification === 'Insufficient Evidence'));
+});
+

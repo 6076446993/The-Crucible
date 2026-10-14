@@ -1,6 +1,7 @@
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
+const { candidatePacket } = require('./evidencePacket');
 
 const MAX_REFRESH_INTERVAL_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -126,7 +127,7 @@ class MonthlyKnowledgeRefreshStore {
       const fingerprint = claimFingerprint(claim);
       if (known.has(fingerprint) || emitted.has(fingerprint)) continue;
       emitted.add(fingerprint);
-      candidateClaims.push({ ...structuredClone(claim), fingerprint, sourceId, contentSha256:retrievalRecord.contentSha256, classification:'Insufficient Evidence', state:'candidate-evidence' });
+      candidateClaims.push({ ...structuredClone(claim), fingerprint, sourceId, contentSha256:retrievalRecord.contentSha256, classification:'Insufficient Evidence', state:'candidate-evidence', evidencePacket:candidatePacket({ id:`refresh-evidence-${fingerprint.slice(0, 32)}`, projectId:this.projectId, component:'monthly-knowledge-refresh', claim:claim.claim, boundary:claim.claimBoundary, provenance:{ sourceIds:[sourceId], contentSha256:retrievalRecord.contentSha256 }, observability:{ traceId:`refresh-${fingerprint.slice(0, 24)}` } }) });
     }
     source.contentRevisions.push({ finalUrl, retrievedAt:retrievalRecord.retrievedAt, author:retrievalRecord.author, license:retrievalRecord.license, contentSha256:retrievalRecord.contentSha256.toLowerCase(), candidateClaimFingerprints:[...emitted] });
     return { state:'new-content', candidateClaims, nextCheckAt:source.nextCheckAt };

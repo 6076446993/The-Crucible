@@ -1,0 +1,27 @@
+name: Crucible native learning pipeline monitor
+on:
+  schedule:
+    - cron: '3/5 * * * *'
+  workflow_dispatch:
+permissions:
+  actions: write
+  contents: read
+concurrency:
+  group: crucible-native-learning-pipeline-monitor
+  cancel-in-progress: false
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: development
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24
+      - name: Verify and advance the native learning pipeline
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node src/learningPipelineMonitor.js

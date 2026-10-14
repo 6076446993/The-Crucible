@@ -34,5 +34,88 @@ function captureNpmCi(environment=process.env){let output,status;try{const resul
 // CRUCIBLE_FAILURE_LOG, and that file is read alongside the install log so the organ sees the
 // failure it is being asked to explain.
 function writeLocalReport(logFile,environment=process.env){const files=[logFile,resolveFailureLog(environment)].filter((file)=>file&&fs.existsSync(file));const log=files.length?files.map((file)=>fs.readFileSync(file,'utf8')).join('\n'):'diagnostic log unavailable';const report=diagnose({projectId:environment.CRUCIBLE_PROJECT_ID||`github:${environment.GITHUB_REPOSITORY}`,repository:environment.GITHUB_REPOSITORY,commitSha:environment.CRUCIBLE_DIAGNOSTIC_SHA||environment.GITHUB_SHA,runId:environment.GITHUB_RUN_ID,workflow:environment.GITHUB_WORKFLOW||'The Crucible Self-Test',job:environment.CRUCIBLE_CI_JOB||'The Crucible',step:environment.CRUCIBLE_FAILED_STEP||'Install locked dependencies',os:environment.RUNNER_OS,nodeVersion:process.version,conclusion:'failure',log});fs.writeFileSync('ci-diagnostic-report.json',`${JSON.stringify(report,null,2)}\n`,{mode:0o600});return report;}
-if(require.main===module){try{const command=process.argv[2];if(command==='capture-npm-ci'){const result=captureNpmCi();process.exitCode=result.status;}else if(command==='diagnose-local'){console.log(JSON.stringify(writeLocalReport(process.argv[3]),null,2));}else throw new Error('Usage: ciDiagnosticOrgan.js <capture-npm-ci|diagnose-local> [log-file]');}catch(error){console.error(`[The Crucible] CI diagnostic organ failed closed: ${error.message}`);process.exitCode=1;}}
-module.exports={RULES,diagnose,npmCliCandidates,npmCli,npmCiLogPath,captureNpmCi,writeLocalReport};
+
+// GitHub job summaries identify the step that actually failed. Classify only
+// that step's supplied log; successful earlier install output is not its cause.
+const STAGES = Object.freeze({
+  'Restore independently vetted encrypted corpus': 'custody-transfer',
+  'Decrypt vetted custody and verify every restored hash': 'custody-decrypt-and-integrity',
+  'Run project-bound durable R4-R8 proof on the real corpus': 'scientific-proof',
+  'Run deterministic encrypted hosted extraction': 'extraction',
+});
+function diagnoseJob({ context, evidence, logs = {} }) {
+  if (!context || !evidence || evidence.repository !== context.repository ||
+      evidence.commitSha !== context.commitSha || String(evidence.runId) !== String(context.runId) ||
+      !Number.isSafeInteger(evidence.attempt) || evidence.attempt < 1 || evidence.attempt !== context.attempt) {
+    throw new Error('Job evidence must match the exact repository, commit, run and attempt.');
+  }
+  const job = evidence.job;
+  diagnose({ ...context, step: 'Validate job evidence', conclusion: 'success' });
+  if (!job || job.name !== context.job || !Number.isSafeInteger(job.id) || job.id < 1 ||
+      !Array.isArray(job.steps) || job.steps.length > 100) throw new Error('Invalid bounded job evidence.');
+  const conclusions = new Set(['success', 'failure', 'cancelled', 'skipped', 'neutral', 'timed_out', 'action_required']);
+  let previous = 0;
+  for (const step of job.steps) {
+    if (!Number.isSafeInteger(step.number) || step.number <= previous ||
+        typeof step.name !== 'string' || !step.name.trim() || step.name.length > 300 ||
+        !conclusions.has(step.conclusion)) throw new Error('Invalid completed step evidence.');
+    previous = step.number;
+  }
+  if (!conclusions.has(job.conclusion)) throw new Error('Invalid completed job conclusion.');
+  const failed = job.steps.filter(s => ['failure', 'timed_out', 'cancelled'].includes(s.conclusion));
+  if (job.conclusion === 'success' && failed.length) throw new Error('Job conclusion contradicts its failed steps.');
+  const stepReports = failed.map(s => {
+    const log = Object.hasOwn(logs, String(s.number)) ? logs[String(s.number)] : '';
+    if (typeof log !== 'string') throw new Error('Step log must be text.');
+    const report = diagnose({ ...context, step: s.name, conclusion: s.conclusion, log });
+    return { ...report, stepNumber: s.number, stage: STAGES[s.name] || 'unknown', logAvailable: Object.hasOwn(logs, String(s.number)) };
+  });
+  const priorSuccess = job.steps.filter(s => s.conclusion === 'success').map(s => ({ number: s.number, stage: STAGES[s.name] || 'unknown' }));
+  return {
+    schemaVersion: 1, repository: context.repository, commitSha: context.commitSha,
+    runId: String(context.runId), attempt: evidence.attempt, jobId: job.id,
+    conclusion: job.conclusion, stepReports, observedSuccessfulSteps: priorSuccess,
+    diagnosisComplete: job.conclusion === 'success' || stepReports.length > 0,
+    // Job summaries establish the executed stage, not full backup coverage or
+    // which individual key opened a bundle. Do not infer any of those facts.
+    keyRecoveryRequired: 'not-established', backupComplete: false,
+    repairAuthorized: false, promotionAuthorized: false,
+  };
+}
+function diagnoseProof({ context, proof, corpus }) {
+  diagnose({ ...context, step: 'Validate proof observation', conclusion: 'success' });
+  const acceptedProjects = new Set([context.projectId]);
+  if (context.repository === '6076446993/The-Crucible') acceptedProjects.add('github:jonathanblunt1214-lgtm/The-Crucible');
+  for (const artifact of [proof, corpus]) {
+    if (!artifact || artifact.repository !== context.repository || !acceptedProjects.has(artifact.projectId) ||
+        artifact.ref !== context.ref) throw new Error('Proof artifacts must match this project, repository and ref.');
+  }
+  if (proof.projectId !== corpus.projectId) throw new Error('Proof and custody project identities differ.');
+  if (String(proof.runId) !== String(context.runId) || !Array.isArray(proof.gates) || proof.gates.length > 20 ||
+      corpus.corpusProvenance !== 'oversight-vetted' || corpus.vetted !== true ||
+      !/^[a-f0-9]{64}$/.test(corpus.queueSha256 || '') || !/^[a-f0-9]{64}$/.test(corpus.learningSha256 || '')) {
+    throw new Error('Proof run or verified custody observation is invalid.');
+  }
+  const ids = new Set();
+  const unresolved = [];
+  for (const gate of proof.gates) {
+    if (!/^R[4-8]$/.test(gate.id) || ids.has(gate.id) || !['satisfied', 'pending', 'blocked', 'failed'].includes(gate.state)) {
+      throw new Error('Invalid or duplicate proof gate observation.');
+    }
+    ids.add(gate.id);
+    if (gate.state !== 'satisfied') unresolved.push({ id: gate.id, state: gate.state });
+  }
+  if (ids.size !== 5) throw new Error('Proof observation must account for every R4-R8 gate.');
+  return { schemaVersion: 1, repository: context.repository, projectId: context.projectId,
+    commitSha: context.commitSha, runId: String(context.runId), ref: context.ref,
+    sourceEvidenceSha256: sha(JSON.stringify({ proof, corpus })),
+    stage: 'scientific-proof', unresolvedGates: unresolved,
+    observedCustody: { family: 'oversight-vetted', queueSha256: corpus.queueSha256, learningSha256: corpus.learningSha256 },
+    // These observations report the producer's validated restoration, not a
+    // fresh independent decryption or a complete recoverable backup.
+    evidenceBasis: 'same-run-local-producer-artifacts', keyRecoveryRequired: 'not-established',
+    backupComplete: false, repairAuthorized: false, promotionAuthorized: false };
+}
+module.exports={RULES,STAGES,diagnose,diagnoseJob,diagnoseProof,npmCliCandidates,npmCli,npmCiLogPath,captureNpmCi,writeLocalReport};
+
+if(require.main===module){try{const command=process.argv[2];if(command==='capture-npm-ci'){const result=captureNpmCi();process.exitCode=result.status;}else if(command==='diagnose-local'){console.log(JSON.stringify(writeLocalReport(process.argv[3]),null,2));}else if(command==='diagnose-proof'){const read=(file)=>{if(!file||fs.statSync(file).size>4*1024*1024)throw new Error('A bounded proof file is required.');return JSON.parse(fs.readFileSync(file,'utf8'));};const repository=process.env.GITHUB_REPOSITORY;const result=diagnoseProof({context:{projectId:`github:${repository}`,repository,ref:process.env.GITHUB_REF,commitSha:process.env.GITHUB_SHA,runId:process.env.GITHUB_RUN_ID,workflow:'hosted-learning-proof',job:'prove'},proof:read(process.argv[3]),corpus:read(process.argv[4])});fs.writeFileSync('hosted-learning-proof/diagnosis.json',JSON.stringify(result,null,2)+'\n',{mode:0o600});}else if(command==='diagnose-job'){const file=process.argv[3];if(!file||fs.statSync(file).size>4*1024*1024)throw new Error('A bounded job evidence file is required.');console.log(JSON.stringify(diagnoseJob(JSON.parse(fs.readFileSync(file,'utf8'))),null,2));}else throw new Error('Usage: ciDiagnosticOrgan.js <capture-npm-ci|diagnose-local|diagnose-job> [evidence-file]');}catch(error){console.error(`[The Crucible] CI diagnostic organ failed closed: ${error.message}`);process.exitCode=1;}}

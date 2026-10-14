@@ -10,8 +10,9 @@
 // require: anything that wants to call this from a test, a workflow, or another organ would
 // otherwise have to start the whole command-line tool to do it.
 const fs = require('node:fs');
+const { spawnSync } = require('node:child_process');
 const path = require('node:path');
-const { crucibleError , operationalError} = require('./failureCodes');
+const { crucibleError, operationalError } = require('./failureCodes');
 const { auditMutationClaims } = require('./mutationClaims');
 const { auditDevlogAccountability, findFuturePlanning } = require('./devlogAccountability');
 const { findCredentialLeaks } = require('./aiProviderRegistry');
@@ -34,7 +35,18 @@ function coordinationGate(root) {
 
   const devlogPath = path.join(root, 'DEVLOG.md');
   const devlog = fs.existsSync(devlogPath) ? fs.readFileSync(devlogPath, 'utf8') : '';
-  const accountability = auditDevlogAccountability({ devlog, claims });
+  // Full prune snapshots grow beyond Node's one-MiB default. Match the bounded
+  // reader used by devlogPruneArchive; an overflow is never an empty history.
+  const archiveResult = spawnSync('git', ['show', 'origin/Archive:Devlog-Pruned'], {
+    cwd: root, encoding: 'utf8', shell: false, maxBuffer: 256 * 1024 * 1024,
+  });
+  if (archiveResult.error) {
+    const rawCode = archiveResult.error.code || '';
+    const code = /^[A-Z0-9_]+$/.test(rawCode) ? rawCode : 'GIT_READ_ERROR';
+    throw operationalError('OPS-0035', `Retained DEVLOG archive could not be read (${code}); accountability cannot be verified.`);
+  }
+  const archivedDevlog = archiveResult.status === 0 ? archiveResult.stdout : '';
+  const accountability = auditDevlogAccountability({ devlog, archivedDevlog, claims });
   const record = [...accountability.findings, ...findFuturePlanning(devlog)];
   if (record.length) throw operationalError('OPS-0035', `DEVLOG accountability failed:\n${record.map((item) => `- ${item.type}: ${item.detail}`).join('\n')}`);
 

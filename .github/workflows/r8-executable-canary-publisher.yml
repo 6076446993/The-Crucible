@@ -1,15 +1,131 @@
 name: Publish R8 executable quarantine evidence
-
 on:
   workflow_dispatch:
-
+    inputs:
+      expected_state_head:
+        description: Exact owner-verified private raw custody revision
+        required: true
+        type: string
+      prepare_oversight_key_update:
+        description: Owner-authorized sealed update for the fixed independent receiver only
+        required: false
+        default: false
+        type: boolean
 permissions:
   contents: read
-
+concurrency:
+  group: bounded-raw-custody-publisher-development
+  cancel-in-progress: false
 jobs:
-  register:
-    if: github.repository == '6076446993/The-Crucible'
+  publish:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      EXPECTED_STATE_HEAD: ${{ inputs.expected_state_head }}
+      CRUCIBLE_R8_EXECUTABLE_CANARY_URL: https://raw.githubusercontent.com/pypa/distlib/454a87c64f0b545138dc4798aa833a4ff8ac2377/distlib/w64.exe
+      CRUCIBLE_RETRIEVAL_TRUSTED_DOMAINS: raw.githubusercontent.com
     steps:
-      - name: Confirm protected workflow registration
-        run: echo 'R8 publisher registered; dispatch the reviewed development ref for execution.'
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+      - name: Restore exact current raw ciphertext
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_STATE_HEAD" =~ ^[a-f0-9]{40}$ ]]
+          test -n "$STATE_DEPLOY_KEY"
+          mkdir -p "$RUNNER_TEMP/r8-custody/ssh" r8-receipt
+          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/r8-custody/ssh/key"
+          chmod 600 "$RUNNER_TEMP/r8-custody/ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/r8-custody/ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/r8-custody/ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/r8-custody/ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/r8-custody/state"
+          test "$(git -C "$RUNNER_TEMP/r8-custody/state" rev-parse HEAD)" = "$EXPECTED_STATE_HEAD"
+          sha256sum "$RUNNER_TEMP/r8-custody/state/encrypted-chunks.json" | cut -d ' ' -f1 > "$RUNNER_TEMP/r8-custody/prior-manifest"
+          node src/hostedSourceBundle.js join --input-root "$RUNNER_TEMP/r8-custody/state" --output "$RUNNER_TEMP/r8-custody/raw.enc" > /dev/null
+      - name: Authenticate raw custody and obtain real executable refusal
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+        run: |
+          set -euo pipefail
+          node src/sourceBundleKeyManager.js preflight raw > r8-receipt/key-identity.json
+          node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/r8-custody/raw.enc" --output "$RUNNER_TEMP/r8-custody/raw.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY > /dev/null
+          mkdir "$RUNNER_TEMP/r8-custody/raw"
+          tar -xzf "$RUNNER_TEMP/r8-custody/raw.tar.gz" -C "$RUNNER_TEMP/r8-custody/raw"
+          node src/r8ExecutableCanaryPublisher.js prepare --root "$RUNNER_TEMP/r8-custody/raw" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report r8-receipt/refusal.json > /dev/null
+          learning_file="$(node -e 'process.stdout.write(JSON.parse(require("node:fs").readFileSync(process.env.RUNNER_TEMP+"/r8-custody/raw/manifest.json")).learningFile)')"
+          project_id="$(node -e 'process.stdout.write(JSON.parse(require("node:fs").readFileSync(process.env.RUNNER_TEMP+"/r8-custody/raw/manifest.json")).projectId)')"
+          tar -czf "$RUNNER_TEMP/r8-custody/updated.tar.gz" -C "$RUNNER_TEMP/r8-custody/raw" manifest.json source-queue.json sources "$learning_file"
+          node src/hostedSourceBundle.js encrypt --input "$RUNNER_TEMP/r8-custody/updated.tar.gz" --output "$RUNNER_TEMP/r8-custody/updated.enc" --project-id "$project_id" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > /dev/null
+          node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/r8-custody/updated.enc" --output "$RUNNER_TEMP/r8-custody/roundtrip.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY > /dev/null
+          test "$(sha256sum "$RUNNER_TEMP/r8-custody/updated.tar.gz" | cut -d ' ' -f1)" = "$(sha256sum "$RUNNER_TEMP/r8-custody/roundtrip.tar.gz" | cut -d ' ' -f1)"
+          mkdir "$RUNNER_TEMP/r8-custody/isolated-restore"
+          tar -xzf "$RUNNER_TEMP/r8-custody/roundtrip.tar.gz" -C "$RUNNER_TEMP/r8-custody/isolated-restore"
+          node src/hostedSourceBundle.js verify --root "$RUNNER_TEMP/r8-custody/isolated-restore" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report r8-receipt/encrypted-restore.json --provenance raw-intake > /dev/null
+          node src/hostedSourceBundle.js split --input "$RUNNER_TEMP/r8-custody/updated.enc" --output-root "$RUNNER_TEMP/r8-custody/incoming" > /dev/null
+      - name: Seal existing raw key for the owner-authorized independent receiver
+        if: inputs.prepare_oversight_key_update
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p oversight-sealed-update
+          python3 - <<'PY'
+          import base64, ctypes, ctypes.util, hashlib, json, os
+          recipient = base64.b64decode('N+Ail9fpsrhS+JvqAtqs8qHrNsOi/yYDoZUFTgh70HE=', validate=True)
+          message = os.environ['CRUCIBLE_SOURCE_BUNDLE_KEY'].encode('ascii')
+          material = base64.b64decode(message, validate=True)
+          if len(material) != 32 or hashlib.sha256(material).hexdigest() != '3c38a04e631031dfa98e2d96937f32ac8a997e60aa879ff289718e29c4e85ea8':
+              raise SystemExit('Registered raw key identity mismatch')
+          library = ctypes.util.find_library('sodium')
+          if not library:
+              raise SystemExit('Standard libsodium unavailable; no key update prepared')
+          sodium = ctypes.CDLL(library)
+          if sodium.sodium_init() < 0:
+              raise SystemExit('Standard libsodium initialization failed')
+          sodium.crypto_box_seal.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_ulonglong, ctypes.c_void_p]
+          sodium.crypto_box_seal.restype = ctypes.c_int
+          output = ctypes.create_string_buffer(len(message) + 48)
+          if sodium.crypto_box_seal(output, message, len(message), recipient) != 0:
+              raise SystemExit('GitHub recipient sealing failed')
+          payload = {'key_id': '3380204578043523366', 'encrypted_value': base64.b64encode(output.raw).decode('ascii')}
+          with open('oversight-sealed-update/secret-update.json', 'w', encoding='utf8') as target:
+              json.dump(payload, target)
+          with open('oversight-sealed-update/recipient.json', 'w', encoding='utf8') as target:
+              json.dump({'repository': '6076446993/Vetting-and-Governance-oversite.', 'repositoryId': 1352354684, 'secret': 'CRUCIBLE_SOURCE_BUNDLE_KEY', 'key_id': payload['key_id'], 'public_key': base64.b64encode(recipient).decode('ascii'), 'sourceFingerprint': hashlib.sha256(material).hexdigest()}, target)
+          PY
+      - name: Publish refusal ciphertext with rollback and stale-state protection
+        run: |
+          set -euo pipefail
+          node src/rawCustodyPublisher.js publish-ciphertext --legacy-indexed-chunks --ciphertext-root "$RUNNER_TEMP/r8-custody/incoming" --state-root "$RUNNER_TEMP/r8-custody/state" --prior-manifest-sha256 "$(cat "$RUNNER_TEMP/r8-custody/prior-manifest")" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" > r8-receipt/publication.json
+          git -C "$RUNNER_TEMP/r8-custody/state" add encrypted-chunks.json 'source-bundle.part-*.enc' 'encrypted-manifest-*.json'
+          git -C "$RUNNER_TEMP/r8-custody/state" -c user.name='Crucible custody publisher' -c user.email='git@github.com' commit -m 'Preserve live executable refusal without source bytes; retain rollback custody'
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/r8-custody/ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/r8-custody/ssh/known_hosts -o StrictHostKeyChecking=yes"
+          test "$(git -C "$RUNNER_TEMP/r8-custody/state" ls-remote origin refs/heads/main | cut -f1)" = "$EXPECTED_STATE_HEAD"
+          git -C "$RUNNER_TEMP/r8-custody/state" push origin HEAD:main
+          git -C "$RUNNER_TEMP/r8-custody/state" rev-parse HEAD > r8-receipt/published-state-revision.txt
+      - name: Destroy runner plaintext and credentials
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/r8-custody"
+      - name: Retain bounded real refusal and encrypted-restore receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: r8-executable-refusal-${{ github.run_id }}
+          path: r8-receipt
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Retain GitHub-recipient ciphertext for the one-time owner update
+        if: success() && inputs.prepare_oversight_key_update
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: oversight-sealed-key-update-${{ github.run_id }}
+          path: oversight-sealed-update
+          if-no-files-found: error
+          retention-days: 1

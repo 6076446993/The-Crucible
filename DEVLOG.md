@@ -1,281 +1,555 @@
+### Session: key-manager-scope-correction-20261009 — 2026-10-09T22:45:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Corrected the key-manager scope after owner clarification. The manager governs only Crucible project encryption keys (raw intake and oversight-vetted custody); it does not govern Nexus coding credentials, OIDC runners, coding commands, or unrelated project access. The temporary Nexus gateway integration was removed. R8, raw/vetted custody, Archive, and `main` were not changed.
+
+- `route:prewrite` — completed 2026-10-09T22:37:23-04:00, exit 0; selected `crucible-core` → `6076446993/The-Crucible` → `development`.
+- `scope correction` — removed the Nexus runner integration from the manager, dashboard, registry, package scripts, security document, and tests.
+- `verification boundary` — the cleanup is local development work; no Nexus credential was read or changed, and no hosted coding or R8 evidence is claimed.
+
+### Session: shared-monitor-app-key-manager-20261009 — 2026-10-09T22:55:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Wired the existing monitor GitHub App installation as an optional identity source for the Crucible key-manager workflow, while preserving separate authority. The monitor still receives only a read-only installation token; only the manual development key-manager workflow receives the App identity and may write Crucible Actions secrets and development registry fingerprints. The monitor token itself is never passed to key management.
+
+- `route:prewrite` — completed 2026-10-09T22:54:32-04:00, exit 0; selected `crucible-core` → `6076446993/The-Crucible` → `development`.
+- `workflow wiring` — key manager now accepts dedicated App secrets first, then the existing monitor App client ID/private key as a same-installation fallback; no new App installation is required.
+- `authority checks` — monitor permissions remain checks/pull-requests/metadata read; key-manager workflow remains manual, development-only, and `contents: write` for registry publication.
+- `remaining external action` — the installed App must actually have Actions-secrets write and development Contents write permissions; no credential value was read or exposed by this change.
+
+### Session: authoritative-security-research-mapping-20261009 — 2026-10-09T20:00:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Reviewed authoritative key-management, identity, secrets, API, and GitHub Actions guidance and mapped it to Crucible's existing candidate-only controls and development tests. No credentials, durable learning state, R8 behavior, pipeline name, Archive, or `main` changed.
+
+- `route:prewrite` — completed 2026-10-09T19:54:36-04:00, exit 0; selected `crucible-core` for the four governing paths.
+- `web research` — completed 2026-10-09T19:56:00-04:00, exit 0; reviewed NIST SP 800-57/SP 800-63-4, OWASP Secrets Management, GitHub Secure Use/Secrets/OIDC, and IETF OAuth references.
+- `Coursera syllabus inspection` — completed 2026-10-09T19:52:00-04:00, exit 0; inspected Vault, Azure DevOps secrets, API security, and Johns Hopkins DevSecOps course pages as non-authoritative candidate material.
+- `documentation update` — completed 2026-10-09T20:00:00-04:00, exit 0; added source observations, control mappings, and falsifiable development-only tests.
+- `focused verification` — completed 2026-10-09T20:05:00-04:00, exit 0; 39/39 focused tests, JSON parse, `npm run validate`, `npm run audit:security`, `npm run audit:circulation`, and `git diff --check` passed. `audit:handoff` remains blocked by its pre-existing exact-range boundary requirement.
+
+### Session: key-manager-least-privilege-hardening-20261009 — 2026-10-09T16:50:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Corrected the custody key-manager workflow to retain the write capability required for registry publication while keeping checkout credentials disabled and App-token authentication explicit.
+
+- Retained `contents: write` because the key manager must publish non-secret registry fingerprints; the workflow remains manual and development-only.
+- Disabled checkout credential persistence and configured the App token for the intentional registry push.
+- Preserved the existing pipeline name, manual development-only boundary, ciphertext/key cleanup, and explicit R8 exclusion.
+- Local workflow lint and key-manager/security tests pass; hosted App-authority execution remains required for final proof.
+- No credentials, raw/vetted state, R8, Archive, or `main` changed.
+- Added an explicit preflight that fails closed on missing `CRUCIBLE_KEY_MANAGER_APP_ID` or `CRUCIBLE_KEY_MANAGER_PRIVATE_KEY` before key generation; values are never printed.
+
+### Session: cybersecurity-research-progression-20261009 — 2026-10-09T16:40:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Started a staged cybersecurity research progression from university foundations through advanced engineering and current standards, while preserving Crucible’s existing pipeline name and candidate-only gates.
+
+- Recorded MIT OpenCourseWare and Stanford CS155 foundations, then NIST Zero Trust and SSDF advanced material, followed by NIST CSF 2.0, CIS Controls v8.1, OWASP ASVS, RFC 9700, and the NIST SSDF 1.2 draft status.
+- Added twelve bounded security technique candidates spanning threat modeling, least privilege, secure supply chain, audit/incident readiness, vulnerability feedback, authorization-flow verification, and the previously implemented custody controls.
+- Added `governingDocuments/cybersecurity-research-program.json`; no policy activation, durable learning promotion, raw/vetted state, R8, Archive, or `main` change occurred.
+
+### Session: security-hardening-release-plan-20261009 — 2026-10-09T16:20:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Added the owner-approved security-hardening model to the existing scientific-learning release plan without renaming or splitting the Crucible pipeline.
+
+- Documented zero-trust authorization, custody micro-segmentation, one-way evidence flow, encrypted recovery/key management, endpoint/media controls, and continuous fail-closed verification as existing pipeline boundaries and candidate-learning controls.
+- Preserved the candidate-only boundary: these controls do not become active policy or promoted knowledge without durable custody, controlled testing, negative/regression evidence, contradiction analysis, distinct verification, exact-tip hosted proof, and owner authorization.
+- Recorded that the bounded `Cybersecurity` discovery topic uses the existing research providers and 50-topic ceiling.
+- No raw/vetted state, R8, Archive, or `main` changed.
+
+### Session: cybersecurity-research-topic-20261009 — 2026-10-09T16:00:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Added Cybersecurity as a bounded Crucible research topic so security/process improvements can be discovered through the existing governed research paths.
+
+- Added `Cybersecurity` to the model-pointer and Perplexity topic lists.
+- The topic remains candidate-only: daily scheduling, the existing 50-topic ceiling, trusted-domain/source admission, retrieval, corroboration, controlled verification, contradiction handling, and promotion gates are unchanged.
+- No raw/vetted state, R8, Archive, or `main` changed; this is research-scope registration only.
+
+### Session: security-learning-pipeline-20261009 — 2026-10-09T15:30:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Submitted six owner-provided security/process techniques to Crucible’s governed learning path as candidate-only evidence and wired pipeline controls that enforce zero trust, segmentation, one-way evidence, encrypted recovery, endpoint protection, and continuous inhibition.
+
+- Added `src/securityLearning.js`, `src/securityLearningCli.js`, `governingDocuments/security-learning-techniques.json`, and `governingDocuments/security-learning-pipeline.md`; registered the adapter in circulation and security test cadence, plus `npm run learning:security-techniques`.
+- The manifest is explicitly `candidate-only`; missing durable learning custody returns without writing and promotion is always false.
+- Verification: focused security-learning tests 3/3; full `npm run test:all` 1030/1030; workflow lint, validation, and circulation audit passed.
+- No raw/vetted state, R8, Archive, or `main` changed. Durable hosted submission remains pending until the project-bound learning root/key is configured.
+
+### Session: key-manager-zero-trust-hardening-20261009 — 2026-10-09T15:15:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Hardened the automated key manager against wrong-repository, wrong-branch, push-trigger, and unreviewed external-KMS execution while retaining only redacted recovery metadata.
+
+- Commit `a096eae` adds exact `6076446993/The-Crucible` + `development` + manual-dispatch enforcement, with external KMS explicitly refusing until a reviewed broker/OIDC contract exists.
+- The workflow retains a redacted 90-day lifecycle artifact containing key ids, fingerprints, context, and `r8: excluded`; it never uploads key material or plaintext custody.
+- Verification: focused key-manager/policy/dashboard tests 7/7; full `npm run test:all` 1027/1027; workflow lint, validation, security, and circulation audits passed.
+- No raw/vetted state, R8 canary, Archive, or `main` changed. Hosted App/OIDC capability is still pending configuration and exact-run proof.
+
+### Session: automated-source-bundle-key-manager-20261009 — 2026-10-09T15:00:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Added the development-only automated custody-key manager so raw and vetted keys can be bootstrapped or rotated without a human copying key values through chat; the workflow fails closed until its narrowly scoped GitHub App authority exists, and R8 remains explicitly separate.
+
+- Implemented `src/sourceBundleKeyAutomation.js` in commit `101d467`: generates fresh 32-byte raw/vetted keys in runner memory/temp storage, retains prior values only during governed rotation, and emits only redacted key ids/fingerprints.
+- Added `.github/workflows/source-bundle-key-manager.yml`, manual and development-only, using a narrowly scoped GitHub App token plus `gh secret set`; it commits only non-secret registry fingerprints and always destroys runner key material.
+- Added governing documentation and focused tests; no key values, raw/vetted state, Archive, R8 canary, or `main` were touched.
+- Verification: focused key-manager/dashboard tests 6/6; `npm run test:all` 1024/1024; `npm run lint:workflows`, `npm run validate`, and `npm run audit:circulation` passed.
+- Remaining capability blocker: the repository still needs the GitHub App installation and repository secrets `CRUCIBLE_KEY_MANAGER_APP_ID` and `CRUCIBLE_KEY_MANAGER_PRIVATE_KEY`; hosted bootstrap/rotation evidence has not yet run.
+
+### Session: source-bundle-key-manager-20261009 — 2026-10-09T00:00:00.000Z — Codex — mode:regular
+
+Plain-language summary: Added a fail-closed, non-secret key identity and rotation preflight so raw custody and R8 cannot start with an absent, malformed, or silently replaced encryption key.
+
+- Implemented `src/sourceBundleKeyManager.js`; it validates 32-byte base64 secrets and compares their SHA-256 fingerprints with checked-in metadata, without persisting or printing secret values.
+- Added `governingDocuments/source-bundle-key-registry.json` as the non-secret registry. It intentionally remains owner-registration blocked until the real current key ID and fingerprint are supplied; placeholders are not accepted by preflight.
+- Wired the preflight before clone/decrypt in `.github/workflows/raw-custody-publisher.yml` and `.github/workflows/r8-executable-canary-publisher.yml`, preventing another run from touching custody when the key is missing or mismatched.
+- Added focused tests. `node --test test/sourceBundleKeyManager.test.js test/hostedSourceBundle.test.js test/rawCustodyPublisher.test.js` passed 19/19 locally.
+- No raw/vetted state, Archive, main, or historical ciphertext was changed. R8 remains blocked because the original key/plaintext source-of-truth is unavailable; this prevention layer does not fabricate recovery evidence.
+- Next safe action: owner registers the real raw-intake key ID/fingerprint and creates `CRUCIBLE_SOURCE_BUNDLE_KEY` in GitHub repository secrets, then an exact-tip hosted preflight/R8 run can proceed if an approved plaintext rebuild is available.
+
+### Session: java-constructor-verifier-normalization-20260928 — 2026-09-28T19:20:19.755Z — Codex — mode:work
+
+Plain-language summary: The hosted semantic proof was still failing on Windows because Java compiler symbol names differ across JDK generations. The verifier now normalizes the constructor identity before evaluating the same independent source-tree proof.
+- Corrected Java hosted-proof compilation/verifier portability across the Windows JDK and modern JDK runners — started 2026-09-28T19:24:01.592Z, finished 2026-09-28T19:24:01.592Z, exit 0 correction. The remaining CRU-0006 is the owner-scoped GitHub security-settings credential returning HTTP 401.
+
+- Updated the Java hosted-proof verifier to normalize constructor identities across JDK versions — started 2026-09-28T19:20:19.755Z, finished 2026-09-28T19:20:19.755Z, exit 0.
+- The runtime experiment remains real and independent; no test was weakened or skipped.
+ - Synchronized the stable four-bucket test-classification snapshot to the exact explicit Code registry after the imported learning/test-lifecycle tests were registered; no category was changed — started 2026-09-30T01:54:00.000Z, finished 2026-09-30T01:54:00.000Z, exit 0.
+
+### Session: java-semantic-and-accountability-correction-20260928 — 2026-09-28T19:17:16.871Z — Codex — mode:work
+
+Plain-language summary: Hosted verification exposed two real issues: the Java semantic test was invoking java instead of javac, and historical released mutation claims disappeared from the ten-session DEVLOG window. The Java test now uses the compiler explicitly, and accountability remains discoverable through the retained archive/index.
+
+- Corrected the Java semantic test to pass the actual javac executable separately from java — started 2026-09-28T19:17:16.871Z, finished 2026-09-28T19:17:16.871Z, exit 0 correction.
+- Completed Java 8 compatibility in the semantic helper so hosted Windows JDK 8 can compile the real analyzer — started 2026-09-28T19:17:16.871Z, finished 2026-09-28T19:17:16.871Z, exit 0 correction.
+- Preserved released mutation-claim accountability across DEVLOG pruning without retiring historical evidence — started 2026-09-28T19:17:16.871Z, finished 2026-09-28T19:17:16.871Z, exit 0 correction.
+
+### Session: historical-accountability-index-20260928 — 2026-09-28T18:57:42.851Z — Codex — mode:work
+
+Plain-language summary: Restored durable discoverability for released mutation claims after the inline DEVLOG archive was pruned. Historical claims remain indexed in the current DEVLOG, while full pre-prune snapshots remain on Archive.
+
+- Corrected AI-HANDOFF.json and DEVLOG.md timestamps to the actual execution time — started 2026-09-28T18:57:42.851Z, finished 2026-09-28T18:57:42.851Z, exit 0.
+- Kept the affected-path digest bound to exactly AI-HANDOFF.json and DEVLOG.md — started 2026-09-28T18:59:40.327Z, finished 2026-09-28T18:59:40.327Z, exit 0.
+- No runtime gate or test was weakened — started 2026-09-28T18:59:40.327Z, finished 2026-09-28T18:59:40.327Z, exit 0.
+- Corrected the authorized-repair commit identity from a non-allow-listed email to the privacy-approved `git@github.com` identity so Auto Repair cannot trigger its own privacy gate — started 2026-09-28T19:09:11.948Z, finished 2026-09-28T19:09:11.948Z, exit 0.
+- Made the Java semantic helper source-compatible with the JDK 8 runner by replacing Java 9+ APIs (`Path.of`, `HexFormat`, `List.of`, Stream `toList`) with Java 8-compatible equivalents while retaining the same compiler-tree measurement — started 2026-09-28T19:11:38.955Z, finished 2026-09-28T19:11:38.955Z, exit 0.
+- Recorded the released mutation claim `resolve-additive-diagnostics-conflict` (openai) in DEVLOG.md as required by AI conflict governance — started 2026-09-28T19:01:12.326Z, finished 2026-09-28T19:01:12.326Z, exit 0.
+
+### Session: hosted-handoff-digest-rebind-20260928191000 — 2026-09-28T19:10:00.000Z — Codex — mode:work
+
+Plain-language summary: The hosted AI handoff gate correctly rejected a stale affected-path digest after the preceding cadence/Windows correction. The correction changed exactly AI-HANDOFF.json, DEVLOG.md, src/semanticAnalysis.js, and test/toolchainCirculation.test.js; the handoff record is now rebound to that exact four-file scope without weakening the handoff gate.
+
+- Confirmed the hosted failure was CRU-0045 path-custody mismatch, not a runtime test failure.
+- Rebound the route record to the exact four-file commit scope.
+- No tests or security gates were weakened.
+
+### Session: crucible-pr-monitor-required-gate-20260928190000 — 2026-09-28T19:00:00.000Z — Codex — mode:work
+
+Plain-language summary: The Crucible PR monitor is now the aggregate PR gate without a recursive monitor loop. It waits for the other PR checks to finish, ignores its own check and the required block check, and the required block check waits for the monitor's result on the exact PR head.
+
+- Diagnosed the repository ruleset: block is the required status check for main.
+- Added bounded monitor settling and excluded the monitor and block checks from the aggregate.
+- Changed block-pr-7.yml to wait for the monitor result; locked monitoring PRs still fail immediately.
+- Removed the duplicate push trigger from the PR monitor.
+- Added regression tests for monitor settling and the monitor-to-block dependency.
+- No secret values were read or written. CRUCIBLE_MONITOR_READ_TOKEN remains required for cross-repository monitoring.
+
 # Development log
-
-### Session: repair key-manager action references — 2026-10-09T19:45:00-04:00 — ChatGPT — mode:work
-
-Plain-language summary: The first post-merge custody-key bootstrap failed before secret access because two immutable GitHub Action references in the new workflow were invalid. The workflow now uses the repository's verified checkout SHA and full App-token action SHA; no key material or learning state changed.
-
-- **Evidence:** bootstrap run `38005597938` failed closed during action resolution only; no generation, secret write, registry update, or runner key material occurred.
-- **Repair:** corrected `.github/workflows/source-bundle-key-manager.yml` to the existing verified action SHAs.
-- **Verification:** workflow lint and workflow-focused tests passed locally; the corrected workflow requires the protected PR path before another bootstrap attempt.
-- **Next:** merge the narrow action-reference repair through protected checks, then rerun development bootstrap and inspect only redacted lifecycle evidence.
-
-### Session: register automated Crucible custody key manager — 2026-10-09T00:00:00-04:00 — ChatGPT — mode:work
-
-Plain-language summary: Repaired the protected R8 workflow-registration branch to the current `6076446993/The-Crucible` repository identity and added the manual-only development key-manager workflow. It uses the existing GitHub App boundary, writes only encrypted custody secrets and non-secret fingerprints, and destroys runner key material on every exit path; it does not touch learning state or `main`.
-
-- **Routing:** owner-authorized `r8-workflow-registration` route, current repository identity, and exact workflow path.
-- **Change:** added `.github/workflows/source-bundle-key-manager.yml`; historical stale-owner entries below remain unchanged as audit history.
-- **Verification:** focused workflow lint and tests are required before the protected PR is opened; no secret values were read or recorded.
-- **Next:** push this narrow registration change through the mandatory hook, open the protected PR, and merge only after required checks are green.
-
-### Session: automate Crucible monitor App authentication — 2026-10-07T19:00:00-04:00 — ChatGPT — mode:work
-
-Plain-language summary: The PR monitor now mints a short-lived read-only GitHub App installation token from the existing `CRUCIBLE_MONITOR_APP_CLIENT_ID` repository variable and `CRUCIBLE_MONITOR_APP_PRIVATE_KEY` secret, scoped to the installed organization account. The monitor still performs only read operations; no learning-state repository, main branch, or locked PR was mutated.
-
-- **Routing:** explicit owner-authorized `r8-workflow-registration` route accepted the exact `.github/workflows/nexus-check-monitor.yml` path.
-- **Change:** replaced the monitor's dependency on `NEXUS_MONITOR_READ_TOKEN` with the official GitHub App token action and passed the generated token only to the monitor process; no credential value was read or printed.
-- **Verification:** workflow lint passed across 24 workflows; workflow-focused tests passed 32/32. A prior changed-test run generated the existing low-severity local known-bug ledger entry and it was preserved.
-- **Next:** push through the mandatory hook and inspect fresh PR #35 hosted evidence at the exact SHA. R8 custody/canary/promotion and main remain untouched.
-
-### Session: prefer named security token with compatibility fallback — 2026-10-07T18:12:00-04:00 — ChatGPT — mode:work
-
-Plain-language summary: The Crucible repository currently has `SECURITY_READ_TOKEN`, not `CRUCIBLE_SECURITY_READ_TOKEN`; hosted Self-Test proved the new name was absent by falling back to `GITHUB_TOKEN` and failing closed. Both the Self-Test and PR-monitor workflows now prefer `CRUCIBLE_SECURITY_READ_TOKEN` and fall back only to the existing repository secret, preserving the Administration-read requirement without exposing or weakening a credential.
-
-- **Routing:** mandatory `route:prewrite` accepted the exact protected registration route for the two workflow paths and the handoff surfaces.
-- **Change:** changed only the two workflow environment expressions; no token value was read, copied, or printed.
-- **Verification remaining:** workflow lint, focused tests, mandatory hook push, and fresh PR #35 hosted checks. R8 custody/canary/promotion and main remain untouched.
-
-### Session: repair stale engine identity in hosted security audit — 2026-10-07T18:08:00-04:00 — ChatGPT — mode:work
-
-Plain-language summary: Hosted Self-Test evidence showed every matrix leg failing with `CRU-0000 fetch failed` because the security audit still added the retired `jonathanblunt1214-lgtm/The-Crucible` identity. GitHub redirects that name, while the API client intentionally rejects redirects. The audit now targets the current exact `6076446993/The-Crucible` identity, preventing the redirect failure without weakening security checks.
-
-- **Routing:** mandatory `route:prewrite` accepted the exact `r8-workflow-registration` route for `src/githubRepoSecurity.js`, its focused test, `AI-HANDOFF.json`, and `DEVLOG.md`.
-- **Change:** updated only `src/githubRepoSecurity.js`'s engine repository identity and documented why redirects remain rejected.
-- **Verification:** focused repository-security/core-ref/integration tests passed 46/46; full `npm test` passed 379/379 in the current changed-test orchestration; no credentials were printed or persisted.
-- **Hosted follow-up:** push through the mandatory hook and re-run PR #35 checks at the new exact SHA. R8 custody/canary/promotion and main remain untouched.
-
-### Session: accept current hosted repository identity in internal-repair guard — 2026-10-07T18:05:00-04:00 — ChatGPT — mode:work
-
-Plain-language summary: The hosted self-test was failing four deterministic repair tests because GitHub Actions reports the current `6076446993/The-Crucible` repository while the guard accepted only the legacy owner string. Added one exact owner-migration alias; project ID, privacy identity, and arbitrary-repository rejection remain unchanged.
-
-- **Change:** `src/repair.js` now accepts only the legacy engine repository or the exact current `6076446993/The-Crucible` Actions identity.
-- **Verification:** `node --test test/repair.test.js` passed 9/9; full `npm test` passed 932/932; `git diff --check` passed.
-- **Custody boundary:** no raw, vetted, encrypted, hosted learning state, canary, or main promotion changed.
-- **Hosted follow-up:** commit and push through the mandatory hook, then re-run PR #35 checks at the exact new SHA.
-
-### Session: align Crucible monitor repository identities — 2026-10-07T17:06:43-04:00 — ChatGPT — mode:work
-
-Plain-language summary: Replaced the stale `jonathanblunt1214-lgtm/...` monitor targets with the current `6076446993/...` repository identities. The hosted rerun confirmed `NEXUS_MONITOR_READ_TOKEN` is present (masked) but still ran the pre-change PR tip, so hosted success remains pending until this clean branch change is pushed through the governed hook.
-
-- **Routing:** explicit owner-authorized `crucible-r8-workflow-registration` route accepted for `governingDocuments/crucible-monitored-repositories.json` on `r8-workflow-registration` — started 2026-10-07T17:06:43-04:00, finished 2026-10-07T17:06:44-04:00, exit 0.
-- **Change:** updated only the seven monitored repository owner identities; preserved locked PR #11 and `LOCKED_READ_ONLY` behavior.
-- **Verification:** focused orchestrated test run passed 97/97, workflow lint passed across 24 workflows, JSON parsing passed, and `git diff --check` passed.
-- **Hosted state:** monitor run #320 attempt 3 received the masked `NEXUS_MONITOR_READ_TOKEN` but checked out merge SHA `09912bf`; its pre-change monitor process exited 1. No canary, raw custody, vetted custody, or main promotion occurred.
-- **Route correction:** the first push attempt correctly rejected the narrower recorded path digest because the branch range also includes the prior self-test secret-name repair; regenerated the owner-authorized digest for all four affected paths and kept the same branch/category.
-- **Push boundary:** direct route verification with the exact remote ref update passes, but Git's real pre-push invocation supplies no ref-update stream (including elevated and PTY retries); no hook bypass or remote write was attempted.
-
-### Session: align self-test security secret name — 2026-10-07T12:58:47-04:00 — ChatGPT — mode:work
-
-Plain-language summary: Updated the self-test matrix to read the owner-authorized PAT from the explicitly named `CRUCIBLE_SECURITY_READ_TOKEN` secret; no token value was exposed and no main or learning-state write occurred.
-
-- **Routing:** owner-authorized explicit route prewrite accepted the exact `r8-workflow-registration` destination and `.github/workflows/self-test.yml` path — started 2026-10-07T12:56:00-04:00, finished 2026-10-07T12:56:02-04:00, exit 0.
-- **Change:** replaced only the GitHub Actions secret reference in `.github/workflows/self-test.yml` — started 2026-10-07T12:58:20-04:00, finished 2026-10-07T12:58:25-04:00, exit 0.
-- **Hosted verification:** reran the protected matrix; the hosted security audit still reports `CRU-0000 fetch failed`, so the remaining failure is not resolved by the secret-name alignment — started 2026-10-07T12:59:00-04:00, completion pending.
-
-### Session: owner-authorized R8 workflow registration route — 2026-10-07T16:20:00-04:00 — ChatGPT — mode:work
-
-Plain-language summary: Registered the exact owner-authorized `r8-workflow-registration` route so the protected one-workflow registration PR can proceed without bypassing the pre-push router. The route remains limited to the R8 workflow-registration scope plus its route-test fixture; no main write or R8 execution occurred.
-
-- **Route boundary:** added the owner-authorized branch and dedicated routing category, classified the workflow path as shared registration evidence so the exact explicit route is required, and synchronized the route-test fixture with the canonical owner identity.
-- **Custody boundary:** no raw, vetted, encrypted, or hosted learning state changed; R8 remains pending.
-- **Verification remaining:** push the clean registration branch through the mandatory hook, open the protected PR, wait for exact checks, then dispatch the reviewed development ref and inspect the real hosted R8 result.
-
-### Continuation checkpoint: protected registration PR — 2026-10-07T16:45:00-04:00
-
-Plain-language summary: PR #35 is open at `154ffa4`, but promotion is blocked by exact hosted evidence; no merge, default-branch registration, raw custody write, canary execution, or R8 proof occurred.
-
-- **Hosted blockers:** every Crucible matrix leg failed at `npm run audit:github-security` with `CRU-0000 fetch failed`; the same run's collision audit reported PR #34 overlaps the R8 workflow and shared handoff paths.
-- **Monitor blocker:** the required monitor check failed because the configured `jonathanblunt1214-lgtm/NVIDIA-NIM-CONSOLE` repository returned GitHub HTTP 404.
-- **Next safe action:** resolve the existing PR #34 overlap and the hosted monitor/security capability failures, then rerun PR #35 checks. Only after exact green protected checks may the PR merge and the reviewed `development` R8 publisher dispatch proceed.
-
-### Session: vetted prevention to preflight proof — 2026-09-29T17:00:00Z — ChatGPT — mode:work
-
-Plain-language summary: Completed the executable proof path from a CRU-linked prevention candidate through the existing scientific-learning state machine into active vetted knowledge, then bound that exact knowledge version and proof hash to its governed CRU prevention declaration and required precheck to consume it without widening the tested boundary.
-
-- **Scientific proof path:** the end-to-end test uses distinct controlled-experiment and independent-verifier identities and requires every existing mandatory learning gate before the durable store commits active knowledge.
-- **Vetted mapping:** active knowledge resolves to a prevention rule only when its candidate is verified, its CRU code remains active, a governed declaration exists, and the knowledge/candidate/declaration boundaries match exactly.
-- **Actual preflight behavior:** a changed workflow path is prevented until the declared `workflow-lint` check is complete; after that check passes, the learned prevention finding clears.
-- **No trust shortcut:** repair observations remain non-promotable and the resolver cannot create vetted knowledge; it only binds already-active knowledge to an enforcement mapping.
-- **Verification remaining:** hosted multi-platform Self-Test, CodeQL, handoff policy, and repository governance checks must pass before this proof is accepted.
-
-
-### Session: repair evidence to governed prevention pipeline — 2026-09-29T16:05:00Z — ChatGPT — mode:work
-
-Plain-language summary: Added the missing governed bridge from CRU-linked repair evidence to a separately testable prevention candidate. Repair observations remain non-promotable evidence; only an active CRU bug/error classification with an explicit declared precursor mapping can queue a prevention candidate, and the candidate still must pass the existing scientific-learning proof, independent verification, governance promotion, and vetted-knowledge checks before preflight can consume it.
-
-- **Repair evidence boundary:** operational/governance repairs without an active CRU classification cannot create CRU prevention candidates.
-- **Declared mapping boundary:** prevention paths, required checks, actions, and rationale come from `governingDocuments/prevention-candidate-mappings.json`; the learning pipeline does not infer them from repair prose.
-- **Automatic queue:** the repair-learning workflow now invokes `learning:queue-prevention` after evidence ingestion and before artifact preservation.
-- **Promotion boundary:** queued prevention candidates start in candidate state with `promotionAuthorized: false`; no workflow step promotes them automatically.
-- **Verification remaining:** hosted CI must pass, then a candidate must traverse the existing controlled experiment and independent-verification gates into vetted knowledge, and precheck must demonstrate consumption of that vetted rule.
-
-
-### Session: PR #29 governed repair-learning expansion — 2026-09-29T15:34:49.707Z — ChatGPT — mode:work
-
-Plain-language summary: Extended the existing Crucible Auto-Repair and Repair Learning workflow so failures from Third-branch main-reference integrity enter the same governed repair-evidence path as Self-Test failures. Reference-integrity failures fetch the governed branch tips and invoke the deterministic reference repair command. Repair evidence remains candidate-only; this change does not promote observations into trusted knowledge or weaken independent verification and governance.
-
-- **Current work:** PR #29 adds Third-branch main-reference integrity as a repair-learning trigger and routes it through `repair:reference-branches`.
-- **Verification:** AI handoff policy initially failed because the project change did not update both DEVLOG.md and AI-HANDOFF.json; this entry and the synchronized handoff record repair that governance violation.
-- **Remaining:** hosted PR checks must pass; then implement and verify the separate evidence-to-prevention-candidate bridge and prove vetted prevention is actually consumed by precheck.
-
-
-### Session: PR #28 systemic-learning and provenance implementation — 2026-09-29T03:23:00Z — ChatGPT — mode:work
-
-Plain-language summary: PR #28 now treats a repair as evidence rather than a conclusion. The Crucible has a Learning Provenance ID model, mandatory significant-failure postmortem structure, automatic DEVLOG-to-learning evidence ingestion, and an explicit distinction between symptom, root cause, and systemic cause. The PR #28 monitor credential failure was investigated as a boundary defect rather than merely suppressed.
-
-- **Learning Provenance ID:** `LP-PR28-CRU0006-MONITOR` is the human-readable postmortem reference for the PR #28 monitor incident. Machine-generated provenance IDs use the `LP-<16 hex>` format.
-- **Symptom:** `src/nexusCheckMonitor.js` exited with code 1 during GitHub API observation.
-- **Root cause:** the monitor preferred `CRUCIBLE_SECURITY_READ_TOKEN` for ordinary PR/check API reads, allowing a security-gate credential failure to break ordinary monitoring.
-- **Systemic cause:** ordinary monitoring and privileged repository-security inspection had separate intended trust boundaries but the monitor's credential selection did not enforce that separation.
-- **Corrective action:** ordinary monitor reads now prefer `GITHUB_TOKEN`, with the security-read credential only as a fallback. A regression test proves the security credential cannot displace the workflow token.
-- **Learning implementation:** `src/learningProvenance.js` defines the lifecycle and postmortem contract; repair observations now carry Learning Provenance IDs; `src/learningExperience.js` ingests DEVLOG sessions as non-promotable experience evidence.
-- **Governance:** `governingDocuments/native/NEXUS-ENGINEERING-LEARNING-STANDARD.md` establishes the engineering-learning philosophy; `governingDocuments/postmortems/PR-28-nexus-monitor-credential-boundary.md` records the PR #28 postmortem.
-- **Verification:** unit/regression verification has been added for provenance, DEVLOG ingestion, repair provenance, and monitor credential separation. Hosted verification remains open until the actual PR #28 Crucible matrix is green.
-- **Promotion:** no record is promoted to vetted learning by this implementation alone. Independent verification and governance remain required.
-
 
 ## Shared AI handoff
 
-- Owner-file workflow registration: follow the dev plan in AI-HANDOFF.json activePlan. Narrow release package only (workflow, two compatibility tests, handoff/log and retained failure ledger); source implementation stays on development. Candidate custody and actual intake receipt remain unmodified/pending.
+- 2026-10-13T04:12:49.754Z, Codex: resumed returned custody claim; see activePlan.r8Repair for exact d92890c hosted R8 failure, owner-approved default-off receiver transfer, protected dirty preimages and separate D-drive encrypted backup progress. No live custody, key or independent review changed.
 
-- **Agent:** Claude, free-discovery repair and scientific-learning rolling release review.
+- 2026-10-12T03:25:43.005Z, Codex: reconciled activePlan.ownership.currentClaim to the sole active returned claim owner-file-transport-20261008-resumed-after-nvidia-20261011. Original task owner-file-transport-20261008 and original acquisition time 2026-10-08T04:06:58.715Z remain unchanged. See activePlan.nvidiaPriorPlan for the preserved custody/R8 continuation; this correction does not dispatch or complete R8/Oversight work.
+
+
+- 2026-10-12T02:05:00.735Z: see dev plan AI-HANDOFF.json.activePlan.nvidiaIntegration and nvidiaHandoff. NVIDIA-only implementation and owner-approved native wiring pass all 1101 tests. Exact-tip hosted checks and independent live acceptance remain pending; automatic policy manual. Original custody/R3/R8 continuation and pending dirty R8 edits preserved.
+
+- 2026-10-11T21:51:43.911Z, Codex: see `AI-HANDOFF.json.activePlan.currentPrompt` and `activePlan.r8Repair` for the owner-requested R8 executable-refusal repair. Local live HTTPS retrieval refused the pinned official executable without source-byte persistence; hosted publication, independent Oversight and exact-tip R8 proof remain pending.
+
+- 2026-10-11T21:04:48.669Z, Codex: dev plan `AI-HANDOFF.json.activePlan.currentPrompt`, `activePlan.archiveReplacementAuthorization`, and `handoffNotes.completed/remaining` govern the owner-authorized raw archive replacement. Existing GitHub custody key is retained. Verified local replacement preserves 29,799 candidates, all 2,162 historical candidate IDs and all 403 historical source hashes. Completed existing-key archive replacement and isolated restore in run 38176876189; independently authenticated the published ciphertext in run 38176984983. R8 remains separately pending.
+
+- Oldest-intake prerequisite, 2026-10-11T16:50:00Z, Codex: expanded existing encrypted custody verification to authenticate retained raw ciphertext using only configured current/previous raw keys. Successful authentication produces metadata only; temporary plaintext and credentials are always deleted and never uploaded. No queue, key, private custody push or active knowledge mutation is added. 50 workflow/source-bundle tests pass; actual hosted result remains pending.
+
+- Oldest-first continuation, 2026-10-11T16:46:00Z, Codex: oldest tracked unfinished intake request dated 2026-10-07 remains first. Added original request dates and executable continuation ordering; status refreshes do not reset age, blocked older work retains priority, unknown ages require triage. The default owner-file workflow is readable, replacing its historical registration blocker; complete live custody backup and raw-key compatibility remain unverified. CodeQL passed at dfa1863. No live intake receipt, flush or restart is claimed.
+
+- Refresh 2026-10-11T16:39:30Z, Codex: published 53090052, exact-tree pre-push checks passed. Hosted diagnose-proof succeeded, decrypt/hash verification passed, R4–R7 satisfied and R8 pending. Publisher 38110712781 is cancelled with zero jobs. Verified SARIF localized two incomplete regex escaping alerts to pre-existing key-leak tests; changed only those assertions to literal containment. Hosted follow-up verification remains pending.
+
+- Current continuation, 2026-10-11T16:34:00Z, Codex: stable unfinished deliverables and all 62 research concepts are now individually tracked in `AI-HANDOFF.json.workLedger`. Previous prose remains historical. Research is not implementation; local verification is not hosted deployment.
+- Evidence freshness: every tracked item carries its original observation time, maximum evidence age and an explicit historical label. Updating prose does not refresh its evidence. Exact-range handoff validation rejects removed IDs, unexplained deferral/rejection and unsupported completion.
+- Test relevance finding: 1,058 assertions span 130 test files. The lifecycle registry is absent, so no measured retirement decisions exist. Full-suite execution previously skipped reduced-cadence tests; corrected locally. `node src/testLifecycle.js` now exposes missing/stale reviews and exact duplicate candidates without deleting tests.
+- Verification: 70 focused handoff/lifecycle/workflow tests pass; exact-range handoff passed. Native Git publication lacks authentication; connector publication remains pending equivalent pre-push checks. Prior extraction/diagnostic commit fba42baa passed 1,058 tests with the real Java compiler. Both remain local pending publication. Full backup and R8 canary readiness remain unfinished tracked work.
+
+- **2026-10-11 diagnostic improvement continuation:** See `AI-HANDOFF.json` activePlan.diagnosticImprovements and intakeHardening. Local read-only exact-run stage diagnosis and earlier extraction hardening remain uncommitted. Real hosted evidence replay identifies scientific-proof failure after successful vetted decrypt; no live state or key changed. Full local suite now 1058/1058 passed with the actual OpenJDK compiler module. Hosted diagnosis wiring, private recovery inventory and ciphertext-copy verification are locally validated; publication and full backup remain pending.
+
+- **2026-10-10T14:50:00-04:00 Secret storage passed; registry push isolated:** Hosted run 38044001482 successfully stored the replacement custody secret with `CRUCIBLE_KEY_MANAGER_TOKEN`. Its registry fingerprint commit failed only because the PAT was also used for Git and lacked Contents write. The workflow now uses the scoped `GITHUB_TOKEN` for the non-secret registry push; no raw/vetted custody or R8 state changed.
+
+- **2026-10-10T14:40:00-04:00 PAT backend validation repair:** Hosted run 38043831347 confirmed the organization PAT reached the runner, but the application rejected the new `github-pat` backend before key generation. The policy and focused test now accept the PAT backend; no key or custody state changed.
+
+- **2026-10-10T14:30:00-04:00 Key-manager PAT fallback:** Hosted bootstrap run 38042987213 generated a valid replacement but the App token received HTTP 403 while writing the repository secret. The manual development workflow now prefers `CRUCIBLE_KEY_MANAGER_TOKEN` (fine-grained PAT with repository Secrets and Contents write) and keeps the App path as fallback; no key or custody state persisted and R8 remains pending.
+
+- **2026-10-10T09:25:00-04:00 Key-manager existing-secret registration:** Added a manual-only `register` mode to the development key-manager workflow. It fingerprints an existing `CRUCIBLE_SOURCE_BUNDLE_KEY` or vetted key in runner memory, persists only non-secret ID/SHA-256 metadata, never replaces or exports the secret, and fails closed when the selected secret is absent. Local automation tests passed 6/6 and workflow lint passed; this is not hosted until committed/pushed to development. R8 remains pending and no custody changed.
+
+- **2026-10-09T22:10:00-04:00 Language curriculum implementation:** Added candidate-only curriculum metadata and verification focus to `src/languageCatalog.js` for all 15 Crucible language profiles. Research scopes now carry source links, priority, verification focus, `candidateOnly: true`, and `promotionAuthorized: false`; added catalog tests for complete coverage and fail-closed authority. No durable learning state, raw/vetted custody, R8, `main`, or `Archive` changed.
+
+- **2026-10-09T22:05:00-04:00 Language curriculum research registration:** Added a candidate-only Crucible language curriculum subject covering JavaScript, TypeScript, Python, Java, C, C++, C#, PowerShell, shell, HTML, CSS, JSON, React, React Native, and Django. Registered Coursera, Microsoft Learn, Django, and React Native sources plus language-specific fixture, scanner, and verifier tests. No policy activation, durable learning promotion, raw/vetted custody change, R8 change, `main` change, or `Archive` change occurred.
+
+- **2026-10-09T19:45:00-04:00 Password-manager and API-key research registration:** Added two candidate-only security techniques, two further-research subjects, and a non-secret password-manager item specification. No external vault write was claimed because no password-manager connector is available; no credential value was added, and raw/vetted custody, R8, `main`, and `Archive` remain unchanged. See `AI-HANDOFF.json.activePlan`.
+
+- **Pipeline submission checkpoint:** `node src/securityLearningCli.js queue` was attempted twice and failed closed on the existing durable-learning lock with `EPERM` while opening the pending lock file. No candidate records were written; the lock was not deleted or bypassed.
+
+- **2026-10-08T04:08:22.129Z Owner-file transport takeover:** Owner explicitly authorized the repair takeover and narrow owner-file workflow deployment through release to main. See AI-HANDOFF.json.activePlan; previous plan is preserved in ownerFileTransportPriorPlan. Local focused transport tests passed 6/6; no live queue mutation or source submission.
+
+- **2026-10-07T04:47:46.761Z Narrow SI promotion and credential repair:** Owner authorized the two manual workflow definitions through the governed release path and security/monitor credential repair. See AI-HANDOFF.json.activePlan.promotionAuthorization. Full development promotion is not authorized; GitHub reauthentication completed, and organization-scoped credential generation/secret entry is handed to the owner.
+
+- **2026-10-07T04:11:06.782Z SI durable continuation:** Codex acquired `si-durable-custody-20261007` for the bounded general raw publisher and its tests. The exact owner request and dependency plan are in `AI-HANDOFF.json.activePlan`. Existing live queues and learned state remain untouched; current work is development implementation only.
+
+- **2026-10-06 R2 no-restart failover proof:** Hosted run 37561452928 job 112599419837 passed. The R2 runner had no production queue/store path; primary PID 2382 persisted attempt 1 and was interrupted, the already-running standby reclaimed that owner after 30132ms and completed attempt 2, two unique deterministic candidates were emitted, and repeat processing was zero. Artifact 11457281245 is retained for 90 days. R2 is passed; R3/R8 remain pending and R9 remains held.
+
+
+- **2026-10-06 Synthetic Intelligence logging:** SI is retained as a dedicated Crucible research subject, distinct from generic AGI, with 29 concept hypotheses and nine academic source seeds logged as candidate-only evidence. Scope is logging only: no SI discovery topics, automation, proof, release-gate change, or promotion authority.
+
+- **2026-10-05 scientific-learning release review:** Exact development SHA `ce2c5529919d80cb71fa4f7ba974fcb077ed608f` now has durable evidence for R4-R7. R2 still lacks real restart/resume proof, R3 produced zero admitted URLs after 16 provider aborts, and R8 lacks the executable-content live refusal; R9 has not started, exact-tip CI is red, and no promotion is authorized. The 14-source rescan found 8 hashes in current vetted custody and 6 absent, so it remains pending without re-extraction or duplicate custody.
+
+- **2026-10-04 governed ancestry reconciliation:** Recorded protected `main` as the second parent of the exact tested development tree without changing file content, then rebound task routing to this exact two-file governance follow-up after hosted Self-Test correctly rejected the ancestry-only commit’s stale affected-path digest. Fresh exact-head gates remain mandatory; the required PR monitor is still fail-closed on private `AI-collaboration-` visibility and must not be bypassed.
+
+- **2026-10-04 security-read compatibility:** Direct Crucible workflows now prefer the canonical GitHub Actions secret `CRUCIBLE_SECURITY_READ_TOKEN` and fall back to legacy `SECURITY_READ_TOKEN`. This repairs secret-name drift only; CRU-0006 remains fail-closed until hosted evidence proves Administration-read visibility. No credential value was read, copied, logged, or broadened.
+
+- **Agent:** Codex, bounded SI raw custody implementation; existing scientific-learning release evidence remains separately governed.
 - **Execution mode:** `work`.
 - **Dev plan:** Follow the canonical dev plan in `AI-HANDOFF.json`: `activePlan.currentPrompt` is the exact request driving current work, and `activePlan.handoffNotes.completed` / `activePlan.handoffNotes.remaining` are the authoritative finished/remaining boundaries. This DEVLOG records evidence and status rather than restating that plan.
-- **Actual current step:** The Nexus PR monitor and authorized-repair wiring are being verified at exact PR #26 tips. The monitor now uses the workflow token for repository reads, the authorized repair coordinator is owned by circulation, the empty tracked Nexus file is removed, and the new monitor/repair tests are classified in the governed cadence. Oversight run `34938208295` ran on real runners and published vetted commit `ef2d3b3` after vetting custody post-merge and before encryption, and hosted proof run `34947395586` restored it with the published manifest value and the restored queue hash now both reading `54a976c3`. `Prove R4-R8` therefore fails on `CRU-0026`, not on custody. The discovery check has moved too, and no longer on a missing setting: `NVIDIA_NIM_MODEL` now reaches the job, readiness passes, and NVIDIA NIM answers every topic with HTTP 410 because the configured model was withdrawn on 2026-08-26. No learning gate is marked passed; the rolling target stays indeterminate, but its recorded reason changes, because hosted throughput is no longer zero.
-- **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `jonathanblunt1214-lgtm/The-Crucible`; branch `development`.
-- **Verification state:** The current hosted matrix is still red while exact-tip verification continues. The circulation ratchet is back at 57 direct edges with none added; the remaining hosted failures include the invalid GitHub Administration-read credential (CRU-0006), private monitored-repository access for the cross-repository monitor, and the newly classified test/handoff synchronization changes. `validate`, `docs:check`, `lint:workflows`, `audit:clutter`, `audit:privacy`, `audit:security`, `audit:ai-conflict-governance`, `audit:governance`, `audit:design-brief`, `audit:core-ref`, `audit:failure-codes`, `audit:circulation`, `audit:coordination` and `git diff --check` all exit 0. Hosted at exact tip `259cf60ce2fc9127a2a8277df172dff39d3b59a0`: eighteen of eighteen Self-Test legs green, CodeQL green, both handoff-policy and conflict-governance runs green. The two red checks are external to this repair and named in the entry below with the exact line each one now fails on.
-- **Continuation boundary:** Remaining, in order: the model switch is done and pinned in version control, so one owner action remains that this repository cannot take for itself - make the R5 declaration pairable either by republishing `Crucible-Learning-State` with `owner-delegated-url:11bfade7` included or by declaring a scope for a claim the hosted corpus already corroborates; then retain gate evidence durably outside the evictable Actions caches. The `evaluateR2` reporting defect recorded in the preceding push is repaired here. Do not weaken handoff, coordination, learning-custody, collision, security, or promotion gates to obtain green cosmetics, and never mark a gate passed on a run that was refused before it started or that exited before emitting a verdict.
+- **Actual current step:** See `AI-HANDOFF.json.activePlan.currentStep`; the bounded manual publisher is locally verified and awaiting development publication and exact-tip CI.
+- **Task route:** category `crucible-core`; stable repository ID `1344890806`; repository `6076446993/The-Crucible`; branch `development`.
+- **Verification state:** Full local proof passed 1008/1008, zero skipped; focused custody passed 8/8. No live custody changes or new learning proof occurred. R3/R8 remain pending and R9 remains held.
+- **Continuation boundary:** Owner authorized bounded nine-seed intake through ordinary governed gates. Live execution requires the manual workflow deployment and raw credentials; new owner authorization permits only the narrow manual workflow deployment through release -> main; broad discovery and direct vetted-state writes remain unauthorized.
+
+## Released mutation claim accountability
+
+This section is intentionally outside the bounded Command log archive. Released ownership records remain auditable after their original session is pruned; pruning a session does not retire or delete the mutation-claim record.
+
+- `multi-ai-coordination` — anthropic — released 2026-09-03T18:05:00Z.
+- `resolve-additive-diagnostics-conflict` — openai — released 2026-09-04T16:18:55Z.
+- `crucible-rolling-learning-release-review-20260906` — openai — released 2026-09-07T02:47:14Z.
+- `daily-google-research-and-lock-recovery-20260908` — openai — released 2026-09-08T18:28:00Z.
+- `crucible-rolling-learning-release-review-20260909` — openai — released 2026-09-09T16:12:14Z.
+- `crucible-rolling-learning-release-review-20260910-1600` — openai — released 2026-09-10T20:09:30.249Z.
+- `crucible-rolling-learning-release-review-20260910-proof-correction` — openai — released 2026-09-10T20:20:27.385Z.
+- `perplexity-r3-discovery-and-self-test-repair-20260910` — openai — released 2026-09-12T19:34:00Z.
+- `canonical-task-routing-20260912` — openai — released 2026-09-13T00:21:00Z.
+- `discovery-first-due-race-20260915` — anthropic — released 2026-09-15T08:33:50.781Z.
+- `orchestrator-continuity-upgrade-20260915` — anthropic — released 2026-09-15T19:11:49.410Z.
+- `crucible-constitution-routing-registration-20260915` — anthropic — released 2026-09-15T19:31:57.672Z.
+- `windows-java-toolchain-detection-20260916` — anthropic — released 2026-09-16T21:53:37.592Z.
+
+## Historical mutation accountability
+
+Released mutation claims remain durable facts even after their detailed session entries leave the ten-session inline command log. The full pre-prune DEVLOG snapshots are retained on Archive for at least 365 days. This compact index keeps every released claim discoverable to the coordination gate without retiring or rewriting the underlying repair/history evidence.
+
+- multi-ai-coordination
+- crucible-rolling-learning-release-review-20260906
+- daily-google-research-and-lock-recovery-20260908
+- crucible-rolling-learning-release-review-20260909
+- crucible-rolling-learning-release-review-20260910-1600
+- crucible-rolling-learning-release-review-20260910-proof-correction
+- perplexity-r3-discovery-and-self-test-repair-20260910
+- canonical-task-routing-20260912
+- discovery-first-due-race-20260915
+- orchestrator-continuity-upgrade-20260915
+- crucible-constitution-routing-registration-20260915
+- windows-java-toolchain-detection-20260916
+- windows-java-verifier-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
+- windows-workflow-text-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
+- ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
 
-Chain-of-custody record for recent units of work. Newest first; maximum 10 sessions and 180 days. Older history remains available through Git history. Every entry pruned from this archive is also recorded, as a full DEVLOG.md snapshot with a plain-language summary, in `Devlog-Pruned` on `Archive`.
+### Session: coordination-archive-reader-20261014 — 2026-10-14T20:01:58.091Z — Codex — mode:work
 
-### Session: owner-file-workflow-registration-20261008 — 2026-10-08T04:18:50.515Z — Codex — mode:work
+Plain-language summary: Fixed a real CI accountability defect: the retained Archive exceeded the default process-output buffer and was incorrectly treated as empty history. Added a real-Git large-history regression and retained refusal of genuinely missing records. No accountability, credential, custody or release gate was weakened.
 
-Plain-language summary: The owner authorized registering the encrypted owner-file intake workflow through release. This main-based package carries only that workflow, two required test compatibility changes and governance/failure records; scientific learning remains on development.
+- `route:prewrite` — started 2026-10-14T20:01:53.9291918Z, finished 2026-10-14T20:01:54.2914444Z, exit0; category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+- `node --test devlogAccountability mutationClaims handoffPolicy devlogPruneArchive` — started 2026-10-14T20:02:50.3125029Z, finished 2026-10-14T20:02:51.0960551Z, exit0;51passed, zero failed/skipped. Pre-fix real-Git regression failed as expected; negative missing-history refusal remains enforced.
+- `node ../record_reader_repair.cjs` — started 2026-10-14T20:04:35.491Z, finished 2026-10-14T20:04:35.497Z, exit0; retained exact buffer diagnosis and negative receipts, released coordination-archive-reader-20261014, and restored the original40-path holder scope/age. Publication and new exact-head hosted verification remain pending.
 
-- Source implementation published on development at 0cb89f4f83fb17472194e52c6ea420c7fdfcfbcc; full local suite 1015/1015, zero skipped.
-- Manual workflow compatibility on current main passed 32/32 — started 2026-10-08T04:17:00Z, finished 2026-10-08T04:18:50.515Z, exit 0.
-- Mutation claim owner-file-workflow-registration-20261008 covers exactly six package files; owner authorization is preserved in activePlan.promotionAuthorization.
-- Full main-based suite first failed 930/932 on the prior registration-branch assertion and this runner's Node proxy environment. Updated only the route assertion to the explicitly approved release destination; reran real loopback checks with NODE_USE_ENV_PROXY=0. Full suite 932/932, zero skipped; KB-local-a04994e45b retest 25/25 passed — finished 2026-10-08T04:23:49.622Z, exit 0.
-- Registration claim released after preparing exact package. Hosted release checks, workflow registration and real intake receipt remain pending. No production custody or source key was reset.
+- `Final51reader/claim/handoff/archive tests after removing synthetic email-shaped fixture` — started 2026-10-14T20:07:56.9408344Z, finished 2026-10-14T20:07:57.7196314Z, exit0;51passed. Released coordination-reader-fixture-20261014 and returned the original custody scope. The privacy pre-push detector refused the initial synthetic fixture identifier; its negative log is retained, the unnecessary identifier removed, and the detector unchanged.
 
-### Session: Nexus PR monitor repair and exact-tip verification — 2026-09-28T17:55:00Z — ChatGPT — mode:work
+### Session: pr34-reconciliation-20261014 — 2026-10-14T19:49:50.147Z — Codex — mode:work
 
-Plain-language summary: Fixed the new monitor's no-argument entrypoint, restored its cross-repository read token boundary to use the workflow token for same-repository reads, removed an empty tracked Nexus integration file, moved the authorized repair coordinator to the circulation boundary, and classified the two new test files in the governed cadence. Exact-tip hosted verification remains open on external GitHub Administration-read credentials and private monitored-repository access.
+Plain-language summary: Reconciled every PR34 conflict against the pinned main input while preserving stronger development custody, monitoring, security and tests. Restored four missing governance references and retained the one main-only bug record; main, custody, credentials and release state were not changed.
 
-- Fixed `monitorConfiguredRepositories()` so the production entrypoint can be called without an options object and always emits a typed JSON failure report when execution is refused — started 2026-09-28T17:50:20Z, finished 2026-09-28T17:50:30Z, exit 0.
-- Changed the monitor workflow to keep `GITHUB_TOKEN` as the GitHub Actions token instead of assigning the invalid `SECURITY_READ_TOKEN` secret to it; the monitor still keeps the separate security-read secret for future authorized use — started 2026-09-28T17:52:00Z, finished 2026-09-28T17:52:10Z, exit 0.
-- Removed the empty tracked `governingDocuments/nexus-integration/New Text Document.txt` that caused CRU-0014 — started 2026-09-28T17:52:40Z, finished 2026-09-28T17:53:00Z, exit 0.
-- Moved `authorizedPrRepair` into circulation ownership so its existing learning/diagnostic dependencies do not increase direct cross-system linkage; the live ratchet returned to 57 direct edges — started 2026-09-28T17:48:10Z, finished 2026-09-28T17:48:20Z, exit 0.
-- Added `test/authorizedPrRepair.test.js` and `test/nexusCheckMonitor.test.js` to the governed code test classification and synchronized the active handoff prompt hash — started 2026-09-28T17:54:30Z, finished 2026-09-28T17:55:00Z, exit 0.
-- Hosted evidence still shows CRU-0006 HTTP 401 for the GitHub Administration-read credential and the monitor reaches private `AI-collaboration-` with the workflow token but receives HTTP 404, so cross-repository monitoring requires a valid repository-scoped read credential — external prerequisite, not bypassed.
+- `route:prewrite` — started 2026-10-14T19:48:28.5491643Z, finished 2026-10-14T19:48:28.7616853Z, exit0; category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+- `node ../reconcile_pr34.cjs` — started 2026-10-14T19:49:50.147Z, finished 2026-10-14T19:49:52.209Z, exit0; explicit separate holder handoff recorded before writes, all11conflicts and three auto-merge differences reviewed; per-path blob bindings and decisions in AI-HANDOFF.json.mainReconciliation.
 
-### Session: Crucible PR monitor generalization and locked-PR boundary — 2026-09-28T16:55:00Z — ChatGPT — mode:work
+- `PR34 affected governance/workflow/security/repair/monitor tests` — started 2026-10-14T19:49:52.4202508Z, finished 2026-10-14T19:50:47.1262480Z, exit1.
+- `node --test affected PR34 governance/workflow/security/repair/monitor files (temporary Git fixtures permitted)` — started 2026-10-14T19:51:07.5016967Z, finished 2026-10-14T19:51:53.1838317Z, exit0.
+- Released `pr34-reconciliation-20261014` and `downstream-nexus-review-20261014` after the bounded content edits, restoring the original40-path custody scope without changing its ID or acquisition age. Publication and hosted verification remain pending.
+- Retained the sandbox fixture-permission failure;126affected native tests then passed without changing product code or tests. Prior f433e79 macOS accountability failures remain historical negative evidence; the new exact-head run is required.
 
-Plain-language summary: The one-PR Nexus monitor was replaced with a configured multi-repository monitor. It now discovers every open pull request in every enabled Crucible-monitored repository, paginates the GitHub API, records check evidence and blockers per PR, and marks locked PRs as LOCKED_READ_ONLY. Collision checking was changed to observe locked PRs without treating them as actionable overlaps. PR #11 was not modified.
+### Session: downstream-nexus-review-20261014 — 2026-10-14T19:37:18.314Z — Codex — mode:work
 
-- Added governingDocuments/crucible-monitored-repositories.json with the seven Nexus-system repositories as explicit monitored scope and PR #11 as a known locked monitoring PR in The-Crucible — started 2026-09-28T16:55:00Z, finished 2026-09-28T17:00:00Z, exit 0.
-- Generalized src/nexusCheckMonitor.js from hard-coded Nexus PR #136 to all configured repositories and all open PRs, including paginated check-run retrieval and explicit interactionPolicy LOCKED_READ_ONLY versus MONITORED — started 2026-09-28T17:00:00Z, finished 2026-09-28T17:05:00Z, exit 0.
-- Added regression coverage for multi-repository discovery, locked PR classification, and check evidence; changed the monitor workflow so observed PR blockers are evidence and do not turn the monitor execution into a false failure — started 2026-09-28T17:05:00Z, finished 2026-09-28T17:10:00Z, exit 0.
-- Changed collision diagnostics to skip explicitly locked PRs rather than requesting separation or remediation for a standing CI-monitoring hook; PR #11 remains open and untouched — started 2026-09-28T17:10:00Z, finished 2026-09-28T17:12:00Z, exit 0.
-- Hosted evidence from the prior PR #26 run also identified CRU-0006 as an external GitHub Administration-read credential failure. The source code does not bypass that gate; a valid repository Administration read token remains required — started 2026-09-28T17:12:00Z, finished 2026-09-28T17:15:00Z, exit 1 external prerequisite.
+Plain-language summary: Added the owner's downstream Nexus review as attributed context and recorded that opening a PR requires continued monitoring, authorized repairs and exact-head verification. Preserved the existing custody plan, work ledger and broader ownership.
 
-### Session: free discovery, refused-run diagnosis, and truthful records — 2026-09-15T03:00:00Z — Claude — mode:work
+- `route:prewrite` — started 2026-10-14T19:34:46.5123544Z, finished 2026-10-14T19:34:46.7368723Z, exit 0; category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
+- `node ../apply_review.cjs` — started 2026-10-14T19:37:18.314Z, finished 2026-10-14T19:37:18.329Z, exit 0; explicit narrow handoff recorded before the two-file additive write; original custody scope retained outside these two paths; full preimage retained for the mandatory Archive prune snapshot.
 
-Plain-language summary: The owner sent two failed-run emails and said not to spend money. Both failures turned out to be one thing, and it was not a code fault: GitHub refused to start any job in the private repositories, assigning no runner and running no step, while the public repository kept passing. Three things were repaired so this stops repeating. The system can now tell a refused job apart from a failed one, so an infrastructure block is never again written into the release status as a learning regression. Governed discovery moved off a provider whose API needs paying for and onto one that is already free, which is what had been holding the discovery gate shut. And the known-bug ledger now records the tests that actually failed instead of marking every category failed, which is how it had been claiming security and utility failures that never happened. Two further blockers were found and named rather than worked around: the discovery schedule cannot fire at all from where it lives, and a governance test had been red on the tip since 2026-09-13 because it checked for a phrase the dispatcher never writes. No release gate advanced, and the release date stays indeterminate.
+- `Canonical project route verified against exact owner repository/branch/id; record updated` — started 2026-10-14T19:38:02.1734202Z, finished 2026-10-14T19:38:02.5957630Z, exit 0.
+- `node --test test/handoffPolicy.test.js test/mutationClaims.test.js test/mutationClaimStore.test.js test/taskRouting.test.js` — started 2026-10-14T19:38:02.6312222Z, finished 2026-10-14T19:38:02.8372536Z, exit 0.
+- Local negative attempts retained in remediation checkpoint: unexported DEVLOG helper corrected without product-source edits; the explicit-route reason fixture failed initially, then canonical project routing selected the same owner-required repository/branch/id and all48focused tests passed.
 
-- Diagnosed both failed runs from the API rather than the notification email. Learning-Worker `extract` and AI-collaboration- `check` both end in two to four seconds with `runner_id: 0`, an empty runner name, and no executed step, on `windows-latest` and `ubuntu-latest` alike; The-Crucible's scheduled workflows succeeded through 2026-09-14T22:13Z. The discriminator is repository visibility, not runner OS. Last Learning-Worker success was run 542 at 2026-09-12T18:32:56Z — started 2026-09-15T02:30:00Z, finished 2026-09-15T02:50:00Z, exit 0 diagnostic.
-- Corrected that diagnosis before relying on it: the successful runs report `billable.WINDOWS.total_ms: 0` as well, so "nothing was billed" is not evidence of refusal. Only the absent runner and the absent steps discriminate. `src/hostedRunStartupDiagnosis.js` requires all three signals anyway, because a non-discriminating condition can withhold a refusal verdict but never manufacture one, and a test pins the 124-second success that disproves the billed signal — started 2026-09-15T02:50:00Z, finished 2026-09-15T03:05:00Z, exit 0.
-- Added `src/hostedRunStartupDiagnosis.js` with the real 2026-09-13 API payloads as fixtures. A refusal carries no verdict on the code, missing evidence reads as indeterminate rather than borrowing a refusal's excuse, and the report authorizes no gate change in either direction. `node --test test/hostedRunStartupDiagnosis.test.js` 9/9 — started 2026-09-15T03:05:00Z, finished 2026-09-15T03:15:00Z, exit 0.
-- Found and fixed a credential trap before it could cost a debugging session: AI Collaboration configures providers with the API root and appends the path itself, while this registry treated the same variable as the complete endpoint, so reusing one base URL across both projects would have silently posted to `/v1`. `endpointFor` now completes an API root with the provider's own path, per provider because Anthropic's Messages API is not chat/completions, and leaves an explicit gateway path verbatim. `node --test test/aiProviderRegistry.test.js` 9/9 — started 2026-09-15T03:15:00Z, finished 2026-09-15T03:22:00Z, exit 0.
-- Moved governed discovery onto NVIDIA NIM, which is free and already governed, because R3 had been waiting on a Perplexity API key that a Perplexity Pro subscription does not cover — AI Collaboration's own `.env.example` records it as budget-capped and disabled, with a zero wallet. Every governed bound is unchanged: one run per topic per day, fifty topics per run, atomic audit, kill switch, and `.edu`/`.org`/`.gov` admission only. NIM returns no citations, so URLs are read out of the completion text and carried as `providerKind: model-proposed-pointers`; the candidate sink now refuses a pointer candidate that does not state its kind, so a guess can never later be read as a citation. `node --test test/automatedModelPointerResearch.test.js` 10/10 — started 2026-09-15T03:22:00Z, finished 2026-09-15T03:40:00Z, exit 0.
-- Fixed two governance refusals at their cause rather than around them. The candidate sink's closed allow-list of discovery methods correctly rejected the new one, so `automated-model-pointer-discovery` was registered there with its own provenance requirement. The new CLI reached straight into the brain's provider registry, which the fly-by-wire ratchet refused as a 58th direct organ-to-organ edge; the lookup moved into `providerCirculation`. The ratchet is back at 57 with 36 edges now routed through the bus — started 2026-09-15T03:40:00Z, finished 2026-09-15T03:50:00Z, exit 1 then exit 0.
-- Repaired `test/taskRouting.test.js`, red on the tip since `a0b440c`, so every commit since had been building on a red tip. It asserted the routing reason contained "task-category dispatcher", which the dispatcher never emits — it writes "Affected paths select <category>." — so the assertion only passed while the reason was hand-written. `a0b440c` also dropped `promptSha256` and `affectedPathsSha256`, turning a computed route into an unverifiable description. The test now checks the dispatcher's own bounded wording and both hash bindings, and the record was restored by running `node src/taskRoutingCli.js record` rather than by editing the string. All nine mutation claims are released, so no ownership conflict — started 2026-09-15T03:50:00Z, finished 2026-09-15T04:05:00Z, exit 0.
-- Made the known-bug ledger record what actually failed. `KB-local-cd1d415c7a` had marked security, code, utility and maintenance all failed and listed all 102 selected tests, when the only failure was `test/semanticAnalysis.test.js`; I had declined to commit that record twice, which stopped the lie without fixing it. The governed runner now attributes failures from the TAP `location:` of each failing block, and fails closed to the whole selection marked `selection-unattributed` when attribution is impossible. A real full run now writes `KB-local-1d9e6e8721`: one category, one test, attribution `failing-tests`. That record is true, so it is committed — started 2026-09-15T04:05:00Z, finished 2026-09-15T04:20:00Z, exit 0.
-- `npm run test:all` 846/847, the single failure being the pre-existing `test/semanticAnalysis.test.js`, which fails identically with every change stashed on this host because no TypeScript toolchain is present. `validate`, `docs:check`, `lint:workflows`, `audit:clutter`, `audit:privacy`, `audit:security`, `audit:ai-conflict-governance`, `audit:governance`, `audit:design-brief`, `audit:core-ref`, `audit:failure-codes`, `audit:circulation` and `git diff --check` all exit 0. The uncoded throw-site baseline stays at 581 — started 2026-09-15T04:20:00Z, finished 2026-09-15T04:35:00Z, exit 1 for that one pre-existing test only.
-- Pushed `40c9836..d51344e`; the hosted AI handoff policy then correctly refused it, because project changes must update both `DEVLOG.md` and `AI-HANDOFF.json` and this push carried only the latter. The prior session recorded being refused for the same reason, so this was avoidable and is recorded as such rather than as a surprise. This entry and the synchronized handoff are the correction — started 2026-09-15T04:35:00Z, finished 2026-09-15T04:45:00Z, exit 1 correction required.
-- Found why a governed discovery workflow can never start itself, which is why `perplexity-research.yml` still has zero runs: GitHub refuses a `workflow_dispatch` for a workflow it has never registered, and it registers one only once a trigger has actually fired. A workflow carrying only `workflow_dispatch` and `schedule` is unreachable by both, because the schedule cannot fire from a non-default branch either. Proved the distinction by dispatching `hosted-learning-proof.yml`, which is development-only but registered through its push trigger, and which accepted the dispatch, while `model-pointer-research.yml` returned 404. Added a push trigger scoped to discovery's own implementation files so it registers once and re-runs only when discovery itself changes — started 2026-09-15T05:00:00Z, finished 2026-09-15T05:20:00Z, exit 0.
-- The first real discovery run exposed an ordering defect of mine and one mis-filed setting. The workflow ran its readiness check before the step that creates the holding queue, so readiness refused on `CRUCIBLE_SOURCE_QUEUE` - a file it is the next step's job to create. Reproduced it locally (readiness before init refuses on exactly that name; after init it reports ready) and moved readiness after init. The run also showed `NVIDIA_NIM_API_KEY` reaching the job masked while `NVIDIA_NIM_MODEL` arrived empty, so the model is now read from either a repository variable or a secret: a model id is configuration rather than a credential, and GitHub keeps the two in separate tabs. The API key is still read from secrets only. The run failing closed rather than reporting zero admitted URLs is the designed behaviour working — started 2026-09-15T05:20:00Z, finished 2026-09-15T05:35:00Z, exit 1 then corrected.
-- Rolling learning-release review at exact tip `d51344ef522e95dbf4f3128513497f8e12a5f2d5`: no gate advanced and the target remains indeterminate. Self-Test's three `ubuntu-latest` legs, CodeQL, AI conflict governance and the block-locked-PR guard all passed on that exact SHA; the Windows and macOS legs were still running. The hosted learning proof stays red on the same restored queue hash mismatch, whose repair belongs to Oversight and cannot publish while its jobs are refused. The 14-source owner rescan obligation stays pending and unperformed — started 2026-09-15T04:45:00Z, finished 2026-09-15T05:00:00Z, exit 0 report only.
-- Found and closed the defect that took every Self-Test matrix leg red, under claim `discovery-first-due-race-20260915`. Nine jobs failed at `55a0811` against a suite that was 859/859 on this host, and the hosted diagnosis named only CRU-0018, a bounded-workload command exiting non-zero. The GitHub log API returns a tail, and on the ubuntu legs the tail began after the failure, so the failing leg was identified from the Windows leg instead, where the tail still carried `# fail 1` and the ledger line `saved known bug KB-local-7d02a3ddd7`. That id is `sha256('local\n' + sorted test paths).slice(0, 10)`, so re-deriving it over the 102 test files named exactly one: `test/automatedModelPointerResearch.test.js`. Its failing assertion was `report.providerKind` returning null from the CLI, which happens only when `runDue()` found nothing due - a store deciding a topic it had itself just invented was not yet due. `due()` reads the clock twice: its default `at` is evaluated first, and `read()` then seeds an unseen topic's `nextRunAt` from a second, later reading, so the topic is scheduled one tick past the deadline it is measured against. Measured before the repair: 15 of 2000 fresh stores on this idle host, 0 of 2000 after. A topic that has never run is now due without consulting a deadline it never earned, keyed on `lastRunAt`, which only `recordRun` ever sets. The same three lines existed in the Google and Perplexity stores and were fixed with it; all three carry a regression test that reproduces the race deterministically with a ticking clock and was shown failing before the repair existed - started 2026-09-15T06:00:00Z, finished 2026-09-15T06:40:00Z, exit 1 reproduced then exit 0.
-- Confirmed the first-due repair on the hosted runners and released claim `discovery-first-due-race-20260915`. At exact tip `259cf60ce2fc9127a2a8277df172dff39d3b59a0` all eighteen Self-Test legs pass - nine on the push run `34926863414` and nine on the pull-request run `34926865280` - across ubuntu, windows-2022 and macOS on Node 20, 22 and 24. Every leg had been red on the four preceding tips. CodeQL and both `Analyze (javascript-typescript)` jobs, both AI handoff policy runs, both AI conflict governance runs, both locked-PR guards, the monitor sync and the DEVLOG archive job are green on the same tip - started 2026-09-15T08:30:00Z, finished 2026-09-15T08:35:00Z, exit 0.
-- Read the `Prove R4-R8 on encrypted durable state` failure line rather than assuming it, and it is no longer the failure the pull request body describes. Oversight has republished: the restore now succeeds, custody verifies `oversight-vetted` with queue hash `54a976c3c02c1cbeaa522ccece1053a8e3516885de56cd006541a809d1c915ef` over 403 stored source files, 8 documents and 526 links, and the job reaches corroboration and uploads all three artifact files. The corpus now yields 25,981 usable candidates from 297 sources, and one claim is corroborated by two genuinely independent sources - "Any class can have more than one constructor.", from `linked-source:28503d6f` and `owner-file:7a409be1`. Independent-source counts by sameness threshold: 1 at 0.8, 1 at the configured 0.74, 2 at 0.7, 10 at 0.6, 34 at 0.5. The gate now fails closed on `CRU-0026`, not `CRU-0023`: the single owner-paired scope declaration, the `Array.prototype.map` claim, names source `owner-delegated-url:11bfade7a586952ee66669380ffef05fb567a48589b59c33159b275c47e44eb4`, which is not in the restored corpus, so nothing can be paired to it. 109 sources remain retrieval-blocked and 128 have no stored content; 6 contradiction quarantines reopened and none cleared. No gate was advanced and none was marked passed; this is a record of what the run now says, not a claim about what it proves - started 2026-09-15T08:35:00Z, finished 2026-09-15T08:45:00Z, exit 1 external, report only.
-- Dispatched the oversight workflow rather than waiting for it, and confirmed from the API that it ran instead of being refused - the three signals `src/hostedRunStartupDiagnosis.js` checks, read the other way round. Run `34938208295` assigned runners `1000022397` and `1000022400`, executed every step over 108 seconds, and `return-vetted-data` published vetted commit `ef2d3b3` to `Crucible-Vetted-Learning-State`, with the post-merge `encrypted-custody.mjs vet` passing before any ciphertext was created. Re-ran the Crucible hosted proof against that bundle as run `34947395586` and quoted both hashes rather than asserting a match: the restore succeeds and the custody report records queue SHA-256 `54a976c3c02c1cbeaa522ccece1053a8e3516885de56cd006541a809d1c915ef`, which is the value the published manifest previously contradicted with `96f13274cf8c57d717e6f581cbe3c38bdcb6d52ad7e56a5fac51fd18eeefb50e`. Provenance `oversight-vetted` over 403 stored source files and 329669312 bytes, `plaintextRetained` false - started 2026-09-15T08:25:00Z, finished 2026-09-15T08:33:00Z, exit 0 for oversight and exit 1 for the proof on a later gate.
-- Established that the discovery blocker is no longer the missing setting the previous entry recorded, and did not re-run hoping. `NVIDIA_NIM_MODEL` now reaches the job masked, the readiness step passes, and dispatched run `34947505096` executed all 16 due topics on a real runner. Every topic was blocked identically: `[CRU-0036] NVIDIA NIM rejected the request with HTTP 410` and the detail "The model has reached its end of life on 2026-08-26T09:00:00Z and is no longer available." A 410 is a model-lifecycle answer rather than an authentication one, so the credential is working and the configured model is simply withdrawn; R3 is one owner setting away rather than one secret away. Two consequences are recorded rather than acted on: each blocked topic still consumed its daily slot, exactly as the Google and Perplexity paths behave, so the topics are not due again for 24 hours from 2026-09-15T08:32:29Z unless the project-bound state is discarded; and filing a model id under Secrets rather than Variables is what masked it in the log, where naming it would have identified this in one run - started 2026-09-15T08:32:00Z, finished 2026-09-15T08:38:00Z, exit 1 reported as configuration.
-- Updated `governingDocuments/scientific-learning-release-status.json`, which the preceding push left untouched while correctly updating the handoff and this log, and changed `rollingTargetState` from `indeterminate-until-nonzero-hosted-throughput` to `indeterminate-until-a-pairable-owner-declaration-exists`. The old name had become false: the oversight run consumed a Learning-Worker export generated at 2026-09-15T05:28:09.646Z at worker SHA `671922249a431bf4e40c234424ff2868e9ba192f` carrying 26794 candidates over 534 queue sources, and the restored corpus holds no source in `claim-extraction-forced-pending` or `claim-extraction-in-progress` - 381 `claim-extraction-complete`, 109 `retrieval-blocked`, 25 `oversight-vetting-pending`, 19 `research-approved-pending-retrieval`. No gate is marked passed. `src/hostedLearningProof.js` is what decides these gates and it exited 1 under `CRU-0026` before emitting a verdict, so R4 is recorded as having its custody blocker resolved and its chain demonstrated, not as satisfied: substituting a reading of log lines for the proof own outcome is the same error this file corrected on 2026-09-01, when R4-R8 had been marked passed on a proof that built its sources in code - started 2026-09-15T08:38:00Z, finished 2026-09-15T09:10:00Z, exit 0.
-- Checked ChatGPT plan item "R2 was incorrectly defined as today's entire backlog is empty" against the code instead of carrying it forward, and it does not hold as described: `evaluateR2` has returned `unknown` for an absent or empty queue since `206075c`, and its `satisfied` branch already requires a non-empty queue with nothing pending. A different and real defect is in the same function and is recorded in `AI-HANDOFF.json` as remaining rather than fixed here, because it is outside this review's scope: `PENDING_EXTRACTION_STATES` covers only the two extraction states, so a source that was never retrieved counts as having left the extraction backlog. On the restored corpus that would read as "all 534 queued sources have left the extraction backlog" while 109 are retrieval-blocked and 19 still await retrieval - the same 128 the proof reports as having no stored content - started 2026-09-15T09:00:00Z, finished 2026-09-15T09:10:00Z, exit 0 report only.
-- Repaired the `evaluateR2` reporting defect this session had recorded as remaining, on the owner's instruction to take it now. `PENDING_EXTRACTION_STATES` covers only `claim-extraction-forced-pending` and `claim-extraction-in-progress`, so a source that never reached extraction counted as having left the extraction backlog: on the real hosted population the gate reported "all 534 queued sources have left the extraction backlog" while 128 had never been retrieved at all. The regression fixture is that exact population - 381 `claim-extraction-complete`, 109 `retrieval-blocked`, 25 `oversight-vetting-pending`, 19 `research-approved-pending-retrieval` - and it was shown failing against the old implementation on that literal sentence before the repair existed. Custody decides the population now rather than a list of state names, because the queue carries states this repository does not define anywhere and an allow-list here would have to guess where `oversight-vetting-pending` belongs; a source with no content SHA-256 was never retrieved whatever it is called. The `satisfied` verdict is deliberately unchanged on real completions: R2 asks what the worker does with the work it is given, and corpus coverage is judged by R4 on the provenance chain and R5 on what can be paired, so folding coverage in here would double-count it and blur which gate is short. One branch did change verdict, strictly stricter: an empty backlog carrying no completions at all now reads `pending`, because nothing entered it rather than the worker draining it. `npm run test:all` 863/863 - started 2026-09-15T09:15:00Z, finished 2026-09-15T09:30:00Z, exit 1 reproduced then exit 0.
-- Switched governed discovery to `nvidia/nemotron-3-nano-30b-a3b` on the owner's instruction, and pinned it in `.github/workflows/model-pointer-research.yml` rather than handing back another setting to change. The retired id was filed under Secrets rather than Variables - GitHub masks secrets and prints variables, and the failing run showed `NVIDIA_NIM_MODEL: ***`, which is how the tab was identified without reading the value - so the only way to change it from version control is to stop consulting Secrets for the model, which this does. A model id is configuration rather than a credential, masking it bought nothing, and it cost a run: when NVIDIA withdrew the model on 2026-08-26 the log could only report HTTP 410 about `***`. A repository variable still overrides the pinned default and prints in the log the way the default does; `NVIDIA_NIM_API_KEY` is untouched and still read from Secrets only. Two consequences are recorded rather than acted on. The stale secret is now unused and its deletion is the owner's, since no agent deletes a secret on its own initiative. And the run this push triggers is not the first real attempt on the new model: all 16 topics recorded a blocked run at 2026-09-15T08:32:29Z and a blocked topic consumes its daily slot, so nothing is due until 2026-09-16T08:32:29Z and the triggered run will report `searched` 0 and exit 0 - correct behaviour, and not evidence that R3 admitted anything, which `evaluateR3` continues to decide from the audit log rather than from the check colour. `lint:workflows` passes across 20 files and `test/workflow.test.js` is 32/32 - started 2026-09-15T09:35:00Z, finished 2026-09-15T09:45:00Z, exit 0.
-- Corrected two verification claims in `AI-HANDOFF.json` that the model pin had made false, rather than leaving them to be read as current. One asserted that `Fill the candidate URL holding queue` fails closed on an empty `NVIDIA_NIM_MODEL`; it does not any more - the model is pinned and run `34949648646` printed it unmasked as `nvidia/nemotron-3-nano-30b-a3b` on runner `1000022501`, and the check is green. That green is recorded with its own caveat, because the run searched 0 topics: all 16 had recorded a blocked run at 2026-09-15T08:32:29Z and a blocked topic consumes its daily slot, so nothing was due, and `evaluateR3` still reads pending. The other claim said the suite was 862/862, which the `evaluateR2` regression test moved to 863/863. Separately, the owner asked for the now-unused `NVIDIA_NIM_MODEL` secret to be deleted, and it could not be done from this session: no Actions secret-management tool is available here and the `gh` CLI is not present, so the obligation is recorded as an owner action rather than reported as done. Its disuse was verified rather than assumed - nothing in the repository reads `secrets.NVIDIA_NIM_MODEL` at `3a70af7` - started 2026-09-15T09:55:00Z, finished 2026-09-15T10:00:00Z, exit 0.
-- Closed the pre-registration hole the owner named in one line: "scope was what hypothesis is supposed to be". The code agrees. `languageExperimentRegistry` builds the hypothesis as ``Within ${claimBoundary}, controlled execution will show that ${claim}`` - a template over the declared boundary and the claim - and `hypothesisTestPlan` then holds the experiment to `experimentBoundary`, which is the declared `claimScope` whenever one exists. So the declaration is the hypothesis, not configuration for it, and `hypothesisTestPlanSha256` was freezing a rendering of it during the run, after the declaration had already been read. Nothing recorded the boundary before the result was known, so it could be narrowed after a failed experiment and the next run would look identical to one that had always used the narrower boundary. R5 asks for a hash-bound pre-result plan; that held inside a run and not across runs, which is the half where the result appears. New `src/scopePreRegistration.js` records each declaration hash against the run clock in `scope-pre-registration.json` and refuses under the new `CRU-0047` a declaration that changed after a controlled experiment on that claim ran and did not verify it; `CRU-0048` covers the ledger failing closed on tampering, a foreign project binding, or an outcome for a claim it never pre-registered. Four limits are deliberate and each is tested: a claim no experiment ever ran on stays freely correctable, which is what keeps the declaration currently blocking R5 fixable; a verified claim may be re-declared because the knowledge version keeps the boundary it was actually verified at, with the prior registration kept in history rather than overwritten; a thrown pipeline is left `pending` rather than recorded `not-verified`, because a throw cannot be told apart from a broken harness and arming the refusal on an ambiguous signal would block the owner over a defect of ours; and on refusal the ledger is left untouched, since recording the new hash while refusing it would let the next run read it as the pre-registered one. There is deliberately no `declaredAt` field for the owner to fill in - a typed timestamp can be backdated with a text editor, and a field that looks like evidence without being evidence is worse than none - so the unforgeable fact is that a run saw a hash and wrote it down. Both rules were shown load-bearing by mutation rather than asserted: disabling the refusal turns two unit tests red, and letting a refused declaration reach `selectAllEvaluable` turns the integration test red, which is the case where the run would have promoted on a boundary chosen after the failure. `governingDocuments/learning-scope-declarations.json` used to instruct the post-hoc order outright - run with the list empty, read the report, then declare - and now documents the pre-registration and exactly when a boundary may change. Selecting which claim to test from observed agreement is still legitimate and the file still says why; the boundary is the part that cannot move freely. `npm run test:all` 873/873, the failure-code ratchet holds at 581 with none added, and the fly-by-wire ratchet holds at 57 with none added - started 2026-09-15T10:05:00Z, finished 2026-09-15T10:30:00Z, exit 1 reproduced by mutation then exit 0.
+### Session: owner-file-transport-20261008-nvidia-handoff — 2026-10-12T01:50:12.334Z — Codex — mode:work
 
-### Session: canonical orchestrator correction cycle — 2026-09-13T05:06:01Z — ChatGPT automation — mode:work
+Plain-language summary: The actual custody owner explicitly paused overlapping work and handed shared governance files over for one NVIDIA-only integration. Existing pending R8 changes remain preserved and excluded from publication.
 
-Plain-language summary: Continued the owner-approved autonomous rollout from the prior verified boundary, strengthened the canonical policy so terminal verification must actually complete, reproduced AI Collaboration's pre-runner CI failure without speculative source edits, and repaired Crucible handoff/Devlog regressions only from exact hosted evidence. Final Verification then caught missing historical mutation-claim accountability references in the compact Devlog; this correction restores those references rather than weakening the coordination gate.
+- `route:prewrite` — started 2026-10-12T01:48:51.804Z, finished 2026-10-12T01:48:51.804Z, exit 0; category crucible-core; repositoryId 1344890806; 6076446993/The-Crucible:development; explicit owner route.
+- `preimage backup and handoff` — started 2026-10-12T01:50:12.334Z, finished 2026-10-12T01:50:12.334Z, exit 0; preserved all six dirty files; original claim owner-file-transport-20261008 handed off with actual holder consent.
+- `artifact preparation` — 29 native selector tests and 9 generator tests pass locally; original Windows mock loader failure preserved and repaired only in test portability; no live or hosted acceptance claimed.
 
-- Re-read exact AI Collaboration and Crucible repository state, current policy/reference/identity records, hosted checks, and the active Crucible handoff boundary before mutation — started 2026-09-13T05:06:01Z, finished 2026-09-13T05:07:50Z, exit 0.
-- Re-ran AI Collaboration CI and reproduced the same startup condition across attempts: the job concludes failure before any workflow step, with `runner_id: 0`, an empty runner identity, and no job log. A separate Crucible workflow received a normal GitHub-hosted runner during the same interval. No further speculative application/workflow edit was made — started 2026-09-13T05:07:50Z, finished 2026-09-13T05:09:10Z, exit 1 external hosted-CI blocker.
-- Ran a bounded multi-provider diagnostic consultation only as corroboration, not proof. It agreed the evidence fits a repository/account Actions allocation, billing, policy, or runner-access class; executable evidence remains authoritative — started 2026-09-13T05:09:10Z, finished 2026-09-13T05:09:55Z, exit 0 advisory only.
-- Strengthened AI Collaboration `ORCHESTRATOR-POLICY.json` to schema version 2 with early execution-boundary capture, continuous reservation of Final Verification capacity, conservative cutoff, mandatory completed Final Verification, repair/new-verification cycles, and terminal Devlog requirements. Commit `83a466073fdb50930c81242ce95ebe1ed28622f2` — started 2026-09-13T05:09:55Z, finished 2026-09-13T05:10:02Z, exit 0.
-- Final Verification exposed Crucible `DEVLOG.md` missing its final newline. Applied only that deterministic formatting repair in commit `1462cbb19acae31e2b41b2722be0ffea82df04bb`; the next hosted handoff run then correctly refused the change because project changes must update both `DEVLOG.md` and `AI-HANDOFF.json` — started 2026-09-13T05:10:05Z, finished 2026-09-13T05:14:05Z, exit 1 correction required.
-- Re-read the handoff workflow and validator instead of weakening them. `evaluateHandoffChanges` explicitly requires both files, and `validateHandoffPlan` requires a takeover-ready active plan plus completed/verification/remaining boundaries. Published the coherent correction in commit `a0b440ce7c9b964a491595680966fee0b514146c`; its takeover-ready handoff check passed — started 2026-09-13T05:14:05Z, finished 2026-09-13T05:22:00Z, exit 0 handoff verified.
-- Final Verification on `a0b440ce7c9b964a491595680966fee0b514146c` then exposed `CRU-0035`: conflict parsing passed, but DEVLOG accountability could not find seven released historical mutation claims that were still present in `AI-HANDOFF.json`. The missing accountability references are: `multi-ai-coordination`; `resolve-additive-diagnostics-conflict`; `crucible-rolling-learning-release-review-20260906`; `daily-google-research-and-lock-recovery-20260908`; `crucible-rolling-learning-release-review-20260909`; `crucible-rolling-learning-release-review-20260910-1600`; `crucible-rolling-learning-release-review-20260910-proof-correction`. Those claims remain released with their original ownership/provenance; this entry restores the audit linkage only — started 2026-09-13T05:21:33Z, finished 2026-09-13T05:25:00Z, exit 1 correction required.
+- `native focused component tests` — output file observed from 2026-10-12T01:55:13.188Z to 2026-10-12T01:55:13.367Z, exit 0; final result 43/43, zero skipped; actual registry used, outbound NVIDIA mocked. Original preparation 9/9 generator tests also passed.
+- `native full-system proof` — output file observed from 2026-10-12T01:51:37.445Z to 2026-10-12T01:52:25.997Z, exit 1; 1087/1101 passed, 14 failed, zero skipped; failures retained in checkpoint, no hosted success claimed.
+- `audits and remote refresh` — finished 2026-10-12T01:56:21.808Z; workflow lint, configuration and security pass; coordination passes after fetching existing origin/Archive. Circulation refuses the unregistered NVIDIA module. Corrected dispatcher record uses affected paths without altering dispatcher rules.
+- `routing retest` — output file observed 2026-10-12T01:56:45.209Z, exit 0; 14/14 passed, zero skipped.
+- `authority boundary` — two native registry lines remain unapplied following automatic approval-review rejection of actual holder's authorization message; uncommitted changes retained and no workflow dispatched.
 
-### Session: canonical orchestrator policy boundary — 2026-09-13T05:02:27Z — ChatGPT automation — mode:work
+- `owner approval and native repair` — observed 2026-10-12T02:05:00.735Z; owner approved both NVIDIA entries; matching fixed-list test assertion updated without weakening checks.
+- `full native retest` — artifact observed 2026-10-12T02:03:33.823Z to 2026-10-12T02:04:16.271Z, exit 0; 1101/1101 passed, zero skipped.
+- `local required audits` — completed before 2026-10-12T02:05:00.735Z, exit 0; workflow lint, docs check, configuration, clutter, privacy, security, circulation and coordination.
+- `publication boundary` — preserve initial failures; no new hosted or live acceptance yet, automatic policy manual.
 
-Plain-language summary: Established a machine-readable canonical orchestration policy in AI Collaboration, pinned AI Collaboration and Crucible as separate projects, and connected Crucible to that policy by reference rather than containment. Verification proved the Crucible handoff check passes on the exact new reference commit; AI Collaboration CI still fails before job steps begin, so the overall cross-project rollout remains Reviewed rather than Verified.
+- `pre-push refusal and corrective repair` — observed 2026-10-12T02:07:56.729Z, exit 1; CRU-0013 rejected a synthetic user-info URL as an email; publication did not occur. Rebuilt the same negative fixture without a literal address and hard-pinned hosted model policy manual. Retry not before 2026-10-12T02:12:56.729Z; previous failure preserved.
 
-- Enumerated the connected GitHub installation and confirmed stable repository IDs for The Crucible (`1344890806`) and AI Collaboration (`1356380073`) plus the other authorized repositories — started 2026-09-13T05:02:27Z, finished 2026-09-13T05:02:31Z, exit 0.
-- Read The Crucible `AGENTS.md`, `DEVLOG.md`, `AI-HANDOFF.json`, task routing, recent hosted-learning failure, and exact job-step evidence before mutation. Confirmed development-only mutation rule and preserved the existing R4 custody blocker — started 2026-09-13T05:02:31Z, finished 2026-09-13T05:03:48Z, exit 0.
-- Added AI Collaboration `ORCHESTRATOR-POLICY.json` and `PROJECT-IDENTITY.json`, then documented the single-policy/adaptive-council/final-verification/custom-App boundaries in README. Commits: `bd1c19e8711a85eac8ec28f081edce31e112cb20`, `532c4346daab192310054292338c966a79f203a7`, `17931b12e76ab3121d2a7ae1c4bdd6324a53c969` — started 2026-09-13T05:03:48Z, finished 2026-09-13T05:04:07Z, exit 0.
-- Added The Crucible `governingDocuments/shared-orchestrator-policy-reference.json` on development, explicitly preserving independent identity, local stronger governance, custody/promotion authority, and non-containment. Commit `02f0d783c91328630bf48db60c89c1cc83eacaa5` — started 2026-09-13T05:04:07Z, finished 2026-09-13T05:04:18Z, exit 0.
-- Observed AI Collaboration CI fail before any job steps were emitted. Replaced invalid/unavailable `actions/checkout@v7` and `actions/setup-node@v7` references with v6 in commit `f383d338dbd8e3268a55abb10a55011edb043b5b`; rerun `34739402633` still failed before steps, so no further speculative CI mutation was made without exact diagnostics — started 2026-09-13T05:04:10Z, finished 2026-09-13T05:04:42Z, exit 1 unresolved hosted CI.
-- Final verification re-fetched the canonical policy, AI Collaboration identity, Crucible cross-project reference, exact Crucible development tip, and hosted workflow state. Crucible AI handoff policy run `34739391369` completed successfully on `02f0d783c91328630bf48db60c89c1cc83eacaa5`; AI Collaboration run `34739402633` remained failed before steps. Overall state is Reviewed, not Verified — started 2026-09-13T05:04:42Z, finished 2026-09-13T05:05:30Z, exit 1 partial verification.
+- `privacy-repaired native retest` — completed before 2026-10-12T02:11:28.846Z, exit 0; 1101/1101 full suite, 69/69 selector/workflow focused, privacy audit passes; automatic hosted selection held manual.
 
-### Session: canonical task routing and redundant branch cleanup — 2026-09-13T00:04:00Z — Codex — mode:work
+- `exact hosted failure diagnosis and repair` — observed 2026-10-12T02:21:36.414Z; Self-Test run 38195025564 failed retirement assertion on macOS22 job 114635675815 and Ubuntu24 job 114635675873 because valid latency ranking selected C instead of B. Repaired assertion preserves approved/non-retired checks; full native retest 1102/1102, zero skipped. Added governed security-category coverage to existing discovery workflow and a no-op reporting regression.
+- `independent evidence boundaries` — discovery 38195025656 searched zero topics; not live acceptance. Handoff 38195025643 archived one exact DEVLOG snapshot in d43a2718825b545f6b3794056d5c1ee0f6e4c082. Durable proof 38195025624 still failed R8 executable-content evidence; no gate bypass. Hosted retry not before 2026-10-12T02:21:59Z.
 
-Plain-language summary: Tasks now have one checked-in routing authority instead of relying on branch-name guesswork. It identifies The Crucible by its stable GitHub repository ID, sends core learning work to development and integrations to Plug-in, protects ci-monitor, Archive, release, and main, and refuses unknown or mixed work. The stray Knowledge-Database branch held only an outdated prose plan, so it was deleted under the owner's explicit authorization without touching the retained knowledge store. Hosted learning is still blocked at Oversight custody verification and is not represented as production-ready.
+- `route refusal and exact-delta repair` — observed 2026-10-12T02:22:26.997Z, exit 1; OPS-0045 refused the twelve-path route on a five-path follow-up push. Regenerated native prewrite for the exact five changed paths; no gate bypass. Retry not before 2026-10-12T02:27:26.997Z.
 
-- Recorded route `crucible-core`, repository ID `1344890806`, repository `jonathanblunt1214-lgtm/The-Crucible`, branch `development`: the dispatcher is core governance and the Knowledge-Database instruction is core scientific-learning work — started 2026-09-12T19:34:00Z, finished 2026-09-12T19:35:00Z, exit 0.
-- Ran `learning:readiness`, `learning:retrieve`, and `learning:pre-soak` against the retained project store. Revision 2453 contains 25,115 candidate records and one active proof-addressed knowledge version; fresh-process retrieval returned version 1. R2/R3/R7/R8 and the soak remain held or pending, and hosted run 34713819307 still fails at vetted-custody hash verification — started 2026-09-12T19:25:00Z, finished 2026-09-12T19:28:00Z, exit 0 diagnostic.
-- Verified remote `Knowledge-Database` at exact SHA `b220da7c845963b9d15e998622748da12715ca84`: it was unprotected, had no pull request, and added only the prose `Command` file to an old main tree. Deleted that exact redundant branch; its mandatory pre-push gate passed 825/825 and every required local audit. No retained learning data was removed — started 2026-09-12T19:24:00Z, finished 2026-09-12T19:32:00Z, exit 0.
-- Released completed claim `perplexity-r3-discovery-and-self-test-repair-20260910` after its exact commit `7073dd9678f13d02d575ab2f00eb8f9d4305c5a3` was published to development and passed hosted Self-Test and CodeQL. Hosted learning remained separately red and no release gate was advanced — started 2026-09-12T19:21:00Z, finished 2026-09-13T00:19:00Z, exit 0 custody handoff.
-- Implemented claim `canonical-task-routing-20260912`: canonical `TASK-ROUTING.json`, stable-ID/name validation, prompt/path/project classification, explicit-destination precedence, exact-tip worktree discovery, one-question ambiguity output, multi-category repository-scoped commit splitting, protected-route enforcement, record digests, CRU-0045, pre-push enforcement, and development CI enforcement. Routing cannot create or delete branches or authorize promotion — started 2026-09-12T19:34:00Z, finished 2026-09-13T00:15:00Z, exit 0 implementation.
-- Focused routing tests passed 12/12 and focused governance passed 61/61. Three requested AI-council reviews were refused by the account's current agent-usage limit before producing findings; no council result is treated as evidence. The first clean full run reached 836/837 and exposed only the missing DEVLOG reference for the released predecessor claim; this entry supplies that chain of custody — started 2026-09-13T00:04:00Z, finished 2026-09-13T00:19:00Z, exit 1 intermediate diagnosis.
-- After correcting the handoff chain and pruning the eleventh session for governed Archive capture, the clean full suite passed 837/837. validate, workflow lint, documentation sync, clutter, privacy, security, AI-conflict governance, coordination, circulation, failure-code, governance, and design-brief audits all passed; the exact 16-path routing record verified against repository ID 1344890806 and development. Released claim canonical-task-routing-20260912 — started 2026-09-13T00:19:00Z, finished 2026-09-13T00:21:00Z, exit 0.
+- `hosted NVIDIA component verification` — exact cc420f8 run 38195959444 job 114638538016 passed 275 security-category tests, including retirement and zero-due-topic assertions; zero live searches/admissions, not live acceptance.
+- `isolated bounded live acceptance implementation` — observed 2026-10-12T02:38:03.985Z; existing manual workflow gains acceptance_only input, no new task/workflow/schedule. Maximum five inference calls, three probes, 256 output tokens and 30-second requests; no intake/custody writes, activation or paid fallback. Actual workflow heredoc passed three offline success/quota/missing-model scenarios; focused workflow/selector tests 70/70. Existing secret remains in hosted runner only; actual dispatch/result pending.
 
-### Session: pr28-canonical-failure-code-custody-20260929090132 — 2026-09-29T09:01:32.077Z — ChatGPT — mode:work
+- `real NVIDIA acceptance negative receipt` — run 38196752958 job 114641009152 on a5eaa59 made exactly five inference calls: all four approved models listed, 76 unapproved ignored, Super/Ultra probes passed, Ultra initial inference passed, controlled retirement selected Super, then CRU-0036 empty alternate completion at 256 tokens. No activation or fallback provider. Artifact 11724210982 digest sha256:9e66fbade18dc67923095045b1851dd3786c1b22969048943da8fe4fdccbf773 retains negative evidence.
+- `bounded corrective retest` — prepared 2026-10-12T02:46:08.361Z; change only acceptance output ceiling to the implementation default 1024, at most five inference calls/three probes; three offline driver scenarios pass. One retry not before 2026-10-12T02:46:40Z. Actual retest still pending.
 
-Plain-language summary: PR #28 now enforces one canonical CRU code per distinct failure class. A duplicate occurrence reuses the established code; an uncoded occurrence remains pending classification rather than being assigned CRU-0000; and a canonical failure cannot be assigned multiple CRU codes.
+- `second real NVIDIA negative receipt` — run 38197286368 job 114642677650 on 99ee25a made four inference calls; Super selected and initial inference passed. GLM failed, Ultra timed out at 30 seconds, and controlled retirement left no qualified survivor within the three-probe cap. Artifact 11724330245 digest sha256:e5670f730ad81b165f7771bbc74bca794d18f5647c326c7e28ce4b901b50b769 preserved.
+- `actual default limits and structured diagnosis` — observed 2026-10-12T02:57:37.350Z; acceptance now uses actual defaults 1024 tokens/90 seconds, retaining five-call/three-probe caps. Selector control failures carry existing OPS-0042; provider probe failures retain assigned code and error hash without raw text. Two regression tests added; full native suite 1104/1104, zero skipped; three offline driver scenarios pass. Final bounded attempt not before 2026-10-12T02:55:22Z; activation and independent acceptance held.
 
-- Audited the complete current DEVLOG.md (116 lines, 7 sessions) and Archive:Devlog-Pruned (391 lines, 32 archived sessions) for duplicate failures, previous errors, and repairs.
-- The audit found no documented case of one underlying failure class being assigned multiple CRU codes in those logs. The repeated duplicate push trigger entries are duplicate workflow-trigger history, not duplicate error-code assignments.
-- The historical known-bug repair remains relevant: one real failing test had previously been recorded as four failed categories and 102 selected tests; the governed runner was repaired to attribute the actual failing test instead of multiplying the diagnosis.
-- The existing repair-evidence path already deduplicates an identical repair attempt by content-addressed attemptId; this PR #28 change extends the same principle to failure classification.
-- Reworked durable failure records so CRU-0000 is never invented for an uncoded occurrence. Such an occurrence receives its own failureId and remains pending classification until investigation establishes the canonical failure class.
-- Added canonicalFailureId and duplicateOf classification, plus a fail-closed check that rejects multiple CRU codes for the same canonical failure.
-- Added regression tests for uncoded occurrence custody, independent occurrence identity, duplicate code reuse, conflicting canonical-code assignments, and unregistered classification codes.
-- No hosted Section 2 gate is claimed passed by this entry; exact-tip verification remains the next boundary.
+- `actual-default live NVIDIA acceptance` — run 38198020896 job 114644963869 on eca6fe4010e5fbb1f1e3ed780cccf32897cf94fb passed five actual inference calls and three probes at 1024 tokens/90 seconds. Super selected; controlled HTTP410 fault recovered with real Ultra inference. Artifact 11723773075 digest sha256:aae9e95e5edfaefcfe120c8189098c7c236db7b408cbadf469b5bf53bee97b72. Fault was injected, not a natural provider retirement. Earlier negatives remain retained; no paid fallback, custody writes, promotion or activation.
+- `hosted component evidence` — eca6fe4 run 38197952887 job 114644757987 passed 277 security tests, including NVIDIA diagnosis. Native full suite 1104/1104, zero skipped; full exact-tip hosted matrix receipt is tracked separately.
+- `bounded ownership return` — observed 2026-10-12T03:11:48.728Z; owner-file-transport-20261008-nvidia-handoff handed off through native claim rules to owner-file-transport-20261008-resumed-after-nvidia-20261011, original Codex holder thread 01a12c93-41fd-7511-93f7-58c69a3ed622, restoring only its original 40-path custody scope and original task age. Root ceases repository mutations after atomic return publication. Independent Oversight/entitlement hold remains; Issue #40 open and separate, R3/R8 pending, R9 held.
 
-### Session: pr31-adaptive-outcome-policy-loop — 2026-09-29T17:00:00Z — ChatGPT — mode:work
+- `final handoff governance tests` — started 2026-10-12T03:11:48.9856721Z, finished 2026-10-12T03:11:49.2916307Z, exit 0; 58/58 passed, zero skipped.
 
-Plain-language summary: PR #31 now distinguishes prevention observation from enforcement, records validated repair outcomes, supports maximize/minimize learning metrics with a minimum distinct-evidence gate, and provides scientifically verified, explicitly approved, versioned learning-policy activation with rollback. Adaptive test evolution and marginal-utility lifecycle remain evidence-driven; resource cost or age alone cannot retire unique protection.
+### Session: R8 live executable refusal repair — 2026-10-11T21:51:43.911Z — Codex — mode:work
 
-- Prevention evaluation records triggered evidence only; actual blocking enforcement records prevented, explicit bypass records bypassed, and missed/false-positive/failed-prevention require explicit adjudication evidence.
-- Internal repair records repair-succeeded only when declared validation passes and repair-failed when it does not.
-- Learning-policy candidates support maximize and minimize metrics and require at least three distinct outcome evidence records by default.
-- Learning-policy activation requires a scientifically verified same-project candidate, exact proof boundary, positive knowledge version, and explicit approval identity; activations are version-linked and rollbackable.
-- Restored vetted prevention mapping export and retained exact candidate/proof/boundary custody.
-- Hosted exact-tip verification remains required before this PR is considered complete.
+Plain-language summary: Repaired the missing R8 execution path and verified a real executable refusal in isolated local custody. Hosted and independent gate verification are pending.
+
+- policy, exact state and primary-source research — started 2026-10-11T21:41:26Z, finished 2026-10-11T21:51:43.911Z; nonexistent self-hosted runner and absent canary settings confirmed; superseded queued/pending runs cancelled before new execution.
+- implementation and focused verification — started 2026-10-11T21:45:00Z, finished 2026-10-11T21:51:43.911Z; signature-only unsupported-MIME rejection, hosted rollback-safe custody publisher and preservation checks implemented; 31 custody/retrieval tests passed. Live isolated network refusal at 2026-10-11T21:49:10.813Z retained no executable source bytes.
+- publication and hosted independent proof — pending; no R8 gate completion is claimed.
 
 
-## 2026-09-29 — Nexus vetted learning preflight integration
-Plain-language summary: The Crucible now treats local repair-learning as evidence only and requires independently vetted Nexus knowledge before learned prevention can affect preflight.
+- resume verification — 2026-10-13T04:12:49.754Z; host Git confirms intact checkout; policy matches independent receipt; 32 focused R8 tests passed; unregistered synthetic key refused before output; latest hosted VETTED decryption succeeds but R8 refusal remains missing. Full encrypted copies are downloading on D:; no scientific gate advanced.
 
-- Added `src/vettedLearningAdapter.js` to consume active prevention knowledge from Crucible-Vetted-Learning-State.
-- Active prevention knowledge must include proof and Oversight decision custody bindings, remain inside the governed prevention boundary, and reference an active CRU bug/error classification.
-- Updated `src/cli.js` so local repair-learning state cannot authorize prevention; external vetted custody is required when prevention declarations are configured.
-- Added adapter tests and assigned the adapter to the circulation system to avoid a new cross-organ bypass.
-- PR: #32 `Consume independently vetted Nexus learning at preflight`.
-- Verification required before merge: AI handoff policy, Crucible self-test, and vetted-preflight tests all green.
+- publication repair — 2026-10-13T04:16:53Z; initial required pre-push refused an inconsistent returned agent identity before remote changes. Restored actual holder Codex; all 38 workflow tests now pass. Five-minute delay before publication retry retained.
+
+### Session: encrypted raw archive replacement — 2026-10-11T21:04:48.669Z — Codex — mode:work
+
+Plain-language summary: Continue the owner's archive replacement using the already configured key and preserved real sources; encrypted transfer and hosted restore remain under verification.
+
+- preflight, isolated checkout and retained plaintext comparison — started 2026-10-11T20:53:00Z, finished 2026-10-11T21:04:48.669Z; exact development route verified; historical candidate IDs and source hashes preserved.
+- implementation and verification — started 2026-10-11T21:04:48.669Z, finished 2026-10-11T21:37:56.650Z; implementation 2db7a44293f9108bad0b4ad4403601b0216b471a passed 194 local tests, all nine hosted self-tests, CodeQL, handoff and conflict gates. Rebuild 38176876189 published state e627a695b1898ea7bcc24f884d066bf835868a30 with existing raw key and isolated restore; independent authentication 38176984983 matched the approved archive hash. Old manifest/chunks retained, temporary transport secret removed. R8 remains separately pending; no promotion.
+
+### Session: R8 protected push and live dispatch — 2026-10-11T03:55:00Z — Codex — mode:work
+
+Plain-language summary: Reconciled the R8 repair onto the current development tip, regenerated the exact route record, passed the protected local checks, pushed only to development, and dispatched the existing manual R8 publisher. The repair is now hosted at exact SHA `5a78404e9e40c895b881c6e208ba20eaca71a3a4`; hosted run `38109749249` is queued because no owner-controlled runner with labels `self-hosted,crucible-r8` is registered. No canary, raw/vetted custody, `main`, or `Archive` changed.
+- `session` — started 2026-10-11T03:51:37Z, finished 2026-10-11T03:55:00Z, exit 0 after protected push and dispatch; subsequent route/DEVLOG corrections remain in the same checkpoint.
+- `git push origin development` — protected route verification passed; local pre-push verification passed workflow lint, docs, changed-test orchestration (104/104), validation, clutter, privacy, and security audits; remote advanced from `b68d1f7e2def760999e5767bd42f4c74873502f0` to `5a78404e9e40c895b881c6e208ba20eaca71a3a4`.
+- `gh workflow run 377913299 --ref development` — dispatched `38109749249` at the exact SHA; job `114382668947` remains queued with zero steps, confirming the self-hosted runner capability blocker before any custody action.
+- Status/handoff — recorded the exact SHA, run, and unchanged R3/R9/R10/R11 blockers; no gate was weakened or marked complete.
+- `test/ownerFileTransport.test.js` — normalized Windows tar paths before the archive command, fixing the deterministic `Cannot connect to C: resolve failed` harness failure without changing custody behavior; focused retest passed locally and the protected push is being rerun.
+- Hosted exact-tip follow-up — run `38110513574` exposed the legacy `activePlan.status` value `in-progress`; changed only the handoff state to governed `active`, with no custody or gate-state change.
+- Exact-tip continuation — repaired the route digest for the handoff-only follow-up, protected push advanced development to `eee72b4a6cff1fa9dac321d63401d5f35c30e365`, and hosted AI handoff policy passed. Fresh R8 dispatch `38110712781` remains pending before any job step because no `self-hosted,crucible-r8` runner accepted it; no canary or custody write occurred.
+
+
+Continuation — evidence-bound diagnosis, 2026-10-11: Implemented read-only diagnosis from exact-run GitHub job evidence so a later proof failure does not become an invented decryption failure. Preserved existing local timeout/atomic-publication work and all live pipeline state.
+- Validation continuation: `node --test test/ciDiagnosticOrgan.test.js test/hostedSourceBundle.test.js test/workflow.test.js` passed 65/65; `JAVA_HOME=/workspace/scratch/0010ebf4b64c/java-tools npm run test:all` passed 1058/1058, zero skipped. Java compiler was the real installed jdk.compiler module (17.0.20), not a simulated result.
+- Workflow permissions, configuration, security, privacy, governance, circulation and diff checks passed. Real hosted report replay diagnoses R8 pending after vetted custody restoration.
+- No live custody, queue, lock, key or active knowledge mutation; R8 publisher requires its configured self-hosted runner and approved source prerequisites.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+
+### Session: R8 same-machine rebuild path — 2026-10-10T16:00:00Z — Codex — mode:regular/default
+
+Plain-language summary: Added a manual-only, development-only self-hosted workflow for rebuilding R8 ciphertext from the preserved local source stage without moving plaintext through GitHub. The workflow reuses the existing verify/hydrate, executable-canary prepare, encrypt/split, and ciphertext-only publication primitives, and destroys runner temporary files and credentials on every exit path.
+- `implementation` — started 2026-10-10T16:00:00Z, finished 2026-10-10T16:00:00Z, exit 0; mode:regular/default.
+- `route:prewrite` — passed for `crucible-core` → `6076446993/The-Crucible` → `development`; exact affected path `.github/workflows/r8-executable-canary-publisher.yml` plus handoff/DEVLOG updates.
+- `source recovery` — cloned the preserved plaintext stage into the development worktree and verified project identity, 8 documents, 526 links, 403 source files; hydrate passed with 406 sources and restage passed with queue SHA `96f13274cf8c57d717e6f581cbe3c38bdcb6d52ad7e56a5fac51fd18eeefb50e` and learning SHA `569cabefaac39801f5c9857fae37192ede83f249da0b2a631a214d6b7a19f88f`.
+- `verification` — workflow lint passed across 30 workflows and publisher workflow tests passed 37/38 after the expected command-archive correction; no ciphertext, raw/vetted state, `main`, or Archive was changed.
+- `remaining blocker` — no self-hosted runner with labels `self-hosted,crucible-r8` is registered on this machine yet. The workflow is therefore not executable until an owner-authorized runner is installed and configured with `CRUCIBLE_R8_SOURCE_ROOT` pointing to the preserved local stage. No secret values are requested or logged.
+- `development push` — attempted after refreshing `origin/development` to `b68d1f7e2def760999e5767bd42f4c74873502f0`; the governed pre-push hook failed closed with `received no ref update to verify`. No bypass was used and no remote, raw/vetted state, `main`, or Archive changed.
+- `history reconciliation` — rebased the two local R8 repair commits onto current origin/development; the protected dry-run then reached the route check and failed only on the stale affected-path digest. Route regenerated to include the exact four-file development diff; no remote write occurred.
+
+### Session: r8-executable-publisher-dispatch-20261010 — 2026-10-10T06:23:00-04:00 — Codex — mode:regular/default
+
+Plain-language summary: The protected R8 registration path was exercised from the exact development tip. The real publisher ran and failed closed before the executable canary or any custody write because the configured source-bundle keys do not authenticate the existing encrypted bundle.
+
+- Dispatch: GitHub Actions run `38044694390`, job `114191751834`, exact development SHA `1199af5cb36166b997345bb9b0e5c5931713c75e`.
+- Hosted evidence: the ciphertext header identifies legacy `github:jonathanblunt1214-lgtm/The-Crucible` custody and plaintext hash `3e312164b0dd944b1859c6e663d44fb1a1796db8285715e2a16fb545c412c446`; both configured key candidates failed authentication.
+- Boundary: no canary ran, no executable bytes were executed or admitted, and no raw, vetted, or durable state changed. The failure is not repaired by generating another key: the original key cannot be derived from ciphertext.
+- Required next action: restore the original key that wrote this bundle, or obtain an owner-authorized plaintext/source-of-truth rebuild and re-encrypt under a new key. Do not guess, print, or replace a custody key from ciphertext.
+- Verification: `AI-HANDOFF.json` and `governingDocuments/scientific-learning-release-status.json` record the exact run, SHA, and blocker; JSON parsing passes. The pre-existing test-generated known-bug ledger changes remain preserved and were not discarded.
+
+
+
+
+
+- `owner authorization` — 2026-10-11T18:01:00-04:00: owner approved one-time inbound raw-key sync and existing independent Oversight dispatch; implementation prepares only fixed-recipient GitHub sealed ciphertext, default off, with one-day retention and no verifier/vetted-key mutation.
+
+### Session: password-manager-api-key-research-20261009 — 2026-10-09T23:45:00Z — Codex — mode:regular/default
+
+Plain-language summary: Registered password-manager-safe human access and API-key lifecycle management as candidate-only research and documented a non-secret vault-item specification without writing or exposing credentials.
+
+- `npm run route:prewrite -- --prompt ... --path governingDocuments/security-learning-techniques.json --path governingDocuments/cybersecurity-research-program.json --path governingDocuments/security-learning-pipeline.md --path governingDocuments/password-manager-entry.json --path AI-HANDOFF.json --path DEVLOG.md` — started 2026-10-09T19:39:16.982Z, finished 2026-10-09T19:39:17.695Z, exit 0.
+- Manifest, research-program, pipeline-document, non-secret password-manager specification, handoff and DEVLOG updates — started 2026-10-09T19:40:00.000Z, finished 2026-10-09T19:45:00.000Z, exit 0.
+- `node src/securityLearningCli.js queue` — started 2026-10-09T19:46:00.000Z, finished 2026-10-09T19:46:04.000Z, exit 1; existing durable-learning lock refused pending mutation with EPERM; no candidate records persisted.
+
+
+## Historical mutation accountability
+
+Released claims `scheduled-cadence-repair-20261002` and `monitor-token-diagnostics-20261002` remain preserved in AI-HANDOFF.json. This reference repairs discoverability after session pruning; it does not change their results or custody.
+### Session: coursera-engineering-research-20261009 — 2026-10-09T20:10:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Inspected Coursera syllabi for coding assistants, debugging, optimization, testing, and application-security work, then mapped the useful practices to Crucible's candidate-only engineering controls. No pipeline rename, policy activation, custody, R8, Archive, or `main` change occurred.
+
+- `route:prewrite` — completed 2026-10-09T20:01:58-04:00, exit 0; selected `crucible-core` for the research-program and pipeline documentation paths.
+- `Coursera browser syllabus inspection` — completed 2026-10-09T20:08:00-04:00, exit 0; inspected coding-assistant, systematic debugging, performance optimization, and application-security testing outlines; the requested testing page was unavailable at its guessed URL and was retained only from the catalog result.
+- `standards follow-up research` — completed 2026-10-09T20:09:00-04:00, exit 0; reviewed SLSA provenance/verification, OpenTelemetry observability, OWASP ASVS, and NIST SSDF references.
+- `documentation mapping` — completed 2026-10-09T20:10:00-04:00, exit 0; added candidate-only course observations, Crucible-wide findings, and development-only test ideas.
+### Session: evidence-packet-gate-across-crucible-20261009 — 2026-10-10T00:35:00Z — Codex — mode:work
+
+Plain-language summary: Added one candidate-only evidence packet contract across Crucible's main intake, retrieval, extraction, repair, and diagnostic boundaries so improvements carry provenance, tests, security status, verification, rollback, and observability without weakening existing promotion gates.
+
+- `route:prewrite` — completed 2026-10-09T20:10:48-04:00, exit 0; selected `crucible-core`, repository `6076446993/The-Crucible`, branch `development`.
+- `implementation` — completed 2026-10-09T20:30:00-04:00, exit 0; added `src/evidencePacket.js`, candidate schema support, and attachments at owner intake, retrieval, extraction, repair, and pipeline diagnostics.
+- `focused tests` — completed 2026-10-09T20:31:00-04:00, exit 0; 71/71 affected tests passed, zero skipped.
+- `component expansion` — completed 2026-10-10T00:42:00Z, exit 0; added packet propagation to security-repair feedback and monthly-refresh candidate claims, and synchronized the cadence registry and bounded DEVLOG archive.
+- `full verification` — completed 2026-10-10T00:44:00Z, exit 0; orchestrated full suite 1033/1033 passed, zero skipped; validation, security, circulation, workflow lint, documentation, route binding, handoff, and diff checks passed.
+- `custody boundary` — completed 2026-10-09T20:35:00-04:00, exit 0; no credentials, raw/vetted state, R8, `main`, or `Archive` changed.
+
+### Session: candidate-research-subjects-and-accountability-20261009 — 2026-10-09T21:43:40-04:00 — Codex — mode:regular
+
+Plain-language summary: Registered additional Coursera-derived engineering subjects and the knowledge/power accountability principle as candidate-only Crucible evidence; no policy, custody, R8, pipeline name, `main`, or `Archive` change occurred.
+- `route:prewrite` — completed 2026-10-09T21:43:40-04:00, exit 0; selected `crucible-core` for the three governing paths.
+- `candidate manifests` — added runtime observability, distributed/concurrent resilience, property/contract/mutation testing, supply-chain provenance, and accountable automation subjects with Coursera/standards references.
+- `philosophy mapping` — recorded `Knowledge may inform action; it may not authorize itself` with provenance, uncertainty, independent verification, owner authorization, kill-switch, and rollback requirements.
+- `queue submission` — attempted through `src/securityLearningCli.js queue`; failed closed on the existing durable-learning lock (`EPERM` pending lock), so no durable learning state changed and no submission is claimed.
+- `focused verification` — JSON parsing, security-learning/evidence-packet tests 6/6, and governance audit passed; existing generated known-bug ledger remains preserved and uncommitted.
+
+### Session: architecture-quality-evidence-packet-20261009 — 2026-10-09T21:48:31-04:00 — Codex — mode:regular
+
+Plain-language summary: Implemented optional architecture-quality evidence on the shared Crucible packet and registered related systems-architecture and engineering-ethics research as candidate-only; no promotion, custody, R8, `main`, or `Archive` change occurred.
+- `implementation` — added quality attributes, trade-offs, threat model, stakeholders, and rollback-impact fields with fail-closed validation when review is required.
+- `research mapping` — added Coursera systems-architecture/software-architecture, CMU SEI quality-attributes, IEEE/ACM ethics, and NIST SSDF references.
+- `focused verification` — evidence-packet and security-learning tests 7/7 passed; both research manifests parse successfully.
+### Session: task-routing-handoff-repair-20261009 — 2026-10-09T22:08:07-04:00 — Codex — mode:regular
+
+Plain-language summary: Rebound the checked-in active handoff's task-routing record to its exact current repair prompt and affected-path digest, fixing the deterministic handoff mismatch without changing curriculum metadata, custody, R8, Archive, or `main`.
+
+- `route:prewrite` — completed 2026-10-09T22:08:07-04:00, exit 0; selected `crucible-core` for `6076446993/The-Crucible` on `development`.
+- `repair scope` — limited to `AI-HANDOFF.json` and `DEVLOG.md`; no source, test, learning-state, credential, workflow, R8, Archive, or `main` mutation.
+- `verification` — task-routing 14/14, language-catalog 6/6, `npm run validate`, `npm run test:all` 1036/1036, and `git diff --check` passed.
+
+### Session: monitor-app-key-manager-permission-update-20261009 — 2026-10-09T19:02:23-04:00 — Codex — mode:work
+
+Plain-language summary: Updated the existing organization-installed Crucible Monitor GitHub App so the manual Crucible key-manager workflow can use its identity for repository secret and development-content writes while the monitor workflow remains read-only; no key value, raw/vetted state, R8, `main`, or `Archive` changed.
+
+- `route:prewrite` — completed 2026-10-09T19:02:07-04:00, exit 0; selected `crucible-core` for `6076446993/The-Crucible:development` with affected paths `AI-HANDOFF.json` and `DEVLOG.md`.
+- `github-app-update` — organization App `crucible-monitor` (App ID 5230024, installation 169035381) accepted the update; installation now visibly reports read-only checks/metadata/pull requests plus read/write code and secrets across its seven selected repositories.
+- `verification` — existing local implementation commit `194368c`; no credentials were read or exposed, and the required hosted key-manager run remains pending until the owner-configured key-manager secrets exist.
+
+### Session: custody-key-manager-dispatch-registration-blocker-20261009 — 2026-10-09T19:13:03-04:00 — Codex — mode:work
+
+Plain-language summary: Published the governed development history through the pre-push gate, but GitHub does not expose the manual key-manager workflow because the workflow is not registered on the repository default branch. No workflow run or key mutation started.
+
+- `push` — `origin/development` advanced to `22d746f84accf728ac8da08804c1a4474c26add5`; pre-push routing, workflow lint, changed tests, validation, clutter, privacy, and security checks passed after replacing the privacy-audit email with a non-email identity.
+- `dispatch` — GitHub Actions returned `This workflow does not exist` for `.github/workflows/source-bundle-key-manager.yml`; the protected default-branch workflow-registration path is the exact remaining capability boundary.
+- `custody` — no repository secret values, raw/vetted state, R8, `main`, or Archive changed; unrelated `KNOWN-BUGS.json` remains unstaged.
+
+### Session: custody-key-manager-publish-route-20261009 — 2026-10-09T19:09:31-04:00 — Codex — mode:work
+
+Plain-language summary: The first development publish attempt failed closed because the recorded route covered only the prior documentation edit. The exact route was regenerated for the complete pending development diff before retrying; no main push or secret operation occurred.
+
+- `route:prewrite` — completed 2026-10-09T23:09:31Z, exit 0; selected `crucible-core` for `6076446993/The-Crucible:development`, prompt `Manage Crucible custody keys`, affected-path digest `90d1765af20ffe120cf0c7cc54b88d8bc1d1bacf3011fb4fb83f0689c7ba28d9`.
+- `verification` — initial push was rejected by OPS-0045 due to the stale route digest; the regenerated route covers the exact pending development paths. Known-bug ledger remains unstaged.
+### Session: development key-manager action-reference repair — 2026-10-09T21:10:00-04:00 — Codex — mode:regular
+
+Plain-language summary: The development-based key-manager workflow failed closed during action resolution because its pinned checkout and App-token references were invalid. Updated only those two immutable references to the verified full SHAs; no credentials, registry values, raw/vetted state, R8, Archive, or `main` changed.
+
+- **Evidence:** development bootstrap run `38011902706` at `cd24b575aceb5b47a526093d13bb9ca184efc119` failed before secret access; GitHub reported both unresolved action references.
+- **Repair:** `.github/workflows/source-bundle-key-manager.yml` now uses the verified checkout and full App-token action SHAs.
+- **Verification:** `git diff --check`, JavaScript syntax checks, and the governed test orchestrator passed locally; hosted verification is required after this development update.
+- **Next:** publish this narrow development repair, then rerun manual `bootstrap` on `development` and inspect only redacted lifecycle evidence.
+
+### Session: hosted key-manager exact-tip verification — 2026-10-09T21:14:00-04:00 — Codex — mode:regular
+
+Plain-language summary: The corrected development workflow reached the real key-manager path and failed closed because the configured raw custody secret is not a valid 32-byte base64 key; no key, registry, raw/vetted state, R8, Archive, or `main` state changed.
+
+- **Hosted evidence:** run `38012262704`, exact `development` head `918ed3ed3bbaecdb82f3081c30986a0d8a1733a7`, validated credentials and minted the narrowly scoped App token, then failed at `Generate or rotate ephemeral custody keys` with `CRUCIBLE_SOURCE_BUNDLE_KEY must decode to exactly 32 bytes.`
+- **Safety:** runner cleanup succeeded; secret values were not read into chat or persisted. The manager correctly skipped secret writes and registry mutation after validation failure.
+- **Blocker:** the repository secret named `CRUCIBLE_SOURCE_BUNDLE_KEY` must be replaced only with the existing authoritative 32-byte base64 raw-custody key (or the owner/custody administrator must authorize a separately governed source-of-truth rebuild). Do not delete or overwrite it blindly: an unknown replacement can make existing ciphertext unrecoverable.
+- **Next:** restore a valid authoritative key, then rerun manual `bootstrap` on `development`; R8 remains a separate pending gate.
+### Session: guarded-key-manager-bootstrap-repair-20261010 — 2026-10-10T09:45:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Repaired the development-only key-manager bootstrap path so malformed existing key material cannot be silently replaced. Bootstrap now fails closed unless the owner explicitly enables invalid-key replacement; the generated replacement remains runner-only until the governed secret-write step, and only non-secret fingerprints enter the registry. R8, raw/vetted custody, `main`, and Archive were not changed.
+
+- `route:prewrite` — completed 2026-10-10T09:47:04-04:00, exit 0; selected `crucible-core` → `6076446993/The-Crucible` → `development` with the exact affected workflow, automation, key-manager policy, tests, handoff, and DEVLOG paths.
+- `hosted evidence` — bootstrap run `38042179085` failed closed at the existing malformed-secret decode check; no secret, registry, decrypt, or custody state changed.
+- `repair` — added `confirm_invalid_replacement` workflow input and matching automation/test coverage; malformed existing material remains blocked unless that explicit owner-controlled confirmation is true.
+- `verification` — focused key-manager automation tests 7/7 passed; workflow lint passed across 30 workflows.
+
+### Session: guarded raw-key bootstrap completion — 2026-10-10T07:33:00-04:00 — Codex — mode:regular
+
+Plain-language summary: Owner-authorized bootstrap completed on `development` and generated a replacement raw custody key through the governed GitHub Actions secret-write path. The key value was never displayed or persisted in repository files.
+
+- **Hosted evidence:** run `38048839977` at exact development commit `1199af5cb36166b997345bb9b0e5c5931713c75e`, status Success; inputs were `mode=bootstrap`, `family=raw`, and explicit malformed-key replacement confirmation.
+- **Custody boundary:** only the GitHub Actions secret and non-secret fingerprint metadata were written; no decrypt, raw/vetted publication, `main`, or Archive mutation occurred.
+- **Remaining R8 work:** rebuild the approved plaintext source-of-truth under the new key, publish ciphertext/manifest only through the real custody path, then obtain genuine executable-content refusal and downstream durable proof.
+
+### Session: R8 post-bootstrap decrypt verification — 2026-10-10T07:37:00-04:00 — Codex — mode:regular
+
+Plain-language summary: The real R8 publisher was dispatched on `development` after raw-key bootstrap and failed closed at decrypt, proving the replacement key does not authenticate the existing ciphertext. No raw custody was modified.
+
+- **Hosted evidence:** run `38048979612`, exact development SHA `b68d1f7e2def760999e5767bd42f4c74873502f0`; preflight and custody restore passed, decrypt failed with the governed authentication error, and cleanup ran.
+- **Blocker:** the existing ciphertext was written under an unavailable prior key. A replacement key cannot decrypt it; a fresh encrypted bundle must be built under the new key from the preserved plaintext source-of-truth through an authorized hosted transfer path.
+### Session: R3 discovery workflow repair — 2026-10-11T04:20:00-04:00 — Codex — mode:work
+
+Plain-language summary: Corrected the live model-pointer and Perplexity discovery workflows to use the current `6076446993/The-Crucible` project identity and a currently documented NVIDIA NIM model default, while preserving candidate-only admission and the development-only boundary. R3 remains pending until a fresh hosted run produces durable candidate evidence.
+
+- `route:prewrite` — completed 2026-10-11T04:17:30-04:00; selected `crucible-core` → `6076446993/The-Crucible` → `development`; exact affected-path digest recorded in `AI-HANDOFF.json`.
+- `workflow correction` — replaced the stale owner identity in `model-pointer-research.yml` and `perplexity-research.yml`; replaced the retired Lightning default with `meta/llama-3.1-8b-instruct`; repository variable override remains supported.
+- `focused verification` — model-pointer tests, workflow tests, workflow lint, and validation passed locally before commit; hosted evidence is still required.
+- `hosted R3 run 38111273190` — exact SHA `b449906c494d2c2828d3adc0d57975f8d1e177bf` reached the runner, but initialization failed closed with `OPS-0042` because the restored cache queue carried the retired project identity. No candidate URLs or learning state were written.
+- `repair continuation` — namespace the cached discovery root by current repository identity (`6076446993`) so stale project-bound cache contents cannot be consumed or overwrite the new queue; preserve the prior cache unchanged and rerun hosted verification.
+- `protected-route reconciliation` — regenerated the task-routing digest for the exact three-file follow-up after the first push attempt correctly failed closed on a scope mismatch; no bypass or remote write was used.
+- `hosted provider correction` — run 38111477854 reached NVIDIA successfully but every topic was blocked by HTTP 410 because `meta/llama-3.1-8b-instruct` is retired. Current NVIDIA API documentation lists `deepseek-ai/deepseek-v4-flash`; the default is being updated to that model, with repository-variable override preserved.
+- `hosted state-window correction` — run 38111654553 verified the new model path but found the prior blocked attempt’s daily state checkpoint, so it safely searched zero topics. The cache key is versioned for the new model window; the previous cache remains retained and untouched.
+- `hosted model availability` — the clean-cache push run 38111822458 executed 17 real topics but NVIDIA returned HTTP 410 for `deepseek-ai/deepseek-v4-flash` (retired 2026-08-07), so no candidate URLs were admitted. NVIDIA’s current API page lists `z-ai/glm-5.3-flash`; the default is being updated for the final hosted attempt.
+- `boundary` — no credentials were read or exposed, no raw/vetted state changed, no R8 action ran, and `main`/Archive were untouched.
+
+### Session: R3 hosted candidate-throughput review — 2026-10-11T00:55:00-04:00 — Codex — mode:work
+
+Plain-language summary: The current provider and clean project-bound cache produced real candidate throughput, but the release gate remains pending because the run was push-triggered and partial rather than scheduled-origin.
+
+- **Hosted evidence:** run `38111994882`, job `114389296000`, exact SHA `ac3c6a37ceebc1257c37f516fa9cd9f81a60037`; provider `z-ai/glm-5.3-flash`; 17 topics searched, 3 completed, 14 blocked, 30 citations, 16 admitted and 16 novel candidate URLs. Artifact `model-pointer-research-38111994882-1`, ID `11692058257`, retained ZIP SHA-256 `94657a336b2592cdaefe3916dea032046eb52bf5ee957a6bf627fe8e3af0d3bf`.
+- **Gate disposition:** this establishes nonzero candidate-only discovery and records the partial provider failures, but does not satisfy R3's scheduled-origin requirement. R3 remains pending; no candidate is promoted or treated as learning proof.
+- **Downstream gates:** R8 still lacks live executable-content refusal; R9 remains held because R2-R8 are not simultaneously green; R10 remains pending on exact-tip hosted/security/monitor evidence; R11 remains owner authorization only.
+- **Boundary:** no credentials were read or exposed, no raw/vetted state changed, no R8 action ran, and `main`/Archive were untouched.
+### Session: exact-tip R10 hosted CI review — 2026-10-11T01:14:00-04:00 — Codex — mode:work
+
+- Development remains at exact SHA `621f9c3ed64a61e35eacd2710c1410cf401d1ec0`; protected local working files from prior test runs remain untouched.
+- Hosted exact-tip Self-Test run `38113258822` completed successfully across all 9 matrix jobs; its repository security summaries report `0 issue(s)`. CodeQL `38113258781`, AI handoff `38113258774`, AI conflict `38113258746`, sync `38113258828`, and locked-monitor block `38113258787` also completed successfully.
+- Hosted durable learning proof `38113258786`, job `114393015392`, failed closed at the real R4-R8 proof: the restored corpus reported R4-R7 satisfied but no live executable-content refusal, so R8 remains pending. No custody or executable bytes changed.
+- R3 remains pending until a scheduled-origin discovery run; R9 remains held because R2-R8 are not simultaneously green; R11 remains owner authorization only. No main or Archive mutation occurred.
+
+- R8 receiver compatibility and authority review at 2026-10-11T21:59:51.069Z: preserved indexed wire format using unused chunk indices; no independent verifier code or receiver secret changed. Owner authorization requested for inbound-key synchronization and existing independent workflow dispatch.
+
+
+## Downstream Nexus implementation review - 2026-10-14
+
+The owner supplied a review describing Nexus desktop orchestration, AI Assist and Ship approval gates, project secrets and service management, audit/repair/test pipelines, Crucible learning-host controls, and exact-commit release/dependency verification. Preserve that review as owner-provided context, not independently verified current source or installed-runtime proof. The associated source-sharing URLs and evidence limits are recorded in `AI-HANDOFF.json.downstreamImplementationReview`.
+
+The requested queue covers exact-tip hosted validation, protected promotion, owner-reviewed security-alert closure, and production learning ingestion only after the independent gates pass. Crucible changes target literal `development`; downstream repository branch policies remain separate. Existing plans, original task ages, mutation claims, work ledger, custody and unfinished work remain authoritative. The review does not establish that all engineering implementation is complete.
+
+Current remediation observations: PR #42 was closed without merging because its main-to-development direction did not implement the requested documentation change. PR #36 was separately rebased by Dependabot to `77d955512d36282424c908418c6f8478cc18c11d`; its fresh checks remain red. PR #34 remains conflicted at development `d6c8257ccbc5c8c5b1a1f57bc75ab08182c7e776`. R8 executable-content proof and independent custody/governance gates remain unresolved. No promotion, intake, credential change or gate clearance is implied.
