@@ -256,6 +256,17 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: downstream-nexus-review-20261014 — 2026-10-14T19:37:18.314Z — Codex — mode:work
+
+Plain-language summary: Added the owner's downstream Nexus review as attributed context and recorded that opening a PR requires continued monitoring, authorized repairs and exact-head verification. Preserved the existing custody plan, work ledger and broader ownership.
+
+- `route:prewrite` — started 2026-10-14T19:34:46.5123544Z, finished 2026-10-14T19:34:46.7368723Z, exit 0; category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
+- `node ../apply_review.cjs` — started 2026-10-14T19:37:18.314Z, finished 2026-10-14T19:37:18.329Z, exit 0; explicit narrow handoff recorded before the two-file additive write; original custody scope retained outside these two paths; full preimage retained for the mandatory Archive prune snapshot.
+
+- `Canonical project route verified against exact owner repository/branch/id; record updated` — started 2026-10-14T19:38:02.1734202Z, finished 2026-10-14T19:38:02.5957630Z, exit 0.
+- `node --test test/handoffPolicy.test.js test/mutationClaims.test.js test/mutationClaimStore.test.js test/taskRouting.test.js` — started 2026-10-14T19:38:02.6312222Z, finished 2026-10-14T19:38:02.8372536Z, exit 0.
+- Local negative attempts retained in remediation checkpoint: unexported DEVLOG helper corrected without product-source edits; the explicit-route reason fixture failed initially, then canonical project routing selected the same owner-required repository/branch/id and all48focused tests passed.
+
 ### Session: owner-file-transport-20261008-nvidia-handoff — 2026-10-12T01:50:12.334Z — Codex — mode:work
 
 Plain-language summary: The actual custody owner explicitly paused overlapping work and handed shared governance files over for one NVIDIA-only integration. Existing pending R8 changes remain preserved and excluded from publication.
@@ -319,9 +330,6 @@ Plain-language summary: Continue the owner's archive replacement using the alrea
 - preflight, isolated checkout and retained plaintext comparison — started 2026-10-11T20:53:00Z, finished 2026-10-11T21:04:48.669Z; exact development route verified; historical candidate IDs and source hashes preserved.
 - implementation and verification — started 2026-10-11T21:04:48.669Z, finished 2026-10-11T21:37:56.650Z; implementation 2db7a44293f9108bad0b4ad4403601b0216b471a passed 194 local tests, all nine hosted self-tests, CodeQL, handoff and conflict gates. Rebuild 38176876189 published state e627a695b1898ea7bcc24f884d066bf835868a30 with existing raw key and isolated restore; independent authentication 38176984983 matched the approved archive hash. Old manifest/chunks retained, temporary transport secret removed. R8 remains separately pending; no promotion.
 
-
-
-
 ### Session: R8 protected push and live dispatch — 2026-10-11T03:55:00Z — Codex — mode:work
 
 Plain-language summary: Reconciled the R8 repair onto the current development tip, regenerated the exact route record, passed the protected local checks, pushed only to development, and dispatched the existing manual R8 publisher. The repair is now hosted at exact SHA `5a78404e9e40c895b881c6e208ba20eaca71a3a4`; hosted run `38109749249` is queued because no owner-controlled runner with labels `self-hosted,crucible-r8` is registered. No canary, raw/vetted custody, `main`, or `Archive` changed.
@@ -340,11 +348,6 @@ Continuation — evidence-bound diagnosis, 2026-10-11: Implemented read-only dia
 - No live custody, queue, lock, key or active knowledge mutation; R8 publisher requires its configured self-hosted runner and approved source prerequisites.
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
 
-
-
-
-
-
 ### Session: R8 same-machine rebuild path — 2026-10-10T16:00:00Z — Codex — mode:regular/default
 
 Plain-language summary: Added a manual-only, development-only self-hosted workflow for rebuilding R8 ciphertext from the preserved local source stage without moving plaintext through GitHub. The workflow reuses the existing verify/hydrate, executable-canary prepare, encrypt/split, and ciphertext-only publication primitives, and destroys runner temporary files and credentials on every exit path.
@@ -355,10 +358,6 @@ Plain-language summary: Added a manual-only, development-only self-hosted workfl
 - `remaining blocker` — no self-hosted runner with labels `self-hosted,crucible-r8` is registered on this machine yet. The workflow is therefore not executable until an owner-authorized runner is installed and configured with `CRUCIBLE_R8_SOURCE_ROOT` pointing to the preserved local stage. No secret values are requested or logged.
 - `development push` — attempted after refreshing `origin/development` to `b68d1f7e2def760999e5767bd42f4c74873502f0`; the governed pre-push hook failed closed with `received no ref update to verify`. No bypass was used and no remote, raw/vetted state, `main`, or Archive changed.
 - `history reconciliation` — rebased the two local R8 repair commits onto current origin/development; the protected dry-run then reached the route check and failed only on the stale affected-path digest. Route regenerated to include the exact four-file development diff; no remote write occurred.
-
-
-
-
 
 ### Session: r8-executable-publisher-dispatch-20261010 — 2026-10-10T06:23:00-04:00 — Codex — mode:regular/default
 
@@ -383,10 +382,6 @@ Plain-language summary: Registered password-manager-safe human access and API-ke
 - `npm run route:prewrite -- --prompt ... --path governingDocuments/security-learning-techniques.json --path governingDocuments/cybersecurity-research-program.json --path governingDocuments/security-learning-pipeline.md --path governingDocuments/password-manager-entry.json --path AI-HANDOFF.json --path DEVLOG.md` — started 2026-10-09T19:39:16.982Z, finished 2026-10-09T19:39:17.695Z, exit 0.
 - Manifest, research-program, pipeline-document, non-secret password-manager specification, handoff and DEVLOG updates — started 2026-10-09T19:40:00.000Z, finished 2026-10-09T19:45:00.000Z, exit 0.
 - `node src/securityLearningCli.js queue` — started 2026-10-09T19:46:00.000Z, finished 2026-10-09T19:46:04.000Z, exit 1; existing durable-learning lock refused pending mutation with EPERM; no candidate records persisted.
-
-
-
-
 
 ### Session: owner-file-transport-20261008 — 2026-10-08T04:08:22.129Z — Codex — mode:work
 
@@ -414,10 +409,6 @@ Plain-language summary: The owner authorized taking over the intake repair and n
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Project context selects crucible-core.
 - CI envelope compatibility passed workflow tests 37/37, full change-impact 1016/1016 and workflow/coordination/privacy/security/commit checks, zero skipped — finished 2026-10-08T04:58:38.545Z, exit 0.
 - Mutation claim owner-file-transport-20261008 remains active for exact-head hosted verification and authorized narrow deployment.
-
-
-
-
 
 ### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
 
@@ -447,33 +438,6 @@ Plain-language summary: Added a manually operated, bounded way to retain SI sour
 - Final staged-tree audits and selected tests — started 2026-10-07T04:27:28.3671891Z, finished 2026-10-07T04:29:10.2997146Z, exit 0; 103/103; final metadata/workflow/route tests subsequently passed 72/72 before 2026-10-07T04:30:33.151Z.
 - Exact implementation commit 3292324d0c94613724ed537d74b0238ddf89ec52 was pushed to development. Hosted Self-Test 37571816849 job 112631911580 exposed unregistered package-lock.json; claim si-lockfile-route-repair-20261007 repaired its core path registration and added a push-boundary regression — started 2026-10-07T04:32:04.110Z, finished 2026-10-07T04:33:05.965Z, exit 0; 36/36 focused tests; original 13-path push validates under the repaired registry. Claim released 2026-10-07T04:33:05.965Z after verification. No runtime re-extraction or live queue action occurred.
 - Live boundary: no raw bundle/deploy credentials are available locally; manual workflow_dispatch is not registered until its file exists on the default branch. Do not deploy to main or rerun R2/live queues as a workaround. R3/R8 remain explicit release blockers.
-
-
-
-
-
-### Session: r2-isolated-failover-proof-20261006 — 2026-10-07T02:17:55.000Z — ChatGPT — mode:work
-
-Plain-language summary: Added a development-only R2 failover proof that cannot write the live candidate queue/store. It uses an isolated canary, interrupts only its isolated primary worker, and requires an already-running standby to reclaim the dead lock and finish without duplicates; R2 remains pending until hosted evidence passes.
-- Re-read current development governance, handoff, routing, scientific-learning policy/release state, durable-lock behavior and hosted proof boundary before mutation — started 2026-10-07T02:03:22.000Z, finished 2026-10-07T02:17:55.000Z, exit 0.
-- Added the isolated R2 failover runner and regression checks that refuse queue/store paths outside the proof root — started 2026-10-07T02:17:55.000Z, finished 2026-10-07T02:17:55.000Z, exit 0 implementation.
-- Added a separate read-only hosted R2 job with no production custody secrets; it retains bounded failover evidence and authorizes no promotion — started 2026-10-07T02:17:55.000Z, finished 2026-10-07T02:17:55.000Z, exit 0 implementation.
-- No production worker, queue, store, candidate, release gate, R9 state, main branch, or release branch was restarted, reset, or mutated by this implementation. Hosted proof run 37561452928 job 112599419837 passed: primary PID 2382 was reclaimed by the already-running standby after 30132ms, attempt 2 completed with two unique deterministic candidates, repeat processing was zero, and artifact 11457281245 records no production-state reference or write path. R2 is now passed; R3/R8 remain pending and R9 remains held.
-- Hosted AI handoff rejected the first commit because execution-mode wording omitted the required explicit separation from workflow; corrected the handoff wording and rebound the two-file governance follow-up without changing the R2 runner, production state, or gate semantics — started 2026-10-07T02:22:00.000Z, finished 2026-10-07T02:23:00.000Z, exit 0 correction.
-- Hosted Self-Test exposed a regression introduced by this change: `src/r2FailoverProof.js` was not assigned to a Crucible system, causing `circulationLinkage.test.js` to fail the fly-by-wire ownership invariant. Assigned it to the learning system; no production candidate, queue/store path, R2 evidence, or release gate was changed — started 2026-10-07T02:27:00.000Z, finished 2026-10-07T02:28:00.000Z, exit 0 repair pending hosted verification.
-- The first circulation repair was itself incomplete: exact-tip Self-Test at 67d4fe8 showed direct linkage increased from 57 to 59 through learning->digestive and learning->boundary. Corrected the architecture by placing r2FailoverProof in digestive and exposing lock inspection through ClaimExtractionWorker's already-existing durableLock dependency, so the proof adds no new cross-system cable — started 2026-10-07T02:30:39.000Z, finished 2026-10-07T02:33:15.000Z, exit 0 repair prepared.
-- Hardened the no-loss boundary at the same time: executable proof roots must be dedicated os.tmpdir children, ambient production queue/store/project/source-id environment variables are removed from proof children, and a pre-existing unrelated isolated candidate must retain the same digest after failover — started 2026-10-07T02:30:39.000Z, finished 2026-10-07T02:33:15.000Z, exit 0 repair prepared.
-- Released the stale R8 mutation claim without changing its code or claiming its hosted canary complete; the R8 obligation remains pending and resumable — started 2026-10-07T02:33:15.000Z, finished 2026-10-07T02:33:15.000Z, exit 0 governance reconciliation.
-- DEVLOG accountability correction: released mutation claim `r8-executable-quarantine-publisher-20261004` remains unfinished as an R8 hosted-canary obligation; only its stale exclusive lock was released, with no R8 code or gate-state change — started 2026-10-07T02:35:06.000Z, finished 2026-10-07T02:35:06.000Z, exit 0.
-- DEVLOG accountability correction: released mutation claim `repair-r2-circulation-boundary-20261006` records the completed six-file R2 circulation/isolation repair at f8aa9f6; exact-tip verification remains a separate evidence step — started 2026-10-07T02:35:06.000Z, finished 2026-10-07T02:35:06.000Z, exit 0.
-- DEVLOG accountability correction: released mutation claim `r2-devlog-accountability-repair-20261006` records this two-file governance-only taskId repair; no runtime, candidate, queue, store, or release-gate behavior changed — started 2026-10-07T02:35:06.000Z, finished 2026-10-07T02:35:06.000Z, exit 0.
-- Exact-tip strengthened R2 proof passed on reviewed SHA `1033806378cda18f53efc4b589867bc9cfb8c677`: run 37562741750 job 112603486637 reported disposableProofRoot true, productionStateWritable false, productionStateReferenced false, productionLearningEnvironmentInherited false, baselineCandidatePreserved true, primary PID 2193 reclaimed after 30194ms, attempt 2 complete, two unique deterministic candidate IDs, repeat 0; artifact 11457258905 retained — started 2026-10-07T02:36:11.000Z, finished 2026-10-07T02:36:45.000Z, exit 0 hosted proof.
-- Verified the R2-introduced circulation regressions are gone: exact-tip Self-Test scheduled tests pass and audit:circulation reports 57 direct edges with none added across Linux, macOS and Windows. CodeQL, AI handoff and AI conflict governance are green; remaining red checks are the pre-existing CRU-0006 security boundary and Windows R8/workflow-text issue — started 2026-10-07T02:36:05.000Z, finished 2026-10-07T02:39:18.000Z, exit 0 R2 regression verification.
-- Released mutation claim `r2-final-evidence-sync-20261006` after synchronizing the strengthened R2 evidence into the release plan/status. R3 and R8 remain pending, R9 remains held, and no promotion authority was created — started 2026-10-07T02:39:18.000Z, finished 2026-10-07T02:39:18.000Z, exit 0 evidence synchronization.
-
-
-
-
 
 
 ## Historical mutation accountability
@@ -614,3 +578,12 @@ Plain-language summary: The current provider and clean project-bound cache produ
 - R3 remains pending until a scheduled-origin discovery run; R9 remains held because R2-R8 are not simultaneously green; R11 remains owner authorization only. No main or Archive mutation occurred.
 
 - R8 receiver compatibility and authority review at 2026-10-11T21:59:51.069Z: preserved indexed wire format using unused chunk indices; no independent verifier code or receiver secret changed. Owner authorization requested for inbound-key synchronization and existing independent workflow dispatch.
+
+
+## Downstream Nexus implementation review - 2026-10-14
+
+The owner supplied a review describing Nexus desktop orchestration, AI Assist and Ship approval gates, project secrets and service management, audit/repair/test pipelines, Crucible learning-host controls, and exact-commit release/dependency verification. Preserve that review as owner-provided context, not independently verified current source or installed-runtime proof. The associated source-sharing URLs and evidence limits are recorded in `AI-HANDOFF.json.downstreamImplementationReview`.
+
+The requested queue covers exact-tip hosted validation, protected promotion, owner-reviewed security-alert closure, and production learning ingestion only after the independent gates pass. Crucible changes target literal `development`; downstream repository branch policies remain separate. Existing plans, original task ages, mutation claims, work ledger, custody and unfinished work remain authoritative. The review does not establish that all engineering implementation is complete.
+
+Current remediation observations: PR #42 was closed without merging because its main-to-development direction did not implement the requested documentation change. PR #36 was separately rebased by Dependabot to `77d955512d36282424c908418c6f8478cc18c11d`; its fresh checks remain red. PR #34 remains conflicted at development `d6c8257ccbc5c8c5b1a1f57bc75ab08182c7e776`. R8 executable-content proof and independent custody/governance gates remain unresolved. No promotion, intake, credential change or gate clearance is implied.

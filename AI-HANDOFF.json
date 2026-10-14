@@ -125,7 +125,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-13T04:15:53.629Z"
+    "lastActionAt": "2026-10-14T19:40:33.506Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -206,37 +206,36 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Implement and verify the owner-authorized NVIDIA-only model discovery, selection, retirement recovery, provenance and diagnostics on development; preserve prior custody/R8 continuation.",
-    "currentPrompt": "The failure details show a separate R8 blocker: missing executable-content quarantine proof. research this and resolve it.",
+    "objective": "Publish additive downstream Nexus review and owner-directed continuing PR monitoring requirement, preserving existing custody and unfinished work.",
+    "currentPrompt": "Put the downstream Nexus review into DEVLOG.md and AI-HANDOFF.json on development.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
-      "purpose": "Resume returned custody and repair R8 executable refusal with independent proof",
-      "selectionReason": "Existing owner-authorized actual command/file/repository continuation",
-      "distinction": "Execution mode is separate from agent identity and workflow."
+      "purpose": "Execute bounded repository documentation remediation and exact-head PR verification.",
+      "selectionReason": "Multi-file governed change, claim handoff and hosted CI diagnosis.",
+      "distinction": "Execution mode is separate from agent identity and GitHub workflow."
     },
     "taskRouting": {
       "category": "crucible-core",
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
+      "reason": "Project context selects crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-13T04:12:49.925Z",
-      "promptSha256": "3cfbffea63ead510d11dcfe04484b595acce650fed394cbac03934ad7fa49b5c",
-      "affectedPathsSha256": "31146d5ca752b6c7b846d478cb9e185d6e0ed52987a5b9413118fcd132b27bdc"
+      "selectedAt": "2026-10-14T19:38:02.518Z",
+      "promptSha256": "4a9e5e5fc55a8f038ba04ff1a0d9fecbbe4e2c995b5890491dbbaca711552dad",
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
-      "Preserve existing dirty preimages and record authorized bounded handoff",
-      "Apply six pinned NVIDIA paths through ready prewrite route",
-      "Run native component/integration/governance checks",
-      "Publish only NVIDIA changes and atomic governance; verify exact-tip CI",
-      "Record live acceptance limitations, return bounded ownership, checkpoint unfinished custody/R3/R8"
+      "Record explicit two-file handoff and preserve original custody scope/history.",
+      "Append attributed downstream review and record continuing responsibility for PR checks and authorized repairs.",
+      "Run focused governance checks and required pre-push verification.",
+      "Publish only development and verify exact-head hosted checks; retain PR34 conflicts, R8 and credential blockers."
     ],
     "status": "handoff-ready",
-    "startedAt": "2026-10-08T04:07:39.980600Z",
-    "lastUpdatedAt": "2026-10-13T04:15:53.629Z",
-    "currentStep": "Verify separate encrypted RAW/VETTED copies and restore bindings, publish default-off fixed-recipient key transfer, then owner-authorized receiver synchronization and independent R8 proof.",
+    "startedAt": "2026-10-14T19:37:18.314Z",
+    "lastUpdatedAt": "2026-10-14T19:40:33.506Z",
+    "currentStep": "Additive documentation implemented;48focused tests and coordination audit passed; publishing and exact-head hosted checks pending.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -246,8 +245,6 @@
         "model": null
       },
       "mutationScope": [
-        "AI-HANDOFF.json",
-        "DEVLOG.md",
         "src/ownerFileTransport.js",
         "test/ownerFileTransport.test.js",
         ".github/workflows/owner-file-intake.yml",
@@ -309,7 +306,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Exact development tip is 621f9c3ed64a61e35eacd2710c1410cf401d1ec0. Hosted exact-tip Self-Test 38113258822 completed successfully across all 9 matrix jobs with repository security report 0 issues; CodeQL 38113258781, AI handoff 38113258774, AI conflict 38113258746, sync 38113258828, and locked-monitor block 38113258787 are successful. Durable learning proof 38113258786 job 114393015392 failed closed because the restored real corpus has no live executable-content refusal; it explicitly reports R4-R7 satisfied and R8 pending. R3 remains pending scheduled-origin evidence, R9 remains held, R10 is not all-green, and R11 remains unauthorized. Main and Archive are untouched.",
+    "verificationStatus": "48focused local governance tests passed. No release, runtime, R8 or hosted success claim.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -409,7 +406,7 @@
         "owner": "owner-or-custody-administrator"
       }
     ],
-    "nextAction": "Integrate tested proposal and verify all required gates; never restart R2, clear live locks or promote evidence.",
+    "nextAction": "Verify and publish only the two handed-off documentation files; monitor resulting exact-head checks.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -1474,6 +1471,70 @@
         "freshPolicySession": "unverified separately from static integrity",
         "promotion": "not authorized or performed"
       }
+    },
+    "downstreamReviewPriorState": {
+      "agent": "Codex",
+      "objective": "Implement and verify the owner-authorized NVIDIA-only model discovery, selection, retirement recovery, provenance and diagnostics on development; preserve prior custody/R8 continuation.",
+      "currentPrompt": "The failure details show a separate R8 blocker: missing executable-content quarantine proof. research this and resolve it.",
+      "executionMode": {
+        "mode": "work",
+        "agent": "Codex",
+        "purpose": "Resume returned custody and repair R8 executable refusal with independent proof",
+        "selectionReason": "Existing owner-authorized actual command/file/repository continuation",
+        "distinction": "Execution mode is separate from agent identity and workflow."
+      },
+      "taskRouting": {
+        "category": "crucible-core",
+        "repositoryId": 1344890806,
+        "repository": "6076446993/The-Crucible",
+        "branch": "development",
+        "reason": "Affected paths select crucible-core.",
+        "explicitOverride": false,
+        "selectedAt": "2026-10-13T04:12:49.925Z",
+        "promptSha256": "3cfbffea63ead510d11dcfe04484b595acce650fed394cbac03934ad7fa49b5c",
+        "affectedPathsSha256": "31146d5ca752b6c7b846d478cb9e185d6e0ed52987a5b9413118fcd132b27bdc"
+      },
+      "steps": [
+        "Preserve existing dirty preimages and record authorized bounded handoff",
+        "Apply six pinned NVIDIA paths through ready prewrite route",
+        "Run native component/integration/governance checks",
+        "Publish only NVIDIA changes and atomic governance; verify exact-tip CI",
+        "Record live acceptance limitations, return bounded ownership, checkpoint unfinished custody/R3/R8"
+      ],
+      "status": "handoff-ready",
+      "startedAt": "2026-10-08T04:07:39.980600Z",
+      "lastUpdatedAt": "2026-10-13T04:15:53.629Z",
+      "currentStep": "Verify separate encrypted RAW/VETTED copies and restore bindings, publish default-off fixed-recipient key transfer, then owner-authorized receiver synchronization and independent R8 proof.",
+      "nextAction": "Integrate tested proposal and verify all required gates; never restart R2, clear live locks or promote evidence.",
+      "verificationStatus": "Exact development tip is 621f9c3ed64a61e35eacd2710c1410cf401d1ec0. Hosted exact-tip Self-Test 38113258822 completed successfully across all 9 matrix jobs with repository security report 0 issues; CodeQL 38113258781, AI handoff 38113258774, AI conflict 38113258746, sync 38113258828, and locked-monitor block 38113258787 are successful. Durable learning proof 38113258786 job 114393015392 failed closed because the restored real corpus has no live executable-content refusal; it explicitly reports R4-R7 satisfied and R8 pending. R3 remains pending scheduled-origin evidence, R9 remains held, R10 is not all-green, and R11 remains unauthorized. Main and Archive are untouched."
+    },
+    "downstreamReview": {
+      "taskId": "downstream-nexus-review-20261014",
+      "scope": [
+        "DEVLOG.md",
+        "AI-HANDOFF.json"
+      ],
+      "holderClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
+      "handoffIssuedAt": "2026-10-14T19:30:39.1222600Z",
+      "recipientThread": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330",
+      "status": "implemented-local",
+      "broaderPlan": "All other activePlan fields, downstreamReviewPriorState, historical custody continuation and workLedger remain preserved.",
+      "ownership": {
+        "currentClaim": "downstream-nexus-review-20261014",
+        "ownerThread": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330",
+        "paths": [
+          "DEVLOG.md",
+          "AI-HANDOFF.json"
+        ],
+        "broaderCustodyClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011"
+      },
+      "localVerification": {
+        "focusedTests": 48,
+        "failed": 0,
+        "coordination": "passed after fetching existing origin/Archive accountability reference",
+        "workLedgerPreserved": true,
+        "independentGatePass": false
+      }
     }
   },
   "handoffNotes": {
@@ -1494,7 +1555,8 @@
       "Added stable unfinished-work ledger including all 62 researched concepts; implemented handoff continuity/freshness gate and full-suite lifecycle correction.",
       "Published pipeline/devlog improvements at 53090052; new diagnosis step succeeded hosted. Replaced two CodeQL-flagged regex assertions with literal containment.",
       "Verified exact-tip CodeQL success on dfa1863; default owner-file intake workflow is present. Added oldest-request-first continuation ordering.",
-      "Owner-approved NVIDIA implementation and native registry wiring: 1101/1101 full tests, zero skipped; earlier negative receipts preserved."
+      "Owner-approved NVIDIA implementation and native registry wiring: 1101/1101 full tests, zero skipped; earlier negative receipts preserved.",
+      "2026-10-14 additive downstream review and PR completion/monitoring requirement implemented locally under explicit two-file holder handoff;48focused governance tests passed."
     ],
     "remaining": [
       "R8 executable-content quarantine proof remains pending in exact implementation run 38176245684; archive replacement does not satisfy scientific or promotion gates.",
@@ -1508,7 +1570,8 @@
       "R8 publisher was cancelled without jobs; full custody backup and runner readiness remain unresolved. Verify new exact-tip CodeQL and platform CI.",
       "Oldest tracked owner-file live intake from 2026-10-07 remains blocked on full authenticated custody backup and raw-key compatibility; default workflow registration is no longer assumed missing.",
       "NVIDIA exact-tip hosted CI, account-approved bounded live selection/retirement recovery and independent acceptance; automatic mode stays manual.",
-      "NVIDIA automatic mode remains held for independent Oversight/account entitlement; two earlier live negatives and listed-unprobed Muse retained. Original custody/R3/R8/R9 continuation unchanged."
+      "NVIDIA automatic mode remains held for independent Oversight/account entitlement; two earlier live negatives and listed-unprobed Muse retained. Original custody/R3/R8/R9 continuation unchanged.",
+      "Downstream review publication/exact-head checks, PR34 eleven-path merge reconciliation and independent R8/security gates remain separate; PR36 rebased77d9555 CI fails security-read/monitor credential boundaries and collision with PR34."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -2474,8 +2537,6 @@
       },
       "scope": {
         "paths": [
-          "AI-HANDOFF.json",
-          "DEVLOG.md",
           "src/ownerFileTransport.js",
           "test/ownerFileTransport.test.js",
           ".github/workflows/owner-file-intake.yml",
@@ -2523,7 +2584,84 @@
       "handedOffTo": null,
       "releasedAt": null,
       "resumeOf": "owner-file-transport-20261008",
-      "originalAcquiredAt": "2026-10-08T04:06:58.715Z"
+      "originalAcquiredAt": "2026-10-08T04:06:58.715Z",
+      "scopeHistory": [
+        {
+          "at": "2026-10-14T19:37:18.314Z",
+          "operation": "explicit-two-path-handoff",
+          "paths": [
+            "DEVLOG.md",
+            "AI-HANDOFF.json"
+          ],
+          "priorScope": {
+            "paths": [
+              "AI-HANDOFF.json",
+              "DEVLOG.md",
+              "src/ownerFileTransport.js",
+              "test/ownerFileTransport.test.js",
+              ".github/workflows/owner-file-intake.yml",
+              "src/circulationLinkage.js",
+              "src/testCadenceCoreLegacy.js",
+              "test/_testCadenceCore.js",
+              "governingDocuments/owner-file-transport.md",
+              "test/workflow.test.js",
+              "governingDocuments/known-bugs/KNOWN-BUGS.json",
+              "governingDocuments/owner-file-intake-release.json",
+              "governingDocuments/owner-file-intake-main-compatibility.patch",
+              "src/hostedSourceBundle.js",
+              "test/hostedSourceBundle.test.js",
+              ".github/workflows/self-test.yml",
+              "src/claimExtractionWorker.js",
+              "test/claimExtractionWorker.test.js",
+              "test/pdfTextExtraction.test.js",
+              "src/ciDiagnosticOrgan.js",
+              "test/ciDiagnosticOrgan.test.js",
+              ".github/workflows/hosted-learning-proof.yml",
+              "src/handoffPolicy.js",
+              "src/testLifecycle.js",
+              "test/handoffPolicy.test.js",
+              "test/testLifecycle.test.js",
+              "test/sourceBundleKeyAutomation.test.js",
+              "src/aiHandoffContinuation.js",
+              "test/aiHandoffContinuation.test.js",
+              ".github/workflows/hosted-source-bootstrap.yml",
+              "test/rawCustodyRebuildWorkflow.test.js",
+              "README.md",
+              ".github/workflows/raw-custody-publisher.yml",
+              "test/rawCustodyPublisher.test.js",
+              ".github/workflows/r8-executable-canary-publisher.yml",
+              "src/safeInformationRetrieval.js",
+              "test/safeInformationRetrieval.test.js",
+              "src/r8ExecutableCanaryPublisher.js",
+              "test/r8ExecutableCanaryPublisher.test.js",
+              "src/rawCustodyPublisher.js"
+            ],
+            "regions": []
+          },
+          "receiptSha256": "e2e58d5aca82ad8b3c11a75d1a79a30e411c7ae107d59c0133f3f972ee180386",
+          "toThread": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330"
+        }
+      ]
+    },
+    {
+      "taskId": "downstream-nexus-review-20261014",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330"
+      },
+      "scope": {
+        "paths": [
+          "DEVLOG.md",
+          "AI-HANDOFF.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-authorized additive downstream Nexus review and truthful documentation/session/route ownership bookkeeping only.",
+      "status": "active",
+      "acquiredAt": "2026-10-14T19:37:18.314Z",
+      "handedOffTo": null,
+      "releasedAt": null
     }
   ],
   "ownerDecisions": [
@@ -4136,5 +4274,62 @@
       }
     ],
     "continuationPolicy": "Oldest relevant unfinished request first. Preserve original request dates across status updates. Blocked older work stays first and its prerequisites are worked before newer improvements; unknown ages require triage rather than guessing."
+  },
+  "downstreamImplementationReview": {
+    "date": "2026-10-14",
+    "source": [
+      "https://chatgpt.com/share/6acfcab1-c0c0-83e8-9cc5-a9a7bdd00617",
+      "https://chatgpt.com/share/6acfcad0-77c8-83e8-9b09-9c2fd446ec6e",
+      "https://chatgpt.com/s/cx_6acfcaf26e1881918c3f71d3b471f66a",
+      "https://chatgpt.com/s/cx_6acfcb15b0e08191b23ce144ec4e366d",
+      "https://chatgpt.com/share/6acfcb29-f230-83ea-be12-38eaaa845cd4",
+      "https://chatgpt.com/share/6acfcb40-d670-83ea-ae74-4e83d5682af0"
+    ],
+    "summary": "Owner-supplied downstream Nexus implementation review, retained as review context. The linked shared-page text was exported in this chat; that export does not independently establish current Nexus source, installed runtime, release readiness or learning admission.",
+    "implemented": [
+      "Email-free, project-bound governance layer with conflict recording and protected branch behavior",
+      "Repository-independent quality gate and evidence-driven validation workflow",
+      "AI conflict ledger, handoff policy, and staged verification checkpoints",
+      "Learning-host controls with encrypted per-workspace identity and fail-closed readiness checks",
+      "Downstream repo integration with exact-commit and release-audit rules",
+      "Repository gate policies for dependency repair and operational verification"
+    ],
+    "remainingWork": [
+      "Complete exact-tip hosted validation on the final repair/promote commit",
+      "Finish the protected promotion flow without direct-main bypass",
+      "Close remaining GitHub security alerts through the owner-reviewed route",
+      "Finalize production learning-store ingestion only after successful evidence gates",
+      "Keep Crucible changes on literal development; preserve each downstream repository's own branch policy and record conflicts in AI-CONFLICTS.json before merge or release"
+    ],
+    "evidenceStatus": {
+      "implementedList": "Owner-provided characterization; not independently revalidated against Nexus source or runtime by this remediation task.",
+      "currentCrucibleHead": "d6c8257ccbc5c8c5b1a1f57bc75ab08182c7e776",
+      "currentCrucibleProof": "Run 38528846703 failed R8 executable-content proof. Self-Test 38528846762 failed OPS-0045 task routing; handoff run 38528846680 failed missing governance updates.",
+      "nativeIntegrationVerified": false,
+      "learningAdmissionReceipt": null,
+      "promotionAuthorized": false
+    },
+    "status": "Documentation proposal only; preserve existing active plan, claims, work ledger, custody and independent gates. This review does not establish that verification and closure are the only remaining engineering work."
+  },
+  "prCompletionPolicy": {
+    "source": "Direct owner instruction in remediation chat on 2026-10-14",
+    "exactInstruction": "if the development plan is going to open PR's it needs to monitor and fix them on its own",
+    "openingIsCompletion": false,
+    "requiredBehavior": [
+      "Keep responsibility for every PR opened by the plan; monitor required checks and review blockers on its exact current head.",
+      "On failure, read executed job/step evidence, distinguish code, credential, infrastructure, ownership and governance causes, and repair within already authorized scope.",
+      "Re-run relevant checks and continue until exact-head verification passes or a concrete authority, safety, credential or execution blocker is recorded.",
+      "Recheck live refs, original ownership and active runs before writes; use cheap change probes and never duplicate an active repair.",
+      "After failed Work, preserve checkpoint and retry after five minutes with authorization, safety and concurrency rechecks; a timer cannot bypass a blocker.",
+      "Keep independent gates, required reviews and protected promotion intact; no automatic main merge, credential widening or gate suppression."
+    ],
+    "completionEvidence": [
+      "exact PR head SHA",
+      "required checks and executed/skipped conclusions",
+      "review and mergeability state",
+      "implemented fix commit links",
+      "remaining blocker and next executable step"
+    ],
+    "executionStatus": "Requirement recorded in development plan; no new background monitor, schedule or workflow is created by this documentation change."
   }
 }
