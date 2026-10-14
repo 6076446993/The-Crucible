@@ -129,7 +129,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-14T19:53:48.114Z"
+    "lastActionAt": "2026-10-14T20:08:01.329Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -210,8 +210,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Reconcile PR34 development with read-only main input, preserving fail-closed controls, unique history and independent release gates.",
-    "currentPrompt": "Resolve conflicts on PR #34 (development→main). Re-run CI and fix any failing tests reported by the jobs.",
+    "objective": "Repair the independently reproduced retained DEVLOG reader buffer failure while preserving fail-closed accountability and protected promotion.",
+    "currentPrompt": "Re-run CI and fix any failing tests reported by the jobs.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -226,20 +226,20 @@
       "branch": "development",
       "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-14T19:48:28.749Z",
-      "promptSha256": "052d1b9aa61f466836abe27c7b24d6c31a47ebdf33f451f56b68a1adbd607d7b",
-      "affectedPathsSha256": "da5e6669b36349fe33c3b0ef52fd06ce28da6095c75b30dbe3639763be19f8df"
+      "selectedAt": "2026-10-14T20:01:54.278Z",
+      "promptSha256": "d625c25f67ccfc25e2ad04b2c54ff5995066a6ca725e8df84bff473f272066de",
+      "affectedPathsSha256": "544a6cc508aa65fb26c407cc396df147a66e97feb308b90018063110f3f0bab6"
     },
     "steps": [
-      "Inspect all11conflicts and three automatically merged input differences at pinned revisions.",
-      "Preserve stronger development custody/monitor/security/test controls and retain unique main records.",
-      "Run affected governance/security/workflow/repair tests and normal pre-push checks.",
-      "Publish development-only merge ancestry and monitor exact-head required checks; report R8/credential/ownership blockers without bypass."
+      "Reproduce real Archive overflow and preserve negative hosted/local receipts.",
+      "Add bounded reader and meaningful real-Git positive/negative regression.",
+      "Run focused tests and installed pre-push checks.",
+      "Publish development and monitor exact-head checks; preserve R8 and Dependabot credential/collision boundaries."
     ],
     "status": "handoff-ready",
     "startedAt": "2026-10-14T19:37:18.314Z",
-    "lastUpdatedAt": "2026-10-14T19:53:48.114Z",
-    "currentStep": "126affected local tests passed; two-parent reconciliation publication pending. R8 and PR36 credential/collision boundaries remain unresolved.",
+    "lastUpdatedAt": "2026-10-14T20:08:01.329Z",
+    "currentStep": "Reader repair and51focused tests passed locally; publication and hosted verification pending.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -312,7 +312,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "48documentation-focused and126reconciliation-focused local tests passed. The published f433e79 handoff/conflict/Archive checks passed; seven Self-Test matrix jobs passed, two macOS jobs failed historical-accountability visibility. Final merge-head hosted evidence pending.",
+    "verificationStatus": "Before-fix regression failed as expected;51focused tests passed after fix; real retained Archive now validates.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -412,7 +412,7 @@
         "owner": "owner-or-custody-administrator"
       }
     ],
-    "nextAction": "Test and publish development-only two-parent reconciliation; observe exact-head checks.",
+    "nextAction": "Publish bounded reader repair to development and check exact-head CI.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -1565,7 +1565,29 @@
       ],
       "verificationStatus": "48focused local governance tests passed. No release, runtime, R8 or hosted success claim."
     },
-    "mainReconciliationStatus": "Content reconciliation complete locally; source writes relinquished to original holder; development-only publication and exact-head monitoring pending."
+    "mainReconciliationStatus": "Content reconciliation complete locally; source writes relinquished to original holder; development-only publication and exact-head monitoring pending.",
+    "ciReaderPriorState": {
+      "objective": "Reconcile PR34 development with read-only main input, preserving fail-closed controls, unique history and independent release gates.",
+      "currentPrompt": "Resolve conflicts on PR #34 (development→main). Re-run CI and fix any failing tests reported by the jobs.",
+      "steps": [
+        "Inspect all11conflicts and three automatically merged input differences at pinned revisions.",
+        "Preserve stronger development custody/monitor/security/test controls and retain unique main records.",
+        "Run affected governance/security/workflow/repair tests and normal pre-push checks.",
+        "Publish development-only merge ancestry and monitor exact-head required checks; report R8/credential/ownership blockers without bypass."
+      ],
+      "taskRouting": {
+        "category": "crucible-core",
+        "repositoryId": 1344890806,
+        "repository": "6076446993/The-Crucible",
+        "branch": "development",
+        "reason": "Affected paths select crucible-core.",
+        "explicitOverride": false,
+        "selectedAt": "2026-10-14T19:48:28.749Z",
+        "promptSha256": "052d1b9aa61f466836abe27c7b24d6c31a47ebdf33f451f56b68a1adbd607d7b",
+        "affectedPathsSha256": "da5e6669b36349fe33c3b0ef52fd06ce28da6095c75b30dbe3639763be19f8df"
+      },
+      "verificationStatus": "48documentation-focused and126reconciliation-focused local tests passed. The published f433e79 handoff/conflict/Archive checks passed; seven Self-Test matrix jobs passed, two macOS jobs failed historical-accountability visibility. Final merge-head hosted evidence pending."
+    }
   },
   "handoffNotes": {
     "completed": [
@@ -1587,7 +1609,8 @@
       "Verified exact-tip CodeQL success on dfa1863; default owner-file intake workflow is present. Added oldest-request-first continuation ordering.",
       "Owner-approved NVIDIA implementation and native registry wiring: 1101/1101 full tests, zero skipped; earlier negative receipts preserved.",
       "2026-10-14 additive downstream review and PR completion/monitoring requirement implemented locally under explicit two-file holder handoff;48focused governance tests passed.",
-      "2026-10-14 PR34 all11conflicts and three auto-merge differences semantically reconciled with126affected tests passing. Four governing references and one main-only bug record retained. Original custody scope returned unchanged; exact-head hosted checks pending."
+      "2026-10-14 PR34 all11conflicts and three auto-merge differences semantically reconciled with126affected tests passing. Four governing references and one main-only bug record retained. Original custody scope returned unchanged; exact-head hosted checks pending.",
+      "2026-10-14 retained Archive reader ENOBUFS defect reproduced at1,176,257bytes; real-Git regression fails before fix and51focused checks pass after bounded reader fix. Exact-head hosted verification pending."
     ],
     "remaining": [
       "R8 executable-content quarantine proof remains pending in exact implementation run 38176245684; archive replacement does not satisfy scientific or promotion gates.",
@@ -2780,6 +2803,87 @@
             "regions": []
           },
           "reason": "Bounded content edits complete;126affected local tests pass. Publishing and exact-head checks are pending; no task, custody, security or release completion claim."
+        },
+        {
+          "at": "2026-10-14T20:01:58.091Z",
+          "operation": "explicit-ci-reader-two-document-handoff",
+          "paths": [
+            "DEVLOG.md",
+            "AI-HANDOFF.json"
+          ],
+          "priorScope": {
+            "paths": [
+              "AI-HANDOFF.json",
+              "DEVLOG.md",
+              "src/ownerFileTransport.js",
+              "test/ownerFileTransport.test.js",
+              ".github/workflows/owner-file-intake.yml",
+              "src/circulationLinkage.js",
+              "src/testCadenceCoreLegacy.js",
+              "test/_testCadenceCore.js",
+              "governingDocuments/owner-file-transport.md",
+              "test/workflow.test.js",
+              "governingDocuments/known-bugs/KNOWN-BUGS.json",
+              "governingDocuments/owner-file-intake-release.json",
+              "governingDocuments/owner-file-intake-main-compatibility.patch",
+              "src/hostedSourceBundle.js",
+              "test/hostedSourceBundle.test.js",
+              ".github/workflows/self-test.yml",
+              "src/claimExtractionWorker.js",
+              "test/claimExtractionWorker.test.js",
+              "test/pdfTextExtraction.test.js",
+              "src/ciDiagnosticOrgan.js",
+              "test/ciDiagnosticOrgan.test.js",
+              ".github/workflows/hosted-learning-proof.yml",
+              "src/handoffPolicy.js",
+              "src/testLifecycle.js",
+              "test/handoffPolicy.test.js",
+              "test/testLifecycle.test.js",
+              "test/sourceBundleKeyAutomation.test.js",
+              "src/aiHandoffContinuation.js",
+              "test/aiHandoffContinuation.test.js",
+              ".github/workflows/hosted-source-bootstrap.yml",
+              "test/rawCustodyRebuildWorkflow.test.js",
+              "README.md",
+              ".github/workflows/raw-custody-publisher.yml",
+              "test/rawCustodyPublisher.test.js",
+              ".github/workflows/r8-executable-canary-publisher.yml",
+              "src/safeInformationRetrieval.js",
+              "test/safeInformationRetrieval.test.js",
+              "src/r8ExecutableCanaryPublisher.js",
+              "test/r8ExecutableCanaryPublisher.test.js",
+              "src/rawCustodyPublisher.js"
+            ],
+            "regions": []
+          },
+          "receiptSha256": "a9aa169e28fe554e34cc476091854467c8c0c52da352e2d1f2142aed10d9e8a7",
+          "toThread": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330"
+        },
+        {
+          "at": "2026-10-14T20:04:35.491Z",
+          "operation": "return-ci-reader-documentation-loan",
+          "paths": [
+            "DEVLOG.md",
+            "AI-HANDOFF.json"
+          ],
+          "reason": "Bounded source/test edits and local verification complete; publication/hosted proof remain pending, and this does not complete R8 or the whole PR remediation task."
+        },
+        {
+          "at": "2026-10-14T20:07:25.788Z",
+          "operation": "continue-unpublished-reader-repair-after-fixture-privacy-refusal",
+          "paths": [
+            "DEVLOG.md",
+            "AI-HANDOFF.json"
+          ],
+          "reason": "Original scoped handoff remains pending successful publication; no published ownership return or competing writer."
+        },
+        {
+          "at": "2026-10-14T20:08:01.329Z",
+          "operation": "return-after-unpublished-fixture-privacy-correction",
+          "paths": [
+            "DEVLOG.md",
+            "AI-HANDOFF.json"
+          ]
         }
       ]
     },
@@ -2829,6 +2933,50 @@
       "acquiredAt": "2026-10-14T19:49:50.147Z",
       "handedOffTo": null,
       "releasedAt": "2026-10-14T19:53:48.114Z"
+    },
+    {
+      "taskId": "coordination-archive-reader-20261014",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330"
+      },
+      "scope": {
+        "paths": [
+          "DEVLOG.md",
+          "AI-HANDOFF.json",
+          "src/coordinationGate.js",
+          "test/devlogAccountability.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-authorized CI repair: bounded large Archive read and regression proof; no accountability relaxation, custody operation or main write.",
+      "status": "released",
+      "acquiredAt": "2026-10-14T20:01:58.091Z",
+      "releasedAt": "2026-10-14T20:04:35.491Z",
+      "handedOffTo": null
+    },
+    {
+      "taskId": "coordination-reader-fixture-20261014",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330"
+      },
+      "scope": {
+        "paths": [
+          "DEVLOG.md",
+          "AI-HANDOFF.json",
+          "src/coordinationGate.js",
+          "test/devlogAccountability.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Finish the same unpublished CI reader repair after privacy refused a synthetic Git fixture identifier; no detector relaxation.",
+      "status": "released",
+      "acquiredAt": "2026-10-14T20:07:25.788Z",
+      "releasedAt": "2026-10-14T20:08:01.329Z",
+      "handedOffTo": null
     }
   ],
   "ownerDecisions": [
@@ -4609,6 +4757,49 @@
       "holderClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
       "originalScopeRestored": true,
       "readOnlyMonitoringContinues": true
+    }
+  },
+  "ciArchiveReaderRepair": {
+    "taskId": "coordination-archive-reader-20261014",
+    "startingRevision": "a9a6e99a5bf007273592c0f52af8fe4928621e24",
+    "failedRuns": [
+      38627804918,
+      38627811204
+    ],
+    "observedArchive": {
+      "blob": "cfc234ee81007f28b3f797446c3d2b4c4ee3c102",
+      "bytes": 1176257,
+      "defaultRead": {
+        "status": null,
+        "error": "ENOBUFS"
+      },
+      "boundedRead": {
+        "status": 0,
+        "bytes": 1176257,
+        "maxBuffer": 268435456
+      }
+    },
+    "rootCause": "coordinationGate used default child-process stdout capacity and treated a failed retained-history read as empty history.",
+    "repair": "Use the same bounded256MiB output capacity as the existing Archive publisher; report spawn/read errors explicitly rather than interpreting them as empty history.",
+    "regression": "Real Git archive fixture over one MiB with required record after the buffer boundary: fails before fix, passes afterward. Missing record continues to refuse accountability.",
+    "localTests": {
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0
+    },
+    "hostedVerification": "pending for new exact commit",
+    "learningEvidence": {
+      "state": "PREPARED_NOT_SUBMITTED",
+      "authenticatedReceipt": null,
+      "reason": "Existing authenticated custody/intake prerequisites are not verified or widened by this source CI repair."
+    },
+    "independentGatePass": false,
+    "mainChanged": false,
+    "prePushNegative": {
+      "unpublishedCommit": "26a9cf365355444e8bb42d730ab8a52b033a59e2",
+      "gate": "privacy",
+      "result": "Synthetic email-shaped Git fixture identifier refused; replaced with non-email fixture identity. Detector unchanged;51focused checks passed again.",
+      "history": "Original unpublished object/source retained locally; only unpublished commit amended; no force-push or published history rewrite."
     }
   }
 }

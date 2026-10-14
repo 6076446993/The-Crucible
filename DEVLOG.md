@@ -256,6 +256,16 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: coordination-archive-reader-20261014 — 2026-10-14T20:01:58.091Z — Codex — mode:work
+
+Plain-language summary: Fixed a real CI accountability defect: the retained Archive exceeded the default process-output buffer and was incorrectly treated as empty history. Added a real-Git large-history regression and retained refusal of genuinely missing records. No accountability, credential, custody or release gate was weakened.
+
+- `route:prewrite` — started 2026-10-14T20:01:53.9291918Z, finished 2026-10-14T20:01:54.2914444Z, exit0; category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+- `node --test devlogAccountability mutationClaims handoffPolicy devlogPruneArchive` — started 2026-10-14T20:02:50.3125029Z, finished 2026-10-14T20:02:51.0960551Z, exit0;51passed, zero failed/skipped. Pre-fix real-Git regression failed as expected; negative missing-history refusal remains enforced.
+- `node ../record_reader_repair.cjs` — started 2026-10-14T20:04:35.491Z, finished 2026-10-14T20:04:35.497Z, exit0; retained exact buffer diagnosis and negative receipts, released coordination-archive-reader-20261014, and restored the original40-path holder scope/age. Publication and new exact-head hosted verification remain pending.
+
+- `Final51reader/claim/handoff/archive tests after removing synthetic email-shaped fixture` — started 2026-10-14T20:07:56.9408344Z, finished 2026-10-14T20:07:57.7196314Z, exit0;51passed. Released coordination-reader-fixture-20261014 and returned the original custody scope. The privacy pre-push detector refused the initial synthetic fixture identifier; its negative log is retained, the unnecessary identifier removed, and the detector unchanged.
+
 ### Session: pr34-reconciliation-20261014 — 2026-10-14T19:49:50.147Z — Codex — mode:work
 
 Plain-language summary: Reconciled every PR34 conflict against the pinned main input while preserving stronger development custody, monitoring, security and tests. Restored four missing governance references and retained the one main-only bug record; main, custody, credentials and release state were not changed.
@@ -394,33 +404,6 @@ Plain-language summary: Registered password-manager-safe human access and API-ke
 - `npm run route:prewrite -- --prompt ... --path governingDocuments/security-learning-techniques.json --path governingDocuments/cybersecurity-research-program.json --path governingDocuments/security-learning-pipeline.md --path governingDocuments/password-manager-entry.json --path AI-HANDOFF.json --path DEVLOG.md` — started 2026-10-09T19:39:16.982Z, finished 2026-10-09T19:39:17.695Z, exit 0.
 - Manifest, research-program, pipeline-document, non-secret password-manager specification, handoff and DEVLOG updates — started 2026-10-09T19:40:00.000Z, finished 2026-10-09T19:45:00.000Z, exit 0.
 - `node src/securityLearningCli.js queue` — started 2026-10-09T19:46:00.000Z, finished 2026-10-09T19:46:04.000Z, exit 1; existing durable-learning lock refused pending mutation with EPERM; no candidate records persisted.
-
-### Session: owner-file-transport-20261008 — 2026-10-08T04:08:22.129Z — Codex — mode:work
-
-Plain-language summary: The owner authorized taking over the intake repair and narrowly deploying its manual workflow. Integrated an encrypted owner-file request and candidate-preserving raw-custody import; no live sources or learned state were changed.
-
-- git fetch origin development main release; node src/taskRoutingCli.js prewrite; node src/coordinationCli.js claim — started 2026-10-08T04:05:43Z, finished 2026-10-08T04:08:22.129Z, exit 0.
-- npm ci --ignore-scripts; git apply tested proposal; synchronized organ ownership and test classification — started 2026-10-08T04:06:58Z, finished 2026-10-08T04:08:22.129Z, exit 0.
-- node --test test/ownerFileTransport.test.js; npm run lint:workflows; npm run audit:circulation — started 2026-10-08T04:07:00Z, finished 2026-10-08T04:08:22.129Z, exit 0 (6/6, 29 workflows, no new bypasses).
-- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
-- Full suite first failed 1005/1015: missing local javac plus stale route/publisher/historical-claim references. Repaired references and explicit publisher assertions; obtained genuine OpenJDK compiler in scratch, no tests skipped or weakened. Final full suite 1015/1015, zero skipped — started 2026-10-08T04:07:54Z, finished 2026-10-08T04:14:33.835Z, exit 0 after recorded failures.
-- precheck change-impact 181/181; validate/docs/workflow/coordination/failure/privacy/security/design/core-reference/AI-conflict/clutter/circulation checks passed — finished 2026-10-08T04:14:33.835Z, exit 0.
-- Preserved complete pre-prune DEVLOG to Archive:Devlog-Pruned in one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e — finished 2026-10-08T04:12:03Z, exit 0.
-- Orchestrator retests resolved both new local failure records KB-local-6074b04549 (90/90) and KB-local-65528d961d (13/13); original failures retained.
-- Hosted development run 37726684744 exposed one Windows CRLF assertion mismatch in test/workflow.test.js; normalized file line endings before the same permission assertions. Prepared main-based four-file registration manifest and explicit test-compatibility patch, 32/32; no broader development code is promoted.
-- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
-- Corrected development workflow assertions passed 37/37 against LF and CRLF. Corrected change-impact full selection passed 1015/1015 with the genuine JDK configured; initial missing JAVA_HOME rerun remains recorded in KB-local-65528d961d.
-- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
-- Hosted durable run 37726684743 independently restored unchanged queue 4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f and learning c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37; R2 passed, R8 remains pending executable-content.
-- Main-based narrow package full suite 932/932; generated failure retest 25/25, zero skipped. Corrected legacy registration-branch assertion to authorized release destination; local loopback test uses NODE_USE_ENV_PROXY=0 to avoid runner proxy interception. Package hashes bound to exactly six paths; no source-retrieval code or broader scientific delta included.
-- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
-- Hosted Windows Node 20 job 113147788226 exposed rejected-decryption EPERM in ownerFileTransport test during final workload. Corrected hostedSourceBundle to await actual reader/writer closure, require bounded plaintext removal, and fail closed if cleanup fails. Added eight real wrong-key cycles asserting immediate empty/removable directories; authentication checks unchanged.
-- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
-- Closed-descriptor/rejected-plaintext cleanup focused tests 16/16 and full change-impact 1016/1016, zero skipped; coordination/privacy/security/circulation/failure/commit checks passed — finished 2026-10-08T04:33:35.233Z, exit 0.
-- Windows Node 20 job 113150692015 and retry 113153462937 both passed actual tests/audits/precheck but the 10-minute whole-job wrapper cancelled required workload. Expanded only that scheduling envelope to 15 minutes; retained two workers/two cycles, identical commands/matrix/coverage and 4-minute per-command deadlines. No cancellation is credited as a pass.
-- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Project context selects crucible-core.
-- CI envelope compatibility passed workflow tests 37/37, full change-impact 1016/1016 and workflow/coordination/privacy/security/commit checks, zero skipped — finished 2026-10-08T04:58:38.545Z, exit 0.
-- Mutation claim owner-file-transport-20261008 remains active for exact-head hosted verification and authorized narrow deployment.
 
 
 ## Historical mutation accountability

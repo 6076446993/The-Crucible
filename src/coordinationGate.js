@@ -35,7 +35,16 @@ function coordinationGate(root) {
 
   const devlogPath = path.join(root, 'DEVLOG.md');
   const devlog = fs.existsSync(devlogPath) ? fs.readFileSync(devlogPath, 'utf8') : '';
-  const archiveResult = spawnSync('git', ['show', 'origin/Archive:Devlog-Pruned'], { cwd: root, encoding: 'utf8', shell: false });
+  // Full prune snapshots grow beyond Node's one-MiB default. Match the bounded
+  // reader used by devlogPruneArchive; an overflow is never an empty history.
+  const archiveResult = spawnSync('git', ['show', 'origin/Archive:Devlog-Pruned'], {
+    cwd: root, encoding: 'utf8', shell: false, maxBuffer: 256 * 1024 * 1024,
+  });
+  if (archiveResult.error) {
+    const rawCode = archiveResult.error.code || '';
+    const code = /^[A-Z0-9_]+$/.test(rawCode) ? rawCode : 'GIT_READ_ERROR';
+    throw operationalError('OPS-0035', `Retained DEVLOG archive could not be read (${code}); accountability cannot be verified.`);
+  }
   const archivedDevlog = archiveResult.status === 0 ? archiveResult.stdout : '';
   const accountability = auditDevlogAccountability({ devlog, archivedDevlog, claims });
   const record = [...accountability.findings, ...findFuturePlanning(devlog)];

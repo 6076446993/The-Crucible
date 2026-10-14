@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const {
   validateAccountabilityRecord, assertAccountabilityRecord,
   materialClaims, auditDevlogAccountability, findFuturePlanning,
@@ -126,4 +127,28 @@ test('retained Devlog-Pruned history satisfies accountability after inline DEVLO
   const archived = '## Snapshot: 2026-09-28T18:00:00Z — pruned by attended repair\n\nold-repair was completed and released.\n';
   const result = auditDevlogAccountability({ devlog: '# Development log\n', archivedDevlog: archived, claims });
   assert.deepEqual(result.findings, []);
+});
+
+test('coordination reads archived accountability larger than the default child-process buffer', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-large-accountability-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const git = (args, input) => execFileSync('git', ['-C', root, ...args], {
+    encoding: 'utf8', input, windowsHide: true,
+  }).trim();
+  git(['init', '--quiet']);
+  // The required record is beyond one MiB, so a truncated/empty read cannot pass.
+  const archive = `${'Historical session retained.\n'.repeat(50000)}\nlarge-history-repair completed and released.\n`;
+  const blob = git(['hash-object', '-w', '--stdin'], archive);
+  const tree = git(['mktree'], `100644 blob ${blob}\tDevlog-Pruned\n`);
+  const commit = git(['-c', 'user.name=Fixture', '-c', 'user.email=fixture',
+    'commit-tree', tree, '-m', 'Retain bounded accountability fixture']);
+  git(['update-ref', 'refs/remotes/origin/Archive', commit]);
+  fs.writeFileSync(path.join(root, 'DEVLOG.md'), '# Current development log\n');
+  const writeClaims = (taskId) => fs.writeFileSync(path.join(root, 'AI-HANDOFF.json'),
+    JSON.stringify({ schemaVersion: 1, mutationClaims: [claim(taskId, 'released')] }));
+  writeClaims('large-history-repair');
+  assert.equal(coordinationGate(root).accountable, 1);
+  writeClaims('missing-history-repair');
+  assert.throws(() => coordinationGate(root), (error) =>
+    error.operationalCode === 'OPS-0035' && /missing-history-repair/.test(error.message));
 });
