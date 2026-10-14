@@ -28,6 +28,7 @@ const crypto = require('node:crypto');
 const { readBundle, corroborationEntries, corroborationFunnel, corroboratedClaims } = require('./realCorpusLearning');
 const { semanticallyCorroborates } = require('./semanticCorroboration');
 const { sourceIndex, independent, factsFor } = require('./sourceIndependence');
+const { candidatePacket } = require('./evidencePacket');
 
 const MARKER = 'crucible-pipeline-tracer';
 const AT = '2026-01-01T00:00:00.000Z';
@@ -202,6 +203,14 @@ function tracePipeline({ root, projectId = 'tracer-project' }) {
     // Said in the artifact itself, because a diagnostic that reads like a proof is how a
     // diagnostic becomes one by accident.
     isEvidence: false, proofStageSatisfied: false, promotionAuthorized: false,
+    evidencePacket: candidatePacket({
+      id: `${MARKER}-evidence`, projectId, component: 'pipeline-tracer',
+      claim: 'The diagnostic packet reports stage behavior; it is not a learning or release proof.',
+      boundary: 'isolated tracer bundle only',
+      provenance: { sourceIds: packet.map((item) => item.id) },
+      observability: { traceId: `${MARKER}-${sha256(JSON.stringify(stages)).slice(0, 24)}`, eventCount: stages.length },
+      createdAt: AT,
+    }),
   };
 }
 

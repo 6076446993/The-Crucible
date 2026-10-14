@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const {
   validateAccountabilityRecord, assertAccountabilityRecord,
   materialClaims, auditDevlogAccountability, findFuturePlanning,
@@ -50,7 +51,7 @@ test('a record cannot claim a change it does not list, or list changes it says i
   assert.ok(validateAccountabilityRecord(record({ filesChanged: [] })).some((item) => /lists no filesChanged/.test(item)));
   assert.ok(validateAccountabilityRecord(record({ repositoryStateChanged: false })).some((item) => /says the repository did not change/.test(item)));
   assert.deepEqual(validateAccountabilityRecord(record({ repositoryStateChanged: false, filesChanged: [] })), []);
-  assert.throws(() => assertAccountabilityRecord(record({ provider: '' })), /required/);
+  assert.throws(() => assertAccountabilityRecord(record({ provider: '' })), (error) => error.operationalCode === 'OPS-0035');
 });
 
 test('only claims that actually had their turn need a DEVLOG record', () => {
@@ -96,11 +97,11 @@ test('the coordination gate refuses overlapping claims, missing records and pers
     { taskId: 'task-a', owner: { provider: 'openai', agent: 'a' }, scope: { paths: ['src/'] }, purpose: 'p', status: 'active', acquiredAt: '2026-09-03T17:00:00Z' },
     { taskId: 'task-b', owner: { provider: 'anthropic', agent: 'b' }, scope: { paths: ['src/a.js'] }, purpose: 'p', status: 'active', acquiredAt: '2026-09-03T17:00:00Z' },
   ] }, '# Development log\n');
-  assert.throws(() => coordinationGate(root), /Exclusive mutation ownership failed/);
+  assert.throws(() => coordinationGate(root), (error) => error.operationalCode === 'OPS-0029' && /Exclusive mutation ownership failed/.test(error.message));
 
   // A finished claim with nothing in the log stops the gate.
   write({ schemaVersion: 1, mutationClaims: [claim('ghost-task', 'released')] }, '# Development log\n');
-  assert.throws(() => coordinationGate(root), /must record/);
+  assert.throws(() => coordinationGate(root), (error) => error.operationalCode === 'OPS-0035');
 
   // A credential in a governance artifact stops the gate.
   write({ schemaVersion: 1, note: 'sk-ant-aaaaaaaaaaaaaaaaaaaaaaaa', mutationClaims: [] }, '# Development log\n');
@@ -118,4 +119,36 @@ test('the coordination gate refuses overlapping claims, missing records and pers
 test('this repository passes its own coordination gate', () => {
   const result = coordinationGate(path.join(__dirname, '..'));
   assert.ok(result.claims >= 0);
+});
+
+
+test('retained Devlog-Pruned history satisfies accountability after inline DEVLOG pruning', () => {
+  const claims = [claim('old-repair', 'released')];
+  const archived = '## Snapshot: 2026-09-28T18:00:00Z — pruned by attended repair\n\nold-repair was completed and released.\n';
+  const result = auditDevlogAccountability({ devlog: '# Development log\n', archivedDevlog: archived, claims });
+  assert.deepEqual(result.findings, []);
+});
+
+test('coordination reads archived accountability larger than the default child-process buffer', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-large-accountability-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const git = (args, input) => execFileSync('git', ['-C', root, ...args], {
+    encoding: 'utf8', input, windowsHide: true,
+  }).trim();
+  git(['init', '--quiet']);
+  // The required record is beyond one MiB, so a truncated/empty read cannot pass.
+  const archive = `${'Historical session retained.\n'.repeat(50000)}\nlarge-history-repair completed and released.\n`;
+  const blob = git(['hash-object', '-w', '--stdin'], archive);
+  const tree = git(['mktree'], `100644 blob ${blob}\tDevlog-Pruned\n`);
+  const commit = git(['-c', 'user.name=Fixture', '-c', 'user.email=fixture',
+    'commit-tree', tree, '-m', 'Retain bounded accountability fixture']);
+  git(['update-ref', 'refs/remotes/origin/Archive', commit]);
+  fs.writeFileSync(path.join(root, 'DEVLOG.md'), '# Current development log\n');
+  const writeClaims = (taskId) => fs.writeFileSync(path.join(root, 'AI-HANDOFF.json'),
+    JSON.stringify({ schemaVersion: 1, mutationClaims: [claim(taskId, 'released')] }));
+  writeClaims('large-history-repair');
+  assert.equal(coordinationGate(root).accountable, 1);
+  writeClaims('missing-history-repair');
+  assert.throws(() => coordinationGate(root), (error) =>
+    error.operationalCode === 'OPS-0035' && /missing-history-repair/.test(error.message));
 });

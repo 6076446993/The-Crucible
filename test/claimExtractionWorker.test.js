@@ -3,7 +3,48 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { cleanText, boundedAssertions, normalizedClaimSha256, ClaimExtractionWorker } = require('../src/claimExtractionWorker');
+const { cleanText, boundedAssertions, normalizedClaimSha256, ClaimExtractionWorker, AtomicClaimExtractionQueue } = require('../src/claimExtractionWorker');
+
+test('queue flush failure preserves original bytes and removes its unpublished temporary file', t => {
+  const { root, queueFile } = fixture(t, webSource());
+  const original = fs.readFileSync(queueFile);
+  const queue = new AtomicClaimExtractionQueue(queueFile, 'github:owner/repo');
+  const updated = queue.read(); updated.updatedAt = 'new generation';
+  assert.throws(() => queue.write(updated, { ...fs, fsyncSync() { throw new Error('disk flush failed'); } }), /disk flush failed/);
+  assert.deepEqual(fs.readFileSync(queueFile), original);
+  assert.deepEqual(fs.readdirSync(root), ['queue.json']);
+});
+
+test('queue replacement failure retains the prior queue and permits a subsequent successful write', t => {
+  const { root, queueFile } = fixture(t, webSource());
+  const original = fs.readFileSync(queueFile);
+  const queue = new AtomicClaimExtractionQueue(queueFile, 'github:owner/repo');
+  const updated = queue.read(); updated.updatedAt = 'new generation';
+  assert.throws(() => queue.write(updated, { ...fs, renameSync() { throw new Error('replace failed'); } }), /replace failed/);
+  assert.deepEqual(fs.readFileSync(queueFile), original);
+  assert.deepEqual(fs.readdirSync(root), ['queue.json']);
+  queue.write(updated);
+  assert.deepEqual(new AtomicClaimExtractionQueue(queueFile, 'github:owner/repo').read(), updated);
+});
+
+test('timed-out PDF window retains prior candidates, page cursor and retry state', t => {
+  const source = { ...webSource(), mediaType:'application/pdf', pages:4 };
+  const { root, queueFile } = fixture(t, source);
+  const worker = new ClaimExtractionWorker({ queueFile, projectId:'github:owner/repo', learningRoot:root, pdfPagesPerBatch:2,
+    extractText:() => 'A compiler returns a bounded representation of valid source code.' });
+  worker.run();
+  const before = worker.queue.read().documents[0];
+  const candidates = worker.store.read().candidateRecords;
+  worker.extractText = () => { throw new Error('PDF extraction timed out'); };
+  assert.equal(worker.run()[0].state, 'blocked');
+  const after = worker.queue.read().documents[0];
+  assert.equal(after.state, 'claim-extraction-forced-pending');
+  assert.equal(after.claimExtraction.nextPage, before.claimExtraction.nextPage);
+  assert.deepEqual(after.claimExtraction.candidateIds, before.claimExtraction.candidateIds);
+  assert.deepEqual(after.claimExtraction.windows, before.claimExtraction.windows);
+  assert.deepEqual(worker.store.read().candidateRecords, candidates);
+  assert.equal(fs.existsSync(worker.queue.lockFile), false);
+});
 
 function fixture(t, source) { const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-extract-')); t.after(()=>fs.rmSync(root,{recursive:true,force:true})); const queueFile=path.join(root,'queue.json'); fs.writeFileSync(queueFile,JSON.stringify({schemaVersion:1,projectId:'github:owner/repo',updatedAt:null,protocol:{},documents:source.mediaType==='application/pdf'?[source]:[],links:source.mediaType==='application/pdf'?[]:[source]})); return {root,queueFile}; }
 function webSource(){return {id:'linked-source:abc',url:'https://example.org/spec',finalUrl:'https://example.org/spec',durablePath:'unused',mediaType:'text/html',contentSha256:'a'.repeat(64),retrievedAt:'2026-08-30T20:00:00.000Z',author:'Example',license:'terms recorded',state:'claim-extraction-forced-pending',claimExtraction:{attempts:0,candidateIds:[]}};}

@@ -14,6 +14,7 @@ const {
   repositoryFromRemote,
   selectWorktree,
   changedPaths,
+  verifyArchiveLedgerPush,
 } = require('../src/taskRoutingCli');
 
 const registry = loadTaskRouting();
@@ -52,6 +53,16 @@ test('MCP and named provider integrations route to Plug-in', () => {
     assert.equal(result.branch, 'Plug-in', prompt);
   }
   assert.equal(classifyTask({ paths: ['chatgpt-mcp/server.js'] }, registry).branch, 'Plug-in');
+});
+
+test('root dependency security patches are registered core work at the push boundary', () => {
+  const paths = ['package-lock.json', 'AI-HANDOFF.json', 'DEVLOG.md'];
+  const prompt = 'Repair a locked core dependency advisory';
+  const decision = classifyTask({ prompt, paths }, registry);
+  assert.equal(decision.category, 'crucible-core');
+  const record = routingRecord(decision, { prompt, paths });
+  assert.equal(verifyRecordedDecision({ record, repositoryId, repository, branch: 'development', prompt, paths }, registry).ok, true);
+  assert.throws(() => verifyRecordedDecision({ record, repositoryId, repository, branch: 'Plug-in', prompt, paths }, registry), /does not match routed branch/);
 });
 
 test('explicit registered destination overrides automatic wording but cannot create a branch or write main', () => {
@@ -118,6 +129,26 @@ test('routing itself never authorizes branch creation or deletion', () => {
   assert.throws(() => changedPaths('0'.repeat(40), 'a'.repeat(40)), /OPS-0045.*new branch push/i);
 });
 
+test('the Archive exception accepts only the canonical one-file DEVLOG retention ledger', () => {
+  const accepted = verifyArchiveLedgerPush({ repository, branch: 'Archive', paths: ['Devlog-Pruned'], registry });
+  assert.deepEqual(accepted, {
+    ok: true,
+    status: 'archive-devlog-pruned-only',
+    repository,
+    branch: 'Archive',
+    paths: ['Devlog-Pruned'],
+  });
+  assert.equal(verifyArchiveLedgerPush({ repository, branch: 'development', paths: ['Devlog-Pruned'], registry }), null);
+  assert.throws(
+    () => verifyArchiveLedgerPush({ repository, branch: 'Archive', paths: ['Devlog-Pruned', 'README.md'], registry }),
+    /OPS-0045.*one-file Devlog-Pruned/i,
+  );
+  assert.throws(
+    () => verifyArchiveLedgerPush({ repository: 'other/The-Crucible', branch: 'Archive', paths: ['Devlog-Pruned'], registry }),
+    /OPS-0045.*not the canonical repository/i,
+  );
+});
+
 test('a durable route record carries category, stable destination, reason, and prompt/path digests', () => {
   const prompt = 'implement task routing';
   const paths = ['src/taskRouting.js', 'test/taskRouting.test.js'];
@@ -170,10 +201,10 @@ test('pre-write rerouting finds an attached branch or one unambiguous exact-tip 
 test('the checked-in active handoff records the same canonical route', () => {
   const handoff = JSON.parse(fs.readFileSync('AI-HANDOFF.json', 'utf8'));
   const record = handoff.activePlan.taskRouting;
-  assert.equal(record.category, 'crucible-r8-workflow-registration');
+  assert.equal(record.category, 'crucible-core');
   assert.equal(record.repositoryId, repositoryId);
-  assert.equal(record.repository, '6076446993/The-Crucible');
-  assert.equal(record.branch, 'r8-workflow-registration');
+  assert.equal(record.repository, repository);
+  assert.equal(record.branch, 'development');
   // The route has to be one the dispatcher decided, not a sentence someone wrote in passing.
   // The earlier assertion looked for the phrase "task-category dispatcher", which the dispatcher
   // never emits - it only ever passed because the reason had been hand-written, and it went red
@@ -182,10 +213,10 @@ test('the checked-in active handoff records the same canonical route', () => {
   // `ready` decision states which signal selected the category, in the dispatcher's own bounded
   // wording, and a recorded decision carries the hashes binding it to the exact prompt and
   // affected paths. A prose summary has neither.
-  assert.match(record.reason, new RegExp(`^(Affected paths select|Task wording selects|Project context selects|Explicit repository and branch instruction selected) ${record.repository}:${record.branch}\\.$`));
+  assert.match(record.reason, new RegExp(`^(Affected paths select|Task wording selects|Project context selects) ${record.category}\\.$`));
   assert.match(String(record.promptSha256 || ''), /^[a-f0-9]{64}$/);
   assert.match(String(record.affectedPathsSha256 || ''), /^[a-f0-9]{64}$/);
-  assert.equal(record.explicitOverride, true);
+  assert.equal(record.explicitOverride, false);
   // The binding is only worth anything if it binds to this file's own prompt.
   assert.equal(record.promptSha256, createHash('sha256').update(String(handoff.activePlan.currentPrompt || '')).digest('hex'));
 });

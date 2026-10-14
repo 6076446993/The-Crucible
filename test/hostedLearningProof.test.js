@@ -5,13 +5,29 @@ const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { ClaimExtractionWorker } = require('../src/claimExtractionWorker');
-const { harnesses, runHostedProof } = require('../src/hostedLearningProof');
+const { runHostedProof, restore, learningBinding, STATE_CONTEXT } = require('../src/hostedLearningProof');
+const { encryptWeeklyEnvelope } = require('../src/scientificLearning');
+const { harnessesForDeclaration } = require('../src/hostedExperimentHarnesses');
 
-test('hosted and local proofs can share one controlled harness definition', () => {
-  const pair = harnesses('2026-09-12T12:00:00.000Z');
-  assert.equal(pair.experiment.id, 'github-controlled-runner');
-  assert.equal(pair.verifier.id, 'github-independent-runner');
-  assert.notEqual(pair.experiment.id, pair.verifier.id);
+// This replaces an assertion that the two hardcoded harness ids differed - which was true, and
+// was the only thing separating a "controlled experiment" from its "independent verifier" while
+// both ran the same array-map closure. Two ids that differ is not independence, so what is
+// asserted now is that the pair differs in measurement method and that the closure is gone.
+test('the hosted proof resolves a real harness per language instead of one closure for every claim', () => {
+  const java = harnessesForDeclaration({ language: 'java' }, { projectId: 'github:owner/repo' });
+  assert.equal(java.experiment.id, 'jdk-compile-and-execute', 'the experiment executes the fixture');
+  assert.equal(java.verifier.id, 'jdk-compiler-tree', 'the verifier reads its source tree instead');
+  const javascript = harnessesForDeclaration({ language: 'javascript' }, { projectId: 'github:owner/repo' });
+  assert.equal(javascript.experiment.id, 'node-execute');
+  assert.equal(javascript.verifier.id, 'typescript-compiler-api');
+  // Different languages must not collapse onto one harness, which is exactly what made a Java
+  // claim testable by a JavaScript snippet.
+  assert.notEqual(java.experiment.id, javascript.experiment.id);
+  assert.throws(() => harnessesForDeclaration({ language: 'cobol' }, { projectId: 'github:owner/repo' }), /OPS-0054/);
+
+  const source = fs.readFileSync(path.join(__dirname, '..', 'src', 'hostedLearningProof.js'), 'utf8');
+  assert.doesNotMatch(source, /github-controlled-runner|github-independent-runner/, 'the hardcoded pair must stay deleted');
+  assert.doesNotMatch(source, /input\.map\(\(value\)=>value\*2\)/, 'the array-map closure must stay deleted');
 });
 
 const AT = '2026-08-31T21:00:00.000Z';
@@ -19,6 +35,27 @@ const PROJECT = 'github:owner/repo';
 const CLAIM = 'The map method returns a new array and does not modify the original array.';
 const SCOPE = 'Node.js ordinary dense arrays of numbers';
 const sha256 = (value) => crypto.createHash('sha256').update(value).digest('hex');
+
+test('retained weekly state migrates only from the exact pre-transfer Crucible binding',()=>{
+  const repository='6076446993/The-Crucible', ref='refs/heads/development';
+  const binding=learningBinding(repository,ref);
+  assert.equal(binding.projectId,'github:jonathanblunt1214-lgtm/The-Crucible');
+  assert.deepEqual(binding.migratedFrom,{projectId:binding.projectId,repository:'jonathanblunt1214-lgtm/The-Crucible',subject:'repo:jonathanblunt1214-lgtm/The-Crucible:ref:refs/heads/development'});
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'weekly-binding-migration-')); const file=path.join(root,'state.json'); const masterKey=Buffer.alloc(32,9);
+  const durableState={schemaVersion:1,projectId:binding.projectId,revision:1,checksum:'fixture'};
+  const payload={schemaVersion:1,projectId:binding.projectId,week:STATE_CONTEXT,candidateEvidence:[{durableState}],verifiedKnowledge:[]};
+  const legacy=encryptWeeklyEnvelope(payload,{masterKey,projectId:binding.projectId,repository:binding.migratedFrom.repository,week:STATE_CONTEXT,oidcSubject:binding.migratedFrom.subject});
+  fs.writeFileSync(file,JSON.stringify(legacy));
+  let written=null, read=false; const store={writeEnvelope:value=>{written=value;},read:()=>{read=true;}};
+  assert.equal(restore(store,file,masterKey,binding),true);
+  assert.deepEqual(written,durableState); assert.equal(read,true);
+
+  const foreign=learningBinding('6076446993/Nexus-',ref); written=null; read=false;
+  assert.throws(()=>restore(store,file,masterKey,foreign),/binding mismatch/);
+  const tampered={...legacy,tag:Buffer.alloc(16,1).toString('base64url')}; fs.writeFileSync(file,JSON.stringify(tampered));
+  assert.throws(()=>restore(store,file,masterKey,binding));
+  assert.equal(written,null); assert.equal(read,false);
+});
 
 // The restored real corpus, in exactly the shape hostedSourceBundle.stage() produces, with the
 // durable store filled by the real extraction worker reading the real document files. The
@@ -128,4 +165,40 @@ test('the hosted proof has no fixture fallback and stops when the corpus cannot 
   assert.equal(stopped.learnedFromRealCorpus, false);
   assert.deepEqual(stopped.gates.map((item) => item.state), ['unsatisfied', 'unsatisfied', 'unsatisfied', 'unsatisfied', 'unsatisfied']);
   assert.equal(stopped.authorizesPromotion, false);
+});
+
+// The run that first reached the end of this proof printed "passed R4-R8" and exited 0 while R8
+// was pending, because the completion line was attached to the promise resolving rather than to
+// the gates. A green check is the thing a reader trusts here, so this asserts the reporter cannot
+// produce one unless every gate it names is satisfied.
+test('the completion report cannot claim a pass while any gate is unsatisfied', () => {
+  const { reportCompletion } = require('../src/hostedLearningProof');
+  const said = [];
+  const log = (line) => said.push(line);
+
+  const pending = reportCompletion({ revision: 60, gates: [
+    { id: 'R4', state: 'satisfied' }, { id: 'R5', state: 'satisfied' }, { id: 'R6', state: 'satisfied' },
+    { id: 'R7', state: 'satisfied' }, { id: 'R8', state: 'pending' },
+  ] }, log, log);
+  assert.equal(pending, 1, 'one pending gate makes the run red');
+  const pendingText = said.join('\n');
+  // Anchored on the pass wording itself: the red line legitimately contains "not all satisfied".
+  assert.doesNotMatch(pendingText, /passed R4-R8|R4-R8 all satisfied/, 'nothing may read as a pass');
+  assert.match(pendingText, /R8 pending/, 'it names the gate that is not satisfied');
+  assert.match(pendingText, /retained artifact still carries the durable state/, 'a red run does not break the chain');
+
+  said.length = 0;
+  const all = reportCompletion({ revision: 61, gates: ['R4', 'R5', 'R6', 'R7', 'R8'].map((id) => ({ id, state: 'satisfied' })) }, log, log);
+  assert.equal(all, 0);
+  assert.match(said.join('\n'), /R4-R8 all satisfied at revision 61/);
+  assert.match(said.join('\n'), /authorizes no promotion/, 'passing every gate is still not authorization');
+
+  // An empty gate list is the absence of a measurement, not five passes.
+  said.length = 0;
+  assert.equal(reportCompletion({ revision: 62, gates: [] }, log, log), 1);
+  assert.match(said.join('\n'), /no gate was reported at all/);
+
+  // And the unconditional line is gone from the source, not merely unreachable.
+  const source = fs.readFileSync(path.join(__dirname, '..', 'src', 'hostedLearningProof.js'), 'utf8');
+  assert.doesNotMatch(source, /durable learning proof passed R4-R8/);
 });

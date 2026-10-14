@@ -44,14 +44,14 @@ test('refuses copied internal config in CI when the actual repository identity i
   const root = repository();
   assert.throws(() => repairInternalChecks(root, config(), {
     environment: { GITHUB_ACTIONS: 'true', GITHUB_REPOSITORY: 'someone-else/copied-crucible' },
-  }), /GITHUB_REPOSITORY "jonathanblunt1214-lgtm\/The-Crucible"/);
+  }), /GITHUB_REPOSITORY "6076446993\/The-Crucible"/);
 });
 
 test('refuses to run in CI when the actual repository identity is unavailable', () => {
   const root = repository();
   assert.throws(() => repairInternalChecks(root, config(), {
     environment: { GITHUB_ACTIONS: 'true' },
-  }), /GITHUB_REPOSITORY "jonathanblunt1214-lgtm\/The-Crucible"/);
+  }), /GITHUB_REPOSITORY "6076446993\/The-Crucible"/);
 });
 
 test('fixes trailing whitespace and personal identifiers in the working copy without staging or committing', () => {
@@ -60,7 +60,7 @@ test('fixes trailing whitespace and personal identifiers in the working copy wit
   const personalEmail = ['jane.doe', 'gmail.com'].join('@');
   fs.writeFileSync(path.join(root, 'notes.txt'), `contact ${personalEmail} for details\n`);
   git(root, ['add', 'app.js', 'notes.txt']);
-  const result = repairInternalChecks(root, config(), { ref: '--cached' });
+  const result = repairInternalChecks(root, config(), { ref: '--cached', environment: {} });
   assert.deepEqual(result.changed.sort(), ['app.js', 'notes.txt']);
   assert.equal(fs.readFileSync(path.join(root, 'app.js'), 'utf8'), 'const value = 1;\n');
   assert.match(fs.readFileSync(path.join(root, 'notes.txt'), 'utf8'), /REDACTED_EMAIL/);
@@ -74,7 +74,7 @@ test('skips the commit-gate fix and explains why when targeting already-committe
   git(root, ['add', 'app.js']);
   git(root, ['commit', '-m', 'fixture']);
   const head = git(root, ['rev-parse', 'HEAD']).trim();
-  const result = repairInternalChecks(root, config(), { ref: head });
+  const result = repairInternalChecks(root, config(), { ref: head, environment: {} });
   assert.match(result.skipReason, /Commit Gate auto-fix only applies to staged working-tree changes/);
 });
 
@@ -85,7 +85,7 @@ test('strips an unrecognized permissions key from this repository\'s own workflo
   fs.mkdirSync(path.join(root, 'templates'), { recursive: true });
   fs.writeFileSync(path.join(root, 'templates', 'caller-workflow.yml'), 'permissions:\n  contents: read\n  administration: read\n');
   git(root, ['add', '.']);
-  const result = repairInternalChecks(root, config(), { ref: '--cached' });
+  const result = repairInternalChecks(root, config(), { ref: '--cached', environment: {} });
   assert.ok(result.changed.includes('.github/workflows/the-crucible.yml'));
   assert.ok(result.changed.includes('templates/caller-workflow.yml'));
   assert.equal(result.removedPermissions.length, 2);
@@ -97,7 +97,7 @@ test('reports remaining issues that cannot be auto-fixed', () => {
   const root = repository();
   fs.writeFileSync(path.join(root, 'app.js'), '<<<<<<< ours\nconst value = 1;\n=======\nconst value = 2;\n>>>>>>> theirs\n');
   git(root, ['add', 'app.js']);
-  const result = repairInternalChecks(root, config(), { ref: '--cached' });
+  const result = repairInternalChecks(root, config(), { ref: '--cached', environment: {} });
   assert.ok(result.remaining.length > 0);
   assert.ok(result.remaining.every((item) => item.type === 'merge-conflict-marker'));
 });

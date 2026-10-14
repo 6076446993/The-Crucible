@@ -36,10 +36,6 @@
           "role": "release-staging",
           "access": "promotion-workflow-only"
         },
-        "r8-workflow-registration": {
-          "role": "owner-authorized protected workflow registration",
-          "access": "write"
-        },
         "main": {
           "role": "production",
           "access": "promotion-workflow-only"
@@ -52,13 +48,13 @@
     "AI-CONFLICTS.json",
     "AI-HANDOFF.json",
     "CLAUDE.md",
+    "CONSTITUTION.md",
     "DEVLOG.md",
     "README.md",
     "TASK-ROUTING.json",
     "package.json",
     ".githooks/pre-push",
     ".github/workflows/self-test.yml",
-    ".github/workflows/r8-executable-canary-publisher.yml",
     "src/circulationLinkage.js",
     "src/failureCodes.js",
     "src/taskRouting.js",
@@ -156,23 +152,6 @@
       "pathExact": []
     },
     {
-      "id": "crucible-r8-workflow-registration",
-      "label": "Owner-authorized R8 workflow registration",
-      "destination": {
-        "repositoryId": 1344890806,
-        "branch": "r8-workflow-registration"
-      },
-      "access": "write",
-      "promptTerms": [
-        "r8 workflow registration",
-        "r8 publisher registration"
-      ],
-      "pathPrefixes": [],
-      "pathExact": [
-        ".github/workflows/r8-executable-canary-publisher.yml"
-      ]
-    },
-    {
       "id": "crucible-core",
       "label": "Core engine, governance, testing, and learning",
       "destination": {
@@ -207,7 +186,8 @@
       "pathExact": [
         ".gitignore",
         ".thecrucible.json",
-        ".thecrucible.schema.json"
+        ".thecrucible.schema.json",
+        "package-lock.json"
       ]
     }
   ],

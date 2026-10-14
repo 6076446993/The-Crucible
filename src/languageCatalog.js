@@ -1,6 +1,23 @@
 const crypto=require('node:crypto');const fs=require('node:fs');const path=require('node:path');
 const sha=(value)=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const EXTENSIONS=Object.freeze({'.json':'json','.js':'javascript','.mjs':'javascript','.cjs':'javascript','.jsx':'react','.ts':'typescript','.tsx':'react','.py':'python','.java':'java','.c':'c','.h':'c','.cc':'cpp','.cpp':'cpp','.cxx':'cpp','.hpp':'cpp','.cs':'csharp','.ps1':'powershell','.psm1':'powershell','.sh':'shell','.bash':'shell','.html':'html','.htm':'html','.css':'css'});
+const LANGUAGE_CURRICULUM=Object.freeze({
+  javascript:{priority:'high',sources:['https://www.coursera.org/learn/web-development-fundamentals-html-css-javascript','https://www.coursera.org/learn/learn-javascript'],verificationFocus:['async-boundaries','input-validation','test-contracts']},
+  typescript:{priority:'high',sources:['https://www.coursera.org/learn/learn-typescript'],verificationFocus:['type-contracts','schema-drift','compile-time-negative-tests']},
+  python:{priority:'high',sources:['https://www.coursera.org/learn/data-structures','https://docs.djangoproject.com/en/6.1/intro/overview/'],verificationFocus:['dependency-boundaries','data-validation','restart-safety']},
+  java:{priority:'medium',sources:['https://www.coursera.org/learn/algorithms-part1'],verificationFocus:['algorithmic-complexity','memory-behavior','deterministic-fixtures']},
+  c:{priority:'medium',sources:['https://www.coursera.org/learn/writing-running-fixing-code'],verificationFocus:['native-memory','compiler-toolchain','negative-controls']},
+  cpp:{priority:'medium',sources:['https://www.coursera.org/learn/data-structures'],verificationFocus:['native-memory','resource-lifetime','compiler-toolchain']},
+  csharp:{priority:'medium',sources:['https://www.coursera.org/learn/c-sharp-programming-fundamentals-and-development-environment'],verificationFocus:['exception-boundaries','async-safety','dotnet-toolchain']},
+  powershell:{priority:'high',sources:['https://www.coursera.org/learn/apply-powershell-scripting-for-automation-and-projects','https://learn.microsoft.com/en-us/training/modules/script-with-powershell/'],verificationFocus:['command-injection','path-validation','error-propagation']},
+  shell:{priority:'high',sources:['https://www.coursera.org/learn/command-line-interfaces-and-scripting-clis'],verificationFocus:['shell-injection','quoting','exit-status-propagation']},
+  html:{priority:'medium',sources:['https://www.coursera.org/learn/web-development-fundamentals-html-css-javascript'],verificationFocus:['output-encoding','accessibility','secret-non-disclosure']},
+  css:{priority:'medium',sources:['https://www.coursera.org/learn/build-a-webpage-with-html-and-css'],verificationFocus:['content-boundaries','accessibility','safe-rendering']},
+  json:{priority:'high',sources:['https://www.coursera.org/learn/javascript-jquery-json','https://www.coursera.org/learn/web-data'],verificationFocus:['canonicalization','schema-validation','hash-integrity']},
+  react:{priority:'high',sources:['https://www.coursera.org/learn/frontend-development-using-react'],verificationFocus:['state-boundaries','api-authentication','render-safety']},
+  'react-native':{priority:'low',sources:['https://www.coursera.org/learn/react-native-course','https://reactnative.dev/docs/getting-started'],verificationFocus:['mobile-state','platform-parity','secure-storage']},
+  django:{priority:'medium',sources:['https://docs.djangoproject.com/en/6.1/intro/overview/'],verificationFocus:['csrf-authentication','orm-boundaries','migration-safety']}
+});
 const BASELINE_SUFFIXES=Object.freeze(['.edu']);const ESTABLISHED_SUFFIXES=Object.freeze(['.edu','.org','.gov']);
 function name(value){if(typeof value!=='string'||!/^[a-z][a-z0-9+#.-]{0,39}$/i.test(value))throw new Error('Language names must be bounded identifiers.');return value.toLowerCase();}
 function host(value){const checked=String(value).trim().toLowerCase().replace(/^\.+/,'');if(!checked||checked.includes('/')||checked.includes(':')||!checked.includes('.'))throw new Error('Denylist entries must be domain names.');return checked;}
@@ -15,7 +32,7 @@ class LanguageCapabilityCatalog{
   establish(language,verifiedKnowledgeIds){const checked=name(language);if(!Array.isArray(verifiedKnowledgeIds)||!verifiedKnowledgeIds.length||verifiedKnowledgeIds.some((item)=>typeof item!=='string'||!item))throw new Error('Verified baseline knowledge IDs are required.');const state=this.read();const entry=state.languages.find((item)=>item.id===checked);if(!entry)throw new Error('Language is not registered.');entry.state='established';entry.baselineVerifiedAt=this.now();entry.verifiedKnowledgeIds=[...new Set([...entry.verifiedKnowledgeIds,...verifiedKnowledgeIds])].sort();entry.researchSuffixes=[...ESTABLISHED_SUFFIXES];state.audit.push({at:this.now(),action:'baseline-established',language:checked,knowledgeIds:[...verifiedKnowledgeIds]});this.write(state);return structuredClone(entry);}
   addDeniedDomain(domain,{reason,source}){if(typeof reason!=='string'||!reason||typeof source!=='string'||!source)throw new Error('Denylist growth requires reason and source.');const checked=host(domain);const state=this.read();if(!state.denylist.some((item)=>item.domain===checked)){state.denylist.push({domain:checked,reason,source,addedAt:this.now()});state.denylist.sort((a,b)=>a.domain.localeCompare(b.domain));state.audit.push({at:this.now(),action:'domain-denied',domain:checked,reason,source});this.write(state);return{added:true,domain:checked};}return{added:false,domain:checked};}
   settings(){const state=this.read();return{languages:state.languages.map((item)=>item.id),denylist:state.denylist.map((item)=>item.domain)};}
-  researchScope(topic){const state=this.read();const entry=state.languages.find((item)=>item.researchTopics.includes(topic));if(!entry)throw new Error('Research topic is not governed by the language catalog.');return{language:entry.id,state:entry.state,trustedSuffixes:[...entry.researchSuffixes],deniedDomains:state.denylist.map((item)=>item.domain)};}
+  researchScope(topic){const state=this.read();const entry=state.languages.find((item)=>item.researchTopics.includes(topic));if(!entry)throw new Error('Research topic is not governed by the language catalog.');return{language:entry.id,state:entry.state,trustedSuffixes:[...entry.researchSuffixes],deniedDomains:state.denylist.map((item)=>item.domain),curriculum:structuredClone(LANGUAGE_CURRICULUM[entry.id]||{priority:'unclassified',sources:[],verificationFocus:[]}),candidateOnly:true,promotionAuthorized:false};}
 }
 class OrganismResearchController{
   constructor({catalog,researchFactory}){if(!catalog||typeof researchFactory!=='function')throw new Error('Catalog and research factory are required.');this.catalog=catalog;this.researchFactory=researchFactory;this.enabled=true;this.research=null;}
@@ -24,4 +41,4 @@ class OrganismResearchController{
   quarantineDomain(domain,evidence){return this.catalog.addDeniedDomain(domain,evidence);}
   async runDue(at){if(!this.enabled)return[{state:'inhibited',reason:'Research organ is inhibited.'}];if(!this.research)throw new Error('Research organ must synchronize before execution.');return this.research.runDue(at);}
 }
-module.exports={EXTENSIONS,BASELINE_SUFFIXES,ESTABLISHED_SUFFIXES,LanguageCapabilityCatalog,OrganismResearchController};
+module.exports={EXTENSIONS,LANGUAGE_CURRICULUM,BASELINE_SUFFIXES,ESTABLISHED_SUFFIXES,LanguageCapabilityCatalog,OrganismResearchController};

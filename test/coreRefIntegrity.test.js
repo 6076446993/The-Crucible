@@ -3,8 +3,9 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const { auditCoreRefIntegrity, formatReport, publishReport } = require('../src/coreRefIntegrity');
-const { normalizeBranchLinks, rewriteRecognizedReferences, rewriteReferenceManifest, auditReferenceBranch, governingPathsFromHandoff } = require('../src/referenceBranchIntegrity');
+const { normalizeBranchLinks, rewriteRecognizedReferences, rewriteReferenceManifest, auditReferenceBranch, governingPathsFromHandoff, makeGitAdapter } = require('../src/referenceBranchIntegrity');
 const { ensureInjectedGovernance, walkFiles } = require('../src/injectedGovernance');
 
 const SHA = 'a'.repeat(40);
@@ -158,6 +159,29 @@ test('automatic repair updates explicit reference-manifest paths without weakeni
   assert.equal(parsed.references[0].path, 'new.json');
   assert.deepEqual(parsed.references[0].contains, ['required']);
   assert.deepEqual(parsed.references[0].jsonPointers, ['/api']);
+});
+
+test('branch audit distinguishes executable test fixtures from operational references', () => {
+  const result = auditReferenceBranch({
+    branch: 'feature', repository: 'owner/repo',
+    files: ['test/coreRefIntegrity.test.js', 'tests/nested/fixture.test.ts', 'test/README.md', 'src/runtime.js'],
+    readBranchFile: (file) => file.endsWith('README.md') ? 'main:policy.md' : file.startsWith('src/') ? 'main:runtime.json' : 'main:missing-fixture.json',
+    readMainFile: () => null,
+    declaredReferences: ['declared.json']
+  });
+  assert.deepEqual(result.findings.map((item) => item.target).sort(), ['declared.json', 'policy.md', 'runtime.json']);
+});
+
+test('remote symbolic HEAD is not treated as a branch named origin', () => {
+  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-remote-head-'));
+  const git = (args) => execFileSync('git', args, { cwd, stdio: 'pipe' });
+  try {
+    git(['init']);
+    git(['-c', 'user.name=Test', '-c', 'user.email=git@github.com', 'commit', '--allow-empty', '-m', 'fixture']);
+    git(['update-ref', 'refs/remotes/origin/main', 'HEAD']);
+    git(['symbolic-ref', 'refs/remotes/origin/HEAD', 'refs/remotes/origin/main']);
+    assert.deepEqual(makeGitAdapter({ cwd }).listBranches(), ['main']);
+  } finally { fs.rmSync(cwd, { recursive: true, force: true }); }
 });
 
 test('injected governingDocuments always contain every canonical relative filename and handoff names them', () => {

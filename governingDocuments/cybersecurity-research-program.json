@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "evidenceStatus": "candidate-only",
+  "program": "Crucible cybersecurity progression",
+  "purpose": "A staged research program for foundational cybersecurity, advanced security engineering, and current standards. Sources guide hypotheses and controls; they are not proof or policy activation.",
+  "scope": "The existing Crucible pipeline and its project-bound repositories, workflows, custody stores, workers, dashboards, and release paths.",
+  "authoritativeSourcesReviewed": [
+    {
+      "authority": "NIST",
+      "title": "Key Management Guidelines (SP 800-57 family)",
+      "url": "https://csrc.nist.gov/Projects/Key-Management/Key-Management-Guidelines",
+      "observations": ["Protect key material and metadata against disclosure, substitution, and modification.", "Treat generation, storage, distribution, rotation, revocation, backup, and destruction as separate governed lifecycle functions."]
+    },
+    {
+      "authority": "NIST",
+      "title": "SP 800-63-4 Digital Identity Guidelines",
+      "url": "https://csrc.nist.gov/pubs/sp/800/63/4/2pd",
+      "observations": ["Bind authentication and federation to assurance, lifecycle, session, and privacy requirements."]
+    },
+    {
+      "authority": "OWASP",
+      "title": "Secrets Management Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+      "observations": ["Centralize storage, provisioning, auditing, rotation, and access control; scope CI/CD identities to only required secrets and services."]
+    },
+    {
+      "authority": "GitHub",
+      "title": "Actions Secure Use Reference",
+      "url": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "observations": ["Default GITHUB_TOKEN permissions to read-only, rotate secrets, keep actions current, and avoid granting automation pull-request approval authority."]
+    },
+    {
+      "authority": "GitHub",
+      "title": "Actions OpenID Connect Reference",
+      "url": "https://docs.github.com/en/actions/reference/security/oidc",
+      "observations": ["Use exact repository/ref/audience trust conditions and the minimum id-token permission when replacing long-lived cloud credentials."]
+    },
+    {
+      "authority": "GitHub",
+      "title": "Actions Secrets Reference",
+      "url": "https://docs.github.com/en/actions/reference/security/secrets",
+      "observations": ["Keep secret use within explicit repository or organization scope and do not treat secret names as proof of configured values."]
+    }
+  ],
+  "courseraEngineeringResearch": [
+    {
+      "id": "coding-assistant-review-and-verification",
+      "title": "Coding assistants with review, testing, and secure boundaries",
+      "courseSources": [
+        { "title": "Generative AI Coding Assistants for Developers", "url": "https://www.coursera.org/learn/generative-ai-coding-assistants-for-developers" },
+        { "title": "Software Development Practices", "url": "https://www.coursera.org/learn/software-development-practices-sdp" }
+      ],
+      "syllabusObservations": ["AI assistance is useful for suggestions, refactoring, debugging, documentation, testing, and collaborative review.", "Assistant output still requires human review, security checks, tests, provenance, and repository policy enforcement."],
+      "crucibleApplication": "Use assistants only as bounded proposal generators; require route checks, diff review, focused tests, security scans, exact-tip verification, and no credential or custody access.",
+      "developmentTests": ["Reject assistant-generated changes without tests or provenance", "Require secret and executable-content scans before retention", "Compare assistant proposal against the task boundary and changed-path route"]
+    },
+    {
+      "id": "systematic-debugging-and-bug-fixing",
+      "title": "Hypothesis-driven debugging and regression repair",
+      "courseSources": [
+        { "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "title": "Writing, Running, and Fixing Code in C", "url": "https://www.coursera.org/learn/writing-running-fixing-code" }
+      ],
+      "syllabusObservations": ["Use a scientific, hypothesis-driven workflow, profiling, observability, and structured root-cause analysis.", "A bug fix should be paired with a reproducer and regression test."],
+      "crucibleApplication": "Require deterministic reproduction, smallest safe repair, negative test, regression test, and exact failure/run lineage; never mask a failure by weakening a gate.",
+      "developmentTests": ["Reproduce a known bug before editing", "Require a failing test then a passing regression test", "Reject fixes that alter unrelated paths or suppress the original failure"]
+    },
+    {
+      "id": "performance-optimization-and-profiling",
+      "title": "Measured optimization and scalability",
+      "courseSources": [
+        { "title": "Performance Optimization and Scalability", "url": "https://www.coursera.org/learn/performance-optimization-and-scalability" },
+        { "title": "Data Structures and Performance", "url": "https://www.coursera.org/learn/data-structures-optimizing-performance" }
+      ],
+      "syllabusObservations": ["Optimization topics include profiling, caching, asynchronous work, scalability, query and code bottlenecks, and before/after comparison.", "AI suggestions for optimization must be measured rather than accepted by intuition."],
+      "crucibleApplication": "Add benchmark baselines and resource budgets only where a measured bottleneck exists; preserve correctness, security, determinism, and evidence custody.",
+      "developmentTests": ["Require reproducible before/after measurements", "Reject an optimization that regresses correctness, security, memory, or tail latency", "Verify cache invalidation and asynchronous failure handling"]
+    },
+    {
+      "id": "testing-strategy-and-regression",
+      "title": "Testing strategy, automation, and regression coverage",
+      "courseSources": [
+        { "title": "Software Testing and Automation", "url": "https://www.coursera.org/learn/software-testing-and-automation-sta" },
+        { "title": "Foundations of Software Testing and Validation", "url": "https://www.coursera.org/learn/foundations-of-software-testing-and-validation" },
+        { "title": "Practical Software Testing", "url": "https://www.coursera.org/learn/practical-software-testing" }
+      ],
+      "syllabusObservations": ["Use layered unit, integration, system, acceptance, security, performance, regression, smoke, mutation, and soak testing.", "Test plans and precise bug reports improve repeatability and historical traceability."],
+      "crucibleApplication": "Extend the existing focused-to-integration-to-broad cadence with claim-specific negative tests, regression coverage, mutation checks, and exact hosted evidence without weakening required checks.",
+      "developmentTests": ["Require every repair to add or reference a regression test", "Exercise negative, mutation, concurrency, soak, and rollback cases where the boundary warrants them", "Reject skipped required tests and stale exact-tip results"]
+    },
+    {
+      "id": "application-security-testing-and-debugging",
+      "title": "Application-security testing and secure bug repair",
+      "courseSources": [
+        { "title": "Application Security Testing and Debugging", "url": "https://www.coursera.org/learn/application-security-testing-and-debugging" }
+      ],
+      "syllabusObservations": ["Combines manual and automated security testing, attacker thinking, and systematic debugging.", "Security testing should be integrated into the delivery workflow rather than deferred to release."],
+      "crucibleApplication": "Route security findings into candidate learning with exact signatures, reproduction, remediation ownership, and verification; never turn a course claim into active policy.",
+      "developmentTests": ["Run security tests against changed boundaries", "Require a reproducible finding and a distinct verifier for remediation", "Preserve redacted evidence and reject unsupported security claims"]
+    }
+  ],
+  "generalCrucibleReview": {
+    "scope": ["coding assistant", "optimization", "bug fixing", "testing", "discovery", "retrieval", "extraction", "custody", "workers", "dashboard", "release"],
+    "findings": [
+      "Coding assistance should accelerate proposals, not authorize mutations.",
+      "Optimization must be measurement-led and must not trade away correctness, security, or provenance.",
+      "Bug fixing needs reproducible failure, bounded repair, regression evidence, and recurrence review.",
+      "Testing quality improves when claim-specific negative, regression, mutation, soak, and hosted exact-tip checks are explicit.",
+      "The same evidence contract should span discovery through release: exact inputs, bounded effects, redacted lineage, independent verification, and fail-closed behavior."
+    ],
+    "standardsForNextResearch": [
+      { "title": "SLSA v1.2 provenance and verification", "url": "https://slsa.dev/spec/v1.2/verifying-artifacts" },
+      { "title": "OpenTelemetry observability primer", "url": "https://opentelemetry.io/docs/concepts/observability-primer/" },
+      { "title": "OWASP Application Security Verification Standard", "url": "https://owasp.org/projects/asvs" },
+      { "title": "NIST Secure Software Development Framework", "url": "https://csrc.nist.gov/pubs/sp/800/218/final" }
+    ],
+    "candidateOnly": true,
+    "developmentTests": ["Trace one change from task route through test, hosted run, artifact provenance, and release decision", "Reject missing lineage or unauthorized cross-boundary writes", "Compare performance, reliability, security, and learning metrics before and after a bounded change"]
+  },
+  "philosophyAndGovernance": {
+    "evidenceStatus": "candidate-only",
+    "knowledgeIsPower": {
+      "principle": "Knowledge increases the ability to predict, coordinate, and act; it does not by itself establish truth, wisdom, permission, or moral authority.",
+      "crucibleApplication": "Require provenance, uncertainty, reproducibility, source independence, and scoped authorization before an observation can influence a governed action."
+    },
+    "powerCorruptsWithoutAccountability": {
+      "principle": "Concentrated authority without independent review, equal standards, dissent, or revocation creates incentives for self-justification and unchecked error.",
+      "crucibleApplication": "No worker, dashboard, verifier, or evidence packet may authorize its own promotion; retain independent verification, owner approval, kill-switch, rollback, and immutable audit lineage."
+    },
+    "designRule": "Knowledge may inform action; it may not authorize itself.",
+    "activationRequires": ["falsifiable hypothesis", "controlled reproduction", "negative and regression tests", "contradiction analysis", "distinct independent verification", "exact-tip hosted evidence", "owner authorization"]
+  },
+  "immediateImprovement": {
+    "id": "runtime-evidence-correlation",
+    "status": "candidate-research-only",
+    "description": "Make the existing evidence packet operational by correlating redacted runtime events across every component boundary with exact input/output digests, actor, status, failure reason, and rollback reference.",
+    "successMeasure": "A controlled failure produces one complete, secret-free trace from route through verification and rollback without granting promotion authority."
+  },
+  "architectureQualityContract": {
+    "status": "candidate-research-only",
+    "packetField": "architecture",
+    "requiredWhenReviewed": ["qualityAttributes", "tradeoffs", "threatModel", "stakeholders", "rollbackImpact"],
+    "principle": "Architecture decisions must expose quality trade-offs and ethical impact before implementation; no architecture packet grants promotion authority.",
+    "sources": [
+      { "authority": "Coursera", "title": "Introduction to Systems Architecture", "url": "https://www.coursera.org/learn/introduction-to-systems-architecture" },
+      { "authority": "Coursera", "title": "Software Architecture", "url": "https://www.coursera.org/learn/software-architecture" },
+      { "authority": "CMU Software Engineering Institute", "title": "Quality Attributes", "url": "https://www.sei.cmu.edu/library/quality-attributes/" },
+      { "authority": "IEEE/ACM", "title": "Software Engineering Code of Ethics", "url": "https://techethics.ieee.org/resources/ieee-frameworks/" },
+      { "authority": "NIST", "title": "Secure Software Development Framework", "url": "https://csrc.nist.gov/Projects/ssdf" }
+    ]
+  },
+  "furtherResearch": [
+    {
+      "id": "password-manager-human-access",
+      "title": "Password managers and protected human intervention",
+      "question": "How should Crucible protect operator dashboard and break-glass credentials while supporting password-manager autofill without exposing secrets to the pipeline?",
+      "sources": [
+        { "authority": "NIST", "title": "SP 800-63B digital identity guidance", "url": "https://pages.nist.gov/800-63-4/sp800-63b.html" },
+        { "authority": "NIST", "title": "SP 800-63B-4 implementation FAQs", "url": "https://pages.nist.gov/800-63-4-Implementation-Resources/faqs/" },
+        { "authority": "OWASP", "title": "Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" },
+        { "authority": "NIST", "title": "SP 800-57 Key Management Guidelines", "url": "https://csrc.nist.gov/Projects/Key-Management/Key-Management-Guidelines" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "api-key-lifecycle-management",
+      "title": "API-key and machine-identity lifecycle management",
+      "question": "How should Crucible issue, scope, rotate, revoke, audit and recover machine credentials without putting encryption keys or long-lived tokens into human workflows?",
+      "sources": [
+        { "authority": "OWASP", "title": "Secrets Management Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" },
+        { "authority": "IETF", "title": "RFC 9700 OAuth 2.0 Security Best Current Practice", "url": "https://datatracker.ietf.org/doc/html/rfc9700/" },
+        { "authority": "OWASP", "title": "REST Security Cheat Sheet", "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html" },
+        { "authority": "GitHub", "title": "Actions OpenID Connect Reference", "url": "https://docs.github.com/en/actions/reference/security/oidc" },
+        { "authority": "GitHub", "title": "Actions Secure Use Reference", "url": "https://docs.github.com/en/actions/reference/security/secure-use" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "runtime-observability-and-incident-response",
+      "title": "Runtime observability, incident response, and trace correlation",
+      "question": "How should Crucible correlate redacted runtime events across intake, retrieval, workers, custody, dashboards, and release checks while preserving secret-free evidence and rollbackability?",
+      "sources": [
+        { "authority": "Coursera", "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "authority": "OpenTelemetry", "title": "Observability primer", "url": "https://opentelemetry.io/docs/concepts/observability-primer/" },
+        { "authority": "NIST", "title": "Secure Software Development Framework", "url": "https://csrc.nist.gov/pubs/sp/800/218/final" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "distributed-concurrency-resilience",
+      "title": "Distributed systems, concurrency, and restart safety",
+      "question": "How should Crucible make queue, worker, lock, retry, and publication behavior idempotent and fail-closed under races, restarts, and partial writes?",
+      "sources": [
+        { "authority": "Coursera", "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "authority": "NIST", "title": "Secure Software Development Framework", "url": "https://csrc.nist.gov/pubs/sp/800/218/final" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "property-contract-mutation-testing",
+      "title": "Property, contract, mutation, and metamorphic testing",
+      "question": "Which generated, mutated, and contract-level tests expose boundary failures that example-based tests miss without weakening the required suite?",
+      "sources": [
+        { "authority": "Coursera", "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "authority": "OWASP", "title": "Application Security Verification Standard", "url": "https://owasp.org/projects/asvs" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "secure-supply-chain-provenance",
+      "title": "Secure software supply-chain provenance",
+      "question": "How should Crucible verify dependencies, actions, build provenance, and artifacts before any retention or release boundary?",
+      "sources": [
+        { "authority": "Coursera", "title": "Debugging & Testing for Software Delivery", "url": "https://www.coursera.org/learn/debugging-testing-for-software-delivery" },
+        { "authority": "SLSA", "title": "Artifact verification", "url": "https://slsa.dev/spec/v1.2/verifying-artifacts" },
+        { "authority": "GitHub", "title": "Actions secure use", "url": "https://docs.github.com/en/actions/reference/security/secure-use" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "power-accountability-and-human-factors",
+      "title": "Human factors, power concentration, and accountable automation",
+      "question": "How should Crucible prevent capable automation from becoming self-authorizing, suppressing dissent, or bypassing independent review and rollback?",
+      "sources": [
+        { "authority": "Monticello", "title": "Knowledge is power quotation analysis", "url": "https://www.monticello.org/encyclopedia/knowledge-power-quotation" },
+        { "authority": "Online Library of Liberty", "title": "Lord Acton on power and moral standards", "url": "https://oll.libertyfund.org/quotes/214" },
+        { "authority": "NIST", "title": "Zero Trust Architecture", "url": "https://csrc.nist.gov/pubs/sp/800/207/final" }
+      ],
+      "status": "candidate-research-only"
+    },
+    {
+      "id": "crucible-language-curriculum-and-toolchains",
+      "title": "Language-specific coding, runtime, and toolchain curriculum",
+      "question": "Which reputable language courses and official documentation should inform Crucible's language profiles, fixtures, security scanners, and independent experiment/verifier harnesses without treating course completion as proof?",
+      "languages": [
+        "javascript",
+        "typescript",
+        "python",
+        "java",
+        "c",
+        "c++",
+        "c#",
+        "powershell",
+        "shell",
+        "html",
+        "css",
+        "json",
+        "react",
+        "react-native",
+        "django"
+      ],
+      "priority": "high",
+      "courseSources": [
+        { "authority": "Coursera / University of Michigan", "title": "Web Development Fundamentals: HTML, CSS, and JavaScript", "url": "https://www.coursera.org/learn/web-development-fundamentals-html-css-javascript" },
+        { "authority": "Coursera / Scrimba", "title": "Learn JavaScript", "url": "https://www.coursera.org/learn/learn-javascript" },
+        { "authority": "Coursera", "title": "Learn TypeScript", "url": "https://www.coursera.org/learn/learn-typescript" },
+        { "authority": "Coursera / Princeton University", "title": "Algorithms, Part I", "url": "https://www.coursera.org/learn/algorithms-part1" },
+        { "authority": "Coursera / University of California San Diego", "title": "Data Structures", "url": "https://www.coursera.org/learn/data-structures" },
+        { "authority": "Coursera / Microsoft", "title": "C# Programming Fundamentals and Development Environment", "url": "https://www.coursera.org/learn/c-sharp-programming-fundamentals-and-development-environment" },
+        { "authority": "Coursera / Meta", "title": "React Native", "url": "https://www.coursera.org/learn/react-native-course" },
+        { "authority": "Coursera / University of Michigan", "title": "JavaScript, jQuery, and JSON", "url": "https://www.coursera.org/learn/javascript-jquery-json" },
+        { "authority": "Coursera / University of London", "title": "Data-driven websites: JSON, APIs and Templates", "url": "https://www.coursera.org/learn/web-data" },
+        { "authority": "Coursera", "title": "Command Line Interfaces and Scripting", "url": "https://www.coursera.org/learn/command-line-interfaces-and-scripting-clis" },
+        { "authority": "Coursera", "title": "Apply PowerShell Scripting for Automation and Projects", "url": "https://www.coursera.org/learn/apply-powershell-scripting-for-automation-and-projects" }
+      ],
+      "officialSources": [
+        { "authority": "Microsoft Learn", "title": "Introduction to scripting in PowerShell", "url": "https://learn.microsoft.com/en-in/training/modules/script-with-powershell/" },
+        { "authority": "Django", "title": "Django at a glance", "url": "https://docs.djangoproject.com/en/6.1/intro/overview/" },
+        { "authority": "React Native", "title": "Getting started", "url": "https://reactnative.dev/docs/getting-started" },
+        { "authority": "Microsoft Learn", "title": "Create and modify scripts by using Windows PowerShell", "url": "https://learn.microsoft.com/en-us/training/paths/create-modify-script-use-windows-powershell/" }
+      ],
+      "syllabusObservations": [
+        "Prioritize JavaScript and TypeScript because the active Crucible implementation is JavaScript-heavy and its typed interfaces, async behavior, and test contracts affect nearly every boundary.",
+        "Use Python and Java for extraction, data, and verifier tooling; use C, C++, and C# for native-toolchain, memory-safety, and cross-language fixture coverage.",
+        "Use PowerShell and shell for Windows/CI automation, but require explicit path handling, input validation, error propagation, signing, and fail-closed behavior.",
+        "Treat HTML, CSS, React, and React Native as dashboard/operator-surface skills, with accessibility, authentication boundaries, state handling, and no secret exposure.",
+        "Treat JSON as a data-contract and canonicalization skill, not as a general-purpose programming language; validate schemas, hashes, provenance, and rejection behavior.",
+        "Use Django as a Python web-stack profile only where a real service boundary exists; verify ORM, authentication, CSRF, migrations, and deployment behavior independently."
+      ],
+      "crucibleApplication": "Add course and official-document links as candidate research inputs to the existing pipeline; map each language to concrete fixture, scanner, compiler, parser, or verifier tests and retain the current no-substitution rule for unavailable harnesses.",
+      "developmentTests": [
+        "Verify every catalog profile has an explicit extension mapping, source-language fixture, and distinct experiment/verifier path before a claim can advance.",
+        "Reject a language-learning claim when the named compiler, runtime, parser, or harness is unavailable; never substitute another language.",
+        "Add negative tests for shell/PowerShell injection, JSON canonicalization and schema confusion, web authentication/CSRF boundaries, and native memory/FFI hazards where applicable.",
+        "Compare course-derived hypotheses against official language/runtime documentation and independent controlled tests before durable retention."
+      ],
+      "status": "candidate-research-only"
+    }
+  ],
+  "controlMappings": [
+    {
+      "techniqueId": "encrypted-recovery-custody",
+      "evidence": ["NIST SP 800-57 lifecycle separation and protection against substitution/modification", "OWASP centralized secret storage, audit, rotation, and scoped CI access"],
+      "developmentTests": ["Reject absent or mismatched key fingerprints before decrypt", "Verify rotation overlap and revocation without persisting plaintext", "Verify recovery metadata cannot substitute ciphertext or key identity"]
+    },
+    {
+      "techniqueId": "least-privilege-authentication",
+      "evidence": ["GitHub Secure Use default read-only token permissions", "GitHub OIDC exact subject/audience trust conditions"],
+      "developmentTests": ["Reject wrong repository/ref/audience/actor", "Reject workflows lacking only the exact permission required", "Verify no automation can approve or merge its own pull request"]
+    },
+    {
+      "techniqueId": "application-verification-and-auth-flow",
+      "evidence": ["NIST SP 800-63-4 authentication and federation lifecycle requirements", "GitHub OIDC claim binding"],
+      "developmentTests": ["Reject replayed, expired, wrong-origin, wrong-audience, and missing-state tokens", "Verify redacted audit output contains no credential or key value"]
+    },
+    {
+      "techniqueId": "secure-supply-chain-development",
+      "evidence": ["GitHub Secure Use guidance on action updates, token permissions, and workflow approval risk"],
+      "developmentTests": ["Pin action references and detect dependency drift", "Require exact-tip provenance and security checks before retention"]
+    }
+  ],
+  "phases": [
+    {
+      "id": "foundations",
+      "order": 1,
+      "learningFocus": ["threat modeling", "secure system design", "least privilege", "authentication and authorization", "web and network attack/defense", "auditability"],
+      "sources": [
+        { "authority": "MIT OpenCourseWare", "title": "Computer Systems Security 6.5660", "url": "https://ocw.mit.edu/courses/6-5660-computer-systems-security-spring-2024/" },
+        { "authority": "Stanford University", "title": "CS155 Computer and Network Security", "url": "https://cs155.stanford.edu/" },
+        { "authority": "MIT OpenCourseWare", "title": "Computer Systems Security 6.858", "url": "https://ocw.mit.edu/courses/6-858-computer-systems-security-fall-2014/pages/syllabus/" }
+      ],
+      "techniqueIds": ["threat-model-and-asset-inventory", "least-privilege-authentication", "audit-incident-readiness"]
+    },
+    {
+      "id": "advanced",
+      "order": 2,
+      "learningFocus": ["zero trust", "identity-tier policy", "secure software development", "software supply-chain security", "vulnerability feedback", "resilient recovery"],
+      "sources": [
+        { "authority": "NIST", "title": "SP 800-207 Zero Trust Architecture", "url": "https://csrc.nist.gov/pubs/sp/800/207/final" },
+        { "authority": "NIST", "title": "SP 800-207A Cloud-Native Zero Trust Access Control", "url": "https://csrc.nist.gov/pubs/sp/800/207/A/final" },
+        { "authority": "NIST", "title": "SP 800-218 Secure Software Development Framework", "url": "https://csrc.nist.gov/pubs/sp/800/218/final" }
+      ],
+      "techniqueIds": ["zero-trust-boundary", "custody-micro-segmentation", "secure-supply-chain-development", "vulnerability-management-feedback"]
+    },
+    {
+      "id": "modern-standards",
+      "order": 3,
+      "learningFocus": ["cybersecurity risk governance", "prioritized safeguards", "application verification", "OAuth security best current practice", "continuous detection and recovery"],
+      "sources": [
+        { "authority": "NIST", "title": "Cybersecurity Framework 2.0", "url": "https://www.nist.gov/cyberframework" },
+        { "authority": "Center for Internet Security", "title": "CIS Critical Security Controls v8.1", "url": "https://www.cisecurity.org/controls/v8-1" },
+        { "authority": "OWASP Foundation", "title": "Application Security Verification Standard", "url": "https://owasp.org/projects/asvs" },
+        { "authority": "IETF", "title": "RFC 9700 OAuth 2.0 Security Best Current Practice", "url": "https://datatracker.ietf.org/doc/html/rfc9700/" },
+        { "authority": "NIST", "title": "SSDF 1.2 project update (draft status)", "url": "https://csrc.nist.gov/projects/ssdf/publications" }
+      ],
+      "techniqueIds": ["encrypted-recovery-custody", "endpoint-media-control", "continuous-verification-kill-switch", "application-verification-and-auth-flow", "password-manager-human-access", "api-key-lifecycle-management"]
+    }
+  ],
+  "implementationContract": {
+    "existingPipelineNamePreserved": true,
+    "candidateOnly": true,
+    "activationRequires": ["project-bound durable custody", "falsifiable hypothesis", "controlled reproduction", "negative and regression tests", "contradiction analysis", "distinct independent verification", "exact-tip hosted evidence", "owner authorization"],
+    "promotionAuthorized": false
+  }
+}

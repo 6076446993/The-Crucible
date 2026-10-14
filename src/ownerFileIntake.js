@@ -4,6 +4,7 @@ const path = require('node:path');
 const { AtomicClaimExtractionQueue } = require('./claimExtractionWorker');
 const { extractPdfText } = require('./pdfTextExtraction');
 const { crucibleError , operationalError} = require('./failureCodes');
+const { candidatePacket } = require('./evidencePacket');
 
 const MEDIA_TYPES = Object.freeze({
   '.pdf': 'application/pdf',
@@ -72,7 +73,7 @@ function publishContentAddressed(source, destination) {
   }
 }
 
-function ownerRecord(source, destination, retrievedAt) {
+function ownerRecord(source, destination, retrievedAt, projectId) {
   const originalName = path.basename(source.file);
   return {
     id: `owner-file:${source.contentSha256}`,
@@ -89,6 +90,16 @@ function ownerRecord(source, destination, retrievedAt) {
     retrievedAt,
     classification: 'Insufficient Evidence',
     state: 'claim-extraction-forced-pending',
+    evidencePacket: candidatePacket({
+      id: `owner-file-evidence-${source.contentSha256.slice(0, 32)}`,
+      projectId,
+      component: 'owner-file-intake',
+      claim: `Owner-supplied source ${source.contentSha256} is candidate evidence only.`,
+      boundary: `source ${source.contentSha256}`,
+      provenance: { sourceIds: [`owner-file:${source.contentSha256}`], contentSha256: source.contentSha256 },
+      observability: { traceId: `owner-file-${source.contentSha256.slice(0, 24)}` },
+      createdAt: retrievedAt,
+    }),
     claimExtraction: {
       attempts: 0,
       candidateIds: [],
@@ -129,7 +140,7 @@ function ingestOwnerFiles({ queueFile, projectId, files, now = () => new Date().
       }
       const destination = path.join(root, `${source.contentSha256}${source.extension}`);
       publishContentAddressed(source, destination);
-      const record = ownerRecord(source, destination, retrievedAt);
+      const record = ownerRecord(source, destination, retrievedAt, projectId);
       current.documents.push(record);
       existingByHash.set(source.contentSha256, record);
       admitted.push({ input: source.file, contentSha256: source.contentSha256, sourceId: record.id, state: record.state, pages: record.pages });

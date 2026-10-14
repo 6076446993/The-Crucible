@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crucible key custody</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --panel:#151d33; --line:#2b3858; --text:#eef3ff; --muted:#9eaccb; --good:#49d39d; --warn:#ffca63; --bad:#ff7b88; --accent:#8da9ff; }
+    * { box-sizing:border-box; } body { margin:0; font:15px/1.5 Inter,Segoe UI,system-ui,sans-serif; background:linear-gradient(145deg,#0b1020,#111a2e 60%,#0b1020); color:var(--text); }
+    main { max-width:1120px; margin:0 auto; padding:42px 24px 64px; } header { display:flex; justify-content:space-between; gap:24px; align-items:flex-start; margin-bottom:30px; }
+    h1 { margin:0 0 8px; font-size:32px; letter-spacing:-.03em; } h2 { margin:0 0 10px; font-size:18px; } p { margin:6px 0; color:var(--muted); }
+    .eyebrow { color:var(--accent); text-transform:uppercase; letter-spacing:.14em; font-weight:700; font-size:12px; } .badge { border:1px solid #806d36; color:var(--warn); border-radius:999px; padding:8px 12px; white-space:nowrap; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; } .panel { background:rgba(21,29,51,.92); border:1px solid var(--line); border-radius:16px; padding:22px; box-shadow:0 18px 42px rgba(0,0,0,.18); }
+    .wide { grid-column:1/-1; } .metric { display:flex; justify-content:space-between; gap:18px; padding:11px 0; border-bottom:1px solid rgba(43,56,88,.6); } .metric:last-child { border-bottom:0; }
+    .label { color:var(--muted); } .value { text-align:right; font-weight:650; word-break:break-word; } .ok { color:var(--good); } .blocked { color:var(--bad); } .pending { color:var(--warn); }
+    code { background:#0a0f1c; border:1px solid var(--line); border-radius:7px; padding:2px 6px; color:#d9e2ff; } pre { white-space:pre-wrap; background:#0a0f1c; border:1px solid var(--line); border-radius:10px; padding:14px; overflow:auto; color:#d9e2ff; }
+    button { border:1px solid #6078c2; background:#263968; color:#fff; border-radius:9px; padding:10px 14px; cursor:pointer; font-weight:650; } button.secondary { background:transparent; border-color:var(--line); } button:focus-visible { outline:3px solid #b7c6ff; outline-offset:2px; }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; } .notice { border-left:3px solid var(--warn); padding:10px 14px; background:rgba(255,202,99,.08); color:#f9e8b8; } .scope { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; } .chip { border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:5px 10px; font-size:12px; } .chip.excluded { color:#ffabb3; border-color:#6d3946; }
+    @media (max-width:760px) { header { flex-direction:column; } .grid { grid-template-columns:1fr; } .wide { grid-column:auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div><div class="eyebrow">The Crucible · operator console</div><h1>Encrypted custody keys</h1><p>Manual intervention for raw and vetted bundle custody. Secret values never appear here.</p><div class="scope"><span class="chip">Raw intake</span><span class="chip">Oversight-vetted</span><span class="chip excluded">R8 excluded</span></div></div>
+      <div id="overall" class="badge">Loading status…</div>
+    </header>
+    <section class="grid">
+      <article class="panel"><h2>Raw intake key</h2><div id="raw">Loading…</div></article>
+      <article class="panel"><h2>Vetted custody key</h2><div id="vetted">Loading…</div></article>
+      <article class="panel wide"><h2>What requires attention</h2><div id="attention" class="notice">Checking the local preflight…</div><div class="actions"><button id="refresh">Refresh validation</button><button id="copy" class="secondary">Copy safe preflight command</button></div></article>
+      <article class="panel wide"><h2>Governed operator flow</h2><p>1. Register non-secret key ID and SHA-256 fingerprint in the key registry through development governance.</p><p>2. Store the matching 32-byte base64 secret in the repository Actions secret store.</p><p>3. Run the manual custody workflow. It fails closed before decrypt/re-encrypt if the values do not match.</p><pre id="command">node src/sourceBundleKeyManager.js preflight raw</pre></article>
+    </section>
+  </main>
+  <script>
+    const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const renderFamily = (data) => `<div class="metric"><span class="label">State</span><span class="value ${data.ok ? 'ok' : 'blocked'}">${data.ok ? 'Ready' : 'Blocked'}</span></div><div class="metric"><span class="label">Registered key ID</span><span class="value">${esc(data.keyId)}</span></div><div class="metric"><span class="label">Fingerprint</span><span class="value">${esc(data.fingerprint || 'not shown')}</span></div><div class="metric"><span class="label">Reason</span><span class="value">${esc(data.reason || 'Validated')}</span></div>`;
+    async function refresh() { const response = await fetch('/api/status', {cache:'no-store'}); const data = await response.json(); document.getElementById('raw').innerHTML=renderFamily(data.raw); document.getElementById('vetted').innerHTML=renderFamily(data.vetted); const ready=data.raw.ok&&data.vetted.ok; document.getElementById('overall').textContent=ready?'Custody ready':'Operator action required'; document.getElementById('overall').className=`badge ${ready?'ok':'pending'}`; document.getElementById('attention').textContent=ready?'Both key families passed local preflight. Hosted custody still requires the governed manual workflow.':`Custody is blocked: ${data.raw.ok?'':'raw intake '+data.raw.reason}${!data.raw.ok&&!data.vetted.ok?' · ':''}${data.vetted.ok?'':'vetted custody '+data.vetted.reason}`; }
+    document.getElementById('refresh').addEventListener('click', refresh); document.getElementById('copy').addEventListener('click', async () => { await navigator.clipboard.writeText(document.getElementById('command').textContent); document.getElementById('copy').textContent='Copied'; setTimeout(()=>document.getElementById('copy').textContent='Copy safe preflight command',1400); }); refresh().catch((error)=>{document.getElementById('attention').textContent=`Dashboard status unavailable: ${error.message}`;});
+  </script>
+</body>
+</html>

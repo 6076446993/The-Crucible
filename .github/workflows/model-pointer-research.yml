@@ -13,6 +13,11 @@ name: Daily governed model-pointer discovery
 
 on:
   workflow_dispatch:
+    inputs:
+      acceptance_only:
+        description: Owner-authorized isolated NVIDIA acceptance, maximum five inference calls; no activation or intake
+        type: boolean
+        default: false
   schedule:
     - cron: '45 11 * * *'
   # GitHub will not accept a workflow_dispatch for a workflow it has never registered, and it
@@ -41,15 +46,17 @@ concurrency:
 
 jobs:
   discover:
+    if: github.event_name != 'workflow_dispatch' || !inputs.acceptance_only
     name: Fill the candidate URL holding queue
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      CRUCIBLE_LEARNING_PROJECT_ID: github:jonathanblunt1214-lgtm/The-Crucible
-      CRUCIBLE_LEARNING_ROOT: .hosted-pointer-research
-      CRUCIBLE_SOURCE_QUEUE: .hosted-pointer-research/source-queue.json
+      CRUCIBLE_LEARNING_PROJECT_ID: github:6076446993/The-Crucible
+      CRUCIBLE_LEARNING_ROOT: .hosted-pointer-research-6076446993
+      CRUCIBLE_SOURCE_QUEUE: .hosted-pointer-research-6076446993/source-queue.json
       CRUCIBLE_DISCOVERY_MAX_QUERIES: '50'
       CRUCIBLE_DISCOVERY_PROVIDER: nvidia-nim
+      NVIDIA_NIM_MODEL_POLICY: 'manual' # Hold automatic selection until independent live acceptance.
       NVIDIA_NIM_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
       # The model id is pinned here, in version control, on purpose. Reading it from Secrets was
       # a mistake that cost a run: a model id is configuration rather than a credential, so
@@ -58,7 +65,7 @@ jobs:
       # ended its life on 2026-08-26 - so the id has to be somewhere a reviewer can read it,
       # diff it, and date it. Secrets is no longer consulted for it at all; a repository
       # variable still overrides this default, and it prints in the log the way this one does.
-      NVIDIA_NIM_MODEL: ${{ vars.NVIDIA_NIM_MODEL || 'nvidia/nemotron-3-nano-30b-a3b' }}
+      NVIDIA_NIM_MODEL: ${{ vars.NVIDIA_NIM_MODEL || 'z-ai/glm-5.3-flash' }}
       # The base URL stays readable from either tab: it is configuration too, but unlike the
       # model there is a working default in the registry, so a missing value is not a failure.
       NVIDIA_NIM_BASE_URL: ${{ vars.NVIDIA_NIM_BASE_URL || secrets.NVIDIA_NIM_BASE_URL }}
@@ -73,12 +80,14 @@ jobs:
       - name: Restore project-bound discovery state and holding queue
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
-          path: .hosted-pointer-research
-          key: model-pointer-research-${{ github.repository_id }}-${{ github.run_id }}
+          path: .hosted-pointer-research-6076446993
+          key: model-pointer-research-v3-${{ github.repository_id }}-${{ github.run_id }}
           restore-keys: |
-            model-pointer-research-${{ github.repository_id }}-
+            model-pointer-research-v3-${{ github.repository_id }}-
       - name: Install locked dependencies
         run: npm ci
+      - name: Verify governed NVIDIA selector and security regressions
+        run: node src/testCadence.js category security
       - name: Initialize the candidate-only holding queue
         run: npm run learning:pointer-research-init
       # Fails closed and names the exact missing variable, so an unconfigured provider is
@@ -92,22 +101,108 @@ jobs:
           set -euo pipefail
           npm run learning:pointer-research -- \
             'Android' 'JavaScript' 'HTML' 'CSS' 'Batchfile' 'PowerShell' 'Python' 'TypeScript' \
-            'Shell and Bash' 'C' 'C#' 'C++' 'Django' 'Java' 'React' 'React Native' \
-            | tee .hosted-pointer-research/latest-report.json
+            'Shell and Bash' 'C' 'C#' 'C++' 'Django' 'Java' 'React' 'React Native' 'Cybersecurity' \
+            | tee .hosted-pointer-research-6076446993/latest-report.json
       - name: Save project-bound discovery state and holding queue
         if: always()
         uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
-          path: .hosted-pointer-research
-          key: model-pointer-research-${{ github.repository_id }}-${{ github.run_id }}
+          path: .hosted-pointer-research-6076446993
+          key: model-pointer-research-v3-${{ github.repository_id }}-${{ github.run_id }}
       - name: Retain the bounded candidate holding report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: model-pointer-research-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            .hosted-pointer-research/latest-report.json
-            .hosted-pointer-research/automated-model-pointer-research.json
-            .hosted-pointer-research/source-queue.json
+            .hosted-pointer-research-6076446993/latest-report.json
+            .hosted-pointer-research-6076446993/automated-model-pointer-research.json
+            .hosted-pointer-research-6076446993/source-queue.json
+          if-no-files-found: error
+          retention-days: 30
+
+  nvidia-acceptance:
+    if: github.event_name == 'workflow_dispatch' && inputs.acceptance_only && github.ref == 'refs/heads/development'
+    name: Isolated bounded NVIDIA acceptance, no activation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      NVIDIA_NIM_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
+      NVIDIA_NIM_MODEL: ${{ vars.NVIDIA_NIM_MODEL || 'z-ai/glm-5.3-flash' }}
+      NVIDIA_NIM_BASE_URL: ${{ vars.NVIDIA_NIM_BASE_URL || secrets.NVIDIA_NIM_BASE_URL }}
+      NVIDIA_NIM_MAX_PROBES: '3'
+      CRUCIBLE_DISCOVERY_MAX_OUTPUT_TOKENS: '1024'
+      CRUCIBLE_DISCOVERY_REQUEST_TIMEOUT_MS: '90000'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Exercise live selection and a controlled retirement fault with a real alternate
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const crypto = require('node:crypto');
+          const { createProviderAdapter } = require('./src/aiProviderAdapters');
+          const { NvidiaModelAutoSelector, PROBE_PROMPT, urlPointers } = require('./src/nvidiaModelAutoSelector');
+          const report = { sourceRevision:process.env.GITHUB_SHA, requests:0, diagnostics:[], policyActivation:false,
+            maxInferenceCalls:5, maxOutputTokensPerCall:1024, maxSelectionProbes:3, maxRequestMs:90000,
+            productionStateChanged:false, paidFallback:false, freeEntitlementVerified:false,
+            retirementFault:'controlled HTTP 410 injection at adapter boundary, not a natural provider retirement',
+            independentOversight:'still required', authorizesActivation:false, authorizesPromotion:false };
+          const digest = value => crypto.createHash('sha256').update(String(value)).digest('hex');
+          const real = createProviderAdapter('nvidia-nim', { env:process.env, maxTokens:1024, timeoutMs:90000 });
+          const counted = { run:async request => {
+            if (report.requests >= 5) throw Error('Acceptance inference-call budget exhausted');
+            report.requests += 1;
+            return real.run(request);
+          } };
+          const selector = new NvidiaModelAutoSelector({ env:process.env, adapter:counted,
+            onDiagnostic:entry => report.diagnostics.push(entry) });
+          async function main() {
+            await selector.select();
+            const initial = await selector.run(PROBE_PROMPT);
+            if (!urlPointers(initial.text).length) throw Error('Selected live model produced no acceptable URL pointer');
+            report.initialModel = initial.model;
+            report.initialPointersSha256 = digest(JSON.stringify(urlPointers(initial.text)));
+            const retired = selector.selected;
+            let injected = false;
+            selector.adapter = { run:async request => {
+              if (!injected && request.model === retired) { injected = true; throw Error('HTTP 410 controlled model retirement'); }
+              return counted.run(request);
+            } };
+            const alternate = await selector.run(PROBE_PROMPT);
+            if (!injected || alternate.model === retired || !urlPointers(alternate.text).length) throw Error('Live alternate recovery not demonstrated');
+            report.alternateModel = alternate.model;
+            report.alternatePointersSha256 = digest(JSON.stringify(urlPointers(alternate.text)));
+            report.selectionAndControlledRecovery = 'passed';
+            report.probesUsed = selector.probesUsed;
+          }
+          main().catch(error => {
+            report.selectionAndControlledRecovery = 'blocked';
+            report.failureMessageSha256 = digest(error.message);
+            report.failureStatus = /HTTP\s+(\d{3})/.exec(error.message)?.[1] || null;
+            report.failureCode = /\[(CRU-\d{4}|OPS-\d{4})\]/.exec(error.message)?.[1] || null;
+            report.failureReason = /returned an empty completion\./.test(error.message)
+              ? 'Provider returned an empty completion within the bounded output-token budget'
+              : 'No approved live selection/recovery proof; retained negative result, no provider workaround';
+            process.exitCode = 1;
+          }).finally(() => {
+            fs.writeFileSync('nvidia-acceptance.json', JSON.stringify(report, null, 2) + '\n', { mode:0o600 });
+            console.log(JSON.stringify(report));
+          });
+          NODE
+      - name: Retain positive or negative bounded acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: nvidia-isolated-acceptance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: nvidia-acceptance.json
           if-no-files-found: error
           retention-days: 30

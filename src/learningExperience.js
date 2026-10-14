@@ -8,6 +8,7 @@ const EXPERIENCE_KEYS = Object.freeze([
   'generalizationBoundary', 'action', 'environment', 'expectedOutcome',
   'actualOutcome', 'outcome', 'failureCode', 'failureCodeStatus', 'actionSha256', 'environmentSha256',
   'resultSha256', 'artifactSha256', 'actorId', 'observedAt',
+  'evidencePacket',
 ]);
 
 function text(value, label) {
@@ -26,6 +27,10 @@ function validateExperience(value) {
   if (value.failureCode !== undefined && !/^CRU-\d{4}$/.test(value.failureCode)) throw new Error('experience.failureCode must be a CRU-#### code.');
   if (value.failureCodeStatus !== undefined && !['registered', 'pending-registration'].includes(value.failureCodeStatus)) throw new Error('experience.failureCodeStatus must be registered or pending-registration.');
   for (const key of ['actionSha256', 'environmentSha256', 'resultSha256', 'artifactSha256']) digest(value[key], `experience.${key}`);
+  if (value.evidencePacket) {
+    const packet = require('./evidencePacket').validateEvidencePacket(value.evidencePacket);
+    if (!packet.valid) throw new Error(`experience.evidencePacket is invalid: ${[...packet.missing, ...packet.errors].join(' ')}`);
+  }
   if (!Number.isFinite(Date.parse(value.observedAt))) throw new Error('experience.observedAt must be an ISO timestamp.');
   return Object.freeze(structuredClone(value));
 }
@@ -51,6 +56,7 @@ function experienceCandidate(value) {
       license: 'project-private-experience-evidence',
       contentSha256,
     },
+    ...(experience.evidencePacket ? { evidencePacket: experience.evidencePacket } : {}),
     createdAt: experience.observedAt,
   });
 }

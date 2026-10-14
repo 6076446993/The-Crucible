@@ -18,7 +18,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { boundedTopic, AtomicSourceQueueCandidateSink } = require('./automatedGoogleResearch');
-const { admitDiscoveryCandidateUrls } = require('./safeInformationRetrieval');
+const { admitDiscoveryCandidateUrls, loadVerifiedScholarlyDomains } = require('./safeInformationRetrieval');
 const { crucibleError , operationalError} = require('./failureCodes');
 
 const DEFAULT_RESEARCH_INTERVAL_MS = 24 * 60 * 60 * 1000;
@@ -101,12 +101,12 @@ class ModelPointerResearchStore {
 }
 
 class AutomatedModelPointerResearch {
-  constructor({ store, client, candidateSink, scopeProvider = null, intervalMs = DEFAULT_RESEARCH_INTERVAL_MS, maximumQueriesPerRun = MAXIMUM_QUERIES_PER_RUN }) {
+  constructor({ store, client, candidateSink, scopeProvider = null, verifiedScholarlyDomains = loadVerifiedScholarlyDomains(), intervalMs = DEFAULT_RESEARCH_INTERVAL_MS, maximumQueriesPerRun = MAXIMUM_QUERIES_PER_RUN }) {
     if (!store?.due || !store?.recordRun) throw operationalError('OPS-0042', 'A model-pointer research store is required.');
     if (!client?.search) throw operationalError('OPS-0042', 'A bounded discovery transport is required.');
     if (!candidateSink?.register) throw operationalError('OPS-0042', 'A candidate URL sink is required.');
     if (!Number.isSafeInteger(maximumQueriesPerRun) || maximumQueriesPerRun < 1 || maximumQueriesPerRun > MAXIMUM_QUERIES_PER_RUN) throw operationalError('OPS-0042', `maximumQueriesPerRun must be between 1 and ${MAXIMUM_QUERIES_PER_RUN}.`);
-    this.store = store; this.client = client; this.candidateSink = candidateSink; this.scopeProvider = scopeProvider; this.intervalMs = intervalMs; this.maximumQueriesPerRun = maximumQueriesPerRun;
+    this.store = store; this.client = client; this.candidateSink = candidateSink; this.scopeProvider = scopeProvider; this.verifiedScholarlyDomains = verifiedScholarlyDomains; this.intervalMs = intervalMs; this.maximumQueriesPerRun = maximumQueriesPerRun;
   }
 
   async runDue(at) {
@@ -115,7 +115,7 @@ class AutomatedModelPointerResearch {
       try {
         const scope = this.scopeProvider ? this.scopeProvider(entry.topic) : { trustedSuffixes:['.edu', '.org', '.gov'], deniedDomains:[] };
         const search = await this.client.search(entry.topic);
-        const candidates = admitDiscoveryCandidateUrls(search.citations, { trustedDomains:[], trustedSuffixes:scope.trustedSuffixes, extremeVettingSuffixes:[], deniedDomains:scope.deniedDomains || [], maximumResults:10 });
+        const candidates = admitDiscoveryCandidateUrls(search.citations, { trustedDomains:scope.trustedDomains || [], trustedSuffixes:scope.trustedSuffixes, verifiedScholarlyDomains:this.verifiedScholarlyDomains, extremeVettingSuffixes:[], deniedDomains:scope.deniedDomains || [], maximumResults:10 });
         const known = new Set(this.store.read().discoveredUrls);
         const novel = candidates.filter((candidate) => !known.has(candidate.url));
         const registered = [];
@@ -123,7 +123,7 @@ class AutomatedModelPointerResearch {
         // model's guess from a provider's citation without re-deriving it from the run.
         for (const candidate of novel) registered.push(await this.candidateSink.register({ ...candidate, discoveredBy:'automated-model-pointer-discovery', provider:search.provider, providerKind:search.providerKind, model:search.model, promptSha256:search.promptSha256, responseSha256:search.responseSha256 }));
         this.store.recordRun(entry.topic, { searchedAt:search.searchedAt, intervalMs:this.intervalMs, candidates:novel, state:'completed', cited:search.citations.length, provider:search.provider, providerKind:search.providerKind, model:search.model, promptSha256:search.promptSha256, responseSha256:search.responseSha256 });
-        outcomes.push({ topic:entry.topic, state:'completed', cited:search.citations.length, admitted:candidates.length, rejected:Math.max(0, search.citations.length - candidates.length), novel:novel.length, providerKind:search.providerKind, registered });
+        outcomes.push({ topic:entry.topic, state:'completed', cited:search.citations.length, admitted:candidates.length, rejected:Math.max(0, search.citations.length - candidates.length), novel:novel.length, providerKind:search.providerKind, model:search.model, registered });
       } catch (error) {
         // A blocked topic still consumes its daily slot, exactly as the other discovery paths
         // behave: a provider outage must not become an unbounded retry loop against the vendor.

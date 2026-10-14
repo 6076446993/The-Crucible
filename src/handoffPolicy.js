@@ -15,8 +15,32 @@ function evaluateHandoffChanges(paths) {
   };
 }
 
+// Stable work IDs survive plan replacement and DEVLOG retention. Freshness is evidence age,
+// never the age of a prose edit. A stale observation must be explicitly treated as historical.
+function validateWorkLedger(current, previous = null, now = Date.now()) {
+  if (!current) return previous ? { ok:false, message:'Unfinished work ledger cannot be removed.' } : { ok:true };
+  if (current.schemaVersion !== 1 || !Array.isArray(current.items)) return { ok:false, message:'Invalid work ledger.' };
+  const ids = new Set();
+  for (const item of current.items) {
+    if (!item || typeof item.id !== 'string' || !item.id.trim() || ids.has(item.id)) return { ok:false, message:'Work IDs must be non-empty and unique.' };
+    ids.add(item.id);
+    for (const field of ['deliverable','owner','nextAction','evidence']) if (typeof item[field] !== 'string' || !item[field].trim()) return { ok:false, message:`Work ${item.id} requires ${field}.` };
+    if (!['pending','in-progress','blocked','implemented-local','verified','deferred','rejected'].includes(item.status)) return { ok:false, message:`Work ${item.id} has invalid status.` };
+    if (!Number.isSafeInteger(item.maxEvidenceAgeHours) || item.maxEvidenceAgeHours < 1) return { ok:false, message:`Work ${item.id} requires bounded freshness.` };
+    const at = Date.parse(item.observedAt);
+    if (!Number.isFinite(at) || at > now + 300000) return { ok:false, message:`Work ${item.id} has invalid evidence time.` };
+    if (now - at > item.maxEvidenceAgeHours * 3600000 && item.freshness !== 'historical') return { ok:false, message:`Work ${item.id} evidence is stale; re-observe it or mark historical.` };
+    if (['blocked','deferred','rejected'].includes(item.status) && !item.reason?.trim()) return { ok:false, message:`Work ${item.id} requires a reason.` };
+    if (item.status === 'verified' && !item.verification?.trim()) return { ok:false, message:`Work ${item.id} requires completion verification.` };
+  }
+  for (const old of previous?.items || []) if (!ids.has(old.id)) return { ok:false, message:`Work ${old.id} disappeared; retain its disposition and evidence.` };
+  return { ok:true, message:'Work ledger retains every tracked deliverable and labels stale evidence.' };
+}
+
 function validateHandoffPlan(plan) {
   if (!plan || typeof plan !== 'object' || Array.isArray(plan) || plan.schemaVersion !== 1) return { ok:false, message:'AI-HANDOFF.json must be an object with schemaVersion 1.' };
+  const work = validateWorkLedger(plan.workLedger);
+  if (!work.ok) return work;
   const active = plan.activePlan;
   if (!active || typeof active !== 'object') return { ok:false, message:'AI-HANDOFF.json requires activePlan.' };
   for (const field of ['agent', 'objective', 'currentPrompt', 'startedAt', 'lastUpdatedAt']) if (typeof active[field] !== 'string' || !active[field].trim()) return { ok:false, message:`AI-HANDOFF.json activePlan.${field} is required.` };
@@ -61,7 +85,7 @@ const MAX_ARCHIVE_AGE_DAYS = 180;
 // doubling) rather than dropping anything still younger than the age floor. Only entries older
 // than the age floor are ever trimmed.
 const DEVLOG_PRUNED_MAX_ENTRIES = 50;
-const DEVLOG_PRUNED_MAX_AGE_DAYS = 364;
+const DEVLOG_PRUNED_MAX_AGE_DAYS = 365;
 const DEVLOG_PRUNED_HEADER = `# Devlog-Pruned
 
 Append-only ledger, on the reference-only \`Archive\` branch, of the *entire* DEVLOG.md content exactly as it stood immediately before each prune of its Command log archive on \`development\` (see AGENTS.md) - the full file, not just the session(s) the prune removed. Newest first. Retention floor: at least ${DEVLOG_PRUNED_MAX_AGE_DAYS} days of pruned history is always kept - a snapshot is trimmed only once it is older than that. Capacity starts at ${DEVLOG_PRUNED_MAX_ENTRIES} snapshots and doubles automatically (100, 200, ...) whenever more than that many snapshots fall within the ${DEVLOG_PRUNED_MAX_AGE_DAYS}-day floor, so the count never forces a trim on its own. Anything trimmed remains retrievable via \`git log -p Devlog-Pruned\` on \`Archive\`.
@@ -247,6 +271,12 @@ function checkHandoffRange(baseSha, headSha, run = spawnSync) {
   catch (error) { return { ok:false, message:`AI-HANDOFF.json is invalid JSON: ${error.message}` }; }
   const planResultCheck = validateHandoffPlan(plan);
   if (!planResultCheck.ok) return planResultCheck;
+  const basePlanResult = run('git', ['show', `${baseSha}:AI-HANDOFF.json`], { encoding:'utf8', shell:false });
+  if (basePlanResult.status !== 0) return { ok:false, message:'Unable to read previous work ledger.' };
+  let previous;
+  try { previous = JSON.parse(basePlanResult.stdout); } catch (_) { return { ok:false, message:'Invalid previous handoff JSON.' }; }
+  const continuity = validateWorkLedger(plan.workLedger, previous.workLedger);
+  if (!continuity.ok) return continuity;
   const devlogResult = run('git', ['show', `${headSha}:DEVLOG.md`], { encoding:'utf8', shell:false });
   if (devlogResult.status !== 0) return { ok:false, message:'Unable to read DEVLOG.md from the head commit.' };
   return validateDevlogChainOfCustody(devlogResult.stdout);
@@ -261,6 +291,7 @@ if (require.main === module) {
 module.exports = {
   evaluateHandoffChanges,
   validateHandoffPlan,
+  validateWorkLedger,
   validateDevlogChainOfCustody,
   checkHandoffRange,
   MAX_ARCHIVE_SESSIONS,
