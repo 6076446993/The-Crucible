@@ -121,11 +121,15 @@
     ".github/workflows/owner-file-intake.yml": "Manual hash-approved encrypted owner evidence import into private raw custody, no extraction or promotion.",
     "governingDocuments/owner-file-transport.md": "Owner-file transport operator sequence, authorization, custody and rollback boundaries.",
     "governingDocuments/owner-file-intake-release.json": "Exact approved narrow main-based registration package hashes; does not authorize broad development promotion.",
-    "governingDocuments/owner-file-intake-main-compatibility.patch": "Main-specific test compatibility for the explicitly owner-authorized manual raw intake exception."
+    "governingDocuments/owner-file-intake-main-compatibility.patch": "Main-specific test compatibility for the explicitly owner-authorized manual raw intake exception.",
+    "src/learningProvenance.js": "Learning Provenance IDs, lifecycle custody, significant-failure postmortem requirements, and systemic-cause separation.",
+    "governingDocuments/native/NEXUS-ENGINEERING-LEARNING-STANDARD.md": "Nexus-wide engineering learning philosophy: symptoms are clues, repairs are evidence, and trusted learning requires verification and governance.",
+    "governingDocuments/postmortems/PR-28-nexus-monitor-credential-boundary.md": "PR #28 postmortem separating the monitor credential boundary and recording root cause, systemic cause, corrective action, preventive action, and verification status.",
+    "governingDocuments/failure-code-governance.md": "Canonical CRU failure-class rules: one code per distinct failure class, duplicate occurrences reuse that code, uncoded occurrences remain pending classification, and conflicting code assignments to one canonical failure are rejected."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-14T19:40:33.506Z"
+    "lastActionAt": "2026-10-14T19:53:48.114Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -206,8 +210,8 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Publish additive downstream Nexus review and owner-directed continuing PR monitoring requirement, preserving existing custody and unfinished work.",
-    "currentPrompt": "Put the downstream Nexus review into DEVLOG.md and AI-HANDOFF.json on development.",
+    "objective": "Reconcile PR34 development with read-only main input, preserving fail-closed controls, unique history and independent release gates.",
+    "currentPrompt": "Resolve conflicts on PR #34 (development→main). Re-run CI and fix any failing tests reported by the jobs.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -220,22 +224,22 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Project context selects crucible-core.",
+      "reason": "Affected paths select crucible-core.",
       "explicitOverride": false,
-      "selectedAt": "2026-10-14T19:38:02.518Z",
-      "promptSha256": "4a9e5e5fc55a8f038ba04ff1a0d9fecbbe4e2c995b5890491dbbaca711552dad",
-      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      "selectedAt": "2026-10-14T19:48:28.749Z",
+      "promptSha256": "052d1b9aa61f466836abe27c7b24d6c31a47ebdf33f451f56b68a1adbd607d7b",
+      "affectedPathsSha256": "da5e6669b36349fe33c3b0ef52fd06ce28da6095c75b30dbe3639763be19f8df"
     },
     "steps": [
-      "Record explicit two-file handoff and preserve original custody scope/history.",
-      "Append attributed downstream review and record continuing responsibility for PR checks and authorized repairs.",
-      "Run focused governance checks and required pre-push verification.",
-      "Publish only development and verify exact-head hosted checks; retain PR34 conflicts, R8 and credential blockers."
+      "Inspect all11conflicts and three automatically merged input differences at pinned revisions.",
+      "Preserve stronger development custody/monitor/security/test controls and retain unique main records.",
+      "Run affected governance/security/workflow/repair tests and normal pre-push checks.",
+      "Publish development-only merge ancestry and monitor exact-head required checks; report R8/credential/ownership blockers without bypass."
     ],
     "status": "handoff-ready",
     "startedAt": "2026-10-14T19:37:18.314Z",
-    "lastUpdatedAt": "2026-10-14T19:40:33.506Z",
-    "currentStep": "Additive documentation implemented;48focused tests and coordination audit passed; publishing and exact-head hosted checks pending.",
+    "lastUpdatedAt": "2026-10-14T19:53:48.114Z",
+    "currentStep": "126affected local tests passed; two-parent reconciliation publication pending. R8 and PR36 credential/collision boundaries remain unresolved.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -245,6 +249,8 @@
         "model": null
       },
       "mutationScope": [
+        "AI-HANDOFF.json",
+        "DEVLOG.md",
         "src/ownerFileTransport.js",
         "test/ownerFileTransport.test.js",
         ".github/workflows/owner-file-intake.yml",
@@ -306,7 +312,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "48focused local governance tests passed. No release, runtime, R8 or hosted success claim.",
+    "verificationStatus": "48documentation-focused and126reconciliation-focused local tests passed. The published f433e79 handoff/conflict/Archive checks passed; seven Self-Test matrix jobs passed, two macOS jobs failed historical-accountability visibility. Final merge-head hosted evidence pending.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -406,7 +412,7 @@
         "owner": "owner-or-custody-administrator"
       }
     ],
-    "nextAction": "Verify and publish only the two handed-off documentation files; monitor resulting exact-head checks.",
+    "nextAction": "Test and publish development-only two-parent reconciliation; observe exact-head checks.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -1517,7 +1523,7 @@
       "holderClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
       "handoffIssuedAt": "2026-10-14T19:30:39.1222600Z",
       "recipientThread": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330",
-      "status": "implemented-local",
+      "status": "published-documentation-at-f433e79; ownership returned; final hosted gate status remains separate",
       "broaderPlan": "All other activePlan fields, downstreamReviewPriorState, historical custody continuation and workLedger remain preserved.",
       "ownership": {
         "currentClaim": "downstream-nexus-review-20261014",
@@ -1526,7 +1532,8 @@
           "DEVLOG.md",
           "AI-HANDOFF.json"
         ],
-        "broaderCustodyClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011"
+        "broaderCustodyClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
+        "returnedAt": "2026-10-14T19:53:48.114Z"
       },
       "localVerification": {
         "focusedTests": 48,
@@ -1535,7 +1542,30 @@
         "workLedgerPreserved": true,
         "independentGatePass": false
       }
-    }
+    },
+    "pr34PriorState": {
+      "currentPrompt": "Put the downstream Nexus review into DEVLOG.md and AI-HANDOFF.json on development.",
+      "taskRouting": {
+        "category": "crucible-core",
+        "repositoryId": 1344890806,
+        "repository": "6076446993/The-Crucible",
+        "branch": "development",
+        "reason": "Project context selects crucible-core.",
+        "explicitOverride": false,
+        "selectedAt": "2026-10-14T19:38:02.518Z",
+        "promptSha256": "4a9e5e5fc55a8f038ba04ff1a0d9fecbbe4e2c995b5890491dbbaca711552dad",
+        "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+      },
+      "objective": "Publish additive downstream Nexus review and owner-directed continuing PR monitoring requirement, preserving existing custody and unfinished work.",
+      "steps": [
+        "Record explicit two-file handoff and preserve original custody scope/history.",
+        "Append attributed downstream review and record continuing responsibility for PR checks and authorized repairs.",
+        "Run focused governance checks and required pre-push verification.",
+        "Publish only development and verify exact-head hosted checks; retain PR34 conflicts, R8 and credential blockers."
+      ],
+      "verificationStatus": "48focused local governance tests passed. No release, runtime, R8 or hosted success claim."
+    },
+    "mainReconciliationStatus": "Content reconciliation complete locally; source writes relinquished to original holder; development-only publication and exact-head monitoring pending."
   },
   "handoffNotes": {
     "completed": [
@@ -1556,7 +1586,8 @@
       "Published pipeline/devlog improvements at 53090052; new diagnosis step succeeded hosted. Replaced two CodeQL-flagged regex assertions with literal containment.",
       "Verified exact-tip CodeQL success on dfa1863; default owner-file intake workflow is present. Added oldest-request-first continuation ordering.",
       "Owner-approved NVIDIA implementation and native registry wiring: 1101/1101 full tests, zero skipped; earlier negative receipts preserved.",
-      "2026-10-14 additive downstream review and PR completion/monitoring requirement implemented locally under explicit two-file holder handoff;48focused governance tests passed."
+      "2026-10-14 additive downstream review and PR completion/monitoring requirement implemented locally under explicit two-file holder handoff;48focused governance tests passed.",
+      "2026-10-14 PR34 all11conflicts and three auto-merge differences semantically reconciled with126affected tests passing. Four governing references and one main-only bug record retained. Original custody scope returned unchanged; exact-head hosted checks pending."
     ],
     "remaining": [
       "R8 executable-content quarantine proof remains pending in exact implementation run 38176245684; archive replacement does not satisfy scientific or promotion gates.",
@@ -2537,6 +2568,8 @@
       },
       "scope": {
         "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
           "src/ownerFileTransport.js",
           "test/ownerFileTransport.test.js",
           ".github/workflows/owner-file-intake.yml",
@@ -2640,6 +2673,113 @@
           },
           "receiptSha256": "e2e58d5aca82ad8b3c11a75d1a79a30e411c7ae107d59c0133f3f972ee180386",
           "toThread": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330"
+        },
+        {
+          "at": "2026-10-14T19:49:50.147Z",
+          "operation": "explicit-pr34-source-reconciliation-handoff",
+          "paths": [
+            ".github/workflows/owner-file-intake.yml",
+            ".github/workflows/r8-executable-canary-publisher.yml",
+            "governingDocuments/known-bugs/KNOWN-BUGS.json",
+            "test/workflow.test.js"
+          ],
+          "priorScope": {
+            "paths": [
+              "src/ownerFileTransport.js",
+              "test/ownerFileTransport.test.js",
+              ".github/workflows/owner-file-intake.yml",
+              "src/circulationLinkage.js",
+              "src/testCadenceCoreLegacy.js",
+              "test/_testCadenceCore.js",
+              "governingDocuments/owner-file-transport.md",
+              "test/workflow.test.js",
+              "governingDocuments/known-bugs/KNOWN-BUGS.json",
+              "governingDocuments/owner-file-intake-release.json",
+              "governingDocuments/owner-file-intake-main-compatibility.patch",
+              "src/hostedSourceBundle.js",
+              "test/hostedSourceBundle.test.js",
+              ".github/workflows/self-test.yml",
+              "src/claimExtractionWorker.js",
+              "test/claimExtractionWorker.test.js",
+              "test/pdfTextExtraction.test.js",
+              "src/ciDiagnosticOrgan.js",
+              "test/ciDiagnosticOrgan.test.js",
+              ".github/workflows/hosted-learning-proof.yml",
+              "src/handoffPolicy.js",
+              "src/testLifecycle.js",
+              "test/handoffPolicy.test.js",
+              "test/testLifecycle.test.js",
+              "test/sourceBundleKeyAutomation.test.js",
+              "src/aiHandoffContinuation.js",
+              "test/aiHandoffContinuation.test.js",
+              ".github/workflows/hosted-source-bootstrap.yml",
+              "test/rawCustodyRebuildWorkflow.test.js",
+              "README.md",
+              ".github/workflows/raw-custody-publisher.yml",
+              "test/rawCustodyPublisher.test.js",
+              ".github/workflows/r8-executable-canary-publisher.yml",
+              "src/safeInformationRetrieval.js",
+              "test/safeInformationRetrieval.test.js",
+              "src/r8ExecutableCanaryPublisher.js",
+              "test/r8ExecutableCanaryPublisher.test.js",
+              "src/rawCustodyPublisher.js"
+            ],
+            "regions": []
+          },
+          "receiptSha256": "1bc0877c0f90147dc141efdef871caf228201f02e1d3b9eb02d75562255caa51",
+          "toThread": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330"
+        },
+        {
+          "at": "2026-10-14T19:53:48.114Z",
+          "operation": "explicit-return-after-bounded-documentation-and-reconciliation",
+          "returnedPaths": [
+            "DEVLOG.md",
+            "AI-HANDOFF.json",
+            ".github/workflows/owner-file-intake.yml",
+            ".github/workflows/r8-executable-canary-publisher.yml",
+            "governingDocuments/known-bugs/KNOWN-BUGS.json",
+            "test/workflow.test.js"
+          ],
+          "priorScope": {
+            "paths": [
+              "src/ownerFileTransport.js",
+              "test/ownerFileTransport.test.js",
+              "src/circulationLinkage.js",
+              "src/testCadenceCoreLegacy.js",
+              "test/_testCadenceCore.js",
+              "governingDocuments/owner-file-transport.md",
+              "governingDocuments/owner-file-intake-release.json",
+              "governingDocuments/owner-file-intake-main-compatibility.patch",
+              "src/hostedSourceBundle.js",
+              "test/hostedSourceBundle.test.js",
+              ".github/workflows/self-test.yml",
+              "src/claimExtractionWorker.js",
+              "test/claimExtractionWorker.test.js",
+              "test/pdfTextExtraction.test.js",
+              "src/ciDiagnosticOrgan.js",
+              "test/ciDiagnosticOrgan.test.js",
+              ".github/workflows/hosted-learning-proof.yml",
+              "src/handoffPolicy.js",
+              "src/testLifecycle.js",
+              "test/handoffPolicy.test.js",
+              "test/testLifecycle.test.js",
+              "test/sourceBundleKeyAutomation.test.js",
+              "src/aiHandoffContinuation.js",
+              "test/aiHandoffContinuation.test.js",
+              ".github/workflows/hosted-source-bootstrap.yml",
+              "test/rawCustodyRebuildWorkflow.test.js",
+              "README.md",
+              ".github/workflows/raw-custody-publisher.yml",
+              "test/rawCustodyPublisher.test.js",
+              "src/safeInformationRetrieval.js",
+              "test/safeInformationRetrieval.test.js",
+              "src/r8ExecutableCanaryPublisher.js",
+              "test/r8ExecutableCanaryPublisher.test.js",
+              "src/rawCustodyPublisher.js"
+            ],
+            "regions": []
+          },
+          "reason": "Bounded content edits complete;126affected local tests pass. Publishing and exact-head checks are pending; no task, custody, security or release completion claim."
         }
       ]
     },
@@ -2658,10 +2798,37 @@
         "regions": []
       },
       "purpose": "Owner-authorized additive downstream Nexus review and truthful documentation/session/route ownership bookkeeping only.",
-      "status": "active",
+      "status": "released",
       "acquiredAt": "2026-10-14T19:37:18.314Z",
       "handedOffTo": null,
-      "releasedAt": null
+      "releasedAt": "2026-10-14T19:53:48.114Z"
+    },
+    {
+      "taskId": "pr34-reconciliation-20261014",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/nexus-check-monitor.yml",
+          ".github/workflows/owner-file-intake.yml",
+          ".github/workflows/r8-executable-canary-publisher.yml",
+          ".github/workflows/source-bundle-key-manager.yml",
+          "governingDocuments/crucible-monitored-repositories.json",
+          "governingDocuments/known-bugs/KNOWN-BUGS.json",
+          "src/githubRepoSecurity.js",
+          "src/repair.js",
+          "test/workflow.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Explicit owner-requested PR34 source merge reconciliation and required tests only; no custody execution, key access, promotion or gate clearance.",
+      "status": "released",
+      "acquiredAt": "2026-10-14T19:49:50.147Z",
+      "handedOffTo": null,
+      "releasedAt": "2026-10-14T19:53:48.114Z"
     }
   ],
   "ownerDecisions": [
@@ -4331,5 +4498,117 @@
       "remaining blocker and next executable step"
     ],
     "executionStatus": "Requirement recorded in development plan; no new background monitor, schedule or workflow is created by this documentation change."
+  },
+  "mainReconciliation": {
+    "taskId": "pr34-reconciliation-20261014",
+    "observedAt": "2026-10-14T19:49:50.147Z",
+    "developmentParent": "f433e791d1f0242d0e8c1df8d12fda39c4f61b90",
+    "mainReadOnlyParent": "82c157f9e6157b6756fbc8645cae4b3742a09c97",
+    "method": "Hunk-by-hunk semantic reconciliation; retain newer fail-closed development behavior and explicitly union unique main governance/bug records. Merge ancestry is recorded with both parents; no strategy=ours or wholesale checkout side selection.",
+    "decisions": {
+      ".github/workflows/nexus-check-monitor.yml": {
+        "developmentBlob": "715208118c7d44fbdfc2f4c8df3fbb2f712f22bc",
+        "mainBlob": "edcf5e66495d587b41ecff4c234aadbd2fd027ad",
+        "decision": "Retain development pinned actions, exact ten-repository allowlist/read permissions, credential boundary and per-PR wait. Older main expands token surface/removes bounds; adding its push trigger would contradict existing no-recursion test and is not required for PR event monitoring."
+      },
+      ".github/workflows/owner-file-intake.yml": {
+        "developmentBlob": "9d1966e180e7c64f4c761604df8a6eb8962006c2",
+        "mainBlob": "469aa09672a17268c9843c24c6288fc2cf00adc8",
+        "decision": "Retain already-authorized development intake/probe and guarded exact-hash rebuild interface. Main is the earlier narrow registration package; do not delete development guards or execute intake."
+      },
+      ".github/workflows/r8-executable-canary-publisher.yml": {
+        "developmentBlob": "0492c5808c286da8a1f268f77758627628447d9c",
+        "mainBlob": "1141587498d733d5c3134a3b4a0c6501934602db",
+        "decision": "Retain development manual exact-state publisher, fixed receiver and cleanup controls. Main contains registration-only stub; registration is not runtime proof. No dispatch or key operation."
+      },
+      ".github/workflows/source-bundle-key-manager.yml": {
+        "developmentBlob": "a6ba3822fec34677732c470fe1a655489a3b2abe",
+        "mainBlob": "30d90371aaaac89eb15bef1ad077bb7452299a6c",
+        "decision": "Retain development existing-key registration, default register, malformed replacement confirmation, PAT/App boundaries and pinned action. Main corrected action pin is already identical; do not downgrade to older App-only bootstrap default."
+      },
+      "AI-HANDOFF.json": {
+        "developmentBlob": "7cd02227b068e5940117355ca96fd912e97381b7",
+        "mainBlob": "8383b48b9593a702cb4ab7f0c313d26ddd279430",
+        "decision": "Preserve development current plan, all work/history/claims and attributed review; restore four main-only governing references that already exist on development; keep main original metadata immutable via merge parent and source digests."
+      },
+      "DEVLOG.md": {
+        "developmentBlob": "401bcc6dd78ccdfb2dfe31048c96833ca7d65ff5",
+        "mainBlob": "8debe5591973485bf68df33531ee8266ad5ca367",
+        "decision": "Preserve development latest negative/positive evidence and review. Main original complete source is retained by merge parent and immutable blob binding; add actual reconciliation session and archive full prune snapshot."
+      },
+      "governingDocuments/crucible-monitored-repositories.json": {
+        "developmentBlob": "bbd2f46c8d035167bb609a8de0477720d63c6147",
+        "mainBlob": "f5ca1efbb6b2527dda3fe639ba4b0cf5720a0797",
+        "decision": "Retain all ten development repository records; main older list removes RAW custody and Nexus Public CI, which would reduce coverage."
+      },
+      "governingDocuments/known-bugs/KNOWN-BUGS.json": {
+        "developmentBlob": "7960d7117dc4c271f4723adc72a8cdd7dfd18eb3",
+        "mainBlob": "4ffa8ce0461f0066034d4799ce6dca06853d455e",
+        "decision": "Union main-only stable bug IDs without overwriting newer development records or declaring old failures repaired."
+      },
+      "src/githubRepoSecurity.js": {
+        "developmentBlob": "2ac09cc03960336e267db8312e1d38ea040e910c",
+        "mainBlob": "b228cf9f13d142adaac7b85a8340e963c4527b32",
+        "decision": "Retain development exact canonical6076446993 identity and bounded/redacted transport failure capture. Main identity matches; removing capture would regress diagnostics/privacy."
+      },
+      "src/repair.js": {
+        "developmentBlob": "535ea8c21545a4f42a2cb4db901802e11e6b9f72",
+        "mainBlob": "a18730b833ec5ac77cd07cd1e3e7e3584a828d2e",
+        "decision": "Retain development canonical6076446993 engine identity and exact host refusal. Main legacy privacy identity/alias is superseded; no new repository acceptance or trust grant."
+      },
+      "test/workflow.test.js": {
+        "developmentBlob": "0974011e8051aa88e61e7681eece7e95f1cbe257",
+        "mainBlob": "f415e773543c4b52d79994443a7913b6ab881cd9",
+        "decision": "Retain stronger development artifact-based durable restoration, ciphertext probes, candidate-only boundaries, read-only token allowlist and credential separation tests; main older cache/default assertions must not replace them."
+      },
+      ".github/workflows/self-test.yml": {
+        "developmentBlob": "399ef8371b35af5e28071a078782ccd58a3a82b1",
+        "mainBlob": "afb41870d8621b166722fffa0a980bbd86ac0179",
+        "decision": "Retain development15-minute whole-job budget and unchanged4-minute workload limits; main older10-minute budget is already superseded."
+      },
+      "TASK-ROUTING.json": {
+        "developmentBlob": "71da3d9cf190e2d357f0a80a543b1e26852294ce",
+        "mainBlob": "023a1d68e9ea48c0addc254aa2a3483ddb43f88a",
+        "decision": "Retain development canonical rules, CONSTITUTION and package-lock registration; main transient R8 registration route remains historical in main parent, not a current development authority grant."
+      },
+      "test/taskRouting.test.js": {
+        "developmentBlob": "8fadc99e038768f6c32000b50ae2167b97762440",
+        "mainBlob": "55525f6b8ec186bd24619a6ba42340d8c4e5d76f",
+        "decision": "Retain development canonical development route, package-lock and Archive-only ledger boundary tests; older main assertions were pinned to the temporary registration branch."
+      }
+    },
+    "addedGoverningReferences": [
+      "src/learningProvenance.js",
+      "governingDocuments/native/NEXUS-ENGINEERING-LEARNING-STANDARD.md",
+      "governingDocuments/postmortems/PR-28-nexus-monitor-credential-boundary.md",
+      "governingDocuments/failure-code-governance.md"
+    ],
+    "retainedMainBugIds": [
+      "KB-local-4b856a85b5"
+    ],
+    "mainOriginalGovernance": {
+      "handoffBlob": "8383b48b9593a702cb4ab7f0c313d26ddd279430",
+      "devlogBlob": "8debe5591973485bf68df33531ee8266ad5ca367",
+      "history": "Exact complete main inputs remain recoverable at the immutable main merge parent, without treating old runtime/release claims as current."
+    },
+    "executionAuthorized": false,
+    "releaseAuthorized": false,
+    "independentGatePass": false,
+    "status": "implemented-local; publication and exact-head checks pending",
+    "localVerification": {
+      "tests": 126,
+      "failed": 0,
+      "skipped": 0,
+      "environment": "Native Windows with isolated temporary Git fixture permissions; sandbox attempt failed fixture Git-config writes and was retained.",
+      "sourceCodeOrWorkflowChanged": false,
+      "uniqueMainRecordsRetained": true,
+      "finalHostedProof": "pending"
+    },
+    "returnedOwnership": {
+      "at": "2026-10-14T19:53:48.114Z",
+      "holderClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
+      "originalScopeRestored": true,
+      "readOnlyMonitoringContinues": true
+    }
   }
 }

@@ -256,6 +256,18 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: pr34-reconciliation-20261014 — 2026-10-14T19:49:50.147Z — Codex — mode:work
+
+Plain-language summary: Reconciled every PR34 conflict against the pinned main input while preserving stronger development custody, monitoring, security and tests. Restored four missing governance references and retained the one main-only bug record; main, custody, credentials and release state were not changed.
+
+- `route:prewrite` — started 2026-10-14T19:48:28.5491643Z, finished 2026-10-14T19:48:28.7616853Z, exit0; category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
+- `node ../reconcile_pr34.cjs` — started 2026-10-14T19:49:50.147Z, finished 2026-10-14T19:49:52.209Z, exit0; explicit separate holder handoff recorded before writes, all11conflicts and three auto-merge differences reviewed; per-path blob bindings and decisions in AI-HANDOFF.json.mainReconciliation.
+
+- `PR34 affected governance/workflow/security/repair/monitor tests` — started 2026-10-14T19:49:52.4202508Z, finished 2026-10-14T19:50:47.1262480Z, exit1.
+- `node --test affected PR34 governance/workflow/security/repair/monitor files (temporary Git fixtures permitted)` — started 2026-10-14T19:51:07.5016967Z, finished 2026-10-14T19:51:53.1838317Z, exit0.
+- Released `pr34-reconciliation-20261014` and `downstream-nexus-review-20261014` after the bounded content edits, restoring the original40-path custody scope without changing its ID or acquisition age. Publication and hosted verification remain pending.
+- Retained the sandbox fixture-permission failure;126affected native tests then passed without changing product code or tests. Prior f433e79 macOS accountability failures remain historical negative evidence; the new exact-head run is required.
+
 ### Session: downstream-nexus-review-20261014 — 2026-10-14T19:37:18.314Z — Codex — mode:work
 
 Plain-language summary: Added the owner's downstream Nexus review as attributed context and recorded that opening a PR requires continued monitoring, authorized repairs and exact-head verification. Preserved the existing custody plan, work ledger and broader ownership.
@@ -409,35 +421,6 @@ Plain-language summary: The owner authorized taking over the intake repair and n
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Project context selects crucible-core.
 - CI envelope compatibility passed workflow tests 37/37, full change-impact 1016/1016 and workflow/coordination/privacy/security/commit checks, zero skipped — finished 2026-10-08T04:58:38.545Z, exit 0.
 - Mutation claim owner-file-transport-20261008 remains active for exact-head hosted verification and authorized narrow deployment.
-
-### Session: si-durable-custody-20261007 — 2026-10-07T04:27:16.040Z — Codex — mode:work
-
-Plain-language summary: Added a manually operated, bounded way to retain SI source bytes and non-authoritative candidates without changing existing learned knowledge or queues. Live execution and independent verification still need the governed deployment path; no release gate was credited from local tests.
-- Mutation claim si-monitor-route-retest-20261007: the route description assertion failed 35/36 and was corrected to the canonical project-context reason; no gate was weakened.
-- Mutation claim si-monitor-handoff-evidence-20261007: restore omitted mandatory verification arrays and record saved security credential metadata; failed previous route classification (shared-only paths) preserved as evidence — started 2026-10-07T04:56:00Z, finished 2026-10-07T04:57:46.593Z, exit 0 correction after failure.
-- Mutation claim si-monitor-handoff-repair-20261007: previous metadata correction failed closed at unknown shared-only route; only its claim release was committed, so it supplied no passing handoff evidence.
-- Full governed App authentication proof — started 2026-10-07T05:05:00Z, finished 2026-10-07T05:08:16.424Z, exit 0; 1009/1009, zero skipped; hosted Windows job 112638868079 verified all required repository security settings with zero issues.
-- Read-only App integration focused tests — started 2026-10-07T05:02:00Z, finished 2026-10-07T05:06:45.761Z, exit 0 after repair; 46/46, zero skipped. Initial 45/46 failure was custody-clone assertion matching read-only repository names in the App scope; the explicit monitor exception prohibits git commands, deploy/bundle keys and write permissions.
-- Mutation claim si-monitor-app-auth-20261007: pinned official GitHub App token action, restrict installation token to exact nine configured repositories and read-only Checks/Pull requests/Metadata; prepared private organization App, no permission grant submitted by agent.
-- Enabled required secret scanning/push protection after repaired read credential exposed actual disabled settings; GitHub confirmed saved settings with no additional license consumption — started 2026-10-07T04:59:00Z, finished 2026-10-07T05:02:26.513Z, exit 0.
-- Continuation mutation claim si-promotion-credential-repair-20261007 — openai/Codex; owner explicitly authorized narrow deployment and credential repair. Existing learned state and queues were untouched.
-- Refresh repository heads/policy and inspect GitHub secret/token metadata after owner reauthentication; prepare unsubmitted read-only organization token forms and a detached main preview — started 2026-10-07T04:42:00Z, finished 2026-10-07T04:55:05.923Z, exit 0; no credential value was read or written.
-- node --test test/nexusCheckMonitor.test.js test/workflow.test.js — started 2026-10-07T04:47:46Z, finished 2026-10-07T04:50:41Z, exit 0; 46/46, zero skipped.
-- Mutation claim si-durable-custody-20261007 — openai/Codex; raw custody authority comes from the owner request "can you do it all in order it should be" in the bounded nine-seed continuation context.
-- Task route: crucible-core; repository ID 1344890806; 6076446993/The-Crucible; literal development; exact affected-path digest is in AI-HANDOFF.json.
-- The observation interval timestamps below bound batched commands; they are not invented exact command execution timestamps.
-- Fetch/fast-forward development to 0ca84697dc846a0fdd316697d506972b01582225, read current governance, record prewrite route and acquire scope — started 2026-10-07T04:10:18Z, finished 2026-10-07T04:11:06.782Z, exit 0.
-- Implement bounded raw publisher, manual workflow, focused tests, cadence registration, Windows CRLF assertion and README; fix fixture assertion and use existing queue lock to preserve 57-edge circulation — started 2026-10-07T04:11:06.782Z, finished 2026-10-07T04:21:05.6344883Z, exit 0 after repair.
-- Focused safety/retrieval/extraction/custody tests — started 2026-10-07T04:18:08Z, finished 2026-10-07T04:20:16.5257427Z, exit 0; 53/53. Workflow/docs/validation/privacy/security/failure-code/coordination audits passed in this observation interval.
-- Full governed request — started 2026-10-07T04:20:16.5257427Z, finished 2026-10-07T04:20:54.9935667Z, exit 1; 976/981, missing local TypeScript and stale route. Failure recorded as KB-local-807d25e632; no production state affected.
-- Eight raw publisher tests, including encrypted candidate snapshot and fresh-process restore — started 2026-10-07T04:21:04.5690776Z, finished 2026-10-07T04:21:05.6344883Z, exit 0; 8/8.
-- Install locked dependencies, rebuild parser binaries, repair route, govern passing known-bug retest and patch source-map-js 1.2.1 to 1.2.2 — started 2026-10-07T04:22:00Z, finished 2026-10-07T04:25:08.6826779Z, exit 0; 43/43 retest; dependency audit zero vulnerabilities.
-- node src/testCadence.js all — started 2026-10-07T04:25:08.6826779Z, finished 2026-10-07T04:25:49.0915264Z, exit 0; 1008/1008, zero skipped.
-- Record this checkpoint and retain only ten inline sessions; hosted handoff must archive the full pre-prune DEVLOG snapshot — started 2026-10-07T04:26:00Z, finished 2026-10-07T04:27:16.040Z, exit 0.
-- Mutation claim si-durable-custody-20261007 — openai/Codex — released 2026-10-07T04:29:34.466Z to handoff-ready after local verification; pending publication/hosted evidence and live boundary are recorded above.
-- Final staged-tree audits and selected tests — started 2026-10-07T04:27:28.3671891Z, finished 2026-10-07T04:29:10.2997146Z, exit 0; 103/103; final metadata/workflow/route tests subsequently passed 72/72 before 2026-10-07T04:30:33.151Z.
-- Exact implementation commit 3292324d0c94613724ed537d74b0238ddf89ec52 was pushed to development. Hosted Self-Test 37571816849 job 112631911580 exposed unregistered package-lock.json; claim si-lockfile-route-repair-20261007 repaired its core path registration and added a push-boundary regression — started 2026-10-07T04:32:04.110Z, finished 2026-10-07T04:33:05.965Z, exit 0; 36/36 focused tests; original 13-path push validates under the repaired registry. Claim released 2026-10-07T04:33:05.965Z after verification. No runtime re-extraction or live queue action occurred.
-- Live boundary: no raw bundle/deploy credentials are available locally; manual workflow_dispatch is not registered until its file exists on the default branch. Do not deploy to main or rerun R2/live queues as a workaround. R3/R8 remain explicit release blockers.
 
 
 ## Historical mutation accountability
