@@ -1,6 +1,6 @@
 const crypto = require('node:crypto');
 const fs = require('node:fs');
-const { preservedReplace, assertFileRestart } = require('./recoverySystem');
+const { preservedReplace, assertFileRestart, assertNormalActivityAllowed } = require('./recoverySystem');
 const path = require('node:path');
 const { candidatePacket } = require('./evidencePacket');
 
@@ -163,6 +163,7 @@ class MonthlyKnowledgeRefresher {
   }
 
   async runDue(at) {
+    assertNormalActivityAllowed(this.store.projectId);
     const outcomes = [];
     for (const source of this.store.due(at)) {
       try {

@@ -163,3 +163,9 @@ Do not claim zero knowledge loss while any acceptance requirement is missing.
 
 These references informed the durability checks; this implementation is not
 SQLite and does not inherit SQLite's crash-test proof or ACID guarantees.
+
+## Hosted follow-up and P0 operating hold
+
+Commit `0c651b413753787b3922242e2323977bcafad176` passed CodeQL, handoff, conflict governance and encrypted-custody checks. Its Self-Test exposed two platform differences: the macOS operating-system temporary-root alias was rejected, and Windows directory flushing with a read-only handle returned `EPERM`. The macOS fix canonicalizes only the exact inherited OS temporary-root mapping; additional symbolic aliases remain refused. The Windows follow-up uses the write-capable handle required by Microsoft FlushFileBuffers and preserves a coded `open`/`flush` refusal if that platform still cannot supply directory durability. Hosted verification of both fixes remains required. No fallback silently drops directory durability.
+
+The owner recovery-only priority is now durable in `recovery-operation-policy.json`. Known normal research/provider calls, source retrieval, extraction, operator intake, scientific-learning mutation, hosted proof, ordinary orchestrator work and production repair/digestion are held for both current and retained Crucible project identities. Recovery tasks, read-only diagnostics, isolated fixture verification and other projects remain separate. The first push triggered an existing discovery workflow; it was explicitly canceled (run38794379726). Existing hosted proof run38794379221 had already finished with its previous R8-pending failure and retained its artifacts; its isolated R2 fixture is not a restart of the live R2 pipeline. Later normal invocations must report the P0 hold. Low-level snapshot APIs are retained for isolated recovery verification; all deployed launch paths still need independent inventory and acceptance.

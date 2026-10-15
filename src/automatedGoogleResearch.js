@@ -1,7 +1,7 @@
 const crypto = require('node:crypto');
 const dns = require('node:dns').promises;
 const fs = require('node:fs');
-const { preservedReplace, assertFileRestart } = require('./recoverySystem');
+const { preservedReplace, assertFileRestart, assertNormalActivityAllowed } = require('./recoverySystem');
 const path = require('node:path');
 const { parseGoogleSearchResults, privateAddress, loadVerifiedScholarlyDomains } = require('./safeInformationRetrieval');
 const { crucibleError , operationalError} = require('./failureCodes');
@@ -204,6 +204,7 @@ class AutomatedGoogleResearch {
   }
 
   async runDue(at) {
+    assertNormalActivityAllowed(this.store.projectId);
     const outcomes = [];
     for (const entry of this.store.due(at, this.maximumQueriesPerRun)) {
       try {

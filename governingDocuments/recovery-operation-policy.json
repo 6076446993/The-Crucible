@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "repository": "6076446993/The-Crucible",
+  "branch": "development",
+  "mode": "recovery-only",
+  "independentRecoveryAccepted": false,
+  "source": "Owner P0 recovery-only instruction on 2026-10-15",
+  "normalWorkResumptionAuthorized": false,
+  "permitted": ["read-only diagnostics", "registered recovery operations", "isolated recovery verification"],
+  "releaseRequires": ["independent live recovery acceptance evidence", "governed owner decision recorded with the original pending work preserved"]
+}

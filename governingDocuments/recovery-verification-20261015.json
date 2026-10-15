@@ -264,5 +264,59 @@
       "outputSha256": "fc7bc28f4dc4be7502357ed358cfedfa7f2af2055b07c57da65447a9c8634729"
     }
   ],
-  "localAuditsPassed": true
+  "localAuditsPassed": true,
+  "implementationCommit": "0c651b413753787b3922242e2323977bcafad176",
+  "archivePreservationCommit": "f077292f6b840a3ea722861fb605d42001bd127b",
+  "hostedFirstImplementation": {
+    "selfTest": {
+      "runId": 38794379421,
+      "result": "failure",
+      "windows": {
+        "jobId": 116626826072,
+        "reason": "directory durability unavailable EPERM"
+      },
+      "macos": {
+        "jobId": 116626826423,
+        "reason": "OS temporary-root symbolic alias refused"
+      }
+    },
+    "codeql": {
+      "runId": 38794379524,
+      "result": "success"
+    },
+    "handoff": {
+      "runId": 38794378502,
+      "result": "success"
+    },
+    "conflict": {
+      "runId": 38794379157,
+      "result": "success"
+    },
+    "ciphertextCustody": {
+      "runId": 38794378435,
+      "result": "success"
+    },
+    "automaticDiscovery": {
+      "runId": 38794379726,
+      "result": "cancelled-by-attended-owner-priority-enforcement"
+    },
+    "automaticProof": {
+      "runId": 38794379221,
+      "result": "failure",
+      "reason": "existing R8 pending, revision60; retained artifact; no live R2 restart"
+    }
+  },
+  "followup": {
+    "macosAlias": "exact inherited temporary-root alias normalization only; original-source regression fails and fixed source passes",
+    "windowsHandle": "attempt write-capable directory handle, as FlushFileBuffers requires GENERIC_WRITE; fail closed at open/flush if unavailable; actual hosted retest pending",
+    "operatingMode": "recovery-only",
+    "normalProjectActivityHeld": true,
+    "localFullTests": {
+      "passed": 1125,
+      "failed": 0,
+      "skipped": 0
+    },
+    "newRecoveryTests": 20,
+    "hostedRetest": "pending"
+  }
 }
