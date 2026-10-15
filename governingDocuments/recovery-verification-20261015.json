@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-15T19:27:57.694Z",
+  "recordedAt": "2026-10-15T20:22:35.915Z",
   "repository": "6076446993/The-Crucible",
   "branch": "development",
   "startingSha": "f89606161d7ed2ae01c840fdf1fd9607024c8459",
-  "implementationStatus": "implemented-local-verified-live-independent-acceptance-blocked",
+  "implementationStatus": "implemented-software-verified-live-independent-acceptance-blocked",
   "prototype": {
     "libraryFileId": "libfile_4dd9ee2ecf6481919f04f803f86c5dc8",
     "version": "1",
@@ -164,7 +164,7 @@
     {
       "id": "platform-and-power-failure",
       "status": "pending",
-      "detail": "Directory fsync refusal is tested locally; actual hosted OS matrix, device power loss, external administrative deletion and platform flush behavior remain unverified."
+      "detail": "Hosted Linux/macOS/Windows Node20/22/24 software matrix passed at exact source e34c052; actual device power loss, external administrative deletion and effective independent-storage behavior remain unverified."
     },
     {
       "id": "independent-acceptance",
@@ -358,17 +358,17 @@
     ],
     "zeroKnowledgeLossVerified": false
   },
-  "latestImplementationCommit": "d1b59a85b2b5f6dc1e2c14f8d640a1210396089b",
-  "latestImplementationTree": "1e4d6d16a68fa4bcebe031330d058531dcda4ada",
+  "latestImplementationCommit": "e34c052c17c37e0aeef93ad7614a56fa66796658",
+  "latestImplementationTree": "9572ccb4b85eebdab53c82851febdbc2e43f1093",
   "latestTrackedTreeDrill": {
-    "startedAt": "2026-10-15T19:46:06.814Z",
-    "finishedAt": "2026-10-15T19:46:07.110Z",
-    "checkpointId": "d745ea36aeb5248aeb8287c232076d88463173252a748de246488ab114e458d3",
-    "preDigest": "fef2522c9cf47690da33501fab2edacd2abbc02581d8baac1c916f8cf87ae5d8",
-    "postDigest": "fef2522c9cf47690da33501fab2edacd2abbc02581d8baac1c916f8cf87ae5d8",
+    "startedAt": "2026-10-15T20:02:28.708Z",
+    "finishedAt": "2026-10-15T20:02:28.962Z",
+    "checkpointId": "a7be78d36dcf168f3ebea170b55cdaf163e0cffbe716276a1b65f5739c3d0681",
+    "preDigest": "6ddbdb38a202e4b446c2440f42c7215a0c04e427fc0f6fc56ce3ec273103e695",
+    "postDigest": "6ddbdb38a202e4b446c2440f42c7215a0c04e427fc0f6fc56ce3ec273103e695",
     "files": 433,
     "directories": 20,
-    "bytes": 9097419,
+    "bytes": 9127435,
     "comparison": {
       "ok": true,
       "missing": [],
@@ -457,7 +457,8 @@
     "independentStorageVerified": false,
     "liveLearningCorpusUsed": false,
     "zeroKnowledgeLossVerified": false,
-    "sourceRevision": "d1b59a85b2b5f6dc1e2c14f8d640a1210396089b"
+    "sourceRevision": "e34c052c17c37e0aeef93ad7614a56fa66796658",
+    "cleanCommittedWorkingTree": true
   },
   "sourceReversal": {
     "baseSha": "4b6920047563c5d70b382e7de505d7a98331ca9b",
@@ -492,7 +493,19 @@
     "observed": "15-minute whole-job cancellation during required repeated workload; completed native1125/1125 runs in actual job log, no observed test failure",
     "change": "30-minute whole-job limit for Windows only; other platforms15; each configured workload command4minutes, workers, cycles and every check unchanged",
     "latestSourceRunId": 38796471019,
-    "latestSourceResult": "Linux and macOS all6jobs success; Windows prechecks pending"
+    "latestSourceResult": "Linux and macOS all6jobs success; Windows prechecks pending",
+    "validation": {
+      "sourceRevision": "07048089487baef06c2f84312a66fe05b6984722",
+      "runId": 38797870254,
+      "allPlatformJobsPassed": 9,
+      "failed": 0,
+      "windowsJobs": [
+        116638920073,
+        116638920450,
+        116638920474
+      ],
+      "observed": "All three Windows jobs completed their mandatory workloads after the whole-job budget correction."
+    }
   },
   "recoveryResearch": {
     "reviewedAt": "2026-10-15T19:57:31.690Z",
@@ -518,7 +531,8 @@
         "limit": "Reference guidance; no NIST compliance or independent live recovery acceptance is claimed."
       }
     ],
-    "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared."
+    "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared. Public PDF sections were read through the research service; original PDF byte custody in the live corpus is not claimed.",
+    "originalPdfBytesImportedIntoPrivateCorpus": false
   },
   "verificationBudgetCommit": "07048089487baef06c2f84312a66fe05b6984722",
   "unfinishedWorkRestorationDrill": {
@@ -644,5 +658,113 @@
       "acceptance-native": "b78a3ac3b4484072590f79e57fdf01cdd8c86344c00e6283d420307e08467429"
     },
     "limits": "Validates native flush calls and crash-order contract; actual device power loss remains unverified."
-  }
+  },
+  "latestHosted": {
+    "sourceRevision": "e34c052c17c37e0aeef93ad7614a56fa66796658",
+    "selfTest": {
+      "sourceRevision": "e34c052c17c37e0aeef93ad7614a56fa66796658",
+      "runId": 38798675616,
+      "result": "success",
+      "jobs": [
+        {
+          "id": 116641693226,
+          "name": "The Crucible (windows-2022, 20)",
+          "status": "completed",
+          "result": "success"
+        },
+        {
+          "id": 116641693495,
+          "name": "The Crucible (windows-2022, 22)",
+          "status": "completed",
+          "result": "success"
+        },
+        {
+          "id": 116641693505,
+          "name": "The Crucible (ubuntu-latest, 22)",
+          "status": "completed",
+          "result": "success"
+        },
+        {
+          "id": 116641693614,
+          "name": "The Crucible (windows-2022, 24)",
+          "status": "completed",
+          "result": "success"
+        },
+        {
+          "id": 116641693660,
+          "name": "The Crucible (ubuntu-latest, 20)",
+          "status": "completed",
+          "result": "success"
+        },
+        {
+          "id": 116641693693,
+          "name": "The Crucible (ubuntu-latest, 24)",
+          "status": "completed",
+          "result": "success"
+        },
+        {
+          "id": 116641693718,
+          "name": "The Crucible (macos-latest, 22)",
+          "status": "completed",
+          "result": "success"
+        },
+        {
+          "id": 116641693925,
+          "name": "The Crucible (macos-latest, 24)",
+          "status": "completed",
+          "result": "success"
+        },
+        {
+          "id": 116641694015,
+          "name": "The Crucible (macos-latest, 20)",
+          "status": "completed",
+          "result": "success"
+        }
+      ],
+      "passed": 9,
+      "failed": 0
+    },
+    "codeql": {
+      "runId": 38798675575,
+      "result": "success"
+    },
+    "handoff": {
+      "runId": 38798675591,
+      "result": "success"
+    },
+    "conflict": {
+      "runId": 38798675576,
+      "result": "success"
+    },
+    "learningProof": {
+      "runId": 38798675646,
+      "result": "failure-expected-P0-recovery-only-inhibition",
+      "jobs": [
+        116641693289,
+        116641693605
+      ],
+      "observedCode": "OPS-0049",
+      "logRead": true,
+      "noLiveR2Restart": true
+    },
+    "liveIndependentRecoveryVerified": false,
+    "windowsNativeLogRead": {
+      "jobId": 116641693226,
+      "observedTests": 1127,
+      "passed": 1127,
+      "failed": 0,
+      "skipped": 0,
+      "nestedEmptyDirectoryRegressionPassed": true
+    }
+  },
+  "localDevelopmentReconciliation": {
+    "at": "2026-10-15T20:11:05.871Z",
+    "oldDevelopment": "20a3f18861abd7fc026c64b0f96e0c6f8798fbdf",
+    "publishedSource": "e34c052c17c37e0aeef93ad7614a56fa66796658",
+    "retainedReference": "refs/recovery-preserved/development-before-publication-20261015",
+    "method": "Clean checkout verified; preserved old commit under non-branch recovery ref; detached old checkout; leased existing development ref update; ordinary switch back to development. No hard reset, forced checkout or untracked-file removal.",
+    "status": "verified-clean-and-current"
+  },
+  "softwareVerificationComplete": true,
+  "liveIndependentRecoveryVerified": false
 }
