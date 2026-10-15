@@ -2,7 +2,7 @@
 const crypto=require('node:crypto');const {DurableOrganismRuntime}=require('./organismRuntime');const {assertFlyByWire}=require('./circulationLinkage');const {failureCode,describeCode,testRequestFor,repairableByImmuneSystem,UNCODED}=require('./failureCodes');
 const id=(prefix,value)=>`${prefix}-${crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0,24)}`;
 function signal({type,sourceOrgan,targetOrgan,boundary,payload}){return{id:id(`${sourceOrgan}-to-${targetOrgan}`,{type,boundary,payload}),type,sourceOrgan,targetOrgan,boundary,payload};}
-function createProductionOrganism({projectId,root,learningStore,oversightReflex,diagnosticPlanner,repairActuator,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,councilAdvisor=null,now}){
+function createProductionOrganism({projectId,root,learningStore,oversightReflex,diagnosticPlanner,repairActuator,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,councilAdvisor=null,recoveryController=null,now}){
   // testingOrgan is required rather than defaulted. Everything else here is injected too, and a
   // quiet default import would both break that discipline and hide the fact that an organism now
   // has a route to the test suite - which is precisely the wiring a reader needs to see.
@@ -14,7 +14,13 @@ function createProductionOrganism({projectId,root,learningStore,oversightReflex,
     return result;
   };
   const organs={
-    brain:async({payload,memory,envelope})=>{const plan=await diagnosticPlanner.plan({...payload,boundary:envelope.boundary,verifiedMemory:memory});if(!plan?.bounded||!plan?.nextAction)throw new Error('Brain produced no bounded governed plan.');return{planSha256:id('plan',plan),signals:[signal({type:'work-request',sourceOrgan:'brain',targetOrgan:plan.nextAction==='repair'?'immune':plan.nextAction==='diagnose'?'diagnostics':'reporting',boundary:envelope.boundary,payload:{...payload,plan}})],proofStageSatisfied:false,promotionAuthorized:false};},
+    recovery:async({payload})=>{
+      const result = recoveryController?.recover
+        ? await recoveryController.recover({ projectId, operationId:payload.operationId })
+        : { state:'held', operationalCode:'OPS-0049', restartAuthorized:false, nextAction:'configure-project-bound-recovery-controller' };
+      return { result, recoveryHeld:result.state==='held', signals:[signal({type:'report',sourceOrgan:'recovery',targetOrgan:'reporting',boundary:'recovery',payload:{result}})], proofStageSatisfied:false,promotionAuthorized:false };
+    },
+    brain:async({payload,memory,envelope})=>{const plan=await diagnosticPlanner.plan({...payload,boundary:envelope.boundary,verifiedMemory:memory});if(!plan?.bounded||!plan?.nextAction)throw new Error('Brain produced no bounded governed plan.');return{planSha256:id('plan',plan),signals:[signal({type:'work-request',sourceOrgan:'brain',targetOrgan:plan.nextAction==='recover'?'recovery':plan.nextAction==='repair'?'immune':plan.nextAction==='diagnose'?'diagnostics':'reporting',boundary:envelope.boundary,payload:{...payload,plan}})],proofStageSatisfied:false,promotionAuthorized:false};},
     immune:async({payload,envelope})=>{const result=await repairActuator.run({projectId,boundary:envelope.boundary,changeBaseSha256:payload.changeBaseSha256||payload.plan?.changeBaseSha256});
       const councilAdvice=await consultCouncil({phase:'repair',boundary:envelope.boundary,failureCode:payload.failureCode||null,repairResult:result,attempt:payload.repairAttempt||payload.attempt||1,repeatedFailureCount:payload.repeatedFailureCount||0,regression:payload.repairRegression===true,context:{remedy:payload.remedy||payload.plan?.remedy||null,testRequest:payload.testRequest||payload.plan?.testRequest||null}});
       const signals=[signal({type:'candidate-evidence',sourceOrgan:'immune',targetOrgan:'learning',boundary:envelope.boundary,payload:{kind:'experience-observation',result}}),signal({type:'report',sourceOrgan:'immune',targetOrgan:'reporting',boundary:envelope.boundary,payload:{result,councilAdvice}})];
@@ -56,4 +62,5 @@ function createProductionOrganism({projectId,root,learningStore,oversightReflex,
 }
 function submitNervousObservation(runtime,{observationId,boundary,finding,changeBaseSha256}){return runtime.submit(signal({type:'observation',sourceOrgan:'nervous-system',targetOrgan:'brain',boundary,payload:{observationId,finding,changeBaseSha256}}));}
 function submitVettedIntake(runtime,{intakeId,boundary,custody}){return runtime.submit(signal({type:'candidate-evidence',sourceOrgan:'lungs',targetOrgan:'digestive',boundary,payload:{intakeId,custody}}));}
-module.exports={createProductionOrganism,submitNervousObservation,submitVettedIntake};
+function submitRecoveryTask(runtime,{taskId,operationId,boundary}){if(!taskId||!operationId||!boundary)throw new Error('Recovery requires bounded task and registered operation identities.');return runtime.submit({id:taskId,type:'work-request',sourceOrgan:'brain',targetOrgan:'recovery',boundary,payload:{operationId}});}
+module.exports={createProductionOrganism,submitNervousObservation,submitVettedIntake,submitRecoveryTask};

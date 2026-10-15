@@ -213,10 +213,17 @@ test('the checked-in active handoff records the same canonical route', () => {
   // `ready` decision states which signal selected the category, in the dispatcher's own bounded
   // wording, and a recorded decision carries the hashes binding it to the exact prompt and
   // affected paths. A prose summary has neither.
-  assert.match(record.reason, new RegExp(`^(Affected paths select|Task wording selects|Project context selects) ${record.category}\\.$`));
+  if (record.explicitOverride) {
+    // An exact owner repository/branch instruction is an existing dispatcher path.
+    // Negative wording such as "do not promote" can select release by keyword;
+    // the supported explicit route still binds the exact repository and branch.
+    assert.equal(record.reason, `Explicit repository and branch instruction selected ${record.repository}:${record.branch}.`);
+  } else {
+    assert.match(record.reason, new RegExp(`^(Affected paths select|Task wording selects|Project context selects) ${record.category}\\.$`));
+  }
   assert.match(String(record.promptSha256 || ''), /^[a-f0-9]{64}$/);
   assert.match(String(record.affectedPathsSha256 || ''), /^[a-f0-9]{64}$/);
-  assert.equal(record.explicitOverride, false);
+  assert.equal(typeof record.explicitOverride, 'boolean');
   // The binding is only worth anything if it binds to this file's own prompt.
   assert.equal(record.promptSha256, createHash('sha256').update(String(handoff.activePlan.currentPrompt || '')).digest('hex'));
 });

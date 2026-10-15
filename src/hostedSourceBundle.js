@@ -2,6 +2,7 @@
 
 const crypto = require('node:crypto');
 const fs = require('node:fs');
+const { preservedReplace } = require('./recoverySystem');
 const path = require('node:path');
 const { pipeline } = require('node:stream/promises');
 const { operationalError } = require('./failureCodes');
@@ -277,7 +278,7 @@ function hydrateRestored({ root, repository, ref }) {
     const absolute=path.resolve(root,relative);if(!absolute.startsWith(`${path.resolve(root)}${path.sep}`)||!fs.existsSync(absolute))throw new Error(`Restored source content is missing: ${source.id}.`);
     if(sha256File(absolute)!==String(source.contentSha256).toLowerCase())throw new Error(`Restored source hash mismatch: ${source.id}.`);source.durablePath=absolute;
   }
-  const temporary=`${queueFile}.${process.pid}.${crypto.randomUUID()}.tmp`;fs.writeFileSync(temporary,`${JSON.stringify(queue,null,2)}\n`,{flag:'wx',mode:0o600});fs.renameSync(temporary,queueFile);
+  const temporary=`${queueFile}.${process.pid}.${crypto.randomUUID()}.tmp`;const bytes=`${JSON.stringify(queue,null,2)}\n`;preservedReplace(queueFile,bytes,()=>{fs.writeFileSync(temporary,bytes,{flag:'wx',mode:0o600});const fd=fs.openSync(temporary,'r+');try{fs.fsyncSync(fd);}finally{fs.closeSync(fd);}fs.renameSync(temporary,queueFile);});
   return {projectId:queue.projectId,queueFile,learningRoot:path.resolve(root),sources:[...queue.documents,...queue.links].filter((item)=>item.durablePath).length};
 }
 
@@ -289,7 +290,7 @@ function restageRestored({ root, repository, ref }) {
     if(!absolute.startsWith(`${sourcesRoot}${path.sep}`)||!fs.existsSync(absolute))throw new Error(`Worker source path escapes encrypted custody: ${source.id}.`);
     if(sha256File(absolute)!==String(source.contentSha256).toLowerCase())throw new Error(`Worker changed immutable source content: ${source.id}.`);source.durablePath=`sources/${path.basename(absolute)}`;delete source.originalPath;
   }
-  const temporary=`${queueFile}.${process.pid}.${crypto.randomUUID()}.tmp`;fs.writeFileSync(temporary,`${JSON.stringify(queue,null,2)}\n`,{flag:'wx',mode:0o600});fs.renameSync(temporary,queueFile);
+  const temporary=`${queueFile}.${process.pid}.${crypto.randomUUID()}.tmp`;const bytes=`${JSON.stringify(queue,null,2)}\n`;preservedReplace(queueFile,bytes,()=>{fs.writeFileSync(temporary,bytes,{flag:'wx',mode:0o600});const fd=fs.openSync(temporary,'r+');try{fs.fsyncSync(fd);}finally{fs.closeSync(fd);}fs.renameSync(temporary,queueFile);});
   manifest.updatedAt=new Date().toISOString();manifest.queueSha256=sha256File(queueFile);manifest.learningSha256=sha256File(path.join(root,manifest.learningFile));
   const manifestTemporary=`${manifestFile}.${process.pid}.${crypto.randomUUID()}.tmp`;fs.writeFileSync(manifestTemporary,`${JSON.stringify(manifest,null,2)}\n`,{flag:'wx',mode:0o600});fs.renameSync(manifestTemporary,manifestFile);return manifest;
 }

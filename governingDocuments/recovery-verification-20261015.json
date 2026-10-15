@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-15T19:27:57.694Z",
+  "repository": "6076446993/The-Crucible",
+  "branch": "development",
+  "startingSha": "f89606161d7ed2ae01c840fdf1fd9607024c8459",
+  "implementationStatus": "local-tested-not-live-verified",
+  "prototype": {
+    "libraryFileId": "libfile_4dd9ee2ecf6481919f04f803f86c5dc8",
+    "version": "1",
+    "scope": "read-only comparison only, no restoration or authorization; not assumed integrated"
+  },
+  "preservationPlan": {
+    "libraryFileId": "libfile_389ad8a084cc81919575385d5abc84e0",
+    "statusAtRead": "not committed or queued in repository"
+  },
+  "nativeRecoveryTests": {
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "disposable local custody only"
+  },
+  "regression": {
+    "before": "Original store source recreated a deleted tracked store; new regression failed Missing expected exception",
+    "after": "Replacing only scientificLearning.js with the fix made the same regression pass",
+    "test": "native store deletion fails closed instead of creating an empty learner"
+  },
+  "fullSuite": {
+    "previousVerified": {
+      "passed": 1120,
+      "failed": 0,
+      "skipped": 0
+    },
+    "finalExactSource": {
+      "passed": 1123,
+      "failed": 0,
+      "skipped": 0,
+      "startedAt": "2026-10-15T19:27:00.910Z",
+      "finishedAt": "2026-10-15T19:27:16.857Z",
+      "outputSha256": "cec245796731bd6b493cd502fb4b8a5ac4de177e46cc474a454cd40986d6695d"
+    }
+  },
+  "drill": {
+    "startedAt": "2026-10-15T19:25:35.270Z",
+    "finishedAt": "2026-10-15T19:25:35.594Z",
+    "checkpointId": "54679d61badd65c68d8a3c6f56fd0f21eb0fd4163baa4853b2cf8c60f6094502",
+    "preDigest": "b6e38fc98c15cb153497dbf5a5f9979b55193ae62f9d39014bb4220afb08f8ee",
+    "postDigest": "b6e38fc98c15cb153497dbf5a5f9979b55193ae62f9d39014bb4220afb08f8ee",
+    "files": 431,
+    "directories": 20,
+    "bytes": 9361420,
+    "comparison": {
+      "ok": true,
+      "missing": [],
+      "changed": [],
+      "added": []
+    },
+    "workLedgerIds": [
+      "pipeline-diagnostics",
+      "pipeline-backup",
+      "pipeline-R8",
+      "pipeline-key-recovery",
+      "research-NMI",
+      "research-pipeline",
+      "test-relevance",
+      "devlog-continuity",
+      "DIAG-001",
+      "DIAG-002",
+      "DIAG-003",
+      "DIAG-004",
+      "DIAG-005",
+      "DIAG-006",
+      "DIAG-007",
+      "DIAG-008",
+      "DIAG-009",
+      "DIAG-010",
+      "DIAG-011",
+      "DIAG-012",
+      "DIAG-013",
+      "DIAG-014",
+      "DIAG-015",
+      "DIAG-016",
+      "DIAG-017",
+      "DIAG-018",
+      "DIAG-019",
+      "DIAG-020",
+      "DIAG-021",
+      "DIAG-022",
+      "DIAG-023",
+      "DIAG-024",
+      "DIAG-025",
+      "DIAG-026",
+      "DIAG-027",
+      "DIAG-028",
+      "DIAG-029",
+      "DIAG-030",
+      "DIAG-031",
+      "DIAG-032",
+      "DIAG-033",
+      "DIAG-034",
+      "DIAG-035",
+      "DIAG-036",
+      "DIAG-037",
+      "DIAG-038",
+      "DIAG-039",
+      "DIAG-040",
+      "DIAG-041",
+      "DIAG-042",
+      "DIAG-043",
+      "DIAG-044",
+      "DIAG-045",
+      "DIAG-046",
+      "DIAG-047",
+      "DIAG-048",
+      "DIAG-049",
+      "DIAG-050",
+      "DIAG-051",
+      "DIAG-052",
+      "DIAG-053",
+      "DIAG-054",
+      "DIAG-055",
+      "DIAG-056",
+      "DIAG-057",
+      "DIAG-058",
+      "DIAG-059",
+      "DIAG-060",
+      "DIAG-061",
+      "DIAG-062",
+      "codeql-literal-leak-checks",
+      "owner-file-live-intake"
+    ],
+    "originalPlanAndAllUnfinishedFieldsByteEqual": true,
+    "gitBundleVerified": true,
+    "sourcePopulationDeletedBeforeRestore": true,
+    "restorationProcessExit": 0,
+    "independentSecurityPrincipal": false,
+    "independentStorageVerified": false,
+    "liveLearningCorpusUsed": false,
+    "zeroKnowledgeLossVerified": false
+  },
+  "blockers": [
+    {
+      "id": "protected-independent-storage",
+      "status": "unverified",
+      "detail": "No effective retention-locked independent storage/deletion-denial/recovery-key evidence is available in this runtime."
+    },
+    {
+      "id": "live-corpus-configuration",
+      "status": "unavailable-in-this-runtime",
+      "detail": "Actual project-scoped private corpus roots, all source logs, authenticated custody and recovery signer are not configured here; local fixtures and tracked-tree restoration do not prove live preservation."
+    },
+    {
+      "id": "universal-restart-enforcement",
+      "status": "pending-live-wiring",
+      "detail": "Native per-file guards and orchestrator/production routes are coded; every actual deployed restart and mutation path still requires reviewed configuration and the independent preflight."
+    },
+    {
+      "id": "platform-and-power-failure",
+      "status": "pending",
+      "detail": "Directory fsync refusal is tested locally; actual hosted OS matrix, device power loss, external administrative deletion and platform flush behavior remain unverified."
+    },
+    {
+      "id": "independent-acceptance",
+      "status": "pending",
+      "detail": "No distinct security principal has restored the live corpus and signed its exact state. No independent gate is set passed."
+    }
+  ],
+  "zeroKnowledgeLossVerified": false,
+  "r2Restarted": false,
+  "queuesReset": false,
+  "candidatesDiscarded": false,
+  "mainChanged": false,
+  "commands": [
+    {
+      "name": "full-native",
+      "command": "npm run test:all",
+      "startedAt": "2026-10-15T19:27:00.910Z",
+      "finishedAt": "2026-10-15T19:27:16.857Z",
+      "exitCode": 0,
+      "outputSha256": "cec245796731bd6b493cd502fb4b8a5ac4de177e46cc474a454cd40986d6695d",
+      "tests": 1123,
+      "pass": 1123,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "name": "workflow-lint",
+      "command": "npm run lint:workflows",
+      "startedAt": "2026-10-15T19:27:16.860Z",
+      "finishedAt": "2026-10-15T19:27:17.073Z",
+      "exitCode": 0,
+      "outputSha256": "0f501522e3c9ab950f0694eca76c55b99f03f268bd61f0524e9c357fe0b7243e"
+    },
+    {
+      "name": "docs",
+      "command": "npm run docs:check",
+      "startedAt": "2026-10-15T19:27:17.073Z",
+      "finishedAt": "2026-10-15T19:27:17.273Z",
+      "exitCode": 0,
+      "outputSha256": "e004226c6488c82373112233c30466b546ebcf524e13ac49e5e5d7ac0b95476b"
+    },
+    {
+      "name": "validate",
+      "command": "npm run validate",
+      "startedAt": "2026-10-15T19:27:17.273Z",
+      "finishedAt": "2026-10-15T19:27:17.472Z",
+      "exitCode": 0,
+      "outputSha256": "b75da80ecc8e265a6f7d72f52f44af6031a573b8a1d8e24b807f873be27fdb7f"
+    },
+    {
+      "name": "circulation",
+      "command": "npm run audit:circulation",
+      "startedAt": "2026-10-15T19:27:17.473Z",
+      "finishedAt": "2026-10-15T19:27:17.688Z",
+      "exitCode": 0,
+      "outputSha256": "d39d3a2a90b0f94d7144bcc57dbfd0b24d4633c27512430050d0b53ea411bbc0"
+    },
+    {
+      "name": "failure-codes",
+      "command": "npm run audit:failure-codes",
+      "startedAt": "2026-10-15T19:27:17.689Z",
+      "finishedAt": "2026-10-15T19:27:17.893Z",
+      "exitCode": 0,
+      "outputSha256": "38266f49aea52dde1b3841f308df41c0c6294876cad5b22761e9b22d2decfd0f"
+    },
+    {
+      "name": "clutter",
+      "command": "npm run audit:clutter",
+      "startedAt": "2026-10-15T19:27:17.894Z",
+      "finishedAt": "2026-10-15T19:27:20.552Z",
+      "exitCode": 0,
+      "outputSha256": "49fc3291790bac45d15c5994f8360c46d2dc12a24e2188089e81a8045ad1a43f"
+    },
+    {
+      "name": "privacy",
+      "command": "npm run audit:privacy",
+      "startedAt": "2026-10-15T19:27:20.552Z",
+      "finishedAt": "2026-10-15T19:27:22.315Z",
+      "exitCode": 0,
+      "outputSha256": "da54d862342dba6a08f6baeb49d45635c2a4e760581507176a1dcd6a5cf11cb5"
+    },
+    {
+      "name": "security",
+      "command": "npm run audit:security",
+      "startedAt": "2026-10-15T19:27:22.317Z",
+      "finishedAt": "2026-10-15T19:27:24.096Z",
+      "exitCode": 0,
+      "outputSha256": "df0f94c78b9e8dbb1382264208192c323b1bbd5a6e085b9c7cfe72676819d56e"
+    },
+    {
+      "name": "coordination",
+      "command": "npm run audit:coordination",
+      "startedAt": "2026-10-15T19:27:24.097Z",
+      "finishedAt": "2026-10-15T19:27:24.325Z",
+      "exitCode": 0,
+      "outputSha256": "04afb925b2a2ef979c6635c2623dfd5ced537f0ade0c0be658846de7c90684c3"
+    },
+    {
+      "name": "conflict",
+      "command": "npm run audit:ai-conflict-governance",
+      "startedAt": "2026-10-15T19:27:24.326Z",
+      "finishedAt": "2026-10-15T19:27:24.526Z",
+      "exitCode": 0,
+      "outputSha256": "fc7bc28f4dc4be7502357ed358cfedfa7f2af2055b07c57da65447a9c8634729"
+    }
+  ],
+  "localAuditsPassed": true
+}

@@ -9,6 +9,7 @@ const { INJECTION_PATTERNS } = require('./safeInformationRetrieval');
 const { documentFurniture } = require('./documentFurniture');
 const { extractDocumentText } = require('./htmlTextExtraction');
 const { candidatePacket } = require('./evidencePacket');
+const { preservedReplace, assertFileRestart } = require('./recoverySystem');
 
 function sha256(value) { return crypto.createHash('sha256').update(value).digest('hex'); }
 function normalizedClaimSha256(value) { return sha256(cleanText(value).toLowerCase()); }
@@ -102,14 +103,16 @@ function defaultExtractText(source, pageStart, pageEnd, environment = process.en
 
 class AtomicClaimExtractionQueue {
   constructor(file, projectId) { this.file = path.resolve(file); this.projectId = projectId; this.lockFile = `${this.file}.claim-extraction.lock`; }
-  read() { const queue = JSON.parse(fs.readFileSync(this.file, 'utf8')); if (queue?.schemaVersion !== 1 || queue.projectId !== this.projectId || !Array.isArray(queue.documents) || !Array.isArray(queue.links)) throw new Error('Source queue is invalid or belongs to another project.'); return queue; }
+  read() { assertFileRestart(this.file); const queue = JSON.parse(fs.readFileSync(this.file, 'utf8')); if (queue?.schemaVersion !== 1 || queue.projectId !== this.projectId || !Array.isArray(queue.documents) || !Array.isArray(queue.links)) throw new Error('Source queue is invalid or belongs to another project.'); return queue; }
   write(queue, io = fs) {
+    const bytes = `${JSON.stringify(queue, null, 2)}\n`;
+    const publish = () => {
     const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;
     let descriptor;
     let created = false;
     try {
       descriptor = io.openSync(temporary, 'wx', 0o600); created = true;
-      io.writeFileSync(descriptor, `${JSON.stringify(queue, null, 2)}\n`, 'utf8');
+      io.writeFileSync(descriptor, bytes, 'utf8');
       // Flush the complete file before replacing the prior generation. This is not
       // a claim that the directory entry survives power loss on every filesystem.
       io.fsyncSync(descriptor);
@@ -119,6 +122,10 @@ class AtomicClaimExtractionQueue {
       try { if (descriptor !== undefined) io.closeSync(descriptor); }
       finally { if (created) io.rmSync(temporary, { force:true }); }
     }
+    };
+    // Native writes preserve both generations before atomic replacement. Injected
+    // filesystem tests continue to exercise the publisher's own failure behavior.
+    return io === fs ? preservedReplace(this.file, bytes, publish) : publish();
   }
   lock() { return acquireDurableLock(this.lockFile, { description:'Source queue lock' }); }
 }
