@@ -232,3 +232,13 @@ test('late initialization cannot overwrite an existing learning generation', t =
   assert.deepEqual(fs.readFileSync(store.file),original);
   assert.equal(r.readJournal(store.file).length,records);
 });
+test('restoration flushes the parents of nested empty directories before completion', t => {
+  const f = fixture(t); fs.mkdirSync(path.join(f.data,'outer','inner','empty'),{recursive:true});
+  const checkpoint = r.checkpoint(f.options), descriptors = new Map(), flushed = new Set();
+  const open = fs.openSync, sync = fs.fsyncSync;
+  fs.openSync = function(file,...args) { const fd = open.call(this,file,...args); descriptors.delete(fd); if(fs.fstatSync(fd).isDirectory())descriptors.set(fd,fs.realpathSync(file)); return fd; };
+  fs.fsyncSync = function(fd) { if(descriptors.has(fd))flushed.add(descriptors.get(fd)); return sync.call(this,fd); };
+  try { r.restore({vault:f.vault,id:checkpoint.id,projectId,target:f.target}); }
+  finally { fs.openSync=open;fs.fsyncSync=sync; }
+  for(const relative of ['','custody','custody/outer','custody/outer/inner']) assert.ok(flushed.has(fs.realpathSync(path.join(f.target,relative))),`unflushed directory parent: ${relative}`);
+});

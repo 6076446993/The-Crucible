@@ -232,9 +232,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-15T19:55:15.248Z",
+      "selectedAt": "2026-10-15T20:00:20.314Z",
       "promptSha256": "c82d058e1310ebe28f1bd91f215ac1ad2e3386098cfe54c0a6fe0f2416f2b50d",
-      "affectedPathsSha256": "e173434b7b24d6a0417e10ea675081053a82898678b23b142ec1c1725fbee25c"
+      "affectedPathsSha256": "c3215777d8913900ba80ebe2d029f5be814e20d5c7a10bee87d8579b637d6d2b"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -244,8 +244,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-15T19:55:15.254Z",
-    "currentStep": "Recovery implementation published at d1b59a85b2b5f6dc1e2c14f8d640a1210396089b; native1126/1126 and21recovery tests passed; fresh433-file restoration matched. Await exact hosted completion and independently configured live recovery acceptance.",
+    "lastUpdatedAt": "2026-10-15T20:01:15.621Z",
+    "currentStep": "Recovery code native1127/1127 and22recovery cases pass, including ordered nested-directory restoration; publish exact source and check hosted matrix. Live independent custody, complete private roots/locks, pinned verifier and universal deployment wiring remain blocked.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -318,7 +318,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Local source and restoration verified; hosted completion pending; independent live zero-loss acceptance NOT VERIFIED.",
+    "verificationStatus": "Native and isolated working-state restoration verified; final source hosted matrix pending; independent live zero-loss acceptance NOT VERIFIED.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -3062,10 +3062,10 @@
         }
       ],
       "localVerification": {
-        "passed": 1126,
+        "passed": 1127,
         "failed": 0,
         "skipped": 0,
-        "recoveryFaultTests": 21,
+        "recoveryFaultTests": 22,
         "localAuditsPassed": true,
         "liveIndependentRecoveryVerified": false
       },
@@ -3275,6 +3275,52 @@
         "change": "30-minute whole-job limit for Windows only; other platforms15; each configured workload command4minutes, workers, cycles and every check unchanged",
         "latestSourceRunId": 38796471019,
         "latestSourceResult": "Linux and macOS all6jobs success; Windows prechecks pending"
+      },
+      "recoveryResearch": {
+        "reviewedAt": "2026-10-15T19:57:31.690Z",
+        "status": "design-reference-only-not-promoted-knowledge",
+        "sources": [
+          {
+            "id": "ostep-crash-consistency",
+            "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/file-journaling.pdf",
+            "title": "Operating Systems: Three Easy Pieces, chapter42: Crash Consistency: FSCK and Journaling",
+            "kind": "freely available author-hosted book chapter PDF",
+            "locations": "PDF pages7-11 and15; journal ordering, checksums, redo and block reuse",
+            "finding": "Preserve ordered durable intent and data before publication, validate every recorded generation, and refuse replay over unknown bytes. Current append-only content-addressed history avoids log-space reuse.",
+            "limit": "Conceptual support only; does not prove actual device cache/power-loss behavior."
+          },
+          {
+            "id": "nist-contingency",
+            "url": "https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-34r1.pdf",
+            "catalog": "https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final",
+            "title": "NIST SP800-34 Rev1, November2010 update",
+            "kind": "official public PDF",
+            "locations": "Sections3.5,3.6,4.3,4.4,5.1.5; data/functionality validation examples in appendices",
+            "finding": "Maintain recoverable plans and configuration, protect alternate backup custody, exercise restoration, validate recovered data and function before normal operation, and retain after-action findings.",
+            "limit": "Reference guidance; no NIST compliance or independent live recovery acceptance is claimed."
+          }
+        ],
+        "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared."
+      },
+      "verificationBudgetCommit": "07048089487baef06c2f84312a66fe05b6984722",
+      "directoryRestoreFix": {
+        "at": "2026-10-15T20:01:15.621Z",
+        "baseRevision": "07048089487baef06c2f84312a66fe05b6984722",
+        "change": "Flush every recreated directory in child-before-parent order before restored population verification and completion marker.",
+        "before": "New targeted test fails: unflushed directory parent custody/outer",
+        "after": {
+          "targetedPassed": 1,
+          "fullNativePassed": 1127,
+          "fullNativeFailed": 0,
+          "fullNativeSkipped": 0,
+          "recoveryTests": 22
+        },
+        "outputHashes": {
+          "directory-before": "2621de789af053cc47ab12884c7ada88257cb5cde9f67b6cff3f32b7e533e5e1",
+          "directory-after": "4a566359f42f6b907e6b3a7e09238de9b2bc2e380c7a8facc364a93ec665b128",
+          "acceptance-native": "b78a3ac3b4484072590f79e57fdf01cdd8c86344c00e6283d420307e08467429"
+        },
+        "limits": "Validates native flush calls and crash-order contract; actual device power loss remains unverified."
       }
     },
     "recoveryContinuationPriorContext": {

@@ -285,6 +285,9 @@ function restore({ vault, id, projectId, target, fault = () => {} }) {
       else immutableCopy(path.join(vault, 'objects', `${e.sha256}.blob`), destination, e);
       fault('restored-entry');
     }
+    // Persist every recreated directory entry, including empty nested trees.
+    // Flush children first so the completion marker cannot outrun their parents.
+    for (const e of [...p.inventory.entries].reverse()) if (e.type === 'directory') syncDirectory(safePath(root, e.path));
     syncDirectory(root);
     if (!compare(p.inventory, inventory(root)).ok) refuse('restored population hash/count/path mismatch');
   }
