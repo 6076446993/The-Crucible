@@ -246,7 +246,7 @@ class DurableScientificLearningStore {
     } finally { fs.closeSync(descriptor); }
     try { fs.renameSync(temporary, this.file); }
     catch (error) { try { fs.rmSync(temporary, { force:true }); } catch {} throw error; }
-    });
+    }, undefined, { expectedMissing:!requireExisting });
   }
   transact(mutator, { at, action }) {
     iso(at, 'transaction.at'); text(action, 'transaction.action');

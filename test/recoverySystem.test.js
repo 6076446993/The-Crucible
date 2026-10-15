@@ -204,9 +204,12 @@ test('OS-owned temporary-root aliases are canonicalized without allowing additio
   const f = fixture(t), alias = path.join(f.root,'os-temp-alias');
   fs.writeFileSync(path.join(f.data,'retained'),'original');
   fs.symlinkSync(f.root,alias,process.platform==='win32'?'junction':'dir');
+  const expected = r.inventory(f.data);
   const original = os.tmpdir; os.tmpdir = () => alias;
   try {
-    assert.deepEqual(r.inventory(path.join(alias,'data')),r.inventory(f.data));
+    assert.deepEqual(r.inventory(path.join(alias,'data')),expected);
+    const lock = path.join(alias,'data','native.lock'); fs.writeFileSync(lock,'held');
+    assert.deepEqual(r.inventory(path.join(alias,'data'),[lock]),expected);
     fs.symlinkSync(f.vault,path.join(f.data,'unapproved'),process.platform==='win32'?'junction':'dir');
     assert.throws(() => r.inventory(path.join(alias,'data')),/symlink/);
   } finally { os.tmpdir = original; }
@@ -220,4 +223,12 @@ test('P0 hold prevents real Crucible research before provider calls and keeps ot
   const research = new AutomatedModelPointerResearch({ store:{projectId,due(){dueCalls++;return[];},recordRun(){}},client:{search:async()=>{searches++;}},candidateSink:{register(){registrations++;}} });
   await assert.rejects(() => research.runDue(new Date().toISOString()),/P0 recovery-only/);
   assert.equal(searches,0);assert.equal(registrations,0);assert.equal(dueCalls,0);
+});
+
+test('late initialization cannot overwrite an existing learning generation', t => {
+  const f = fixture(t), store = new DurableScientificLearningStore({ root:f.data, projectId });
+  const original = fs.readFileSync(store.file), records = r.readJournal(store.file).length;
+  assert.throws(() => store.writeEnvelope(store.read(),false), /initialization target already exists/);
+  assert.deepEqual(fs.readFileSync(store.file),original);
+  assert.equal(r.readJournal(store.file).length,records);
 });

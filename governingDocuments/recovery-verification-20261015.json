@@ -318,5 +318,37 @@
     },
     "newRecoveryTests": 20,
     "hostedRetest": "pending"
+  },
+  "platformCorrection": {
+    "codeBaseSha": "4b6920047563c5d70b382e7de505d7a98331ca9b",
+    "recordedAt": "2026-10-15T19:44:45.146Z",
+    "fullNative": {
+      "passed": 1126,
+      "failed": 0,
+      "skipped": 0,
+      "outputSha256": "a732b83d5bd645b217e2baefdc5ba56f60e9d245661fe965402a0f812c81565e"
+    },
+    "recoveryTests": 21,
+    "macosCorrection": "Canonicalize held lock exclusions with population paths; capture expected inventory before changing the temp-root test fixture.",
+    "initializationGuard": "Check expected absence while holding recovery lock, before journaling, so a late initializer cannot replace an existing learner.",
+    "hostedHoldEvidence": {
+      "discovery": 116631212438,
+      "sourceRetrievalAndExtraction": 116631212815,
+      "isolatedR2": 116631212609,
+      "learningProof": 116631212617,
+      "observed": "OPS-0049 P0 recovery-only inhibition; no live R2 restart"
+    },
+    "hostedSelfTest": {
+      "runId": 38795651111,
+      "linux20": "success",
+      "linux24": "success",
+      "macos": "two identified path/test failures corrected locally; retest pending",
+      "windows": "code cadence passed, remaining checks pending"
+    },
+    "research": [
+      "https://github.com/libuv/libuv/blob/v1.x/src/win/fs.c",
+      "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers"
+    ],
+    "zeroKnowledgeLossVerified": false
   }
 }
