@@ -109,7 +109,7 @@ function immutableCopy(source, destination, expected) {
 }
 function inventory(root, excluded = []) {
   const base = realDirectory(root); const entries = [];
-  const exclude = new Set(excluded.map(x => path.resolve(x)));
+  const exclude = new Set(excluded.map(x => fs.realpathSync(path.resolve(x))));
   function walk(dir) {
     for (const name of fs.readdirSync(dir).sort()) {
       const file = path.join(dir, name); if (exclude.has(file)) continue;
@@ -170,10 +170,11 @@ function appendRecord(root, records, record) {
   const previous = records.length ? digest(fs.readFileSync(path.join(root, `${String(records.length - 1).padStart(12, '0')}.json`))) : null;
   immutable(path.join(root, `${String(records.length).padStart(12, '0')}.json`), Buffer.from(json({ ...record, previous }) + '\n'));
 }
-function preservedReplace(file, bytes, publish, fault = () => {}) {
+function preservedReplace(file, bytes, publish, fault = () => {}, { expectedMissing = false } = {}) {
   const held = acquireDurableLock(`${file}.recovery.lock`, { description:'Recovery journal writer lock' });
   try {
   assertFileRestart(file);
+  if (expectedMissing && fs.existsSync(file)) refuse('initialization target already exists; retain existing generation');
   const root = ensureHistory(file); const records = readJournal(file);
   if (fs.existsSync(file)) regular(file);
   const beforeBytes = fs.existsSync(file) ? fs.readFileSync(file) : null;

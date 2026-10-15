@@ -232,9 +232,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-15T19:38:05.296Z",
+      "selectedAt": "2026-10-15T19:44:45.140Z",
       "promptSha256": "c82d058e1310ebe28f1bd91f215ac1ad2e3386098cfe54c0a6fe0f2416f2b50d",
-      "affectedPathsSha256": "321545a8f01287a18d86291d42fa419bfbcd6775138d4e00905c3be90b5f72b3"
+      "affectedPathsSha256": "ede61db37c0ef940f03c070c89f56ba4ff53d5ba7437f647dd44047a0bd56213"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -244,7 +244,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-15T19:38:05.219Z",
+    "lastUpdatedAt": "2026-10-15T19:44:45.146Z",
     "currentStep": "Published first implementation0c651b4; CodeQL/handoff/conflict/ciphertext checks passed, Self-Test exposed macOS temp alias and Windows directory flush refusal. macOS fix and persistent P0 normal-activity hold locally verified1125/1125; write-capable Windows handle change awaits exact hosted test. Live independent storage/verifier/restore remain unavailable here.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -2990,6 +2990,10 @@
         {
           "at": "2026-10-15T19:13:00Z",
           "text": "And all recovery tasks needed to be autonomous and if needed routed through the orchestrator"
+        },
+        {
+          "at": "2026-10-15T19:44:45.146Z",
+          "text": "If you need to do additional research while you work do it"
         }
       ],
       "evidenceFile": "governingDocuments/recovery-verification-20261015.json",
@@ -3092,7 +3096,39 @@
         "newRecoveryTests": 20,
         "hostedRetest": "pending"
       },
-      "operatingMode": "recovery-only"
+      "operatingMode": "recovery-only",
+      "platformCorrection": {
+        "codeBaseSha": "4b6920047563c5d70b382e7de505d7a98331ca9b",
+        "recordedAt": "2026-10-15T19:44:45.146Z",
+        "fullNative": {
+          "passed": 1126,
+          "failed": 0,
+          "skipped": 0,
+          "outputSha256": "a732b83d5bd645b217e2baefdc5ba56f60e9d245661fe965402a0f812c81565e"
+        },
+        "recoveryTests": 21,
+        "macosCorrection": "Canonicalize held lock exclusions with population paths; capture expected inventory before changing the temp-root test fixture.",
+        "initializationGuard": "Check expected absence while holding recovery lock, before journaling, so a late initializer cannot replace an existing learner.",
+        "hostedHoldEvidence": {
+          "discovery": 116631212438,
+          "sourceRetrievalAndExtraction": 116631212815,
+          "isolatedR2": 116631212609,
+          "learningProof": 116631212617,
+          "observed": "OPS-0049 P0 recovery-only inhibition; no live R2 restart"
+        },
+        "hostedSelfTest": {
+          "runId": 38795651111,
+          "linux20": "success",
+          "linux24": "success",
+          "macos": "two identified path/test failures corrected locally; retest pending",
+          "windows": "code cadence passed, remaining checks pending"
+        },
+        "research": [
+          "https://github.com/libuv/libuv/blob/v1.x/src/win/fs.c",
+          "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers"
+        ],
+        "zeroKnowledgeLossVerified": false
+      }
     }
   },
   "handoffNotes": {
