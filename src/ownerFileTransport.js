@@ -1,3 +1,4 @@
+const { assertNormalActivityAllowed } = require('./recoverySystem');
 'use strict';
 // Encrypted owner evidence transport. It never extracts claims or promotes knowledge.
 const fs = require('node:fs');
@@ -122,6 +123,7 @@ function stageRequest({ encryptedRequest, expectedRequestSha256, stateRoot, repo
 async function main(argv = process.argv.slice(2)) {
   const [command, ...args] = argv; const get = (flag) => { const i = args.indexOf(flag); if (i < 0 || !args[i + 1]) fail(flag + ' is required'); return args[i + 1]; };
   const repository = get('--repository'), ref = get('--ref');
+  if (['stage-request','prepare'].includes(command)) assertNormalActivityAllowed('github:'+repository);
   if (command === 'stage-request') return stageRequest({ encryptedRequest: get('--request'), expectedRequestSha256: get('--request-sha256'), stateRoot: get('--state-root'), repository, ref });
   if (command === 'pack') { const list = read(get('--file-list')); return pack({ files: list.files, supportingFiles: list.supportingFiles || [], output: get('--output'), projectId: get('--project-id'), repository, ref }); }
   if (command === 'prepare') return prepare({ root: get('--root'), workingRoot: get('--working-root'), encryptedRequest: get('--request'), expectedRequestSha256: get('--request-sha256'), repository, ref, reportFile: get('--report') });

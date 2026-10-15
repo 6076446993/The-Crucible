@@ -1,3 +1,4 @@
+const { assertNormalActivityAllowed } = require('./recoverySystem');
 'use strict';
 
 const crypto = require('node:crypto');
@@ -106,6 +107,7 @@ class SourceRetrievalWorker {
   }
 
   async run() {
+    assertNormalActivityAllowed(this.projectId);
     const selected = this.selectedSources();
     if (!selected.length) return [];
     const retriever = this.retrieverFactory({

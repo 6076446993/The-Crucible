@@ -200,3 +200,24 @@ test('unsupported directory durability inhibits replacement without changing ori
   finally { fs.fsyncSync = original; }
   assert.equal(fs.readFileSync(file,'utf8'),'retained');
 });
+test('OS-owned temporary-root aliases are canonicalized without allowing additional symlinks', t => {
+  const f = fixture(t), alias = path.join(f.root,'os-temp-alias');
+  fs.writeFileSync(path.join(f.data,'retained'),'original');
+  fs.symlinkSync(f.root,alias,process.platform==='win32'?'junction':'dir');
+  const original = os.tmpdir; os.tmpdir = () => alias;
+  try {
+    assert.deepEqual(r.inventory(path.join(alias,'data')),r.inventory(f.data));
+    fs.symlinkSync(f.vault,path.join(f.data,'unapproved'),process.platform==='win32'?'junction':'dir');
+    assert.throws(() => r.inventory(path.join(alias,'data')),/symlink/);
+  } finally { os.tmpdir = original; }
+});
+test('P0 hold prevents real Crucible research before provider calls and keeps other projects independent', async () => {
+  assert.throws(() => r.assertNormalActivityAllowed(projectId),/P0 recovery-only/);
+  assert.throws(() => r.assertNormalActivityAllowed('github:jonathanblunt1214-lgtm/The-Crucible'),/P0 recovery-only/);
+  assert.doesNotThrow(() => r.assertNormalActivityAllowed('github:other/project'));
+  const { AutomatedModelPointerResearch } = require('../src/automatedModelPointerResearch');
+  let searches=0,registrations=0,dueCalls=0;
+  const research = new AutomatedModelPointerResearch({ store:{projectId,due(){dueCalls++;return[];},recordRun(){}},client:{search:async()=>{searches++;}},candidateSink:{register(){registrations++;}} });
+  await assert.rejects(() => research.runDue(new Date().toISOString()),/P0 recovery-only/);
+  assert.equal(searches,0);assert.equal(registrations,0);assert.equal(dueCalls,0);
+});

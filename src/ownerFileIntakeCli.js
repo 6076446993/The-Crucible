@@ -1,3 +1,4 @@
+const { assertNormalActivityAllowed } = require('./recoverySystem');
 const path = require('node:path');
 const { ingestOwnerFiles } = require('./ownerFileIntake');
 const { crucibleError , operationalError} = require('./failureCodes');
@@ -10,6 +11,7 @@ function required(environment, name) {
 
 function run(argv = process.argv.slice(2), environment = process.env, output = console.log) {
   if (argv[0] !== 'ingest' || argv.length < 2) throw operationalError('OPS-0043', 'Usage: ownerFileIntakeCli.js ingest <exact-file> [exact-file ...]');
+  assertNormalActivityAllowed(required(environment, 'CRUCIBLE_LEARNING_PROJECT_ID'));
   const result = ingestOwnerFiles({
     projectId: required(environment, 'CRUCIBLE_LEARNING_PROJECT_ID'),
     queueFile: path.resolve(required(environment, 'CRUCIBLE_SOURCE_QUEUE')),

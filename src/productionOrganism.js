@@ -1,3 +1,4 @@
+const { assertNormalActivityAllowed } = require('./recoverySystem');
 'use strict';
 const crypto=require('node:crypto');const {DurableOrganismRuntime}=require('./organismRuntime');const {assertFlyByWire}=require('./circulationLinkage');const {failureCode,describeCode,testRequestFor,repairableByImmuneSystem,UNCODED}=require('./failureCodes');
 const id=(prefix,value)=>`${prefix}-${crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0,24)}`;
@@ -21,7 +22,7 @@ function createProductionOrganism({projectId,root,learningStore,oversightReflex,
       return { result, recoveryHeld:result.state==='held', signals:[signal({type:'report',sourceOrgan:'recovery',targetOrgan:'reporting',boundary:'recovery',payload:{result}})], proofStageSatisfied:false,promotionAuthorized:false };
     },
     brain:async({payload,memory,envelope})=>{const plan=await diagnosticPlanner.plan({...payload,boundary:envelope.boundary,verifiedMemory:memory});if(!plan?.bounded||!plan?.nextAction)throw new Error('Brain produced no bounded governed plan.');return{planSha256:id('plan',plan),signals:[signal({type:'work-request',sourceOrgan:'brain',targetOrgan:plan.nextAction==='recover'?'recovery':plan.nextAction==='repair'?'immune':plan.nextAction==='diagnose'?'diagnostics':'reporting',boundary:envelope.boundary,payload:{...payload,plan}})],proofStageSatisfied:false,promotionAuthorized:false};},
-    immune:async({payload,envelope})=>{const result=await repairActuator.run({projectId,boundary:envelope.boundary,changeBaseSha256:payload.changeBaseSha256||payload.plan?.changeBaseSha256});
+    immune:async({payload,envelope})=>{assertNormalActivityAllowed(projectId);const result=await repairActuator.run({projectId,boundary:envelope.boundary,changeBaseSha256:payload.changeBaseSha256||payload.plan?.changeBaseSha256});
       const councilAdvice=await consultCouncil({phase:'repair',boundary:envelope.boundary,failureCode:payload.failureCode||null,repairResult:result,attempt:payload.repairAttempt||payload.attempt||1,repeatedFailureCount:payload.repeatedFailureCount||0,regression:payload.repairRegression===true,context:{remedy:payload.remedy||payload.plan?.remedy||null,testRequest:payload.testRequest||payload.plan?.testRequest||null}});
       const signals=[signal({type:'candidate-evidence',sourceOrgan:'immune',targetOrgan:'learning',boundary:envelope.boundary,payload:{kind:'experience-observation',result}}),signal({type:'report',sourceOrgan:'immune',targetOrgan:'reporting',boundary:envelope.boundary,payload:{result,councilAdvice}})];
       // The immune system's route to the test suite. It asks for the tests the governed plan
@@ -51,7 +52,7 @@ function createProductionOrganism({projectId,root,learningStore,oversightReflex,
     // observation, never a proof stage - the record it emits is candidate evidence like any
     // other, and circulation independently refuses a handler that claims otherwise.
     testing:async({payload,envelope})=>{const outcome=await testingOrgan({payload,envelope});return{...outcome,signals:[signal({type:'candidate-evidence',sourceOrgan:'testing',targetOrgan:'learning',boundary:envelope.boundary,payload:{kind:'existing-test-observation',result:outcome.result}}),signal({type:'report',sourceOrgan:'testing',targetOrgan:'reporting',boundary:envelope.boundary,payload:{result:outcome.result}})]};},
-    digestive:async({payload,envelope})=>{const result=await digestiveWorker.process(payload);return{result,signals:[signal({type:'candidate-evidence',sourceOrgan:'digestive',targetOrgan:'learning',boundary:envelope.boundary,payload:{kind:'vetted-extraction',result}})],proofStageSatisfied:false,promotionAuthorized:false};},
+    digestive:async({payload,envelope})=>{assertNormalActivityAllowed(projectId);const result=await digestiveWorker.process(payload);return{result,signals:[signal({type:'candidate-evidence',sourceOrgan:'digestive',targetOrgan:'learning',boundary:envelope.boundary,payload:{kind:'vetted-extraction',result}})],proofStageSatisfied:false,promotionAuthorized:false};},
     learning:async({payload,envelope})=>{const recorded=await experienceRecorder.record({...payload,projectId,claimBoundary:envelope.boundary,classification:'Insufficient Evidence'});return{recorded,proofStageSatisfied:false,promotionAuthorized:false};},
     reporting:async({payload,envelope})=>({reported:await reporter.report({...payload,projectId,boundary:envelope.boundary}),proofStageSatisfied:false,promotionAuthorized:false}),
   };

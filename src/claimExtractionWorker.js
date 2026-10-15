@@ -9,7 +9,7 @@ const { INJECTION_PATTERNS } = require('./safeInformationRetrieval');
 const { documentFurniture } = require('./documentFurniture');
 const { extractDocumentText } = require('./htmlTextExtraction');
 const { candidatePacket } = require('./evidencePacket');
-const { preservedReplace, assertFileRestart } = require('./recoverySystem');
+const { preservedReplace, assertFileRestart, assertNormalActivityAllowed } = require('./recoverySystem');
 
 function sha256(value) { return crypto.createHash('sha256').update(value).digest('hex'); }
 function normalizedClaimSha256(value) { return sha256(cleanText(value).toLowerCase()); }
@@ -152,6 +152,7 @@ class ClaimExtractionWorker {
   }
 
   run() {
+    assertNormalActivityAllowed(this.projectId);
     const held = this.queue.lock(); const unlock = held.release; const outcomes = [];
     // A reclaimed queue lock means the previous run was forcibly interrupted. That is
     // recovery, not routine, so it is reported rather than silently absorbed.

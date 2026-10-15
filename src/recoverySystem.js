@@ -5,6 +5,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const os = require('node:os');
 const { operationalError } = require('./failureCodes');
 const { acquireDurableLock } = require('./durableLock');
 const digest = value => crypto.createHash('sha256').update(value).digest('hex');
@@ -23,14 +24,34 @@ function safePath(base, relative) {
 }
 function realDirectory(dir) {
   const absolute = path.resolve(dir);
-  if (fs.realpathSync(absolute) !== absolute || !fs.lstatSync(absolute).isDirectory()) refuse('directory contains a symbolic alias');
-  return absolute;
+  const actual = fs.realpathSync(absolute);
+  const temp = path.resolve(os.tmpdir()), canonicalTemp = fs.realpathSync(temp);
+  // macOS supplies /var/... as TMPDIR although that OS-owned prefix resolves to
+  // /private/var/.... Accept only that exact inherited temporary-root mapping.
+  // An additional symlink anywhere beneath it still fails this equality check.
+  const underTemp = absolute === temp || absolute.startsWith(temp + path.sep);
+  const expected = underTemp ? path.join(canonicalTemp, path.relative(temp, absolute)) : absolute;
+  if (actual !== expected || fs.lstatSync(absolute).isSymbolicLink() || !fs.lstatSync(absolute).isDirectory()) refuse('directory contains a symbolic alias');
+  return actual;
+}
+function assertNormalActivityAllowed(projectId) {
+  if (!['github:6076446993/The-Crucible','github:jonathanblunt1214-lgtm/The-Crucible'].includes(projectId)) return;
+  let policy;
+  try { policy = JSON.parse(fs.readFileSync(path.join(__dirname,'..','governingDocuments','recovery-operation-policy.json'),'utf8')); }
+  catch { refuse('recovery operating policy is missing or unreadable; normal activity held'); }
+  if (policy.repository !== '6076446993/The-Crucible' || policy.branch !== 'development' || policy.mode !== 'normal' || policy.independentRecoveryAccepted !== true) refuse('owner P0 recovery-only hold; normal discovery, intake, extraction, learning and repairs remain inhibited');
 }
 function syncDirectory(dir) {
   // Unsupported directory flush is a hard stop, never silently upgraded to durable proof.
   let fd;
-  try { fd = fs.openSync(dir, 'r'); fs.fsyncSync(fd); }
-  catch (error) { refuse(`directory durability is unavailable (${error.code || 'SYNC_FAILED'}); mutation/restart inhibited`); }
+  let stage = 'open';
+  try {
+    // Windows FlushFileBuffers requires a write-capable handle. A read-only
+    // directory handle cannot prove durability even if opening it succeeds.
+    fd = fs.openSync(dir, process.platform === 'win32' ? 'r+' : 'r');
+    stage = 'flush'; fs.fsyncSync(fd);
+  }
+  catch (error) { refuse(`directory durability is unavailable (${stage}:${error.code || 'SYNC_FAILED'}); mutation/restart inhibited`); }
   finally { if (fd !== undefined) fs.closeSync(fd); }
 }
 function immutable(file, bytes) {
@@ -281,4 +302,4 @@ function authorizeRestart({ receipt, publicKey, id, projectId, revision, workerI
   if (s.id !== id || s.projectId !== projectId || s.revision !== revision || !workerIdentity || s.workerIdentity !== workerIdentity || !s.verifierIdentity || !s.backupIdentity || new Set([workerIdentity, s.verifierIdentity, s.backupIdentity]).size !== 3 || s.restoreVerified !== true || s.retentionLocked !== true || s.workerDeleteDenied !== true || s.populationVerified !== true || !Number.isFinite(Date.parse(s.verifiedAt)) || Date.parse(s.verifiedAt) > now || !Number.isFinite(Date.parse(s.expiresAt)) || Date.parse(s.expiresAt) <= now || !Number.isFinite(Date.parse(s.retentionUntil)) || Date.parse(s.retentionUntil) < Date.parse(s.expiresAt)) refuse('recovery receipt does not authorize exact protected state');
   return { restartAuthorized:true, id, projectId, revision, promotionAuthorized:false };
 }
-module.exports = { inventory, compare, hashFile, syncDirectory, preservedReplace, assertFileRestart, replayFile, readJournal, historyRoot, checkpoint, loadCheckpoint, restore, authorizeRestart };
+module.exports = { inventory, compare, hashFile, syncDirectory, preservedReplace, assertFileRestart, replayFile, readJournal, historyRoot, checkpoint, loadCheckpoint, restore, authorizeRestart, assertNormalActivityAllowed };

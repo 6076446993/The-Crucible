@@ -129,11 +129,12 @@
     "src/recoverySystem.js": "Native write-ahead preservation, consistent full-population integrity checkpoints, exact replay and isolated restore; never proof of independent storage by itself.",
     "src/recoverySystemCli.js": "Configured role-complete checkpoint/verify/restore and independently signed restart preflight; includes plans and unfinished work.",
     "src/recoveryController.js": "Existing orchestrator recovery adapter: registered exact operations, durable diagnostic hold, no arbitrary paths, no proof or promotion authority.",
-    "governingDocuments/recovery-system.md": "Recovery operating contract, scope, evidence limits and live prerequisites."
+    "governingDocuments/recovery-system.md": "Recovery operating contract, scope, evidence limits and live prerequisites.",
+    "governingDocuments/recovery-operation-policy.json": "Owner P0 recovery-only operating hold. Normal Crucible activity remains inhibited until independently accepted recovery and a governed owner resumption decision; recovery and read-only diagnosis remain available."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-15T19:27:57.694Z"
+    "lastActionAt": "2026-10-15T19:38:05.219Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -231,9 +232,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-15T19:27:57.766Z",
+      "selectedAt": "2026-10-15T19:38:05.296Z",
       "promptSha256": "c82d058e1310ebe28f1bd91f215ac1ad2e3386098cfe54c0a6fe0f2416f2b50d",
-      "affectedPathsSha256": "0f47197355eb47f6cad3e08286f07669ef86e5253f845be5481789f677a862b2"
+      "affectedPathsSha256": "321545a8f01287a18d86291d42fa419bfbcd6775138d4e00905c3be90b5f72b3"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -243,8 +244,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-15T19:27:57.694Z",
-    "currentStep": "Final local source verified1123/1123 with18recovery fault tests and required audits. Publishing development only and checking hosted results; independent live recovery remains blocked by configured custody/storage/verifier evidence.",
+    "lastUpdatedAt": "2026-10-15T19:38:05.219Z",
+    "currentStep": "Published first implementation0c651b4; CodeQL/handoff/conflict/ciphertext checks passed, Self-Test exposed macOS temp alias and Windows directory flush refusal. macOS fix and persistent P0 normal-activity hold locally verified1125/1125; write-capable Windows handle change awaits exact hosted test. Live independent storage/verifier/restore remain unavailable here.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -3036,7 +3037,62 @@
         "recoveryFaultTests": 18,
         "localAuditsPassed": true,
         "liveIndependentRecoveryVerified": false
-      }
+      },
+      "implementationCommit": "0c651b413753787b3922242e2323977bcafad176",
+      "archivePreservationCommit": "f077292f6b840a3ea722861fb605d42001bd127b",
+      "hostedFirstImplementation": {
+        "selfTest": {
+          "runId": 38794379421,
+          "result": "failure",
+          "windows": {
+            "jobId": 116626826072,
+            "reason": "directory durability unavailable EPERM"
+          },
+          "macos": {
+            "jobId": 116626826423,
+            "reason": "OS temporary-root symbolic alias refused"
+          }
+        },
+        "codeql": {
+          "runId": 38794379524,
+          "result": "success"
+        },
+        "handoff": {
+          "runId": 38794378502,
+          "result": "success"
+        },
+        "conflict": {
+          "runId": 38794379157,
+          "result": "success"
+        },
+        "ciphertextCustody": {
+          "runId": 38794378435,
+          "result": "success"
+        },
+        "automaticDiscovery": {
+          "runId": 38794379726,
+          "result": "cancelled-by-attended-owner-priority-enforcement"
+        },
+        "automaticProof": {
+          "runId": 38794379221,
+          "result": "failure",
+          "reason": "existing R8 pending, revision60; retained artifact; no live R2 restart"
+        }
+      },
+      "followup": {
+        "macosAlias": "exact inherited temporary-root alias normalization only; original-source regression fails and fixed source passes",
+        "windowsHandle": "attempt write-capable directory handle, as FlushFileBuffers requires GENERIC_WRITE; fail closed at open/flush if unavailable; actual hosted retest pending",
+        "operatingMode": "recovery-only",
+        "normalProjectActivityHeld": true,
+        "localFullTests": {
+          "passed": 1125,
+          "failed": 0,
+          "skipped": 0
+        },
+        "newRecoveryTests": 20,
+        "hostedRetest": "pending"
+      },
+      "operatingMode": "recovery-only"
     }
   },
   "handoffNotes": {
@@ -3064,6 +3120,7 @@
       "P0 recovery: native preimage/intent/commit journals and exact replay, full-population snapshot/restore API and CLI, independent signed receipt preflight, existing orchestrator/production routing and held-request retry implemented locally. All prior plans, work ledger IDs and original priorities retained."
     ],
     "remaining": [
+      "P0 follow-up only: publish macOS alias correction and current P0 operating hold, verify exact hosted OS matrix and resolve Windows durability without suppressing flush errors. Do not resume normal work or clear P0 merely because local tests pass.",
       "P0 recovery only: finish exact-source local gates, development publication and hosted checks; then obtain actual configured live custody, independently protected encrypted recovery storage and pinned independent verifier, complete live restore/power-failure/permission proof and universal restart-entry wiring. Zero knowledge loss is NOT VERIFIED. Preserve all earlier pending work; do not resume it before recovery acceptance.",
       "R8 executable-content quarantine proof remains pending in exact implementation run 38176245684; archive replacement does not satisfy scientific or promotion gates.",
       "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
@@ -3098,7 +3155,8 @@
       "50 workflow/source-bundle tests passed for read-only raw authentication probe; no key generation or live publication command added; temp plaintext always cleaned and excluded from uploads.",
       "NVIDIA exact eca6fe4: 1104 native tests, 277 hosted component tests, live acceptance 38198020896 passed five real calls/three probes with controlled retirement and real alternate; no scientific-learning or activation authority.",
       "P0 recovery tests 18/18; source-only deletion regression fails without fix and passes with fix. Tracked-tree and Git-history drill restored431files/20directories/9361420bytes with identical pre/post digest and exact original plan/work-ledger fields. This is not live-corpus or independent-principal proof.",
-      "Final recovery source npm run test:all1123/1123passed, zero failed/skipped, 2026-10-15T19:27:00.910Z through19:27:16.857Z. All10additional required local audits passed. Exact commands, timestamps and output hashes are in recovery-verification-20261015.json."
+      "Final recovery source npm run test:all1123/1123passed, zero failed/skipped, 2026-10-15T19:27:00.910Z through19:27:16.857Z. All10additional required local audits passed. Exact commands, timestamps and output hashes are in recovery-verification-20261015.json.",
+      "Published0c651b413753787b3922242e2323977bcafad176 with exact tested tree5ec1c5a0afa36d4ad7d2f4a132d7592e50892540; manual pre-push hook and exact handoff-range check passed; Archive appendf077292f6b840a3ea722861fb605d42001bd127b preserved old ledger prefix and exact pre-prune DEVLOG. Hosted CodeQL38794379524 passed; Self-Test38794379421 has measured macOS alias and Windows directory-flush failures, not a completion pass."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -4536,6 +4594,42 @@
       "purpose": "Retain exact recovery verification, restoration and unresolved-dependency evidence without asserting live-corpus recovery",
       "status": "active",
       "acquiredAt": "2026-10-15T19:25:34.798Z"
+    },
+    {
+      "taskId": "p0-recovery-normal-activity-hold-20261015",
+      "owner": {
+        "provider": "openai",
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/sourceRetrievalWorker.js",
+          "src/ownerFileIntake.js",
+          "src/scientificLearningCli.js",
+          "src/hostedLearningProof.js",
+          "governingDocuments/recovery-operation-policy.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Enforce owner P0 recovery-only hold before live normal activity while preserving read-only diagnostics and recovery execution",
+      "status": "active",
+      "acquiredAt": "2026-10-15T19:34:17.801Z"
+    },
+    {
+      "taskId": "p0-recovery-intake-cli-hold-20261015",
+      "owner": {
+        "provider": "openai",
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/ownerFileIntakeCli.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Place normal owner intake hold at live operator entry point while retaining isolated snapshot verification APIs",
+      "status": "active",
+      "acquiredAt": "2026-10-15T19:36:03.790Z"
     }
   ],
   "ownerDecisions": [

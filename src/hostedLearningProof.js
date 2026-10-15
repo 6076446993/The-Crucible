@@ -1,3 +1,4 @@
+const { assertNormalActivityAllowed } = require('./recoverySystem');
 'use strict';
 
 const assert = require('node:assert/strict');
@@ -66,6 +67,7 @@ async function runHostedProof({ root, encryptedFile, reportFile, key, repository
   if (ref!=='refs/heads/development') throw new Error('Hosted learning proof is development-only.');
   const masterKey=Buffer.from(key,'base64'); if(masterKey.length<32)throw new Error('CRUCIBLE_HOSTED_STORE_KEY must decode to at least 32 bytes.');
   const binding=learningBinding(repository,ref), {projectId}=binding;
+  assertNormalActivityAllowed(projectId);
   const storeRoot=path.join(root,'store'); fs.mkdirSync(storeRoot,{recursive:true});
   const store=new DurableScientificLearningStore({root:storeRoot,projectId}); const restored=restore(store,encryptedFile,masterKey,binding); const at=now();
   // R4-R6 are learned from the real restored corpus. There is deliberately no synthetic

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const { assertNormalActivityAllowed } = require('./recoverySystem');
 const fs = require('node:fs');
 const path = require('node:path');
 const { DurableScientificLearningStore } = require('./scientificLearning');
@@ -19,6 +20,7 @@ function readCandidate(file) {
 
 function run(argv = process.argv.slice(2), environment = process.env) {
   const action = argv[0] || 'readiness';
+  if (['ingest','compare'].includes(action)) assertNormalActivityAllowed(environment.CRUCIBLE_LEARNING_PROJECT_ID);
   const store = configuredStore(environment);
   if (action === 'readiness') return { ...store.readiness(), readyForTrainingEvidence:store.readiness().ready, autonomousProcessingApi:true };
   if (action === 'ingest') {
