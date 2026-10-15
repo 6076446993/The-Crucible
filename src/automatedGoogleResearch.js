@@ -1,6 +1,7 @@
 const crypto = require('node:crypto');
 const dns = require('node:dns').promises;
 const fs = require('node:fs');
+const { preservedReplace, assertFileRestart } = require('./recoverySystem');
 const path = require('node:path');
 const { parseGoogleSearchResults, privateAddress, loadVerifiedScholarlyDomains } = require('./safeInformationRetrieval');
 const { crucibleError , operationalError} = require('./failureCodes');
@@ -50,6 +51,7 @@ class GoogleResearchStore {
   }
 
   read() {
+    assertFileRestart(this.file);
     if (!fs.existsSync(this.file)) return emptyState(this.projectId, this.topics, this.now());
     const envelope = JSON.parse(fs.readFileSync(this.file, 'utf8'));
     if (Object.keys(envelope).sort().join(',') !== 'payload,sha256' || sha256(JSON.stringify(envelope.payload)) !== envelope.sha256) throw new Error('Google research store integrity check failed.');
@@ -74,8 +76,12 @@ class GoogleResearchStore {
     state.revision += 1;
     const envelope = { payload:state, sha256:sha256(JSON.stringify(state)) };
     const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;
-    fs.writeFileSync(temporary, `${JSON.stringify(envelope, null, 2)}\n`, { flag:'wx', mode:0o600 });
-    fs.renameSync(temporary, this.file);
+    const bytes = `${JSON.stringify(envelope, null, 2)}\n`;
+    preservedReplace(this.file, bytes, () => {
+      fs.writeFileSync(temporary, bytes, { flag:'wx', mode:0o600 });
+      const fd = fs.openSync(temporary, 'r+'); try { fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
+      fs.renameSync(temporary, this.file);
+    });
   }
 
   due(at = this.now(), maximum = MAXIMUM_QUERIES_PER_RUN) {
@@ -167,6 +173,7 @@ class AtomicSourceQueueCandidateSink {
     // of this discovery path is that a guess is later read as a source, and an absent field
     // would be read as "not stated" by a future consumer instead of stopping it here.
     if (method === 'automated-model-pointer-discovery' && (typeof candidate.provider !== 'string' || !candidate.provider.trim() || !['model-proposed-pointers', 'provider-citations'].includes(candidate.providerKind) || typeof candidate.model !== 'string' || !candidate.model.trim() || !hash.test(String(candidate.promptSha256 || '')) || !hash.test(String(candidate.responseSha256 || '')))) throw operationalError('OPS-0042', 'Model-pointer discovery requires provider, providerKind, model, prompt hash, and response hash provenance.');
+    assertFileRestart(this.file);
     const queue = JSON.parse(fs.readFileSync(this.file, 'utf8'));
     if (queue?.schemaVersion !== 1 || queue.projectId !== this.projectId || !Array.isArray(queue.links)) throw new Error('Source queue is invalid or belongs to another project.');
     const existing = queue.links.find((item) => item.url === url.toString() || item.finalUrl === url.toString());
@@ -177,7 +184,12 @@ class AtomicSourceQueueCandidateSink {
     queue.links.push({ id, catalogSourceId:null, ordinal:null, url:url.toString(), author:'unknown until retrieved', license:'not declared; verify source terms before redistribution', retrievedAt:null, contentSha256:null, classification:'Insufficient Evidence', state:'research-approved-pending-retrieval', retrievalStartedAt:null, finalUrl:null, httpStatus:null, contentType:null, contentLength:null, durablePath:null, publisher:null, blocker:null, discovery });
     queue.updatedAt = discoveredAt;
     const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;
-    fs.writeFileSync(temporary, `${JSON.stringify(queue, null, 2)}\n`, { flag:'wx', mode:0o600 }); fs.renameSync(temporary, this.file);
+    const bytes = `${JSON.stringify(queue, null, 2)}\n`;
+    preservedReplace(this.file, bytes, () => {
+      fs.writeFileSync(temporary, bytes, { flag:'wx', mode:0o600 });
+      const fd = fs.openSync(temporary, 'r+'); try { fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
+      fs.renameSync(temporary, this.file);
+    });
     return { created:true, id };
   }
 }

@@ -125,11 +125,15 @@
     "src/learningProvenance.js": "Learning Provenance IDs, lifecycle custody, significant-failure postmortem requirements, and systemic-cause separation.",
     "governingDocuments/native/NEXUS-ENGINEERING-LEARNING-STANDARD.md": "Nexus-wide engineering learning philosophy: symptoms are clues, repairs are evidence, and trusted learning requires verification and governance.",
     "governingDocuments/postmortems/PR-28-nexus-monitor-credential-boundary.md": "PR #28 postmortem separating the monitor credential boundary and recording root cause, systemic cause, corrective action, preventive action, and verification status.",
-    "governingDocuments/failure-code-governance.md": "Canonical CRU failure-class rules: one code per distinct failure class, duplicate occurrences reuse that code, uncoded occurrences remain pending classification, and conflicting code assignments to one canonical failure are rejected."
+    "governingDocuments/failure-code-governance.md": "Canonical CRU failure-class rules: one code per distinct failure class, duplicate occurrences reuse that code, uncoded occurrences remain pending classification, and conflicting code assignments to one canonical failure are rejected.",
+    "src/recoverySystem.js": "Native write-ahead preservation, consistent full-population integrity checkpoints, exact replay and isolated restore; never proof of independent storage by itself.",
+    "src/recoverySystemCli.js": "Configured role-complete checkpoint/verify/restore and independently signed restart preflight; includes plans and unfinished work.",
+    "src/recoveryController.js": "Existing orchestrator recovery adapter: registered exact operations, durable diagnostic hold, no arbitrary paths, no proof or promotion authority.",
+    "governingDocuments/recovery-system.md": "Recovery operating contract, scope, evidence limits and live prerequisites."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-14T20:08:01.329Z"
+    "lastActionAt": "2026-10-15T19:27:57.694Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -210,36 +214,37 @@
   },
   "activePlan": {
     "agent": "Codex",
-    "objective": "Repair the independently reproduced retained DEVLOG reader buffer failure while preserving fail-closed accountability and protected promotion.",
-    "currentPrompt": "Re-run CI and fix any failing tests reported by the jobs.",
+    "objective": "P0 recovery system only: preserve all committed knowledge and source custody across interruption, with independently verified restoration before restart authorization.",
+    "currentPrompt": "THE CRUCIBLE — PRIORITY P0: RECOVERY SYSTEM ONLY\n\nExecute recovery-system implementation immediately in \"6076446993/The-Crucible\", branch \"development\", before any other Crucible work resumes.\n\nRead \"AGENTS.md\", \"DEVLOG.md\", \"AI-HANDOFF.json\", governing documents, current development SHA, and active mutation claims. Coordinate ownership and complete mandatory prewrite checks.\n\nImplement verified, durable, restart-safe preservation for all committed knowledge, research source logs, original source material, candidates, evidence, custody records, learning versions, extraction progress, and unfinished work.\n\nIntegrate integrity manifests, consistent checkpoints, protected independent recovery copies, idempotent replay, fail-closed restart authorization, and recovery diagnostics into the existing architecture.\n\nReconcile the existing preservation plan and locally tested restart-integrity prototype. Do not assume the prototype is already integrated.\n\nRun native tests, fault injection, interrupted-restart simulations, independent restoration, and pre/post-recovery hash, count, identity, and provenance verification.\n\nRecord exact SHA, changes, tests, evidence, and unresolved blockers in the existing governed development records.\n\nRecovery system only. Do not restart R2, reset queues, discard candidates, promote to main, or resume unrelated development. Do not claim zero knowledge loss until independently verified. Continue until completed or genuinely blocked.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
-      "purpose": "Execute bounded repository documentation remediation and exact-head PR verification.",
-      "selectionReason": "Multi-file governed change, claim handoff and hosted CI diagnosis.",
-      "distinction": "Execution mode is separate from agent identity and GitHub workflow."
+      "purpose": "Recovery implementation and fault injection",
+      "reason": "Multi-file durability changes and restoration proof require sustained execution.",
+      "distinction": "Execution mode is separate from agent identity and workflow name.",
+      "selectionReason": "Multi-file durability changes and restoration proof require sustained execution."
     },
     "taskRouting": {
       "category": "crucible-core",
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
-      "explicitOverride": false,
-      "selectedAt": "2026-10-14T20:01:54.278Z",
-      "promptSha256": "d625c25f67ccfc25e2ad04b2c54ff5995066a6ca725e8df84bff473f272066de",
-      "affectedPathsSha256": "544a6cc508aa65fb26c407cc396df147a66e97feb308b90018063110f3f0bab6"
+      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
+      "explicitOverride": true,
+      "selectedAt": "2026-10-15T19:27:57.766Z",
+      "promptSha256": "c82d058e1310ebe28f1bd91f215ac1ad2e3386098cfe54c0a6fe0f2416f2b50d",
+      "affectedPathsSha256": "0f47197355eb47f6cad3e08286f07669ef86e5253f845be5481789f677a862b2"
     },
     "steps": [
-      "Reproduce real Archive overflow and preserve negative hosted/local receipts.",
-      "Add bounded reader and meaningful real-Git positive/negative regression.",
-      "Run focused tests and installed pre-push checks.",
-      "Publish development and monitor exact-head checks; preserve R8 and Dependabot credential/collision boundaries."
+      "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
+      "Run native full-suite, fault-injection, source-only reversal, isolated tracked-tree/plan/Git-history restore and required local gates.",
+      "Publish only to development and verify exact-tip hosted tests/security; preserve any failing evidence and repair within recovery scope.",
+      "Bind live roots and all writer locks, provision protected independent encrypted recovery custody and independently pinned verifier, run distinct-principal live restoration, then enforce preflight at every deployed restart. No R2 restart or unrelated development."
     ],
-    "status": "handoff-ready",
-    "startedAt": "2026-10-14T19:37:18.314Z",
-    "lastUpdatedAt": "2026-10-14T20:08:01.329Z",
-    "currentStep": "Reader repair and51focused tests passed locally; publication and hosted verification pending.",
+    "status": "active",
+    "startedAt": "2026-10-15T19:04:36.000Z",
+    "lastUpdatedAt": "2026-10-15T19:27:57.694Z",
+    "currentStep": "Final local source verified1123/1123 with18recovery fault tests and required audits. Publishing development only and checking hosted results; independent live recovery remains blocked by configured custody/storage/verifier evidence.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -1587,6 +1592,1451 @@
         "affectedPathsSha256": "da5e6669b36349fe33c3b0ef52fd06ce28da6095c75b30dbe3639763be19f8df"
       },
       "verificationStatus": "48documentation-focused and126reconciliation-focused local tests passed. The published f433e79 handoff/conflict/Archive checks passed; seven Self-Test matrix jobs passed, two macOS jobs failed historical-accountability visibility. Final merge-head hosted evidence pending."
+    },
+    "recoveryPriorState": {
+      "agent": "Codex",
+      "objective": "Repair the independently reproduced retained DEVLOG reader buffer failure while preserving fail-closed accountability and protected promotion.",
+      "currentPrompt": "Re-run CI and fix any failing tests reported by the jobs.",
+      "executionMode": {
+        "mode": "work",
+        "agent": "Codex",
+        "purpose": "Execute bounded repository documentation remediation and exact-head PR verification.",
+        "selectionReason": "Multi-file governed change, claim handoff and hosted CI diagnosis.",
+        "distinction": "Execution mode is separate from agent identity and GitHub workflow."
+      },
+      "taskRouting": {
+        "category": "crucible-core",
+        "repositoryId": 1344890806,
+        "repository": "6076446993/The-Crucible",
+        "branch": "development",
+        "reason": "Affected paths select crucible-core.",
+        "explicitOverride": false,
+        "selectedAt": "2026-10-14T20:01:54.278Z",
+        "promptSha256": "d625c25f67ccfc25e2ad04b2c54ff5995066a6ca725e8df84bff473f272066de",
+        "affectedPathsSha256": "544a6cc508aa65fb26c407cc396df147a66e97feb308b90018063110f3f0bab6"
+      },
+      "steps": [
+        "Reproduce real Archive overflow and preserve negative hosted/local receipts.",
+        "Add bounded reader and meaningful real-Git positive/negative regression.",
+        "Run focused tests and installed pre-push checks.",
+        "Publish development and monitor exact-head checks; preserve R8 and Dependabot credential/collision boundaries."
+      ],
+      "status": "handoff-ready",
+      "startedAt": "2026-10-14T19:37:18.314Z",
+      "lastUpdatedAt": "2026-10-14T20:08:01.329Z",
+      "currentStep": "Reader repair and51focused tests passed locally; publication and hosted verification pending.",
+      "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
+      "ownership": {
+        "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
+        "owner": {
+          "provider": "openai",
+          "agent": "Codex",
+          "model": null
+        },
+        "mutationScope": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/ownerFileTransport.js",
+          "test/ownerFileTransport.test.js",
+          ".github/workflows/owner-file-intake.yml",
+          "src/circulationLinkage.js",
+          "src/testCadenceCoreLegacy.js",
+          "test/_testCadenceCore.js",
+          "governingDocuments/owner-file-transport.md",
+          "test/workflow.test.js",
+          "governingDocuments/known-bugs/KNOWN-BUGS.json",
+          "governingDocuments/owner-file-intake-release.json",
+          "governingDocuments/owner-file-intake-main-compatibility.patch",
+          "src/hostedSourceBundle.js",
+          "test/hostedSourceBundle.test.js",
+          ".github/workflows/self-test.yml",
+          "src/claimExtractionWorker.js",
+          "test/claimExtractionWorker.test.js",
+          "test/pdfTextExtraction.test.js",
+          "src/ciDiagnosticOrgan.js",
+          "test/ciDiagnosticOrgan.test.js",
+          ".github/workflows/hosted-learning-proof.yml",
+          "src/handoffPolicy.js",
+          "src/testLifecycle.js",
+          "test/handoffPolicy.test.js",
+          "test/testLifecycle.test.js",
+          "test/sourceBundleKeyAutomation.test.js",
+          "src/aiHandoffContinuation.js",
+          "test/aiHandoffContinuation.test.js",
+          ".github/workflows/hosted-source-bootstrap.yml",
+          "test/rawCustodyRebuildWorkflow.test.js",
+          "README.md",
+          ".github/workflows/raw-custody-publisher.yml",
+          "test/rawCustodyPublisher.test.js",
+          ".github/workflows/r8-executable-canary-publisher.yml",
+          "src/safeInformationRetrieval.js",
+          "test/safeInformationRetrieval.test.js",
+          "src/r8ExecutableCanaryPublisher.js",
+          "test/r8ExecutableCanaryPublisher.test.js",
+          "src/rawCustodyPublisher.js"
+        ],
+        "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody.",
+        "originalTaskId": "owner-file-transport-20261008",
+        "originalAcquiredAt": "2026-10-08T04:06:58.715Z"
+      },
+      "trustedBoundary": {
+        "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
+        "branch": "development",
+        "establishedBy": "hosted Crucible Self-Test",
+        "evidence": [
+          "Eighteen of eighteen Self-Test legs green: push run 34926863414 and pull-request run 34926865280.",
+          "Local: npm run test:all 862/862; thirteen governance gates and git diff --check exit 0."
+        ],
+        "note": "Commits d9a91da through d21be9a land after this boundary and are the delta a successor must verify.",
+        "establishedAt": "2026-09-15T04:03:54Z",
+        "supersededBy": null
+      },
+      "previousAgent": {
+        "agent": "Codex",
+        "provider": "openai",
+        "handedOverAt": "2026-09-15T09:20:00Z",
+        "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
+      },
+      "verificationStatus": "Before-fix regression failed as expected;51focused tests passed after fix; real retained Archive now validates.",
+      "historicalBlockers": [
+        {
+          "id": "oversight-refusal-was-not-honoured",
+          "summary": "Oversight recorded linked-source:5ab0eabad5e6714491c75fabab25d6afdf54218c4bdbfe705592c08de4baef62 quarantined for prompt-injection content, and the corpus it published stores that content at contentSha256 79719cd5979b6351fd2759205433a8311b7a54db821c98fd4e6175937b952a37 anyway. No other source review shares that hash, so this is not one file shared by a duplicate. The refusal was published; the bytes were published with it. That is a custody failure in the independent vetting path rather than in Crucible, and it is the sharpest open item in the pipeline. Crucible side is correct and unchanged: the content-absence check refused to credit it, so no gate moved.",
+          "owner": "user-or-oversight"
+        },
+        {
+          "id": "forty-five-documents-match-the-exfiltration-pattern",
+          "summary": "Run 35067259424 broke the 60 down as 45x (?:reveal|exfiltrat|upload).{0,30}(?:secret|credential|token|key), 17x (?:execute|run).{0,20}(?:command|shell|powershell|bash), 1x system prompt. The over-breadth explanation this session offered covers at most 18; the dominant 45 match the specific pattern, which the documentation samples do not match. Documentation about credential hygiene would match it too, so this is not yet a finding either way - it is the next thing to look at, and it is sharper than the earlier record implied. The report names source ids grouped by pattern so the documents can be opened in vetted custody; no content is quoted into the public run log, because that pattern fires exactly where a real credential would sit. Whether to narrow the pattern list remains an owner safety decision, and it should be taken after looking at those documents rather than before.",
+          "owner": "user-or-claude"
+        },
+        {
+          "id": "consult-not-dispatchable-until-it-reaches-main",
+          "summary": "council-consult.yml is on development and GitHub answers 404 to its dispatch, because workflow_dispatch is only accepted for a workflow present on the default branch, which is main. Measured rather than assumed: every dispatchable workflow here is on main - hosted-learning-proof.yml, model-pointer-research.yml and perplexity-research.yml, at 140, 7 and 1 runs - while council-consult.yml is unknown to the Actions API entirely. A push trigger would not fix it and is refused anyway, because a push-triggered consult egresses on every commit. So the workflow is correct and in place but cannot run until the file reaches main, and reaching main is a promotion that CONSTITUTION.md Promotion Boundary says no AI and no council authorizes. Note the conflict before choosing: promoting all of development would also carry learning-scope changes to main while R8 is pending, against the standing constraint that they stay blocked until every learning gate passes. The narrow option is to carry this one workflow file to main through release, which keeps the learning scope where it is.",
+          "owner": "user"
+        },
+        {
+          "id": "nim-model-never-called",
+          "summary": "nvidia/nemotron-3-nano-30b-a3b has still never been called, and the owner reports doubting the code is finished rather than the model. Crucible own consult path reads complete - createConfiguredAdapters, a real bearer chat adapter with redaction, MultiAiOrchestrator.distribute, corroborate, deliberationFromDistribution - and it fails closed with CRU-0034 and exit 1 when no provider is configured, verified locally. What has never happened is a successful call. The consult workflow is the first thing that will make one on the existing secret, so dispatching it is the test: it either returns a deliberation or fails with a coded error naming the stage.",
+          "owner": "claude"
+        },
+        {
+          "id": "council-unreachable-from-this-session",
+          "summary": "The deployed council cannot be reached from this session and no URL or token changes that: the environment network policy answers 403 to CONNECT for onrender.com, and its allow-list covers Anthropic APIs, package registries and GitHub only. The same policy is why NVIDIA NIM cannot be called from here either. The consult therefore runs on a GitHub runner, which is what the new workflow is for. Configuring the council as an MCP server is for the owner Claude Code on a host with open egress: Streamable HTTP at <deployed-host>/mcp with Authorization: Bearer AI_COLLABORATION_BEARER_TOKEN, the host readable from the Render dashboard or the registered ChatGPT app, since the repository does not record it.",
+          "owner": "user"
+        },
+        {
+          "id": "fake-harness-knowledge-version-still-active",
+          "summary": "Active knowledge v1 in the hosted durable store is candidate cycle-92917a3a1bac7b53ce800d3a08e78b51, boundary \"Node.js ordinary dense arrays of numbers\" - verbatim the module constant of the hardcoded harness deleted at 85d3b59. Deleting the harness did not retract what it promoted. R5 still counts it as a verified knowledge version. Every active version is now marked corpus-backed or not and an unbacked one warns, but nothing is retracted, because retracting durable learning state is an owner decision.",
+          "owner": "user"
+        },
+        {
+          "id": "r4-r7-measured-once",
+          "summary": "R4-R7 read satisfied on two runs, but the experiment behind them ran exactly once. Run 35062311534 confirms run 35013415132 promotion from the durable store rather than from an absent log line, which is stronger evidence - but it restored knowledge instead of learning, so it did not repeat the measurement, and which language harness produced the version is in neither log. They stay reported rather than passed.",
+          "owner": "claude"
+        },
+        {
+          "id": "r3-topics-not-due",
+          "summary": "The pinned discovery model nvidia/nemotron-3-nano-30b-a3b has never been called. All 16 topics consumed their daily slots at 2026-09-15T08:32:29Z against the withdrawn model, so discovery is a no-op until roughly 24 hours later unless discovery state is discarded.",
+          "owner": "user"
+        },
+        {
+          "id": "plan-6-07-partially-blocked",
+          "summary": "This entry records only the factual continuity fields of the owner-supplied 6:07 plan Step 2B. Step 2A (a trusted-verification-boundary principle in AI-collaboration- ORCHESTRATOR-POLICY.json), Step 2C (automated council invocation) and Step 2D (usage-limit continuation) were refused by the session permission classifier as externally-sourced governance content and are NOT installed. The drafted text was handed to the owner for manual review instead.",
+          "owner": "user"
+        },
+        {
+          "id": "owner-source-rescan-pending",
+          "summary": "The 14-identity owner source rescan remains pending and unperformed while R4 custody or retention is blocked. Content hashes and extraction-window history are to be reused; source bytes are not duplicated, custody is not reset, and unchanged windows are not re-extracted merely to call it a rescan.",
+          "owner": "user-or-oversight"
+        },
+        {
+          "id": "five-source-durable-custody-blocked",
+          "summary": "Four authorized public captures and 123 extracted candidate assertions exist only in the project-bound local intake checkpoint. This Crucible checkout has no authorized write path into the independent Learning-Worker, Crucible-Learning-State, Crucible-Vetted-Learning-State, or Vetting-and-Governance-oversite custody repositories. No repository boundary was bypassed and no local candidate was represented as submitted to vetted custody.",
+          "owner": "user-or-custody-administrator"
+        },
+        {
+          "id": "authorized-pdf-native-parser-no-pages",
+          "summary": "The Hundred-Page Machine Learning Book chapter-one PDF is an authorized nine-page public draft with SHA-256 f84e6ba775ef707a0223173dd4e7be524c7e516dd67d879d9ac775dd74e70bf2. Native owner-file intake returned OPS-0043 no_pages even though pdfinfo and pdftotext read it. The exact bytes remain preserved; the deterministic text derivative SHA-256 ce5786cab91691b0325c817a3c986ba1819eff6bea9d67052a6f4ecd0153d3fe was admitted as candidate input. This workaround is not a verification result.",
+          "owner": "crucible-learning-maintainer"
+        },
+        {
+          "id": "agentic-ai-game-plan-source-ineligible",
+          "summary": "Only retailer or review metadata was found for Agentic AI Game Plan. No author-hosted, publisher-hosted, companion, or explicitly authorized excerpt material was located, so the source was rejected before intake rather than scraped, quarantined, or inferred from third-party listings.",
+          "owner": "source-research"
+        }
+      ],
+      "blockers": [
+        {
+          "id": "r3-live-discovery-aborted",
+          "summary": "Latest discovery run 37565999549 has zero searched/completed/cited/admitted URLs; nonzero real provider discovery/admission evidence remains absent.",
+          "owner": "provider-or-owner"
+        },
+        {
+          "id": "r8-executable-live-proof-missing",
+          "summary": "Current custody enforces oversight quarantine and the durable proof credits every R8 behavior except executable-content refusal. The governed canary publisher has not run and no executable bytes may be fabricated or admitted merely to complete the gate.",
+          "owner": "owner-or-custody-administrator"
+        },
+        {
+          "id": "owner-source-rescan-pending",
+          "summary": "Eight of 14 exact owner hashes are present in current vetted custody. Six are absent: 84d73c44d1f22e6b451a15b31c8f6e520fca6d09db82cfa56999920de1c7d693, c183f3ecfac24175a58921c171b1f5749cf84db72ceeac0752c44ef09bf56991, cf6cf8d31f6e6e0a4ec7dd2eecfa4ce9adb620db727d6280a2bb7195d2f95dfb, 29a6c35ca175ce7b67de420b9637db20ac161cf22397c23c31482067f4a63c85, fccaca99a230233486b689d774d41522dadb50260579d9cba8b591485445fb75, and 03ddee53d6e77d35b75c076169b0f60a57129e64d451b523ce72aff51b4cf8cc. No exact retained candidate IDs or full gate outcomes exist for the four new identities' 58 local candidates.",
+          "owner": "user-or-oversight"
+        },
+        {
+          "id": "exact-tip-ci-red",
+          "summary": "Hosted Administration-read access and private PR-monitor visibility remain unproved; Windows CRLF assertion is repaired locally and awaits exact-tip hosted verification.",
+          "owner": "owner-or-repository-administrator"
+        },
+        {
+          "id": "fake-harness-knowledge-version-still-active",
+          "summary": "Active v1 candidate cycle-92917a3a1bac7b53ce800d3a08e78b51 remains not corpus-backed. It is not the basis for the R5 pass, and retracting it remains an owner decision.",
+          "owner": "user"
+        },
+        {
+          "id": "manual-raw-custody-execution-unavailable",
+          "summary": "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
+          "owner": "owner-or-custody-administrator"
+        }
+      ],
+      "nextAction": "Publish bounded reader repair to development and check exact-head CI.",
+      "evidenceReferences": {
+        "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
+        "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
+      },
+      "handoffNotes": {
+        "completed": [
+          "Tested separate transport proposal: six focused tests and disposable import of five attached PDFs plus two supporting catalogs.",
+          "Prior mutation claim is already released in mutationClaims; preserve its stale activePlan context in ownerFileTransportPriorPlan.",
+          "Integrated candidate-only encrypted transport and exact-request manual workflow; full local suite 1015/1015, zero skipped; change-impact 181/181; required local governance/privacy/security checks passed.",
+          "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e.",
+          "Prepared narrow main-based six-file package (workflow, two required tests, handoff/log and retained failure ledger); local full suite 932/932 and failure retest 25/25 passed, zero skipped.",
+          "Rejected-decryption descriptor/cleanup repair passed focused 16/16 and full change-impact suite 1016/1016, zero skipped; circulation and failure-code gates unchanged.",
+          "c750ac6: eight matrix jobs passed; Windows Node 20 twice passed all tests/audits/precheck but the 10-minute wrapper cancelled the remaining mandatory workload.",
+          "Whole-job budget adjustment passed workflow tests 37/37 and local full change-impact 1016/1016; 4-minute workload command deadlines, two workers/two cycles and all source tests retained."
+        ],
+        "remaining": [
+          "Exact-head completion with sufficient whole-job scheduling budget; unchanged 4-minute per-command deadline, workers/cycles and test coverage.",
+          "Authorized narrow default workflow registration.",
+          "Existing-key authenticated live intake and actual receipt."
+        ]
+      },
+      "filesTouched": [
+        "AI-HANDOFF.json",
+        "DEVLOG.md",
+        "governingDocuments/source-bundle-key-manager.md",
+        ".github/workflows/source-bundle-key-manager.yml",
+        ".github/workflows/nexus-check-monitor.yml",
+        "test/keyManagerPolicy.test.js",
+        "test/workflow.test.js"
+      ],
+      "rawCustodyAuthorization": {
+        "ownerInstruction": "can you do it all in order it should be",
+        "context": "Owner accepted the ordered implementation of a general raw custody publisher, bounded SI intake, independent Oversight, ordinary scientific verification, persistence and release-evidence work.",
+        "maximumSources": 9,
+        "sourceRegister": "governingDocuments/synthetic-intelligence-research-register.json",
+        "rawCustodyWrite": "manual authenticated ciphertext-only intake with preservation and rollback checks",
+        "vettedCustodyWrite": false,
+        "automaticTrigger": false,
+        "promotionAuthorized": false,
+        "existingQueuesMayBeCleared": false
+      },
+      "promotionAuthorization": {
+        "authorized": true,
+        "ownerReply": "Yes",
+        "proposal": "Authorize takeover of si-promotion-credential-repair-20261007 and deployment of this intake workflow through the verified development -> release -> main path?",
+        "scope": "Narrow owner-file-intake.yml deployment and required governance compatibility only; no broad development promotion.",
+        "path": "development -> release -> main",
+        "directMainPushAllowed": false,
+        "broadDevelopmentPromotionAllowed": false
+      },
+      "intakeHardening": {
+        "ownerPrompt": "Look at both to make sure it's not something that will cause more harm than good then implement it before narrowing the search explicitly to topics blocking the crucible",
+        "status": "implementation",
+        "steps": [
+          "Reproduce timeout and failed-flush boundaries on disposable fixtures.",
+          "Implement bounded extractor timeout and flush-before-replace queue publication.",
+          "Run governed validation; development only.",
+          "Narrow research to verified live blockers."
+        ],
+        "rollback": "Revert only this hardening commit; no live queue/store mutation or migration."
+      },
+      "diagnosticImprovements": {
+        "ownerPrompt": "Figure out if they are actually useful then implement what are actually improvements",
+        "status": "local validation passed; development publication next",
+        "scope": "Read-only exact-run stage diagnosis; preserve live pipeline and existing hardening edits.",
+        "completed": [
+          "Exact repository/commit/run/attempt job diagnosis CLI implemented.",
+          "Failed-step-only logs, multiple failure stages, preserved success observations, stale/contradictory evidence rejection.",
+          "Real hosted job 38152447862 replay classified scientific-proof and did not infer key loss.",
+          "43 focused tests passed; security and circulation checks passed.",
+          "Automatic additive hosted proof diagnosis and retained artifact wired.",
+          "Private unfinished-source inventory and ciphertext-copy validator implemented; data and gate claims remain explicit.",
+          "Real compiler module validation: all 1058 tests passed, zero skipped."
+        ],
+        "remaining": [
+          "Development commit and required hosted CI verification.",
+          "Complete independent custody backup and authenticated exact-source inventory execution.",
+          "R8 existing self-hosted runner prerequisites must be available; no unsafe publisher dispatch."
+        ]
+      },
+      "priorCurrentPrompt": "Keep working and remember oldest relevant work gets completed first",
+      "archiveReplacementPriorPrompt": "Read-only raw key compatibility probe to unblock oldest owner intake",
+      "archiveReplacementPriorRouting": {
+        "category": "crucible-core",
+        "repositoryId": 1344890806,
+        "repository": "6076446993/The-Crucible",
+        "branch": "development",
+        "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
+        "explicitOverride": true,
+        "selectedAt": "2026-10-11T16:50:05.890Z",
+        "promptSha256": "93bb75b257ed58f43f23aaf4e257cac7de8c81177e13aef272035ac9d370b9d3",
+        "affectedPathsSha256": "bb63fd1df2a1f1401f15b341b1acb452e6ece8a6431db9d86b29864a2a84b1dc"
+      },
+      "archiveReplacementAuthorization": {
+        "recordedAt": "2026-10-11T21:04:48.669Z",
+        "ownerMessages": [
+          "the entire key",
+          "that key is lost so I want it rotated to the one you have",
+          "the old archive is the problem and why were rotating",
+          "you have the new key in github and in the key management system",
+          "ok so do it"
+        ],
+        "interpretation": "Replace unusable raw ciphertext under the already configured replacement key; preserve historical ciphertext and candidate/source lineage; encrypted private transfer and verified restore, no new custody key or promotion.",
+        "archiveSha256": "db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b",
+        "sourceRecords": 541,
+        "distinctSources": 425,
+        "candidates": 29799,
+        "historicalCandidateIdsPreserved": 2162,
+        "historicalSourceHashesPreserved": 403,
+        "status": "PUBLISHED_AND_INDEPENDENTLY_AUTHENTICATED"
+      },
+      "archiveReplacementReceipt": {
+        "implementationSha": "2db7a44293f9108bad0b4ad4403601b0216b471a",
+        "publicationRun": 38176876189,
+        "independentAuthenticationRun": 38176984983,
+        "stateRevision": "e627a695b1898ea7bcc24f884d066bf835868a30",
+        "ciphertextSha256": "738822930f5b86dc90de20e0c1112fedaa6af0b7857b9bc454491190c4539549",
+        "archiveSha256": "db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b",
+        "existingRawKeyUsed": true,
+        "temporaryTransportSecretRemoved": true,
+        "oldCiphertextRetained": true,
+        "sourceFiles": 425,
+        "sourceRecords": 541,
+        "candidates": 29799,
+        "historicalQueueIdsPreserved": 534,
+        "authorizesPromotion": false
+      },
+      "r8PriorPrompt": "ok so do it",
+      "r8Repair": {
+        "observedAt": "2026-10-11T21:51:43.911Z",
+        "status": "IMPLEMENTED_LOCAL_LIVE_REFUSAL_VERIFIED_HOSTED_PENDING",
+        "runnerCount": 0,
+        "staleRunsCancelled": [
+          38110879490,
+          38110529101
+        ],
+        "canaryUrl": "https://raw.githubusercontent.com/pypa/distlib/454a87c64f0b545138dc4798aa833a4ff8ac2377/distlib/w64.exe",
+        "canarySource": "Official PyPA distlib Windows launcher; never executed or retained",
+        "research": [
+          "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+          "https://distlib.readthedocs.io/en/latest/tutorial.html",
+          "https://github.com/pypa/distlib"
+        ],
+        "changes": [
+          "Hosted runner restores authenticated current raw custody instead of requiring nonexistent self-hosted runner/local stage.",
+          "Unsupported MIME remains rejected; bounded eight-byte signature prefix records actual executable refusal without retaining the body.",
+          "Existing candidates, source records and learned state preserved.",
+          "Shared raw-publisher concurrency, exact prior revision/hash, isolated encrypted restore and immutable rollback; unsafe legacy deletion publisher disabled."
+        ],
+        "localProofSourceId": "owner-delegated-url:665240c955e789e20de831efb45383291122f99e77beaaf74b97a39c4bb72c6f",
+        "rawPublicationPending": true,
+        "independentOversightPending": true,
+        "R8Passed": false,
+        "receiverCompatibility": "Independent Oversight accepts original indexed chunk format; new publication allocates unused indices and retains all old chunks.",
+        "independentReceiverAuthority": "Owner authorization requested for inbound-key synchronization and dispatch; Oversight policy prohibits Crucible configuring or triggering the review.",
+        "receiverKeyMetadata": {
+          "oversightUpdatedAt": "2026-09-01T15:05:47Z",
+          "currentRawUpdatedAt": "2026-10-10T11:33:49Z",
+          "actualMismatchNotYetTested": true
+        },
+        "receiverAuthorization": {
+          "status": "owner-authorized",
+          "ownerReply": "Authorize key sync and independent run",
+          "scope": "One-time synchronization of only Oversight CRUCIBLE_SOURCE_BUNDLE_KEY to registered raw fingerprint 3c38a04e and dispatch of existing independent-oversight.yml; verifier code, decisions and vetted keys unchanged.",
+          "transfer": "Fixed GitHub receiver public-key sealed ciphertext; owner-authenticated host applies secret update; no raw-key export."
+        },
+        "resumedAt": "2026-10-13T04:12:49.754Z",
+        "latestHostedFailure": {
+          "runId": 38328578079,
+          "commit": "d92890cb3e3057833c95bae68dae0b54a0569aac",
+          "vettedDecryption": "successful",
+          "missing": "executable-content refusal",
+          "R8Passed": false
+        },
+        "preimageReceipt": "work/r8-resume-20261013/preimages.json",
+        "backupCheckpoint": {
+          "root": "D:\\Documents\\ChatGPT\\Crucible-Custody-Backups\\20261013-raw-vetted",
+          "rawRevision": "e627a695b1898ea7bcc24f884d066bf835868a30",
+          "vettedRevision": "d0e9be11bf5c6fc77c84f0222923b1a599090ece",
+          "status": "encrypted copies downloading; full hash verification and restore binding pending"
+        },
+        "lastPublicationFailure": {
+          "at": "2026-10-13T04:15:53.629Z",
+          "stage": "required local pre-push",
+          "reason": "plan agent and execution-mode agent differed after returned handoff",
+          "correctiveAction": "restore actual holder Codex in both fields",
+          "remoteChanged": false
+        }
+      },
+      "nvidiaPriorPlan": {
+        "agent": "Codex",
+        "objective": "Use the organization key-manager PAT for Crucible custody-key management, retaining the GitHub App path only as fallback while preserving fail-closed custody.",
+        "currentPrompt": "The failure details show a separate R8 blocker: missing executable-content quarantine proof. research this and resolve it.",
+        "executionMode": {
+          "mode": "work",
+          "agent": "Codex",
+          "purpose": "Implement and verify secure encrypted raw archive replacement",
+          "reason": "Owner explicitly requested actual command/file/repository execution.",
+          "selectionReason": "Owner explicitly requested actual command/file/repository execution.",
+          "distinction": "Execution mode is separate from agent identity and workflow."
+        },
+        "taskRouting": {
+          "category": "crucible-core",
+          "repositoryId": 1344890806,
+          "repository": "6076446993/The-Crucible",
+          "branch": "development",
+          "reason": "Affected paths select crucible-core.",
+          "explicitOverride": false,
+          "selectedAt": "2026-10-11T21:57:29.810Z",
+          "promptSha256": "3cfbffea63ead510d11dcfe04484b595acce650fed394cbac03934ad7fa49b5c",
+          "affectedPathsSha256": "2db64e3ee752563b42abac8f145d7a9173c616a2517a87c6afab78927e9c9fc8"
+        },
+        "steps": [
+          "Permit the existing monitor App installation to be reused by the key-manager workflow without reusing the monitor token.",
+          "Keep monitor minting limited to checks, pull-requests, and metadata read permissions.",
+          "Give the key-manager workflow the App identity only for Actions-secret and development Contents writes.",
+          "Run workflow, key-manager, validation, security, circulation, handoff, and diff checks.",
+          "Commit on development only; preserve raw/vetted custody, R8, main and Archive boundaries."
+        ],
+        "status": "active",
+        "startedAt": "2026-10-08T04:07:39.980600Z",
+        "lastUpdatedAt": "2026-10-11T22:04:37.089Z",
+        "currentStep": "Repair R8 hosted publisher, obtain genuine live executable refusal without persisted bytes, publish rollback-safe raw custody, request independent Oversight, and verify R8 from vetted state.",
+        "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
+        "ownership": {
+          "currentClaim": "owner-file-transport-20261008",
+          "owner": {
+            "provider": "openai",
+            "agent": "Codex",
+            "model": null
+          },
+          "mutationScope": [
+            "AI-HANDOFF.json",
+            "DEVLOG.md",
+            "src/ownerFileTransport.js",
+            "test/ownerFileTransport.test.js",
+            ".github/workflows/owner-file-intake.yml",
+            "src/circulationLinkage.js",
+            "src/testCadenceCoreLegacy.js",
+            "test/_testCadenceCore.js",
+            "governingDocuments/owner-file-transport.md",
+            "test/workflow.test.js",
+            "governingDocuments/known-bugs/KNOWN-BUGS.json",
+            "governingDocuments/owner-file-intake-release.json",
+            "governingDocuments/owner-file-intake-main-compatibility.patch",
+            "src/hostedSourceBundle.js",
+            "test/hostedSourceBundle.test.js",
+            ".github/workflows/self-test.yml",
+            "src/claimExtractionWorker.js",
+            "test/claimExtractionWorker.test.js",
+            "test/pdfTextExtraction.test.js",
+            "src/ciDiagnosticOrgan.js",
+            "test/ciDiagnosticOrgan.test.js",
+            ".github/workflows/hosted-learning-proof.yml",
+            "src/handoffPolicy.js",
+            "src/testLifecycle.js",
+            "test/handoffPolicy.test.js",
+            "test/testLifecycle.test.js",
+            "test/sourceBundleKeyAutomation.test.js",
+            "src/aiHandoffContinuation.js",
+            "test/aiHandoffContinuation.test.js",
+            ".github/workflows/hosted-source-bootstrap.yml",
+            "test/rawCustodyRebuildWorkflow.test.js",
+            "README.md",
+            ".github/workflows/raw-custody-publisher.yml",
+            "test/rawCustodyPublisher.test.js",
+            ".github/workflows/r8-executable-canary-publisher.yml",
+            "src/safeInformationRetrieval.js",
+            "test/safeInformationRetrieval.test.js",
+            "src/r8ExecutableCanaryPublisher.js",
+            "test/r8ExecutableCanaryPublisher.test.js",
+            "src/rawCustodyPublisher.js"
+          ],
+          "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody."
+        },
+        "trustedBoundary": {
+          "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
+          "branch": "development",
+          "establishedBy": "hosted Crucible Self-Test",
+          "evidence": [
+            "Eighteen of eighteen Self-Test legs green: push run 34926863414 and pull-request run 34926865280.",
+            "Local: npm run test:all 862/862; thirteen governance gates and git diff --check exit 0."
+          ],
+          "note": "Commits d9a91da through d21be9a land after this boundary and are the delta a successor must verify.",
+          "establishedAt": "2026-09-15T04:03:54Z",
+          "supersededBy": null
+        },
+        "previousAgent": {
+          "agent": "Codex",
+          "provider": "openai",
+          "handedOverAt": "2026-09-15T09:20:00Z",
+          "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
+        },
+        "verificationStatus": "Exact development tip is 621f9c3ed64a61e35eacd2710c1410cf401d1ec0. Hosted exact-tip Self-Test 38113258822 completed successfully across all 9 matrix jobs with repository security report 0 issues; CodeQL 38113258781, AI handoff 38113258774, AI conflict 38113258746, sync 38113258828, and locked-monitor block 38113258787 are successful. Durable learning proof 38113258786 job 114393015392 failed closed because the restored real corpus has no live executable-content refusal; it explicitly reports R4-R7 satisfied and R8 pending. R3 remains pending scheduled-origin evidence, R9 remains held, R10 is not all-green, and R11 remains unauthorized. Main and Archive are untouched.",
+        "historicalBlockers": [
+          {
+            "id": "oversight-refusal-was-not-honoured",
+            "summary": "Oversight recorded linked-source:5ab0eabad5e6714491c75fabab25d6afdf54218c4bdbfe705592c08de4baef62 quarantined for prompt-injection content, and the corpus it published stores that content at contentSha256 79719cd5979b6351fd2759205433a8311b7a54db821c98fd4e6175937b952a37 anyway. No other source review shares that hash, so this is not one file shared by a duplicate. The refusal was published; the bytes were published with it. That is a custody failure in the independent vetting path rather than in Crucible, and it is the sharpest open item in the pipeline. Crucible side is correct and unchanged: the content-absence check refused to credit it, so no gate moved.",
+            "owner": "user-or-oversight"
+          },
+          {
+            "id": "forty-five-documents-match-the-exfiltration-pattern",
+            "summary": "Run 35067259424 broke the 60 down as 45x (?:reveal|exfiltrat|upload).{0,30}(?:secret|credential|token|key), 17x (?:execute|run).{0,20}(?:command|shell|powershell|bash), 1x system prompt. The over-breadth explanation this session offered covers at most 18; the dominant 45 match the specific pattern, which the documentation samples do not match. Documentation about credential hygiene would match it too, so this is not yet a finding either way - it is the next thing to look at, and it is sharper than the earlier record implied. The report names source ids grouped by pattern so the documents can be opened in vetted custody; no content is quoted into the public run log, because that pattern fires exactly where a real credential would sit. Whether to narrow the pattern list remains an owner safety decision, and it should be taken after looking at those documents rather than before.",
+            "owner": "user-or-claude"
+          },
+          {
+            "id": "consult-not-dispatchable-until-it-reaches-main",
+            "summary": "council-consult.yml is on development and GitHub answers 404 to its dispatch, because workflow_dispatch is only accepted for a workflow present on the default branch, which is main. Measured rather than assumed: every dispatchable workflow here is on main - hosted-learning-proof.yml, model-pointer-research.yml and perplexity-research.yml, at 140, 7 and 1 runs - while council-consult.yml is unknown to the Actions API entirely. A push trigger would not fix it and is refused anyway, because a push-triggered consult egresses on every commit. So the workflow is correct and in place but cannot run until the file reaches main, and reaching main is a promotion that CONSTITUTION.md Promotion Boundary says no AI and no council authorizes. Note the conflict before choosing: promoting all of development would also carry learning-scope changes to main while R8 is pending, against the standing constraint that they stay blocked until every learning gate passes. The narrow option is to carry this one workflow file to main through release, which keeps the learning scope where it is.",
+            "owner": "user"
+          },
+          {
+            "id": "nim-model-never-called",
+            "summary": "nvidia/nemotron-3-nano-30b-a3b has still never been called, and the owner reports doubting the code is finished rather than the model. Crucible own consult path reads complete - createConfiguredAdapters, a real bearer chat adapter with redaction, MultiAiOrchestrator.distribute, corroborate, deliberationFromDistribution - and it fails closed with CRU-0034 and exit 1 when no provider is configured, verified locally. What has never happened is a successful call. The consult workflow is the first thing that will make one on the existing secret, so dispatching it is the test: it either returns a deliberation or fails with a coded error naming the stage.",
+            "owner": "claude"
+          },
+          {
+            "id": "council-unreachable-from-this-session",
+            "summary": "The deployed council cannot be reached from this session and no URL or token changes that: the environment network policy answers 403 to CONNECT for onrender.com, and its allow-list covers Anthropic APIs, package registries and GitHub only. The same policy is why NVIDIA NIM cannot be called from here either. The consult therefore runs on a GitHub runner, which is what the new workflow is for. Configuring the council as an MCP server is for the owner Claude Code on a host with open egress: Streamable HTTP at <deployed-host>/mcp with Authorization: Bearer AI_COLLABORATION_BEARER_TOKEN, the host readable from the Render dashboard or the registered ChatGPT app, since the repository does not record it.",
+            "owner": "user"
+          },
+          {
+            "id": "fake-harness-knowledge-version-still-active",
+            "summary": "Active knowledge v1 in the hosted durable store is candidate cycle-92917a3a1bac7b53ce800d3a08e78b51, boundary \"Node.js ordinary dense arrays of numbers\" - verbatim the module constant of the hardcoded harness deleted at 85d3b59. Deleting the harness did not retract what it promoted. R5 still counts it as a verified knowledge version. Every active version is now marked corpus-backed or not and an unbacked one warns, but nothing is retracted, because retracting durable learning state is an owner decision.",
+            "owner": "user"
+          },
+          {
+            "id": "r4-r7-measured-once",
+            "summary": "R4-R7 read satisfied on two runs, but the experiment behind them ran exactly once. Run 35062311534 confirms run 35013415132 promotion from the durable store rather than from an absent log line, which is stronger evidence - but it restored knowledge instead of learning, so it did not repeat the measurement, and which language harness produced the version is in neither log. They stay reported rather than passed.",
+            "owner": "claude"
+          },
+          {
+            "id": "r3-topics-not-due",
+            "summary": "The pinned discovery model nvidia/nemotron-3-nano-30b-a3b has never been called. All 16 topics consumed their daily slots at 2026-09-15T08:32:29Z against the withdrawn model, so discovery is a no-op until roughly 24 hours later unless discovery state is discarded.",
+            "owner": "user"
+          },
+          {
+            "id": "plan-6-07-partially-blocked",
+            "summary": "This entry records only the factual continuity fields of the owner-supplied 6:07 plan Step 2B. Step 2A (a trusted-verification-boundary principle in AI-collaboration- ORCHESTRATOR-POLICY.json), Step 2C (automated council invocation) and Step 2D (usage-limit continuation) were refused by the session permission classifier as externally-sourced governance content and are NOT installed. The drafted text was handed to the owner for manual review instead.",
+            "owner": "user"
+          },
+          {
+            "id": "owner-source-rescan-pending",
+            "summary": "The 14-identity owner source rescan remains pending and unperformed while R4 custody or retention is blocked. Content hashes and extraction-window history are to be reused; source bytes are not duplicated, custody is not reset, and unchanged windows are not re-extracted merely to call it a rescan.",
+            "owner": "user-or-oversight"
+          },
+          {
+            "id": "five-source-durable-custody-blocked",
+            "summary": "Four authorized public captures and 123 extracted candidate assertions exist only in the project-bound local intake checkpoint. This Crucible checkout has no authorized write path into the independent Learning-Worker, Crucible-Learning-State, Crucible-Vetted-Learning-State, or Vetting-and-Governance-oversite custody repositories. No repository boundary was bypassed and no local candidate was represented as submitted to vetted custody.",
+            "owner": "user-or-custody-administrator"
+          },
+          {
+            "id": "authorized-pdf-native-parser-no-pages",
+            "summary": "The Hundred-Page Machine Learning Book chapter-one PDF is an authorized nine-page public draft with SHA-256 f84e6ba775ef707a0223173dd4e7be524c7e516dd67d879d9ac775dd74e70bf2. Native owner-file intake returned OPS-0043 no_pages even though pdfinfo and pdftotext read it. The exact bytes remain preserved; the deterministic text derivative SHA-256 ce5786cab91691b0325c817a3c986ba1819eff6bea9d67052a6f4ecd0153d3fe was admitted as candidate input. This workaround is not a verification result.",
+            "owner": "crucible-learning-maintainer"
+          },
+          {
+            "id": "agentic-ai-game-plan-source-ineligible",
+            "summary": "Only retailer or review metadata was found for Agentic AI Game Plan. No author-hosted, publisher-hosted, companion, or explicitly authorized excerpt material was located, so the source was rejected before intake rather than scraped, quarantined, or inferred from third-party listings.",
+            "owner": "source-research"
+          }
+        ],
+        "blockers": [
+          {
+            "id": "r3-live-discovery-aborted",
+            "summary": "Latest discovery run 37565999549 has zero searched/completed/cited/admitted URLs; nonzero real provider discovery/admission evidence remains absent.",
+            "owner": "provider-or-owner"
+          },
+          {
+            "id": "r8-executable-live-proof-missing",
+            "summary": "Current custody enforces oversight quarantine and the durable proof credits every R8 behavior except executable-content refusal. The governed canary publisher has not run and no executable bytes may be fabricated or admitted merely to complete the gate.",
+            "owner": "owner-or-custody-administrator"
+          },
+          {
+            "id": "owner-source-rescan-pending",
+            "summary": "Eight of 14 exact owner hashes are present in current vetted custody. Six are absent: 84d73c44d1f22e6b451a15b31c8f6e520fca6d09db82cfa56999920de1c7d693, c183f3ecfac24175a58921c171b1f5749cf84db72ceeac0752c44ef09bf56991, cf6cf8d31f6e6e0a4ec7dd2eecfa4ce9adb620db727d6280a2bb7195d2f95dfb, 29a6c35ca175ce7b67de420b9637db20ac161cf22397c23c31482067f4a63c85, fccaca99a230233486b689d774d41522dadb50260579d9cba8b591485445fb75, and 03ddee53d6e77d35b75c076169b0f60a57129e64d451b523ce72aff51b4cf8cc. No exact retained candidate IDs or full gate outcomes exist for the four new identities' 58 local candidates.",
+            "owner": "user-or-oversight"
+          },
+          {
+            "id": "exact-tip-ci-red",
+            "summary": "Hosted Administration-read access and private PR-monitor visibility remain unproved; Windows CRLF assertion is repaired locally and awaits exact-tip hosted verification.",
+            "owner": "owner-or-repository-administrator"
+          },
+          {
+            "id": "fake-harness-knowledge-version-still-active",
+            "summary": "Active v1 candidate cycle-92917a3a1bac7b53ce800d3a08e78b51 remains not corpus-backed. It is not the basis for the R5 pass, and retracting it remains an owner decision.",
+            "owner": "user"
+          },
+          {
+            "id": "manual-raw-custody-execution-unavailable",
+            "summary": "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
+            "owner": "owner-or-custody-administrator"
+          }
+        ],
+        "nextAction": "Integrate tested proposal and verify all required gates; never restart R2, clear live locks or promote evidence.",
+        "evidenceReferences": {
+          "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
+          "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
+        },
+        "handoffNotes": {
+          "completed": [
+            "Tested separate transport proposal: six focused tests and disposable import of five attached PDFs plus two supporting catalogs.",
+            "Prior mutation claim is already released in mutationClaims; preserve its stale activePlan context in ownerFileTransportPriorPlan.",
+            "Integrated candidate-only encrypted transport and exact-request manual workflow; full local suite 1015/1015, zero skipped; change-impact 181/181; required local governance/privacy/security checks passed.",
+            "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e.",
+            "Prepared narrow main-based six-file package (workflow, two required tests, handoff/log and retained failure ledger); local full suite 932/932 and failure retest 25/25 passed, zero skipped.",
+            "Rejected-decryption descriptor/cleanup repair passed focused 16/16 and full change-impact suite 1016/1016, zero skipped; circulation and failure-code gates unchanged.",
+            "c750ac6: eight matrix jobs passed; Windows Node 20 twice passed all tests/audits/precheck but the 10-minute wrapper cancelled the remaining mandatory workload.",
+            "Whole-job budget adjustment passed workflow tests 37/37 and local full change-impact 1016/1016; 4-minute workload command deadlines, two workers/two cycles and all source tests retained."
+          ],
+          "remaining": [
+            "Exact-head completion with sufficient whole-job scheduling budget; unchanged 4-minute per-command deadline, workers/cycles and test coverage.",
+            "Authorized narrow default workflow registration.",
+            "Existing-key authenticated live intake and actual receipt."
+          ]
+        },
+        "filesTouched": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "governingDocuments/source-bundle-key-manager.md",
+          ".github/workflows/source-bundle-key-manager.yml",
+          ".github/workflows/nexus-check-monitor.yml",
+          "test/keyManagerPolicy.test.js",
+          "test/workflow.test.js"
+        ],
+        "rawCustodyAuthorization": {
+          "ownerInstruction": "can you do it all in order it should be",
+          "context": "Owner accepted the ordered implementation of a general raw custody publisher, bounded SI intake, independent Oversight, ordinary scientific verification, persistence and release-evidence work.",
+          "maximumSources": 9,
+          "sourceRegister": "governingDocuments/synthetic-intelligence-research-register.json",
+          "rawCustodyWrite": "manual authenticated ciphertext-only intake with preservation and rollback checks",
+          "vettedCustodyWrite": false,
+          "automaticTrigger": false,
+          "promotionAuthorized": false,
+          "existingQueuesMayBeCleared": false
+        },
+        "promotionAuthorization": {
+          "authorized": true,
+          "ownerReply": "Yes",
+          "proposal": "Authorize takeover of si-promotion-credential-repair-20261007 and deployment of this intake workflow through the verified development -> release -> main path?",
+          "scope": "Narrow owner-file-intake.yml deployment and required governance compatibility only; no broad development promotion.",
+          "path": "development -> release -> main",
+          "directMainPushAllowed": false,
+          "broadDevelopmentPromotionAllowed": false
+        },
+        "intakeHardening": {
+          "ownerPrompt": "Look at both to make sure it's not something that will cause more harm than good then implement it before narrowing the search explicitly to topics blocking the crucible",
+          "status": "implementation",
+          "steps": [
+            "Reproduce timeout and failed-flush boundaries on disposable fixtures.",
+            "Implement bounded extractor timeout and flush-before-replace queue publication.",
+            "Run governed validation; development only.",
+            "Narrow research to verified live blockers."
+          ],
+          "rollback": "Revert only this hardening commit; no live queue/store mutation or migration."
+        },
+        "diagnosticImprovements": {
+          "ownerPrompt": "Figure out if they are actually useful then implement what are actually improvements",
+          "status": "local validation passed; development publication next",
+          "scope": "Read-only exact-run stage diagnosis; preserve live pipeline and existing hardening edits.",
+          "completed": [
+            "Exact repository/commit/run/attempt job diagnosis CLI implemented.",
+            "Failed-step-only logs, multiple failure stages, preserved success observations, stale/contradictory evidence rejection.",
+            "Real hosted job 38152447862 replay classified scientific-proof and did not infer key loss.",
+            "43 focused tests passed; security and circulation checks passed.",
+            "Automatic additive hosted proof diagnosis and retained artifact wired.",
+            "Private unfinished-source inventory and ciphertext-copy validator implemented; data and gate claims remain explicit.",
+            "Real compiler module validation: all 1058 tests passed, zero skipped."
+          ],
+          "remaining": [
+            "Development commit and required hosted CI verification.",
+            "Complete independent custody backup and authenticated exact-source inventory execution.",
+            "R8 existing self-hosted runner prerequisites must be available; no unsafe publisher dispatch."
+          ]
+        },
+        "priorCurrentPrompt": "Keep working and remember oldest relevant work gets completed first",
+        "archiveReplacementPriorPrompt": "Read-only raw key compatibility probe to unblock oldest owner intake",
+        "archiveReplacementPriorRouting": {
+          "category": "crucible-core",
+          "repositoryId": 1344890806,
+          "repository": "6076446993/The-Crucible",
+          "branch": "development",
+          "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
+          "explicitOverride": true,
+          "selectedAt": "2026-10-11T16:50:05.890Z",
+          "promptSha256": "93bb75b257ed58f43f23aaf4e257cac7de8c81177e13aef272035ac9d370b9d3",
+          "affectedPathsSha256": "bb63fd1df2a1f1401f15b341b1acb452e6ece8a6431db9d86b29864a2a84b1dc"
+        },
+        "archiveReplacementAuthorization": {
+          "recordedAt": "2026-10-11T21:04:48.669Z",
+          "ownerMessages": [
+            "the entire key",
+            "that key is lost so I want it rotated to the one you have",
+            "the old archive is the problem and why were rotating",
+            "you have the new key in github and in the key management system",
+            "ok so do it"
+          ],
+          "interpretation": "Replace unusable raw ciphertext under the already configured replacement key; preserve historical ciphertext and candidate/source lineage; encrypted private transfer and verified restore, no new custody key or promotion.",
+          "archiveSha256": "db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b",
+          "sourceRecords": 541,
+          "distinctSources": 425,
+          "candidates": 29799,
+          "historicalCandidateIdsPreserved": 2162,
+          "historicalSourceHashesPreserved": 403,
+          "status": "PUBLISHED_AND_INDEPENDENTLY_AUTHENTICATED"
+        },
+        "archiveReplacementReceipt": {
+          "implementationSha": "2db7a44293f9108bad0b4ad4403601b0216b471a",
+          "publicationRun": 38176876189,
+          "independentAuthenticationRun": 38176984983,
+          "stateRevision": "e627a695b1898ea7bcc24f884d066bf835868a30",
+          "ciphertextSha256": "738822930f5b86dc90de20e0c1112fedaa6af0b7857b9bc454491190c4539549",
+          "archiveSha256": "db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b",
+          "existingRawKeyUsed": true,
+          "temporaryTransportSecretRemoved": true,
+          "oldCiphertextRetained": true,
+          "sourceFiles": 425,
+          "sourceRecords": 541,
+          "candidates": 29799,
+          "historicalQueueIdsPreserved": 534,
+          "authorizesPromotion": false
+        },
+        "r8PriorPrompt": "ok so do it",
+        "r8Repair": {
+          "observedAt": "2026-10-11T21:51:43.911Z",
+          "status": "IMPLEMENTED_LOCAL_LIVE_REFUSAL_VERIFIED_HOSTED_PENDING",
+          "runnerCount": 0,
+          "staleRunsCancelled": [
+            38110879490,
+            38110529101
+          ],
+          "canaryUrl": "https://raw.githubusercontent.com/pypa/distlib/454a87c64f0b545138dc4798aa833a4ff8ac2377/distlib/w64.exe",
+          "canarySource": "Official PyPA distlib Windows launcher; never executed or retained",
+          "research": [
+            "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+            "https://distlib.readthedocs.io/en/latest/tutorial.html",
+            "https://github.com/pypa/distlib"
+          ],
+          "changes": [
+            "Hosted runner restores authenticated current raw custody instead of requiring nonexistent self-hosted runner/local stage.",
+            "Unsupported MIME remains rejected; bounded eight-byte signature prefix records actual executable refusal without retaining the body.",
+            "Existing candidates, source records and learned state preserved.",
+            "Shared raw-publisher concurrency, exact prior revision/hash, isolated encrypted restore and immutable rollback; unsafe legacy deletion publisher disabled."
+          ],
+          "localProofSourceId": "owner-delegated-url:665240c955e789e20de831efb45383291122f99e77beaaf74b97a39c4bb72c6f",
+          "rawPublicationPending": true,
+          "independentOversightPending": true,
+          "R8Passed": false,
+          "receiverCompatibility": "Independent Oversight accepts original indexed chunk format; new publication allocates unused indices and retains all old chunks.",
+          "independentReceiverAuthority": "Owner authorization requested for inbound-key synchronization and dispatch; Oversight policy prohibits Crucible configuring or triggering the review.",
+          "receiverKeyMetadata": {
+            "oversightUpdatedAt": "2026-09-01T15:05:47Z",
+            "currentRawUpdatedAt": "2026-10-10T11:33:49Z",
+            "actualMismatchNotYetTested": true
+          },
+          "receiverAuthorization": {
+            "status": "owner-authorized",
+            "ownerReply": "Authorize key sync and independent run",
+            "scope": "One-time synchronization of only Oversight CRUCIBLE_SOURCE_BUNDLE_KEY to registered raw fingerprint 3c38a04e and dispatch of existing independent-oversight.yml; verifier code, decisions and vetted keys unchanged.",
+            "transfer": "Fixed GitHub receiver public-key sealed ciphertext; owner-authenticated host applies secret update; no raw-key export."
+          }
+        }
+      },
+      "nvidiaHandoff": {
+        "sourceThread": "01a12c93-41fd-7511-93f7-58c69a3ed622",
+        "sourceTurn": "01a12dc7-8d35-7003-a8f1-49b769585878",
+        "authorizedAt": "2026-10-12T01:44:00Z",
+        "recordedAt": "2026-10-12T01:50:12.334Z",
+        "preimageReceipt": "work/preimage/hashes.json",
+        "originalScope": {
+          "paths": [
+            "AI-HANDOFF.json",
+            "DEVLOG.md",
+            "src/ownerFileTransport.js",
+            "test/ownerFileTransport.test.js",
+            ".github/workflows/owner-file-intake.yml",
+            "src/circulationLinkage.js",
+            "src/testCadenceCoreLegacy.js",
+            "test/_testCadenceCore.js",
+            "governingDocuments/owner-file-transport.md",
+            "test/workflow.test.js",
+            "governingDocuments/known-bugs/KNOWN-BUGS.json",
+            "governingDocuments/owner-file-intake-release.json",
+            "governingDocuments/owner-file-intake-main-compatibility.patch",
+            "src/hostedSourceBundle.js",
+            "test/hostedSourceBundle.test.js",
+            ".github/workflows/self-test.yml",
+            "src/claimExtractionWorker.js",
+            "test/claimExtractionWorker.test.js",
+            "test/pdfTextExtraction.test.js",
+            "src/ciDiagnosticOrgan.js",
+            "test/ciDiagnosticOrgan.test.js",
+            ".github/workflows/hosted-learning-proof.yml",
+            "src/handoffPolicy.js",
+            "src/testLifecycle.js",
+            "test/handoffPolicy.test.js",
+            "test/testLifecycle.test.js",
+            "test/sourceBundleKeyAutomation.test.js",
+            "src/aiHandoffContinuation.js",
+            "test/aiHandoffContinuation.test.js",
+            ".github/workflows/hosted-source-bootstrap.yml",
+            "test/rawCustodyRebuildWorkflow.test.js",
+            "README.md",
+            ".github/workflows/raw-custody-publisher.yml",
+            "test/rawCustodyPublisher.test.js",
+            ".github/workflows/r8-executable-canary-publisher.yml",
+            "src/safeInformationRetrieval.js",
+            "test/safeInformationRetrieval.test.js",
+            "src/r8ExecutableCanaryPublisher.js",
+            "test/r8ExecutableCanaryPublisher.test.js",
+            "src/rawCustodyPublisher.js"
+          ],
+          "regions": []
+        },
+        "returnRequired": false,
+        "unrelatedWritesProhibited": true,
+        "returnedAt": "2026-10-12T03:11:48.728Z",
+        "returnedToThread": "01a12c93-41fd-7511-93f7-58c69a3ed622",
+        "returnedClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011"
+      },
+      "nvidiaIntegration": {
+        "sourceZipSha256": "54239480f126aa1b5aac49400970f921f8306a52925b7db8c9885552fa643e36",
+        "sourceRevision": "5ee1c024b619f475ef5ae05eaf1f65430e24f951",
+        "paths": [
+          "src/nvidiaModelAutoSelector.js",
+          "src/providerCirculation.js",
+          "src/automatedModelPointerResearchCli.js",
+          "src/automatedModelPointerResearch.js",
+          ".github/workflows/model-pointer-research.yml",
+          "test/nvidiaModelAutoSelector.test.js",
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "README.md"
+        ],
+        "activation": "manual default; no automatic fallback activation authorized before live acceptance",
+        "status": "implemented-published-native-hosted-and-controlled-live-verified; production activation held",
+        "issue40": "community pre-intake hold remains open and separate",
+        "rollback": "Revert only NVIDIA atomic commit; preserve all pre-existing R8 dirty bytes and original claim continuation.",
+        "verification": {
+          "focused": {
+            "passed": 43,
+            "failed": 0,
+            "skipped": 0
+          },
+          "preparedGeneratorTests": {
+            "passed": 9,
+            "failed": 0
+          },
+          "firstFullSuite": {
+            "passed": 1087,
+            "failed": 14,
+            "total": 1101,
+            "skipped": 0
+          },
+          "coordinationAfterArchiveRefresh": "passed 34 claims; 33 accounted; 1 active",
+          "workflowLint": "passed",
+          "security": "passed",
+          "configuration": "passed",
+          "circulation": "passed: no added cross-organ direct edges",
+          "hosted": "not run for uncommitted NVIDIA changes",
+          "liveNvidia": "not attempted; entitlement and bounded acceptance required",
+          "retirement": "local simulated retirement and session-wide probe budget passed; real hosted recovery unverified",
+          "routingRetest": {
+            "passed": 14,
+            "failed": 0,
+            "skipped": 0
+          },
+          "finalFullSuite": {
+            "passed": 1101,
+            "failed": 0,
+            "skipped": 0,
+            "source": "native-full-final.log",
+            "earlierFailuresRetained": true
+          },
+          "requiredLocalAudits": "workflow lint, docs check, configuration, clutter, privacy, security, circulation and coordination passed",
+          "repairedTreeFullSuite": {
+            "passed": 1101,
+            "failed": 0,
+            "skipped": 0,
+            "log": "native-full-privacy-repaired.log"
+          },
+          "latestFullNative": {
+            "passed": 1104,
+            "failed": 0,
+            "skipped": 0
+          }
+        },
+        "preexistingDirtyHashes": [
+          {
+            "path": ".github/workflows/hosted-source-bootstrap.yml",
+            "sha256": "FFC539DF3D9235E2135076FCDEFA99DC1866904A88852624C6F7C6FAC3AADB65"
+          },
+          {
+            "path": ".github/workflows/r8-executable-canary-publisher.yml",
+            "sha256": "12A8298232F34F634A46BA53E5D9C41ACE0C8DF4B352A3ED20F705391D1C4588"
+          },
+          {
+            "path": ".github/workflows/raw-custody-publisher.yml",
+            "sha256": "87FA306F65F535AD8E0FC908E3D689B536A57BEE85C78F03E9918E78363207DA"
+          },
+          {
+            "path": "AI-HANDOFF.json",
+            "sha256": "7A198B773CADE73009313A56259456D49274707A557C1D640BD63A2414141AF8"
+          },
+          {
+            "path": "DEVLOG.md",
+            "sha256": "9FE452F18E4ABAB6FA7698D95DFE7F17DD893AB043D6EB12CC0675B56077E2ED"
+          },
+          {
+            "path": "README.md",
+            "sha256": "0C4845BAAC3AAE5C21CAAAF0C4127C17BB0D5961939A300E32AB6407A79394AE"
+          }
+        ],
+        "proposedRegistrationPaths": [
+          "src/circulationLinkage.js",
+          "src/testCadenceCoreLegacy.js"
+        ],
+        "registrationFilesUnchanged": false,
+        "registrationAuthorization": {
+          "at": "2026-10-12T02:00:58.718Z",
+          "source": "Direct user approval in current chat",
+          "exactAnswer": "Approve both registration entries and continue",
+          "paths": [
+            "src/circulationLinkage.js",
+            "src/testCadenceCoreLegacy.js"
+          ]
+        },
+        "testFixtureMaintenance": "Matching the approved NVIDIA test registry entry in its existing exact-list assertion; no check weakened",
+        "publicationFailure": {
+          "stage": "native pre-push privacy",
+          "failureCode": "CRU-0013",
+          "reason": "Synthetic user-info URL in negative test was classified as an email address; no real credential or personal address involved",
+          "sourceCommit": "17b9cfd6c3c56374832bbd40e47f83945feb88da",
+          "evidence": "native-push.log",
+          "observedAt": "2026-10-12T02:07:56.729Z",
+          "correctiveAction": "Construct synthetic user-info separator at runtime; retain endpoint-denial assertion; force hosted policy manual pending independent acceptance",
+          "earliestWorkRetryAt": "2026-10-12T02:12:56.729Z",
+          "retest": "Privacy audit passed; repaired-tree full native suite 1101/1101 with zero skipped; focused selector/workflow 69/69."
+        },
+        "activationHold": "Hosted workflow hard-pinned manual; no repository variable can activate auto before acceptance",
+        "hostedEvidence": {
+          "sourceCommit": "3a70ac292bd9eacf72d3635b1cdef097e38c751d",
+          "selfTest": 38195025564,
+          "discovery": 38195025656,
+          "discoveryResult": {
+            "searched": 0,
+            "admitted": 0,
+            "modelsUsed": [],
+            "policy": "manual",
+            "notLiveAcceptance": true
+          },
+          "handoff": 38195025643,
+          "archiveCommit": "d43a2718825b545f6b3794056d5c1ee0f6e4c082",
+          "codeQL": 38195025648,
+          "durableProof": {
+            "run": 38195025624,
+            "conclusion": "failure",
+            "reason": "R8 executable-content refusal missing from restored corpus; original custody work remains separate"
+          }
+        },
+        "hostedTestRepair": {
+          "failedJobs": [
+            114635675815,
+            114635675873
+          ],
+          "failure": "Retirement test incorrectly required B although latency ranking may legitimately choose eligible C",
+          "correctiveAction": "Assert approved non-retired survivor and explicit exclusion of retired A; preserve ranking logic and safety checks",
+          "nativeRetest": {
+            "passed": 1102,
+            "failed": 0,
+            "skipped": 0
+          },
+          "earliestPublicationRetryAt": "2026-10-12T02:21:59Z",
+          "hostedRetest": "pending exact repaired commit"
+        },
+        "hostedCoverage": "Existing model-pointer workflow runs governed security category including NVIDIA selector; no live inference in these tests.",
+        "noopReporting": "Zero due topics reports NVIDIA_AUTO_NOT_RUN rather than claiming an unexecuted automatic probe; negative regression test added.",
+        "routeRefusal": {
+          "sourceCommit": "812ea3b1f569a2006f42906bc240a1477849a6c9",
+          "failureCode": "OPS-0045",
+          "actualReason": "Route retained twelve paths although next push changes exactly five paths since published 3a70ac2",
+          "correctiveAction": "Native prewrite regenerated for exact five-path push delta; no routing rule or gate changed",
+          "failureAt": "2026-10-12T02:22:26.997Z",
+          "earliestRetryAt": "2026-10-12T02:27:26.997Z"
+        },
+        "latestHostedComponentEvidence": {
+          "sourceCommit": "cc420f826f459bb56c9499122e767d55629210aa",
+          "run": 38195959444,
+          "job": 114638538016,
+          "testsPassed": 275,
+          "testsFailed": 0,
+          "liveProviderCalls": 0,
+          "retirementAndNoopRegressions": "passed"
+        },
+        "isolatedLiveAcceptance": {
+          "authority": "Original owner request: test authorized NVIDIA candidates with bounded costs and no paid fallback",
+          "workflow": ".github/workflows/model-pointer-research.yml",
+          "manualInput": "acceptance_only=true",
+          "productionDiscoveryJob": "skipped for acceptance-only dispatch",
+          "maxRealInferenceCalls": 5,
+          "maxSelectionProbes": 3,
+          "maxOutputTokensPerCall": 1024,
+          "maxRequestMs": 90000,
+          "credentials": "existing NVIDIA_NIM_API_KEY repository secret only; no exports or replacements",
+          "modelAllowlist": "existing selector approved model IDs only",
+          "custodyAndQueueWrites": false,
+          "retirementFault": "explicit controlled HTTP410 adapter fault followed by actual alternate inference; not a natural service retirement",
+          "authorizesActivation": false,
+          "independentOversight": "still required",
+          "nativeDriverTests": {
+            "passed": 3,
+            "failClosedQuota": true,
+            "failClosedMissingModels": true,
+            "noLiveInference": true
+          },
+          "workflowSelectorTests": {
+            "passed": 70,
+            "failed": 0,
+            "skipped": 0
+          },
+          "status": "passed at actual defaults, prior negative trials retained",
+          "firstActualRun": {
+            "run": 38196752958,
+            "job": 114641009152,
+            "sourceCommit": "a5eaa59512e59ce26c246903239d6f5817972655",
+            "conclusion": "failure",
+            "actualInferenceCalls": 5,
+            "allFourApprovedModelsListed": true,
+            "unapprovedModelsIgnored": 76,
+            "passedProbeModels": [
+              "nvidia/nemotron-3-super-120b-a12b",
+              "nvidia/nemotron-3-ultra-550b-a55b"
+            ],
+            "initialLiveModel": "nvidia/nemotron-3-ultra-550b-a55b",
+            "controlledRetirementSelectedAlternate": "nvidia/nemotron-3-super-120b-a12b",
+            "actualFailureCode": "CRU-0036",
+            "actualFailureReason": "NVIDIA NIM returned an empty completion on alternate inference at the artificial 256-token test limit",
+            "failureMessageSha256": "418470e60fa7bcdacd9c7afc2cb881bab45b95560e19a4b50c3a498d88b26a4c",
+            "receiptSha256": "5aca38b5e4dbac0768dd0f5f856de3f7ba0e321ff6dc58a13a545b01037db3a7",
+            "artifactId": 11724210982,
+            "artifactDigest": "sha256:9e66fbade18dc67923095045b1851dd3786c1b22969048943da8fe4fdccbf773",
+            "noActivation": true,
+            "noPaidFallback": true
+          },
+          "correctiveAction": "Retain the failed run and retry once using the implementation default 1024-token ceiling, still at most five inference calls and three probes; no production config change",
+          "earliestRetryAt": "2026-10-12T02:46:40Z",
+          "nativeDefaultBudgetDriverTests": {
+            "passed": 3,
+            "failed": 0,
+            "quotaAndMissingModelsFailClosed": true,
+            "noLiveCalls": true
+          },
+          "secondActualRun": {
+            "sourceCommit": "99ee25aea5fae6471517a183f1365a81cbdc8d9f",
+            "run": 38197286368,
+            "job": 114642677650,
+            "conclusion": "failure",
+            "requests": 4,
+            "initialLiveModel": "nvidia/nemotron-3-super-120b-a12b",
+            "actualReason": "Only Super qualified within three probes: GLM probe failed and Ultra reached 30-second test timeout; controlled retirement exhausted qualified survivors without bypassing probe cap",
+            "artifactId": 11724330245,
+            "artifactDigest": "sha256:e5670f730ad81b165f7771bbc74bca794d18f5647c326c7e28ce4b901b50b769",
+            "failureMessageSha256": "a64c3a306dd346e48677979affbbba9c24070ebec63a5a23a223ccd21a9c96d3"
+          },
+          "finalDefaultLimitsAttempt": {
+            "maxInferenceCalls": 5,
+            "maxSelectionProbes": 3,
+            "maxOutputTokensPerCall": 1024,
+            "maxRequestMs": 90000,
+            "earliestRetryAt": "2026-10-12T02:55:22Z",
+            "reason": "Use both actual implementation defaults, not the shorter artificial timeout; no relaxation of production bounds",
+            "status": "passed",
+            "run": 38198020896
+          }
+        },
+        "structuredDiagnostics": "Selector control failures use existing OPS-0042; provider probe failures retain assigned CRU/OPS code and SHA-256 without raw provider errors",
+        "liveAcceptance": {
+          "runId": 38198020896,
+          "jobId": 114644963869,
+          "conclusion": "success",
+          "receipt": {
+            "sourceRevision": "eca6fe4010e5fbb1f1e3ed780cccf32897cf94fb",
+            "requests": 5,
+            "diagnostics": [
+              {
+                "at": "2026-10-12T03:00:25.499Z",
+                "event": "MODEL_INVENTORY_OBSERVED",
+                "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+                "availableApproved": [
+                  "z-ai/glm-5.3-flash",
+                  "nvidia/nemotron-3-super-120b-a12b",
+                  "nvidia/nemotron-3-ultra-550b-a55b",
+                  "meta/muse-glimmer-30b"
+                ],
+                "approvedMissing": [],
+                "unapprovedCount": 76,
+                "inventoryDigest": "2e7d19e2a7d4d8602a2b039de78b4af3e8b45920d34f50393947e53457d6849d",
+                "authorizesPromotion": false
+              },
+              {
+                "at": "2026-10-12T03:00:54.768Z",
+                "event": "MODEL_PROBE_FAILED",
+                "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+                "model": "z-ai/glm-5.3-flash",
+                "reason": "invalid_or_timed_out",
+                "failureCode": "CRU-0036",
+                "operationalCode": null,
+                "failureMessageSha256": "418470e60fa7bcdacd9c7afc2cb881bab45b95560e19a4b50c3a498d88b26a4c",
+                "authorizesPromotion": false
+              },
+              {
+                "at": "2026-10-12T03:01:00.602Z",
+                "event": "MODEL_PROBE_PASSED",
+                "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+                "model": "nvidia/nemotron-3-super-120b-a12b",
+                "latencyMs": 5834,
+                "pointerCount": 2,
+                "authorizesPromotion": false
+              },
+              {
+                "at": "2026-10-12T03:01:19.342Z",
+                "event": "MODEL_PROBE_PASSED",
+                "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+                "model": "nvidia/nemotron-3-ultra-550b-a55b",
+                "latencyMs": 18740,
+                "pointerCount": 2,
+                "authorizesPromotion": false
+              },
+              {
+                "at": "2026-10-12T03:01:19.342Z",
+                "event": "MODEL_SELECTED",
+                "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+                "model": "nvidia/nemotron-3-super-120b-a12b",
+                "probeScore": 194.166,
+                "optionsProbed": 2,
+                "authorizesPromotion": false
+              },
+              {
+                "at": "2026-10-12T03:01:23.581Z",
+                "event": "MODEL_RETIRED_DURING_RUN",
+                "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+                "model": "nvidia/nemotron-3-super-120b-a12b",
+                "reason": "not_found_or_gone",
+                "authorizesPromotion": false
+              },
+              {
+                "at": "2026-10-12T03:01:23.693Z",
+                "event": "MODEL_INVENTORY_OBSERVED",
+                "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+                "availableApproved": [
+                  "z-ai/glm-5.3-flash",
+                  "nvidia/nemotron-3-ultra-550b-a55b",
+                  "meta/muse-glimmer-30b"
+                ],
+                "approvedMissing": [],
+                "unapprovedCount": 76,
+                "inventoryDigest": "2e7d19e2a7d4d8602a2b039de78b4af3e8b45920d34f50393947e53457d6849d",
+                "authorizesPromotion": false
+              },
+              {
+                "at": "2026-10-12T03:01:23.693Z",
+                "event": "MODEL_SELECTED",
+                "requirementsSha256": "321d8e073564b66d87a7358be207584ad5d1821c2e76424f18d880b915657cb2",
+                "model": "nvidia/nemotron-3-ultra-550b-a55b",
+                "probeScore": 181.26,
+                "optionsProbed": 1,
+                "authorizesPromotion": false
+              }
+            ],
+            "policyActivation": false,
+            "maxInferenceCalls": 5,
+            "maxOutputTokensPerCall": 1024,
+            "maxSelectionProbes": 3,
+            "maxRequestMs": 90000,
+            "productionStateChanged": false,
+            "paidFallback": false,
+            "freeEntitlementVerified": false,
+            "retirementFault": "controlled HTTP 410 injection at adapter boundary, not a natural provider retirement",
+            "independentOversight": "still required",
+            "authorizesActivation": false,
+            "authorizesPromotion": false,
+            "initialModel": "nvidia/nemotron-3-super-120b-a12b",
+            "initialPointersSha256": "563ec9a771e59317f9c497a6762702c163250a9ddca42048f252ad037412eba0",
+            "alternateModel": "nvidia/nemotron-3-ultra-550b-a55b",
+            "alternatePointersSha256": "ee596ab1997ee1a82cc20db3b4d5b48036be17c2a97336a0d1d60ea61117a697",
+            "selectionAndControlledRecovery": "passed",
+            "probesUsed": 3
+          },
+          "artifactId": 11723773075,
+          "artifactDigest": "sha256:aae9e95e5edfaefcfe120c8189098c7c236db7b408cbadf469b5bf53bee97b72"
+        },
+        "nativeVerification": {
+          "passed": 1104,
+          "failed": 0,
+          "skipped": 0,
+          "context": "Existing canonical checkout with preserved unrelated dirty R8 files; committed NVIDIA source independently exercised by hosted jobs"
+        },
+        "hostedComponentVerification": {
+          "runId": 38197952887,
+          "jobId": 114644757987,
+          "passed": 277,
+          "failed": 0
+        },
+        "actualSourceCommit": "eca6fe4010e5fbb1f1e3ed780cccf32897cf94fb",
+        "activationBlockers": [
+          "Independent Oversight acceptance not complete; original raw-key sync/independent workflow prerequisites remain separate",
+          "Account-specific free entitlement/billed spend not independently verified"
+        ],
+        "productionPolicy": "manual, hard-pinned in hosted workflow",
+        "actualModelObservations": [
+          {
+            "model": "z-ai/glm-5.3-flash",
+            "state": "listed; observed empty completion in bounded probe, ineligible for this run",
+            "failureCode": "CRU-0036",
+            "failureMessageSha256": "418470e60fa7bcdacd9c7afc2cb881bab45b95560e19a4b50c3a498d88b26a4c"
+          },
+          {
+            "model": "nvidia/nemotron-3-super-120b-a12b",
+            "state": "qualified and initial live inference passed"
+          },
+          {
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "state": "qualified and live alternate inference passed after controlled retirement"
+          },
+          {
+            "model": "meta/muse-glimmer-30b",
+            "state": "listed and retained, unprobed because three-probe budget was exhausted; not rejected or dropped"
+          }
+        ],
+        "inferenceAccounting": {
+          "trials": [
+            {
+              "run": 38196752958,
+              "requests": 5,
+              "maxOutputTokensPerCall": 256,
+              "conclusion": "failure"
+            },
+            {
+              "run": 38197286368,
+              "requests": 4,
+              "maxOutputTokensPerCall": 1024,
+              "conclusion": "failure"
+            },
+            {
+              "run": 38198020896,
+              "requests": 5,
+              "maxOutputTokensPerCall": 1024,
+              "conclusion": "success"
+            }
+          ],
+          "totalRequests": 14,
+          "maxAggregateOutputTokenCeilings": 10496,
+          "actualTokens": "not reported by existing adapter",
+          "billedAmount": "not independently verified",
+          "paidFallback": false
+        },
+        "implementationAccounting": {
+          "sixFeaturePaths": "applied and committed",
+          "requiredNativeRegistrations": "owner approved and applied",
+          "matchingRegistryTestAssertion": "updated without weakening checks",
+          "issue40": "separate original community pre-intake hold remains open; no community scope completion claimed",
+          "diagnosticSubjects": "all 62 original IDs retained unchanged; no blanket completion",
+          "freshPolicySession": "unverified separately from static integrity",
+          "promotion": "not authorized or performed"
+        }
+      },
+      "downstreamReviewPriorState": {
+        "agent": "Codex",
+        "objective": "Implement and verify the owner-authorized NVIDIA-only model discovery, selection, retirement recovery, provenance and diagnostics on development; preserve prior custody/R8 continuation.",
+        "currentPrompt": "The failure details show a separate R8 blocker: missing executable-content quarantine proof. research this and resolve it.",
+        "executionMode": {
+          "mode": "work",
+          "agent": "Codex",
+          "purpose": "Resume returned custody and repair R8 executable refusal with independent proof",
+          "selectionReason": "Existing owner-authorized actual command/file/repository continuation",
+          "distinction": "Execution mode is separate from agent identity and workflow."
+        },
+        "taskRouting": {
+          "category": "crucible-core",
+          "repositoryId": 1344890806,
+          "repository": "6076446993/The-Crucible",
+          "branch": "development",
+          "reason": "Affected paths select crucible-core.",
+          "explicitOverride": false,
+          "selectedAt": "2026-10-13T04:12:49.925Z",
+          "promptSha256": "3cfbffea63ead510d11dcfe04484b595acce650fed394cbac03934ad7fa49b5c",
+          "affectedPathsSha256": "31146d5ca752b6c7b846d478cb9e185d6e0ed52987a5b9413118fcd132b27bdc"
+        },
+        "steps": [
+          "Preserve existing dirty preimages and record authorized bounded handoff",
+          "Apply six pinned NVIDIA paths through ready prewrite route",
+          "Run native component/integration/governance checks",
+          "Publish only NVIDIA changes and atomic governance; verify exact-tip CI",
+          "Record live acceptance limitations, return bounded ownership, checkpoint unfinished custody/R3/R8"
+        ],
+        "status": "handoff-ready",
+        "startedAt": "2026-10-08T04:07:39.980600Z",
+        "lastUpdatedAt": "2026-10-13T04:15:53.629Z",
+        "currentStep": "Verify separate encrypted RAW/VETTED copies and restore bindings, publish default-off fixed-recipient key transfer, then owner-authorized receiver synchronization and independent R8 proof.",
+        "nextAction": "Integrate tested proposal and verify all required gates; never restart R2, clear live locks or promote evidence.",
+        "verificationStatus": "Exact development tip is 621f9c3ed64a61e35eacd2710c1410cf401d1ec0. Hosted exact-tip Self-Test 38113258822 completed successfully across all 9 matrix jobs with repository security report 0 issues; CodeQL 38113258781, AI handoff 38113258774, AI conflict 38113258746, sync 38113258828, and locked-monitor block 38113258787 are successful. Durable learning proof 38113258786 job 114393015392 failed closed because the restored real corpus has no live executable-content refusal; it explicitly reports R4-R7 satisfied and R8 pending. R3 remains pending scheduled-origin evidence, R9 remains held, R10 is not all-green, and R11 remains unauthorized. Main and Archive are untouched."
+      },
+      "downstreamReview": {
+        "taskId": "downstream-nexus-review-20261014",
+        "scope": [
+          "DEVLOG.md",
+          "AI-HANDOFF.json"
+        ],
+        "holderClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
+        "handoffIssuedAt": "2026-10-14T19:30:39.1222600Z",
+        "recipientThread": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330",
+        "status": "published-documentation-at-f433e79; ownership returned; final hosted gate status remains separate",
+        "broaderPlan": "All other activePlan fields, downstreamReviewPriorState, historical custody continuation and workLedger remain preserved.",
+        "ownership": {
+          "currentClaim": "downstream-nexus-review-20261014",
+          "ownerThread": "01a13bb6-6ecd-7e72-bc0b-b8ecc7579330",
+          "paths": [
+            "DEVLOG.md",
+            "AI-HANDOFF.json"
+          ],
+          "broaderCustodyClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
+          "returnedAt": "2026-10-14T19:53:48.114Z"
+        },
+        "localVerification": {
+          "focusedTests": 48,
+          "failed": 0,
+          "coordination": "passed after fetching existing origin/Archive accountability reference",
+          "workLedgerPreserved": true,
+          "independentGatePass": false
+        }
+      },
+      "pr34PriorState": {
+        "currentPrompt": "Put the downstream Nexus review into DEVLOG.md and AI-HANDOFF.json on development.",
+        "taskRouting": {
+          "category": "crucible-core",
+          "repositoryId": 1344890806,
+          "repository": "6076446993/The-Crucible",
+          "branch": "development",
+          "reason": "Project context selects crucible-core.",
+          "explicitOverride": false,
+          "selectedAt": "2026-10-14T19:38:02.518Z",
+          "promptSha256": "4a9e5e5fc55a8f038ba04ff1a0d9fecbbe4e2c995b5890491dbbaca711552dad",
+          "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
+        },
+        "objective": "Publish additive downstream Nexus review and owner-directed continuing PR monitoring requirement, preserving existing custody and unfinished work.",
+        "steps": [
+          "Record explicit two-file handoff and preserve original custody scope/history.",
+          "Append attributed downstream review and record continuing responsibility for PR checks and authorized repairs.",
+          "Run focused governance checks and required pre-push verification.",
+          "Publish only development and verify exact-head hosted checks; retain PR34 conflicts, R8 and credential blockers."
+        ],
+        "verificationStatus": "48focused local governance tests passed. No release, runtime, R8 or hosted success claim."
+      },
+      "mainReconciliationStatus": "Content reconciliation complete locally; source writes relinquished to original holder; development-only publication and exact-head monitoring pending.",
+      "ciReaderPriorState": {
+        "objective": "Reconcile PR34 development with read-only main input, preserving fail-closed controls, unique history and independent release gates.",
+        "currentPrompt": "Resolve conflicts on PR #34 (development→main). Re-run CI and fix any failing tests reported by the jobs.",
+        "steps": [
+          "Inspect all11conflicts and three automatically merged input differences at pinned revisions.",
+          "Preserve stronger development custody/monitor/security/test controls and retain unique main records.",
+          "Run affected governance/security/workflow/repair tests and normal pre-push checks.",
+          "Publish development-only merge ancestry and monitor exact-head required checks; report R8/credential/ownership blockers without bypass."
+        ],
+        "taskRouting": {
+          "category": "crucible-core",
+          "repositoryId": 1344890806,
+          "repository": "6076446993/The-Crucible",
+          "branch": "development",
+          "reason": "Affected paths select crucible-core.",
+          "explicitOverride": false,
+          "selectedAt": "2026-10-14T19:48:28.749Z",
+          "promptSha256": "052d1b9aa61f466836abe27c7b24d6c31a47ebdf33f451f56b68a1adbd607d7b",
+          "affectedPathsSha256": "da5e6669b36349fe33c3b0ef52fd06ce28da6095c75b30dbe3639763be19f8df"
+        },
+        "verificationStatus": "48documentation-focused and126reconciliation-focused local tests passed. The published f433e79 handoff/conflict/Archive checks passed; seven Self-Test matrix jobs passed, two macOS jobs failed historical-accountability visibility. Final merge-head hosted evidence pending."
+      }
+    },
+    "recoverySystem": {
+      "startingSha": "f89606161d7ed2ae01c840fdf1fd9607024c8459",
+      "zeroKnowledgeLossVerified": false,
+      "mainPromotionAuthorized": false,
+      "r2RestartAuthorized": false,
+      "scope": "recovery only",
+      "prototype": "Library restart-integrity.js v1: comparison only; not integrated; no backups or replay",
+      "ownerAddenda": [
+        {
+          "at": "2026-10-15T19:09:30Z",
+          "text": "I also think any planed unimplemented work or plans should either be part of this system or crucible in genre needs a recovery system"
+        },
+        {
+          "at": "2026-10-15T19:13:00Z",
+          "text": "And all recovery tasks needed to be autonomous and if needed routed through the orchestrator"
+        }
+      ],
+      "evidenceFile": "governingDocuments/recovery-verification-20261015.json",
+      "implementationStatus": "local-tested-not-live-verified",
+      "autonomousRecoveryRoutes": [
+        "CrucibleLearningOrchestrator.coordinate recoveryTasks",
+        "production brain recover route",
+        "production submitRecoveryTask with durable heartbeat retry"
+      ],
+      "allPlansAndUnimplementedWorkRequired": true,
+      "drillCheckpointId": "54679d61badd65c68d8a3c6f56fd0f21eb0fd4163baa4853b2cf8c60f6094502",
+      "drillPreDigest": "b6e38fc98c15cb153497dbf5a5f9979b55193ae62f9d39014bb4220afb08f8ee",
+      "drillPostDigest": "b6e38fc98c15cb153497dbf5a5f9979b55193ae62f9d39014bb4220afb08f8ee",
+      "blockers": [
+        {
+          "id": "protected-independent-storage",
+          "status": "unverified",
+          "detail": "No effective retention-locked independent storage/deletion-denial/recovery-key evidence is available in this runtime."
+        },
+        {
+          "id": "live-corpus-configuration",
+          "status": "unavailable-in-this-runtime",
+          "detail": "Actual project-scoped private corpus roots, all source logs, authenticated custody and recovery signer are not configured here; local fixtures and tracked-tree restoration do not prove live preservation."
+        },
+        {
+          "id": "universal-restart-enforcement",
+          "status": "pending-live-wiring",
+          "detail": "Native per-file guards and orchestrator/production routes are coded; every actual deployed restart and mutation path still requires reviewed configuration and the independent preflight."
+        },
+        {
+          "id": "platform-and-power-failure",
+          "status": "pending",
+          "detail": "Directory fsync refusal is tested locally; actual hosted OS matrix, device power loss, external administrative deletion and platform flush behavior remain unverified."
+        },
+        {
+          "id": "independent-acceptance",
+          "status": "pending",
+          "detail": "No distinct security principal has restored the live corpus and signed its exact state. No independent gate is set passed."
+        }
+      ],
+      "localVerification": {
+        "passed": 1123,
+        "failed": 0,
+        "skipped": 0,
+        "recoveryFaultTests": 18,
+        "localAuditsPassed": true,
+        "liveIndependentRecoveryVerified": false
+      }
     }
   },
   "handoffNotes": {
@@ -1610,9 +3060,11 @@
       "Owner-approved NVIDIA implementation and native registry wiring: 1101/1101 full tests, zero skipped; earlier negative receipts preserved.",
       "2026-10-14 additive downstream review and PR completion/monitoring requirement implemented locally under explicit two-file holder handoff;48focused governance tests passed.",
       "2026-10-14 PR34 all11conflicts and three auto-merge differences semantically reconciled with126affected tests passing. Four governing references and one main-only bug record retained. Original custody scope returned unchanged; exact-head hosted checks pending.",
-      "2026-10-14 retained Archive reader ENOBUFS defect reproduced at1,176,257bytes; real-Git regression fails before fix and51focused checks pass after bounded reader fix. Exact-head hosted verification pending."
+      "2026-10-14 retained Archive reader ENOBUFS defect reproduced at1,176,257bytes; real-Git regression fails before fix and51focused checks pass after bounded reader fix. Exact-head hosted verification pending.",
+      "P0 recovery: native preimage/intent/commit journals and exact replay, full-population snapshot/restore API and CLI, independent signed receipt preflight, existing orchestrator/production routing and held-request retry implemented locally. All prior plans, work ledger IDs and original priorities retained."
     ],
     "remaining": [
+      "P0 recovery only: finish exact-source local gates, development publication and hosted checks; then obtain actual configured live custody, independently protected encrypted recovery storage and pinned independent verifier, complete live restore/power-failure/permission proof and universal restart-entry wiring. Zero knowledge loss is NOT VERIFIED. Preserve all earlier pending work; do not resume it before recovery acceptance.",
       "R8 executable-content quarantine proof remains pending in exact implementation run 38176245684; archive replacement does not satisfy scientific or promotion gates.",
       "Verify new security protections with fresh hosted exact-head proof; owner security credential entry is completed.",
       "Restore organization-scoped PR/check monitoring credentials. GitHub fine-grained token UI lacks a Checks permission; its draft is not submitted and cannot be presumed sufficient for private check-run access.",
@@ -1644,7 +3096,9 @@
       "31 handoff/lifecycle tests passed locally; test inventory reports 130 files with no lifecycle registry, no test retirement authorized.",
       "70 handoff/lifecycle/workflow tests passed; exact-range handoff passed. Native Git publication lacks authentication; use authorized connector after equivalent pre-push verification.",
       "50 workflow/source-bundle tests passed for read-only raw authentication probe; no key generation or live publication command added; temp plaintext always cleaned and excluded from uploads.",
-      "NVIDIA exact eca6fe4: 1104 native tests, 277 hosted component tests, live acceptance 38198020896 passed five real calls/three probes with controlled retirement and real alternate; no scientific-learning or activation authority."
+      "NVIDIA exact eca6fe4: 1104 native tests, 277 hosted component tests, live acceptance 38198020896 passed five real calls/three probes with controlled retirement and real alternate; no scientific-learning or activation authority.",
+      "P0 recovery tests 18/18; source-only deletion regression fails without fix and passes with fix. Tracked-tree and Git-history drill restored431files/20directories/9361420bytes with identical pre/post digest and exact original plan/work-ledger fields. This is not live-corpus or independent-principal proof.",
+      "Final recovery source npm run test:all1123/1123passed, zero failed/skipped, 2026-10-15T19:27:00.910Z through19:27:16.857Z. All10additional required local audits passed. Exact commands, timestamps and output hashes are in recovery-verification-20261015.json."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -2977,6 +4431,111 @@
       "acquiredAt": "2026-10-14T20:07:25.788Z",
       "releasedAt": "2026-10-14T20:08:01.329Z",
       "handedOffTo": null
+    },
+    {
+      "taskId": "p0-recovery-system-20261015",
+      "owner": {
+        "provider": "openai",
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/recoverySystem.js",
+          "src/recoverySystemCli.js",
+          "test/recoverySystem.test.js",
+          "src/scientificLearning.js",
+          "governingDocuments/recovery-system.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-directed P0 recovery system only; preserve existing original custody claim and priorities",
+      "status": "active",
+      "acquiredAt": "2026-10-15T19:09:00.150Z"
+    },
+    {
+      "taskId": "p0-recovery-research-writers-20261015",
+      "owner": {
+        "provider": "openai",
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/automatedGoogleResearch.js",
+          "src/automatedPerplexityResearch.js",
+          "src/automatedModelPointerResearch.js",
+          "src/monthlyKnowledgeRefresh.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Close native research-log and discovery queue bypasses of recovery journaling",
+      "status": "active",
+      "acquiredAt": "2026-10-15T19:13:20.776Z"
+    },
+    {
+      "taskId": "p0-recovery-orchestrator-20261015",
+      "owner": {
+        "provider": "openai",
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/learningOrchestrator.js",
+          "src/organismRuntime.js",
+          "src/recoveryController.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-directed autonomous recovery through existing orchestrator; preserve unfinished runtime queue and refuse restart without verified custody",
+      "status": "active",
+      "acquiredAt": "2026-10-15T19:14:38.273Z"
+    },
+    {
+      "taskId": "p0-recovery-route-contract-20261015",
+      "owner": {
+        "provider": "openai",
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "test/taskRouting.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Verify existing supported explicit task route for owner recovery request whose forbidden promotion wording is misclassified automatically",
+      "status": "active",
+      "acquiredAt": "2026-10-15T19:17:54.395Z"
+    },
+    {
+      "taskId": "p0-recovery-production-route-20261015",
+      "owner": {
+        "provider": "openai",
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/productionOrganism.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Wire bounded autonomous recovery to existing production circulation and retain held recovery requests for retry",
+      "status": "active",
+      "acquiredAt": "2026-10-15T19:19:36.385Z"
+    },
+    {
+      "taskId": "p0-recovery-evidence-20261015",
+      "owner": {
+        "provider": "openai",
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "governingDocuments/recovery-verification-20261015.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Retain exact recovery verification, restoration and unresolved-dependency evidence without asserting live-corpus recovery",
+      "status": "active",
+      "acquiredAt": "2026-10-15T19:25:34.798Z"
     }
   ],
   "ownerDecisions": [

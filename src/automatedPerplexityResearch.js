@@ -2,6 +2,7 @@
 
 const crypto = require('node:crypto');
 const fs = require('node:fs');
+const { preservedReplace, assertFileRestart } = require('./recoverySystem');
 const path = require('node:path');
 const { boundedTopic, AtomicSourceQueueCandidateSink } = require('./automatedGoogleResearch');
 const { admitDiscoveryCandidateUrls, loadVerifiedScholarlyDomains } = require('./safeInformationRetrieval');
@@ -28,6 +29,7 @@ class PerplexityResearchStore {
   }
 
   read() {
+    assertFileRestart(this.file);
     if (!fs.existsSync(this.file)) return emptyState(this.projectId, this.topics, this.now());
     const envelope = JSON.parse(fs.readFileSync(this.file, 'utf8'));
     if (Object.keys(envelope).sort().join(',') !== 'payload,sha256' || sha256(JSON.stringify(envelope.payload)) !== envelope.sha256) throw operationalError('OPS-0042', 'Perplexity research store integrity check failed.');
@@ -41,8 +43,12 @@ class PerplexityResearchStore {
     state.revision += 1;
     const envelope = { payload:state, sha256:sha256(JSON.stringify(state)) };
     const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;
-    fs.writeFileSync(temporary, `${JSON.stringify(envelope, null, 2)}\n`, { flag:'wx', mode:0o600 });
-    fs.renameSync(temporary, this.file);
+    const bytes = `${JSON.stringify(envelope, null, 2)}\n`;
+    preservedReplace(this.file, bytes, () => {
+      fs.writeFileSync(temporary, bytes, { flag:'wx', mode:0o600 });
+      const fd = fs.openSync(temporary, 'r+'); try { fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
+      fs.renameSync(temporary, this.file);
+    });
   }
 
   due(at = this.now(), maximum = MAXIMUM_QUERIES_PER_RUN) {

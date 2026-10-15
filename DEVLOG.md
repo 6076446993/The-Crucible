@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-15T19:27:00.760Z, Codex: P0 recovery only. See AI-HANDOFF.json.activePlan.currentPrompt, recoverySystem and handoffNotes.completed/remaining plus governingDocuments/recovery-verification-20261015.json. Native journals and autonomous existing-orchestrator recovery routes are local-tested;431-file isolated restoration preserved all captured plans and unfinished ledger records. Independent live-corpus storage, signer and universal deployment enforcement remain unverified. No R2 restart, queue reset, candidate discard, main promotion or unrelated development.
+
 - 2026-10-13T04:12:49.754Z, Codex: resumed returned custody claim; see activePlan.r8Repair for exact d92890c hosted R8 failure, owner-approved default-off receiver transfer, protected dirty preimages and separate D-drive encrypted backup progress. No live custody, key or independent review changed.
 
 - 2026-10-12T03:25:43.005Z, Codex: reconciled activePlan.ownership.currentClaim to the sole active returned claim owner-file-transport-20261008-resumed-after-nvidia-20261011. Original task owner-file-transport-20261008 and original acquisition time 2026-10-08T04:06:58.715Z remain unchanged. See activePlan.nvidiaPriorPlan for the preserved custody/R8 continuation; this correction does not dispatch or complete R8/Oversight work.
@@ -255,6 +257,29 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: p0-recovery-system-20261015 — 2026-10-15T19:27:00.760Z — Codex — mode:work
+
+Plain-language summary: Implemented native preservation and exact recovery of interrupted writes, full-population recovery copies and isolated restoration, and autonomous recovery routing through the existing orchestrator. Included planned and unimplemented work in required preservation coverage; retained all prior tasks and priorities. Independent live protection and restart authorization remain unverified.
+
+- `recovery implementation and focused fault injection` — started 2026-10-15T19:04:36.000Z, finished 2026-10-15T19:27:00.760Z, exit0 for the final18recovery tests; earlier42focused and131broader tests passed. Initial full run1111/1120 exposed six missing compiler-resolution failures and three handoff/registration mismatches; corrected without skipping tests. Full follow-up1120/1120 passed before the final added recovery cases.
+- `native source reversal verification` — original scientificLearning.js with the new deletion regression failed Missing expected exception; restoring only that source made the same test pass. Initial regression-harness attempts lacked the new CLI module and were corrected; those import failures are not defect reproduction evidence.
+- `tracked-tree, plans and Git-history isolated recovery drill` — started 2026-10-15T19:25:35.270Z, finished 2026-10-15T19:25:35.594Z, exit0;431files/20directories, matching SHA-256 populations b6e38fc98c15cb153497dbf5a5f9979b55193ae62f9d39014bb4220afb08f8ee; original disposable source population removed before fresh-process restoration; Git bundle verified. No live corpus or independent credential was used.
+- `native Git publication dry run` — finished 2026-10-15T19:24:20Z, exit128; no HTTPS Git credential in this runtime. Connector publication remains pending equivalent gates.
+- `npm run test:all` — started 2026-10-15T19:27:00.910Z, finished 2026-10-15T19:27:16.857Z, exit0;1123/1123passed, zero failed/skipped; output SHA-256 cec245796731bd6b493cd502fb4b8a5ac4de177e46cc474a454cd40986d6695d.
+- `npm run lint:workflows` — started 2026-10-15T19:27:16.860Z, finished 2026-10-15T19:27:17.073Z, exit0; output SHA-256 0f501522e3c9ab950f0694eca76c55b99f03f268bd61f0524e9c357fe0b7243e.
+- `npm run docs:check` — started 2026-10-15T19:27:17.073Z, finished 2026-10-15T19:27:17.273Z, exit0; output SHA-256 e004226c6488c82373112233c30466b546ebcf524e13ac49e5e5d7ac0b95476b.
+- `npm run validate` — started 2026-10-15T19:27:17.273Z, finished 2026-10-15T19:27:17.472Z, exit0; output SHA-256 b75da80ecc8e265a6f7d72f52f44af6031a573b8a1d8e24b807f873be27fdb7f.
+- `npm run audit:circulation` — started 2026-10-15T19:27:17.473Z, finished 2026-10-15T19:27:17.688Z, exit0; output SHA-256 d39d3a2a90b0f94d7144bcc57dbfd0b24d4633c27512430050d0b53ea411bbc0.
+- `npm run audit:failure-codes` — started 2026-10-15T19:27:17.689Z, finished 2026-10-15T19:27:17.893Z, exit0; output SHA-256 38266f49aea52dde1b3841f308df41c0c6294876cad5b22761e9b22d2decfd0f.
+- `npm run audit:clutter` — started 2026-10-15T19:27:17.894Z, finished 2026-10-15T19:27:20.552Z, exit0; output SHA-256 49fc3291790bac45d15c5994f8360c46d2dc12a24e2188089e81a8045ad1a43f.
+- `npm run audit:privacy` — started 2026-10-15T19:27:20.552Z, finished 2026-10-15T19:27:22.315Z, exit0; output SHA-256 da54d862342dba6a08f6baeb49d45635c2a4e760581507176a1dcd6a5cf11cb5.
+- `npm run audit:security` — started 2026-10-15T19:27:22.317Z, finished 2026-10-15T19:27:24.096Z, exit0; output SHA-256 df0f94c78b9e8dbb1382264208192c323b1bbd5a6e085b9c7cfe72676819d56e.
+- `npm run audit:coordination` — started 2026-10-15T19:27:24.097Z, finished 2026-10-15T19:27:24.325Z, exit0; output SHA-256 04afb925b2a2ef979c6635c2623dfd5ced537f0ade0c0be658846de7c90684c3.
+- `npm run audit:ai-conflict-governance` — started 2026-10-15T19:27:24.326Z, finished 2026-10-15T19:27:24.526Z, exit0; output SHA-256 fc7bc28f4dc4be7502357ed358cfedfa7f2af2055b07c57da65447a9c8634729.
+- Mutation ownership retained: owner-file-transport-20261008-resumed-after-nvidia-20261011. New non-overlapping recovery scopes: p0-recovery-system-20261015, p0-recovery-research-writers-20261015, p0-recovery-orchestrator-20261015, p0-recovery-route-contract-20261015, p0-recovery-production-route-20261015 and p0-recovery-evidence-20261015. Original claim age and all original work are unchanged.
+- task-routing: category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development. Exact owner repository/branch override is required because automatic keyword routing reads the forbidden-promotion wording as release; no release is authorized.
+- Remaining dependencies and exact next actions are in the structured dev plan and recovery evidence; no independent gate, live backup completeness or zero-loss claim is passed.
 
 ### Session: coordination-archive-reader-20261014 — 2026-10-14T20:01:58.091Z — Codex — mode:work
 
@@ -396,15 +421,6 @@ Plain-language summary: The protected R8 registration path was exercised from th
 
 
 - `owner authorization` — 2026-10-11T18:01:00-04:00: owner approved one-time inbound raw-key sync and existing independent Oversight dispatch; implementation prepares only fixed-recipient GitHub sealed ciphertext, default off, with one-day retention and no verifier/vetted-key mutation.
-
-### Session: password-manager-api-key-research-20261009 — 2026-10-09T23:45:00Z — Codex — mode:regular/default
-
-Plain-language summary: Registered password-manager-safe human access and API-key lifecycle management as candidate-only research and documented a non-secret vault-item specification without writing or exposing credentials.
-
-- `npm run route:prewrite -- --prompt ... --path governingDocuments/security-learning-techniques.json --path governingDocuments/cybersecurity-research-program.json --path governingDocuments/security-learning-pipeline.md --path governingDocuments/password-manager-entry.json --path AI-HANDOFF.json --path DEVLOG.md` — started 2026-10-09T19:39:16.982Z, finished 2026-10-09T19:39:17.695Z, exit 0.
-- Manifest, research-program, pipeline-document, non-secret password-manager specification, handoff and DEVLOG updates — started 2026-10-09T19:40:00.000Z, finished 2026-10-09T19:45:00.000Z, exit 0.
-- `node src/securityLearningCli.js queue` — started 2026-10-09T19:46:00.000Z, finished 2026-10-09T19:46:04.000Z, exit 1; existing durable-learning lock refused pending mutation with EPERM; no candidate records persisted.
-
 
 ## Historical mutation accountability
 

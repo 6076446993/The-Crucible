@@ -209,6 +209,8 @@ function validateDurablePayload(value, projectId) {
   return structuredClone(value);
 }
 
+const { preservedReplace, assertFileRestart } = require('./recoverySystem');
+
 class DurableScientificLearningStore {
   constructor({ root, projectId }) {
     text(projectId, 'projectId'); text(root, 'durable learning root');
@@ -217,11 +219,14 @@ class DurableScientificLearningStore {
     fs.mkdirSync(this.root, { recursive:true });
     this.file = path.join(this.root, `${sha(projectId)}.learning.json`);
     this.lockFile = `${this.file}.lock`;
+    // A vanished tracked store is recovery work, never an empty new learner.
+    assertFileRestart(this.file);
     if (!fs.existsSync(this.file)) this.writeEnvelope(durablePayload(projectId), false);
     this.read();
   }
   envelope(payload) { return { schemaVersion:1, payload, payloadSha256:sha(payload) }; }
   readEnvelope() {
+    assertFileRestart(this.file);
     let envelope;
     try { envelope = JSON.parse(fs.readFileSync(this.file, 'utf8')); } catch (error) { throw new Error(`Durable learning store is unreadable: ${error.message}`); }
     exactKeys(envelope, ['schemaVersion', 'payload', 'payloadSha256'], 'durable learning envelope');
@@ -231,14 +236,17 @@ class DurableScientificLearningStore {
   read() { return this.readEnvelope(); }
   writeEnvelope(payload, requireExisting = true) {
     if (requireExisting && !fs.existsSync(this.file)) throw new Error('Durable learning store disappeared during transaction.');
+    const bytes = `${JSON.stringify(this.envelope(payload), null, 2)}\n`;
+    return preservedReplace(this.file, bytes, () => {
     const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;
     const descriptor = fs.openSync(temporary, 'wx', 0o600);
     try {
-      fs.writeFileSync(descriptor, `${JSON.stringify(this.envelope(payload), null, 2)}\n`, 'utf8');
+      fs.writeFileSync(descriptor, bytes, 'utf8');
       fs.fsyncSync(descriptor);
     } finally { fs.closeSync(descriptor); }
     try { fs.renameSync(temporary, this.file); }
     catch (error) { try { fs.rmSync(temporary, { force:true }); } catch {} throw error; }
+    });
   }
   transact(mutator, { at, action }) {
     iso(at, 'transaction.at'); text(action, 'transaction.action');

@@ -1,5 +1,6 @@
 const crypto = require('node:crypto');
 const fs = require('node:fs');
+const { preservedReplace, assertFileRestart } = require('./recoverySystem');
 const path = require('node:path');
 const { candidatePacket } = require('./evidencePacket');
 
@@ -39,6 +40,7 @@ class MonthlyKnowledgeRefreshStore {
   }
 
   read() {
+    assertFileRestart(this.file);
     if (!fs.existsSync(this.file)) return emptyState(this.projectId);
     const envelope = JSON.parse(fs.readFileSync(this.file, 'utf8'));
     if (Object.keys(envelope).sort().join(',') !== 'payload,sha256') throw new Error('Monthly refresh store envelope is invalid.');
@@ -67,8 +69,12 @@ class MonthlyKnowledgeRefreshStore {
     }
     const envelope = { payload:state, sha256:sha256(JSON.stringify(state)) };
     const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;
-    fs.writeFileSync(temporary, `${JSON.stringify(envelope, null, 2)}\n`, { flag:'wx', mode:0o600 });
-    fs.renameSync(temporary, this.file);
+    const bytes = `${JSON.stringify(envelope, null, 2)}\n`;
+    preservedReplace(this.file, bytes, () => {
+      fs.writeFileSync(temporary, bytes, { flag:'wx', mode:0o600 });
+      const fd = fs.openSync(temporary, 'r+'); try { fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
+      fs.renameSync(temporary, this.file);
+    });
   }
 
   // Read, change and replace as one checked step. The check narrows the window to the moment
