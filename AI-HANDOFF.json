@@ -232,9 +232,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-15T20:00:20.314Z",
+      "selectedAt": "2026-10-15T20:06:03.072Z",
       "promptSha256": "c82d058e1310ebe28f1bd91f215ac1ad2e3386098cfe54c0a6fe0f2416f2b50d",
-      "affectedPathsSha256": "c3215777d8913900ba80ebe2d029f5be814e20d5c7a10bee87d8579b637d6d2b"
+      "affectedPathsSha256": "2b6ff5635f4c555b301573d49e9803899839a424ad375cfc93f04b9ca9d99008"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -244,8 +244,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-15T20:01:15.621Z",
-    "currentStep": "Recovery code native1127/1127 and22recovery cases pass, including ordered nested-directory restoration; publish exact source and check hosted matrix. Live independent custody, complete private roots/locks, pinned verifier and universal deployment wiring remain blocked.",
+    "lastUpdatedAt": "2026-10-15T20:22:35.915Z",
+    "currentStep": "Recovery software verification complete at source e34c052c17c37e0aeef93ad7614a56fa66796658: native1127/1127,22recovery cases, all9hosted platform jobs plus CodeQL/handoff/conflict passed. Blocked on actual live corpus/lock inventory, protected independent storage/recovery keys, pinned verifier and deployed bootstrap wiring. Keep P0 hold; no live R2 restart or unrelated development.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -318,7 +318,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Native and isolated working-state restoration verified; final source hosted matrix pending; independent live zero-loss acceptance NOT VERIFIED.",
+    "verificationStatus": "Software and captured-state restoration verified; independent live recovery and zero knowledge loss NOT VERIFIED.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -435,7 +435,7 @@
       {
         "id": "platform-and-power-failure",
         "status": "pending",
-        "detail": "Directory fsync refusal is tested locally; actual hosted OS matrix, device power loss, external administrative deletion and platform flush behavior remain unverified."
+        "detail": "Hosted Linux/macOS/Windows Node20/22/24 software matrix passed at exact source e34c052; actual device power loss, external administrative deletion and effective independent-storage behavior remain unverified."
       },
       {
         "id": "independent-acceptance",
@@ -452,7 +452,9 @@
       "completed": [
         "Native preservation, complete checkpoints, exact replay, isolated restoration, independent receipt validation and existing-orchestrator recovery routes implemented on development.",
         "Plans and unfinished work required; original plan and ledger preserved; normal Crucible activity held.",
-        "Full native1126/1126;21recovery tests; old-source lock exclusion and initializer regressions reproduced then fixed;433-file exact restoration verified."
+        "Full native1126/1126;21recovery tests; old-source lock exclusion and initializer regressions reproduced then fixed;433-file exact restoration verified.",
+        "Final source e34c052: native1127/1127 and22recovery cases; clean433-file restoration preserves all captured plans, ledger, provenance bytes and Git bundle. CodeQL/handoff/conflict checks passed; platform matrix pending.",
+        "Exact final source e34c052: all9Linux/macOS/Windows Node20/22/24 jobs passed, run38798675616; CodeQL38798675575, handoff38798675591, conflict38798675576 passed. Windows complete job log confirms1127/1127, zero skipped, nested-directory regression passed."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -3024,7 +3026,7 @@
         }
       ],
       "evidenceFile": "governingDocuments/recovery-verification-20261015.json",
-      "implementationStatus": "implemented-local-verified-live-independent-acceptance-blocked",
+      "implementationStatus": "implemented-software-verified-live-independent-acceptance-blocked",
       "autonomousRecoveryRoutes": [
         "CrucibleLearningOrchestrator.coordinate recoveryTasks",
         "production brain recover route",
@@ -3053,7 +3055,7 @@
         {
           "id": "platform-and-power-failure",
           "status": "pending",
-          "detail": "Directory fsync refusal is tested locally; actual hosted OS matrix, device power loss, external administrative deletion and platform flush behavior remain unverified."
+          "detail": "Hosted Linux/macOS/Windows Node20/22/24 software matrix passed at exact source e34c052; actual device power loss, external administrative deletion and effective independent-storage behavior remain unverified."
         },
         {
           "id": "independent-acceptance",
@@ -3156,16 +3158,16 @@
         ],
         "zeroKnowledgeLossVerified": false
       },
-      "latestImplementationCommit": "d1b59a85b2b5f6dc1e2c14f8d640a1210396089b",
+      "latestImplementationCommit": "e34c052c17c37e0aeef93ad7614a56fa66796658",
       "latestTrackedTreeDrill": {
-        "startedAt": "2026-10-15T19:46:06.814Z",
-        "finishedAt": "2026-10-15T19:46:07.110Z",
-        "checkpointId": "d745ea36aeb5248aeb8287c232076d88463173252a748de246488ab114e458d3",
-        "preDigest": "fef2522c9cf47690da33501fab2edacd2abbc02581d8baac1c916f8cf87ae5d8",
-        "postDigest": "fef2522c9cf47690da33501fab2edacd2abbc02581d8baac1c916f8cf87ae5d8",
+        "startedAt": "2026-10-15T20:02:28.708Z",
+        "finishedAt": "2026-10-15T20:02:28.962Z",
+        "checkpointId": "a7be78d36dcf168f3ebea170b55cdaf163e0cffbe716276a1b65f5739c3d0681",
+        "preDigest": "6ddbdb38a202e4b446c2440f42c7215a0c04e427fc0f6fc56ce3ec273103e695",
+        "postDigest": "6ddbdb38a202e4b446c2440f42c7215a0c04e427fc0f6fc56ce3ec273103e695",
         "files": 433,
         "directories": 20,
-        "bytes": 9097419,
+        "bytes": 9127435,
         "comparison": {
           "ok": true,
           "missing": [],
@@ -3254,7 +3256,8 @@
         "independentStorageVerified": false,
         "liveLearningCorpusUsed": false,
         "zeroKnowledgeLossVerified": false,
-        "sourceRevision": "d1b59a85b2b5f6dc1e2c14f8d640a1210396089b"
+        "sourceRevision": "e34c052c17c37e0aeef93ad7614a56fa66796658",
+        "cleanCommittedWorkingTree": true
       },
       "remainingActions": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -3274,7 +3277,19 @@
         "observed": "15-minute whole-job cancellation during required repeated workload; completed native1125/1125 runs in actual job log, no observed test failure",
         "change": "30-minute whole-job limit for Windows only; other platforms15; each configured workload command4minutes, workers, cycles and every check unchanged",
         "latestSourceRunId": 38796471019,
-        "latestSourceResult": "Linux and macOS all6jobs success; Windows prechecks pending"
+        "latestSourceResult": "Linux and macOS all6jobs success; Windows prechecks pending",
+        "validation": {
+          "sourceRevision": "07048089487baef06c2f84312a66fe05b6984722",
+          "runId": 38797870254,
+          "allPlatformJobsPassed": 9,
+          "failed": 0,
+          "windowsJobs": [
+            116638920073,
+            116638920450,
+            116638920474
+          ],
+          "observed": "All three Windows jobs completed their mandatory workloads after the whole-job budget correction."
+        }
       },
       "recoveryResearch": {
         "reviewedAt": "2026-10-15T19:57:31.690Z",
@@ -3300,7 +3315,8 @@
             "limit": "Reference guidance; no NIST compliance or independent live recovery acceptance is claimed."
           }
         ],
-        "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared."
+        "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared. Public PDF sections were read through the research service; original PDF byte custody in the live corpus is not claimed.",
+        "originalPdfBytesImportedIntoPrivateCorpus": false
       },
       "verificationBudgetCommit": "07048089487baef06c2f84312a66fe05b6984722",
       "directoryRestoreFix": {
@@ -3321,7 +3337,116 @@
           "acceptance-native": "b78a3ac3b4484072590f79e57fdf01cdd8c86344c00e6283d420307e08467429"
         },
         "limits": "Validates native flush calls and crash-order contract; actual device power loss remains unverified."
-      }
+      },
+      "latestImplementationTree": "9572ccb4b85eebdab53c82851febdbc2e43f1093",
+      "latestHosted": {
+        "sourceRevision": "e34c052c17c37e0aeef93ad7614a56fa66796658",
+        "selfTest": {
+          "sourceRevision": "e34c052c17c37e0aeef93ad7614a56fa66796658",
+          "runId": 38798675616,
+          "result": "success",
+          "jobs": [
+            {
+              "id": 116641693226,
+              "name": "The Crucible (windows-2022, 20)",
+              "status": "completed",
+              "result": "success"
+            },
+            {
+              "id": 116641693495,
+              "name": "The Crucible (windows-2022, 22)",
+              "status": "completed",
+              "result": "success"
+            },
+            {
+              "id": 116641693505,
+              "name": "The Crucible (ubuntu-latest, 22)",
+              "status": "completed",
+              "result": "success"
+            },
+            {
+              "id": 116641693614,
+              "name": "The Crucible (windows-2022, 24)",
+              "status": "completed",
+              "result": "success"
+            },
+            {
+              "id": 116641693660,
+              "name": "The Crucible (ubuntu-latest, 20)",
+              "status": "completed",
+              "result": "success"
+            },
+            {
+              "id": 116641693693,
+              "name": "The Crucible (ubuntu-latest, 24)",
+              "status": "completed",
+              "result": "success"
+            },
+            {
+              "id": 116641693718,
+              "name": "The Crucible (macos-latest, 22)",
+              "status": "completed",
+              "result": "success"
+            },
+            {
+              "id": 116641693925,
+              "name": "The Crucible (macos-latest, 24)",
+              "status": "completed",
+              "result": "success"
+            },
+            {
+              "id": 116641694015,
+              "name": "The Crucible (macos-latest, 20)",
+              "status": "completed",
+              "result": "success"
+            }
+          ],
+          "passed": 9,
+          "failed": 0
+        },
+        "codeql": {
+          "runId": 38798675575,
+          "result": "success"
+        },
+        "handoff": {
+          "runId": 38798675591,
+          "result": "success"
+        },
+        "conflict": {
+          "runId": 38798675576,
+          "result": "success"
+        },
+        "learningProof": {
+          "runId": 38798675646,
+          "result": "failure-expected-P0-recovery-only-inhibition",
+          "jobs": [
+            116641693289,
+            116641693605
+          ],
+          "observedCode": "OPS-0049",
+          "logRead": true,
+          "noLiveR2Restart": true
+        },
+        "liveIndependentRecoveryVerified": false,
+        "windowsNativeLogRead": {
+          "jobId": 116641693226,
+          "observedTests": 1127,
+          "passed": 1127,
+          "failed": 0,
+          "skipped": 0,
+          "nestedEmptyDirectoryRegressionPassed": true
+        }
+      },
+      "localDevelopmentReconciliation": {
+        "at": "2026-10-15T20:11:05.871Z",
+        "oldDevelopment": "20a3f18861abd7fc026c64b0f96e0c6f8798fbdf",
+        "publishedSource": "e34c052c17c37e0aeef93ad7614a56fa66796658",
+        "retainedReference": "refs/recovery-preserved/development-before-publication-20261015",
+        "method": "Clean checkout verified; preserved old commit under non-branch recovery ref; detached old checkout; leased existing development ref update; ordinary switch back to development. No hard reset, forced checkout or untracked-file removal.",
+        "status": "verified-clean-and-current"
+      },
+      "softwareVerificationComplete": true,
+      "state": "blocked-on-live-independent-acceptance"
     },
     "recoveryContinuationPriorContext": {
       "currentStep": "Published first implementation0c651b4; CodeQL/handoff/conflict/ciphertext checks passed, Self-Test exposed macOS temp alias and Windows directory flush refusal. macOS fix and persistent P0 normal-activity hold locally verified1125/1125; write-capable Windows handle change awaits exact hosted test. Live independent storage/verifier/restore remain unavailable here.",
