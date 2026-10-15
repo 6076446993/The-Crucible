@@ -232,9 +232,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-15T19:44:45.140Z",
+      "selectedAt": "2026-10-15T19:55:15.248Z",
       "promptSha256": "c82d058e1310ebe28f1bd91f215ac1ad2e3386098cfe54c0a6fe0f2416f2b50d",
-      "affectedPathsSha256": "ede61db37c0ef940f03c070c89f56ba4ff53d5ba7437f647dd44047a0bd56213"
+      "affectedPathsSha256": "e173434b7b24d6a0417e10ea675081053a82898678b23b142ec1c1725fbee25c"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -244,8 +244,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-15T19:44:45.146Z",
-    "currentStep": "Published first implementation0c651b4; CodeQL/handoff/conflict/ciphertext checks passed, Self-Test exposed macOS temp alias and Windows directory flush refusal. macOS fix and persistent P0 normal-activity hold locally verified1125/1125; write-capable Windows handle change awaits exact hosted test. Live independent storage/verifier/restore remain unavailable here.",
+    "lastUpdatedAt": "2026-10-15T19:55:15.254Z",
+    "currentStep": "Recovery implementation published at d1b59a85b2b5f6dc1e2c14f8d640a1210396089b; native1126/1126 and21recovery tests passed; fresh433-file restoration matched. Await exact hosted completion and independently configured live recovery acceptance.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -318,7 +318,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Before-fix regression failed as expected;51focused tests passed after fix; real retained Archive now validates.",
+    "verificationStatus": "Local source and restoration verified; hosted completion pending; independent live zero-loss acceptance NOT VERIFIED.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -416,28 +416,50 @@
         "id": "manual-raw-custody-execution-unavailable",
         "summary": "Deploy the manual raw and R8 workflows through a separately owner-authorized governed path: workflow_dispatch requires the workflow on the default branch. No local raw decryption/deploy credentials are available.",
         "owner": "owner-or-custody-administrator"
+      },
+      {
+        "id": "protected-independent-storage",
+        "status": "unverified",
+        "detail": "No effective retention-locked independent storage/deletion-denial/recovery-key evidence is available in this runtime."
+      },
+      {
+        "id": "live-corpus-configuration",
+        "status": "unavailable-in-this-runtime",
+        "detail": "Actual project-scoped private corpus roots, all source logs, authenticated custody and recovery signer are not configured here; local fixtures and tracked-tree restoration do not prove live preservation."
+      },
+      {
+        "id": "universal-restart-enforcement",
+        "status": "pending-live-wiring",
+        "detail": "Native per-file guards and orchestrator/production routes are coded; every actual deployed restart and mutation path still requires reviewed configuration and the independent preflight."
+      },
+      {
+        "id": "platform-and-power-failure",
+        "status": "pending",
+        "detail": "Directory fsync refusal is tested locally; actual hosted OS matrix, device power loss, external administrative deletion and platform flush behavior remain unverified."
+      },
+      {
+        "id": "independent-acceptance",
+        "status": "pending",
+        "detail": "No distinct security principal has restored the live corpus and signed its exact state. No independent gate is set passed."
       }
     ],
-    "nextAction": "Publish bounded reader repair to development and check exact-head CI.",
+    "nextAction": "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
     },
     "handoffNotes": {
       "completed": [
-        "Tested separate transport proposal: six focused tests and disposable import of five attached PDFs plus two supporting catalogs.",
-        "Prior mutation claim is already released in mutationClaims; preserve its stale activePlan context in ownerFileTransportPriorPlan.",
-        "Integrated candidate-only encrypted transport and exact-request manual workflow; full local suite 1015/1015, zero skipped; change-impact 181/181; required local governance/privacy/security checks passed.",
-        "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e.",
-        "Prepared narrow main-based six-file package (workflow, two required tests, handoff/log and retained failure ledger); local full suite 932/932 and failure retest 25/25 passed, zero skipped.",
-        "Rejected-decryption descriptor/cleanup repair passed focused 16/16 and full change-impact suite 1016/1016, zero skipped; circulation and failure-code gates unchanged.",
-        "c750ac6: eight matrix jobs passed; Windows Node 20 twice passed all tests/audits/precheck but the 10-minute wrapper cancelled the remaining mandatory workload.",
-        "Whole-job budget adjustment passed workflow tests 37/37 and local full change-impact 1016/1016; 4-minute workload command deadlines, two workers/two cycles and all source tests retained."
+        "Native preservation, complete checkpoints, exact replay, isolated restoration, independent receipt validation and existing-orchestrator recovery routes implemented on development.",
+        "Plans and unfinished work required; original plan and ledger preserved; normal Crucible activity held.",
+        "Full native1126/1126;21recovery tests; old-source lock exclusion and initializer regressions reproduced then fixed;433-file exact restoration verified."
       ],
       "remaining": [
-        "Exact-head completion with sufficient whole-job scheduling budget; unchanged 4-minute per-command deadline, workers/cycles and test coverage.",
-        "Authorized narrow default workflow registration.",
-        "Existing-key authenticated live intake and actual receipt."
+        "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
+        "Provision protected independent versioned retention-locked encrypted recovery storage and recoverable keys under a separate security principal.",
+        "Run registered checkpoint, independent restoration and exact hash/count/identity/provenance comparison over the live corpus; pin the distinct verifier public key and signed receipt.",
+        "Wire every deployed restart entry through the recovery preflight and existing orchestrator heartbeat registry; hold missing dependencies and retry approved operations.",
+        "Keep normal activity inhibited until independently accepted recovery and owner continuation; no main promotion or live R2 restart."
       ]
     },
     "filesTouched": [
@@ -2994,10 +3016,15 @@
         {
           "at": "2026-10-15T19:44:45.146Z",
           "text": "If you need to do additional research while you work do it"
+        },
+        {
+          "at": "2026-10-15T19:46:30.029Z",
+          "text": "If you need to look at pdfs and free books as you research always do it use every resource you can process in the pipeline",
+          "scope": "Relevant recovery research authorized; normal production pipeline remains held by P0."
         }
       ],
       "evidenceFile": "governingDocuments/recovery-verification-20261015.json",
-      "implementationStatus": "local-tested-not-live-verified",
+      "implementationStatus": "implemented-local-verified-live-independent-acceptance-blocked",
       "autonomousRecoveryRoutes": [
         "CrucibleLearningOrchestrator.coordinate recoveryTasks",
         "production brain recover route",
@@ -3035,10 +3062,10 @@
         }
       ],
       "localVerification": {
-        "passed": 1123,
+        "passed": 1126,
         "failed": 0,
         "skipped": 0,
-        "recoveryFaultTests": 18,
+        "recoveryFaultTests": 21,
         "localAuditsPassed": true,
         "liveIndependentRecoveryVerified": false
       },
@@ -3128,6 +3155,148 @@
           "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers"
         ],
         "zeroKnowledgeLossVerified": false
+      },
+      "latestImplementationCommit": "d1b59a85b2b5f6dc1e2c14f8d640a1210396089b",
+      "latestTrackedTreeDrill": {
+        "startedAt": "2026-10-15T19:46:06.814Z",
+        "finishedAt": "2026-10-15T19:46:07.110Z",
+        "checkpointId": "d745ea36aeb5248aeb8287c232076d88463173252a748de246488ab114e458d3",
+        "preDigest": "fef2522c9cf47690da33501fab2edacd2abbc02581d8baac1c916f8cf87ae5d8",
+        "postDigest": "fef2522c9cf47690da33501fab2edacd2abbc02581d8baac1c916f8cf87ae5d8",
+        "files": 433,
+        "directories": 20,
+        "bytes": 9097419,
+        "comparison": {
+          "ok": true,
+          "missing": [],
+          "changed": [],
+          "added": []
+        },
+        "workLedgerIds": [
+          "pipeline-diagnostics",
+          "pipeline-backup",
+          "pipeline-R8",
+          "pipeline-key-recovery",
+          "research-NMI",
+          "research-pipeline",
+          "test-relevance",
+          "devlog-continuity",
+          "DIAG-001",
+          "DIAG-002",
+          "DIAG-003",
+          "DIAG-004",
+          "DIAG-005",
+          "DIAG-006",
+          "DIAG-007",
+          "DIAG-008",
+          "DIAG-009",
+          "DIAG-010",
+          "DIAG-011",
+          "DIAG-012",
+          "DIAG-013",
+          "DIAG-014",
+          "DIAG-015",
+          "DIAG-016",
+          "DIAG-017",
+          "DIAG-018",
+          "DIAG-019",
+          "DIAG-020",
+          "DIAG-021",
+          "DIAG-022",
+          "DIAG-023",
+          "DIAG-024",
+          "DIAG-025",
+          "DIAG-026",
+          "DIAG-027",
+          "DIAG-028",
+          "DIAG-029",
+          "DIAG-030",
+          "DIAG-031",
+          "DIAG-032",
+          "DIAG-033",
+          "DIAG-034",
+          "DIAG-035",
+          "DIAG-036",
+          "DIAG-037",
+          "DIAG-038",
+          "DIAG-039",
+          "DIAG-040",
+          "DIAG-041",
+          "DIAG-042",
+          "DIAG-043",
+          "DIAG-044",
+          "DIAG-045",
+          "DIAG-046",
+          "DIAG-047",
+          "DIAG-048",
+          "DIAG-049",
+          "DIAG-050",
+          "DIAG-051",
+          "DIAG-052",
+          "DIAG-053",
+          "DIAG-054",
+          "DIAG-055",
+          "DIAG-056",
+          "DIAG-057",
+          "DIAG-058",
+          "DIAG-059",
+          "DIAG-060",
+          "DIAG-061",
+          "DIAG-062",
+          "codeql-literal-leak-checks",
+          "owner-file-live-intake"
+        ],
+        "originalPlanAndAllUnfinishedFieldsByteEqual": true,
+        "gitBundleVerified": true,
+        "sourcePopulationDeletedBeforeRestore": true,
+        "restorationProcessExit": 0,
+        "independentSecurityPrincipal": false,
+        "independentStorageVerified": false,
+        "liveLearningCorpusUsed": false,
+        "zeroKnowledgeLossVerified": false,
+        "sourceRevision": "d1b59a85b2b5f6dc1e2c14f8d640a1210396089b"
+      },
+      "remainingActions": [
+        "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
+        "Provision protected independent versioned retention-locked encrypted recovery storage and recoverable keys under a separate security principal.",
+        "Run registered checkpoint, independent restoration and exact hash/count/identity/provenance comparison over the live corpus; pin the distinct verifier public key and signed receipt.",
+        "Wire every deployed restart entry through the recovery preflight and existing orchestrator heartbeat registry; hold missing dependencies and retry approved operations.",
+        "Keep normal activity inhibited until independently accepted recovery and owner continuation; no main promotion or live R2 restart."
+      ],
+      "windowsVerificationBudget": {
+        "at": "2026-10-15T19:55:15.254Z",
+        "priorRunId": 38795651111,
+        "windowsJobs": [
+          116631212768,
+          116631213245,
+          116631213336
+        ],
+        "observed": "15-minute whole-job cancellation during required repeated workload; completed native1125/1125 runs in actual job log, no observed test failure",
+        "change": "30-minute whole-job limit for Windows only; other platforms15; each configured workload command4minutes, workers, cycles and every check unchanged",
+        "latestSourceRunId": 38796471019,
+        "latestSourceResult": "Linux and macOS all6jobs success; Windows prechecks pending"
+      }
+    },
+    "recoveryContinuationPriorContext": {
+      "currentStep": "Published first implementation0c651b4; CodeQL/handoff/conflict/ciphertext checks passed, Self-Test exposed macOS temp alias and Windows directory flush refusal. macOS fix and persistent P0 normal-activity hold locally verified1125/1125; write-capable Windows handle change awaits exact hosted test. Live independent storage/verifier/restore remain unavailable here.",
+      "nextAction": "Publish bounded reader repair to development and check exact-head CI.",
+      "verificationStatus": "Before-fix regression failed as expected;51focused tests passed after fix; real retained Archive now validates.",
+      "handoffNotes": {
+        "completed": [
+          "Tested separate transport proposal: six focused tests and disposable import of five attached PDFs plus two supporting catalogs.",
+          "Prior mutation claim is already released in mutationClaims; preserve its stale activePlan context in ownerFileTransportPriorPlan.",
+          "Integrated candidate-only encrypted transport and exact-request manual workflow; full local suite 1015/1015, zero skipped; change-impact 181/181; required local governance/privacy/security checks passed.",
+          "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e.",
+          "Prepared narrow main-based six-file package (workflow, two required tests, handoff/log and retained failure ledger); local full suite 932/932 and failure retest 25/25 passed, zero skipped.",
+          "Rejected-decryption descriptor/cleanup repair passed focused 16/16 and full change-impact suite 1016/1016, zero skipped; circulation and failure-code gates unchanged.",
+          "c750ac6: eight matrix jobs passed; Windows Node 20 twice passed all tests/audits/precheck but the 10-minute wrapper cancelled the remaining mandatory workload.",
+          "Whole-job budget adjustment passed workflow tests 37/37 and local full change-impact 1016/1016; 4-minute workload command deadlines, two workers/two cycles and all source tests retained."
+        ],
+        "remaining": [
+          "Exact-head completion with sufficient whole-job scheduling budget; unchanged 4-minute per-command deadline, workers/cycles and test coverage.",
+          "Authorized narrow default workflow registration.",
+          "Existing-key authenticated live intake and actual receipt."
+        ]
       }
     }
   },
@@ -6490,5 +6659,12 @@
       "result": "Synthetic email-shaped Git fixture identifier refused; replaced with non-email fixture identity. Detector unchanged;51focused checks passed again.",
       "history": "Original unpublished object/source retained locally; only unpublished commit amended; no force-push or published history rewrite."
     }
-  }
+  },
+  "nextActions": [
+    "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
+    "Provision protected independent versioned retention-locked encrypted recovery storage and recoverable keys under a separate security principal.",
+    "Run registered checkpoint, independent restoration and exact hash/count/identity/provenance comparison over the live corpus; pin the distinct verifier public key and signed receipt.",
+    "Wire every deployed restart entry through the recovery preflight and existing orchestrator heartbeat registry; hold missing dependencies and retry approved operations.",
+    "Keep normal activity inhibited until independently accepted recovery and owner continuation; no main promotion or live R2 restart."
+  ]
 }

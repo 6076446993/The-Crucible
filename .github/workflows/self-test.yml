@@ -27,7 +27,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     # Covers install/audits/full prechecks plus both required workload cycles.
     # The configured 4-minute deadline per workload command remains unchanged.
-    timeout-minutes: 15
+    # Recovery journaling flushes each generation; Windows needs time for every repeat.
+    timeout-minutes: ${{ matrix.os == 'windows-2022' && 30 || 15 }}
     env:
       GITHUB_TOKEN: ${{ github.token }}
       CRUCIBLE_SECURITY_READ_TOKEN: ${{ secrets.CRUCIBLE_SECURITY_READ_TOKEN || secrets.SECURITY_READ_TOKEN }}
