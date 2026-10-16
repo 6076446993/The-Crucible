@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-16T22:12:42.181Z, codex-work-42efe8889a64: Windows native Roslyn follow-up still requires NuGet machine settings roots; primary NuGet source and real child regression identify missing PROGRAMFILES fallback. See activePlan.diagnosticImprovements.compilerInterruption.dotnetIsolation.machineRootFollowup. Private machine/profile/cache paths now pass13semantic/1169native; hosted follow-up remains required, no acceptance fabricated.
+
 - 2026-10-16T22:07:59.492Z, codex-work-42efe8889a64: Corrected Oversight lookup through installed-repository discovery: exact repository ends in a period, accessible at78764a0. See activePlan.storageReductionIssue49.readOnlyPublisherReview; access is resolved, independent publisher authority remains separate. No Oversight mutations. Native .NET follow-up1169passed, hosted verification pending.
 
 - 2026-10-16T22:06:04.702Z, codex-work-42efe8889a64: Existing diagnostics continuation now supplies explicit private .NET/NuGet child paths after actual Windows native analyzer failure; see activePlan.diagnosticImprovements.compilerInterruption.dotnetIsolation.13semantic/1169native tests pass, exact hosted Windows follow-up pending. Storage target, independent retention/restore and original P0 recovery hold remain unaccepted.
@@ -325,6 +327,9 @@ Plain-language summary: Resumed issue49, reconciled concurrent work and integrat
 
 - `installed-repository discovery; read-only clone and Oversight governing/publisher inspection; issue49 correction` — started 2026-10-16T22:06:23.000Z, finished 2026-10-16T22:07:59.492Z, exit0; exact ID1352354684 repository6076446993/Vetting-and-Governance-oversite. at78764a0171e255e264ced52033da544259fc494e has trailing period. Earlier404 omitted it; access is resolved. No AGENTS/DEVLOG present there; read OVERSIGHT-POLICY/README/organism registry and publisher source. Explicit policy forbids Crucible writes, configuration, triggers, chosen verifier identity and importing Crucible runtime code. No remote mutation/dispatch performed. Production suppression requires independent Oversight adoption, not an access workaround.
 - `full native/pre-push follow-up` — started 2026-10-16T22:05:35.000Z, finished 2026-10-16T22:07:59.492Z, exit0;13semantic/1169full native pass; entire pre-push checks passed before metadata-only canonical-name correction. Physical/live-custody acceptance remains false.
+
+- `actual Windows native follow-up; NuGet source inspection; expanded environment red/green; full native verification` — started 2026-10-16T22:10:42.000Z, finished 2026-10-16T22:12:42.181Z, exit0; b07951a run38973982057/job117218861820 passed12/13; Roslyn still NuGet path1 null, workload warning removed. Primary NuGetEnvironment.cs reads missing PROGRAMFILES(X86)/PROGRAMFILES machine root before Path.Combine; source inspected instead of widening inherited environment. Expanded real child test fails on undefined PROGRAMFILES before fix, then13semantic/1169native pass with private machine/profile/cache directories. Parent secrets remain absent, deadlines/test coverage unchanged. Exact Windows acceptance pending. Primary source: https://github.com/NuGet/NuGet.Client/blob/dev/src/NuGet.Core/NuGet.Common/PathUtil/NuGetEnvironment.cs .
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
 
 ### Session: owner-authorized-takeover-20261016 — 2026-10-16T10:00:45.532Z — codex-work-42efe8889a64 — mode:work
 

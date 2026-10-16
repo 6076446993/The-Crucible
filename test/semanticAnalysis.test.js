@@ -5,12 +5,12 @@ test('isolated tool execution supplies complete private .NET paths without inher
   t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
   const worker=new SecureCompilerWorker({root,allowExecutables:[process.execPath]});
   const previous=process.env.CRUCIBLE_COMPILER_TEST_SECRET;process.env.CRUCIBLE_COMPILER_TEST_SECRET='fixture-only';
-  let result;try{result=await worker.run(process.execPath,['-e',`const keys=['USERPROFILE','APPDATA','LOCALAPPDATA','NUGET_PACKAGES','NUGET_HTTP_CACHE_PATH','DOTNET_CLI_HOME','MSBuildEnableWorkloadResolver','DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK'];console.log(JSON.stringify({paths:Object.fromEntries(keys.map(k=>[k,process.env[k]])),secretInherited:process.env.CRUCIBLE_COMPILER_TEST_SECRET!==undefined}));`],{toolHome});}
+  let result;try{result=await worker.run(process.execPath,['-e',`const keys=['USERPROFILE','APPDATA','LOCALAPPDATA','PROGRAMFILES','PROGRAMFILES(X86)','PROGRAMDATA','ALLUSERSPROFILE','NUGET_PACKAGES','NUGET_HTTP_CACHE_PATH','DOTNET_CLI_HOME','MSBuildEnableWorkloadResolver','DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK'];console.log(JSON.stringify({paths:Object.fromEntries(keys.map(k=>[k,process.env[k]])),secretInherited:process.env.CRUCIBLE_COMPILER_TEST_SECRET!==undefined}));`],{toolHome});}
   finally{if(previous===undefined)delete process.env.CRUCIBLE_COMPILER_TEST_SECRET;else process.env.CRUCIBLE_COMPILER_TEST_SECRET=previous;}
   const report=JSON.parse(result.stdout);assert.equal(report.secretInherited,false);
   assert.equal(report.paths.USERPROFILE,toolHome);assert.equal(report.paths.DOTNET_CLI_HOME,toolHome);
   assert.equal(report.paths.MSBuildEnableWorkloadResolver,'false');assert.equal(report.paths.DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK,'1');
-  for(const key of ['APPDATA','LOCALAPPDATA','NUGET_PACKAGES','NUGET_HTTP_CACHE_PATH']){assert.ok(report.paths[key].startsWith(toolHome+path.sep));assert.equal(fs.statSync(report.paths[key]).isDirectory(),true);}
+  for(const key of ['APPDATA','LOCALAPPDATA','PROGRAMFILES','PROGRAMFILES(X86)','PROGRAMDATA','ALLUSERSPROFILE','NUGET_PACKAGES','NUGET_HTTP_CACHE_PATH']){assert.equal(typeof report.paths[key],'string',key+' must be explicit');assert.ok(report.paths[key].startsWith(toolHome+path.sep));assert.equal(fs.statSync(report.paths[key]).isDirectory(),true);}
 });
 test('compiler interruption never becomes an allowed exit code, while intentional numeric exits remain supported',async t=>{
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-compiler-interruption-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
