@@ -47,6 +47,23 @@ jobs:
             --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" \
             --keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS \
             > hosted-source-bootstrap/raw-key-compatibility.json
+      - name: Verify restored source inventory without changing custody
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/crucible-ciphertext/restored"
+          python3 - <<'PY'
+          import os,tarfile
+          source=os.path.join(os.environ['RUNNER_TEMP'],'crucible-ciphertext','authenticated.tar.gz')
+          dest=os.path.join(os.environ['RUNNER_TEMP'],'crucible-ciphertext','restored')
+          with tarfile.open(source,'r:gz') as archive:
+              for entry in archive:
+                  parts=entry.name.split('/')
+                  if entry.name.startswith('/') or '..' in parts or not (entry.isfile() or entry.isdir()):
+                      raise ValueError('Unsafe archive member')
+              archive.extractall(dest,filter='data')
+          PY
+          node src/hostedSourceBundle.js verify --root "$RUNNER_TEMP/crucible-ciphertext/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --provenance raw-intake --report hosted-source-bootstrap/restored-verification.json
+          node src/hostedSourceBundle.js inventory --root "$RUNNER_TEMP/crucible-ciphertext/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report hosted-source-bootstrap/unfinished-inventory.json > hosted-source-bootstrap/inventory-summary.json
       - name: Destroy runner ciphertext and credentials
         if: always()
         run: rm -rf "$RUNNER_TEMP/crucible-ciphertext" "$RUNNER_TEMP/crucible-state-ssh"
@@ -58,5 +75,8 @@ jobs:
           path: |
             hosted-source-bootstrap/report.json
             hosted-source-bootstrap/raw-key-compatibility.json
+            hosted-source-bootstrap/restored-verification.json
+            hosted-source-bootstrap/inventory-summary.json
+            hosted-source-bootstrap/unfinished-inventory.json
           if-no-files-found: error
           retention-days: 90
