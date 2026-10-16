@@ -49,6 +49,10 @@ function compare(previous,current) {
    schemaVersion:1,
    provenance:'oversight-vetted-custody',
    sameEvidenceAndDecision:oldFingerprint===newFingerprint,
+   sameGovernedMetadata:oldFingerprint===newFingerprint,
+   workerExportPlaintextSha256Changed:previous.workerCandidateExport.plaintextSha256!==current.workerCandidateExport.plaintextSha256,
+   exactPayloadIdentityVerified:oldFingerprint===newFingerprint&&previous.workerCandidateExport.plaintextSha256===current.workerCandidateExport.plaintextSha256,
+   historicalPlaintextEqualityUnproven:oldFingerprint===newFingerprint&&previous.workerCandidateExport.plaintextSha256!==current.workerCandidateExport.plaintextSha256,
    previousSemanticSha256:oldFingerprint,
    currentSemanticSha256:newFingerprint,
    ciphertextChanged:previous.vettedCiphertextSha256!==current.vettedCiphertextSha256,
@@ -58,7 +62,7 @@ function compare(previous,current) {
    signingOrCustodyMutationAuthorized:false,
    historicalDeletionAuthorized:false,
    independentRecoveryVerified:false,
-   explanation:'Equivalent subject matter is not an authority to drop a signed custody event. Oversight must preserve new event receipts and confirm independently recoverable snapshots before any publisher integration.'
+   explanation:'Matching governed metadata does not establish equal underlying plaintext when worker export digests differ. A signed custody event cannot be dropped; oversight must preserve event receipts and prove independent recovery before any publisher integration.'
  };
 }
 function fixture(){
