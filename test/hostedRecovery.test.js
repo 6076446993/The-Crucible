@@ -41,7 +41,7 @@ test('authenticated corpus checkpoint survives source removal and encrypted-back
   const researchRoot=path.join(root,'research');fs.mkdirSync(researchRoot);fs.writeFileSync(path.join(researchRoot,'pending-plan.json'),'["unimplemented research"]');
   const reportFile=path.join(root,'report.json'),work=path.join(root,'capture');
   const report=await recovery.capture({root:work,repository,ref,revision,coreRoot,rawRoot,vettedRoot,retainedRoot,researchRoots:[researchRoot],reportFile});
-  assert.equal(report.state,'captured-and-isolated-restore-verified');assert.equal(report.preDigest,report.postDigest);
+  assert.equal(report.state,'captured-and-isolated-restore-verified');assert.match(report.custodyHistoryCoverage,/historical Git replication remains held/);assert.equal(report.preDigest,report.postDigest);
   assert.equal(report.populations.raw.learning.candidates,1);assert.equal(report.populations.retained.learningVersions,1);assert.equal(report.researchCachesCaptured,1);
   assert.equal(report.independentStorageVerified,false);assert.equal(report.restartAuthorized,false);assert.equal(git(rawRoot,'status','--porcelain'),'');assert.equal(git(vettedRoot,'status','--porcelain'),'');
   const encrypted=path.join(root,'backup.enc');await recovery.seal({root:work,output:encrypted,repository,ref,reportFile});
@@ -71,5 +71,5 @@ test('hosted recovery has no publication or R2 authority and fresh restore recei
   const workflow=fs.readFileSync(path.join(__dirname,'..','.github','workflows','recovery-custody.yml'),'utf8');
   assert.match(workflow,/contents: read/);assert.match(workflow,/actions: read/);assert.match(workflow,/cancel-in-progress: false/);
   assert.doesNotMatch(workflow,/git push|contents: write|secrets: write|r2FailoverProof|learning:.*run|source-bundle-key-manager/);
-  const restored=workflow.split('  restore-uploaded-backup:')[1];assert.ok(restored);assert.doesNotMatch(restored,/DEPLOY_KEY|RAW_READ_KEY|VETTED_READ_KEY/);assert.match(restored,/restore-backup/);
+  const restored=workflow.split('  restore-uploaded-backup:')[1];assert.ok(restored);assert.doesNotMatch(restored,/DEPLOY_KEY|RAW_READ_KEY|VETTED_READ_KEY/);assert.match(restored,/restore-backup/);assert.doesNotMatch(workflow,/fetch --unshallow/);assert.match(workflow,/cat recovery-report\.json/);assert.match(workflow,/cat recovery-restoration-report\.json/);
 });

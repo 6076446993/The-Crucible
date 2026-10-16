@@ -73,12 +73,15 @@ async function capture({ root, repository, ref, revision, coreRoot, rawRoot, vet
   const report = {schemaVersion:1,repository,ref,revision,startedAt:new Date().toISOString(),state:'held',sourceCapture:'immutable Git revision vector; not a quorum of live writer locks',completeLiveInventory:false,independentStorageVerified:false,independentSecurityPrincipal:false,restartAuthorized:false,zeroKnowledgeLossVerified:false,normalActivityResumed:false};
   try {
     report.phase='immutable-repository-snapshots';
+    report.custodyHistoryCoverage='current committed trees and exact tip commit metadata; complete historical Git replication remains held';
     fs.mkdirSync(path.join(population,'ciphertext')); fs.mkdirSync(path.join(population,'history'));
     for(const [name,source] of [['raw',rawRoot],['vetted',vettedRoot]]) {
       const head=execute('git',['-C',source,'rev-parse','HEAD']);
       if(!/^[a-f0-9]{40}$/.test(head))fail('custody commit unavailable');
       report[`${name}Revision`]=head;
-      execute('git',['-C',source,'bundle','create',path.join(population,'history',`${name}.bundle`),'--all']);
+      // Vetted history exceeds a hosted runner's disk. Preserve exact tip bytes now;
+      // never label a shallow checkout as a complete historical Git backup.
+      fs.writeFileSync(path.join(population,'history',`${name}-tip.commit`),execute('git',['-C',source,'cat-file','commit',head]),{mode:0o600});
       const archive=path.join(root,`${name}-tracked.tar.gz`);
       execute('git',['-C',source,'archive','--format=tar.gz','--output',archive,'HEAD']);
       extract(archive,path.join(population,'ciphertext',name),'tar');
@@ -90,6 +93,8 @@ async function capture({ root, repository, ref, revision, coreRoot, rawRoot, vet
     extract(code,path.join(population,'development'),'tar');fs.unlinkSync(code);
     execute('git',['-C',coreRoot,'bundle','create',path.join(population,'history','development.bundle'),'--all']);
     copyTree(retainedRoot,path.join(population,'retained'));
+    const origin=path.join(population,'retained','origin.json');
+    if(fs.existsSync(origin)){const value=JSON.parse(fs.readFileSync(origin));if(!/^\d+$/.test(value.runId)||!/^\d+$/.test(value.artifactId))fail('retained artifact provenance unavailable');report.retainedArtifact=value;}
     for(const [i,source]of researchRoots.entries())if(fs.existsSync(source))copyTree(source,path.join(population,`research-${i}`));
     report.researchCachesCaptured=researchRoots.filter(p=>fs.existsSync(p)).length;
     fs.mkdirSync(path.join(population,'corpus'));
@@ -127,7 +132,7 @@ async function capture({ root, repository, ref, revision, coreRoot, rawRoot, vet
     report.preDigest=pre.digest;report.postDigest=post.digest;
     report.files=pre.entries.filter(x=>x.type==='file').length;
     report.bytes=pre.entries.reduce((n,x)=>n+(x.size||0),0);
-    report.remaining=['independent-retention-locked-storage-and-recovery-key-custody','distinct-principal-live-restore-and-signed-receipt','complete-operator-and-cache-history-root-inventory','deployed-bootstrap-binding'];
+    report.remaining=['complete-custody-git-history-replication-to-capacity-appropriate-independent-storage','independent-retention-locked-storage-and-recovery-key-custody','distinct-principal-live-restore-and-signed-receipt','complete-operator-and-cache-history-root-inventory','deployed-bootstrap-binding'];
     fs.rmSync(target,{recursive:true});
     return report;
   } finally {
