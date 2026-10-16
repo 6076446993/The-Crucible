@@ -45,6 +45,7 @@ const TEST_MAIN_CATEGORIES = {
     'test/suiteSelection.test.js',
     'test/scientificLearning.test.js',
     'test/recoverySystem.test.js',
+    'test/hostedRecovery.test.js',
     'test/claimExtractionWorker.test.js',
     'test/pdfTextExtraction.test.js',
     'test/monthlyKnowledgeRefresh.test.js',

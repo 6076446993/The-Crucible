@@ -130,11 +130,12 @@
     "src/recoverySystemCli.js": "Configured role-complete checkpoint/verify/restore and independently signed restart preflight; includes plans and unfinished work.",
     "src/recoveryController.js": "Existing orchestrator recovery adapter: registered exact operations, durable diagnostic hold, no arbitrary paths, no proof or promotion authority.",
     "governingDocuments/recovery-system.md": "Recovery operating contract, scope, evidence limits and live prerequisites.",
-    "governingDocuments/recovery-operation-policy.json": "Owner P0 recovery-only operating hold. Normal Crucible activity remains inhibited until independently accepted recovery and a governed owner resumption decision; recovery and read-only diagnosis remain available."
+    "governingDocuments/recovery-operation-policy.json": "Owner P0 recovery-only operating hold. Normal Crucible activity remains inhibited until independently accepted recovery and a governed owner resumption decision; recovery and read-only diagnosis remain available.",
+    "src/hostedRecovery.js": "Recovery-only authenticated custody snapshots, registered checkpoint and encrypted uploaded-backup restoration; never normal proof, publication or restart authority."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-15T19:38:05.219Z"
+    "lastActionAt": "2026-10-16T02:17:09.710609Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -216,7 +217,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "P0 recovery system only: preserve all committed knowledge and source custody across interruption, with independently verified restoration before restart authorization.",
-    "currentPrompt": "THE CRUCIBLE — PRIORITY P0: RECOVERY SYSTEM ONLY\n\nExecute recovery-system implementation immediately in \"6076446993/The-Crucible\", branch \"development\", before any other Crucible work resumes.\n\nRead \"AGENTS.md\", \"DEVLOG.md\", \"AI-HANDOFF.json\", governing documents, current development SHA, and active mutation claims. Coordinate ownership and complete mandatory prewrite checks.\n\nImplement verified, durable, restart-safe preservation for all committed knowledge, research source logs, original source material, candidates, evidence, custody records, learning versions, extraction progress, and unfinished work.\n\nIntegrate integrity manifests, consistent checkpoints, protected independent recovery copies, idempotent replay, fail-closed restart authorization, and recovery diagnostics into the existing architecture.\n\nReconcile the existing preservation plan and locally tested restart-integrity prototype. Do not assume the prototype is already integrated.\n\nRun native tests, fault injection, interrupted-restart simulations, independent restoration, and pre/post-recovery hash, count, identity, and provenance verification.\n\nRecord exact SHA, changes, tests, evidence, and unresolved blockers in the existing governed development records.\n\nRecovery system only. Do not restart R2, reset queues, discard candidates, promote to main, or resume unrelated development. Do not claim zero knowledge loss until independently verified. Continue until completed or genuinely blocked.",
+    "currentPrompt": "Well finah it",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -232,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-15T20:06:03.072Z",
-      "promptSha256": "c82d058e1310ebe28f1bd91f215ac1ad2e3386098cfe54c0a6fe0f2416f2b50d",
-      "affectedPathsSha256": "2b6ff5635f4c555b301573d49e9803899839a424ad375cfc93f04b9ca9d99008"
+      "selectedAt": "2026-10-16T02:14:10.856Z",
+      "promptSha256": "3c42707055dc022e825617c59611c6d77404223639e480d9bd87565bdec0cf83",
+      "affectedPathsSha256": "2bf41deb87127ee5ead9ad0b6297b5994f052edc62ac4c56bf56a7e48567b106"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -244,8 +245,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-15T20:22:35.915Z",
-    "currentStep": "Recovery software verification complete at source e34c052c17c37e0aeef93ad7614a56fa66796658: native1127/1127,22recovery cases, all9hosted platform jobs plus CodeQL/handoff/conflict passed. Blocked on actual live corpus/lock inventory, protected independent storage/recovery keys, pinned verifier and deployed bootstrap wiring. Keep P0 hold; no live R2 restart or unrelated development.",
+    "lastUpdatedAt": "2026-10-16T02:15:08.010744Z",
+    "currentStep": "Recovery-only hosted custody capture and fresh-runner restoration implemented; native1131/1131 and4focused recovery cases passed. Publish and observe actual encrypted corpus preservation before recording acceptance; independent storage/principal and deployed bootstrap remain held.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -443,7 +444,7 @@
         "detail": "No distinct security principal has restored the live corpus and signed its exact state. No independent gate is set passed."
       }
     ],
-    "nextAction": "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
+    "nextAction": "Publish tested recovery-only custody capture and fresh-runner restore; inspect actual authenticated corpus results; keep restart held pending independent retention/signature/bootstrap acceptance.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -3446,28 +3447,114 @@
         "status": "verified-clean-and-current"
       },
       "softwareVerificationComplete": true,
-      "state": "blocked-on-live-independent-acceptance"
+      "state": "implementing-hosted-custody-restoration",
+      "ownerResourceAssessment": {
+        "reviewedAt": "2026-10-16T02:15:08.010744Z",
+        "origin": "Owner supplied four resources during P0 recovery continuation; tracking parameters removed for canonical source identities.",
+        "status": "design-reference-only-not-promoted-knowledge",
+        "sources": [
+          {
+            "id": "owner-rippling-it-guide",
+            "url": "https://www.rippling.com/resources/it-management-software-buyers-guide",
+            "access": "landing page read; full guide email-gated and not obtained",
+            "recoveryApplication": "Inventory asset, dependency and identity ownership so recovery coverage is explicit. Landing-page vendor claims are not independent recovery evidence.",
+            "broaderDisposition": "Retain in existing recovery research log for future IT lifecycle/dependency evaluation; no purchase, trial or new workstream."
+          },
+          {
+            "id": "owner-nerdio-dr",
+            "url": "https://getnerdio.com/",
+            "reviewedUrl": "https://getnerdio.com/solutions/disaster-recovery/",
+            "access": "official homepage and disaster-recovery page read",
+            "recoveryApplication": "Automated backup/failover, centralized monitoring and scripted recovery support registered operations and held diagnostics in the existing orchestrator. No AVD dependency is introduced.",
+            "broaderDisposition": "VDI, Azure migration and cost-management claims deferred as unverified platform candidates in this preserved research plan."
+          },
+          {
+            "id": "owner-veeam-immutability",
+            "url": "https://www.veeam.com/",
+            "reviewedUrls": [
+              "https://helpcenter.veeam.com/docs/vbr/userguide/hardened_repository.html",
+              "https://helpcenter.veeam.com/docs/vbr/userguide/hardened_repository_immutability.html"
+            ],
+            "access": "official homepage, Vault page and hardened-repository documentation read",
+            "recoveryApplication": "Configured immutable periods prevent moving, modifying or deleting protected files while permitting copies. Retention expiry alone is not immutability. Keep independent enforced retention and effective deletion-denial verification as unresolved acceptance requirements; GitHub90day artifacts cannot clear them.",
+            "broaderDisposition": "Veeam storage remains a vendor option requiring compatibility, independent credentials and actual retention testing; no installation or procurement claimed."
+          },
+          {
+            "id": "owner-datadog-agent-evaluation",
+            "url": "https://lp.datadoghq.com/rs/875-UVY-685/images/eBook-2026AIAgentsBestPractices.pdf?version=1",
+            "title": "Evaluating Production-Grade AI Agents Best Practices Guide",
+            "access": "research service failed twice; direct HTTPS downloaded original PDF; all9pages text extracted and read",
+            "originalBytes": 1864435,
+            "originalSha256": "b1806d403e676a5f59a4b57cab68b44014120032e9208a6bff7c6c83fbdc13a9",
+            "recoveryApplication": "Representative fixtures, adversarial outcomes, deterministic evaluators and execution traces support recovery regression and diagnostic testing. Subjective LLM scoring cannot authorize byte integrity or independently verify a restore.",
+            "broaderDisposition": "Preserve curated agent-evaluation dataset/version-comparison ideas in existing plan for later governed evaluation; no production trace ingestion, external monitoring credentials or model calls.",
+            "originalPdfImportedIntoPrivateCorpus": false
+          }
+        ],
+        "pipelineDisposition": "Logged within existing governed recovery research and preserved plans. Normal discovery/intake/extraction stays P0-held; no candidates promoted and no new research automation. Original downloaded PDF remains a reproducible research input; live original-byte custody is not claimed."
+      },
+      "hostedCustodyContinuation": {
+        "baseSha": "de71de2059ae509ff5b853d701d0bfdec92d6195",
+        "at": "2026-10-16T02:15:08.010744Z",
+        "claim": "p0-hosted-recovery-custody-20261016",
+        "status": "local-implementation-under-verification-not-live-evidence",
+        "credentials": "Existing raw/vetted SSH and encryption keys are available to hosted workflow; no secret value read or changed. Prior blanket private-access blocker was too broad.",
+        "behavior": "Read-only full Git histories, authenticated raw/vetted originals and retained encrypted learning state; registered checkpoint; encrypted off-host artifact; fresh-runner restore without custody SSH keys and exact replay.",
+        "limits": [
+          "GitHub artifact retention is not retention-locked independent storage",
+          "Separate runner is not a distinct security principal",
+          "Complete operator/library/cache-history inventory and deployed restart bootstrap remain unverified"
+        ],
+        "focusedCases": 4,
+        "nativeFirstRun": {
+          "passed": 1130,
+          "failed": 1,
+          "total": 1131,
+          "failure": "Existing workflow test required clone --depth1; now clone then fetch --unshallow, preserving full history and existing authority test."
+        },
+        "nativeFinal": {
+          "passed": 1131,
+          "failed": 0,
+          "skipped": 0,
+          "logSha256": "d591ffd95f7a5ca483b1befd504fcfccc3237e47e629b017b75618008d183797"
+        }
+      }
     },
     "recoveryContinuationPriorContext": {
-      "currentStep": "Published first implementation0c651b4; CodeQL/handoff/conflict/ciphertext checks passed, Self-Test exposed macOS temp alias and Windows directory flush refusal. macOS fix and persistent P0 normal-activity hold locally verified1125/1125; write-capable Windows handle change awaits exact hosted test. Live independent storage/verifier/restore remain unavailable here.",
-      "nextAction": "Publish bounded reader repair to development and check exact-head CI.",
-      "verificationStatus": "Before-fix regression failed as expected;51focused tests passed after fix; real retained Archive now validates.",
-      "handoffNotes": {
-        "completed": [
-          "Tested separate transport proposal: six focused tests and disposable import of five attached PDFs plus two supporting catalogs.",
-          "Prior mutation claim is already released in mutationClaims; preserve its stale activePlan context in ownerFileTransportPriorPlan.",
-          "Integrated candidate-only encrypted transport and exact-request manual workflow; full local suite 1015/1015, zero skipped; change-impact 181/181; required local governance/privacy/security checks passed.",
-          "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e.",
-          "Prepared narrow main-based six-file package (workflow, two required tests, handoff/log and retained failure ledger); local full suite 932/932 and failure retest 25/25 passed, zero skipped.",
-          "Rejected-decryption descriptor/cleanup repair passed focused 16/16 and full change-impact suite 1016/1016, zero skipped; circulation and failure-code gates unchanged.",
-          "c750ac6: eight matrix jobs passed; Windows Node 20 twice passed all tests/audits/precheck but the 10-minute wrapper cancelled the remaining mandatory workload.",
-          "Whole-job budget adjustment passed workflow tests 37/37 and local full change-impact 1016/1016; 4-minute workload command deadlines, two workers/two cycles and all source tests retained."
-        ],
-        "remaining": [
-          "Exact-head completion with sufficient whole-job scheduling budget; unchanged 4-minute per-command deadline, workers/cycles and test coverage.",
-          "Authorized narrow default workflow registration.",
-          "Existing-key authenticated live intake and actual receipt."
-        ]
+      "currentPrompt": "THE CRUCIBLE — PRIORITY P0: RECOVERY SYSTEM ONLY\n\nExecute recovery-system implementation immediately in \"6076446993/The-Crucible\", branch \"development\", before any other Crucible work resumes.\n\nRead \"AGENTS.md\", \"DEVLOG.md\", \"AI-HANDOFF.json\", governing documents, current development SHA, and active mutation claims. Coordinate ownership and complete mandatory prewrite checks.\n\nImplement verified, durable, restart-safe preservation for all committed knowledge, research source logs, original source material, candidates, evidence, custody records, learning versions, extraction progress, and unfinished work.\n\nIntegrate integrity manifests, consistent checkpoints, protected independent recovery copies, idempotent replay, fail-closed restart authorization, and recovery diagnostics into the existing architecture.\n\nReconcile the existing preservation plan and locally tested restart-integrity prototype. Do not assume the prototype is already integrated.\n\nRun native tests, fault injection, interrupted-restart simulations, independent restoration, and pre/post-recovery hash, count, identity, and provenance verification.\n\nRecord exact SHA, changes, tests, evidence, and unresolved blockers in the existing governed development records.\n\nRecovery system only. Do not restart R2, reset queues, discard candidates, promote to main, or resume unrelated development. Do not claim zero knowledge loss until independently verified. Continue until completed or genuinely blocked.",
+      "taskRouting": {
+        "category": "crucible-core",
+        "repositoryId": 1344890806,
+        "repository": "6076446993/The-Crucible",
+        "branch": "development",
+        "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
+        "explicitOverride": true,
+        "selectedAt": "2026-10-15T20:06:03.072Z",
+        "promptSha256": "c82d058e1310ebe28f1bd91f215ac1ad2e3386098cfe54c0a6fe0f2416f2b50d",
+        "affectedPathsSha256": "2b6ff5635f4c555b301573d49e9803899839a424ad375cfc93f04b9ca9d99008"
+      },
+      "retainedAt": "2026-10-16T02:15:08.010744Z",
+      "previous": {
+        "currentStep": "Published first implementation0c651b4; CodeQL/handoff/conflict/ciphertext checks passed, Self-Test exposed macOS temp alias and Windows directory flush refusal. macOS fix and persistent P0 normal-activity hold locally verified1125/1125; write-capable Windows handle change awaits exact hosted test. Live independent storage/verifier/restore remain unavailable here.",
+        "nextAction": "Publish bounded reader repair to development and check exact-head CI.",
+        "verificationStatus": "Before-fix regression failed as expected;51focused tests passed after fix; real retained Archive now validates.",
+        "handoffNotes": {
+          "completed": [
+            "Tested separate transport proposal: six focused tests and disposable import of five attached PDFs plus two supporting catalogs.",
+            "Prior mutation claim is already released in mutationClaims; preserve its stale activePlan context in ownerFileTransportPriorPlan.",
+            "Integrated candidate-only encrypted transport and exact-request manual workflow; full local suite 1015/1015, zero skipped; change-impact 181/181; required local governance/privacy/security checks passed.",
+            "Archive pre-prune full DEVLOG snapshot retained by distinct one-file commit bded6bbaa3f1847ea778edee5be2cda68ba5973e.",
+            "Prepared narrow main-based six-file package (workflow, two required tests, handoff/log and retained failure ledger); local full suite 932/932 and failure retest 25/25 passed, zero skipped.",
+            "Rejected-decryption descriptor/cleanup repair passed focused 16/16 and full change-impact suite 1016/1016, zero skipped; circulation and failure-code gates unchanged.",
+            "c750ac6: eight matrix jobs passed; Windows Node 20 twice passed all tests/audits/precheck but the 10-minute wrapper cancelled the remaining mandatory workload.",
+            "Whole-job budget adjustment passed workflow tests 37/37 and local full change-impact 1016/1016; 4-minute workload command deadlines, two workers/two cycles and all source tests retained."
+          ],
+          "remaining": [
+            "Exact-head completion with sufficient whole-job scheduling budget; unchanged 4-minute per-command deadline, workers/cycles and test coverage.",
+            "Authorized narrow default workflow registration.",
+            "Existing-key authenticated live intake and actual receipt."
+          ]
+        }
       }
     }
   },
@@ -5006,6 +5093,28 @@
       "purpose": "Place normal owner intake hold at live operator entry point while retaining isolated snapshot verification APIs",
       "status": "active",
       "acquiredAt": "2026-10-15T19:36:03.790Z"
+    },
+    {
+      "taskId": "p0-hosted-recovery-custody-20261016",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/hostedRecovery.js",
+          "scripts/recoveryArchive.py",
+          "test/hostedRecovery.test.js",
+          ".github/workflows/recovery-custody.yml"
+        ],
+        "regions": []
+      },
+      "purpose": "Finish authenticated retained-corpus recovery capture, encrypted preservation and isolated restart verification without resuming normal learning",
+      "status": "active",
+      "acquiredAt": "2026-10-16T02:01:29.361Z",
+      "handedOffTo": null,
+      "releasedAt": null
     }
   ],
   "ownerDecisions": [
