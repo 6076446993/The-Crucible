@@ -6,7 +6,23 @@ function inside(root,target){const resolved=path.resolve(root,target);if(resolve
 function normalizedFinding(input){const required=['projectId','language','kind','file','boundary','baseSha256','toolId','toolVersion'];for(const field of required)if(typeof input[field]!=='string'||!input[field])throw new Error(`Semantic finding requires ${field}.`);if(!Number.isInteger(input.start)||!Number.isInteger(input.end)||input.start<0||input.end<=input.start)throw new Error('Semantic finding requires a valid source range.');return Object.freeze({schemaVersion:1,...input,proofStageSatisfied:false,promotionAuthorized:false});}
 class SecureCompilerWorker{
   constructor({root,allowExecutables,timeoutMs=20000,maxOutputBytes=8*1024*1024}){this.root=path.resolve(root);this.allow=new Set(allowExecutables.map((item)=>path.resolve(item)));this.timeoutMs=timeoutMs;this.maxOutputBytes=maxOutputBytes;}
-  run(executable,args,{cwd='.',allowExitCodes=[0],toolHome=null}={}){const resolved=path.resolve(executable);if(!this.allow.has(resolved))throw new Error('Compiler executable is not allow-listed.');const workdir=inside(this.root,cwd);const temporaryRoot=toolHome?inside(path.resolve(os.tmpdir()),toolHome):path.resolve(os.tmpdir());return new Promise((resolve,reject)=>execFile(resolved,args,{cwd:workdir,shell:false,windowsHide:true,timeout:this.timeoutMs,maxBuffer:this.maxOutputBytes,env:{PATH:path.dirname(resolved),SystemRoot:process.env.SystemRoot||'',WINDIR:process.env.WINDIR||'',TEMP:process.env.TEMP||'',TMP:process.env.TMP||'',HOME:temporaryRoot,DOTNET_CLI_HOME:temporaryRoot,DOTNET_SKIP_FIRST_TIME_EXPERIENCE:'1',DOTNET_NOLOGO:'1'}},(error,stdout,stderr)=>{const exitCode=error?error.code:0;if(error&&(error.killed||error.signal||!Number.isInteger(exitCode)||!allowExitCodes.includes(exitCode)))return reject(new Error(`Compiler worker failed closed: ${error.message}\n${String(stdout).slice(-4000)}\n${String(stderr).slice(-4000)}`));resolve({stdout,stderr,exitCode,stdoutSha256:sha(stdout),stderrSha256:sha(stderr)});}));}
+  run(executable,args,{cwd='.',allowExitCodes=[0],toolHome=null}={}){
+    const resolved=path.resolve(executable);if(!this.allow.has(resolved))throw new Error('Compiler executable is not allow-listed.');
+    const workdir=inside(this.root,cwd),temporaryRoot=toolHome?inside(path.resolve(os.tmpdir()),toolHome):path.resolve(os.tmpdir());
+    const toolEnvironment={};
+    if(toolHome){
+      // Roslyn uses the SDK's compiler assemblies and no optional workloads. Keep
+      // its reviewed CI settings inside the sanitized child, with private profile
+      // and NuGet roots, rather than copying the parent environment or credentials.
+      Object.assign(toolEnvironment,{USERPROFILE:temporaryRoot,APPDATA:path.join(temporaryRoot,'profile','roaming'),LOCALAPPDATA:path.join(temporaryRoot,'profile','local'),NUGET_PACKAGES:path.join(temporaryRoot,'nuget','packages'),NUGET_HTTP_CACHE_PATH:path.join(temporaryRoot,'nuget','http-cache'),DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK:'1',MSBuildEnableWorkloadResolver:'false'});
+      for(const key of ['USERPROFILE','APPDATA','LOCALAPPDATA','NUGET_PACKAGES','NUGET_HTTP_CACHE_PATH'])fs.mkdirSync(toolEnvironment[key],{recursive:true,mode:0o700});
+    }
+    return new Promise((resolve,reject)=>execFile(resolved,args,{cwd:workdir,shell:false,windowsHide:true,timeout:this.timeoutMs,maxBuffer:this.maxOutputBytes,env:{PATH:path.dirname(resolved),SystemRoot:process.env.SystemRoot||'',WINDIR:process.env.WINDIR||'',TEMP:process.env.TEMP||'',TMP:process.env.TMP||'',HOME:temporaryRoot,DOTNET_CLI_HOME:temporaryRoot,DOTNET_SKIP_FIRST_TIME_EXPERIENCE:'1',DOTNET_NOLOGO:'1',...toolEnvironment}},(error,stdout,stderr)=>{
+      const exitCode=error?error.code:0;
+      if(error&&(error.killed||error.signal||!Number.isInteger(exitCode)||!allowExitCodes.includes(exitCode)))return reject(new Error(`Compiler worker failed closed: ${error.message}\n${String(stdout).slice(-4000)}\n${String(stderr).slice(-4000)}`));
+      resolve({stdout,stderr,exitCode,stdoutSha256:sha(stdout),stderrSha256:sha(stderr)});
+    }));
+  }
 }
 class TypeScriptSemanticAdapter{
   constructor({projectId,root}){this.projectId=projectId;this.root=path.resolve(root);this.id='typescript-compiler-api';this.version=ts.version;}

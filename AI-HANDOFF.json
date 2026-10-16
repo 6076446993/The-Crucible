@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T22:00:53.337Z"
+    "lastActionAt": "2026-10-16T22:07:59.492Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,7 +233,7 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T21:59:37.393Z",
+      "selectedAt": "2026-10-16T22:04:43.317Z",
       "promptSha256": "c6705200a8e8e011990d5e0e0048af2fe5cc1732f45c3fc8f1fea2043daa7acd",
       "affectedPathsSha256": "6c8554f47d97fd9012530e4505ea13c2cfc8525e8d0700facd940c5cecdbaa8d"
     },
@@ -247,8 +247,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T22:00:53.337Z",
-    "currentStep": "Original pipeline-diagnostics exact-tip CI: native compiler interruption fail-open reproduced and fixed;1168full native tests passed; publish and verify hosted checks. Production storage/recovery remains externally blocked.",
+    "lastUpdatedAt": "2026-10-16T22:07:59.492Z",
+    "currentStep": "Original pipeline-diagnostics: explicit isolated .NET/NuGet environment addresses actual Windows native analyzer failure;1169native tests pass; hosted Windows follow-up required. Issue49 production reduction remains externally blocked.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016",
@@ -459,7 +459,8 @@
         "Exact final source e34c052: all9Linux/macOS/Windows Node20/22/24 jobs passed, run38798675616; CodeQL38798675575, handoff38798675591, conflict38798675576 passed. Windows complete job log confirms1127/1127, zero skipped, nested-directory regression passed.",
         "Issue49 native stable identities/atomic queue registry journal/encrypted CAS/signature and complete-current-population reconciliation integrated at1f7bad2;1156native tests passed; macOS hosted temporary-root regression observed and follow-up prepared. No production migration or physical reduction.",
         "Resumed original pipeline-backup native recovery proposal after recording issue49 external blockers; durable adaptation stores, native lock/replay, held direct URL/security ingress and missing-hosted-state refusal integrated.45focused/1167native passed;6workflow guard/absence cases passed. Development publication and hosted verification pending; no restart or cleanup authority.",
-        "Existing pipeline-diagnostics: actual compiler timeout could resolve as successful exit0; native failing regression and minimal killed/signal/noninteger-code rejection fix implemented.12semantic/1168full native tests pass; no deadline increase, production proof restart or priority change. Hosted verification pending."
+        "Existing pipeline-diagnostics: actual compiler timeout could resolve as successful exit0; native failing regression and minimal killed/signal/noninteger-code rejection fix implemented.12semantic/1168full native tests pass; no deadline increase, production proof restart or priority change. Hosted verification pending.",
+        "Original diagnostics follow-up: Windows native Roslyn job117216360499 exposed missing SDK profile/cache variables across sanitized child boundary. Real child regression fails before fix; explicit private paths and existing no-workload settings pass13semantic/1169native. Parent secrets remain excluded; exact Windows proof pending."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -545,7 +546,29 @@
           "failed": 0,
           "skipped": 0
         },
-        "productionProofRestarted": false
+        "productionProofRestarted": false,
+        "publishedTimeoutFixSha": "8f164617500c41d69fe9badbc43f0f9f504ab39b",
+        "dotnetIsolation": {
+          "runId": 38973227376,
+          "jobId": 117216360499,
+          "observed": "Windows Roslyn/NuGet path1 null; worker omits USERPROFILE/cache/workload variables already reviewed in CI. Native child-process regression confirms missing paths before fix.",
+          "change": "Explicit per-tool private Windows profile, NuGet package/HTTP-cache paths and existing reviewed no-workload SDK settings inside sanitized child. Parent environment/secrets never copied.",
+          "focusedTests": {
+            "passed": 13,
+            "failed": 0,
+            "skipped": 0
+          },
+          "nativeTests": {
+            "passed": 1169,
+            "failed": 0,
+            "skipped": 0
+          },
+          "windowsHostedFollowupRequired": true,
+          "sources": [
+            "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-environment-variables",
+            "https://github.com/dotnet/sdk/blob/main/src/Tasks/Microsoft.NET.Build.Tasks/targets/Microsoft.NET.Sdk.props"
+          ]
+        }
       }
     },
     "priorCurrentPrompt": "Keep working and remember oldest relevant work gets completed first",
@@ -4466,7 +4489,7 @@
       ],
       "externalDependencies": [
         "Independent protected retention store, recovery key custody and distinct security-principal cold restore remain unavailable.",
-        "Independent oversight publisher must own any vetted no-op publication control; recorded oversight repository currently returns404."
+        "Oversight-owned production publisher adoption requires independent authority: its policy forbids Crucible writes/configuration/triggers or runtime imports. Correct repository is accessible; preserve this ownership boundary."
       ],
       "returnToOriginalOrder": "Retain existing workLedger; owner-file-live-intake originated2026-10-07 remains the oldest blocked item, dependent on P0 custody preservation.",
       "reconciledNativeTests": {
@@ -4531,6 +4554,15 @@
         "nextOldestHeld": "owner-file-live-intake",
         "oldestRequestOriginatedAt": "2026-10-07",
         "productionHoldPreserved": true
+      },
+      "readOnlyPublisherReview": {
+        "repository": "6076446993/Vetting-and-Governance-oversite.",
+        "repositoryId": 1352354684,
+        "sha": "78764a0171e255e264ced52033da544259fc494e",
+        "lookupCorrection": "Earlier404 omitted the trailing period. Canonical installed-repository discovery succeeded; access is not a current blocker.",
+        "policy": "OVERSIGHT-POLICY.md explicitly withholds Crucible write/configuration/trigger/verifier-identity authority and disallows importing Crucible runtime modules.",
+        "source": "independent-oversight.yml always encrypts approved merged custody before signed publication; independent no-change adoption remains required.",
+        "oversightMutated": false
       }
     }
   },
