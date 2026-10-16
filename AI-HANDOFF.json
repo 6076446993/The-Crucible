@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T02:59:56.478567Z"
+    "lastActionAt": "2026-10-16T03:11:55.129099Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T02:58:16.296Z",
+      "selectedAt": "2026-10-16T03:09:10.502Z",
       "promptSha256": "3c42707055dc022e825617c59611c6d77404223639e480d9bd87565bdec0cf83",
-      "affectedPathsSha256": "9b51bc72ae6da587f0b87d66aef7b6c7666c28d5984a1f410f8323242a7e9c0a"
+      "affectedPathsSha256": "66fdff0f2727e5c3dbdffb4a218035f945b7c6e9751c2266dc2849f90139ba34"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -245,8 +245,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T02:59:56.478567Z",
-    "currentStep": "Recovery-only hosted custody capture and fresh-runner restoration implemented; native1131/1131 and4focused recovery cases passed. Publish and observe actual encrypted corpus preservation before recording acceptance; independent storage/principal and deployed bootstrap remain held.",
+    "lastUpdatedAt": "2026-10-16T03:11:55.129099Z",
+    "currentStep": "Known live current snapshots restore/replay from uploaded dual-family capsules; finish measured Windows workload verification and retain independent storage/key/verifier/bootstrap acceptance holds.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
@@ -4037,8 +4037,154 @@
           "rule": "Seal only with both current families; restoration tries at most4configured current/previous family pairs under the existing dual-key retention window. Both families remain mandatory; no caller-supplied keys or legacy-raw fallback.",
           "localTests": "Both original families moved to PREVIOUS and new current values installed in disposable fixture; old capsule restores/replays exact digest through PREVIOUS/PREVIOUS. Missing family, either family alone, tampered capsule and output overwrite are refused. Real secrets were never rotated.",
           "newestFocusedTests": 44,
-          "nativeFinalPending": true
-        }
+          "nativeFinalPending": false,
+          "nativePassed": 1133
+        },
+        "verifiedKeyWindowSourceRestore": {
+          "sourceRevision": "0b88c52fbaa46291aebb2aaef5908eb42f25d7f2",
+          "runId": 38843506809,
+          "preserveJobId": 116788699175,
+          "restoreJobId": 116789528667,
+          "artifactId": 12022806287,
+          "reportArtifactId": 12022651846,
+          "result": "success",
+          "report": {
+            "schemaVersion": 2,
+            "repository": "6076446993/The-Crucible",
+            "ref": "refs/heads/development",
+            "revision": "0b88c52fbaa46291aebb2aaef5908eb42f25d7f2",
+            "startedAt": "2026-10-16T03:03:21.436Z",
+            "state": "uploaded-backup-restored-and-replayed",
+            "sourceCapture": "immutable Git revision vector; not a quorum of live writer locks",
+            "recoveryEncryption": "HKDF-SHA256 requires both existing raw and vetted key families; no generated replacement key",
+            "completeLiveInventory": false,
+            "independentStorageVerified": false,
+            "independentSecurityPrincipal": false,
+            "restartAuthorized": false,
+            "zeroKnowledgeLossVerified": false,
+            "normalActivityResumed": false,
+            "phase": "captured",
+            "custodyHistoryCoverage": "current committed trees and exact tip commit metadata; complete historical Git replication remains held",
+            "rawRevision": "e627a695b1898ea7bcc24f884d066bf835868a30",
+            "vettedRevision": "d0e9be11bf5c6fc77c84f0222923b1a599090ece",
+            "retainedArtifact": {
+              "runId": "38843506522",
+              "artifactId": "12021917894"
+            },
+            "researchCachesCaptured": 2,
+            "authentication": {
+              "raw": {
+                "decryptedWith": "CRUCIBLE_SOURCE_BUNDLE_KEY",
+                "plaintextSha256": "db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b",
+                "plaintextBytes": 239116863,
+                "provenance": "raw-intake"
+              },
+              "vetted": {
+                "decryptedWith": "CRUCIBLE_VETTED_BUNDLE_KEY",
+                "plaintextSha256": "184ed789ff38b6d107a5f17eec27eda3899a2ebaefb75443d1c68b7853d408f7",
+                "plaintextBytes": 213833385,
+                "provenance": "oversight-vetted"
+              }
+            },
+            "checkpointId": "cf91009a901e85c1f3e02bd25d105526411f7b60921e5fa23424266cb911cb5a",
+            "populations": {
+              "raw": {
+                "provenance": "raw-intake",
+                "sources": 541,
+                "sourceIdentityDigest": "0a4587773a9ee7ff0972df9d78925801388247742dc9849f59b2be23e5e1505b",
+                "sourceAndExtractionProgressDigest": "d1a5ab7cab98893fa10f3a4bb314192e80e887316d9e16fbfff2d4024dcb8296",
+                "originalSourceDigest": "cadeee896710718dd097d833f9302c565bababdcff2b832e16d592a55c1044f2",
+                "originalSourceFiles": 425,
+                "learning": {
+                  "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                  "revision": 2564,
+                  "candidates": 29799,
+                  "candidateIdentityDigest": "c18f1385cde3eb0b6930d52894e7296588a7f9a840b2b07695c14e36f7ad67e5",
+                  "candidateAndEvidenceDigest": "e2237f5c223070c64151ce1ad23a7841f93432359f6fbc0d14da18ba0eddcfd9",
+                  "learningVersions": 1,
+                  "learningVersionDigest": "14ae27cfd66dc8b5993dd2fce5d8c8cf1ba2987dfec1604953ea6471b808e106",
+                  "completePayloadDigest": "8e80dc1092086a51f8c5f05b564adf595d886e6f3cc9aaa3dea25577321a64a1"
+                }
+              },
+              "vetted": {
+                "provenance": "oversight-vetted",
+                "sources": 509,
+                "sourceIdentityDigest": "abaab9c9b4a078340cd7f57dfed70b7c769d71ba5c46afbc3f36b389e6a01f58",
+                "sourceAndExtractionProgressDigest": "22ab906b4c690aa2a7c5a64dc3e6cee8c43fb0e776a2c5152f286910087576cb",
+                "originalSourceDigest": "b8f4424596993d5224307120c769830c7351376cdbccaf617b0b8ce108468e1f",
+                "originalSourceFiles": 378,
+                "learning": {
+                  "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                  "revision": 2166,
+                  "candidates": 26683,
+                  "candidateIdentityDigest": "f4768dfec915a6994d95317219be185e6e4f25f77bd864d36151ef360d79afa8",
+                  "candidateAndEvidenceDigest": "5751114ce917346d7b4a2d6c73501b4a01ba25ce8766bf9c91de978fbd088977",
+                  "learningVersions": 0,
+                  "learningVersionDigest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                  "completePayloadDigest": "9d19412d5de82d516543704eb8161db2aa34d64ef0ecc456cf2007fce7e32c4d"
+                }
+              },
+              "retained": {
+                "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                "revision": 60,
+                "candidates": 11,
+                "candidateIdentityDigest": "ce9c8f107384bb0296bc5d537f5fda29cd51da4019979a35e7e7e4b01c71db9d",
+                "candidateAndEvidenceDigest": "5cf8d414df6ea80139f5c640c43f22f4e07fd6657dcfa93727a719f592e8815c",
+                "learningVersions": 3,
+                "learningVersionDigest": "a9293d1319d650e18a5b380249b37e82ea65311f301bc093374b0adb2e0e25b9",
+                "completePayloadDigest": "44d95321649ed7402a634792d55f4e9720612abc88599fdb60ca5de74e7abbed"
+              }
+            },
+            "preDigest": "64794c76b717b38795ca7c8426e189b4b2f7ed660170ed6dc56460239670e3c7",
+            "postDigest": "64794c76b717b38795ca7c8426e189b4b2f7ed660170ed6dc56460239670e3c7",
+            "files": 1290,
+            "bytes": 1701366895,
+            "remaining": [
+              "complete-custody-git-history-replication-to-capacity-appropriate-independent-storage",
+              "independent-retention-locked-storage-and-recovery-key-custody",
+              "distinct-principal-live-restore-and-signed-receipt",
+              "complete-operator-and-cache-history-root-inventory",
+              "deployed-bootstrap-binding"
+            ],
+            "finishedAt": "2026-10-16T03:06:30.953Z",
+            "recoveryKeyFamiliesUsed": [
+              "CRUCIBLE_SOURCE_BUNDLE_KEY",
+              "CRUCIBLE_VETTED_BUNDLE_KEY"
+            ],
+            "encryptedBackupSha256": "19bccffa7b647adf4d7b7c599a2ee718f84c786b0c8597aef85fcfdbce2b93c5",
+            "separateRunnerRestoreVerified": true
+          }
+        },
+        "windowsWorkloadBudget": {
+          "at": "2026-10-16T03:11:55.129099Z",
+          "claim": "p0-recovery-windows-workload-budget-20261016",
+          "observedFailures": [
+            {
+              "sourceRevision": "39265d21485d0b2633271e99e84b4af2aa7b69f6",
+              "runId": 38840650875,
+              "jobId": 116779711317,
+              "platform": "windows-2022 /Node20",
+              "phase": "Engine worker1cycle1 command deadline240s"
+            },
+            {
+              "sourceRevision": "ec914228110d5ed9343c8c7664502a287c7d2c2b",
+              "runId": 38841669422,
+              "jobId": 116782944895,
+              "platform": "windows-2022 /Node24",
+              "phase": "Engine worker2cycle2 command deadline240s"
+            }
+          ],
+          "actualEvidence": "Both job logs read. Earlier full native runs1131/1131 or1132/1132 passed in117-159s; concurrent complete runs214.35/216.96s; failed repeats continued successful TAP through test1079/1080 around215s then reached240s deadline. No native assertion failure observed. This is measured active progress/IO pressure, not permission to ignore a hang.",
+          "change": "Reviewed workload.timeoutMinutesByPlatform.win32=6; Linux/macOS/global/default4; bounded1..30 validation rejects unknown platforms/malformed/out-of-range values; runtime uses explicit reviewed platform only. No caller key/paths or environment timeout override.",
+          "unchanged": "Both workers, both cycles, every configured command, all assertions/audits, finite deadlines and Windows whole-job30min (others15min).",
+          "focusedTests": 58,
+          "status": "local verified, native/pre-push and actual Windows completion pending"
+        },
+        "keyCustodyDependencies": [
+          "CRUCIBLE_SOURCE_BUNDLE_KEY and retained versions",
+          "CRUCIBLE_VETTED_BUNDLE_KEY and retained versions",
+          "CRUCIBLE_HOSTED_STORE_KEY for retained weekly-envelope learning state"
+        ]
       }
     },
     "recoveryContinuationPriorContext": {
@@ -5634,6 +5780,29 @@
       "purpose": "Finish authenticated retained-corpus recovery capture, encrypted preservation and isolated restart verification without resuming normal learning",
       "status": "active",
       "acquiredAt": "2026-10-16T02:01:29.361Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-windows-workload-budget-20261016",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "Codex"
+      },
+      "scope": {
+        "paths": [
+          "src/config.js",
+          "src/runner.js",
+          ".thecrucible.json",
+          ".thecrucible.schema.json",
+          "test/config.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Bound Windows recovery flush verification from measured parallel progress; preserve all workers cycles assertions and other platform deadlines",
+      "status": "active",
+      "acquiredAt": "2026-10-16T03:07:17.727Z",
       "handedOffTo": null,
       "releasedAt": null
     }

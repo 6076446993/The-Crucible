@@ -64,6 +64,7 @@
     "workers": 2,
     "cycles": 2,
     "timeoutMinutes": 4,
+    "timeoutMinutesByPlatform": { "win32": 6 },
     "maxOutputBytes": 1048576,
     "execution": { "network": "allow" }
   }
