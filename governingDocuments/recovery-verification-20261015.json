@@ -857,6 +857,22 @@
       "change": "Preserve exact current committed ciphertext trees and tip commit metadata; retain full core source/plan Git history. Complete private Git historical replication stays held for capacity-appropriate independent storage. Never call shallow checkout full history."
     },
     "previousBehavior": "Read-only full Git histories, authenticated raw/vetted originals and retained encrypted learning state; registered checkpoint; encrypted off-host artifact; fresh-runner restore without custody SSH keys and exact replay.",
-    "verificationFollowup": "42focused hosted/workflow tests passed; bounded diagnostics include originating retained artifact ID and aggregate counts/hashes; complete pre-push rerun pending."
+    "verificationFollowup": "42focused tests and complete pre-push passed1131native. Current-tree recovery uses a separate serialized concurrency group so a capacity-limited older read-only history fetch cannot block preservation; no source writes or cancellation of checkpoints.",
+    "dependencyCorrection": {
+      "sourceRevision": "f2dfb5332e110fe47c5ae0c320b837009b9817c3",
+      "runId": 38840241227,
+      "jobId": 116778419670,
+      "actual": "Raw/vetted shallow clones and retained hosted artifact extraction succeeded; module load failed before capture: existing hostedLearningProof dependency requires typescript. No checkpoint or artifact created.",
+      "repair": "Both recovery jobs install locked dependencies with npm ci --ignore-scripts before credentials and capture; no learner or lifecycle script runs."
+    },
+    "historyCleanupAssessment": {
+      "ownerInstruction": "If you need to clear any of that 59 gb to make space figure out whats obsolete first then continue",
+      "at": "2026-10-16T02:26:12.871465Z",
+      "currentRawTreeBytes": 710700405,
+      "currentVettedTreeBytes": 213976760,
+      "currentPrivateTreeFiles": 29,
+      "status": "Read-only audit in progress; no historical generation verified obsolete. Current snapshots fit runner without deletion.",
+      "rule": "Identify candidate/evidence/version/source/provenance-equivalent generations using authenticated plaintext before proposing compaction; ciphertext difference or age alone never proves obsolescence. Retain originals until verified independent recovery. Removing files at current Git tip does not reclaim reachable Git history."
+    }
   }
 }
