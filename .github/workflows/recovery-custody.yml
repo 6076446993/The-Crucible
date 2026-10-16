@@ -1,4 +1,5 @@
 name: Recovery-only custody preservation
+# Preserve the exact source and reviewed verification policy in the same checkpoint.
 
 on:
   push:

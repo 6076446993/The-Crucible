@@ -73,8 +73,11 @@ function runCommand(root, command, timeoutMs, suffix = '', maxOutputBytes = 1_04
   });
 }
 
+function workloadTimeoutMilliseconds(workload,platform=process.platform){
+  return (workload.timeoutMinutesByPlatform?.[platform]??workload.timeoutMinutes)*60_000;
+}
 async function runCrucible(root, config) {
-  const timeoutMs = config.workload.timeoutMinutes * 60_000;
+  const timeoutMs = workloadTimeoutMilliseconds(config.workload);
   const heartbeatMs = (config.workload.heartbeatSeconds || 60) * 1000;
   for (const command of config.commands.prepare) await runCommand(root, command, timeoutMs, '', config.workload.maxOutputBytes, config.workload.execution, heartbeatMs);
   const jobs = [];
@@ -91,4 +94,4 @@ async function runCrucible(root, config) {
   return { workers:config.workload.workers, cycles:config.workload.cycles, commands:config.commands.verify.length, artifacts:config.artifacts.length };
 }
 
-module.exports = { resolveSpawn, restrictInvocation, runCommand, runCrucible };
+module.exports = { resolveSpawn, restrictInvocation, runCommand, runCrucible, workloadTimeoutMilliseconds };

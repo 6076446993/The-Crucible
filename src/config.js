@@ -98,6 +98,14 @@ function validateConfig(input) {
   const privacyAllow = privacy.allow || [];
   validateExceptions(privacyAllow, 'privacy.allow');
   const workload = isObject(input.workload) ? input.workload : {};
+  let platformTimeouts;
+  if(workload.timeoutMinutesByPlatform!==undefined){
+    assert(isObject(workload.timeoutMinutesByPlatform),'workload.timeoutMinutesByPlatform must be a platform map.');
+    platformTimeouts=Object.fromEntries(Object.entries(workload.timeoutMinutesByPlatform).map(([platform,minutes])=>{
+      assert(['win32','linux','darwin'].includes(platform),'Unknown workload timeout platform.');
+      return [platform,boundedInteger(minutes,undefined,1,30,`workload.timeoutMinutesByPlatform.${platform}`)];
+    }));
+  }
   const execution = isObject(workload.execution) ? workload.execution : {};
   assert(['allow', 'deny'].includes(execution.network || 'allow'), 'workload.execution.network must be allow or deny.');
   for (const [key, maximum] of [['memoryMb', 65536], ['fileSizeMb', 102400], ['processes', 4096]]) if (execution[key] !== undefined) assert(Number.isInteger(execution[key]) && execution[key] >= 1 && execution[key] <= maximum, `workload.execution.${key} is outside its safe bounds.`);
@@ -160,6 +168,7 @@ function validateConfig(input) {
     reproducibility:{ enabled:Boolean(reproducibility.enabled), commands:reproductionCommands.map((item, index) => validateCommand(item, 'reproducibility.commands', index)), artifacts:reproductionArtifacts },
     workload:{
       ...Object.fromEntries(WORKLOAD_FIELDS.map((field) => [field.key, boundedInteger(workload[field.key], field.fallback, field.minimum, field.maximum, `workload.${field.key}`)])),
+      ...(platformTimeouts?{timeoutMinutesByPlatform:platformTimeouts}:{}),
       execution:{ network:execution.network || 'allow', memoryMb:execution.memoryMb || null, fileSizeMb:execution.fileSizeMb || null, processes:execution.processes || null, denyBackground:execution.denyBackground !== false },
     },
   };

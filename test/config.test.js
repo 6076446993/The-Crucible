@@ -158,3 +158,18 @@ test('interactive suite configuration persists selected categories without re-as
   assert.deepEqual(persisted.suite, suite);
   assert.equal(answers.length, 0);
 });
+
+
+test('reviewed Windows workload deadline preserves other platforms, workers, cycles and commands',()=>{
+  const {workloadTimeoutMilliseconds}=require('../src/runner');
+  const input=fixture();input.workload={workers:2,cycles:2,timeoutMinutes:4,timeoutMinutesByPlatform:{win32:6}};
+  const config=validateConfig(input);assert.equal(workloadTimeoutMilliseconds(config.workload,'win32'),360000);
+  for(const platform of ['linux','darwin'])assert.equal(workloadTimeoutMilliseconds(config.workload,platform),240000);
+  assert.equal(config.workload.workers,2);assert.equal(config.workload.cycles,2);assert.equal(config.commands.verify.length,1);assert.deepEqual(config.commands.verify[0].args,['--test']);
+  assert.equal(workloadTimeoutMilliseconds(validateConfig(fixture()).workload,'win32'),240000);
+});
+test('platform workload deadlines reject unknown platforms, malformed maps and out-of-bounds limits',()=>{
+  for(const overrides of [null,[],6,{windows:6},{win32:0},{win32:31},{win32:'6'},{win32:1.5}]){
+    const input=fixture();input.workload={timeoutMinutesByPlatform:overrides};assert.throws(()=>validateConfig(input),/platform|integer/i);
+  }
+});
