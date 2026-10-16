@@ -108,6 +108,17 @@ jobs:
           node --check scripts/custodySubjectGrouping.js
           node scripts/custodySubjectGrouping.js --self-test
           node scripts/custodySubjectGrouping.js "$RUNNER_TEMP/custody/restored" custody-inventory
+      - name: Test oversight semantic-change detection
+        run: |
+          set -euo pipefail
+          node --check scripts/vettedSnapshotEquivalence.js
+          node scripts/vettedSnapshotEquivalence.js --self-test
+      - name: Stage content-addressed objects and verify exact reference roundtrip
+        run: |
+          set -euo pipefail
+          node --check scripts/evidenceContentAddressedStage.js
+          node scripts/evidenceContentAddressedStage.js --self-test
+          node scripts/evidenceContentAddressedStage.js "$RUNNER_TEMP/custody/restored" custody-inventory/content-addressed-proof.json
       - name: Retain bounded non-secret counts and custody verification
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
