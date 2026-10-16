@@ -766,5 +766,76 @@
     "status": "verified-clean-and-current"
   },
   "softwareVerificationComplete": true,
-  "liveIndependentRecoveryVerified": false
+  "liveIndependentRecoveryVerified": false,
+  "ownerResourceAssessment": {
+    "reviewedAt": "2026-10-16T02:15:08.010744Z",
+    "origin": "Owner supplied four resources during P0 recovery continuation; tracking parameters removed for canonical source identities.",
+    "status": "design-reference-only-not-promoted-knowledge",
+    "sources": [
+      {
+        "id": "owner-rippling-it-guide",
+        "url": "https://www.rippling.com/resources/it-management-software-buyers-guide",
+        "access": "landing page read; full guide email-gated and not obtained",
+        "recoveryApplication": "Inventory asset, dependency and identity ownership so recovery coverage is explicit. Landing-page vendor claims are not independent recovery evidence.",
+        "broaderDisposition": "Retain in existing recovery research log for future IT lifecycle/dependency evaluation; no purchase, trial or new workstream."
+      },
+      {
+        "id": "owner-nerdio-dr",
+        "url": "https://getnerdio.com/",
+        "reviewedUrl": "https://getnerdio.com/solutions/disaster-recovery/",
+        "access": "official homepage and disaster-recovery page read",
+        "recoveryApplication": "Automated backup/failover, centralized monitoring and scripted recovery support registered operations and held diagnostics in the existing orchestrator. No AVD dependency is introduced.",
+        "broaderDisposition": "VDI, Azure migration and cost-management claims deferred as unverified platform candidates in this preserved research plan."
+      },
+      {
+        "id": "owner-veeam-immutability",
+        "url": "https://www.veeam.com/",
+        "reviewedUrls": [
+          "https://helpcenter.veeam.com/docs/vbr/userguide/hardened_repository.html",
+          "https://helpcenter.veeam.com/docs/vbr/userguide/hardened_repository_immutability.html"
+        ],
+        "access": "official homepage, Vault page and hardened-repository documentation read",
+        "recoveryApplication": "Configured immutable periods prevent moving, modifying or deleting protected files while permitting copies. Retention expiry alone is not immutability. Keep independent enforced retention and effective deletion-denial verification as unresolved acceptance requirements; GitHub90day artifacts cannot clear them.",
+        "broaderDisposition": "Veeam storage remains a vendor option requiring compatibility, independent credentials and actual retention testing; no installation or procurement claimed."
+      },
+      {
+        "id": "owner-datadog-agent-evaluation",
+        "url": "https://lp.datadoghq.com/rs/875-UVY-685/images/eBook-2026AIAgentsBestPractices.pdf?version=1",
+        "title": "Evaluating Production-Grade AI Agents Best Practices Guide",
+        "access": "research service failed twice; direct HTTPS downloaded original PDF; all9pages text extracted and read",
+        "originalBytes": 1864435,
+        "originalSha256": "b1806d403e676a5f59a4b57cab68b44014120032e9208a6bff7c6c83fbdc13a9",
+        "recoveryApplication": "Representative fixtures, adversarial outcomes, deterministic evaluators and execution traces support recovery regression and diagnostic testing. Subjective LLM scoring cannot authorize byte integrity or independently verify a restore.",
+        "broaderDisposition": "Preserve curated agent-evaluation dataset/version-comparison ideas in existing plan for later governed evaluation; no production trace ingestion, external monitoring credentials or model calls.",
+        "originalPdfImportedIntoPrivateCorpus": false
+      }
+    ],
+    "pipelineDisposition": "Logged within existing governed recovery research and preserved plans. Normal discovery/intake/extraction stays P0-held; no candidates promoted and no new research automation. Original downloaded PDF remains a reproducible research input; live original-byte custody is not claimed."
+  },
+  "hostedCustodyContinuation": {
+    "baseSha": "de71de2059ae509ff5b853d701d0bfdec92d6195",
+    "at": "2026-10-16T02:15:08.010744Z",
+    "claim": "p0-hosted-recovery-custody-20261016",
+    "status": "local-implementation-under-verification-not-live-evidence",
+    "credentials": "Existing raw/vetted SSH and encryption keys are available to hosted workflow; no secret value read or changed. Prior blanket private-access blocker was too broad.",
+    "behavior": "Read-only full Git histories, authenticated raw/vetted originals and retained encrypted learning state; registered checkpoint; encrypted off-host artifact; fresh-runner restore without custody SSH keys and exact replay.",
+    "limits": [
+      "GitHub artifact retention is not retention-locked independent storage",
+      "Separate runner is not a distinct security principal",
+      "Complete operator/library/cache-history inventory and deployed restart bootstrap remain unverified"
+    ],
+    "focusedCases": 4,
+    "nativeFirstRun": {
+      "passed": 1130,
+      "failed": 1,
+      "total": 1131,
+      "failure": "Existing workflow test required clone --depth1; now clone then fetch --unshallow, preserving full history and existing authority test."
+    },
+    "nativeFinal": {
+      "passed": 1131,
+      "failed": 0,
+      "skipped": 0,
+      "logSha256": "d591ffd95f7a5ca483b1befd504fcfccc3237e47e629b017b75618008d183797"
+    }
+  }
 }

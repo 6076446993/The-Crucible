@@ -1,0 +1,159 @@
+name: Recovery-only custody preservation
+
+on:
+  push:
+    branches: [development]
+    paths:
+      - 'src/hostedRecovery.js'
+      - 'scripts/recoveryArchive.py'
+      - '.github/workflows/recovery-custody.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: recovery-only-custody-development
+  cancel-in-progress: false
+
+jobs:
+  preserve:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+      - name: Restore model research logs without running discovery
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .hosted-pointer-research-6076446993
+          key: recovery-model-${{ github.run_id }}
+          restore-keys: model-pointer-research-v3-${{ github.repository_id }}-
+      - name: Restore Perplexity research logs without running discovery
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .hosted-perplexity-research
+          key: recovery-perplexity-${{ github.run_id }}
+          restore-keys: perplexity-research-${{ github.repository_id }}-
+      - name: Fetch complete custody Git histories under existing credentials
+        env:
+          RAW_READ_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
+          VETTED_READ_KEY: ${{ secrets.CRUCIBLE_VETTED_STATE_READ_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$RAW_READ_KEY"
+          test -n "$VETTED_READ_KEY"
+          mkdir -p "$RUNNER_TEMP/recovery-ssh" "$RUNNER_TEMP/recovery-input"
+          trap 'rm -rf "$RUNNER_TEMP/recovery-ssh"' EXIT
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/recovery-ssh/known_hosts"
+          printf '%s\n' "$RAW_READ_KEY" > "$RUNNER_TEMP/recovery-ssh/raw"
+          printf '%s\n' "$VETTED_READ_KEY" > "$RUNNER_TEMP/recovery-ssh/vetted"
+          chmod 600 "$RUNNER_TEMP/recovery-ssh/raw" "$RUNNER_TEMP/recovery-ssh/vetted"
+          GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/recovery-ssh/raw -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/recovery-ssh/known_hosts -o StrictHostKeyChecking=yes" git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/recovery-input/raw"
+          GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/recovery-ssh/raw -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/recovery-ssh/known_hosts -o StrictHostKeyChecking=yes" git -C "$RUNNER_TEMP/recovery-input/raw" fetch --unshallow
+          GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/recovery-ssh/vetted -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/recovery-ssh/known_hosts -o StrictHostKeyChecking=yes" git clone --depth 1 git@github.com:6076446993/Crucible-Vetted-Learning-State.git "$RUNNER_TEMP/recovery-input/vetted"
+          GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/recovery-ssh/vetted -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/recovery-ssh/known_hosts -o StrictHostKeyChecking=yes" git -C "$RUNNER_TEMP/recovery-input/vetted" fetch --unshallow
+      - name: Recover existing encrypted hosted learning state without initializing a learner
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs?per_page=100" --jq '.workflow_runs[] | select(.name == "GitHub-hosted durable learning proof" and .status == "completed") | .id' > "$RUNNER_TEMP/recovery-state-runs"
+          restored=no
+          while read -r prior; do
+            artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$prior/artifacts" --jq '.artifacts[] | select((.name | startswith("hosted-learning-proof-")) and .expired == false) | .id' | head -n 1)"
+            [ -n "$artifact" ] || continue
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact/zip" > "$RUNNER_TEMP/recovery-state.zip"
+            attempt="$RUNNER_TEMP/recovery-state-$prior"
+            if python3 scripts/recoveryArchive.py "$RUNNER_TEMP/recovery-state.zip" "$attempt" state-zip; then
+              mv "$attempt" "$RUNNER_TEMP/recovery-retained"
+              printf '{"runId":"%s","artifactId":"%s"}\n' "$prior" "$artifact" > "$RUNNER_TEMP/recovery-retained/origin.json"
+              restored=yes
+              break
+            fi
+            # An existing artifact with unusable state is evidence, never permission
+            # to replace it with an older generation or initialize an empty store.
+            exit 1
+          done < "$RUNNER_TEMP/recovery-state-runs"
+          test "$restored" = yes
+          rm -f "$RUNNER_TEMP/recovery-state.zip"
+      - name: Capture and reconcile retained corpus through registered recovery control
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+          CRUCIBLE_VETTED_BUNDLE_KEY: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY }}
+          CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS }}
+          CRUCIBLE_HOSTED_STORE_KEY: ${{ secrets.CRUCIBLE_HOSTED_STORE_KEY }}
+        run: node src/hostedRecovery.js capture
+      - name: Seal recovery vault and diagnostic custody using the existing key
+        if: always()
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+        run: |
+          if [ -d "$RUNNER_TEMP/crucible-recovery-capture/population" ]; then
+            node src/hostedRecovery.js seal
+          fi
+      - name: Preserve encrypted recovery copy and bounded report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: recovery-custody-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            recovery-custody.enc
+            recovery-report.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Destroy only this runner's temporary recovery plaintext and credentials
+        if: always()
+        shell: bash
+        run: |
+          rm -rf "$RUNNER_TEMP/crucible-recovery-capture" "$RUNNER_TEMP/recovery-input" "$RUNNER_TEMP/recovery-retained" "$RUNNER_TEMP/recovery-ssh"
+          rm -f recovery-custody.enc.plaintext.tar.gz "$RUNNER_TEMP/recovery-state.zip"
+
+  restore-uploaded-backup:
+    needs: preserve
+    if: needs.preserve.result == 'success' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+      - name: Download only this run's encrypted recovery artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" --jq '.artifacts[] | select(.name | startswith("recovery-custody-")) | .id' | head -n 1)"
+          test -n "$artifact"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact/zip" > "$RUNNER_TEMP/recovery-download.zip"
+          python3 scripts/recoveryArchive.py "$RUNNER_TEMP/recovery-download.zip" "$RUNNER_TEMP/recovery-downloaded" backup-zip
+      - name: Restore and replay uploaded backup without custody repository credentials
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_HOSTED_STORE_KEY: ${{ secrets.CRUCIBLE_HOSTED_STORE_KEY }}
+        run: node src/hostedRecovery.js restore-backup
+      - name: Retain bounded separate-runner restoration evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: recovery-restoration-${{ github.run_id }}-${{ github.run_attempt }}
+          path: recovery-restoration-report.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Destroy only this fresh runner's recovery plaintext
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/crucible-backup-restoration" "$RUNNER_TEMP/crucible-backup-restoration.tar.gz" "$RUNNER_TEMP/recovery-downloaded" "$RUNNER_TEMP/recovery-download.zip"
