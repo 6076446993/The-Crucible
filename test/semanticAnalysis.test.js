@@ -1,5 +1,17 @@
 const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const os=require('node:os');const path=require('node:path');const {SecureCompilerWorker,TypeScriptSemanticAdapter,PythonSemanticAdapter,WebStandardsSemanticAdapter,ShellSemanticAdapter,PowerShellSemanticAdapter,ClangSemanticAdapter,RoslynSemanticAdapter,JavaSemanticAdapter,composeSemanticGraph,SemanticAnalysisCoordinator}=require('../src/semanticAnalysis');
 function fixture(){const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-semantic-'));const dynamicCall=['ev','al(value)'].join('');fs.writeFileSync(path.join(root,'sink.ts'),`export function dangerous(value: string) { return ${dynamicCall}; }`);fs.writeFileSync(path.join(root,'route.ts'),'import { dangerous } from "./sink"; export function route(req: string) { return dangerous(req); }');return root;}
+test('isolated tool execution supplies complete private .NET paths without inheriting parent secrets',async t=>{
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-tool-environment-')),toolHome=path.join(root,'home');fs.mkdirSync(toolHome);
+  t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+  const worker=new SecureCompilerWorker({root,allowExecutables:[process.execPath]});
+  const previous=process.env.CRUCIBLE_COMPILER_TEST_SECRET;process.env.CRUCIBLE_COMPILER_TEST_SECRET='fixture-only';
+  let result;try{result=await worker.run(process.execPath,['-e',`const keys=['USERPROFILE','APPDATA','LOCALAPPDATA','NUGET_PACKAGES','NUGET_HTTP_CACHE_PATH','DOTNET_CLI_HOME','MSBuildEnableWorkloadResolver','DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK'];console.log(JSON.stringify({paths:Object.fromEntries(keys.map(k=>[k,process.env[k]])),secretInherited:process.env.CRUCIBLE_COMPILER_TEST_SECRET!==undefined}));`],{toolHome});}
+  finally{if(previous===undefined)delete process.env.CRUCIBLE_COMPILER_TEST_SECRET;else process.env.CRUCIBLE_COMPILER_TEST_SECRET=previous;}
+  const report=JSON.parse(result.stdout);assert.equal(report.secretInherited,false);
+  assert.equal(report.paths.USERPROFILE,toolHome);assert.equal(report.paths.DOTNET_CLI_HOME,toolHome);
+  assert.equal(report.paths.MSBuildEnableWorkloadResolver,'false');assert.equal(report.paths.DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK,'1');
+  for(const key of ['APPDATA','LOCALAPPDATA','NUGET_PACKAGES','NUGET_HTTP_CACHE_PATH']){assert.ok(report.paths[key].startsWith(toolHome+path.sep));assert.equal(fs.statSync(report.paths[key]).isDirectory(),true);}
+});
 test('compiler interruption never becomes an allowed exit code, while intentional numeric exits remain supported',async t=>{
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-compiler-interruption-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
   const worker=new SecureCompilerWorker({root,allowExecutables:[process.execPath],timeoutMs:100});
