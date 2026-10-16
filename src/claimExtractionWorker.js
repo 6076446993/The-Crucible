@@ -10,6 +10,8 @@ const { documentFurniture } = require('./documentFurniture');
 const { extractDocumentText } = require('./htmlTextExtraction');
 const { candidatePacket } = require('./evidencePacket');
 const { preservedReplace, assertFileRestart, assertNormalActivityAllowed } = require('./recoverySystem');
+const evidenceStorage = require('./evidenceStorage');
+const { operationalError } = require('./failureCodes');
 
 function sha256(value) { return crypto.createHash('sha256').update(value).digest('hex'); }
 function normalizedClaimSha256(value) { return sha256(cleanText(value).toLowerCase()); }
@@ -105,6 +107,10 @@ class AtomicClaimExtractionQueue {
   constructor(file, projectId) { this.file = path.resolve(file); this.projectId = projectId; this.lockFile = `${this.file}.claim-extraction.lock`; }
   read() { assertFileRestart(this.file); const queue = JSON.parse(fs.readFileSync(this.file, 'utf8')); if (queue?.schemaVersion !== 1 || queue.projectId !== this.projectId || !Array.isArray(queue.documents) || !Array.isArray(queue.links)) throw new Error('Source queue is invalid or belongs to another project.'); return queue; }
   write(queue, io = fs) {
+    if (queue.leeRegistry) {
+      evidenceStorage.validateRegistry(queue.leeRegistry);
+      if(queue.projectId!==this.projectId||queue.leeRegistry.projectId!==this.projectId)throw operationalError('OPS-0049','Queue and registry project binding differs.');
+    }
     const bytes = `${JSON.stringify(queue, null, 2)}\n`;
     const publish = () => {
     const temporary = `${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;
@@ -128,6 +134,65 @@ class AtomicClaimExtractionQueue {
     return io === fs ? preservedReplace(this.file, bytes, publish) : publish();
   }
   lock() { return acquireDurableLock(this.lockFile, { description:'Source queue lock' }); }
+  reconcileEvidence({ expectedQueueSha256, objectStore, learningStore }) {
+    if (!(objectStore instanceof evidenceStorage.EncryptedEvidenceObjects) || objectStore.projectId!==this.projectId || !(learningStore instanceof DurableScientificLearningStore) || learningStore.projectId!==this.projectId) throw operationalError('OPS-0049','Native same-project stores required for complete reconciliation.');
+    const held=this.lock();let learnerLock;
+    try {
+      learnerLock=acquireDurableLock(learningStore.lockFile,{description:'Learning reconciliation snapshot lock'});
+      if(sha256(fs.readFileSync(this.file))!==expectedQueueSha256)throw operationalError('OPS-0049','Reconciliation queue generation changed.');
+      const queue=this.read(),registry=queue.leeRegistry;
+      evidenceStorage.validateRegistry(registry);
+      if(registry.projectId!==this.projectId||registry.securityDomain!==objectStore.securityDomain)throw operationalError('OPS-0049','Reconciliation domain differs.');
+      const expected=[...queue.documents,...queue.links].map(source=>({kind:'source',legacyId:source.id,contentSha256:source.contentSha256,recordSha256:evidenceStorage.digest({id:source.id,contentSha256:source.contentSha256,retrievedAt:source.retrievedAt,originalName:source.originalName||null,license:source.license||null,author:source.author||null})}));
+      for(const {candidate} of learningStore.read().candidateRecords)expected.push({kind:'candidate',legacyId:candidate.id,contentSha256:candidate.provenance.contentSha256,recordSha256:evidenceStorage.digest(candidate)});
+      const missing=[],verified=[];
+      if(new Set(expected.map(x=>`${x.kind}:${x.legacyId}`)).size!==expected.length)throw operationalError('OPS-0049','Ambiguous native evidence identities.');
+      for(const item of expected){
+        const alias=registry.aliases.find(x=>x.kind===item.kind&&x.legacyId===item.legacyId);
+        if(!alias){missing.push({kind:item.kind,legacyId:item.legacyId});continue;}
+        const entry=registry.entries.find(x=>x.id===alias.leeId);
+        if(entry.contentSha256!==item.contentSha256||!alias.recordSha256s.includes(item.recordSha256)||entry.objectRef.keyId!==objectStore.keyId)throw operationalError('OPS-0049','Native evidence record differs from retained alias.');
+        objectStore.read(entry.contentSha256);
+        if(sha256(fs.readFileSync(objectStore.file(entry.contentSha256)))!==entry.objectRef.ciphertextSha256)throw operationalError('OPS-0049','Restored ciphertext differs from registry.');
+        verified.push({...item,leeId:entry.id});
+      }
+      const extra=registry.aliases.filter(x=>!expected.some(y=>y.kind===x.kind&&y.legacyId===x.legacyId)).map(x=>({kind:x.kind,legacyId:x.legacyId}));
+      if(sha256(fs.readFileSync(this.file))!==expectedQueueSha256)throw operationalError('OPS-0049','Reconciliation queue changed despite held lock.');
+      return{scope:'native-current-source-and-candidate-populations',expected:expected.length,verified:verified.length,missing,extra,complete:missing.length===0&&extra.length===0,identitySha256:evidenceStorage.digest(verified),independentRestorationVerified:false,cleanupAuthorized:false};
+    }finally{if(learnerLock)learnerLock.release();held.release();}
+  }
+  registerEvidence({ expectedQueueSha256, sourceId, sourceBytes, securityDomain, catalog, subjectCodes, evidenceTypeCodes, observationId, objectStore, learningStore=null, candidateId=null }) {
+    assertNormalActivityAllowed(this.projectId);
+    if (!(objectStore instanceof evidenceStorage.EncryptedEvidenceObjects) || objectStore.projectId!==this.projectId || objectStore.securityDomain!==securityDomain) throw operationalError('OPS-0049','Evidence object store must bind this native queue and security domain.');
+    const held=this.lock();let learnerLock;
+    try {
+      const assertHeld=()=>{const actual=JSON.parse(fs.readFileSync(this.lockFile,'utf8'));if(actual.token!==held.owner.token||actual.pid!==process.pid)throw operationalError('OPS-0049','Lost native evidence transaction lock.');};
+      assertHeld();
+      if(!/^[a-f0-9]{64}$/.test(expectedQueueSha256||'')||sha256(fs.readFileSync(this.file))!==expectedQueueSha256)throw operationalError('OPS-0049','Authoritative queue generation changed.');
+      const queue=this.read(),matches=[...queue.documents,...queue.links].filter(x=>x.id===sourceId);
+      if(matches.length!==1||!Buffer.isBuffer(sourceBytes)||sha256(sourceBytes)!==matches[0].contentSha256)throw operationalError('OPS-0049','Exact native source identity and verified original bytes required.');
+      const source=matches[0];if(source.securityDomain&&source.securityDomain!==securityDomain)throw operationalError('OPS-0049','Source rights domain differs.');
+      let kind='source',legacyId=source.id,originatedAt=source.retrievedAt;
+      const sourceIdentity={id:source.id,contentSha256:source.contentSha256,retrievedAt:source.retrievedAt,originalName:source.originalName||null,license:source.license||null,author:source.author||null};
+      let recordSha256=evidenceStorage.digest(sourceIdentity),identitySha256=evidenceStorage.digest({kind,contentSha256:source.contentSha256,mediaType:source.mediaType||null});
+      if(candidateId!==null){
+        if(!(learningStore instanceof DurableScientificLearningStore)||learningStore.projectId!==this.projectId)throw operationalError('OPS-0049','Native same-project learning store required for candidate references.');
+        learnerLock=acquireDurableLock(learningStore.lockFile,{description:'Learning store evidence snapshot lock'});
+        const record=learningStore.read().candidateRecords.find(x=>x.candidate.id===candidateId),candidate=record?.candidate;
+        if(!candidate||candidate.provenance.contentSha256!==source.contentSha256)throw operationalError('OPS-0049','Candidate source identity differs.');
+        kind='candidate';legacyId=candidate.id;originatedAt=candidate.createdAt;recordSha256=evidenceStorage.digest(candidate);
+        identitySha256=evidenceStorage.digest({kind,claim:candidate.claim,claimBoundary:candidate.claimBoundary,generalizationBoundary:candidate.generalizationBoundary,evidenceKind:candidate.kind,provenance:candidate.provenance});
+      }
+      const registry=queue.leeRegistry||evidenceStorage.initialRegistry(this.projectId,securityDomain,catalog);
+      if(registry.projectId!==this.projectId||registry.securityDomain!==securityDomain||(catalog&&evidenceStorage.canonical(registry.catalog)!==evidenceStorage.canonical(catalog)))throw operationalError('OPS-0049','Pinned registry domain or classification catalog differs.');
+      const object=objectStore.put(sourceBytes);
+      const result=evidenceStorage.register(registry,{projectId:this.projectId,securityDomain,kind,legacyId,originatedAt,identitySha256,contentSha256:source.contentSha256,recordSha256,subjectCodes,evidenceTypeCodes,observationId,objectRef:{contentSha256:object.contentSha256,ciphertextSha256:object.ciphertextSha256,keyId:objectStore.keyId}});
+      assertHeld();
+      if(sha256(fs.readFileSync(this.file))!==expectedQueueSha256)throw operationalError('OPS-0049','Queue changed despite held transaction lock.');
+      if(result.changed){queue.leeRegistry=result.state;this.write(queue);}
+      return{leeId:result.leeId,changed:result.changed,objectCreated:object.created,queueSha256:sha256(fs.readFileSync(this.file)),candidateOnly:true,promotionAuthorized:false};
+    } finally {if(learnerLock)learnerLock.release();held.release();}
+  }
 }
 
 function inspectClaimExtractionLock(queueFile, options = {}) {

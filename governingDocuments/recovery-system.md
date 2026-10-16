@@ -200,3 +200,42 @@ A one-minute timer checks inactivity independently of calls to `heartbeat`. At t
 A checkpoint or transport failure holds new work and remains retryable. Failed transport retries use the same saved checkpoint and disconnect ID. A restarted runtime retains the original user-activity timestamp; it cannot silently buy a fresh thirty minutes. Missing host adapters hold work after expiry. Clock rollback holds execution. Only fresh, correctly bound user activity reconnects a disconnected worker; reconnect never clears independent oversight STOP, the recovery-only hold or restart authorization requirements.
 
 An attended host must bound long-running operations and provide its own process supervision. A safe-boundary wait cannot forcibly terminate an opaque hung handler. The checkpoint identifier alone is not independent recovery acceptance; existing recovery verification remains mandatory. These native runtime controls do not configure ChatGPT's platform activity tracking or terminate a remote Codex session. Actual platform integration requires an available trusted user-activity feed and host disconnect control; neither is exposed in this Work runtime. Scheduled unattended workflows remain distinct from an explicitly bound attended session.
+# Issue 49 native evidence-storage integration
+
+`AtomicClaimExtractionQueue.registerEvidence` adds optional LEE metadata inside the
+existing queue generation. Queue, registry and compact hash-linked journal use the
+same preserved atomic replacement; they are never committed as three separate files.
+The method acquires the actual native queue lock, checks the expected queue SHA-256,
+and snapshots native candidate records under the learning-store lock. A source or
+candidate retains its original legacy ID, observation time, provenance and full native
+record. Classification requires an explicitly reviewed subject/type catalog; ambiguous
+assignments are refused. Logical identities include project and security domain;
+distinct candidate assertions remain distinct even when they reference one object.
+
+`src/evidenceStorage.js` supplies domain-isolated AES-256-GCM objects addressed by
+the exact plaintext SHA-256. Existing authenticated objects are reused without
+reencryption. Keys are supplied by authorized custody adapters; this module neither
+generates production custody keys nor adopts a new key authority. Object publication
+is flushed and exclusive. Partial publications and orphan objects are retained for
+reconciliation, never garbage-collected automatically. An interrupted temporary hard
+link can require explicit recovery before the object becomes readable; this remains
+a production migration gate, not a reason to remove unknown files.
+
+`reconcileEvidence` examines the complete current native source and candidate
+populations under locks, checks each legacy alias and immutable record digest, and
+authenticates the referenced encrypted bytes. Missing or extra identities prevent a
+complete result. This does not cover historical signed versions or establish an
+independent security principal. Isolated development copies prove software round trips
+only. Registry checkpoints and no-change observations require pinned Ed25519 authority
+signatures and never grant cleanup or publisher mutation authority. Every distinct
+signed observation must remain retained even when its content object is reused.
+
+`physicalInventory` measures only explicitly supplied local files, recording logical
+length and filesystem allocation where available, with inode-aware hard-link counting.
+It excludes directory allocation and does not estimate provider physical storage from
+logical duplicates or GitHub repository-size metadata. Production acceptance requires
+actual provider/storage measurements below 45 decimal GB (preferably 40), independent
+protected retention and complete historical cold restoration. No deletion, history
+rewrite, migration activation, recovery-hold release, R2 restart or main promotion is
+authorized by these primitives or their tests. Oversight publisher adoption remains
+within Oversight's separate ownership boundary.

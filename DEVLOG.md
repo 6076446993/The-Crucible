@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-16T21:40:44.138Z, codex-work-42efe8889a64: Existing issue49 native integration adds optional queue-contained LEE registry/journal, authenticated encrypted objects, pinned signature checks and complete-current-population reconciliation. See activePlan.storageReductionIssue49; eight focused tests pass, final native/hosted checks pending. Production migration, historical independent restore and physical reduction remain unaccepted.
+
 - 2026-10-16T21:30:31.152Z, codex-work-42efe8889a64: Resumed existing issue49 storage task at cac6b938;30concurrent commits preserved. See activePlan.storageReductionIssue49 and handoffNotes for integration, actual baseline failures and external independent-custody dependencies. Current GitHub size59517884KiB; physical reduction and independent restoration unverified.
 
 - 2026-10-16T10:07:02.152Z, codex-work-42efe8889a64: Thirty-minute USER inactivity checkpoint/disconnect implemented locally in existing runtime and production host boundary; sixteen focused tests pass. See activePlan.attendedWorkerInactivity and handoffNotes for unavailable ChatGPT host integration and pending exact-tip verification. Recovery hold and original work retained.
@@ -284,6 +286,12 @@ Plain-language summary: Resumed the existing owner-approved storage-reduction ta
 - `restore native test prerequisites` — started 2026-10-16T21:31:24.533Z, finished 2026-10-16T21:31:24.533Z, exit0; re-extracted retained complete OpenJDK17 packages into this task workspace, javac17.0.20 verified; registered rawCustodySubjectEvidence in existing Security category; retained strict custody-write prohibition while explicitly recognizing the three existing historical read-only clone workflows.
 
 - `reconciled native acceptance` — started 2026-10-16T21:32:00.419Z, finished 2026-10-16T21:32:00.419Z, exit0; full Orchestrator1148/1148,0failed/0skipped with fresh isolated actual OpenJDK17; existing custody-push prohibition retained.
+
+- `native issue49 integration and regression verification` — started 2026-10-16T21:35:00.000Z, finished 2026-10-16T21:40:44.138Z, exit0; acquired unclaimed src/evidenceStorage.js/test/evidenceStorage.test.js scope under existing actor; integrated native queue lock and preserved generation, encrypted CAS, signed checkpoint/no-change verification, population reconciliation. Initial focused regressions exposed missing error import and invalid fixture; corrected,8/8passed. Initial full native1156/1156passed; final reconciliation additions require rerun. No custody data changed.
+- `hosted baseline inspection` — started 2026-10-16T21:40:00.000Z, finished 2026-10-16T21:40:44.138Z, exit0;223455c CodeQL38970151926/handoff38970151919/conflict38970151928 passed. Self-Test38970152019 in progress. Durable proof38970152041 failed closed at owner P0 recovery hold (OPS-0049), including isolated R2; no retry or bypass.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
+
+- `final native storage verification` — started 2026-10-16T21:40:00.000Z, finished 2026-10-16T21:41:20.669Z, exit0; complete current-population reconciliation and isolated object-copy restoration pass; full native1156/1156,0failed/0skipped; security, circulation, docs and coordination audits pass. Independent-principal/historical restoration and physical provider reduction remain unverified.
 
 ### Session: owner-authorized-takeover-20261016 — 2026-10-16T10:00:45.532Z — codex-work-42efe8889a64 — mode:work
 

@@ -100,6 +100,7 @@ const TEST_MAIN_CATEGORIES = {
     'test/r8ExecutableCanaryPublisher.test.js',
     'test/rawCustodyPublisher.test.js',
     'test/rawCustodySubjectEvidence.test.js',
+    'test/evidenceStorage.test.js',
     'test/aiProviderAdapters.test.js',
     'test/nvidiaModelAutoSelector.test.js',
     'test/aiProviderRegistry.test.js',
