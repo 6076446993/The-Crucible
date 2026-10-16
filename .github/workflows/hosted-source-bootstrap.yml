@@ -64,6 +64,23 @@ jobs:
           PY
           node src/hostedSourceBundle.js verify --root "$RUNNER_TEMP/crucible-ciphertext/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --provenance raw-intake --report hosted-source-bootstrap/restored-verification.json
           node src/hostedSourceBundle.js inventory --root "$RUNNER_TEMP/crucible-ciphertext/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report hosted-source-bootstrap/unfinished-inventory.json > hosted-source-bootstrap/inventory-summary.json
+      - name: Count authenticated current learning candidates without exposing records
+        run: |
+          set -euo pipefail
+          node - <<'JS'
+          const fs=require('fs'),path=require('path'),crypto=require('crypto');
+          const root=path.join(process.env.RUNNER_TEMP,'crucible-ciphertext','restored');
+          const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
+          const file=path.resolve(root,manifest.learningFile);
+          if(path.dirname(file)!==root) throw new Error('Unsafe learning-file reference');
+          const bytes=fs.readFileSync(file);
+          const envelope=JSON.parse(bytes.toString('utf8'));
+          const records=envelope?.payload?.candidateRecords;
+          const ids=Array.isArray(records)?records.map(x=>x?.candidate?.id):[];
+          const valid=ids.filter(x=>typeof x==='string'&&x.length>0);
+          const report={schemaVersion:1,scope:'authenticated current raw custody',learningBytes:bytes.length,learningSha256:crypto.createHash('sha256').update(bytes).digest('hex'),candidateRecords:Array.isArray(records)?records.length:null,validIds:valid.length,uniqueIds:new Set(valid).size,historicalTarget:29799,historicalTargetReconciled:false,plaintextRetained:false,authorizesPromotion:false};
+          fs.writeFileSync('hosted-source-bootstrap/candidate-count.json',JSON.stringify(report,null,2)+'\\n');
+          JS
       - name: Destroy runner ciphertext and credentials
         if: always()
         run: rm -rf "$RUNNER_TEMP/crucible-ciphertext" "$RUNNER_TEMP/crucible-state-ssh"
@@ -78,5 +95,6 @@ jobs:
             hosted-source-bootstrap/restored-verification.json
             hosted-source-bootstrap/inventory-summary.json
             hosted-source-bootstrap/unfinished-inventory.json
+            hosted-source-bootstrap/candidate-count.json
           if-no-files-found: error
           retention-days: 90
