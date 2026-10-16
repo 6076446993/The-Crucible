@@ -102,6 +102,12 @@ jobs:
           fs.writeFileSync('custody-inventory/candidate-counts.json', JSON.stringify(result, null, 2) + '\n', {flag:'wx',mode:0o600});
           console.log(JSON.stringify({candidateRecords:result.candidateRecords,sourceQueueRecords:result.sourceQueueRecords,matchesHistoricalTarget:result.matchesHistoricalTarget,historicalCompletenessVerified:false}));
           JS
+      - name: Verify identities and group all restored candidates by subject
+        run: |
+          set -euo pipefail
+          node --check scripts/custodySubjectGrouping.js
+          node scripts/custodySubjectGrouping.js --self-test
+          node scripts/custodySubjectGrouping.js "$RUNNER_TEMP/custody/restored" custody-inventory
       - name: Retain bounded non-secret counts and custody verification
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
