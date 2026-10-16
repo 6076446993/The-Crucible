@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T21:52:35.598Z"
+    "lastActionAt": "2026-10-16T22:00:53.337Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T21:51:14.189Z",
+      "selectedAt": "2026-10-16T21:59:37.393Z",
       "promptSha256": "c6705200a8e8e011990d5e0e0048af2fe5cc1732f45c3fc8f1fea2043daa7acd",
-      "affectedPathsSha256": "39c4abba5ff61568c8ce49262f86c096fc95057c85a40be7960a1292a35b7b42"
+      "affectedPathsSha256": "6c8554f47d97fd9012530e4505ea13c2cfc8525e8d0700facd940c5cecdbaa8d"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -247,8 +247,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T21:52:06.093Z",
-    "currentStep": "Original P0 pipeline-backup: native recovery proposal integrated and verified; publish and monitor exact-tip hosted checks. Issue49 production acceptance remains externally blocked.",
+    "lastUpdatedAt": "2026-10-16T22:00:53.337Z",
+    "currentStep": "Original pipeline-diagnostics exact-tip CI: native compiler interruption fail-open reproduced and fixed;1168full native tests passed; publish and verify hosted checks. Production storage/recovery remains externally blocked.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016",
@@ -458,7 +458,8 @@
         "Final source e34c052: native1127/1127 and22recovery cases; clean433-file restoration preserves all captured plans, ledger, provenance bytes and Git bundle. CodeQL/handoff/conflict checks passed; platform matrix pending.",
         "Exact final source e34c052: all9Linux/macOS/Windows Node20/22/24 jobs passed, run38798675616; CodeQL38798675575, handoff38798675591, conflict38798675576 passed. Windows complete job log confirms1127/1127, zero skipped, nested-directory regression passed.",
         "Issue49 native stable identities/atomic queue registry journal/encrypted CAS/signature and complete-current-population reconciliation integrated at1f7bad2;1156native tests passed; macOS hosted temporary-root regression observed and follow-up prepared. No production migration or physical reduction.",
-        "Resumed original pipeline-backup native recovery proposal after recording issue49 external blockers; durable adaptation stores, native lock/replay, held direct URL/security ingress and missing-hosted-state refusal integrated.45focused/1167native passed;6workflow guard/absence cases passed. Development publication and hosted verification pending; no restart or cleanup authority."
+        "Resumed original pipeline-backup native recovery proposal after recording issue49 external blockers; durable adaptation stores, native lock/replay, held direct URL/security ingress and missing-hosted-state refusal integrated.45focused/1167native passed;6workflow guard/absence cases passed. Development publication and hosted verification pending; no restart or cleanup authority.",
+        "Existing pipeline-diagnostics: actual compiler timeout could resolve as successful exit0; native failing regression and minimal killed/signal/noninteger-code rejection fix implemented.12semantic/1168full native tests pass; no deadline increase, production proof restart or priority change. Hosted verification pending."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -526,7 +527,26 @@
         "Development commit and required hosted CI verification.",
         "Complete independent custody backup and authenticated exact-source inventory execution.",
         "R8 existing self-hosted runner prerequisites must be available; no unsafe publisher dispatch."
-      ]
+      ],
+      "compilerInterruption": {
+        "existingTaskId": "pipeline-diagnostics",
+        "originatedAt": "2026-10-11",
+        "observation": "Older Windows20 job117211038607/run38971602867: missing Java analyzer class after62seconds. Native actual100ms interruption resolves success exitCode0 because null error.code defaults to zero. No production proof authority granted.",
+        "status": "fixed-native-verified-hosted-pending",
+        "redRegression": "actual100ms compiler child timeout incorrectly resolved as exitCode0; regression fails before fix",
+        "change": "Only ordinary integer exit codes can use allowExitCodes; killed/signaled/unknown-code failures always reject. No timeout raised.",
+        "focusedTests": {
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0
+        },
+        "nativeTests": {
+          "passed": 1168,
+          "failed": 0,
+          "skipped": 0
+        },
+        "productionProofRestarted": false
+      }
     },
     "priorCurrentPrompt": "Keep working and remember oldest relevant work gets completed first",
     "archiveReplacementPriorPrompt": "Read-only raw key compatibility probe to unblock oldest owner intake",
@@ -6473,6 +6493,25 @@
       "acquiredAt": "2026-10-16T21:47:02.353Z",
       "handedOffTo": null,
       "releasedAt": null
+    },
+    {
+      "taskId": "pipeline-diagnostics-compiler-timeout-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/semanticAnalysis.js",
+          "test/semanticAnalysis.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Existing pipeline-diagnostics exact-tip CI investigation: reject interrupted compiler commands misreported as exit zero; no task reprioritization or production proof restart.",
+      "status": "active",
+      "acquiredAt": "2026-10-16T21:59:37.467Z",
+      "handedOffTo": null,
+      "releasedAt": null
     }
   ],
   "ownerDecisions": [
@@ -7095,10 +7134,10 @@
         "id": "pipeline-diagnostics",
         "deliverable": "Publish tested extraction and evidence-bound diagnosis upgrades",
         "status": "in-progress",
-        "evidence": "Published commit 53090052; hosted diagnose-proof succeeded in run 38156151294; handoff and conflict checks passed",
+        "evidence": "Published commit 53090052; hosted diagnose-proof succeeded in run 38156151294; handoff and conflict checks passed;2026-10-16 native compiler-timeout fail-open reproduced and fixed;12focused/1168native passed, exact-tip hosted pending.",
         "nextAction": "Verify follow-up exact-tip CI including CodeQL",
         "owner": "Codex",
-        "observedAt": "2026-10-11T16:39:30Z",
+        "observedAt": "2026-10-16T22:00:53.337Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "originatedAt": "2026-10-11"
