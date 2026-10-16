@@ -147,6 +147,8 @@ jobs:
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
           CRUCIBLE_VETTED_BUNDLE_KEY: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY }}
+          CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+          CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS }}
           CRUCIBLE_HOSTED_STORE_KEY: ${{ secrets.CRUCIBLE_HOSTED_STORE_KEY }}
         run: node src/hostedRecovery.js restore-backup
       - name: Record bounded restoration evidence for governed verification

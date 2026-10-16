@@ -72,7 +72,7 @@ def extract(archive, target, kind):
                 if entry.file_size > limit or (entry.external_attr >> 16) & 0o170000 == 0o120000:
                     raise ValueError('invalid retained state entry')
                 with source.open(entry) as stream:
-                    copy_member(stream, root / name.rsplit('/', 1)[1], entry.file_size)
+                    copy_member(stream, root / name.rsplit('/', 1)[-1], entry.file_size)
     else:
         raise ValueError('unsupported recovery archive')
 
