@@ -1,0 +1,70 @@
+name: Read-only retained custody inventory
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: crucible-retained-custody-inventory
+  cancel-in-progress: false
+jobs:
+  inventory:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22'
+      - name: Read retained ciphertext without mutation
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$STATE_DEPLOY_KEY"
+          mkdir -p "$RUNNER_TEMP/state-ssh" "$RUNNER_TEMP/custody" custody-inventory
+          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/state-ssh/key"
+          chmod 600 "$RUNNER_TEMP/state-ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/state-ssh/known_hosts"
+          GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/state-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/state-ssh/known_hosts -o StrictHostKeyChecking=yes" git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/custody/state"
+          node src/hostedSourceBundle.js join --input-root "$RUNNER_TEMP/custody/state" --output "$RUNNER_TEMP/custody/source.enc"
+      - name: Authenticate and inventory isolated archive
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+        run: |
+          set -euo pipefail
+          node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/custody/source.enc" --output "$RUNNER_TEMP/custody/authenticated.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS > custody-inventory/key-result.json
+          python3 - <<'PY'
+          import tarfile,os
+          path=os.path.join(os.environ['RUNNER_TEMP'],'custody','authenticated.tar.gz')
+          root=os.path.join(os.environ['RUNNER_TEMP'],'custody','restored')
+          os.makedirs(root,exist_ok=True)
+          with tarfile.open(path,'r:gz') as archive:
+              for m in archive:
+                  parts=m.name.split('/')
+                  if m.name.startswith('/') or '..' in parts or not (m.isfile() or m.isdir()):
+                      raise ValueError('Unsafe archive entry; refusing extraction')
+              archive.extractall(root,filter='data')
+          PY
+          node src/hostedSourceBundle.js verify --root "$RUNNER_TEMP/custody/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --provenance raw-intake --report custody-inventory/source-verification.json
+          node src/hostedSourceBundle.js inventory --root "$RUNNER_TEMP/custody/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report "$RUNNER_TEMP/custody/unfinished.json" > custody-inventory/source-counts.json
+          node - <<'JS'
+          const fs=require('fs'),path=require('path'),crypto=require('crypto');
+          const root=path.join(process.env.RUNNER_TEMP,'custody','restored');
+          const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
+          const file=path.resolve(root,manifest.learningFile);
+          const stat=fs.statSync(file);
+          const report={schemaVersion:1,scope:'read-only authenticated raw custody',archiveVerified:true,sourceInventoryVerified:true,learningFile: path.basename(file),learningBytes:stat.size,learningSha256:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'),candidateRecordCountVerified:false,historicalTarget:29799,reason:'Learning-store schema-specific record enumeration still required',plaintextRetained:false,mutationAuthorized:false,promotionAuthorized:false};
+          fs.writeFileSync('custody-inventory/learning-boundary.json',JSON.stringify(report,null,2)+'\n');
+          JS
+      - name: Publish redacted recovery evidence before ephemeral runner disposal
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: custody-inventory-${{ github.run_id }}
+          path: custody-inventory/*.json
+          if-no-files-found: error
+          retention-days: 90
