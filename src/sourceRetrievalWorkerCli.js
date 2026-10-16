@@ -2,6 +2,7 @@
 'use strict';
 
 const path = require('node:path');
+const { assertNormalActivityAllowed } = require('./recoverySystem');
 const { registerOwnerDelegatedUrl, SourceRetrievalWorker } = require('./sourceRetrievalWorker');
 const { crucibleError , operationalError} = require('./failureCodes');
 
@@ -18,6 +19,12 @@ async function run(argv = process.argv.slice(2), environment = process.env) {
   const queueFile = path.resolve(required(environment, 'CRUCIBLE_SOURCE_QUEUE'));
   const auditRoot = path.join(learningRoot, 'retrieval');
   if (action === 'readiness') return { ready:true, projectId, queueFile, auditRoot, candidateOnly:true, promotionAuthorized:false };
+  // The hosted Crucible identity cannot be changed to evade the P0 hold.
+  if (environment.GITHUB_REPOSITORY === '6076446993/The-Crucible' &&
+      !['github:6076446993/The-Crucible','github:jonathanblunt1214-lgtm/The-Crucible'].includes(projectId)) {
+    throw operationalError('OPS-0049', 'Crucible project identity mismatches the hosted repository; normal intake held.');
+  }
+  if (action === 'admit' || action === 'run') assertNormalActivityAllowed(projectId);
   if (action === 'admit') {
     if (!argv[1]) throw operationalError('OPS-0044', 'Usage: sourceRetrievalWorkerCli.js admit <https-url>');
     const trustedDomains = String(environment.CRUCIBLE_RETRIEVAL_TRUSTED_DOMAINS || '').split(',').map((item) => item.trim()).filter(Boolean);

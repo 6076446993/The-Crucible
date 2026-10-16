@@ -23,3 +23,25 @@ test('security learning refuses to write when durable learning custody is absent
 test('CLI refuses a manifest that is not explicitly candidate-only', () => {
   assert.throws(() => run(['queue', 'does-not-exist.json'], { CRUCIBLE_LEARNING_ROOT: 'x', CRUCIBLE_LEARNING_PROJECT_ID: 'the-crucible' }), /ENOENT/);
 });
+
+test('Security learning CLI respects P0 recovery hold and refuses spoofed hosted identities', () => {
+  const common = { GITHUB_REPOSITORY:'6076446993/The-Crucible', CRUCIBLE_LEARNING_ROOT:'x' };
+  const fs = require('node:fs'), path = require('node:path');
+  const policy = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'governingDocuments', 'recovery-operation-policy.json'), 'utf8'));
+  if (policy.mode !== 'normal' || policy.independentRecoveryAccepted !== true) {
+    assert.throws(
+      () => run(['queue'], { ...common, CRUCIBLE_LEARNING_PROJECT_ID:'github:6076446993/The-Crucible' }),
+      /OPS-0049|recovery-only hold/i
+    );
+  }
+  assert.throws(
+    () => run(['queue'], { ...common, CRUCIBLE_LEARNING_PROJECT_ID:'github:unrelated/project' }),
+    /OPS-0049/
+  );
+});
+
+test('direct security-technique intake is held before root initialization', () => {
+  assert.throws(() => require('../src/securityLearning').queueSecurityTechniques({
+    learningRoot:null, projectId:'github:6076446993/The-Crucible', techniques:[],
+  }), /OPS-0049|recovery-only hold/i);
+});

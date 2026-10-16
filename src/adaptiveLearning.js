@@ -2,7 +2,9 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const crypto = require('node:crypto');
 const { makeCandidate, sha } = require('./scientificLearning');
+const { preservedReplace, assertFileRestart, withRecoveryWriterLock } = require('./recoverySystem');
 
 const OUTCOMES = Object.freeze(['triggered', 'prevented', 'bypassed', 'false-positive', 'missed', 'failed-prevention', 'repair-succeeded', 'repair-failed']);
 const METRIC_DIRECTIONS = Object.freeze(['maximize', 'minimize']);
@@ -20,6 +22,35 @@ function iso(value, label) {
 function metric(value, label) {
   if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error(`${label} must be a finite number.`);
   return value;
+}
+
+// Outcome evidence and activated policies must survive an interrupted replacement.
+// Existing unjournaled files are adopted without changing even one source byte.
+function durableTransaction(file, operation) {
+  return withRecoveryWriterLock(file, operation);
+}
+function durableWrite(file, value, { expectedMissing = false } = {}) {
+  const bytes = `${JSON.stringify(value, null, 2)}\n`;
+  return preservedReplace(file, bytes, () => {
+    const pending = `${file}.${process.pid}.${crypto.randomUUID()}.tmp`;
+    const descriptor = fs.openSync(pending, 'wx', 0o600);
+    try { fs.writeFileSync(descriptor, bytes, 'utf8'); fs.fsyncSync(descriptor); }
+    finally { fs.closeSync(descriptor); }
+    try { fs.renameSync(pending, file); }
+    catch (error) { try { fs.rmSync(pending, { force:true }); } catch {} throw error; }
+  }, undefined, { expectedMissing });
+}
+function initializeDurable(file, initial) {
+  return durableTransaction(file, () => {
+    const journal = assertFileRestart(file);
+    if (!fs.existsSync(file)) return durableWrite(file, initial, { expectedMissing:true });
+    if (!journal.tracked) {
+      const original = fs.readFileSync(file);
+      // Record the actual legacy bytes as both preimage and postimage.
+      // Never reset a previously populated store to an empty baseline.
+      preservedReplace(file, original, () => {});
+    }
+  });
 }
 
 function outcomeRecord(input) {
@@ -55,9 +86,11 @@ class OutcomeStore {
     this.root = path.resolve(text(root, 'root')); this.projectId = text(projectId, 'projectId');
     fs.mkdirSync(this.root, { recursive: true });
     this.file = path.join(this.root, `${sha(projectId)}.outcomes.json`);
-    if (!fs.existsSync(this.file)) fs.writeFileSync(this.file, JSON.stringify({ schemaVersion:1, projectId, outcomes:[] }, null, 2) + '\n');
+    initializeDurable(this.file, { schemaVersion:1, projectId, outcomes:[] });
+    this.read();
   }
   read() {
+    assertFileRestart(this.file);
     const value = JSON.parse(fs.readFileSync(this.file, 'utf8'));
     if (value.schemaVersion !== 1 || value.projectId !== this.projectId || !Array.isArray(value.outcomes)) throw new Error('outcome store identity is invalid.');
     return value;
@@ -65,14 +98,14 @@ class OutcomeStore {
   record(input) {
     const record = outcomeRecord(input);
     if (record.projectId !== this.projectId) throw new Error('Cross-project outcome evidence is forbidden.');
-    const value = this.read();
-    if (!value.outcomes.some((item) => item.outcomeId === record.outcomeId)) {
-      value.outcomes.push(record);
-      const temporary = `${this.file}.${process.pid}.tmp`;
-      fs.writeFileSync(temporary, JSON.stringify(value, null, 2) + '\n');
-      fs.renameSync(temporary, this.file);
-    }
-    return record;
+    return durableTransaction(this.file, () => {
+      const value = this.read();
+      if (!value.outcomes.some((item) => item.outcomeId === record.outcomeId)) {
+        value.outcomes.push(record);
+        durableWrite(this.file, value);
+      }
+      return record;
+    });
   }
 }
 
@@ -107,16 +140,17 @@ class LearningPolicyStore {
     this.root = path.resolve(text(root, 'root')); this.projectId = text(projectId, 'projectId');
     fs.mkdirSync(this.root, { recursive:true });
     this.file = path.join(this.root, `${sha(projectId)}.policies.json`);
-    if (!fs.existsSync(this.file)) fs.writeFileSync(this.file, JSON.stringify({ schemaVersion:1, projectId, revision:0, policies:[] }, null, 2) + '\n');
+    initializeDurable(this.file, { schemaVersion:1, projectId, revision:0, policies:[] });
+    this.read();
   }
   read() {
+    assertFileRestart(this.file);
     const value = JSON.parse(fs.readFileSync(this.file, 'utf8'));
     if (value.schemaVersion !== 1 || value.projectId !== this.projectId || !Number.isSafeInteger(value.revision) || !Array.isArray(value.policies)) throw new Error('learning policy store identity is invalid.');
     return value;
   }
   write(value) {
-    const temporary = `${this.file}.${process.pid}.tmp`;
-    fs.writeFileSync(temporary, JSON.stringify(value, null, 2) + '\n'); fs.renameSync(temporary, this.file);
+    return durableTransaction(this.file, () => durableWrite(this.file, value));
   }
   activate({ verifiedRecord, knowledgeVersion, strategy, policyArea, boundary, approvedBy, at = new Date().toISOString() }) {
     iso(at, 'activation.at'); text(strategy, 'strategy'); text(policyArea, 'policyArea'); text(boundary, 'boundary'); text(approvedBy, 'approvedBy');
@@ -124,18 +158,24 @@ class LearningPolicyStore {
     if (verifiedRecord.candidate.projectId !== this.projectId) throw new Error('Cross-project learning policy activation is forbidden.');
     if (verifiedRecord.candidate.claimBoundary !== boundary || verifiedRecord.proof?.experimentBoundary !== boundary) throw new Error('Learning policy activation boundary must exactly match verified proof.');
     if (!Number.isSafeInteger(knowledgeVersion) || knowledgeVersion < 1) throw new Error('knowledgeVersion must be a positive integer.');
-    const value = this.read();
-    const prior = value.policies.findLast((item) => item.policyArea === policyArea && item.boundary === boundary && item.status === 'active') || null;
-    if (prior) prior.status = 'superseded';
-    const policy = { version:value.policies.length + 1, projectId:this.projectId, policyArea, boundary, strategy, candidateId:verifiedRecord.candidate.id, knowledgeVersion, proofSha256:sha(verifiedRecord.proof), previousVersion:prior?.version || null, approvedBy, activatedAt:at, status:'active' };
-    value.policies.push(policy); value.revision += 1; this.write(value); return Object.freeze({ ...policy });
+    return durableTransaction(this.file, () => {
+      const value = this.read();
+      const prior = value.policies.findLast((item) => item.policyArea === policyArea && item.boundary === boundary && item.status === 'active') || null;
+      if (prior) prior.status = 'superseded';
+      const policy = { version:value.policies.length + 1, projectId:this.projectId, policyArea, boundary, strategy, candidateId:verifiedRecord.candidate.id, knowledgeVersion, proofSha256:sha(verifiedRecord.proof), previousVersion:prior?.version || null, approvedBy, activatedAt:at, status:'active' };
+      value.policies.push(policy); value.revision += 1; durableWrite(this.file, value);
+      return Object.freeze({ ...policy });
+    });
   }
   rollback(targetVersion, { reason, approvedBy, at = new Date().toISOString() }) {
     text(reason, 'rollback.reason'); text(approvedBy, 'approvedBy'); iso(at, 'rollback.at');
-    const value = this.read(); const target = value.policies.find((item) => item.version === targetVersion);
-    if (!target) throw new Error('Learning policy rollback target does not exist.');
-    for (const item of value.policies) if (item.policyArea === target.policyArea && item.boundary === target.boundary && item.status === 'active') item.status = 'rolled-back';
-    target.status = 'active'; target.rollback = { reason, approvedBy, at }; value.revision += 1; this.write(value); return Object.freeze({ ...target });
+    return durableTransaction(this.file, () => {
+      const value = this.read(); const target = value.policies.find((item) => item.version === targetVersion);
+      if (!target) throw new Error('Learning policy rollback target does not exist.');
+      for (const item of value.policies) if (item.policyArea === target.policyArea && item.boundary === target.boundary && item.status === 'active') item.status = 'rolled-back';
+      target.status = 'active'; target.rollback = { reason, approvedBy, at }; value.revision += 1; durableWrite(this.file, value);
+      return Object.freeze({ ...target });
+    });
   }
   active({ policyArea, boundary } = {}) { return this.read().policies.filter((item) => item.status === 'active' && (!policyArea || item.policyArea === policyArea) && (!boundary || item.boundary === boundary)); }
 }

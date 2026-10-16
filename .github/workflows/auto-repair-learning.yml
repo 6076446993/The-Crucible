@@ -35,6 +35,24 @@ jobs:
           node-version: 24
           cache: npm
 
+      - name: Enforce owner recovery-only hold before any automatic repair
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const file = 'governingDocuments/recovery-operation-policy.json';
+          let policy;
+          try { policy = JSON.parse(fs.readFileSync(file, 'utf8')); }
+          catch { console.error('[OPS-0049] Recovery policy is unavailable: automatic repair refused.'); process.exit(1); }
+          if (policy.repository !== '6076446993/The-Crucible' ||
+              policy.branch !== 'development' ||
+              policy.mode !== 'normal' ||
+              policy.independentRecoveryAccepted !== true ||
+              policy.normalWorkResumptionAuthorized !== true) {
+            console.error('[OPS-0049] P0 recovery-only hold: automatic repository repair and learning mutations refused.');
+            process.exit(1);
+          }
+          NODE
+
       - name: Install locked dependencies
         run: npm ci
 
@@ -62,7 +80,7 @@ jobs:
           npm test
 
       - name: Ingest the DEVLOG into repair-learning custody
-        if: always()
+        if: success()
         env:
           CRUCIBLE_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
           CRUCIBLE_PROJECT_ID: the-crucible
@@ -70,7 +88,7 @@ jobs:
         run: npm run learning:devlog
 
       - name: Queue mapped prevention candidates from CRU repair evidence
-        if: always()
+        if: success()
         env:
           CRUCIBLE_REPAIR_LEARNING_ROOT: ${{ runner.temp }}/crucible-repair-learning
           CRUCIBLE_PROJECT_ID: the-crucible

@@ -80,7 +80,8 @@ jobs:
           done
           rm -rf "$RUNNER_TEMP/prior" "$RUNNER_TEMP/prior.zip"
           if [ "$restored" = no ]; then
-            echo "[The Crucible] no retained state was recoverable from the last 10 completed runs; this run establishes it."
+            echo "[OPS-0049] No authenticated retained learning state was recoverable. Refusing to silently initialize an empty replacement; use a separately approved and audited bootstrap." >&2
+            exit 1
           fi
       - name: Install locked dependencies
         run: npm ci
@@ -152,7 +153,34 @@ jobs:
       - name: Diagnose observed proof stages without repair authority
         if: always()
         continue-on-error: true
-        run: node src/ciDiagnosticOrgan.js diagnose-proof hosted-learning-proof/report.json hosted-learning-proof/corpus-custody.json
+        run: |
+          if [ -s hosted-learning-proof/report.json ] && [ -s hosted-learning-proof/corpus-custody.json ]; then
+            node src/ciDiagnosticOrgan.js diagnose-proof hosted-learning-proof/report.json hosted-learning-proof/corpus-custody.json
+          else
+            # An inhibited proof might not write a report. Preserve a bounded absence
+            # observation without inventing a proof stage, recovery receipt or repair.
+            mkdir -p hosted-learning-proof
+            node - <<'NODE'
+          const fs = require('node:fs');
+          const paths = ['hosted-learning-proof/report.json','hosted-learning-proof/corpus-custody.json'];
+          let policy = null;
+          try { policy = JSON.parse(fs.readFileSync('governingDocuments/recovery-operation-policy.json','utf8')); }
+          catch { /* Missing/unreadable policy is not permission to run. */ }
+          const result = {
+            schemaVersion: 1, repository: process.env.GITHUB_REPOSITORY || null,
+            commitSha: process.env.GITHUB_SHA || null,
+            runId: process.env.GITHUB_RUN_ID || null,
+            ref: process.env.GITHUB_REF || null,
+            status: 'proof-artifacts-missing',
+            recoveryOnlyPolicyActive: policy?.repository === '6076446993/The-Crucible' &&
+              policy?.mode === 'recovery-only' && policy?.independentRecoveryAccepted === false,
+            absent: paths.filter(p => { try { return !fs.statSync(p).isFile() || !fs.statSync(p).size; } catch { return true; } }),
+            classification: 'Insufficient Evidence', proofStageSatisfied: false,
+            backupComplete: false, repairAuthorized: false, restartAuthorized: false, promotionAuthorized: false,
+          };
+          fs.writeFileSync('hosted-learning-proof/diagnosis.json', JSON.stringify(result,null,2)+'\n', {mode:0o600});
+          NODE
+          fi
       - name: Destroy runner plaintext
         if: always()
         run: rm -rf "$RUNNER_TEMP/crucible-source-restore" "$RUNNER_TEMP/crucible-state-ssh"

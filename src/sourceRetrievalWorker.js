@@ -28,6 +28,8 @@ function eligibleState(source, retryBlocked, retryQuarantined) {
 }
 
 function registerOwnerDelegatedUrl({ queueFile, projectId, url, trustedDomains = [], trustedSuffixes = ['.edu', '.org', '.gov'], now = () => new Date().toISOString() }) {
+  // Direct module users cannot bypass the CLI's recovery-only hold.
+  assertNormalActivityAllowed(projectId);
   const admitted = admitDiscoveryCandidateUrls([url], { trustedDomains, trustedSuffixes, extremeVettingSuffixes:[], maximumResults:1 });
   if (admitted.length !== 1) throw operationalError('OPS-0044', 'The delegated retrieval URL is outside the positive trust allow-list or is otherwise forbidden.');
   const normalized = admitted[0].url;

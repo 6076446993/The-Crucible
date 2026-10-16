@@ -2,6 +2,7 @@
 
 const { makeCandidate, sha } = require('./scientificLearning');
 const { createLearningProvenance } = require('./learningProvenance');
+const { assertNormalActivityAllowed } = require('./recoverySystem');
 
 const TECHNIQUE_KEYS = Object.freeze(['id', 'title', 'threat', 'control', 'boundary', 'verificationPlan']);
 
@@ -45,6 +46,7 @@ function securityTechniqueCandidate({ projectId, technique, repository = '607644
 }
 
 function queueSecurityTechniques({ learningRoot, projectId, techniques, repository = '6076446993/The-Crucible', now = () => new Date().toISOString() }) {
+  assertNormalActivityAllowed(projectId);
   if (!learningRoot) return { recorded: false, reason: 'learning root was not configured', candidateIds: [], promotionAuthorized: false };
   if (!Array.isArray(techniques) || !techniques.length) throw new Error('techniques must be a non-empty array.');
   const { DurableScientificLearningStore } = require('./scientificLearning');
