@@ -8,6 +8,7 @@ const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const TOP_KEYS=['schemaVersion','projectId','sourceCiphertextSha256','vettedCiphertextSha256','queueSha256','learningSha256','sourceCount','approvedCount','quarantinedCount','sourceReviews','decision','scientificProofSatisfied','promotionAuthorized','independentOversight','generatedAt','enforcedQuarantine','workerCandidateExport'];
 const WORKER_KEYS=['workerSha','priorVettedStateSha','generatedAt','plaintextSha256','candidateCount','queueSourceCount','candidateOnly','independentlyValidated'];
 const SHA=/^[a-f0-9]{64}$/;
+const GIT_OBJECT=/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/;
 function exactShape(object,keys,label){
  if(!object||Array.isArray(object)||typeof object!=='object')throw Error(label+' must be an object');
  const actual=Object.keys(object).sort(),expected=[...keys].sort();
@@ -23,7 +24,7 @@ function semantic(report) {
  exactShape(report.workerCandidateExport,WORKER_KEYS,'worker export');
  for(const field of ['sourceCiphertextSha256','vettedCiphertextSha256','queueSha256','learningSha256'])
    if(!SHA.test(report[field])) throw Error('Invalid custody hash '+field);
- if(!SHA.test(report.workerCandidateExport.workerSha)||!SHA.test(report.workerCandidateExport.plaintextSha256))
+ if(!GIT_OBJECT.test(report.workerCandidateExport.workerSha)||!SHA.test(report.workerCandidateExport.plaintextSha256))
    throw Error('Invalid worker identity');
  if(!Array.isArray(report.sourceReviews)||report.sourceReviews.length!==report.sourceCount)
    throw Error('Incomplete oversight decisions');
