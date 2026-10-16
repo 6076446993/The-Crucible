@@ -14,7 +14,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: recovery-only-custody-development
+  group: recovery-only-current-custody-development
   cancel-in-progress: false
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
           path: .hosted-perplexity-research
           key: recovery-perplexity-${{ github.run_id }}
           restore-keys: perplexity-research-${{ github.repository_id }}-
-      - name: Fetch complete custody Git histories under existing credentials
+      - name: Fetch committed custody trees under existing credentials
         env:
           RAW_READ_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
           VETTED_READ_KEY: ${{ secrets.CRUCIBLE_VETTED_STATE_READ_KEY }}
@@ -58,9 +58,7 @@ jobs:
           printf '%s\n' "$VETTED_READ_KEY" > "$RUNNER_TEMP/recovery-ssh/vetted"
           chmod 600 "$RUNNER_TEMP/recovery-ssh/raw" "$RUNNER_TEMP/recovery-ssh/vetted"
           GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/recovery-ssh/raw -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/recovery-ssh/known_hosts -o StrictHostKeyChecking=yes" git clone --depth 1 git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/recovery-input/raw"
-          GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/recovery-ssh/raw -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/recovery-ssh/known_hosts -o StrictHostKeyChecking=yes" git -C "$RUNNER_TEMP/recovery-input/raw" fetch --unshallow
           GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/recovery-ssh/vetted -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/recovery-ssh/known_hosts -o StrictHostKeyChecking=yes" git clone --depth 1 git@github.com:6076446993/Crucible-Vetted-Learning-State.git "$RUNNER_TEMP/recovery-input/vetted"
-          GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/recovery-ssh/vetted -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/recovery-ssh/known_hosts -o StrictHostKeyChecking=yes" git -C "$RUNNER_TEMP/recovery-input/vetted" fetch --unshallow
       - name: Recover existing encrypted hosted learning state without initializing a learner
         env:
           GH_TOKEN: ${{ github.token }}
@@ -94,6 +92,10 @@ jobs:
           CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS }}
           CRUCIBLE_HOSTED_STORE_KEY: ${{ secrets.CRUCIBLE_HOSTED_STORE_KEY }}
         run: node src/hostedRecovery.js capture
+      - name: Record bounded capture diagnostics for governed verification
+        if: always()
+        run: |
+          if [ -f recovery-report.json ]; then cat recovery-report.json; fi
       - name: Seal recovery vault and diagnostic custody using the existing key
         if: always()
         env:
@@ -146,6 +148,10 @@ jobs:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
           CRUCIBLE_HOSTED_STORE_KEY: ${{ secrets.CRUCIBLE_HOSTED_STORE_KEY }}
         run: node src/hostedRecovery.js restore-backup
+      - name: Record bounded restoration evidence for governed verification
+        if: always()
+        run: |
+          if [ -f recovery-restoration-report.json ]; then cat recovery-restoration-report.json; fi
       - name: Retain bounded separate-runner restoration evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
