@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T21:32:00.419Z"
+    "lastActionAt": "2026-10-16T21:41:20.669Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -217,7 +217,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "P0 recovery system only: preserve all committed knowledge and source custody across interruption, with independently verified restoration before restart authorization.",
-    "currentPrompt": "THE CRUCIBLE — RESUME ORIGINAL WORK AND RETURN TO EXISTING PLAN\n\nRepository: \"6076446993/The-Crucible\"\nBranch: \"development\"\nExisting plan: https://github.com/6076446993/The-Crucible/issues/49\n\nThis is a continuation of existing authorized work, not a new project, worker, plan, or priority queue.\n\n1. Recover original execution state\n\nRead \"AGENTS.md\", the DEVLOG Shared AI handoff, \"AI-HANDOFF.json\", governing documents, active mutation claims, and the exact current development SHA.\n\nIdentify the original worker and its latest verified work. Reconcile concurrent changes and preserve all ownership boundaries.\n\nDo not create replacement workers, overwrite active claims, restart R2, promote to \"main\", or discard unfinished work.\n\n2. Complete the storage-reduction work\n\nFollow the consolidated requirements in Crucible issue #49.\n\nImplement and verify:\n\n- Stable evidence identities and preservation of legacy references.\n- Atomic queue, registry, and journal transactions.\n- Governed locking, crash recovery, and independent checkpoints.\n- Content-addressed encrypted storage and safe migration.\n- Signed custody continuity and redundant-publication prevention.\n- Independent restoration and complete evidence reconciliation.\n- Actual physical storage measurement and reduction below 45 GB, preferably 40 GB or less.\n- Full repository tests, security checks, hosted CI, and rollback verification.\n\nTreat all previously prepared local prototypes as unverified until integrated and independently tested. Do not assume any version milestone has been reached.\n\nContinue implementation until every authorized production acceptance gate passes or a genuine external blocker prevents further progress.\n\nNever delete evidence or rewrite history without the required independent restoration proof and owner authorization.\n\n3. Return to the previous work automatically\n\nOnce the storage-reduction task is verified complete:\n\n1. Update the existing DEVLOG, handoff records, and issue #49 with actual completion evidence.\n2. Recover the development plan and unfinished-work ordering from the previous Work-mode session.\n3. Resume the exact next unfinished task at its original position, preserving its age, priority, dependencies, research candidates, and custody.\n4. Continue through the original development and research plan without creating a new backlog, changing priorities, or asking for repeated authorization.\n\nIf storage reduction remains blocked, preserve its exact status and dependencies, then continue other authorized, nonconflicting work from the existing plan where governance permits.\n\n4. Completion reporting\n\nReport the exact development SHA, files changed, tests and CI results, measured storage before and after, independent restoration evidence, remaining blockers, and the original planned task resumed.\n\nDo not stop after creating a plan, prototype, handoff, or passing local tests. Do not claim production completion without verified production evidence.",
+    "currentPrompt": "THE CRUCIBLE \u2014 RESUME ORIGINAL WORK AND RETURN TO EXISTING PLAN\n\nRepository: \"6076446993/The-Crucible\"\nBranch: \"development\"\nExisting plan: https://github.com/6076446993/The-Crucible/issues/49\n\nThis is a continuation of existing authorized work, not a new project, worker, plan, or priority queue.\n\n1. Recover original execution state\n\nRead \"AGENTS.md\", the DEVLOG Shared AI handoff, \"AI-HANDOFF.json\", governing documents, active mutation claims, and the exact current development SHA.\n\nIdentify the original worker and its latest verified work. Reconcile concurrent changes and preserve all ownership boundaries.\n\nDo not create replacement workers, overwrite active claims, restart R2, promote to \"main\", or discard unfinished work.\n\n2. Complete the storage-reduction work\n\nFollow the consolidated requirements in Crucible issue #49.\n\nImplement and verify:\n\n- Stable evidence identities and preservation of legacy references.\n- Atomic queue, registry, and journal transactions.\n- Governed locking, crash recovery, and independent checkpoints.\n- Content-addressed encrypted storage and safe migration.\n- Signed custody continuity and redundant-publication prevention.\n- Independent restoration and complete evidence reconciliation.\n- Actual physical storage measurement and reduction below 45 GB, preferably 40 GB or less.\n- Full repository tests, security checks, hosted CI, and rollback verification.\n\nTreat all previously prepared local prototypes as unverified until integrated and independently tested. Do not assume any version milestone has been reached.\n\nContinue implementation until every authorized production acceptance gate passes or a genuine external blocker prevents further progress.\n\nNever delete evidence or rewrite history without the required independent restoration proof and owner authorization.\n\n3. Return to the previous work automatically\n\nOnce the storage-reduction task is verified complete:\n\n1. Update the existing DEVLOG, handoff records, and issue #49 with actual completion evidence.\n2. Recover the development plan and unfinished-work ordering from the previous Work-mode session.\n3. Resume the exact next unfinished task at its original position, preserving its age, priority, dependencies, research candidates, and custody.\n4. Continue through the original development and research plan without creating a new backlog, changing priorities, or asking for repeated authorization.\n\nIf storage reduction remains blocked, preserve its exact status and dependencies, then continue other authorized, nonconflicting work from the existing plan where governance permits.\n\n4. Completion reporting\n\nReport the exact development SHA, files changed, tests and CI results, measured storage before and after, independent restoration evidence, remaining blockers, and the original planned task resumed.\n\nDo not stop after creating a plan, prototype, handoff, or passing local tests. Do not claim production completion without verified production evidence.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T21:31:24.528Z",
+      "selectedAt": "2026-10-16T21:34:53.414Z",
       "promptSha256": "c6705200a8e8e011990d5e0e0048af2fe5cc1732f45c3fc8f1fea2043daa7acd",
-      "affectedPathsSha256": "1ab8cc1c23466f2c61006ad44e597f35b267fcdc079ee805573015467e5febed"
+      "affectedPathsSha256": "d25afc383775375ff3688496949252a082238175aca5339144db8bfc5ac89935"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -1600,7 +1600,7 @@
     "mainReconciliationStatus": "Content reconciliation complete locally; source writes relinquished to original holder; development-only publication and exact-head monitoring pending.",
     "ciReaderPriorState": {
       "objective": "Reconcile PR34 development with read-only main input, preserving fail-closed controls, unique history and independent release gates.",
-      "currentPrompt": "Resolve conflicts on PR #34 (development→main). Re-run CI and fix any failing tests reported by the jobs.",
+      "currentPrompt": "Resolve conflicts on PR #34 (development\u2192main). Re-run CI and fix any failing tests reported by the jobs.",
       "steps": [
         "Inspect all11conflicts and three automatically merged input differences at pinned revisions.",
         "Preserve stronger development custody/monitor/security/test controls and retain unique main records.",
@@ -2980,7 +2980,7 @@
       "mainReconciliationStatus": "Content reconciliation complete locally; source writes relinquished to original holder; development-only publication and exact-head monitoring pending.",
       "ciReaderPriorState": {
         "objective": "Reconcile PR34 development with read-only main input, preserving fail-closed controls, unique history and independent release gates.",
-        "currentPrompt": "Resolve conflicts on PR #34 (development→main). Re-run CI and fix any failing tests reported by the jobs.",
+        "currentPrompt": "Resolve conflicts on PR #34 (development\u2192main). Re-run CI and fix any failing tests reported by the jobs.",
         "steps": [
           "Inspect all11conflicts and three automatically merged input differences at pinned revisions.",
           "Preserve stronger development custody/monitor/security/test controls and retain unique main records.",
@@ -4189,7 +4189,7 @@
       }
     },
     "recoveryContinuationPriorContext": {
-      "currentPrompt": "THE CRUCIBLE — PRIORITY P0: RECOVERY SYSTEM ONLY\n\nExecute recovery-system implementation immediately in \"6076446993/The-Crucible\", branch \"development\", before any other Crucible work resumes.\n\nRead \"AGENTS.md\", \"DEVLOG.md\", \"AI-HANDOFF.json\", governing documents, current development SHA, and active mutation claims. Coordinate ownership and complete mandatory prewrite checks.\n\nImplement verified, durable, restart-safe preservation for all committed knowledge, research source logs, original source material, candidates, evidence, custody records, learning versions, extraction progress, and unfinished work.\n\nIntegrate integrity manifests, consistent checkpoints, protected independent recovery copies, idempotent replay, fail-closed restart authorization, and recovery diagnostics into the existing architecture.\n\nReconcile the existing preservation plan and locally tested restart-integrity prototype. Do not assume the prototype is already integrated.\n\nRun native tests, fault injection, interrupted-restart simulations, independent restoration, and pre/post-recovery hash, count, identity, and provenance verification.\n\nRecord exact SHA, changes, tests, evidence, and unresolved blockers in the existing governed development records.\n\nRecovery system only. Do not restart R2, reset queues, discard candidates, promote to main, or resume unrelated development. Do not claim zero knowledge loss until independently verified. Continue until completed or genuinely blocked.",
+      "currentPrompt": "THE CRUCIBLE \u2014 PRIORITY P0: RECOVERY SYSTEM ONLY\n\nExecute recovery-system implementation immediately in \"6076446993/The-Crucible\", branch \"development\", before any other Crucible work resumes.\n\nRead \"AGENTS.md\", \"DEVLOG.md\", \"AI-HANDOFF.json\", governing documents, current development SHA, and active mutation claims. Coordinate ownership and complete mandatory prewrite checks.\n\nImplement verified, durable, restart-safe preservation for all committed knowledge, research source logs, original source material, candidates, evidence, custody records, learning versions, extraction progress, and unfinished work.\n\nIntegrate integrity manifests, consistent checkpoints, protected independent recovery copies, idempotent replay, fail-closed restart authorization, and recovery diagnostics into the existing architecture.\n\nReconcile the existing preservation plan and locally tested restart-integrity prototype. Do not assume the prototype is already integrated.\n\nRun native tests, fault injection, interrupted-restart simulations, independent restoration, and pre/post-recovery hash, count, identity, and provenance verification.\n\nRecord exact SHA, changes, tests, evidence, and unresolved blockers in the existing governed development records.\n\nRecovery system only. Do not restart R2, reset queues, discard candidates, promote to main, or resume unrelated development. Do not claim zero knowledge loss until independently verified. Continue until completed or genuinely blocked.",
       "taskRouting": {
         "category": "crucible-core",
         "repositoryId": 1344890806,
@@ -4382,6 +4382,31 @@
         "failed": 0,
         "skipped": 0,
         "java": "fresh isolated complete OpenJDK17"
+      },
+      "nativeIntegration": {
+        "status": "native-verified-hosted-ci-pending",
+        "files": [
+          "src/evidenceStorage.js",
+          "src/claimExtractionWorker.js",
+          "test/evidenceStorage.test.js"
+        ],
+        "focusedTests": {
+          "passed": 8,
+          "failed": 0
+        },
+        "productionMigrationActivated": false,
+        "independentRestorationVerified": false,
+        "cleanupAuthorized": false,
+        "limitations": [
+          "Object publication interruption can retain temporary hard links requiring explicit recovery.",
+          "Complete native reconciliation covers current populations, not all historical signed versions.",
+          "Independent authority and storage protection remain external gates."
+        ],
+        "nativeTests": {
+          "passed": 1156,
+          "failed": 0,
+          "skipped": 0
+        }
       }
     }
   },
@@ -6298,6 +6323,25 @@
       "purpose": "Owner-authorized inactivity disconnect verification and explicit takeover decision record",
       "status": "active",
       "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "issue49-native-evidence-storage-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/evidenceStorage.js",
+          "test/evidenceStorage.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Existing issue49 native stable evidence identities, encrypted immutable objects, exact restoration and signed checkpoint verification",
+      "status": "active",
+      "acquiredAt": "2026-10-16T21:33:28.435Z",
       "handedOffTo": null,
       "releasedAt": null
     }
