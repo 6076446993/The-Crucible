@@ -1,0 +1,104 @@
+name: Compare authenticated adjacent vetted custody snapshots
+on:
+  push:
+    branches: [development]
+    paths:
+      - '.github/workflows/vetted-version-content-comparison.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: crucible-vetted-version-content-comparison
+  cancel-in-progress: false
+jobs:
+  compare:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Read last two immutable vetted ciphertext versions without rewriting
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_VETTED_STATE_READ_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$STATE_DEPLOY_KEY"
+          mkdir -p "$RUNNER_TEMP/vetted-compare-ssh" "$RUNNER_TEMP/vetted-compare" vetted-version-comparison
+          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/vetted-compare-ssh/key"
+          chmod 600 "$RUNNER_TEMP/vetted-compare-ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/vetted-compare-ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/vetted-compare-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/vetted-compare-ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git clone --depth 2 --no-checkout git@github.com:6076446993/Crucible-Vetted-Learning-State.git "$RUNNER_TEMP/vetted-compare/repo"
+          for revision in current previous; do
+            if [ "$revision" = current ]; then ref=HEAD; else ref=HEAD^; fi
+            dest="$RUNNER_TEMP/vetted-compare/$revision"
+            mkdir -p "$dest"
+            git -C "$RUNNER_TEMP/vetted-compare/repo" show "$ref:encrypted-chunks.json" > "$dest/encrypted-chunks.json"
+            git -C "$RUNNER_TEMP/vetted-compare/repo" show "$ref:encrypted-custody-report.json" > "$dest/encrypted-custody-report.json"
+            while IFS= read -r chunk; do
+              case "$chunk" in source-bundle.part-*.enc) ;; *) echo "Unexpected chunk name" >&2; exit 1;; esac
+              git -C "$RUNNER_TEMP/vetted-compare/repo" show "$ref:$chunk" > "$dest/$chunk"
+            done < <(node -e 'const m=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));if(!Array.isArray(m.chunks)||!m.chunks.length)throw Error("Missing vetted chunks");for(const c of m.chunks)console.log(c.name)' "$dest/encrypted-chunks.json")
+            node src/hostedSourceBundle.js join --input-root "$dest" --output "$dest/source.enc"
+          done
+      - name: Authenticated decryption, isolated restore, and provenance checks
+        env:
+          CRUCIBLE_VETTED_BUNDLE_KEY: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY }}
+          CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS }}
+        run: |
+          set -euo pipefail
+          for revision in current previous; do
+            dest="$RUNNER_TEMP/vetted-compare/$revision"
+            node src/hostedSourceBundle.js decrypt --input "$dest/source.enc" --output "$dest/authenticated.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_VETTED_BUNDLE_KEY,CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS > "$dest/decryption.json"
+            test "$(node -e 'process.stdout.write(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).provenance)' "$dest/decryption.json")" = oversight-vetted
+            python3 scripts/recoveryArchive.py "$dest/authenticated.tar.gz" "$dest/restored" tar
+            node src/hostedSourceBundle.js verify --root "$dest/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --provenance oversight-vetted --report "vetted-version-comparison/$revision-verification.json"
+          done
+      - name: Compare exact evidence, learning and candidate identities
+        run: |
+          set -euo pipefail
+          node - <<'JS'
+          const fs=require('fs'),crypto=require('crypto'),path=require('path'),cp=require('child_process');
+          const hash=data=>crypto.createHash('sha256').update(data).digest('hex');
+          const base=path.join(process.env.RUNNER_TEMP,'vetted-compare');
+          const load=rev=>{
+            const root=path.join(base,rev,'restored');
+            const m=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
+            const file=path.resolve(root,m.learningFile);
+            if(path.dirname(file)!==root)throw Error('Unsafe learning-file path');
+            const bytes=fs.readFileSync(file);
+            if(hash(bytes)!==m.learningSha256)throw Error('Unverified learning bytes');
+            const records=JSON.parse(bytes.toString('utf8'))?.payload?.candidateRecords;
+            if(!Array.isArray(records))throw Error('Missing vetted candidate records');
+            const ids=records.map(x=>x?.candidate?.id);
+            if(ids.some(id=>typeof id!=='string'||!id.length)||new Set(ids).size!==ids.length)throw Error('Invalid candidate identity');
+            const fileManifest=m.sourceFiles.map(x=>({name:x.name,sha256:x.sha256,bytes:x.bytes})).sort((a,b)=>a.name.localeCompare(b.name));
+            const report=JSON.parse(fs.readFileSync(path.join(base,rev,'encrypted-custody-report.json'),'utf8'));
+            const chunks=JSON.parse(fs.readFileSync(path.join(base,rev,'encrypted-chunks.json'),'utf8'));
+            if(report.vettedCiphertextSha256!==chunks.encryptedSha256)throw Error('Vetted report and ciphertext manifest differ');
+            return {queueSha256:m.queueSha256,learningSha256:m.learningSha256,sourceFileIndexSha256:hash(JSON.stringify(fileManifest)),sourceFiles:fileManifest.length,candidateCount:records.length,candidateIdentitySha256:hash(JSON.stringify([...ids].sort())),vettedCiphertextSha256:chunks.encryptedSha256};
+          };
+          const previous=load('previous'),current=load('current');
+          const fields=['queueSha256','learningSha256','sourceFileIndexSha256','sourceFiles','candidateCount','candidateIdentitySha256'];
+          const equal=fields.every(key=>previous[key]===current[key]);
+          const git=(...args)=>cp.execFileSync('git',['-C',path.join(base,'repo'),...args],{encoding:'utf8'}).trim();
+          const output={schemaVersion:1,repository:'6076446993/Crucible-Vetted-Learning-State',previousCommit:git('rev-parse','HEAD^'),currentCommit:git('rev-parse','HEAD'),authenticatedVettedDecryptionBoth:true,sourceFileRoundtripVerificationBoth:true,candidateIdentitySetVerifiedBoth:true,verifiedVettedContentIdenticalAcrossRevisions:equal,cryptographicCiphertextDigestsDiffer:previous.vettedCiphertextSha256!==current.vettedCiphertextSha256,previous,current,independentOversightSignatureVerified:false,independentStorageVerified:false,automaticPublicationSkipAuthorized:false,historicalDeletionAuthorized:false,productionMigrationPerformed:false,plaintextRetained:false};
+          fs.writeFileSync('vetted-version-comparison/adjacent-content-proof.json',JSON.stringify(output,null,2)+'\n',{flag:'wx',mode:0o600});
+          console.log(JSON.stringify({contentEqual:equal,previousCount:previous.candidateCount,currentCount:current.candidateCount,originalsPreserved:true}));
+          JS
+      - name: Retain non-secret digest and count proof
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: vetted-adjacent-content-${{ github.run_id }}
+          path: vetted-version-comparison/*.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Remove only ephemeral runner copies and access key
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/vetted-compare" "$RUNNER_TEMP/vetted-compare-ssh"
