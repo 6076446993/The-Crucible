@@ -2,6 +2,46 @@
   "schemaVersion": 1,
   "conflicts": [
     {
+      "id": "owner-authorized-crucible-takeover-20261016",
+      "timestamp": "2026-10-16T10:00:45.532Z",
+      "detectedAt": "2026-10-16",
+      "type": "ownership-transfer",
+      "status": "resolved",
+      "contestedAction": "Transfer active predecessor mutation claims without receiving an acknowledgment from its unavailable host.",
+      "contestedScope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md"
+        ]
+      },
+      "rationaleSummary": "The owner explicitly authorized this worker to take the work. Native handoff preserves predecessor records and scopes, while inaccessible private work and old host state remain unverified.",
+      "evidence": [
+        "Owner: On my authority take it and make sure there is a worker discount from user inactivity",
+        "Original session message loading and delivery failed; no export was received.",
+        "All eleven active claims were assigned to openai/Codex before the explicit owner transfer."
+      ],
+      "sides": [
+        {
+          "source": "Existing mutation claims",
+          "instruction": "Exclusive scopes remain with the predecessor until explicit release or handoff."
+        },
+        {
+          "source": "Repository owner, current conversation",
+          "instruction": "On my authority take it"
+        }
+      ],
+      "alternatives": [
+        "Wait for the unreachable predecessor acknowledgment while preserving current claims.",
+        "Apply the explicit owner-directed native claim handoff, retain every predecessor record and disclose private-work uncertainty."
+      ],
+      "resolution": {
+        "decision": "Apply the explicit repository-owner-directed takeover using native handOffClaim; preserve recovery-only restrictions.",
+        "rationaleSummary": "The current owner instruction supplies explicit transfer authority without claiming process death, private-state recovery or independent recovery acceptance.",
+        "decidedBy": "repository-owner",
+        "decidedAt": "2026-10-16"
+      }
+    },
+    {
       "id": "hosted-learning-gates-passed-on-fixtures",
       "timestamp": "2026-08-31T00:00:00Z",
       "type": "gate-status-vs-evidence",

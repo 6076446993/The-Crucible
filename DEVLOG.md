@@ -151,6 +151,9 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-16T10:00:45.532Z, codex-work-42efe8889a64: Owner-directed claim transfer recorded; see AI-HANDOFF.json.activePlan.ownerAuthorizedTakeover, attendedWorkerInactivity and handoffNotes. Thirty-minute USER inactivity disconnect selected. P0 recovery remains first; private predecessor work and process stop are unverified.
+
+
 - 2026-10-16T02:15:08.010744Z, Codex: Recovery-only continuation now integrates authenticated hosted custody capture and separate-runner restore using existing credentials; local tests are not live acceptance. Owner resources logged in recovery-verification and activePlan.recoverySystem; wider ideas remain preserved and deferred. R2 and normal activity remain held.
 
 - 2026-10-15T20:22:35.915Z, Codex: Final recovery source e34c052 software verification is complete: native1127/1127,22recovery cases and all9hosted OS/Node jobs passed. CodeQL/handoff/conflict passed. Captured433-file restoration matched exactly. Actual protected independent live recovery remains blocked, zero knowledge loss NOT VERIFIED; keep recovery-only hold and use only the recorded recovery continuation.
@@ -265,6 +268,14 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: owner-authorized-takeover-20261016 — 2026-10-16T10:00:45.532Z — codex-work-42efe8889a64 — mode:work
+
+Plain-language summary: Recorded the owner's explicit transfer of Crucible repository work and selected a thirty-minute user inactivity disconnect policy. Preserved original claims, task ages, recovery holds and uncertainty about inaccessible private work.
+
+- `native handOffClaim and routing` — started 2026-10-16T10:00:45.532Z, finished 2026-10-16T10:00:45.532Z, exit 0; owner-file-transport-20261008-resumed-after-nvidia-20261011 -> owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016; p0-recovery-system-20261015 -> p0-recovery-system-20261015-owner-20261016; p0-recovery-research-writers-20261015 -> p0-recovery-research-writers-20261015-owner-20261016; p0-recovery-orchestrator-20261015 -> p0-recovery-orchestrator-20261015-owner-20261016; p0-recovery-route-contract-20261015 -> p0-recovery-route-contract-20261015-owner-20261016; p0-recovery-production-route-20261015 -> p0-recovery-production-route-20261015-owner-20261016; p0-recovery-evidence-20261015 -> p0-recovery-evidence-20261015-owner-20261016; p0-recovery-normal-activity-hold-20261015 -> p0-recovery-normal-activity-hold-20261015-owner-20261016; p0-recovery-intake-cli-hold-20261015 -> p0-recovery-intake-cli-hold-20261015-owner-20261016; p0-hosted-recovery-custody-20261016 -> p0-hosted-recovery-custody-20261016-owner-20261016; p0-recovery-windows-workload-budget-20261016 -> p0-recovery-windows-workload-budget-20261016-owner-20261016; acquired worker-idle-disconnect-20261016.
+- `owner clarification` — started 2026-10-16T10:00:45.532Z, finished 2026-10-16T10:00:45.532Z, exit 0; user inactivity must disconnect the worker after thirty minutes; background activity must not reset that timer.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
 
 ### Session: p0-recovery-system-20261015 — 2026-10-15T19:27:00.760Z — Codex — mode:work
 
@@ -442,21 +453,6 @@ Plain-language summary: Added a manual-only, development-only self-hosted workfl
 - `development push` — attempted after refreshing `origin/development` to `b68d1f7e2def760999e5767bd42f4c74873502f0`; the governed pre-push hook failed closed with `received no ref update to verify`. No bypass was used and no remote, raw/vetted state, `main`, or Archive changed.
 - `history reconciliation` — rebased the two local R8 repair commits onto current origin/development; the protected dry-run then reached the route check and failed only on the stale affected-path digest. Route regenerated to include the exact four-file development diff; no remote write occurred.
 
-### Session: r8-executable-publisher-dispatch-20261010 — 2026-10-10T06:23:00-04:00 — Codex — mode:regular/default
-
-Plain-language summary: The protected R8 registration path was exercised from the exact development tip. The real publisher ran and failed closed before the executable canary or any custody write because the configured source-bundle keys do not authenticate the existing encrypted bundle.
-
-- Dispatch: GitHub Actions run `38044694390`, job `114191751834`, exact development SHA `1199af5cb36166b997345bb9b0e5c5931713c75e`.
-- Hosted evidence: the ciphertext header identifies legacy `github:jonathanblunt1214-lgtm/The-Crucible` custody and plaintext hash `3e312164b0dd944b1859c6e663d44fb1a1796db8285715e2a16fb545c412c446`; both configured key candidates failed authentication.
-- Boundary: no canary ran, no executable bytes were executed or admitted, and no raw, vetted, or durable state changed. The failure is not repaired by generating another key: the original key cannot be derived from ciphertext.
-- Required next action: restore the original key that wrote this bundle, or obtain an owner-authorized plaintext/source-of-truth rebuild and re-encrypt under a new key. Do not guess, print, or replace a custody key from ciphertext.
-- Verification: `AI-HANDOFF.json` and `governingDocuments/scientific-learning-release-status.json` record the exact run, SHA, and blocker; JSON parsing passes. The pre-existing test-generated known-bug ledger changes remain preserved and were not discarded.
-
-
-
-
-
-- `owner authorization` — 2026-10-11T18:01:00-04:00: owner approved one-time inbound raw-key sync and existing independent Oversight dispatch; implementation prepares only fixed-recipient GitHub sealed ciphertext, default off, with one-day retention and no verifier/vetted-key mutation.
 
 ## Historical mutation accountability
 

@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T03:11:55.129099Z"
+    "lastActionAt": "2026-10-16T10:00:45.532Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -217,7 +217,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "P0 recovery system only: preserve all committed knowledge and source custody across interruption, with independently verified restoration before restart authorization.",
-    "currentPrompt": "Well finah it",
+    "currentPrompt": "On my authority take it and make sure there is a worker discount from user inactivity",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -233,27 +233,28 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T03:09:10.502Z",
-      "promptSha256": "3c42707055dc022e825617c59611c6d77404223639e480d9bd87565bdec0cf83",
-      "affectedPathsSha256": "66fdff0f2727e5c3dbdffb4a218035f945b7c6e9751c2266dc2849f90139ba34"
+      "selectedAt": "2026-10-16T10:00:45.475Z",
+      "promptSha256": "6c0aabf1df3f5a5d3c36372a08d2595ab7e17a027801e2418c0e35740c21540a",
+      "affectedPathsSha256": "122ac49dded2d006a253d6b9eb0f391edb3f5448e100c73baf1abd85e30959fa"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
       "Run native full-suite, fault-injection, source-only reversal, isolated tracked-tree/plan/Git-history restore and required local gates.",
       "Publish only to development and verify exact-tip hosted tests/security; preserve any failing evidence and repair within recovery scope.",
-      "Bind live roots and all writer locks, provision protected independent encrypted recovery custody and independently pinned verifier, run distinct-principal live restoration, then enforce preflight at every deployed restart. No R2 restart or unrelated development."
+      "Bind live roots and all writer locks, provision protected independent encrypted recovery custody and independently pinned verifier, run distinct-principal live restoration, then enforce preflight at every deployed restart. No R2 restart or unrelated development.",
+      "Record owner-authorized successor claims and preserve original priorities and private-work uncertainty.",
+      "Implement 30-minute attended-user inactivity checkpoint/disconnect in existing runtime, verify recovery and oversight holds, then resume P0 recovery acceptance."
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T03:11:55.129099Z",
-    "currentStep": "Known live current snapshots restore/replay from uploaded dual-family capsules; finish measured Windows workload verification and retain independent storage/key/verifier/bootstrap acceptance holds.",
+    "lastUpdatedAt": "2026-10-16T10:00:45.532Z",
+    "currentStep": "Owner-authorized takeover and attended-worker inactivity disconnect; recovery-only hold retained.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
-      "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
+      "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016",
       "owner": {
         "provider": "openai",
-        "agent": "Codex",
-        "model": null
+        "agent": "codex-work-42efe8889a64"
       },
       "mutationScope": [
         "AI-HANDOFF.json",
@@ -297,7 +298,7 @@
         "test/r8ExecutableCanaryPublisher.test.js",
         "src/rawCustodyPublisher.js"
       ],
-      "rule": "Owner explicitly authorized takeover; preserve prior plan and candidate custody.",
+      "rule": "Repository owner explicitly authorized takeover on 2026-10-16; preserve predecessor claims, original ages, private-work uncertainty and recovery-only hold.",
       "originalTaskId": "owner-file-transport-20261008",
       "originalAcquiredAt": "2026-10-08T04:06:58.715Z"
     },
@@ -4223,6 +4224,86 @@
           ]
         }
       }
+    },
+    "ownerTakeoverPreviousPrompt": "Well finah it",
+    "ownerAuthorizedTakeover": {
+      "at": "2026-10-16T10:00:45.532Z",
+      "ownerInstruction": "On my authority take it and make sure there is a worker discount from user inactivity",
+      "clarification": "No if the user isn't active for a certain amount of time I want the worker to disconnect",
+      "selectedTimeoutMinutes": 30,
+      "sourceSession": "01a12c93-41fd-7511-93f7-58c69a3ed622",
+      "destinationActor": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "transfers": [
+        {
+          "from": "owner-file-transport-20261008-resumed-after-nvidia-20261011",
+          "to": "owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016",
+          "originalAcquiredAt": "2026-10-12T03:11:48.728Z"
+        },
+        {
+          "from": "p0-recovery-system-20261015",
+          "to": "p0-recovery-system-20261015-owner-20261016",
+          "originalAcquiredAt": "2026-10-15T19:09:00.150Z"
+        },
+        {
+          "from": "p0-recovery-research-writers-20261015",
+          "to": "p0-recovery-research-writers-20261015-owner-20261016",
+          "originalAcquiredAt": "2026-10-15T19:13:20.776Z"
+        },
+        {
+          "from": "p0-recovery-orchestrator-20261015",
+          "to": "p0-recovery-orchestrator-20261015-owner-20261016",
+          "originalAcquiredAt": "2026-10-15T19:14:38.273Z"
+        },
+        {
+          "from": "p0-recovery-route-contract-20261015",
+          "to": "p0-recovery-route-contract-20261015-owner-20261016",
+          "originalAcquiredAt": "2026-10-15T19:17:54.395Z"
+        },
+        {
+          "from": "p0-recovery-production-route-20261015",
+          "to": "p0-recovery-production-route-20261015-owner-20261016",
+          "originalAcquiredAt": "2026-10-15T19:19:36.385Z"
+        },
+        {
+          "from": "p0-recovery-evidence-20261015",
+          "to": "p0-recovery-evidence-20261015-owner-20261016",
+          "originalAcquiredAt": "2026-10-15T19:25:34.798Z"
+        },
+        {
+          "from": "p0-recovery-normal-activity-hold-20261015",
+          "to": "p0-recovery-normal-activity-hold-20261015-owner-20261016",
+          "originalAcquiredAt": "2026-10-15T19:34:17.801Z"
+        },
+        {
+          "from": "p0-recovery-intake-cli-hold-20261015",
+          "to": "p0-recovery-intake-cli-hold-20261015-owner-20261016",
+          "originalAcquiredAt": "2026-10-15T19:36:03.790Z"
+        },
+        {
+          "from": "p0-hosted-recovery-custody-20261016",
+          "to": "p0-hosted-recovery-custody-20261016-owner-20261016",
+          "originalAcquiredAt": "2026-10-16T02:01:29.361Z"
+        },
+        {
+          "from": "p0-recovery-windows-workload-budget-20261016",
+          "to": "p0-recovery-windows-workload-budget-20261016-owner-20261016",
+          "originalAcquiredAt": "2026-10-16T03:07:17.727Z"
+        }
+      ],
+      "privateUnpublishedWorkRecovered": false,
+      "previousHostProcessStopped": false,
+      "scope": "Repository mutation ownership only; original private workspace and process state remain unavailable."
+    },
+    "attendedWorkerInactivity": {
+      "timeoutMinutes": 30,
+      "source": "explicit owner choice",
+      "status": "planned",
+      "activity": "Only trusted user interaction resets the clock; heartbeat/provider output/background jobs do not.",
+      "onExpiry": "Checkpoint all work, stop accepting jobs, disconnect at a safe boundary, preserve pending IDs and custody.",
+      "platformLimit": "ChatGPT session shutdown requires host controls; native runtime policy alone does not configure ChatGPT."
     }
   },
   "handoffNotes": {
@@ -4247,7 +4328,8 @@
       "2026-10-14 additive downstream review and PR completion/monitoring requirement implemented locally under explicit two-file holder handoff;48focused governance tests passed.",
       "2026-10-14 PR34 all11conflicts and three auto-merge differences semantically reconciled with126affected tests passing. Four governing references and one main-only bug record retained. Original custody scope returned unchanged; exact-head hosted checks pending.",
       "2026-10-14 retained Archive reader ENOBUFS defect reproduced at1,176,257bytes; real-Git regression fails before fix and51focused checks pass after bounded reader fix. Exact-head hosted verification pending.",
-      "P0 recovery: native preimage/intent/commit journals and exact replay, full-population snapshot/restore API and CLI, independent signed receipt preflight, existing orchestrator/production routing and held-request retry implemented locally. All prior plans, work ledger IDs and original priorities retained."
+      "P0 recovery: native preimage/intent/commit journals and exact replay, full-population snapshot/restore API and CLI, independent signed receipt preflight, existing orchestrator/production routing and held-request retry implemented locally. All prior plans, work ledger IDs and original priorities retained.",
+      "2026-10-16: prepared explicit owner-authorized native transfer of all eleven active predecessor claims to codex-work-42efe8889a64; no private workspace export or host-process stop was observed."
     ],
     "remaining": [
       "P0 follow-up only: publish macOS alias correction and current P0 operating hold, verify exact hosted OS matrix and resolve Windows durability without suppressing flush errors. Do not resume normal work or clear P0 merely because local tests pass.",
@@ -4264,7 +4346,9 @@
       "Oldest tracked owner-file live intake from 2026-10-07 remains blocked on full authenticated custody backup and raw-key compatibility; default workflow registration is no longer assumed missing.",
       "NVIDIA exact-tip hosted CI, account-approved bounded live selection/retirement recovery and independent acceptance; automatic mode stays manual.",
       "NVIDIA automatic mode remains held for independent Oversight/account entitlement; two earlier live negatives and listed-unprobed Muse retained. Original custody/R3/R8/R9 continuation unchanged.",
-      "Downstream review publication/exact-head checks, PR34 eleven-path merge reconciliation and independent R8/security gates remain separate; PR36 rebased77d9555 CI fails security-read/monitor credential boundaries and collision with PR34."
+      "Downstream review publication/exact-head checks, PR34 eleven-path merge reconciliation and independent R8/security gates remain separate; PR36 rebased77d9555 CI fails security-read/monitor credential boundaries and collision with PR34.",
+      "Implement and host-wire 30-minute user-inactivity checkpoint/disconnect; actual ChatGPT user activity and disconnect controls remain unavailable.",
+      "Recover predecessor private unpublished work if its host becomes reachable; do not assume it is included in the repository."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -5277,10 +5361,13 @@
         "regions": []
       },
       "purpose": "Return original custody scope to its actual holder after bounded NVIDIA integration; no new authority or automatic activation",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-12T03:11:48.728Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z",
       "resumeOf": "owner-file-transport-20261008",
       "originalAcquiredAt": "2026-10-08T04:06:58.715Z",
       "scopeHistory": [
@@ -5637,8 +5724,13 @@
         "regions": []
       },
       "purpose": "Owner-directed P0 recovery system only; preserve existing original custody claim and priorities",
-      "status": "active",
-      "acquiredAt": "2026-10-15T19:09:00.150Z"
+      "status": "handed-off",
+      "acquiredAt": "2026-10-15T19:09:00.150Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
     },
     {
       "taskId": "p0-recovery-research-writers-20261015",
@@ -5656,8 +5748,13 @@
         "regions": []
       },
       "purpose": "Close native research-log and discovery queue bypasses of recovery journaling",
-      "status": "active",
-      "acquiredAt": "2026-10-15T19:13:20.776Z"
+      "status": "handed-off",
+      "acquiredAt": "2026-10-15T19:13:20.776Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
     },
     {
       "taskId": "p0-recovery-orchestrator-20261015",
@@ -5674,8 +5771,13 @@
         "regions": []
       },
       "purpose": "Owner-directed autonomous recovery through existing orchestrator; preserve unfinished runtime queue and refuse restart without verified custody",
-      "status": "active",
-      "acquiredAt": "2026-10-15T19:14:38.273Z"
+      "status": "handed-off",
+      "acquiredAt": "2026-10-15T19:14:38.273Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
     },
     {
       "taskId": "p0-recovery-route-contract-20261015",
@@ -5690,8 +5792,13 @@
         "regions": []
       },
       "purpose": "Verify existing supported explicit task route for owner recovery request whose forbidden promotion wording is misclassified automatically",
-      "status": "active",
-      "acquiredAt": "2026-10-15T19:17:54.395Z"
+      "status": "handed-off",
+      "acquiredAt": "2026-10-15T19:17:54.395Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
     },
     {
       "taskId": "p0-recovery-production-route-20261015",
@@ -5706,8 +5813,13 @@
         "regions": []
       },
       "purpose": "Wire bounded autonomous recovery to existing production circulation and retain held recovery requests for retry",
-      "status": "active",
-      "acquiredAt": "2026-10-15T19:19:36.385Z"
+      "status": "handed-off",
+      "acquiredAt": "2026-10-15T19:19:36.385Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
     },
     {
       "taskId": "p0-recovery-evidence-20261015",
@@ -5722,8 +5834,13 @@
         "regions": []
       },
       "purpose": "Retain exact recovery verification, restoration and unresolved-dependency evidence without asserting live-corpus recovery",
-      "status": "active",
-      "acquiredAt": "2026-10-15T19:25:34.798Z"
+      "status": "handed-off",
+      "acquiredAt": "2026-10-15T19:25:34.798Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
     },
     {
       "taskId": "p0-recovery-normal-activity-hold-20261015",
@@ -5742,8 +5859,13 @@
         "regions": []
       },
       "purpose": "Enforce owner P0 recovery-only hold before live normal activity while preserving read-only diagnostics and recovery execution",
-      "status": "active",
-      "acquiredAt": "2026-10-15T19:34:17.801Z"
+      "status": "handed-off",
+      "acquiredAt": "2026-10-15T19:34:17.801Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
     },
     {
       "taskId": "p0-recovery-intake-cli-hold-20261015",
@@ -5758,8 +5880,13 @@
         "regions": []
       },
       "purpose": "Place normal owner intake hold at live operator entry point while retaining isolated snapshot verification APIs",
-      "status": "active",
-      "acquiredAt": "2026-10-15T19:36:03.790Z"
+      "status": "handed-off",
+      "acquiredAt": "2026-10-15T19:36:03.790Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
     },
     {
       "taskId": "p0-hosted-recovery-custody-20261016",
@@ -5778,10 +5905,13 @@
         "regions": []
       },
       "purpose": "Finish authenticated retained-corpus recovery capture, encrypted preservation and isolated restart verification without resuming normal learning",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-16T02:01:29.361Z",
-      "handedOffTo": null,
-      "releasedAt": null
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
     },
     {
       "taskId": "p0-recovery-windows-workload-budget-20261016",
@@ -5801,8 +5931,288 @@
         "regions": []
       },
       "purpose": "Bound Windows recovery flush verification from measured parallel progress; preserve all workers cycles assertions and other platform deadlines",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-16T03:07:17.727Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "releasedAt": "2026-10-16T10:00:45.532Z"
+    },
+    {
+      "taskId": "owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/ownerFileTransport.js",
+          "test/ownerFileTransport.test.js",
+          ".github/workflows/owner-file-intake.yml",
+          "src/circulationLinkage.js",
+          "src/testCadenceCoreLegacy.js",
+          "test/_testCadenceCore.js",
+          "governingDocuments/owner-file-transport.md",
+          "test/workflow.test.js",
+          "governingDocuments/known-bugs/KNOWN-BUGS.json",
+          "governingDocuments/owner-file-intake-release.json",
+          "governingDocuments/owner-file-intake-main-compatibility.patch",
+          "src/hostedSourceBundle.js",
+          "test/hostedSourceBundle.test.js",
+          ".github/workflows/self-test.yml",
+          "src/claimExtractionWorker.js",
+          "test/claimExtractionWorker.test.js",
+          "test/pdfTextExtraction.test.js",
+          "src/ciDiagnosticOrgan.js",
+          "test/ciDiagnosticOrgan.test.js",
+          ".github/workflows/hosted-learning-proof.yml",
+          "src/handoffPolicy.js",
+          "src/testLifecycle.js",
+          "test/handoffPolicy.test.js",
+          "test/testLifecycle.test.js",
+          "test/sourceBundleKeyAutomation.test.js",
+          "src/aiHandoffContinuation.js",
+          "test/aiHandoffContinuation.test.js",
+          ".github/workflows/hosted-source-bootstrap.yml",
+          "test/rawCustodyRebuildWorkflow.test.js",
+          "README.md",
+          ".github/workflows/raw-custody-publisher.yml",
+          "test/rawCustodyPublisher.test.js",
+          ".github/workflows/r8-executable-canary-publisher.yml",
+          "src/safeInformationRetrieval.js",
+          "test/safeInformationRetrieval.test.js",
+          "src/r8ExecutableCanaryPublisher.js",
+          "test/r8ExecutableCanaryPublisher.test.js",
+          "src/rawCustodyPublisher.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Return original custody scope to its actual holder after bounded NVIDIA integration; no new authority or automatic activation",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-system-20261015-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/recoverySystem.js",
+          "src/recoverySystemCli.js",
+          "test/recoverySystem.test.js",
+          "src/scientificLearning.js",
+          "governingDocuments/recovery-system.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-directed P0 recovery system only; preserve existing original custody claim and priorities",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-research-writers-20261015-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/automatedGoogleResearch.js",
+          "src/automatedPerplexityResearch.js",
+          "src/automatedModelPointerResearch.js",
+          "src/monthlyKnowledgeRefresh.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Close native research-log and discovery queue bypasses of recovery journaling",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-orchestrator-20261015-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/learningOrchestrator.js",
+          "src/organismRuntime.js",
+          "src/recoveryController.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-directed autonomous recovery through existing orchestrator; preserve unfinished runtime queue and refuse restart without verified custody",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-route-contract-20261015-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "test/taskRouting.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Verify existing supported explicit task route for owner recovery request whose forbidden promotion wording is misclassified automatically",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-production-route-20261015-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/productionOrganism.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Wire bounded autonomous recovery to existing production circulation and retain held recovery requests for retry",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-evidence-20261015-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "governingDocuments/recovery-verification-20261015.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Retain exact recovery verification, restoration and unresolved-dependency evidence without asserting live-corpus recovery",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-normal-activity-hold-20261015-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/sourceRetrievalWorker.js",
+          "src/ownerFileIntake.js",
+          "src/scientificLearningCli.js",
+          "src/hostedLearningProof.js",
+          "governingDocuments/recovery-operation-policy.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Enforce owner P0 recovery-only hold before live normal activity while preserving read-only diagnostics and recovery execution",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-intake-cli-hold-20261015-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/ownerFileIntakeCli.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Place normal owner intake hold at live operator entry point while retaining isolated snapshot verification APIs",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-hosted-recovery-custody-20261016-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/hostedRecovery.js",
+          "scripts/recoveryArchive.py",
+          "test/hostedRecovery.test.js",
+          ".github/workflows/recovery-custody.yml"
+        ],
+        "regions": []
+      },
+      "purpose": "Finish authenticated retained-corpus recovery capture, encrypted preservation and isolated restart verification without resuming normal learning",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-recovery-windows-workload-budget-20261016-owner-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/config.js",
+          "src/runner.js",
+          ".thecrucible.json",
+          ".thecrucible.schema.json",
+          "test/config.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Bound Windows recovery flush verification from measured parallel progress; preserve all workers cycles assertions and other platform deadlines",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "worker-idle-disconnect-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "AI-CONFLICTS.json",
+          "test/organismRuntime.test.js",
+          "test/productionOrganism.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-authorized inactivity disconnect verification and explicit takeover decision record",
+      "status": "active",
+      "acquiredAt": "2026-10-16T10:00:45.532Z",
       "handedOffTo": null,
       "releasedAt": null
     }
@@ -7453,6 +7863,18 @@
         "freshness": "current",
         "evidence": "Actual dual-family schema2 archive restored/replayed in hosted38842611954; fixture covers current/previous key window and single-family, missing-family, tamper and overwrite refusals. Legacy originals retained.",
         "nextAction": "Verify final key-window/parser follow-up and obtain independently protected key/capsule custody; authenticate exact legacy rewrap before any retirement."
+      },
+      {
+        "id": "worker-user-inactivity-disconnect",
+        "deliverable": "Checkpoint and disconnect attended workers after 30 minutes without actual user activity",
+        "status": "in-progress",
+        "evidence": "Owner clarified inactivity direction and selected 30 minutes on 2026-10-16; runtime integration pending.",
+        "nextAction": "Integrate attended-session policy into existing durable runtime and verify safe-boundary behavior.",
+        "owner": "codex-work-42efe8889a64",
+        "observedAt": "2026-10-16T10:00:45.532Z",
+        "maxEvidenceAgeHours": 24,
+        "freshness": "current",
+        "originatedAt": "2026-10-16T10:00:45.532Z"
       }
     ],
     "continuationPolicy": "Oldest relevant unfinished request first. Preserve original request dates across status updates. Blocked older work stays first and its prerequisites are worked before newer improvements; unknown ages require triage rather than guessing."
