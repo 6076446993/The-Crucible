@@ -119,6 +119,12 @@ jobs:
           node --check scripts/evidenceContentAddressedStage.js
           node scripts/evidenceContentAddressedStage.js --self-test
           node scripts/evidenceContentAddressedStage.js "$RUNNER_TEMP/custody/restored" custody-inventory/content-addressed-proof.json
+      - name: Verify candidate evidence sharing across subject references
+        run: |
+          set -euo pipefail
+          node --check scripts/rawCustodySubjectEvidence.js
+          node --test test/rawCustodySubjectEvidence.test.js
+          node scripts/rawCustodySubjectEvidence.js "$RUNNER_TEMP/custody/restored" custody-inventory/subject-index.json custody-inventory/evidence-subject-summary.json "$RUNNER_TEMP/custody/private-evidence-index.json"
       - name: Retain bounded non-secret counts and custody verification
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
