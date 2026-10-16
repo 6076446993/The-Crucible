@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T22:07:59.492Z"
+    "lastActionAt": "2026-10-16T22:12:42.181Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,7 +233,7 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T22:04:43.317Z",
+      "selectedAt": "2026-10-16T22:11:40.872Z",
       "promptSha256": "c6705200a8e8e011990d5e0e0048af2fe5cc1732f45c3fc8f1fea2043daa7acd",
       "affectedPathsSha256": "6c8554f47d97fd9012530e4505ea13c2cfc8525e8d0700facd940c5cecdbaa8d"
     },
@@ -247,7 +247,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T22:07:59.492Z",
+    "lastUpdatedAt": "2026-10-16T22:12:42.181Z",
     "currentStep": "Original pipeline-diagnostics: explicit isolated .NET/NuGet environment addresses actual Windows native analyzer failure;1169native tests pass; hosted Windows follow-up required. Issue49 production reduction remains externally blocked.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -567,7 +567,32 @@
           "sources": [
             "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-environment-variables",
             "https://github.com/dotnet/sdk/blob/main/src/Tasks/Microsoft.NET.Build.Tasks/targets/Microsoft.NET.Sdk.props"
-          ]
+          ],
+          "firstFixPublishedSha": "b07951a1b04e93b6d7a928cad376f782371f3c1e",
+          "firstFixHostedFailure": {
+            "runId": 38973982057,
+            "jobId": 117218861820,
+            "semanticTestsPassed": 12,
+            "semanticTestsFailed": 1,
+            "observed": "Roslyn still fails NuGet.targets path1 null; workload warning removed but machine-level PROGRAMFILES/PROGRAMDATA roots remain absent."
+          },
+          "machineRootFollowup": {
+            "primarySource": "https://github.com/NuGet/NuGet.Client/blob/dev/src/NuGet.Core/NuGet.Common/PathUtil/NuGetEnvironment.cs",
+            "sourceFinding": "NuGet reads PROGRAMFILES(X86), falls back to PROGRAMFILES, then Path.Combine; user/cache roots alone do not supply machine settings base.",
+            "regression": "Real child now explicitly asserts all private machine/profile/cache roots; fails before follow-up because PROGRAMFILES is undefined.",
+            "change": "Provide private per-tool PROGRAMFILES/PROGRAMFILES(X86)/PROGRAMDATA/ALLUSERSPROFILE directories; never inherit host machine settings or secrets.",
+            "focusedTests": {
+              "passed": 13,
+              "failed": 0,
+              "skipped": 0
+            },
+            "nativeTests": {
+              "passed": 1169,
+              "failed": 0,
+              "skipped": 0
+            },
+            "windowsAcceptance": "pending-exact-hosted-followup"
+          }
         }
       }
     },
