@@ -1,0 +1,54 @@
+name: Audit Crucible evidence storage without mutation
+on:
+  push:
+    branches: [development]
+    paths:
+      - '.github/workflows/evidence-storage-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: crucible-evidence-storage-audit-development
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Verify script syntax and inspect reachable Git objects
+        run: |
+          set -euo pipefail
+          node --check scripts/evidenceStorageAudit.js
+          node scripts/evidenceStorageAudit.js
+      - name: Record actual checkout and Git pack usage separately
+        run: |
+          set -euo pipefail
+          node - <<'JS'
+          const fs=require('fs'),cp=require('child_process');
+          const git=cp.execFileSync('git',['count-objects','-v'],{encoding:'utf8'});
+          const obj=Object.fromEntries(git.trim().split('\n').map(line=>{const m=/^(\S+):\s*(\d+)$/.exec(line);if(!m)throw Error('Unexpected git size metadata');return [m[1],Number(m[2])]}));
+          const report=JSON.parse(fs.readFileSync('storage-audit/git-metadata.json','utf8'));
+          report.gitLooseObjectDiskBytes=obj['size']*1024;
+          report.gitPackDiskBytes=obj['size-pack']*1024;
+          report.gitObjectDiskBytes=report.gitLooseObjectDiskBytes+report.gitPackDiskBytes;
+          report.completeHistoryCoverage=true;
+          report.scope='all reachable objects in full-depth development checkout';
+          report.lfsPointerFilesNotLfsContent=true;
+          fs.writeFileSync('storage-audit/git-metadata.json',JSON.stringify(report,null,2)+'\n');
+          JS
+      - name: Publish non-secret storage audit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: evidence-storage-audit-${{ github.run_id }}
+          path: storage-audit/git-metadata.json
+          if-no-files-found: error
+          retention-days: 90
