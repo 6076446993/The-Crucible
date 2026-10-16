@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T10:00:45.532Z"
+    "lastActionAt": "2026-10-16T10:07:38.512Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -217,7 +217,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "P0 recovery system only: preserve all committed knowledge and source custody across interruption, with independently verified restoration before restart authorization.",
-    "currentPrompt": "On my authority take it and make sure there is a worker discount from user inactivity",
+    "currentPrompt": "No if the user isn't active for a certain amount of time I want the worker to disconnect",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T10:00:45.475Z",
-      "promptSha256": "6c0aabf1df3f5a5d3c36372a08d2595ab7e17a027801e2418c0e35740c21540a",
-      "affectedPathsSha256": "122ac49dded2d006a253d6b9eb0f391edb3f5448e100c73baf1abd85e30959fa"
+      "selectedAt": "2026-10-16T10:07:02.228Z",
+      "promptSha256": "a8df32cf4dd675c2f4f70336ae511db419f0e765b2b582ea3239935f5e8ae62d",
+      "affectedPathsSha256": "9654aadd093d4fb8239ac83c31fc6a7180d92419476763ca97815d7b1053e091"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -247,7 +247,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T10:00:45.532Z",
+    "lastUpdatedAt": "2026-10-16T10:07:38.512Z",
     "currentStep": "Owner-authorized takeover and attended-worker inactivity disconnect; recovery-only hold retained.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -4300,10 +4300,26 @@
     "attendedWorkerInactivity": {
       "timeoutMinutes": 30,
       "source": "explicit owner choice",
-      "status": "planned",
+      "status": "implemented-local-host-adapter-pending",
       "activity": "Only trusted user interaction resets the clock; heartbeat/provider output/background jobs do not.",
       "onExpiry": "Checkpoint all work, stop accepting jobs, disconnect at a safe boundary, preserve pending IDs and custody.",
-      "platformLimit": "ChatGPT session shutdown requires host controls; native runtime policy alone does not configure ChatGPT."
+      "platformLimit": "ChatGPT session shutdown requires host controls; native runtime policy alone does not configure ChatGPT.",
+      "runtime": "DurableOrganismRuntime.connectAttendedSession/checkUserInactivity and createProductionOrganism.attendedSession",
+      "localFocusedTests": {
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0
+      },
+      "hostedVerification": "pending",
+      "platformHostConfigured": false,
+      "actualDisconnectVerified": false,
+      "fullNativeTests": {
+        "passed": 1145,
+        "failed": 0,
+        "skipped": 0,
+        "java": "actual isolated OpenJDK17 compiler",
+        "scope": "native software only"
+      }
     }
   },
   "handoffNotes": {
@@ -4329,7 +4345,8 @@
       "2026-10-14 PR34 all11conflicts and three auto-merge differences semantically reconciled with126affected tests passing. Four governing references and one main-only bug record retained. Original custody scope returned unchanged; exact-head hosted checks pending.",
       "2026-10-14 retained Archive reader ENOBUFS defect reproduced at1,176,257bytes; real-Git regression fails before fix and51focused checks pass after bounded reader fix. Exact-head hosted verification pending.",
       "P0 recovery: native preimage/intent/commit journals and exact replay, full-population snapshot/restore API and CLI, independent signed receipt preflight, existing orchestrator/production routing and held-request retry implemented locally. All prior plans, work ledger IDs and original priorities retained.",
-      "2026-10-16: prepared explicit owner-authorized native transfer of all eleven active predecessor claims to codex-work-42efe8889a64; no private workspace export or host-process stop was observed."
+      "2026-10-16: prepared explicit owner-authorized native transfer of all eleven active predecessor claims to codex-work-42efe8889a64; no private workspace export or host-process stop was observed.",
+      "2026-10-16: explicit owner-authorized takeover published at 5aafbb5652d1cb9c80f9203729da4f47fca82b77; hosted handoff/conflict/CodeQL passed and DEVLOG prune Archive job 116918898335 succeeded. Native thirty-minute user-inactivity disconnect is implemented locally with sixteen focused passing tests; actual ChatGPT host integration is not available."
     ],
     "remaining": [
       "P0 follow-up only: publish macOS alias correction and current P0 operating hold, verify exact hosted OS matrix and resolve Windows durability without suppressing flush errors. Do not resume normal work or clear P0 merely because local tests pass.",
@@ -4348,7 +4365,8 @@
       "NVIDIA automatic mode remains held for independent Oversight/account entitlement; two earlier live negatives and listed-unprobed Muse retained. Original custody/R3/R8/R9 continuation unchanged.",
       "Downstream review publication/exact-head checks, PR34 eleven-path merge reconciliation and independent R8/security gates remain separate; PR36 rebased77d9555 CI fails security-read/monitor credential boundaries and collision with PR34.",
       "Implement and host-wire 30-minute user-inactivity checkpoint/disconnect; actual ChatGPT user activity and disconnect controls remain unavailable.",
-      "Recover predecessor private unpublished work if its host becomes reachable; do not assume it is included in the repository."
+      "Recover predecessor private unpublished work if its host becomes reachable; do not assume it is included in the repository.",
+      "Native idle disconnect requires actual trusted host activity and idempotent checkpoint/transport adapters. No ChatGPT platform disconnect was configured or observed; safe-boundary hung handlers require host supervision."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -4370,7 +4388,8 @@
       "NVIDIA exact eca6fe4: 1104 native tests, 277 hosted component tests, live acceptance 38198020896 passed five real calls/three probes with controlled retirement and real alternate; no scientific-learning or activation authority.",
       "P0 recovery tests 18/18; source-only deletion regression fails without fix and passes with fix. Tracked-tree and Git-history drill restored431files/20directories/9361420bytes with identical pre/post digest and exact original plan/work-ledger fields. This is not live-corpus or independent-principal proof.",
       "Final recovery source npm run test:all1123/1123passed, zero failed/skipped, 2026-10-15T19:27:00.910Z through19:27:16.857Z. All10additional required local audits passed. Exact commands, timestamps and output hashes are in recovery-verification-20261015.json.",
-      "Published0c651b413753787b3922242e2323977bcafad176 with exact tested tree5ec1c5a0afa36d4ad7d2f4a132d7592e50892540; manual pre-push hook and exact handoff-range check passed; Archive appendf077292f6b840a3ea722861fb605d42001bd127b preserved old ledger prefix and exact pre-prune DEVLOG. Hosted CodeQL38794379524 passed; Self-Test38794379421 has measured macOS alias and Windows directory-flush failures, not a completion pass."
+      "Published0c651b413753787b3922242e2323977bcafad176 with exact tested tree5ec1c5a0afa36d4ad7d2f4a132d7592e50892540; manual pre-push hook and exact handoff-range check passed; Archive appendf077292f6b840a3ea722861fb605d42001bd127b preserved old ledger prefix and exact pre-prune DEVLOG. Hosted CodeQL38794379524 passed; Self-Test38794379421 has measured macOS alias and Windows directory-flush failures, not a completion pass.",
+      "2026-10-16 user-idle change: full native Orchestrator1145/1145,0failed/0skipped using real OpenJDK17; focused16/16; coordination, conflict governance, circulation57, docs consistency and configuration passed. Host disconnect deployment remains unavailable."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -7867,11 +7886,11 @@
       {
         "id": "worker-user-inactivity-disconnect",
         "deliverable": "Checkpoint and disconnect attended workers after 30 minutes without actual user activity",
-        "status": "in-progress",
-        "evidence": "Owner clarified inactivity direction and selected 30 minutes on 2026-10-16; runtime integration pending.",
-        "nextAction": "Integrate attended-session policy into existing durable runtime and verify safe-boundary behavior.",
+        "status": "implemented-local",
+        "evidence": "Sixteen focused native runtime/production tests pass, including timer without heartbeat, checkpoint failure, idempotent transport retry, restart and user-activity race; platform host adapters unavailable.",
+        "nextAction": "Complete native and exact-tip hosted verification; provision trusted platform user-activity and disconnect adapters before claiming live enforcement.",
         "owner": "codex-work-42efe8889a64",
-        "observedAt": "2026-10-16T10:00:45.532Z",
+        "observedAt": "2026-10-16T10:07:02.152Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "current",
         "originatedAt": "2026-10-16T10:00:45.532Z"

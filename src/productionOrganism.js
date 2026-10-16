@@ -3,7 +3,7 @@ const { assertNormalActivityAllowed } = require('./recoverySystem');
 const crypto=require('node:crypto');const {DurableOrganismRuntime}=require('./organismRuntime');const {assertFlyByWire}=require('./circulationLinkage');const {failureCode,describeCode,testRequestFor,repairableByImmuneSystem,UNCODED}=require('./failureCodes');
 const id=(prefix,value)=>`${prefix}-${crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0,24)}`;
 function signal({type,sourceOrgan,targetOrgan,boundary,payload}){return{id:id(`${sourceOrgan}-to-${targetOrgan}`,{type,boundary,payload}),type,sourceOrgan,targetOrgan,boundary,payload};}
-function createProductionOrganism({projectId,root,learningStore,oversightReflex,diagnosticPlanner,repairActuator,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,councilAdvisor=null,recoveryController=null,now}){
+function createProductionOrganism({projectId,root,learningStore,oversightReflex,diagnosticPlanner,repairActuator,experienceRecorder,reporter,digestiveWorker,testingOrgan,diagnosticOrgan,councilAdvisor=null,recoveryController=null,attendedSession=null,now}){
   // testingOrgan is required rather than defaulted. Everything else here is injected too, and a
   // quiet default import would both break that discipline and hide the fact that an organism now
   // has a route to the test suite - which is precisely the wiring a reader needs to see.
@@ -59,7 +59,9 @@ function createProductionOrganism({projectId,root,learningStore,oversightReflex,
   // Fly-by-wire: the organism will not start with a severed wire, because a signal to an
   // organ with no handler never arrives and nothing reports its absence.
   assertFlyByWire(organs);
-  return new DurableOrganismRuntime({projectId,root,organs,learningStore,oversightReflex,now});
+  const runtime=new DurableOrganismRuntime({projectId,root,organs,learningStore,oversightReflex,now});
+  if(attendedSession)runtime.connectAttendedSession(attendedSession);
+  return runtime;
 }
 function submitNervousObservation(runtime,{observationId,boundary,finding,changeBaseSha256}){return runtime.submit(signal({type:'observation',sourceOrgan:'nervous-system',targetOrgan:'brain',boundary,payload:{observationId,finding,changeBaseSha256}}));}
 function submitVettedIntake(runtime,{intakeId,boundary,custody}){return runtime.submit(signal({type:'candidate-evidence',sourceOrgan:'lungs',targetOrgan:'digestive',boundary,payload:{intakeId,custody}}));}

@@ -2,6 +2,72 @@ const { preservedReplace, assertFileRestart } = require('./recoverySystem');
 'use strict';const crypto=require('node:crypto'),fs=require('node:fs'),path=require('node:path');const {CardiopulmonaryCirculation}=require('./organismCirculation');const {repairOutcome}=require('./gradedOversightResponse');const {assessRecurrence,appendOutcome}=require('./findingLedger');
 const sha=(value)=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');const terminal=new Set(['completed','inhibited','rolled-back','quarantined','rejected']);
 class DurableOrganismRuntime{
+  // Only the trusted session host calls these methods. Job progress and heartbeats
+  // never count as user activity. The host owns the actual transport disconnect.
+  connectAttendedSession({sessionId,lastUserActivityAt,checkpoint,disconnect}) {
+    if(this.idleTransition)throw new Error('Finish the pending disconnect before reconnecting.');
+    const at=Date.parse(lastUserActivityAt),now=Date.parse(this.now());
+    if(typeof sessionId!=='string'||!sessionId.trim()||!Number.isFinite(at)||!Number.isFinite(now)||at>now||typeof checkpoint!=='function'||typeof disconnect!=='function')throw new Error('Attended session requires trusted user activity, checkpoint and disconnect adapters.');
+    const previous=this.read().attendedSession;
+    if(previous&&(previous.sessionId!==sessionId||at<Date.parse(previous.lastUserActivityAt)))throw new Error('Attended session identity or activity would overwrite retained state.');
+    if(previous&&['disconnecting','disconnect-held'].includes(previous.state)&&at===Date.parse(previous.lastUserActivityAt)){this.attendedAdapters={checkpoint,disconnect};this.scheduleIdleCheck();return;}
+    if(previous&&previous.state!=='connected'&&at<=Date.parse(previous.lastUserActivityAt))throw new Error('Fresh user activity is required to reconnect an idle session.');
+    this.attendedAdapters={checkpoint,disconnect};
+    this.mutate('attended-session-connect',state=>{state.attendedSession={sessionId,lastUserActivityAt:new Date(at).toISOString(),timeoutMs:30*60*1000,state:'connected'};return state;});
+    this.scheduleIdleCheck();
+  }
+  recordUserActivity({sessionId,at}) {
+    const session=this.read().attendedSession,time=Date.parse(at),now=Date.parse(this.now());
+    if(!session||session.sessionId!==sessionId||session.state!=='connected'||!Number.isFinite(time)||!Number.isFinite(now)||time<Date.parse(session.lastUserActivityAt)||time>now)throw new Error('User activity must bind the connected session and a monotonic non-future time.');
+    this.mutate('user-activity',state=>{state.attendedSession.lastUserActivityAt=new Date(time).toISOString();return state;});
+    this.scheduleIdleCheck();
+  }
+  scheduleIdleCheck() {
+    clearTimeout(this.idleTimer);
+    const session=this.read().attendedSession;
+    if(!session||session.state==='disconnected')return;
+    const remaining=Date.parse(session.lastUserActivityAt)+session.timeoutMs-Date.parse(this.now());
+    this.idleTimer=setTimeout(()=>{this.checkUserInactivity().catch(error=>{this.lastIdleError=error;}).finally(()=>this.scheduleIdleCheck());},Number.isFinite(remaining)?Math.max(1000,Math.min(60000,remaining)):60000);
+    this.idleTimer.unref();
+  }
+  attendedWorkAllowed() {
+    const session=this.read().attendedSession;
+    if(!session)return true;
+    const elapsed=Date.parse(this.now())-Date.parse(session.lastUserActivityAt);
+    return session.state==='connected'&&Number.isFinite(elapsed)&&elapsed>=0&&elapsed<session.timeoutMs;
+  }
+  async checkUserInactivity() {
+    if(this.idleTransition)return this.idleTransition;
+    const session=this.read().attendedSession;
+    if(!session)return{state:'unattended'};
+    if(session.state==='disconnected')return{state:'disconnected'};
+    if(this.attendedWorkAllowed())return{state:'connected'};
+    if(!Number.isFinite(Date.parse(this.now()))||Date.parse(this.now())<Date.parse(session.lastUserActivityAt))return{state:'disconnect-held',reason:'clock-skew'};
+    if(this.inFlight)return{state:'disconnect-pending',reason:'finish-current-safe-boundary'};
+    if(!this.attendedAdapters)return{state:'disconnect-held',reason:'session-host-adapters-unavailable'};
+    this.idleTransition=(async()=>{
+      const disconnectId=sha({sessionId:session.sessionId,lastUserActivityAt:session.lastUserActivityAt});
+      try{
+        // A completed current task and every remaining queue item are already durable.
+        // The host must preserve unpublished work too and return its checkpoint identity.
+        let checkpoint=session.checkpoint;
+        if(!checkpoint){
+          checkpoint=await this.attendedAdapters.checkpoint({sessionId:session.sessionId,disconnectId,state:this.read()});
+          if(!/^[a-f0-9]{64}$/.test(checkpoint?.checkpointId||''))throw new Error('Idle disconnect requires a durable checkpoint identity.');
+          if(this.read().attendedSession.lastUserActivityAt!==session.lastUserActivityAt)return{state:'connected',reason:'new-user-activity'};
+          this.mutate('idle-checkpoint',state=>{state.attendedSession={...state.attendedSession,state:'disconnecting',checkpoint:{checkpointId:checkpoint.checkpointId},disconnectId};return state;});
+        }
+        await this.attendedAdapters.disconnect({sessionId:session.sessionId,disconnectId,checkpointId:checkpoint.checkpointId,reason:'user-inactive-30-minutes'});
+        this.mutate('idle-disconnect',state=>{state.attendedSession={...state.attendedSession,state:'disconnected',disconnectedAt:this.now()};return state;});
+        clearTimeout(this.idleTimer);
+        return{state:'disconnected',checkpointId:checkpoint.checkpointId};
+      }catch(error){
+        this.mutate('idle-disconnect-held',state=>{state.attendedSession={...state.attendedSession,state:'disconnect-held'};return state;});
+        throw error;
+      }
+    })();
+    try{return await this.idleTransition;}finally{this.idleTransition=null;}
+  }
   constructor({projectId,root,organs,learningStore,oversightReflex,maximumQueue=100,staleAfterMs=15*60*1000,now=()=>new Date().toISOString()}){if(!projectId||!root||!organs||!learningStore?.retrieve||!oversightReflex?.evaluate)throw new Error('Organism runtime requires project, organs, memory, and oversight reflex.');this.projectId=projectId;this.root=path.resolve(root);this.file=path.join(this.root,'organism-runtime.json');this.findingLedger=path.join(this.root,'finding-ledger.json');this.organs=organs;this.learningStore=learningStore;this.oversightReflex=oversightReflex;this.maximumQueue=maximumQueue;this.staleAfterMs=staleAfterMs;this.now=now;fs.mkdirSync(this.root,{recursive:true});assertFileRestart(this.file);if(!fs.existsSync(this.file))this.write({schemaVersion:1,projectId,revision:0,stopped:null,queue:[],completedKeys:[],organs:Object.fromEntries(Object.keys(organs).map((id)=>[id,{state:'healthy',dependency:null,lastSeenAt:this.now()}])),events:[],escalations:[]});this.read();}
   read(){assertFileRestart(this.file);const envelope=JSON.parse(fs.readFileSync(this.file,'utf8'));if(envelope.sha256!==sha(envelope.payload)||envelope.payload.projectId!==this.projectId)throw new Error('Organism runtime state is corrupt or cross-project.');return structuredClone(envelope.payload);}
   write(payload){const temp=`${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;const bytes=`${JSON.stringify({payload,sha256:sha(payload)},null,2)}\n`;preservedReplace(this.file,bytes,()=>{fs.writeFileSync(temp,bytes,{flag:'wx',mode:0o600});const fd=fs.openSync(temp,'r+');try{fs.fsyncSync(fd);}finally{fs.closeSync(fd);}fs.renameSync(temp,this.file);});}
@@ -20,8 +86,20 @@ class DurableOrganismRuntime{
   setOrganAvailability(organId,available,dependency,authority){if(!this.organs[organId])throw new Error('Unknown organ.');const required=available?'governance+immune':'governance';if(authority!==required)throw new Error(`${required} authority is required to ${available?'recover':'inhibit'} an organ.`);return this.mutate(`organ:${organId}:${available?'recover':'unavailable'}`,(state)=>{state.organs[organId]={state:available?'healthy':'unavailable',dependency:available?null:(dependency||'unavailable dependency'),lastSeenAt:this.now()};return state;});}
   // Intake was already closed under a stop: submit refuses inside its own transaction. Left as
   // it was rather than duplicated here, where a second check would drift from the first.
-  submit({id,type,sourceOrgan,targetOrgan,boundary,payload}){if(!id||!targetOrgan||!boundary)throw new Error('Bounded work identity, target, and boundary are required.');return this.mutate(`submit:${id}`,(state)=>{if(state.stopped)throw new Error('Independent oversight STOP inhibits the organism.');const key=sha({id,type,sourceOrgan,targetOrgan,boundary,payload});if(state.completedKeys.includes(key)||state.queue.some((item)=>item.key===key))return state;if(state.queue.length>=this.maximumQueue)throw new Error('Heartbeat backpressure limit reached; work is inhibited, not dropped.');state.queue.push({id,key,type,sourceOrgan,targetOrgan,boundary,payload,submittedAt:this.now(),attempts:0,state:'queued'});return state;});}
-  async heartbeat(limit=25){let state=this.read();if(state.stopped)return{state:'stopped-by-independent-oversight',processed:0,health:this.health()};const due=state.queue.filter((item)=>item.state==='queued'&&(!item.notBefore||Date.parse(item.notBefore)<=Date.parse(this.now()))).slice(0,limit),results=[];for(const item of due){state=this.read();const organ=state.organs[item.targetOrgan];if(!organ||organ.state!=='healthy'){this.mutate(`inhibit:${item.id}`,(next)=>{const queued=next.queue.find((value)=>value.key===item.key);queued.state='inhibited';queued.reason=organ?.dependency||'missing organ';return next;});results.push({id:item.id,state:'inhibited'});continue;}const circulation=new CardiopulmonaryCirculation({projectId:this.projectId,organs:{[item.targetOrgan]:async(envelope,payload)=>this.organs[item.targetOrgan]({envelope,payload,memory:this.learningStore.retrieve({boundary:item.boundary})})},maximumSignals:this.maximumQueue,now:this.now});circulation.admit({projectId:this.projectId,type:item.type,sourceOrgan:item.sourceOrgan,targetOrgan:item.targetOrgan,boundary:item.boundary},item.payload);try{const [result]=await circulation.pump();
+  submit({id,type,sourceOrgan,targetOrgan,boundary,payload}){if(!this.inFlight&&!this.attendedWorkAllowed())throw new Error('Attended worker is idle or disconnected; preserve work and reconnect through the session host.');if(!id||!targetOrgan||!boundary)throw new Error('Bounded work identity, target, and boundary are required.');return this.mutate(`submit:${id}`,(state)=>{if(state.stopped)throw new Error('Independent oversight STOP inhibits the organism.');const key=sha({id,type,sourceOrgan,targetOrgan,boundary,payload});if(state.completedKeys.includes(key)||state.queue.some((item)=>item.key===key))return state;if(state.queue.length>=this.maximumQueue)throw new Error('Heartbeat backpressure limit reached; work is inhibited, not dropped.');state.queue.push({id,key,type,sourceOrgan,targetOrgan,boundary,payload,submittedAt:this.now(),attempts:0,state:'queued'});return state;});}
+  async heartbeat(limit=25) {
+    if(this.inFlight)throw new Error('A heartbeat is already executing in this worker.');
+    await this.checkUserInactivity();
+    if(this.inFlight)throw new Error('A heartbeat is already executing in this worker.');
+    if(!this.attendedWorkAllowed())return{state:'attended-worker-disconnected',processed:0,sessionState:this.read().attendedSession?.state,health:this.health()};
+    this.inFlight=1;let result,failure;
+    try{result=await this.processHeartbeat(limit);}catch(error){failure=error;}
+    this.inFlight=0;
+    try{await this.checkUserInactivity();}catch(error){if(!failure)failure=error;}
+    if(failure)throw failure;
+    return{...result,sessionState:this.read().attendedSession?.state||null};
+  }
+  async processHeartbeat(limit=25){let state=this.read();if(state.stopped)return{state:'stopped-by-independent-oversight',processed:0,health:this.health()};const due=state.queue.filter((item)=>item.state==='queued'&&(!item.notBefore||Date.parse(item.notBefore)<=Date.parse(this.now()))).slice(0,limit),results=[];for(const item of due){if(!this.attendedWorkAllowed())break;state=this.read();const organ=state.organs[item.targetOrgan];if(!organ||organ.state!=='healthy'){this.mutate(`inhibit:${item.id}`,(next)=>{const queued=next.queue.find((value)=>value.key===item.key);queued.state='inhibited';queued.reason=organ?.dependency||'missing organ';return next;});results.push({id:item.id,state:'inhibited'});continue;}const circulation=new CardiopulmonaryCirculation({projectId:this.projectId,organs:{[item.targetOrgan]:async(envelope,payload)=>this.organs[item.targetOrgan]({envelope,payload,memory:this.learningStore.retrieve({boundary:item.boundary})})},maximumSignals:this.maximumQueue,now:this.now});circulation.admit({projectId:this.projectId,type:item.type,sourceOrgan:item.sourceOrgan,targetOrgan:item.targetOrgan,boundary:item.boundary},item.payload);try{const [result]=await circulation.pump();
       if(result.output?.recoveryHeld===true){
         this.mutate(`recovery-held:${item.id}`,(next)=>{const queued=next.queue.find(value=>value.key===item.key);queued.state='queued';queued.attempts++;queued.lastError=result.output.result?.operationalCode||'OPS-0049';queued.notBefore=new Date(Date.parse(this.now())+60000).toISOString();return next;});
         results.push({id:item.id,state:'recovery-held',output:result.output});continue;
