@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-16T10:07:02.152Z, codex-work-42efe8889a64: Thirty-minute USER inactivity checkpoint/disconnect implemented locally in existing runtime and production host boundary; sixteen focused tests pass. See activePlan.attendedWorkerInactivity and handoffNotes for unavailable ChatGPT host integration and pending exact-tip verification. Recovery hold and original work retained.
+
 - 2026-10-16T10:00:45.532Z, codex-work-42efe8889a64: Owner-directed claim transfer recorded; see AI-HANDOFF.json.activePlan.ownerAuthorizedTakeover, attendedWorkerInactivity and handoffNotes. Thirty-minute USER inactivity disconnect selected. P0 recovery remains first; private predecessor work and process stop are unverified.
 
 
@@ -276,6 +278,12 @@ Plain-language summary: Recorded the owner's explicit transfer of Crucible repos
 - `native handOffClaim and routing` — started 2026-10-16T10:00:45.532Z, finished 2026-10-16T10:00:45.532Z, exit 0; owner-file-transport-20261008-resumed-after-nvidia-20261011 -> owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016; p0-recovery-system-20261015 -> p0-recovery-system-20261015-owner-20261016; p0-recovery-research-writers-20261015 -> p0-recovery-research-writers-20261015-owner-20261016; p0-recovery-orchestrator-20261015 -> p0-recovery-orchestrator-20261015-owner-20261016; p0-recovery-route-contract-20261015 -> p0-recovery-route-contract-20261015-owner-20261016; p0-recovery-production-route-20261015 -> p0-recovery-production-route-20261015-owner-20261016; p0-recovery-evidence-20261015 -> p0-recovery-evidence-20261015-owner-20261016; p0-recovery-normal-activity-hold-20261015 -> p0-recovery-normal-activity-hold-20261015-owner-20261016; p0-recovery-intake-cli-hold-20261015 -> p0-recovery-intake-cli-hold-20261015-owner-20261016; p0-hosted-recovery-custody-20261016 -> p0-hosted-recovery-custody-20261016-owner-20261016; p0-recovery-windows-workload-budget-20261016 -> p0-recovery-windows-workload-budget-20261016-owner-20261016; acquired worker-idle-disconnect-20261016.
 - `owner clarification` — started 2026-10-16T10:00:45.532Z, finished 2026-10-16T10:00:45.532Z, exit 0; user inactivity must disconnect the worker after thirty minutes; background activity must not reset that timer.
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
+
+- `native idle-disconnect implementation and focused verification` — started 2026-10-16T10:03:00.000Z, finished 2026-10-16T10:07:02.152Z, exit 0; sixteen tests passed, no failures or skipped tests; timer operates without another heartbeat, and user activity arriving during checkpoint cancels the obsolete disconnect.
+- `hosted takeover governance and retention` — started 2026-10-16T10:07:02.152Z, finished 2026-10-16T10:07:02.152Z, exit 0; CodeQL/conflict/handoff succeeded for 5aafbb5; Archive retention job116918898335 succeeded. Self-Test remained running at observation.
+- `local publication reconciliation` — started 2026-10-16T10:07:02.152Z, finished 2026-10-16T10:07:02.152Z, exit 0; preserved equivalent unpublished local commit under development-local-checkpoint and returned to development at the connector-published identical tree. No remote branch created.
+
+- `full native verification observation` — started 2026-10-16T10:07:38.512Z, finished 2026-10-16T10:07:38.512Z, exit 0; completed Orchestrator log records1145/1145,0failed/0skipped with actual OpenJDK17. Focused16/16, configuration/docs/coordination/conflict/circulation checks passed.
 
 ### Session: p0-recovery-system-20261015 — 2026-10-15T19:27:00.760Z — Codex — mode:work
 
