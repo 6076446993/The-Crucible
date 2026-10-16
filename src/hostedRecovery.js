@@ -7,7 +7,7 @@ const os = require('node:os');
 const { spawnSync } = require('node:child_process');
 const { RecoveryController } = require('./recoveryController');
 const { inventory, compare } = require('./recoverySystem');
-const { joinEncrypted, decrypt, encrypt, verifyRestored, sha256File } = require('./hostedSourceBundle');
+const { joinEncrypted, decrypt, verifyRestored, sha256File } = require('./hostedSourceBundle');
 const { decryptWeeklyEnvelope, sha } = require('./scientificLearning');
 const { learningBinding, STATE_CONTEXT } = require('./hostedLearningProof');
 const { operationalError } = require('./failureCodes');
@@ -22,6 +22,15 @@ function execute(command, args, options = {}) {
 }
 function extract(archive, target, kind) {
   execute(process.env.CRUCIBLE_RECOVERY_PYTHON || (process.platform === 'win32' ? 'python' : 'python3'), [path.join(__dirname,'..','scripts','recoveryArchive.py'),archive,target,kind]);
+}
+function recoveryCrypto(action,input,output,repository,ref) {
+  const keys=['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_VETTED_BUNDLE_KEY'].map(n=>Buffer.from(process.env[n]||'','base64'));
+  if(keys.some(k=>k.length!==32)||keys[0].equals(keys[1]))fail('two distinct existing custody key families required');
+  const derived=Buffer.from(crypto.hkdfSync('sha256',Buffer.concat(keys),Buffer.from('CrucibleRecovery/v1'),Buffer.from(`${repository}:${ref}:dual-custody`),32)).toString('base64');
+  const args=[path.join(__dirname,'hostedSourceBundle.js'),action,'--input',input,'--output',output,'--repository',repository,'--ref',ref];
+  if(action==='encrypt')args.push('--project-id',`github:${repository}`);else args.push('--keys','CRUCIBLE_SOURCE_BUNDLE_KEY');
+  // A child-only environment avoids changing either original key or process-global state.
+  return JSON.parse(execute(process.execPath,args,{timeout:600000,env:{...process.env,CRUCIBLE_SOURCE_BUNDLE_KEY:derived}}));
 }
 function semanticState(payload) {
   if (!payload || !Array.isArray(payload.candidateRecords) || !Array.isArray(payload.knowledgeVersions)) fail('learning population schema unavailable');
@@ -74,7 +83,7 @@ async function capture({ root, repository, ref, revision, coreRoot, rawRoot, vet
   fs.mkdirSync(root,{recursive:true,mode:0o700});
   const population = path.join(root,'population'), vault=path.join(root,'vault'), control=path.join(root,'control');
   for(const p of [population,vault,control])fs.mkdirSync(p,{mode:0o700});
-  const report = {schemaVersion:1,repository,ref,revision,startedAt:new Date().toISOString(),state:'held',sourceCapture:'immutable Git revision vector; not a quorum of live writer locks',completeLiveInventory:false,independentStorageVerified:false,independentSecurityPrincipal:false,restartAuthorized:false,zeroKnowledgeLossVerified:false,normalActivityResumed:false};
+  const report = {schemaVersion:2,repository,ref,revision,startedAt:new Date().toISOString(),state:'held',sourceCapture:'immutable Git revision vector; not a quorum of live writer locks',recoveryEncryption:'HKDF-SHA256 requires both existing raw and vetted key families; no generated replacement key',completeLiveInventory:false,independentStorageVerified:false,independentSecurityPrincipal:false,restartAuthorized:false,zeroKnowledgeLossVerified:false,normalActivityResumed:false};
   try {
     report.phase='immutable-repository-snapshots';
     report.custodyHistoryCoverage='current committed trees and exact tip commit metadata; complete historical Git replication remains held';
@@ -151,17 +160,17 @@ async function seal({root,output,repository,ref,reportFile=path.resolve('recover
   const complete=fs.readdirSync(path.join(root,'vault')).some(n=>/^[a-f0-9]{64}\.manifest\.json$/.test(n));
   if(fs.existsSync(reportFile))fs.copyFileSync(reportFile,path.join(root,'control','capture-report.json'),fs.constants.COPYFILE_EXCL);
   execute('tar',['-czf',archive,'-C',root,...(complete?['vault','control']:['population','vault','control'])],{timeout:600000});
-  try { return await encrypt({input:archive,output,projectId:`github:${repository}`,repository,ref}); }
+  try { return recoveryCrypto('encrypt',archive,output,repository,ref); }
   finally { fs.rmSync(archive,{force:true}); }
 }
 async function restoreBackup({input,root,repository,ref,revision,reportFile}) {
   if(repository!==REPOSITORY||ref!==REF||!/^[a-f0-9]{40}$/.test(revision||'')||fs.existsSync(root))fail('fresh exact-development restore required');
   const archive=`${root}.tar.gz`;
   try {
-    await decrypt({input,output:archive,repository,ref,keyNames:['CRUCIBLE_SOURCE_BUNDLE_KEY']});
+    recoveryCrypto('decrypt',input,archive,repository,ref);
     extract(archive,root,'tar');
     const captured=JSON.parse(fs.readFileSync(path.join(root,'control','capture-report.json')));
-    if(captured.revision!==revision||captured.repository!==repository||captured.ref!==ref||captured.state!=='captured-and-isolated-restore-verified')fail('backup source capture incomplete or differs');
+    if(captured.schemaVersion!==2||captured.revision!==revision||captured.repository!==repository||captured.ref!==ref||captured.state!=='captured-and-isolated-restore-verified')fail('backup source capture incomplete or differs');
     const configFile=path.join(root,'control','config.json'),config=JSON.parse(fs.readFileSync(configFile));
     if(config.revision!==revision||config.repository!==repository)fail('backup configuration binding differs');
     config.vault=path.join(root,'vault');fs.writeFileSync(configFile,JSON.stringify(config),{mode:0o600});

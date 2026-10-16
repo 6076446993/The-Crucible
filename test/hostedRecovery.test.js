@@ -45,6 +45,9 @@ test('authenticated corpus checkpoint survives source removal and encrypted-back
   assert.equal(report.populations.raw.learning.candidates,1);assert.equal(report.populations.retained.learningVersions,1);assert.equal(report.researchCachesCaptured,1);
   assert.equal(report.independentStorageVerified,false);assert.equal(report.restartAuthorized,false);assert.equal(git(rawRoot,'status','--porcelain'),'');assert.equal(git(vettedRoot,'status','--porcelain'),'');
   const encrypted=path.join(root,'backup.enc');await recovery.seal({root:work,output:encrypted,repository,ref,reportFile});
+  for(const key of ['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_VETTED_BUNDLE_KEY'])await assert.rejects(()=>bundle.decrypt({input:encrypted,output:path.join(root,`${key}-alone.tar.gz`),repository,ref,keyNames:[key]}));
+  const saved=process.env.CRUCIBLE_VETTED_BUNDLE_KEY;delete process.env.CRUCIBLE_VETTED_BUNDLE_KEY;
+  await assert.rejects(()=>recovery.restoreBackup({input:encrypted,root:path.join(root,'missing-family'),repository,ref,revision,reportFile:path.join(root,'missing.json')}),/two distinct/);process.env.CRUCIBLE_VETTED_BUNDLE_KEY=saved;
   for(const item of [rawRoot,vettedRoot,coreRoot,retainedRoot,work,researchRoot])fs.rmSync(item,{recursive:true});
   const restored=await recovery.restoreBackup({input:encrypted,root:path.join(root,'fresh-runner'),repository,ref,revision,reportFile:path.join(root,'restored.json')});
   assert.equal(restored.state,'uploaded-backup-restored-and-replayed');assert.equal(restored.postDigest,report.preDigest);

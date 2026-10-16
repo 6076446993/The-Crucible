@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T02:39:20.254556Z"
+    "lastActionAt": "2026-10-16T02:50:47.198958Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T02:37:47.153Z",
+      "selectedAt": "2026-10-16T02:48:07.710Z",
       "promptSha256": "3c42707055dc022e825617c59611c6d77404223639e480d9bd87565bdec0cf83",
-      "affectedPathsSha256": "e8e5d765a4227b2d223a191ee298831305f395e18553cbd8e78e54b90363f68e"
+      "affectedPathsSha256": "fcc0e48ee627bba2e4bd6643838ff11006546005ac745655e09553909a538ffe"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -245,7 +245,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T02:31:03.612702Z",
+    "lastUpdatedAt": "2026-10-16T02:50:47.198958Z",
     "currentStep": "Recovery-only hosted custody capture and fresh-runner restoration implemented; native1131/1131 and4focused recovery cases passed. Publish and observe actual encrypted corpus preservation before recording acceptance; independent storage/principal and deployed bootstrap remain held.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -3488,7 +3488,15 @@
             "originalSha256": "b1806d403e676a5f59a4b57cab68b44014120032e9208a6bff7c6c83fbdc13a9",
             "recoveryApplication": "Representative fixtures, adversarial outcomes, deterministic evaluators and execution traces support recovery regression and diagnostic testing. Subjective LLM scoring cannot authorize byte integrity or independently verify a restore.",
             "broaderDisposition": "Preserve curated agent-evaluation dataset/version-comparison ideas in existing plan for later governed evaluation; no production trace ingestion, external monitoring credentials or model calls.",
-            "originalPdfImportedIntoPrivateCorpus": false
+            "originalPdfImportedIntoPrivateCorpus": false,
+            "originalPersistentIdentity": {
+              "libraryFileId": "libfile_eb9789147910819187fb0c791d6f5657",
+              "fileId": "file_00000000fdb481f59a62770945598646",
+              "name": "eBook-2026AIAgentsBestPractices.pdf",
+              "bytes": 1864435,
+              "sha256": "b1806d403e676a5f59a4b57cab68b44014120032e9208a6bff7c6c83fbdc13a9",
+              "verification": "Existing preserved original materialized and byte-hash matched current direct download; no duplicate created; not imported into private learning corpus."
+            }
           }
         ],
         "pipelineDisposition": "Logged within existing governed recovery research and preserved plans. Normal discovery/intake/extraction stays P0-held; no candidates promoted and no new research automation. Original downloaded PDF remains a reproducible research input; live original-byte custody is not claimed."
@@ -3776,6 +3784,135 @@
           "known": "Raw artifact download completed; custom Python ZIP extraction refused before decryption. Original uploaded encrypted artifact remains retained. No uploaded-backup restoration success claimed.",
           "cause": "Not isolated: initial generic extraction diagnostic withheld exception class.",
           "repair": "Use pinned official actions/download-artifact v4 (tag ref verified via GitHub API) for its native artifact packaging, then require exactly two regular expected downloaded files and native authenticated checkpoint restoration. Add safe class/errno-only archive diagnostics."
+        },
+        "verifiedUploadedRestore": {
+          "sourceRevision": "ec914228110d5ed9343c8c7664502a287c7d2c2b",
+          "runId": 38841669400,
+          "preserveJobId": 116782944947,
+          "restoreJobId": 116783765377,
+          "report": {
+            "schemaVersion": 1,
+            "repository": "6076446993/The-Crucible",
+            "ref": "refs/heads/development",
+            "revision": "ec914228110d5ed9343c8c7664502a287c7d2c2b",
+            "startedAt": "2026-10-16T02:41:45.887Z",
+            "state": "uploaded-backup-restored-and-replayed",
+            "sourceCapture": "immutable Git revision vector; not a quorum of live writer locks",
+            "completeLiveInventory": false,
+            "independentStorageVerified": false,
+            "independentSecurityPrincipal": false,
+            "restartAuthorized": false,
+            "zeroKnowledgeLossVerified": false,
+            "normalActivityResumed": false,
+            "phase": "captured",
+            "custodyHistoryCoverage": "current committed trees and exact tip commit metadata; complete historical Git replication remains held",
+            "rawRevision": "e627a695b1898ea7bcc24f884d066bf835868a30",
+            "vettedRevision": "d0e9be11bf5c6fc77c84f0222923b1a599090ece",
+            "retainedArtifact": {
+              "runId": "38841669381",
+              "artifactId": "12021622480"
+            },
+            "researchCachesCaptured": 2,
+            "authentication": {
+              "raw": {
+                "decryptedWith": "CRUCIBLE_SOURCE_BUNDLE_KEY",
+                "plaintextSha256": "db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b",
+                "plaintextBytes": 239116863,
+                "provenance": "raw-intake"
+              },
+              "vetted": {
+                "decryptedWith": "CRUCIBLE_VETTED_BUNDLE_KEY",
+                "plaintextSha256": "184ed789ff38b6d107a5f17eec27eda3899a2ebaefb75443d1c68b7853d408f7",
+                "plaintextBytes": 213833385,
+                "provenance": "oversight-vetted"
+              }
+            },
+            "checkpointId": "f254985ef67963cb983d68f084d79c22914af5f80b135adfbc6b3840a1d5f1d4",
+            "populations": {
+              "raw": {
+                "provenance": "raw-intake",
+                "sources": 541,
+                "sourceIdentityDigest": "0a4587773a9ee7ff0972df9d78925801388247742dc9849f59b2be23e5e1505b",
+                "sourceAndExtractionProgressDigest": "d1a5ab7cab98893fa10f3a4bb314192e80e887316d9e16fbfff2d4024dcb8296",
+                "originalSourceDigest": "cadeee896710718dd097d833f9302c565bababdcff2b832e16d592a55c1044f2",
+                "originalSourceFiles": 425,
+                "learning": {
+                  "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                  "revision": 2564,
+                  "candidates": 29799,
+                  "candidateIdentityDigest": "c18f1385cde3eb0b6930d52894e7296588a7f9a840b2b07695c14e36f7ad67e5",
+                  "candidateAndEvidenceDigest": "e2237f5c223070c64151ce1ad23a7841f93432359f6fbc0d14da18ba0eddcfd9",
+                  "learningVersions": 1,
+                  "learningVersionDigest": "14ae27cfd66dc8b5993dd2fce5d8c8cf1ba2987dfec1604953ea6471b808e106",
+                  "completePayloadDigest": "8e80dc1092086a51f8c5f05b564adf595d886e6f3cc9aaa3dea25577321a64a1"
+                }
+              },
+              "vetted": {
+                "provenance": "oversight-vetted",
+                "sources": 509,
+                "sourceIdentityDigest": "abaab9c9b4a078340cd7f57dfed70b7c769d71ba5c46afbc3f36b389e6a01f58",
+                "sourceAndExtractionProgressDigest": "22ab906b4c690aa2a7c5a64dc3e6cee8c43fb0e776a2c5152f286910087576cb",
+                "originalSourceDigest": "b8f4424596993d5224307120c769830c7351376cdbccaf617b0b8ce108468e1f",
+                "originalSourceFiles": 378,
+                "learning": {
+                  "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                  "revision": 2166,
+                  "candidates": 26683,
+                  "candidateIdentityDigest": "f4768dfec915a6994d95317219be185e6e4f25f77bd864d36151ef360d79afa8",
+                  "candidateAndEvidenceDigest": "5751114ce917346d7b4a2d6c73501b4a01ba25ce8766bf9c91de978fbd088977",
+                  "learningVersions": 0,
+                  "learningVersionDigest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                  "completePayloadDigest": "9d19412d5de82d516543704eb8161db2aa34d64ef0ecc456cf2007fce7e32c4d"
+                }
+              },
+              "retained": {
+                "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                "revision": 60,
+                "candidates": 11,
+                "candidateIdentityDigest": "ce9c8f107384bb0296bc5d537f5fda29cd51da4019979a35e7e7e4b01c71db9d",
+                "candidateAndEvidenceDigest": "5cf8d414df6ea80139f5c640c43f22f4e07fd6657dcfa93727a719f592e8815c",
+                "learningVersions": 3,
+                "learningVersionDigest": "a9293d1319d650e18a5b380249b37e82ea65311f301bc093374b0adb2e0e25b9",
+                "completePayloadDigest": "44d95321649ed7402a634792d55f4e9720612abc88599fdb60ca5de74e7abbed"
+              }
+            },
+            "preDigest": "1278e7ffdb357d8a96ff9874efc0b6591dcd476f9c95650589f2024cf17ba23f",
+            "postDigest": "1278e7ffdb357d8a96ff9874efc0b6591dcd476f9c95650589f2024cf17ba23f",
+            "files": 1290,
+            "bytes": 1701311962,
+            "remaining": [
+              "complete-custody-git-history-replication-to-capacity-appropriate-independent-storage",
+              "independent-retention-locked-storage-and-recovery-key-custody",
+              "distinct-principal-live-restore-and-signed-receipt",
+              "complete-operator-and-cache-history-root-inventory",
+              "deployed-bootstrap-binding"
+            ],
+            "finishedAt": "2026-10-16T02:44:52.291Z",
+            "encryptedBackupSha256": "622840b14ce9303ae281d502407cf9973744a0c1b952bb2164299ea1c6cddb40",
+            "separateRunnerRestoreVerified": true
+          },
+          "artifactId": 12020679127,
+          "restorationReportArtifactId": 12021697550,
+          "result": "success",
+          "scope": "Actual off-runner encrypted artifact restoration and exact replay; same security principal; no independent retention or restart authorization."
+        },
+        "dualCustodyEncryption": {
+          "at": "2026-10-16T02:50:47.198958Z",
+          "format": "recovery capture schema2; source-bundle AES256GCM envelope with HKDF-SHA256 composite key",
+          "derivation": "32byte raw key ||32byte vetted key; saltCrucibleRecovery/v1; infoexactrepository:ref:dual-custody;32byte output; originals unchanged",
+          "implementation": "Existing source-bundle CLI in child-only environment; no process-global key change, generated key replacement, rotation or key upload.",
+          "tests": "Raw key alone and vetted key alone cannot decrypt the fixture capsule; missing family refuses; both keys restore and replay identical state.",
+          "legacyTestCapsules": [
+            {
+              "artifactId": 12021357124,
+              "sourceRevision": "39265d21485d0b2633271e99e84b4af2aa7b69f6"
+            },
+            {
+              "artifactId": 12020679127,
+              "sourceRevision": "ec914228110d5ed9343c8c7664502a287c7d2c2b"
+            }
+          ],
+          "legacyDisposition": "Original test capsules retained as historical evidence, labeled single-family encryption; they do not satisfy independent protection. Governed authenticated rewrap and exact-copy verification are required before any retirement; no fallback from schema2 to legacy keys."
         }
       }
     },
@@ -6008,10 +6145,10 @@
         "id": "pipeline-backup",
         "deliverable": "Preserve all pending/current live pipeline state before writes",
         "status": "in-progress",
-        "evidence": "Authenticated live current-tree capture1290files/1701000438bytes and isolated restore verified in38840650851; encrypted artifact12021357124 retained; uploaded-copy restore still pending.",
-        "nextAction": "Finish fresh-runner uploaded-backup restore; obtain independent enforced retention, recoverable key custody and signed acceptance before release.",
+        "evidence": "Actual encrypted uploaded backup38841669400 restored and replayed on fresh runner,1290files/1701311962bytes, digest1278e7ffdb357d8a96ff9874efc0b6591dcd476f9c95650589f2024cf17ba23f. Distinct principal/protected retention remain unverified; dual-family encryption follow-up under verification.",
+        "nextAction": "Verify dual-family hosted capsule, preserve historical state/receipt coverage, obtain independent retention/key custody and signed acceptance before release.",
         "owner": "Codex",
-        "observedAt": "2026-10-16T02:39:20.254556Z",
+        "observedAt": "2026-10-16T02:50:47.198958Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "current",
         "reason": "Proof artifact is not full pipeline backup",
@@ -6040,14 +6177,21 @@
       {
         "id": "pipeline-key-recovery",
         "deliverable": "Check current-key compatibility with raw ciphertext",
-        "status": "in-progress",
-        "evidence": "Read-only hosted raw authentication probe added; only configured raw current/previous key names, no generated replacements",
-        "nextAction": "Inspect actual hosted authentication outcome before planning intake",
+        "status": "verified",
+        "evidence": "Raw exact heade627a695b1898ea7bcc24f884d066bf835868a30 authenticated with currentCRUCIBLE_SOURCE_BUNDLE_KEY in actual hosted38841669400; archive SHA256db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b,239116863bytes.",
+        "nextAction": "Retain distinct key custody; this closes compatibility only and authorizes no intake, release or restart.",
         "owner": "Codex",
-        "observedAt": "2026-10-11T16:50:00Z",
+        "observedAt": "2026-10-16T02:50:47.198958Z",
         "maxEvidenceAgeHours": 24,
-        "freshness": "historical",
-        "originatedAt": "2026-10-11"
+        "freshness": "current",
+        "originatedAt": "2026-10-11",
+        "priorEvidence": [
+          {
+            "at": "2026-10-11T16:50:00Z",
+            "evidence": "Read-only hosted raw authentication probe added; only configured raw current/previous key names, no generated replacements"
+          }
+        ],
+        "verification": "Actual authenticated source archive decrypted and full current corpus checkpointed/restored; no replacement key generated."
       },
       {
         "id": "research-NMI",
@@ -7003,6 +7147,18 @@
         "evidence": "271commits enumerated;270report headers group into3learning/queue states, counts29/94/147. No ciphertext obsolescence or deletion verified.",
         "reason": "Historical ciphertext authentication and independent retained restoration/receipt custody remain prerequisites; source custody has no granted rewrite operation.",
         "nextAction": "Use the existing recovery operation registry to preserve representative states plus every custody receipt, verify source/evidence/version/provenance equivalence for all generations, retain held diagnostics, and perform no deletion until independent acceptance."
+      },
+      {
+        "id": "recovery-capsule-key-boundary",
+        "deliverable": "Require both raw and vetted custody families for mixed recovery vaults and retain authenticated legacy capsule history",
+        "status": "implemented-local",
+        "owner": "Codex / existing recovery orchestrator",
+        "observedAt": "2026-10-16T02:50:47.198958Z",
+        "originatedAt": "2026-10-16T02:50:47.198958Z",
+        "maxEvidenceAgeHours": 24,
+        "freshness": "current",
+        "evidence": "HKDF composite encryption passes single-family refusal and both-family restore/replay fixtures; older two test artifacts retained and labeled.",
+        "nextAction": "Verify actual schema2 hosted restore, then independently protect/rewrap all retained legacy capsules with exact-copy receipts before any retirement."
       }
     ],
     "continuationPolicy": "Oldest relevant unfinished request first. Preserve original request dates across status updates. Blocked older work stays first and its prerequisites are worked before newer improvements; unknown ages require triage rather than guessing."
