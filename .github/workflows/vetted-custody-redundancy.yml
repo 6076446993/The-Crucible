@@ -1,0 +1,61 @@
+name: Check vetted custody publication redundancy (read-only)
+on:
+  workflow_dispatch:
+  push:
+    branches: [development]
+    paths:
+      - '.github/workflows/vetted-custody-redundancy.yml'
+permissions:
+  contents: read
+concurrency:
+  group: crucible-vetted-custody-redundancy-development
+  cancel-in-progress: false
+jobs:
+  inspect:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Inspect two signed custody reports from independent vetted repository
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_VETTED_STATE_READ_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$STATE_DEPLOY_KEY"
+          mkdir -p "$RUNNER_TEMP/vetted-state-ssh" "$RUNNER_TEMP/vetted-read" vetted-custody-audit
+          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/vetted-state-ssh/key"
+          chmod 600 "$RUNNER_TEMP/vetted-state-ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/vetted-state-ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/vetted-state-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/vetted-state-ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git clone --filter=blob:none --no-checkout --depth=2 git@github.com:6076446993/Crucible-Vetted-Learning-State.git "$RUNNER_TEMP/vetted-read/repo"
+          test "$(git -C "$RUNNER_TEMP/vetted-read/repo" rev-list --count HEAD)" -eq 2
+          git -C "$RUNNER_TEMP/vetted-read/repo" show HEAD:encrypted-custody-report.json > "$RUNNER_TEMP/vetted-read/current.json"
+          git -C "$RUNNER_TEMP/vetted-read/repo" show HEAD^:encrypted-custody-report.json > "$RUNNER_TEMP/vetted-read/previous.json"
+          node --check scripts/vettedSnapshotEquivalence.js
+          node scripts/vettedSnapshotEquivalence.js --self-test
+          node scripts/vettedSnapshotEquivalence.js "$RUNNER_TEMP/vetted-read/previous.json" "$RUNNER_TEMP/vetted-read/current.json" vetted-custody-audit/semantic-comparison.json
+          node - <<'JS'
+          const fs=require('fs'),cp=require('child_process'),path=require('path');
+          const root=path.join(process.env.RUNNER_TEMP,'vetted-read','repo');
+          const git=(...args)=>cp.execFileSync('git',['-C',root,...args],{encoding:'utf8'}).trim();
+          const current=JSON.parse(fs.readFileSync('vetted-custody-audit/semantic-comparison.json','utf8'));
+          const report={...current,sourceRepository:'6076446993/Crucible-Vetted-Learning-State',previousCommit:git('rev-parse','HEAD^'),currentCommit:git('rev-parse','HEAD'),authenticatedVettedSource:true,sourceHistoryModified:false,sourceCiphertextDownloaded:false,previousCustodySignatureIndependentlyVerified:false};
+          fs.writeFileSync('vetted-custody-audit/semantic-comparison.json',JSON.stringify(report,null,2)+'\n');
+          JS
+      - name: Publish metadata-only comparison
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: vetted-custody-redundancy-${{ github.run_id }}
+          path: vetted-custody-audit/*.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Clear ephemeral read credentials and reports
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/vetted-read" "$RUNNER_TEMP/vetted-state-ssh"
