@@ -127,9 +127,15 @@ for (const stage of ['before-publication', 'after-publication']) test(`native ad
   const original=store.read().outcomes[0], pending=evidence('interrupted');
   const {spawnSync}=require('node:child_process');
   const modulePath=require.resolve('../src/adaptiveLearning');
-  const script=`const fs=require('node:fs'); const {OutcomeStore}=require(${JSON.stringify(modulePath)}); const store=new OutcomeStore(process.argv[1],process.argv[2]); const rename=fs.renameSync; fs.renameSync=(a,b)=>{if(b===store.file&&process.argv[3]==='before-publication')process.kill(process.pid,'SIGKILL');rename(a,b);if(b===store.file)process.kill(process.pid,'SIGKILL');};store.record(JSON.parse(process.argv[4]));`;
-  const killed=spawnSync(process.execPath,['-e',script,root,projectId,stage,JSON.stringify(pending)]);
-  assert.equal(killed.signal,'SIGKILL');
+  const script=`const fs=require('node:fs'); const {OutcomeStore}=require(${JSON.stringify(modulePath)}); const store=new OutcomeStore(process.argv[1],process.argv[2]); const rename=fs.renameSync; const stop=()=>{fs.writeSync(1,'publication-cut:'+process.argv[3]);process.kill(process.pid,'SIGKILL');};fs.renameSync=(a,b)=>{if(b===store.file&&process.argv[3]==='before-publication')stop();rename(a,b);if(b===store.file)stop();};store.record(JSON.parse(process.argv[4]));`;
+  const killed=spawnSync(process.execPath,['-e',script,root,projectId,stage,JSON.stringify(pending)],{encoding:'utf8',timeout:15000});
+  assert.equal(killed.error,undefined);
+  assert.equal(killed.stdout,'publication-cut:'+stage);
+  assert.notEqual(killed.status,0);
+  // Windows reports forced process termination as a nonzero exit status with no
+  // POSIX signal. The exact cut marker, journal and replay checks apply on all OSes.
+  if(process.platform==='win32')assert.equal(killed.signal,null);
+  else assert.equal(killed.signal,'SIGKILL');
   const recovery=require('../src/recoverySystem');
   assert.throws(()=>store.read(),/interrupted transaction/);
   const intent=recovery.readJournal(store.file).at(-1);
