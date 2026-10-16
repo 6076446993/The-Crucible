@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T02:23:09.822634Z"
+    "lastActionAt": "2026-10-16T02:26:12.871465Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T02:22:01.766Z",
+      "selectedAt": "2026-10-16T02:25:44.311Z",
       "promptSha256": "3c42707055dc022e825617c59611c6d77404223639e480d9bd87565bdec0cf83",
-      "affectedPathsSha256": "fcc0e48ee627bba2e4bd6643838ff11006546005ac745655e09553909a538ffe"
+      "affectedPathsSha256": "50d925c49c54c29d2fd6f2bf087360e2f18d615eb7e62ceff5e8c45ade2bbd7d"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -3538,7 +3538,23 @@
           "change": "Preserve exact current committed ciphertext trees and tip commit metadata; retain full core source/plan Git history. Complete private Git historical replication stays held for capacity-appropriate independent storage. Never call shallow checkout full history."
         },
         "previousBehavior": "Read-only full Git histories, authenticated raw/vetted originals and retained encrypted learning state; registered checkpoint; encrypted off-host artifact; fresh-runner restore without custody SSH keys and exact replay.",
-        "verificationFollowup": "42focused tests and complete pre-push passed1131native. Current-tree recovery uses a separate serialized concurrency group so a capacity-limited older read-only history fetch cannot block preservation; no source writes or cancellation of checkpoints."
+        "verificationFollowup": "42focused tests and complete pre-push passed1131native. Current-tree recovery uses a separate serialized concurrency group so a capacity-limited older read-only history fetch cannot block preservation; no source writes or cancellation of checkpoints.",
+        "dependencyCorrection": {
+          "sourceRevision": "f2dfb5332e110fe47c5ae0c320b837009b9817c3",
+          "runId": 38840241227,
+          "jobId": 116778419670,
+          "actual": "Raw/vetted shallow clones and retained hosted artifact extraction succeeded; module load failed before capture: existing hostedLearningProof dependency requires typescript. No checkpoint or artifact created.",
+          "repair": "Both recovery jobs install locked dependencies with npm ci --ignore-scripts before credentials and capture; no learner or lifecycle script runs."
+        },
+        "historyCleanupAssessment": {
+          "ownerInstruction": "If you need to clear any of that 59 gb to make space figure out whats obsolete first then continue",
+          "at": "2026-10-16T02:26:12.871465Z",
+          "currentRawTreeBytes": 710700405,
+          "currentVettedTreeBytes": 213976760,
+          "currentPrivateTreeFiles": 29,
+          "status": "Read-only audit in progress; no historical generation verified obsolete. Current snapshots fit runner without deletion.",
+          "rule": "Identify candidate/evidence/version/source/provenance-equivalent generations using authenticated plaintext before proposing compaction; ciphertext difference or age alone never proves obsolescence. Retain originals until verified independent recovery. Removing files at current Git tip does not reclaim reachable Git history."
+        }
       }
     },
     "recoveryContinuationPriorContext": {

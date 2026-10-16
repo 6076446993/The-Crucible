@@ -69,7 +69,7 @@ test('recovery extraction refuses traversal, symlinks and duplicate archive memb
 });
 test('hosted recovery has no publication or R2 authority and fresh restore receives no custody deploy key',()=>{
   const workflow=fs.readFileSync(path.join(__dirname,'..','.github','workflows','recovery-custody.yml'),'utf8');
-  assert.match(workflow,/contents: read/);assert.match(workflow,/actions: read/);assert.match(workflow,/cancel-in-progress: false/);
+  assert.equal((workflow.match(/npm ci --ignore-scripts/g)||[]).length,2);assert.match(workflow,/contents: read/);assert.match(workflow,/actions: read/);assert.match(workflow,/cancel-in-progress: false/);
   assert.doesNotMatch(workflow,/git push|contents: write|secrets: write|r2FailoverProof|learning:.*run|source-bundle-key-manager/);
   const restored=workflow.split('  restore-uploaded-backup:')[1];assert.ok(restored);assert.doesNotMatch(restored,/DEPLOY_KEY|RAW_READ_KEY|VETTED_READ_KEY/);assert.match(restored,/restore-backup/);assert.doesNotMatch(workflow,/fetch --unshallow/);assert.match(workflow,/cat recovery-report\.json/);assert.match(workflow,/cat recovery-restoration-report\.json/);
 });
