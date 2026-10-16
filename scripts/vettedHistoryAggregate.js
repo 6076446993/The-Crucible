@@ -43,7 +43,7 @@ function historicCompare(a,b){
 function summarize(rows) {
  const byCipher=new Map(),byChunk=new Map(),semanticRuns=[],revisions=[];
  let redundantVersions=0,redundantBytes=0,changedVersions=0,unresolved=0,logicalBytes=0,chunkBytes=0;
- let semanticallyMatchingWorkerDigestChanges=0;
+ let semanticallyMatchingWorkerDigestChanges=0,matchingMetadataStableWorkerDigestCount=0,matchingMetadataStableWorkerDigestBytes=0,matchingMetadataMissingWorkerDigestCount=0;
  const unresolvedByReason={};
  const unknown=reason=>{unresolved++;unresolvedByReason[reason]=(unresolvedByReason[reason]||0)+1;};
  let previous=null,lastSemantic=null,hasNew=false;
@@ -69,8 +69,11 @@ function summarize(rows) {
   for(const c of m.chunks)if(!byChunk.has(c.sha256)){byChunk.set(c.sha256,c.bytes);chunkBytes+=c.bytes;}
   if(repeat){
    redundantVersions++;redundantBytes+=m.encryptedBytes;
-   if(previous?.workerCandidateExport?.plaintextSha256!==r?.workerCandidateExport?.plaintextSha256)
-     semanticallyMatchingWorkerDigestChanges++;
+   const oldDigest=previous?.workerCandidateExport?.plaintextSha256;
+   const newDigest=r?.workerCandidateExport?.plaintextSha256;
+   if(!SUM.test(oldDigest)||!SUM.test(newDigest))matchingMetadataMissingWorkerDigestCount++;
+   else if(oldDigest!==newDigest)semanticallyMatchingWorkerDigestChanges++;
+   else {matchingMetadataStableWorkerDigestCount++;matchingMetadataStableWorkerDigestBytes+=m.encryptedBytes;}
   }else changedVersions++;
   previous=r;
   revisions.push({commit:row.commit,semanticSameAsPrevious:repeat,payloadBytes:m.encryptedBytes});
@@ -83,6 +86,9 @@ function summarize(rows) {
   logicalEncryptedBytesAcrossValidatedVersions:logicalBytes,
   logicalBytesAssociatedWithRedundantSemanticVersions:redundantBytes,
   matchingMetadataWithChangedWorkerExportDigest:semanticallyMatchingWorkerDigestChanges,
+  matchingMetadataWithMissingWorkerExportDigest:matchingMetadataMissingWorkerDigestCount,
+  matchingMetadataWithIdenticalWorkerExportDigest:matchingMetadataStableWorkerDigestCount,
+  logicalCiphertextBytesWithMatchingMetadataAndWorkerDigest:matchingMetadataStableWorkerDigestBytes,
   underlyingPlaintextEqualityProvenForMatchingMetadata:false,
   historicalByteSavingsVerified:false,
   distinctCiphertextDigestCount:byCipher.size,
@@ -122,7 +128,7 @@ function selfTest(){
  function report(n=0) {return {schemaVersion:1,projectId:'test',sourceCiphertextSha256:c('a'),vettedCiphertextSha256:c(n===0?'b':'f'),queueSha256:c('c'),learningSha256:c('d'),sourceCount:1,approvedCount:1,quarantinedCount:0,sourceReviews:[{sourceId:'1',decision:'approved'}],decision:'approved',scientificProofSatisfied:true,promotionAuthorized:false,independentOversight:true,generatedAt:String(n),enforcedQuarantine:true,workerCandidateExport:{workerSha:'1'.repeat(40),priorVettedStateSha:'2'.repeat(40),generatedAt:String(n),plaintextSha256:c('e'),candidateCount:1,queueSourceCount:1,candidateOnly:true,independentlyValidated:true}};}
  const m=(n)=>({encryptedSha256:c(n===0?'b':'f'),encryptedBytes:4,chunks:[{sha256:c(n===0?'b':'f'),bytes:4}]});
  const r=summarize([{commit:'x',report:report(0),manifest:m(0)},{commit:'y',report:report(1),manifest:m(1)}]);
- if(r.validatedVersions!==2||r.consecutiveRedundantSemanticVersions!==1||r.logicalBytesAssociatedWithRedundantSemanticVersions!==4)throw Error('History aggregation self-test failed');
+ if(r.validatedVersions!==2||r.consecutiveRedundantSemanticVersions!==1||r.logicalBytesAssociatedWithRedundantSemanticVersions!==4||r.matchingMetadataWithIdenticalWorkerExportDigest!==1)throw Error('History aggregation self-test failed');
  const changed=report(1);changed.sourceReviews[0].decision='rejected';
  const x=summarize([{commit:'x',report:report(0),manifest:m(0)},{commit:'y',report:changed,manifest:m(1)}]);
  if(x.consecutiveRedundantSemanticVersions!==0)throw Error('Governance decision changes masked as redundancy');
