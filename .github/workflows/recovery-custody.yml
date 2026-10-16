@@ -138,15 +138,10 @@ jobs:
       - name: Install locked recovery dependencies without lifecycle scripts
         run: npm ci --ignore-scripts
       - name: Download only this run's encrypted recovery artifact
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" --jq '.artifacts[] | select(.name | startswith("recovery-custody-")) | .id' | head -n 1)"
-          test -n "$artifact"
-          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact/zip" > "$RUNNER_TEMP/recovery-download.zip"
-          python3 scripts/recoveryArchive.py "$RUNNER_TEMP/recovery-download.zip" "$RUNNER_TEMP/recovery-downloaded" backup-zip
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: recovery-custody-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/recovery-downloaded
       - name: Restore and replay uploaded backup without custody repository credentials
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}

@@ -45,6 +45,10 @@ function corpusState(root, provenance) {
   for(const source of manifest.sourceFiles)if(fs.statSync(path.join(root,'sources',source.name)).size!==source.bytes)fail('original source byte count differs');
   return { provenance, sources:ids.length, sourceIdentityDigest:digest([...ids].sort()), sourceAndExtractionProgressDigest:digest(queue), originalSourceDigest:digest(manifest.sourceFiles), originalSourceFiles:manifest.sourceFiles.length, learning:semanticState(envelope.payload) };
 }
+function validateDownloadedBackup(root) {
+  const entries=inventory(root).entries;
+  if(entries.length!==2||entries.some(e=>e.type!=='file'||!['recovery-custody.enc','recovery-report.json'].includes(e.path)))fail('downloaded backup members differ');
+}
 function retainedState(root, env = process.env) {
   const envelope = JSON.parse(fs.readFileSync(path.join(root,'store.envelope.json')));
   const binding = learningBinding(REPOSITORY,REF), key = Buffer.from(env.CRUCIBLE_HOSTED_STORE_KEY || '', 'base64');
@@ -104,6 +108,7 @@ async function capture({ root, repository, ref, revision, coreRoot, rawRoot, vet
       joinEncrypted({inputRoot:path.join(population,'ciphertext',name),output:cipher});
       const opened=await decrypt({input:cipher,output:archive,repository,ref,keyNames:keys});
       if(opened.provenance!==provenance)fail('decrypted custody provenance differs');
+      report.authentication ||= {};report.authentication[name]={decryptedWith:opened.decryptedWith,plaintextSha256:opened.plaintextSha256,plaintextBytes:opened.plaintextBytes,provenance:opened.provenance};
       extract(archive,path.join(population,'corpus',name),'tar');
       fs.unlinkSync(cipher);fs.unlinkSync(archive);
     }
@@ -177,8 +182,8 @@ async function main(argv=process.argv.slice(2)) {
   const [action]=argv, env=process.env, root=path.join(env.RUNNER_TEMP || '', 'crucible-recovery-capture');
   if(action==='capture')return capture({root,repository:env.GITHUB_REPOSITORY,ref:env.GITHUB_REF,revision:env.GITHUB_SHA,coreRoot:process.cwd(),rawRoot:path.join(env.RUNNER_TEMP,'recovery-input/raw'),vettedRoot:path.join(env.RUNNER_TEMP,'recovery-input/vetted'),retainedRoot:path.join(env.RUNNER_TEMP,'recovery-retained'),researchRoots:['.hosted-pointer-research-6076446993','.hosted-perplexity-research'].map(p=>path.resolve(p)),reportFile:path.resolve('recovery-report.json')});
   if(action==='seal')return seal({root,output:path.resolve('recovery-custody.enc'),repository:env.GITHUB_REPOSITORY,ref:env.GITHUB_REF});
-  if(action==='restore-backup')return restoreBackup({input:path.join(env.RUNNER_TEMP,'recovery-downloaded','recovery-custody.enc'),root:path.join(env.RUNNER_TEMP,'crucible-backup-restoration'),repository:env.GITHUB_REPOSITORY,ref:env.GITHUB_REF,revision:env.GITHUB_SHA,reportFile:path.resolve('recovery-restoration-report.json')});
+  if(action==='restore-backup'){validateDownloadedBackup(path.join(env.RUNNER_TEMP,'recovery-downloaded'));return restoreBackup({input:path.join(env.RUNNER_TEMP,'recovery-downloaded','recovery-custody.enc'),root:path.join(env.RUNNER_TEMP,'crucible-backup-restoration'),repository:env.GITHUB_REPOSITORY,ref:env.GITHUB_REF,revision:env.GITHUB_SHA,reportFile:path.resolve('recovery-restoration-report.json')});}
   fail('unsupported hosted recovery operation');
 }
-module.exports={semanticState,corpusState,retainedState,capture,seal,restoreBackup,extract};
+module.exports={validateDownloadedBackup,semanticState,corpusState,retainedState,capture,seal,restoreBackup,extract};
 if(require.main===module)main().then(r=>console.log(JSON.stringify({state:r.state||'encrypted',restartAuthorized:false}))).catch(()=>{console.error('[OPS-0049] Hosted recovery held; inspect bounded report.');process.exitCode=1;});

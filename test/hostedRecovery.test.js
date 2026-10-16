@@ -73,3 +73,9 @@ test('hosted recovery has no publication or R2 authority and fresh restore recei
   assert.doesNotMatch(workflow,/git push|contents: write|secrets: write|r2FailoverProof|learning:.*run|source-bundle-key-manager/);
   const restored=workflow.split('  restore-uploaded-backup:')[1];assert.ok(restored);assert.doesNotMatch(restored,/DEPLOY_KEY|RAW_READ_KEY|VETTED_READ_KEY/);assert.match(restored,/restore-backup/);assert.doesNotMatch(workflow,/fetch --unshallow/);assert.match(workflow,/cat recovery-report\.json/);assert.match(workflow,/cat recovery-restoration-report\.json/);
 });
+
+test('downloaded recovery artifact requires exactly two regular expected members',t=>{
+  const root=rootFixture(t);fs.writeFileSync(path.join(root,'recovery-custody.enc'),'encrypted fixture');fs.writeFileSync(path.join(root,'recovery-report.json'),'{}');
+  recovery.validateDownloadedBackup(root);fs.writeFileSync(path.join(root,'unexpected'),'extra');assert.throws(()=>recovery.validateDownloadedBackup(root),/members differ/);
+  fs.unlinkSync(path.join(root,'unexpected'));fs.unlinkSync(path.join(root,'recovery-report.json'));assert.throws(()=>recovery.validateDownloadedBackup(root),/members differ/);
+});
