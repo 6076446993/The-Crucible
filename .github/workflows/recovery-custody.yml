@@ -98,10 +98,11 @@ jobs:
         if: always()
         run: |
           if [ -f recovery-report.json ]; then cat recovery-report.json; fi
-      - name: Seal recovery vault and diagnostic custody using the existing key
+      - name: Seal recovery vault requiring both existing custody key families
         if: always()
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_VETTED_BUNDLE_KEY: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY }}
         run: |
           if [ -d "$RUNNER_TEMP/crucible-recovery-capture/population" ]; then
             node src/hostedRecovery.js seal
@@ -145,6 +146,7 @@ jobs:
       - name: Restore and replay uploaded backup without custody repository credentials
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_VETTED_BUNDLE_KEY: ${{ secrets.CRUCIBLE_VETTED_BUNDLE_KEY }}
           CRUCIBLE_HOSTED_STORE_KEY: ${{ secrets.CRUCIBLE_HOSTED_STORE_KEY }}
         run: node src/hostedRecovery.js restore-backup
       - name: Record bounded restoration evidence for governed verification
