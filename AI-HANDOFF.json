@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T22:12:42.181Z"
+    "lastActionAt": "2026-10-16T22:21:33.903Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T22:11:40.872Z",
+      "selectedAt": "2026-10-16T22:21:33.897Z",
       "promptSha256": "c6705200a8e8e011990d5e0e0048af2fe5cc1732f45c3fc8f1fea2043daa7acd",
-      "affectedPathsSha256": "6c8554f47d97fd9012530e4505ea13c2cfc8525e8d0700facd940c5cecdbaa8d"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -247,8 +247,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T22:12:42.181Z",
-    "currentStep": "Original pipeline-diagnostics: explicit isolated .NET/NuGet environment addresses actual Windows native analyzer failure;1169native tests pass; hosted Windows follow-up required. Issue49 production reduction remains externally blocked.",
+    "lastUpdatedAt": "2026-10-16T22:21:33.903Z",
+    "currentStep": "Production acceptance externally blocked: preserve independent retention/restoration/publication/physical-reduction gates and original task order; permitted P0 backup/diagnostics implementation and restoration evidence recorded.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016",
@@ -445,7 +445,7 @@
         "detail": "No distinct security principal has restored the live corpus and signed its exact state. No independent gate is set passed."
       }
     ],
-    "nextAction": "Verify exact-tip native recovery/hosted platform checks and retain the original pending order; obtain independent protected retention/key custody, complete historical restoration and separately pinned receipt before any production storage cleanup or normal intake.",
+    "nextAction": "Keep normal intake, research, learning, R2 and promotion held. Resume the original oldest eligible task only after separately accepted protected live recovery and owner continuation; use existing Actions evidence for exact source validation, never create a replacement backlog.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -460,7 +460,8 @@
         "Issue49 native stable identities/atomic queue registry journal/encrypted CAS/signature and complete-current-population reconciliation integrated at1f7bad2;1156native tests passed; macOS hosted temporary-root regression observed and follow-up prepared. No production migration or physical reduction.",
         "Resumed original pipeline-backup native recovery proposal after recording issue49 external blockers; durable adaptation stores, native lock/replay, held direct URL/security ingress and missing-hosted-state refusal integrated.45focused/1167native passed;6workflow guard/absence cases passed. Development publication and hosted verification pending; no restart or cleanup authority.",
         "Existing pipeline-diagnostics: actual compiler timeout could resolve as successful exit0; native failing regression and minimal killed/signal/noninteger-code rejection fix implemented.12semantic/1168full native tests pass; no deadline increase, production proof restart or priority change. Hosted verification pending.",
-        "Original diagnostics follow-up: Windows native Roslyn job117216360499 exposed missing SDK profile/cache variables across sanitized child boundary. Real child regression fails before fix; explicit private paths and existing no-workload settings pass13semantic/1169native. Parent secrets remain excluded; exact Windows proof pending."
+        "Original diagnostics follow-up: Windows native Roslyn job117216360499 exposed missing SDK profile/cache variables across sanitized child boundary. Real child regression fails before fix; explicit private paths and existing no-workload settings pass13semantic/1169native. Parent secrets remain excluded; exact Windows proof pending.",
+        "Existing issue49 native foundation and original P0 pipeline-backup/diagnostics continuation published. Latest executable source7bb5a49:1169native,13/13dedicated hosted analyzers on both Windows/Linux, CodeQL/handoff/conflict passed; main matrix live at38974519596.453-file source/plan/Git-history clean-process restoration matched exactly. This is software evidence, not production migration/independent live recovery/storage reduction."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -468,7 +469,8 @@
         "Run registered checkpoint, independent restoration and exact hash/count/identity/provenance comparison over the live corpus; pin the distinct verifier public key and signed receipt.",
         "Wire every deployed restart entry through the recovery preflight and existing orchestrator heartbeat registry; hold missing dependencies and retry approved operations.",
         "Keep normal activity inhibited until independently accepted recovery and owner continuation; no main promotion or live R2 restart.",
-        "Issue49: historical independent cold restoration, protected retention/key custody under distinct principal, Oversight publisher adoption, actual provider physical measurement and owner-authorized cleanup remain blocked; original P0 pipeline-backup continuation preserved."
+        "Issue49: historical independent cold restoration, protected retention/key custody under distinct principal, Oversight publisher adoption, actual provider physical measurement and owner-authorized cleanup remain blocked; original P0 pipeline-backup continuation preserved.",
+        "Existing issue49 acceptance remains blocked by independent protected retention/key custody, complete historical cold restoration/signed receipt, Oversight-owned publisher adoption and actual physical storage/owner-authorized cleanup. Preserve original ledger, October7live-intake age, P0 hold, excluded owner-file API contract and no R2/main resumption. Canonical Oversight repository access is resolved (trailing period)."
       ]
     },
     "filesTouched": [
@@ -533,7 +535,7 @@
         "existingTaskId": "pipeline-diagnostics",
         "originatedAt": "2026-10-11",
         "observation": "Older Windows20 job117211038607/run38971602867: missing Java analyzer class after62seconds. Native actual100ms interruption resolves success exitCode0 because null error.code defaults to zero. No production proof authority granted.",
-        "status": "fixed-native-verified-hosted-pending",
+        "status": "native-and-dedicated-hosted-verified",
         "redRegression": "actual100ms compiler child timeout incorrectly resolved as exitCode0; regression fails before fix",
         "change": "Only ordinary integer exit codes can use allowExitCodes; killed/signaled/unknown-code failures always reject. No timeout raised.",
         "focusedTests": {
@@ -563,7 +565,7 @@
             "failed": 0,
             "skipped": 0
           },
-          "windowsHostedFollowupRequired": true,
+          "windowsHostedFollowupRequired": false,
           "sources": [
             "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-environment-variables",
             "https://github.com/dotnet/sdk/blob/main/src/Tasks/Microsoft.NET.Build.Tasks/targets/Microsoft.NET.Sdk.props"
@@ -591,7 +593,22 @@
               "failed": 0,
               "skipped": 0
             },
-            "windowsAcceptance": "pending-exact-hosted-followup"
+            "windowsAcceptance": {
+              "status": "passed",
+              "sourceSha": "7bb5a494cedb113495446345208544d7b0cba027",
+              "runId": 38974519609,
+              "jobId": 117220617597,
+              "tests": 13,
+              "failed": 0,
+              "skipped": 0
+            },
+            "linuxAcceptance": {
+              "runId": 38974519609,
+              "jobId": 117220617909,
+              "tests": 13,
+              "failed": 0,
+              "skipped": 0
+            }
           }
         }
       }
@@ -4286,11 +4303,16 @@
           "observed": "Windows forced termination returns null POSIX signal; two cut-point tests asserted SIGKILL.",
           "fix": "Require synchronous exact cut marker, error-free spawn and nonzero termination; POSIX signal asserted on POSIX, null on Windows. All original journal/retained-byte/replay/fresh-process/competition checks retained.",
           "focusedTestsPassed": 9,
-          "hostedFollowupRequired": true,
+          "hostedFollowupRequired": false,
           "fullNativeFollowup": {
             "passed": 1167,
             "failed": 0,
             "skipped": 0
+          },
+          "verifiedAllPlatformSource": {
+            "sha": "3423ac39aa342fb31046420f5161f4ded8abab76",
+            "runId": 38972328628,
+            "allNinePassed": true
           }
         },
         "sourcePlanRollbackVerification": {
@@ -4524,7 +4546,7 @@
         "java": "fresh isolated complete OpenJDK17"
       },
       "nativeIntegration": {
-        "status": "native-verified-hosted-ci-pending",
+        "status": "native-and-dedicated-hosted-verified-production-not-accepted",
         "files": [
           "src/evidenceStorage.js",
           "src/claimExtractionWorker.js",
@@ -4542,7 +4564,7 @@
           "Independent authority and storage protection remain external gates."
         ],
         "nativeTests": {
-          "passed": 1157,
+          "passed": 1169,
           "failed": 0,
           "skipped": 0
         },
@@ -4588,7 +4610,83 @@
         "policy": "OVERSIGHT-POLICY.md explicitly withholds Crucible write/configuration/trigger/verifier-identity authority and disallows importing Crucible runtime modules.",
         "source": "independent-oversight.yml always encrypts approved merged custody before signed publication; independent no-change adoption remains required.",
         "oversightMutated": false
-      }
+      },
+      "softwareVerification": {
+        "sourceSha": "7bb5a494cedb113495446345208544d7b0cba027",
+        "sourceTree": "8e034525ecac3428d53a7fe9a6770a0eab0cde82",
+        "nativeTests": 1169,
+        "nativeFailures": 0,
+        "nativeSkipped": 0,
+        "dependencyVulnerabilities": 0,
+        "nativeAnalysisRun": 38974519609,
+        "nativeAnalysisJobs": [
+          117220617597,
+          117220617909
+        ],
+        "nativeAnalysisTestsEach": 13,
+        "nativeAnalysisBothPassed": true,
+        "codeqlRun": 38974519572,
+        "codeqlPassed": true,
+        "selfTestRun": 38974519596,
+        "selfTestStatusSource": "Authoritative live GitHub Actions result; do not infer matrix completion from local tests.",
+        "handoffRun": 38974519809,
+        "conflictRun": 38974519605,
+        "handoffAndConflictPassed": true,
+        "observedAt": "2026-10-16T22:21:33.903Z"
+      },
+      "sourcePlanRollbackVerification": {
+        "revision": "7bb5a494cedb113495446345208544d7b0cba027",
+        "checkpoint": "537b0e69a8ecb58a7b8b2eb05c15a00f3853fe45c311126c1b6b46cca2ea65c7",
+        "files": 453,
+        "bytes": 10125204,
+        "inventorySha256": "76fe4c556dbc9932b45acf647c3e0f84f9f47195e576ac6447cc9a3a0f87ae3d",
+        "comparison": {
+          "ok": true,
+          "missing": [],
+          "changed": [],
+          "added": []
+        },
+        "cleanProcessRestore": true,
+        "gitHistoryBundleVerified": true,
+        "originalPlanAndWorkLedgerPreserved": true,
+        "liveCustodyCovered": false,
+        "independentSecurityPrincipalVerified": false,
+        "cleanupAuthorized": false
+      },
+      "productionAcceptance": "NOT VERIFIED; no production migration, evidence deletion, history rewrite or storage reduction performed.",
+      "filesChangedSinceStartingSha": [
+        ".github/workflows/auto-repair-learning.yml",
+        ".github/workflows/hosted-learning-proof.yml",
+        "AI-HANDOFF.json",
+        "DEVLOG.md",
+        "governingDocuments/recovery-system.md",
+        "src/adaptiveLearning.js",
+        "src/circulationLinkage.js",
+        "src/claimExtractionWorker.js",
+        "src/evidenceStorage.js",
+        "src/recoverySystem.js",
+        "src/securityLearning.js",
+        "src/securityLearningCli.js",
+        "src/semanticAnalysis.js",
+        "src/sourceRetrievalWorker.js",
+        "src/sourceRetrievalWorkerCli.js",
+        "src/testCadenceCoreLegacy.js",
+        "test/_testCadenceCore.js",
+        "test/adaptiveLearning.test.js",
+        "test/evidenceStorage.test.js",
+        "test/securityLearning.test.js",
+        "test/semanticAnalysis.test.js",
+        "test/sourceRetrievalWorker.test.js",
+        "test/workflow.test.js"
+      ],
+      "remainingAcceptanceGates": [
+        "Independently protected versioned retention and recoverable custody keys under a distinct principal, with worker deletion denied.",
+        "Complete historical signed-version/source/candidate/queue/journal restoration and independently pinned signed acceptance; current adjacent pair and local source round trips are insufficient.",
+        "Independent Oversight-owned no-change publisher adoption in its own implementation; Crucible cannot write/configure/trigger/import itself there.",
+        "Actual provider physical-storage measurement below45decimalGB, preferably40; GitHub59517884KiB metadata is not physical acceptance.",
+        "Required restoration proof and exact owner authorization before any evidence deletion or history rewrite.",
+        "Complete operator/cache/unpublished-root inventory and deployed bootstrap binding; preserve existing unresolved owner-file API/snapshot contract."
+      ]
     }
   },
   "handoffNotes": {
