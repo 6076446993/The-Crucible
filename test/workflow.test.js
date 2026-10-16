@@ -504,7 +504,14 @@ test('only owner-authorized manual publishers may push ciphertext to raw custody
     }
     // Every state reference is cloned first; the two manual publishers are the
     // bounded exceptions that write regenerated ciphertext back to raw intake.
-    assert.match(text, /git clone --depth 1 git@github\.com:6076446993\/Crucible-(Vetted-)?Learning-State\.git/, `${file} reaches a state repository other than by cloning it`);
+    const historicalReadOnlyAudits = new Set(['vetted-custody-redundancy.yml', 'vetted-history-metadata-audit.yml', 'vetted-version-content-comparison.yml']);
+    if (historicalReadOnlyAudits.has(file)) {
+      assert.match(text, /^permissions:\r?\n  contents: read\r?$/m);
+      assert.doesNotMatch(text, /contents: write|git[^\n]*(?:push|filter-branch|filter-repo|\bgc\b)/);
+      assert.match(text, /git clone (?:(?:--filter=blob:none|--filter=blob:limit=200k|--single-branch|--no-checkout|--depth(?:=| )[12]) )*git@github\.com:6076446993\/Crucible-Vetted-Learning-State\.git/, `${file} must clone only the named vetted repository for historical reads`);
+    } else {
+      assert.match(text, /git clone --depth 1 git@github\.com:6076446993\/Crucible-(Vetted-)?Learning-State\.git/, `${file} reaches a state repository other than by cloning it`);
+    }
   }
   const intake = fs.readFileSync(path.join(workflowDir, 'owner-file-intake.yml'), 'utf8').replace(/\r\n/g, '\n');
   assert.match(intake, /workflow_dispatch:/);
