@@ -91,3 +91,69 @@ test('learning policy activation is verified versioned and rollbackable', (t) =>
   policies.rollback(v1.version, { reason:'regression evidence', approvedBy:'oversight', at:'2026-09-29T18:14:00.000Z' });
   assert.equal(policies.active()[0].strategy, 'v2');
 });
+
+test('Outcome store refuses recreation after a retained generation disappears', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-outcome-recovery-'));
+  t.after(() => fs.rmSync(root, { recursive:true, force:true }));
+  const store = new OutcomeStore(root, 'the-crucible');
+  assert.equal(require('../src/recoverySystem').assertFileRestart(store.file).tracked, true);
+  fs.unlinkSync(store.file);
+  assert.throws(() => store.read(), /restart inhibited|committed state missing|integrity/i);
+  assert.throws(() => new OutcomeStore(root, 'the-crucible'), /restart inhibited|committed state missing|integrity/i);
+});
+
+test('Legacy learning policy is journaled byte-for-byte before future changes', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-policy-recovery-'));
+  t.after(() => fs.rmSync(root, { recursive:true, force:true }));
+  const projectId = 'the-crucible', { sha } = require('../src/scientificLearning');
+  const file = path.join(root, `${sha(projectId)}.policies.json`);
+  const original = Buffer.from(JSON.stringify({schemaVersion:1, projectId, revision:1, policies:[]}) + '\n');
+  fs.writeFileSync(file, original);
+  new LearningPolicyStore(root, projectId);
+  assert.deepEqual(fs.readFileSync(file), original);
+  assert.equal(require('../src/recoverySystem').assertFileRestart(file).tracked, true);
+  fs.unlinkSync(file);
+  assert.throws(() => new LearningPolicyStore(root, projectId), /restart inhibited|committed state missing|integrity/i);
+});
+
+
+for (const stage of ['before-publication', 'after-publication']) test(`native adaptation SIGKILL ${stage} replays exact outcomes without losing prior evidence`, t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-adaptation-kill-'));
+  t.after(() => fs.rmSync(root, { recursive:true, force:true }));
+  const projectId='isolated-adaptation-fixture';
+  const store=new OutcomeStore(root,projectId);
+  const evidence=id=>({projectId,outcomeId:id,lifecycle:'repair',outcome:'repair-succeeded',expected:'retain complete observation',actual:'measured isolated observation',observedAt:'2026-10-16T09:00:00.000Z'});
+  store.record(evidence('retained'));
+  const original=store.read().outcomes[0], pending=evidence('interrupted');
+  const {spawnSync}=require('node:child_process');
+  const modulePath=require.resolve('../src/adaptiveLearning');
+  const script=`const fs=require('node:fs'); const {OutcomeStore}=require(${JSON.stringify(modulePath)}); const store=new OutcomeStore(process.argv[1],process.argv[2]); const rename=fs.renameSync; fs.renameSync=(a,b)=>{if(b===store.file&&process.argv[3]==='before-publication')process.kill(process.pid,'SIGKILL');rename(a,b);if(b===store.file)process.kill(process.pid,'SIGKILL');};store.record(JSON.parse(process.argv[4]));`;
+  const killed=spawnSync(process.execPath,['-e',script,root,projectId,stage,JSON.stringify(pending)]);
+  assert.equal(killed.signal,'SIGKILL');
+  const recovery=require('../src/recoverySystem');
+  assert.throws(()=>store.read(),/interrupted transaction/);
+  const intent=recovery.readJournal(store.file).at(-1);
+  assert.equal(intent.phase,'intent');
+  const fresh=spawnSync(process.execPath,['-e',`new (require(${JSON.stringify(modulePath)}).OutcomeStore)(process.argv[1],process.argv[2]);`,root,projectId],{encoding:'utf8'});
+  assert.notEqual(fresh.status,0,'a fresh writer must refuse while the interrupted lock is too recent');
+  for(const f of [store.file+'.lock',store.file+'.recovery.lock']) fs.utimesSync(f,new Date(Date.now()-31000),new Date(Date.now()-31000));
+  recovery.withRecoveryWriterLock(store.file,()=>recovery.replayFile(store.file,intent.after));
+  recovery.withRecoveryWriterLock(store.file,()=>recovery.replayFile(store.file,intent.after));
+  const resumed=new OutcomeStore(root,projectId);
+  assert.deepEqual(resumed.read().outcomes.map(x=>x.outcomeId),['retained','interrupted']);
+  assert.deepEqual(resumed.read().outcomes[0],original);
+  resumed.record(pending);
+  assert.equal(resumed.read().outcomes.length,2);
+});
+
+test('adaptation refuses a competing native writer and retains exact committed bytes',t=>{
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-adaptation-lock-'));
+  t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+  const projectId='isolated-adaptation-fixture',store=new OutcomeStore(root,projectId);
+  const original=fs.readFileSync(store.file);
+  const {withRecoveryWriterLock}=require('../src/recoverySystem');
+  withRecoveryWriterLock(store.file,()=>{
+    assert.throws(()=>store.record({projectId,outcomeId:'competing',lifecycle:'repair',outcome:'repair-failed',expected:'serialize writers',actual:'lock refused',observedAt:'2026-10-16T09:00:00.000Z'}),/lock|concurren|running/i);
+  });
+  assert.deepEqual(fs.readFileSync(store.file),original);
+});

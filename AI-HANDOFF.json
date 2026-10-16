@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T21:45:53.081Z"
+    "lastActionAt": "2026-10-16T21:48:27.987Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -231,11 +231,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Affected paths select crucible-core.",
-      "explicitOverride": false,
-      "selectedAt": "2026-10-16T21:44:56.131Z",
+      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
+      "explicitOverride": true,
+      "selectedAt": "2026-10-16T21:47:02.258Z",
       "promptSha256": "c6705200a8e8e011990d5e0e0048af2fe5cc1732f45c3fc8f1fea2043daa7acd",
-      "affectedPathsSha256": "973d6e8755a076c4575b74e56a06cd91d1186fd9babdd134fb1a97639267a27c"
+      "affectedPathsSha256": "3815730b220b41c41e19bbd974289572f0f7fdcf5e8eaf039de9c0b9d94166c0"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -247,8 +247,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T21:45:45.677Z",
-    "currentStep": "Issue49 native integration; resolve exact-tip macOS temporary-root failure and verify hosted matrix. Production storage blocked; resume original P0 pipeline-backup recovery proposal under preserved claims.",
+    "lastUpdatedAt": "2026-10-16T21:48:27.987Z",
+    "currentStep": "Original P0 pipeline-backup: native recovery proposal integrated and verified; publish and monitor exact-tip hosted checks. Issue49 production acceptance remains externally blocked.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016",
@@ -445,7 +445,7 @@
         "detail": "No distinct security principal has restored the live corpus and signed its exact state. No independent gate is set passed."
       }
     ],
-    "nextAction": "Publish tested recovery-only custody capture and fresh-runner restore; inspect actual authenticated corpus results; keep restart held pending independent retention/signature/bootstrap acceptance.",
+    "nextAction": "Verify exact-tip native recovery/hosted platform checks and retain the original pending order; obtain independent protected retention/key custody, complete historical restoration and separately pinned receipt before any production storage cleanup or normal intake.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -457,7 +457,8 @@
         "Full native1126/1126;21recovery tests; old-source lock exclusion and initializer regressions reproduced then fixed;433-file exact restoration verified.",
         "Final source e34c052: native1127/1127 and22recovery cases; clean433-file restoration preserves all captured plans, ledger, provenance bytes and Git bundle. CodeQL/handoff/conflict checks passed; platform matrix pending.",
         "Exact final source e34c052: all9Linux/macOS/Windows Node20/22/24 jobs passed, run38798675616; CodeQL38798675575, handoff38798675591, conflict38798675576 passed. Windows complete job log confirms1127/1127, zero skipped, nested-directory regression passed.",
-        "Issue49 native stable identities/atomic queue registry journal/encrypted CAS/signature and complete-current-population reconciliation integrated at1f7bad2;1156native tests passed; macOS hosted temporary-root regression observed and follow-up prepared. No production migration or physical reduction."
+        "Issue49 native stable identities/atomic queue registry journal/encrypted CAS/signature and complete-current-population reconciliation integrated at1f7bad2;1156native tests passed; macOS hosted temporary-root regression observed and follow-up prepared. No production migration or physical reduction.",
+        "Resumed original pipeline-backup native recovery proposal after recording issue49 external blockers; durable adaptation stores, native lock/replay, held direct URL/security ingress and missing-hosted-state refusal integrated.45focused/1167native passed;6workflow guard/absence cases passed. Development publication and hosted verification pending; no restart or cleanup authority."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -4193,8 +4194,23 @@
         "proposal": "recovery-reviewed.patch retained in owner handoff",
         "base": "558dc06130ff494cbac3c368175d46b19d4b04f6",
         "currentApplyCheck": "passes against1f7bad2",
-        "status": "reviewed-awaiting-governed-native-integration-and-exact-tip-verification",
-        "excludedOwnerFileApiContract": "Still unresolved; preserve existing snapshot/transport tests and no caller-controlled bypass"
+        "status": "integrated-native-verified-hosted-pending",
+        "excludedOwnerFileApiContract": "Still unresolved; preserve existing snapshot/transport tests and no caller-controlled bypass",
+        "integrationBaseSha": "4260fafe289da17172293c5acfce76c753531ed7",
+        "focusedTests": {
+          "passed": 45,
+          "failed": 0,
+          "skipped": 0
+        },
+        "nativeTests": {
+          "passed": 1167,
+          "failed": 0,
+          "skipped": 0
+        },
+        "workflowHoldCasesPassed": 6,
+        "circulationDirectEdges": 57,
+        "defaultBranchDeploymentVerified": false,
+        "normalActivityResumed": false
       }
     },
     "recoveryContinuationPriorContext": {
@@ -6383,6 +6399,31 @@
       "purpose": "Existing issue49 native stable evidence identities, encrypted immutable objects, exact restoration and signed checkpoint verification",
       "status": "active",
       "acquiredAt": "2026-10-16T21:33:28.435Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-native-recovery-proposal-integration-20261016",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/auto-repair-learning.yml",
+          "src/adaptiveLearning.js",
+          "src/securityLearning.js",
+          "src/securityLearningCli.js",
+          "src/sourceRetrievalWorkerCli.js",
+          "test/adaptiveLearning.test.js",
+          "test/securityLearning.test.js",
+          "test/sourceRetrievalWorker.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Resume existing pipeline-backup recovery proposal in original order while issue49 independent custody and physical reduction gates are externally blocked.",
+      "status": "active",
+      "acquiredAt": "2026-10-16T21:47:02.353Z",
       "handedOffTo": null,
       "releasedAt": null
     }

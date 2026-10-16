@@ -170,6 +170,13 @@ function appendRecord(root, records, record) {
   const previous = records.length ? digest(fs.readFileSync(path.join(root, `${String(records.length - 1).padStart(12, '0')}.json`))) : null;
   immutable(path.join(root, `${String(records.length).padStart(12, '0')}.json`), Buffer.from(json({ ...record, previous }) + '\n'));
 }
+// Keep native read/modify/write transactions on the shared recovery boundary.
+// The native lock encloses the read as well as journaled publication, preventing
+// two adaptation writers from reading one revision and losing one another's work.
+function withRecoveryWriterLock(file, operation) {
+  const held = acquireDurableLock(`${file}.lock`, { description:'Recovery native writer lock' });
+  try { return operation(); } finally { held.release(); }
+}
 function preservedReplace(file, bytes, publish, fault = () => {}, { expectedMissing = false } = {}) {
   const held = acquireDurableLock(`${file}.recovery.lock`, { description:'Recovery journal writer lock' });
   try {
@@ -306,4 +313,4 @@ function authorizeRestart({ receipt, publicKey, id, projectId, revision, workerI
   if (s.id !== id || s.projectId !== projectId || s.revision !== revision || !workerIdentity || s.workerIdentity !== workerIdentity || !s.verifierIdentity || !s.backupIdentity || new Set([workerIdentity, s.verifierIdentity, s.backupIdentity]).size !== 3 || s.restoreVerified !== true || s.retentionLocked !== true || s.workerDeleteDenied !== true || s.populationVerified !== true || !Number.isFinite(Date.parse(s.verifiedAt)) || Date.parse(s.verifiedAt) > now || !Number.isFinite(Date.parse(s.expiresAt)) || Date.parse(s.expiresAt) <= now || !Number.isFinite(Date.parse(s.retentionUntil)) || Date.parse(s.retentionUntil) < Date.parse(s.expiresAt)) refuse('recovery receipt does not authorize exact protected state');
   return { restartAuthorized:true, id, projectId, revision, promotionAuthorized:false };
 }
-module.exports = { inventory, compare, hashFile, syncDirectory, preservedReplace, assertFileRestart, replayFile, readJournal, historyRoot, checkpoint, loadCheckpoint, restore, authorizeRestart, assertNormalActivityAllowed };
+module.exports = { withRecoveryWriterLock, inventory, compare, hashFile, syncDirectory, preservedReplace, assertFileRestart, replayFile, readJournal, historyRoot, checkpoint, loadCheckpoint, restore, authorizeRestart, assertNormalActivityAllowed };

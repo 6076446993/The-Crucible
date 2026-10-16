@@ -176,3 +176,47 @@ test('a refused source records the refusal and persists none of the bytes, which
   assert.equal(injection.evidence.contentPersisted, false);
   assert.equal(injection.promotionAuthorized, false);
 });
+
+test('Crucible P0 hold refuses source admission before changing the queue', async (t) => {
+  const policy = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'governingDocuments', 'recovery-operation-policy.json'), 'utf8'));
+  if (policy.mode === 'normal' && policy.independentRecoveryAccepted === true) return t.skip('Normal operations were independently authorized');
+  const { root, queueFile } = fixture(t);
+  const original = fs.readFileSync(queueFile);
+  const runCli = require('../src/sourceRetrievalWorkerCli').run;
+  const env = {
+    GITHUB_REPOSITORY:'6076446993/The-Crucible',
+    CRUCIBLE_LEARNING_PROJECT_ID:'github:6076446993/The-Crucible',
+    CRUCIBLE_LEARNING_ROOT:root,
+    CRUCIBLE_SOURCE_QUEUE:queueFile,
+  };
+  await assert.rejects(
+    () => runCli(['admit','https://developer.mozilla.org/en-US/docs/Web/JavaScript'], env),
+    /OPS-0049|recovery-only hold/i
+  );
+  assert.deepEqual(fs.readFileSync(queueFile), original, 'held admission must not change queue bytes');
+  await assert.rejects(() => runCli(['run'], env), /OPS-0049|recovery-only hold/i);
+});
+
+test('Hosted Crucible identity spoofing cannot bypass the recovery hold', async (t) => {
+  const { root, queueFile } = fixture(t);
+  const runCli = require('../src/sourceRetrievalWorkerCli').run;
+  const env = {
+    GITHUB_REPOSITORY:'6076446993/The-Crucible',
+    CRUCIBLE_LEARNING_PROJECT_ID:'github:unrelated/project',
+    CRUCIBLE_LEARNING_ROOT:root,
+    CRUCIBLE_SOURCE_QUEUE:queueFile,
+  };
+  await assert.rejects(() => runCli(['admit','https://developer.mozilla.org/example'], env), /OPS-0049/);
+  assert.equal(new AtomicClaimExtractionQueue(queueFile, PROJECT).read().links.length, 0);
+});
+
+test('direct delegated URL admission refuses P0 without changing canonical queue bytes', t => {
+  const {root,queueFile}=fixture(t);
+  const projectId='github:6076446993/The-Crucible';
+  fs.writeFileSync(queueFile,JSON.stringify({schemaVersion:1,projectId,documents:[],links:[]}));
+  const before=fs.readFileSync(queueFile);
+  assert.throws(()=>require('../src/sourceRetrievalWorker').registerOwnerDelegatedUrl({
+    queueFile,projectId,url:'https://www.nist.gov/example',trustedDomains:['www.nist.gov'],
+  }),/OPS-0049|recovery-only hold/i);
+  assert.deepEqual(fs.readFileSync(queueFile),before);
+});

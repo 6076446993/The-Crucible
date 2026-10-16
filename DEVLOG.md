@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-16T21:48:27.987Z, codex-work-42efe8889a64: Returned to existing pipeline-backup/P0 recovery continuation while issue49 independent retention, complete historical restore and physical reduction are externally blocked. See activePlan.recoverySystem.retainedProposalContinuation and unchanged workLedger. Native1167/1167 and45focused tests pass; exact-tip hosted verification pending; owner-file API/snapshot contract remains unresolved, no live intake/R2/main.
+
 - 2026-10-16T21:40:44.138Z, codex-work-42efe8889a64: Existing issue49 native integration adds optional queue-contained LEE registry/journal, authenticated encrypted objects, pinned signature checks and complete-current-population reconciliation. See activePlan.storageReductionIssue49; eight focused tests pass, final native/hosted checks pending. Production migration, historical independent restore and physical reduction remain unaccepted.
 
 - 2026-10-16T21:30:31.152Z, codex-work-42efe8889a64: Resumed existing issue49 storage task at cac6b938;30concurrent commits preserved. See activePlan.storageReductionIssue49 and handoffNotes for integration, actual baseline failures and external independent-custody dependencies. Current GitHub size59517884KiB; physical reduction and independent restoration unverified.
@@ -277,7 +279,7 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ### Session: issue49-storage-integration-20261016 — 2026-10-16T21:30:31.152Z — codex-work-42efe8889a64 — mode:work
 
-Plain-language summary: Resumed the existing owner-approved storage-reduction task and reconciled thirty additive commits without changing existing ownership or original priorities. The baseline exposes native registration/workflow assertions and a damaged local compiler; storage reduction and independent restoration remain unverified.
+Plain-language summary: Resumed issue49, reconciled concurrent work and integrated native evidence identities, encrypted storage and recovery without deleting custody data. Returned to the existing P0 backup work while independent historical restoration and physical storage reduction remain externally blocked.
 
 - `live continuation and issue49 reconciliation` — started 2026-10-16T21:30:31.152Z, finished 2026-10-16T21:30:31.152Z, exit0; exact starting revision cac6b93816312b25809b13e6e5a94fdf261d040d; existing successor actor and all12active claims unchanged.
 - `native baseline observation` — started 2026-10-16T21:30:31.152Z, finished 2026-10-16T21:30:31.152Z, exit1;15failures retained in storage-baseline-tests.log; five involve local JDK image corruption, remaining include missing rawCustodySubjectEvidence registration and a strict depth1-clone fixture.
@@ -298,6 +300,10 @@ Plain-language summary: Resumed the existing owner-approved storage-reduction ta
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
 
 - `actual hosted macOS regression` — started 2026-10-16T21:45:28.000Z, finished 2026-10-16T21:45:45.677Z, exit0;1f7bad2 macOS22job117209519752/run38971138592 reports seven evidenceStorage cases refused non-canonical OS temporary-root alias. Follow-up implements existing recovery temp-root contract and9focused cases pass; exact hosted follow-up remains required. CodeQL passed; no platform success is fabricated.
+
+- `route:prewrite; assertMutationAllowed; acquireClaim; git apply --check/apply recovery-reviewed.patch` — started 2026-10-16T21:47:02.353Z, finished 2026-10-16T21:48:27.987Z, exit0; original retained11-file recovery proposal applies to4260faf. Existing13claims retained; acquired only8unclaimed paths under p0-native-recovery-proposal-integration-20261016 and existing actor. No worker or backlog created. Durable adaptive outcome/policy stores and native snapshot lock, direct URL/security intake hold, hosted no-retained-state refusal and missing-report diagnosis integrated. Rejected owner-file API hunk remains excluded to preserve existing snapshot/transport contract.
+- `node --test test/adaptiveLearning.test.js test/securityLearning.test.js test/sourceRetrievalWorker.test.js test/recoverySystem.test.js; npm run test:all; npm run lint:workflows; npm run audit:circulation; python ../handoff/test_workflow_hold.py` — started 2026-10-16T21:47:02.353Z, finished 2026-10-16T21:48:27.987Z, exit0;45focused,1167native,0failed/0skipped;36workflow files linted;57direct circulation edges unchanged;5automatic-repair hold and1missing-report diagnostic case passed. Hosted/default-branch deployment and independent acceptance unverified.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
 
 ### Session: owner-authorized-takeover-20261016 — 2026-10-16T10:00:45.532Z — codex-work-42efe8889a64 — mode:work
 
