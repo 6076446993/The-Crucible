@@ -43,6 +43,7 @@ function historicCompare(a,b){
 function summarize(rows) {
  const byCipher=new Map(),byChunk=new Map(),semanticRuns=[],revisions=[];
  let redundantVersions=0,redundantBytes=0,changedVersions=0,unresolved=0,logicalBytes=0,chunkBytes=0;
+ let semanticallyMatchingWorkerDigestChanges=0;
  const unresolvedByReason={};
  const unknown=reason=>{unresolved++;unresolvedByReason[reason]=(unresolvedByReason[reason]||0)+1;};
  let previous=null,lastSemantic=null,hasNew=false;
@@ -66,7 +67,11 @@ function summarize(rows) {
   logicalBytes+=m.encryptedBytes;
   if(!byCipher.has(m.encryptedSha256))byCipher.set(m.encryptedSha256,m.encryptedBytes);
   for(const c of m.chunks)if(!byChunk.has(c.sha256)){byChunk.set(c.sha256,c.bytes);chunkBytes+=c.bytes;}
-  if(repeat){redundantVersions++;redundantBytes+=m.encryptedBytes;}else changedVersions++;
+  if(repeat){
+   redundantVersions++;redundantBytes+=m.encryptedBytes;
+   if(previous?.workerCandidateExport?.plaintextSha256!==r?.workerCandidateExport?.plaintextSha256)
+     semanticallyMatchingWorkerDigestChanges++;
+  }else changedVersions++;
   previous=r;
   revisions.push({commit:row.commit,semanticSameAsPrevious:repeat,payloadBytes:m.encryptedBytes});
  }
@@ -77,6 +82,9 @@ function summarize(rows) {
   changedOrFirstSemanticVersions:changedVersions,
   logicalEncryptedBytesAcrossValidatedVersions:logicalBytes,
   logicalBytesAssociatedWithRedundantSemanticVersions:redundantBytes,
+  matchingMetadataWithChangedWorkerExportDigest:semanticallyMatchingWorkerDigestChanges,
+  underlyingPlaintextEqualityProvenForMatchingMetadata:false,
+  historicalByteSavingsVerified:false,
   distinctCiphertextDigestCount:byCipher.size,
   distinctEncryptedChunkDigestCount:byChunk.size,
   distinctEncryptedChunkLogicalBytes:chunkBytes,
@@ -85,7 +93,7 @@ function summarize(rows) {
   historicalDeletionAuthorized:false,automaticPublicationSkipAuthorized:false,
   originalCustodyOrSignaturesMutated:false,
   plaintextRead:false,ciphertextPayloadRead:false,
-  explanation:'A redundant semantic payload can still represent an independently signed custody event. Preserve all receipts and historical versions unless separately authorized, independently backed up, and recovery-tested.'
+  explanation:'Matching reviewed metadata is a redundancy signal, not proof of byte-identical underlying worker output: worker plaintext digests may change. Signed custody events and all versions must be preserved until separately validated with independent recovery and oversight authorization.'
  };
 }
 function run(repo,out) {
