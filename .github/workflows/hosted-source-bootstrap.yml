@@ -78,6 +78,12 @@ jobs:
           const records=envelope?.payload?.candidateRecords;
           const ids=Array.isArray(records)?records.map(x=>x?.candidate?.id):[];
           const valid=ids.filter(x=>typeof x==='string'&&x.length>0);
+          const sourceQueue=JSON.parse(fs.readFileSync(path.join(root,'source-queue.json'),'utf8'));
+          const sources=[...(sourceQueue.documents||[]),...(sourceQueue.links||[])];
+          const groups={};
+          for(const s of sources){const labels=Array.isArray(s.subjects)?s.subjects:Array.isArray(s.topics)?s.topics:[s.subject||s.topic||s.category||'Unclassified'];for(const label of labels){const subject=typeof label==='string'&&label.trim()?label.trim():'Unclassified';const g=groups[subject]||(groups[subject]={sources:0,linkedCandidateIds:new Set()});g.sources++;for(const id of (s.claimExtraction?.candidateIds||[]))if(typeof id==='string')g.linkedCandidateIds.add(id);}}
+          const subjectGroups=Object.fromEntries(Object.entries(groups).sort(([a],[b])=>a.localeCompare(b)).map(([subject,g])=>[subject,{sourceRecords:g.sources,linkedCandidateIds:g.linkedCandidateIds.size}]));
+          fs.writeFileSync('hosted-source-bootstrap/subject-groups.json',JSON.stringify({schemaVersion:1,scope:'source metadata only',subjectGroups,sourceRecords:sources.length,notCandidateClassification:true,plaintextRetained:false},null,2)+'\\n');
           const report={schemaVersion:1,scope:'authenticated current raw custody',learningBytes:bytes.length,learningSha256:crypto.createHash('sha256').update(bytes).digest('hex'),candidateRecords:Array.isArray(records)?records.length:null,validIds:valid.length,uniqueIds:new Set(valid).size,historicalTarget:29799,historicalTargetReconciled:false,plaintextRetained:false,authorizesPromotion:false};
           fs.writeFileSync('hosted-source-bootstrap/candidate-count.json',JSON.stringify(report,null,2)+'\\n');
           JS
@@ -96,5 +102,6 @@ jobs:
             hosted-source-bootstrap/inventory-summary.json
             hosted-source-bootstrap/unfinished-inventory.json
             hosted-source-bootstrap/candidate-count.json
+            hosted-source-bootstrap/subject-groups.json
           if-no-files-found: error
           retention-days: 90
