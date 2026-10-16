@@ -1,0 +1,54 @@
+name: Audit vetted custody history without ciphertext
+on:
+  push:
+    branches: [development]
+    paths:
+      - '.github/workflows/vetted-history-metadata-audit.yml'
+      - 'scripts/vettedHistoryAggregate.js'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    if: github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22'
+      - name: Clone custody metadata only
+        env:
+          STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_VETTED_STATE_READ_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$STATE_DEPLOY_KEY"
+          mkdir -p "$RUNNER_TEMP/vetted-history-ssh" vetted-history-audit
+          printf '%s\n' "$STATE_DEPLOY_KEY" > "$RUNNER_TEMP/vetted-history-ssh/key"
+          chmod 600 "$RUNNER_TEMP/vetted-history-ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/vetted-history-ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/vetted-history-ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/vetted-history-ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git clone --filter=blob:limit=200k --no-checkout --single-branch git@github.com:6076446993/Crucible-Vetted-Learning-State.git "$RUNNER_TEMP/vetted-history"
+          test "$(git -C "$RUNNER_TEMP/vetted-history" rev-parse --is-shallow-repository)" = false
+      - name: Measure all reachable encrypted publication records
+        run: |
+          set -euo pipefail
+          node --check scripts/vettedSnapshotEquivalence.js
+          node --check scripts/vettedHistoryAggregate.js
+          node scripts/vettedSnapshotEquivalence.js --self-test
+          node scripts/vettedHistoryAggregate.js --self-test
+          node scripts/vettedHistoryAggregate.js "$RUNNER_TEMP/vetted-history" vetted-history-audit/aggregated-history.json
+      - name: Publish aggregate evidence only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: vetted-history-metadata-${{ github.run_id }}
+          path: vetted-history-audit/aggregated-history.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Remove isolated repository and key
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/vetted-history" "$RUNNER_TEMP/vetted-history-ssh"
