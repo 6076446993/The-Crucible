@@ -5,6 +5,7 @@ const fs=require('node:fs');
 const os=require('node:os');
 const path=require('node:path');
 const crypto=require('node:crypto');
+const {spawnSync}=require('node:child_process');
 const storage=require('../src/evidenceStorage');
 const {AtomicClaimExtractionQueue,ClaimExtractionWorker}=require('../src/claimExtractionWorker');
 const {preservedReplace,replayFile,hashFile}=require('../src/recoverySystem');
@@ -104,4 +105,25 @@ test('signed no-change observations preserve new events and refuse content chang
   assert.equal(verify({keyId:'rotated'}).reuseCiphertext,false);
   assert.throws(()=>verify({},{expiresAt:'2026-10-16T20:30:00Z'}),/lifetime/);
   assert.throws(()=>verify({},{currentEventSha256:base.eventSha256}),/binding/);
+});
+test('a killed object publisher resumes only authenticated known temporary links without replacing ciphertext',t=>{
+  const f=fixture(t),script=`
+    const fs=require('node:fs');
+    const {EncryptedEvidenceObjects}=require(${JSON.stringify(require.resolve('../src/evidenceStorage'))});
+    const store=new EncryptedEvidenceObjects({root:process.argv[1],projectId:'github:owner/repo',securityDomain:'private-source',key:Buffer.alloc(32,7),keyId:'test-key'});
+    const original=fs.linkSync;
+    fs.linkSync=function(from,to){original(from,to);if(to.endsWith('.enc'))process.kill(process.pid,'SIGKILL');};
+    store.put(Buffer.from(process.argv[2]));
+  `;
+  const child=spawnSync(process.execPath,['-e',script,f.root,f.bytes.toString()],{timeout:15000,encoding:'utf8'});
+  assert.notEqual(child.status,0,child.stderr);
+  const hash=storage.digest(f.bytes),file=f.objectStore.file(hash),before=fs.readFileSync(file);
+  assert.throws(()=>f.objectStore.read(hash),/non-exclusive/);
+  const lock=path.join(f.objectStore.root,'objects.lock'),old=new Date(Date.now()-61000);fs.utimesSync(lock,old,old);
+  const result=f.objectStore.put(f.bytes);assert.equal(result.created,false);
+  assert.deepEqual(fs.readFileSync(file),before);assert.deepEqual(f.objectStore.read(hash),f.bytes);
+  assert.equal(fs.readdirSync(f.objectStore.root).some(x=>x.startsWith('.pending-')),false);
+  const foreign=path.join(f.root,'unknown-link');fs.linkSync(file,foreign);
+  assert.throws(()=>f.objectStore.put(f.bytes),/unknown interrupted object links/);
+  assert.deepEqual(fs.readFileSync(foreign),before);
 });

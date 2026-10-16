@@ -2,6 +2,7 @@
 // Shared storage primitive: preserves native records and grants no custody cleanup authority.
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
 const crypto = require('node:crypto');
 const { acquireDurableLock } = require('./durableLock');
 const { syncDirectory, hashFile } = require('./recoverySystem');
@@ -15,16 +16,18 @@ function canonical(value) {
 }
 const digest = value => crypto.createHash('sha256').update(Buffer.isBuffer(value) ? value : canonical(value)).digest('hex');
 function text(value) { if (typeof value !== 'string' || !value.trim()) fail('missing identity'); return value; }
-function regular(file) {
+function regular(file, allowLinks = false) {
   const stat = fs.lstatSync(file);
-  if (!stat.isFile() || stat.isSymbolicLink() || stat.nlink !== 1) fail('non-exclusive regular object');
+  if (!stat.isFile() || stat.isSymbolicLink() || (!allowLinks && stat.nlink !== 1)) fail('non-exclusive regular object');
   return stat;
 }
 function directory(root, create = false) {
   const absolute = path.resolve(root);
   if (create && !fs.existsSync(absolute)) { fs.mkdirSync(absolute, { mode:0o700 }); syncDirectory(path.dirname(absolute)); }
-  if (!fs.lstatSync(absolute).isDirectory() || fs.realpathSync(absolute) !== absolute) fail('non-canonical storage directory');
-  return absolute;
+  const actual=fs.realpathSync(absolute),temporary=path.resolve(os.tmpdir()),canonicalTemporary=fs.realpathSync(temporary);
+  const expected=absolute===temporary||absolute.startsWith(temporary+path.sep)?path.join(canonicalTemporary,path.relative(temporary,absolute)):absolute;
+  if (!fs.lstatSync(absolute).isDirectory() || fs.lstatSync(absolute).isSymbolicLink() || actual !== expected) fail('non-canonical storage directory');
+  return actual;
 }
 function initialRegistry(projectId, securityDomain, catalog) {
   text(projectId); text(securityDomain);
@@ -121,7 +124,10 @@ class EncryptedEvidenceObjects {
   }
   file(hash) { if (!SHA.test(hash)) fail('invalid object hash'); return path.join(this.root,hash+'.enc'); }
   read(hash) {
-    const file=this.file(hash);if(regular(file).size>256*1024*1024)fail('oversized encrypted object');const envelope=JSON.parse(fs.readFileSync(file,'utf8'));
+    return this.#readObject(hash);
+  }
+  #readObject(hash, allowLinks = false) {
+    const file=this.file(hash);if(regular(file,allowLinks).size>256*1024*1024)fail('oversized encrypted object');const envelope=JSON.parse(fs.readFileSync(file,'utf8'));
     if (envelope.schemaVersion!==1 || envelope.projectId!==this.projectId || envelope.securityDomain!==this.securityDomain || envelope.keyId!==this.keyId || envelope.contentSha256!==hash) fail('encrypted object binding differs');
     const decipher=crypto.createDecipheriv('aes-256-gcm',this.key,Buffer.from(envelope.nonce,'base64'));
     decipher.setAAD(Buffer.from(canonical({projectId:this.projectId,securityDomain:this.securityDomain,keyId:this.keyId,contentSha256:hash})));
@@ -130,11 +136,21 @@ class EncryptedEvidenceObjects {
     if (digest(plaintext)!==hash || plaintext.length!==envelope.plaintextBytes) fail('object restoration digest differs');
     return plaintext;
   }
+  #recoverPublication(hash, plaintext) {
+    const file=this.file(hash),stat=regular(file,true);
+    if(stat.nlink===1)return;
+    const temporary=fs.readdirSync(this.root).filter(name=>/^\.pending-[a-f0-9-]{36}$/.test(name)).map(name=>path.join(this.root,name)).filter(name=>{const s=fs.lstatSync(name);return s.isFile()&&!s.isSymbolicLink()&&s.dev===stat.dev&&s.ino===stat.ino;});
+    // Only finalize a publication whose complete set of temporary links is known,
+    // and whose authenticated plaintext exactly matches the native source bytes.
+    if(temporary.length!==stat.nlink-1||!this.#readObject(hash,true).equals(plaintext))fail('unknown interrupted object links; preserve for reconciliation');
+    for(const name of temporary)fs.unlinkSync(name);
+    syncDirectory(this.root);
+  }
   put(plaintext) {
     if (!Buffer.isBuffer(plaintext) || !plaintext.length || plaintext.length>128*1024*1024) fail('bounded source bytes required');
     const hash=digest(plaintext),file=this.file(hash),held=acquireDurableLock(path.join(this.root,'objects.lock'),{description:'Domain evidence-object lock'});
     try {
-      if(fs.existsSync(file)){if(!this.read(hash).equals(plaintext))fail('content collision');return{contentSha256:hash,created:false,ciphertextSha256:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')};}
+      if(fs.existsSync(file)){this.#recoverPublication(hash,plaintext);if(!this.read(hash).equals(plaintext))fail('content collision');return{contentSha256:hash,created:false,ciphertextSha256:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')};}
       const nonce=crypto.randomBytes(12),cipher=crypto.createCipheriv('aes-256-gcm',this.key,nonce);
       cipher.setAAD(Buffer.from(canonical({projectId:this.projectId,securityDomain:this.securityDomain,keyId:this.keyId,contentSha256:hash})));
       const ciphertext=Buffer.concat([cipher.update(plaintext),cipher.final()]);

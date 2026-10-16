@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T21:41:20.669Z"
+    "lastActionAt": "2026-10-16T21:45:53.081Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -231,11 +231,11 @@
       "repositoryId": 1344890806,
       "repository": "6076446993/The-Crucible",
       "branch": "development",
-      "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
-      "explicitOverride": true,
-      "selectedAt": "2026-10-16T21:34:53.414Z",
+      "reason": "Affected paths select crucible-core.",
+      "explicitOverride": false,
+      "selectedAt": "2026-10-16T21:44:56.131Z",
       "promptSha256": "c6705200a8e8e011990d5e0e0048af2fe5cc1732f45c3fc8f1fea2043daa7acd",
-      "affectedPathsSha256": "d25afc383775375ff3688496949252a082238175aca5339144db8bfc5ac89935"
+      "affectedPathsSha256": "973d6e8755a076c4575b74e56a06cd91d1186fd9babdd134fb1a97639267a27c"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -247,8 +247,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T21:32:00.419Z",
-    "currentStep": "Issue49: reconcile concurrent storage-audit commits and native acceptance failures, then integrate storage changes under existing P0 hold.",
+    "lastUpdatedAt": "2026-10-16T21:45:45.677Z",
+    "currentStep": "Issue49 native integration; resolve exact-tip macOS temporary-root failure and verify hosted matrix. Production storage blocked; resume original P0 pipeline-backup recovery proposal under preserved claims.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016",
@@ -456,14 +456,16 @@
         "Plans and unfinished work required; original plan and ledger preserved; normal Crucible activity held.",
         "Full native1126/1126;21recovery tests; old-source lock exclusion and initializer regressions reproduced then fixed;433-file exact restoration verified.",
         "Final source e34c052: native1127/1127 and22recovery cases; clean433-file restoration preserves all captured plans, ledger, provenance bytes and Git bundle. CodeQL/handoff/conflict checks passed; platform matrix pending.",
-        "Exact final source e34c052: all9Linux/macOS/Windows Node20/22/24 jobs passed, run38798675616; CodeQL38798675575, handoff38798675591, conflict38798675576 passed. Windows complete job log confirms1127/1127, zero skipped, nested-directory regression passed."
+        "Exact final source e34c052: all9Linux/macOS/Windows Node20/22/24 jobs passed, run38798675616; CodeQL38798675575, handoff38798675591, conflict38798675576 passed. Windows complete job log confirms1127/1127, zero skipped, nested-directory regression passed.",
+        "Issue49 native stable identities/atomic queue registry journal/encrypted CAS/signature and complete-current-population reconciliation integrated at1f7bad2;1156native tests passed; macOS hosted temporary-root regression observed and follow-up prepared. No production migration or physical reduction."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
         "Provision protected independent versioned retention-locked encrypted recovery storage and recoverable keys under a separate security principal.",
         "Run registered checkpoint, independent restoration and exact hash/count/identity/provenance comparison over the live corpus; pin the distinct verifier public key and signed receipt.",
         "Wire every deployed restart entry through the recovery preflight and existing orchestrator heartbeat registry; hold missing dependencies and retry approved operations.",
-        "Keep normal activity inhibited until independently accepted recovery and owner continuation; no main promotion or live R2 restart."
+        "Keep normal activity inhibited until independently accepted recovery and owner continuation; no main promotion or live R2 restart.",
+        "Issue49: historical independent cold restoration, protected retention/key custody under distinct principal, Oversight publisher adoption, actual provider physical measurement and owner-authorized cleanup remain blocked; original P0 pipeline-backup continuation preserved."
       ]
     },
     "filesTouched": [
@@ -4186,6 +4188,13 @@
           "CRUCIBLE_VETTED_BUNDLE_KEY and retained versions",
           "CRUCIBLE_HOSTED_STORE_KEY for retained weekly-envelope learning state"
         ]
+      },
+      "retainedProposalContinuation": {
+        "proposal": "recovery-reviewed.patch retained in owner handoff",
+        "base": "558dc06130ff494cbac3c368175d46b19d4b04f6",
+        "currentApplyCheck": "passes against1f7bad2",
+        "status": "reviewed-awaiting-governed-native-integration-and-exact-tip-verification",
+        "excludedOwnerFileApiContract": "Still unresolved; preserve existing snapshot/transport tests and no caller-controlled bypass"
       }
     },
     "recoveryContinuationPriorContext": {
@@ -4357,7 +4366,7 @@
         "b10b9a8210ae19e2079600503610d8a246101f1f",
         "235a78158b7f501c62dbc07b9bffa8a7cea99cf7"
       ],
-      "status": "integration-in-progress-production-not-accepted",
+      "status": "native-integration-verified-production-externally-blocked",
       "targetDecimalGB": 45,
       "preferredDecimalGB": 40,
       "baselineGithubKiB": 59517884,
@@ -4391,22 +4400,54 @@
           "test/evidenceStorage.test.js"
         ],
         "focusedTests": {
-          "passed": 8,
+          "passed": 9,
           "failed": 0
         },
         "productionMigrationActivated": false,
         "independentRestorationVerified": false,
         "cleanupAuthorized": false,
         "limitations": [
-          "Object publication interruption can retain temporary hard links requiring explicit recovery.",
           "Complete native reconciliation covers current populations, not all historical signed versions.",
           "Independent authority and storage protection remain external gates."
         ],
         "nativeTests": {
-          "passed": 1156,
+          "passed": 1157,
           "failed": 0,
           "skipped": 0
+        },
+        "publishedSha": "1f7bad2b628d122e997bf3055171c86c1a39a592",
+        "interruptedObjectPublication": "Actual child SIGKILL leaves known temporary hard link; native stale-lock recovery authenticates source bytes and preserves exact ciphertext before finishing temporary publication. Unknown links refused and retained.",
+        "hostedFailure": {
+          "runId": 38971138592,
+          "jobId": 117209519752,
+          "cause": "Seven new storage tests reject OS-owned macOS temporary-root alias",
+          "fix": "Match existing recovery temporary-root canonicalization; arbitrary symbolic aliases still rejected",
+          "verification": "follow-up exact-tip hosted run required"
         }
+      },
+      "adjacentHostedRestoration": {
+        "runId": 38902227269,
+        "jobId": 116977004700,
+        "artifactId": 12046232218,
+        "previousSha": "6fce45b484ea3eb6b4b573774f69747e1454d1b5",
+        "currentSha": "d0e9be11bf5c6fc77c84f0222923b1a599090ece",
+        "candidatesBoth": 26683,
+        "originalsBoth": 378,
+        "contentDigestsEqual": true,
+        "independentPrincipalVerified": false,
+        "allHistoricalVersionsVerified": false
+      },
+      "latestGithubKiB": 59517884,
+      "physicalStorageBeforeBytes": null,
+      "physicalStorageAfterBytes": null,
+      "issueProgressCommentId": 6225281927,
+      "originalPlanResumed": {
+        "id": "pipeline-backup",
+        "originatedAt": "2026-10-11",
+        "scope": "Existing P0 native recovery continuation and retained recovery-reviewed.patch; no normal activity resumption",
+        "nextOldestHeld": "owner-file-live-intake",
+        "oldestRequestOriginatedAt": "2026-10-07",
+        "productionHoldPreserved": true
       }
     }
   },

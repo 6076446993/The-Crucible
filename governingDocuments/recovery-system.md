@@ -218,8 +218,9 @@ reencryption. Keys are supplied by authorized custody adapters; this module neit
 generates production custody keys nor adopts a new key authority. Object publication
 is flushed and exclusive. Partial publications and orphan objects are retained for
 reconciliation, never garbage-collected automatically. An interrupted temporary hard
-link can require explicit recovery before the object becomes readable; this remains
-a production migration gate, not a reason to remove unknown files.
+link is finalized only under the native lock, with complete known temporary-link
+accounting and authenticated bytes identical to the source. Unknown links remain
+untouched and prevent recovery; exact ciphertext is never replaced by this path.
 
 `reconcileEvidence` examines the complete current native source and candidate
 populations under locks, checks each legacy alias and immutable record digest, and
