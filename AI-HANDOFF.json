@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T02:26:12.871465Z"
+    "lastActionAt": "2026-10-16T02:39:20.254556Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T02:25:44.311Z",
+      "selectedAt": "2026-10-16T02:37:47.153Z",
       "promptSha256": "3c42707055dc022e825617c59611c6d77404223639e480d9bd87565bdec0cf83",
-      "affectedPathsSha256": "50d925c49c54c29d2fd6f2bf087360e2f18d615eb7e62ceff5e8c45ade2bbd7d"
+      "affectedPathsSha256": "e8e5d765a4227b2d223a191ee298831305f395e18553cbd8e78e54b90363f68e"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -245,7 +245,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T02:21:35.255818Z",
+    "lastUpdatedAt": "2026-10-16T02:31:03.612702Z",
     "currentStep": "Recovery-only hosted custody capture and fresh-runner restoration implemented; native1131/1131 and4focused recovery cases passed. Publish and observe actual encrypted corpus preservation before recording acceptance; independent storage/principal and deployed bootstrap remain held.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -3506,7 +3506,7 @@
           "Complete operator/library/cache-history inventory and deployed restart bootstrap remain unverified",
           "Complete historical private Git replication exceeds runner capacity and remains unresolved; original remote histories retained untouched."
         ],
-        "focusedCases": 4,
+        "focusedCases": 5,
         "nativeFirstRun": {
           "passed": 1130,
           "failed": 1,
@@ -3538,7 +3538,7 @@
           "change": "Preserve exact current committed ciphertext trees and tip commit metadata; retain full core source/plan Git history. Complete private Git historical replication stays held for capacity-appropriate independent storage. Never call shallow checkout full history."
         },
         "previousBehavior": "Read-only full Git histories, authenticated raw/vetted originals and retained encrypted learning state; registered checkpoint; encrypted off-host artifact; fresh-runner restore without custody SSH keys and exact replay.",
-        "verificationFollowup": "42focused tests and complete pre-push passed1131native. Current-tree recovery uses a separate serialized concurrency group so a capacity-limited older read-only history fetch cannot block preservation; no source writes or cancellation of checkpoints.",
+        "verificationFollowup": "43hosted/workflow tests passed; complete pre-push pending after native artifact-download/member-validation integration.",
         "dependencyCorrection": {
           "sourceRevision": "f2dfb5332e110fe47c5ae0c320b837009b9817c3",
           "runId": 38840241227,
@@ -3553,7 +3553,229 @@
           "currentVettedTreeBytes": 213976760,
           "currentPrivateTreeFiles": 29,
           "status": "Read-only audit in progress; no historical generation verified obsolete. Current snapshots fit runner without deletion.",
-          "rule": "Identify candidate/evidence/version/source/provenance-equivalent generations using authenticated plaintext before proposing compaction; ciphertext difference or age alone never proves obsolescence. Retain originals until verified independent recovery. Removing files at current Git tip does not reclaim reachable Git history."
+          "rule": "Identify candidate/evidence/version/source/provenance-equivalent generations using authenticated plaintext before proposing compaction; ciphertext difference or age alone never proves obsolescence. Retain originals until verified independent recovery. Removing files at current Git tip does not reclaim reachable Git history.",
+          "recentSnapshotAudit": {
+            "reviewedRevisions": [
+              {
+                "revision": "d0e9be11bf5c6fc77c84f0222923b1a599090ece",
+                "at": "2026-10-11T18:04:25Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              },
+              {
+                "revision": "6fce45b484ea3eb6b4b573774f69747e1454d1b5",
+                "at": "2026-10-11T13:07:24Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              },
+              {
+                "revision": "ffe276d9e10e76e1cf88e69867bd582813a2e8bd",
+                "at": "2026-10-11T06:17:16Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              },
+              {
+                "revision": "3e931e54d76ec44425b4c90dd819a40fc5d889f6",
+                "at": "2026-10-09T21:13:59Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              },
+              {
+                "revision": "6163a06d9549923c9d28ee4ca299dcdfcc238d37",
+                "at": "2026-10-09T16:32:58Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              },
+              {
+                "revision": "9eedbce21398d515dce0d1f36aea44251ed8f300",
+                "at": "2026-10-09T09:33:51Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              },
+              {
+                "revision": "ce9c94555a3013aa48340f3649b960988d9726cc",
+                "at": "2026-10-09T02:29:04Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              },
+              {
+                "revision": "ebe8ffd39a1508babd60f67d9d94ab8be05274fe",
+                "at": "2026-10-08T22:27:36Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              },
+              {
+                "revision": "c02130b3bd5e3a1ae32d9b0833898f9dbf0362d1",
+                "at": "2026-10-08T17:36:24Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              },
+              {
+                "revision": "583b40eb019271675cdbef7e13c3161259761332",
+                "at": "2026-10-08T10:36:47Z",
+                "learningSha256": "c3da2759a9bcee2f877315c52dddf7bb58277a38ffecd3e1c41d744457d28a37",
+                "queueSha256": "4e4ecea5bb799a0cd056f1f4928d8836c59d2da228af8de7601c836dc3a7319f",
+                "sourceCount": 406
+              }
+            ],
+            "uniqueLearningHashes": 1,
+            "uniqueQueueHashes": 1,
+            "uniqueSourceReviewPopulations": 1,
+            "uniqueCiphertextHashes": 10,
+            "workerExportKeys": [
+              "workerSha",
+              "priorVettedStateSha",
+              "generatedAt",
+              "plaintextSha256",
+              "candidateCount",
+              "queueSourceCount",
+              "candidateOnly",
+              "independentlyValidated"
+            ],
+            "status": "redundant-data-snapshot-candidates-only; historical ciphertexts not decrypted/independently restored; unique custody receipts must be retained; no deletion authorized by equivalence inference alone",
+            "at": "2026-10-16T02:31:03.612702Z",
+            "provenance": "Authenticated GitHub commit/tree metadata and encrypted-custody-report.json at exact listed revisions; report signatures and historical ciphertext plaintext not independently verified in this audit.",
+            "deletionPerformed": false,
+            "remaining": "Authenticate and independently restore historical ciphertexts, retain unique signed custody receipts and all distinct source/candidate/version states, then assess controlled compaction under custody owner authority. Current-state recovery proceeds without deletion."
+          },
+          "fullHistoryAudit": {
+            "commitsEnumerated": 271,
+            "readableReportHeaders": 270,
+            "missingInitialReportRevision": "3c648450601238cb654355f53eb64db600444343",
+            "distinctLearningQueueHashPairs": 3,
+            "groupCounts": [
+              29,
+              94,
+              147
+            ],
+            "evidence": "governingDocuments/recovery-verification-20261015.json.historicalSnapshotAudit",
+            "limits": "Header identity groups are deduplication candidates, not proof historical ciphertexts or unique signed custody records are obsolete. No deletion."
+          }
+        },
+        "latestSourceRevision": "39265d21485d0b2633271e99e84b4af2aa7b69f6",
+        "latestTestedTree": "42a441369fb0a95821a889f7d83f96041aeab13d",
+        "latestPrepush": {
+          "tests": 1131,
+          "failed": 0,
+          "skipped": 0,
+          "exit": 0,
+          "logSha256": "3f4dbe9c6e875ec23a3c14850ccf6a89b9b37843b9c5882dc50269cc1370ae77"
+        },
+        "latestHostedRecovery": {
+          "runId": 38840650851,
+          "preserveJobId": 116779711274,
+          "status": "in_progress"
+        },
+        "actualCapture": {
+          "runId": 38840650851,
+          "jobId": 116779711274,
+          "result": "success",
+          "report": {
+            "schemaVersion": 1,
+            "repository": "6076446993/The-Crucible",
+            "ref": "refs/heads/development",
+            "revision": "39265d21485d0b2633271e99e84b4af2aa7b69f6",
+            "startedAt": "2026-10-16T02:30:37.326Z",
+            "state": "captured-and-isolated-restore-verified",
+            "sourceCapture": "immutable Git revision vector; not a quorum of live writer locks",
+            "completeLiveInventory": false,
+            "independentStorageVerified": false,
+            "independentSecurityPrincipal": false,
+            "restartAuthorized": false,
+            "zeroKnowledgeLossVerified": false,
+            "normalActivityResumed": false,
+            "phase": "captured",
+            "custodyHistoryCoverage": "current committed trees and exact tip commit metadata; complete historical Git replication remains held",
+            "rawRevision": "e627a695b1898ea7bcc24f884d066bf835868a30",
+            "vettedRevision": "d0e9be11bf5c6fc77c84f0222923b1a599090ece",
+            "retainedArtifact": {
+              "runId": "38840650877",
+              "artifactId": "12021311592"
+            },
+            "researchCachesCaptured": 2,
+            "checkpointId": "1a42b2d376e9d74f9ffc96b5cac79ce8a9c0dd1d9fb447581108f52a4d01e860",
+            "populations": {
+              "raw": {
+                "provenance": "raw-intake",
+                "sources": 541,
+                "sourceIdentityDigest": "0a4587773a9ee7ff0972df9d78925801388247742dc9849f59b2be23e5e1505b",
+                "sourceAndExtractionProgressDigest": "d1a5ab7cab98893fa10f3a4bb314192e80e887316d9e16fbfff2d4024dcb8296",
+                "originalSourceDigest": "cadeee896710718dd097d833f9302c565bababdcff2b832e16d592a55c1044f2",
+                "originalSourceFiles": 425,
+                "learning": {
+                  "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                  "revision": 2564,
+                  "candidates": 29799,
+                  "candidateIdentityDigest": "c18f1385cde3eb0b6930d52894e7296588a7f9a840b2b07695c14e36f7ad67e5",
+                  "candidateAndEvidenceDigest": "e2237f5c223070c64151ce1ad23a7841f93432359f6fbc0d14da18ba0eddcfd9",
+                  "learningVersions": 1,
+                  "learningVersionDigest": "14ae27cfd66dc8b5993dd2fce5d8c8cf1ba2987dfec1604953ea6471b808e106",
+                  "completePayloadDigest": "8e80dc1092086a51f8c5f05b564adf595d886e6f3cc9aaa3dea25577321a64a1"
+                }
+              },
+              "vetted": {
+                "provenance": "oversight-vetted",
+                "sources": 509,
+                "sourceIdentityDigest": "abaab9c9b4a078340cd7f57dfed70b7c769d71ba5c46afbc3f36b389e6a01f58",
+                "sourceAndExtractionProgressDigest": "22ab906b4c690aa2a7c5a64dc3e6cee8c43fb0e776a2c5152f286910087576cb",
+                "originalSourceDigest": "b8f4424596993d5224307120c769830c7351376cdbccaf617b0b8ce108468e1f",
+                "originalSourceFiles": 378,
+                "learning": {
+                  "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                  "revision": 2166,
+                  "candidates": 26683,
+                  "candidateIdentityDigest": "f4768dfec915a6994d95317219be185e6e4f25f77bd864d36151ef360d79afa8",
+                  "candidateAndEvidenceDigest": "5751114ce917346d7b4a2d6c73501b4a01ba25ce8766bf9c91de978fbd088977",
+                  "learningVersions": 0,
+                  "learningVersionDigest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                  "completePayloadDigest": "9d19412d5de82d516543704eb8161db2aa34d64ef0ecc456cf2007fce7e32c4d"
+                }
+              },
+              "retained": {
+                "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                "revision": 60,
+                "candidates": 11,
+                "candidateIdentityDigest": "ce9c8f107384bb0296bc5d537f5fda29cd51da4019979a35e7e7e4b01c71db9d",
+                "candidateAndEvidenceDigest": "5cf8d414df6ea80139f5c640c43f22f4e07fd6657dcfa93727a719f592e8815c",
+                "learningVersions": 3,
+                "learningVersionDigest": "a9293d1319d650e18a5b380249b37e82ea65311f301bc093374b0adb2e0e25b9",
+                "completePayloadDigest": "44d95321649ed7402a634792d55f4e9720612abc88599fdb60ca5de74e7abbed"
+              }
+            },
+            "preDigest": "56e58233725937e4af5ed12d916973497f07271b139f8fd2972f33d1958d8372",
+            "postDigest": "56e58233725937e4af5ed12d916973497f07271b139f8fd2972f33d1958d8372",
+            "files": 1290,
+            "bytes": 1701000438,
+            "remaining": [
+              "complete-custody-git-history-replication-to-capacity-appropriate-independent-storage",
+              "independent-retention-locked-storage-and-recovery-key-custody",
+              "distinct-principal-live-restore-and-signed-receipt",
+              "complete-operator-and-cache-history-root-inventory",
+              "deployed-bootstrap-binding"
+            ],
+            "finishedAt": "2026-10-16T02:31:54.304Z"
+          },
+          "encryptedArtifactId": 12021357124,
+          "artifactZipBytes": 1175078156,
+          "artifactZipSha256": "7524b22019c2f3868e1e6228c5f3b8ac7a178e20abaaa9872e3c562332a3c18e",
+          "scope": "Authenticated current committed corpora and retained state only, not complete private Git history or distinct-principal acceptance."
+        },
+        "uploadedRestoreFailure": {
+          "jobId": 116780877760,
+          "result": "failure",
+          "phase": "backup-zip extraction",
+          "known": "Raw artifact download completed; custom Python ZIP extraction refused before decryption. Original uploaded encrypted artifact remains retained. No uploaded-backup restoration success claimed.",
+          "cause": "Not isolated: initial generic extraction diagnostic withheld exception class.",
+          "repair": "Use pinned official actions/download-artifact v4 (tag ref verified via GitHub API) for its native artifact packaging, then require exactly two regular expected downloaded files and native authenticated checkpoint restoration. Add safe class/errno-only archive diagnostics."
         }
       }
     },
@@ -5785,15 +6007,22 @@
       {
         "id": "pipeline-backup",
         "deliverable": "Preserve all pending/current live pipeline state before writes",
-        "status": "blocked",
-        "evidence": "Recovered proof ZIP only; full live backup is unverified",
-        "nextAction": "Copy and verify full encrypted raw and vetted custody before publisher execution",
+        "status": "in-progress",
+        "evidence": "Authenticated live current-tree capture1290files/1701000438bytes and isolated restore verified in38840650851; encrypted artifact12021357124 retained; uploaded-copy restore still pending.",
+        "nextAction": "Finish fresh-runner uploaded-backup restore; obtain independent enforced retention, recoverable key custody and signed acceptance before release.",
         "owner": "Codex",
-        "observedAt": "2026-10-11T16:34:00Z",
+        "observedAt": "2026-10-16T02:39:20.254556Z",
         "maxEvidenceAgeHours": 24,
-        "freshness": "historical",
+        "freshness": "current",
         "reason": "Proof artifact is not full pipeline backup",
-        "originatedAt": "2026-10-11"
+        "originatedAt": "2026-10-11",
+        "priorEvidence": [
+          {
+            "at": "2026-10-11T16:34:00Z",
+            "evidence": "Recovered proof ZIP only; full live backup is unverified",
+            "reason": "Proof artifact is not full pipeline backup"
+          }
+        ]
       },
       {
         "id": "pipeline-R8",
@@ -6761,6 +6990,19 @@
         "observedAt": "2026-10-11T16:44:00Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "historical"
+      },
+      {
+        "id": "recovery-history-deduplication",
+        "deliverable": "Preserve every distinct historical learning/source state and unique custody receipt before any historical ciphertext compaction",
+        "status": "blocked",
+        "owner": "Codex / existing recovery orchestrator",
+        "observedAt": "2026-10-16T02:39:20.254556Z",
+        "originatedAt": "2026-10-16T02:39:20.254556Z",
+        "maxEvidenceAgeHours": 24,
+        "freshness": "current",
+        "evidence": "271commits enumerated;270report headers group into3learning/queue states, counts29/94/147. No ciphertext obsolescence or deletion verified.",
+        "reason": "Historical ciphertext authentication and independent retained restoration/receipt custody remain prerequisites; source custody has no granted rewrite operation.",
+        "nextAction": "Use the existing recovery operation registry to preserve representative states plus every custody receipt, verify source/evidence/version/provenance equivalence for all generations, retain held diagnostics, and perform no deletion until independent acceptance."
       }
     ],
     "continuationPolicy": "Oldest relevant unfinished request first. Preserve original request dates across status updates. Blocked older work stays first and its prerequisites are worked before newer improvements; unknown ages require triage rather than guessing."

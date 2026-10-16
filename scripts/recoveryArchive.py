@@ -79,6 +79,7 @@ def extract(archive, target, kind):
 if __name__ == '__main__':
     try:
         extract(*sys.argv[1:])
-    except Exception:
-        print('Recovery archive refused; original material retained.', file=sys.stderr)
+    except Exception as error:
+        # Diagnostic class/errno only: never print private names or archive content.
+        print(f'Recovery archive refused ({type(error).__name__}, errno={getattr(error, "errno", None)}); original material retained.', file=sys.stderr)
         sys.exit(1)
