@@ -1,6 +1,10 @@
 name: Read-only retained custody inventory
 on:
   workflow_dispatch:
+  push:
+    branches: [development]
+    paths:
+      - '.github/workflows/retained-custody-inventory.yml'
 permissions:
   contents: read
 concurrency:
@@ -37,18 +41,7 @@ jobs:
         run: |
           set -euo pipefail
           node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/custody/source.enc" --output "$RUNNER_TEMP/custody/authenticated.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS > custody-inventory/key-result.json
-          python3 - <<'PY'
-          import tarfile,os
-          path=os.path.join(os.environ['RUNNER_TEMP'],'custody','authenticated.tar.gz')
-          root=os.path.join(os.environ['RUNNER_TEMP'],'custody','restored')
-          os.makedirs(root,exist_ok=True)
-          with tarfile.open(path,'r:gz') as archive:
-              for m in archive:
-                  parts=m.name.split('/')
-                  if m.name.startswith('/') or '..' in parts or not (m.isfile() or m.isdir()):
-                      raise ValueError('Unsafe archive entry; refusing extraction')
-              archive.extractall(root,filter='data')
-          PY
+          python3 scripts/recoveryArchive.py "$RUNNER_TEMP/custody/authenticated.tar.gz" "$RUNNER_TEMP/custody/restored" tar
           node src/hostedSourceBundle.js verify --root "$RUNNER_TEMP/custody/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --provenance raw-intake --report custody-inventory/source-verification.json
           node src/hostedSourceBundle.js inventory --root "$RUNNER_TEMP/custody/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report "$RUNNER_TEMP/custody/unfinished.json" > custody-inventory/source-counts.json
           node - <<'JS'
@@ -57,7 +50,15 @@ jobs:
           const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
           const file=path.resolve(root,manifest.learningFile);
           const stat=fs.statSync(file);
-          const report={schemaVersion:1,scope:'read-only authenticated raw custody',archiveVerified:true,sourceInventoryVerified:true,learningFile: path.basename(file),learningBytes:stat.size,learningSha256:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'),candidateRecordCountVerified:false,historicalTarget:29799,reason:'Learning-store schema-specific record enumeration still required',plaintextRetained:false,mutationAuthorized:false,promotionAuthorized:false};
+          if (path.dirname(file)!==root) throw new Error('Unsafe learning-file reference');
+          const learningBuffer=fs.readFileSync(file);
+          const envelope=JSON.parse(learningBuffer.toString('utf8'));
+          const payload=envelope && envelope.payload;
+          const candidates=Array.isArray(payload?.candidateRecords)?payload.candidateRecords:null;
+          const candidateIds=candidates?.map(record=>record?.candidate?.id)||[];
+          const validIds=candidateIds.filter(id=>typeof id==='string' && id.length>0);
+          const candidateIdsDigest=candidates?crypto.createHash('sha256').update(JSON.stringify([...validIds].sort())).digest('hex'):null;
+          const report={schemaVersion:2,scope:'read-only authenticated current raw custody',archiveVerified:true,sourceInventoryVerified:true,learningFile:path.basename(file),learningBytes:stat.size,learningSha256:crypto.createHash('sha256').update(learningBuffer).digest('hex'),currentCandidateRecordCount:candidates?.length??null,currentCandidateIdsValid:validIds.length,currentCandidateIdsUnique:new Set(validIds).size,currentCandidateIdentityDigest:candidateIdsDigest,currentLearningVersionCount:Array.isArray(payload?.knowledgeVersions)?payload.knowledgeVersions.length:null,currentAuditEntryCount:Array.isArray(payload?.auditLog)?payload.auditLog.length:null,historicalClaimedCandidateCount:29799,historical29799Reconciled:false,reason:'Current raw custody learning records alone cannot establish historical total or missing-record count',plaintextRetained:false,mutationAuthorized:false,promotionAuthorized:false};
           fs.writeFileSync('custody-inventory/learning-boundary.json',JSON.stringify(report,null,2)+'\n');
           JS
       - name: Publish redacted recovery evidence before ephemeral runner disposal
@@ -68,3 +69,6 @@ jobs:
           path: custody-inventory/*.json
           if-no-files-found: error
           retention-days: 90
+      - name: Erase only this runner's temporary decrypted copy and deploy key
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/custody" "$RUNNER_TEMP/state-ssh"
