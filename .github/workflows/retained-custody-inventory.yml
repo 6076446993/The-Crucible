@@ -1,30 +1,35 @@
 name: Read-only retained custody inventory
+
 on:
-  workflow_dispatch:
   push:
     branches: [development]
     paths:
-      - '.github/workflows/retained-custody-inventory.yml'
+      - .github/workflows/retained-custody-inventory.yml
+  workflow_dispatch:
+
 permissions:
   contents: read
+
 concurrency:
-  group: crucible-retained-custody-inventory
+  group: crucible-retained-custody-inventory-development
   cancel-in-progress: false
+
 jobs:
   inventory:
     if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
-      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '22'
       - name: Read retained ciphertext without mutation
         env:
           STATE_DEPLOY_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
+        shell: bash
         run: |
           set -euo pipefail
           test -n "$STATE_DEPLOY_KEY"
@@ -38,6 +43,7 @@ jobs:
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
           CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+        shell: bash
         run: |
           set -euo pipefail
           node src/hostedSourceBundle.js decrypt --input "$RUNNER_TEMP/custody/source.enc" --output "$RUNNER_TEMP/custody/authenticated.tar.gz" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --keys CRUCIBLE_SOURCE_BUNDLE_KEY,CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS > custody-inventory/key-result.json
@@ -45,30 +51,66 @@ jobs:
           node src/hostedSourceBundle.js verify --root "$RUNNER_TEMP/custody/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --provenance raw-intake --report custody-inventory/source-verification.json
           node src/hostedSourceBundle.js inventory --root "$RUNNER_TEMP/custody/restored" --repository "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --report "$RUNNER_TEMP/custody/unfinished.json" > custody-inventory/source-counts.json
           node - <<'JS'
-          const fs=require('fs'),path=require('path'),crypto=require('crypto');
-          const root=path.join(process.env.RUNNER_TEMP,'custody','restored');
-          const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
-          const file=path.resolve(root,manifest.learningFile);
-          const stat=fs.statSync(file);
-          if (path.dirname(file)!==root) throw new Error('Unsafe learning-file reference');
-          const learningBuffer=fs.readFileSync(file);
-          const envelope=JSON.parse(learningBuffer.toString('utf8'));
-          const payload=envelope && envelope.payload;
-          const candidates=Array.isArray(payload?.candidateRecords)?payload.candidateRecords:null;
-          const candidateIds=candidates?.map(record=>record?.candidate?.id)||[];
-          const validIds=candidateIds.filter(id=>typeof id==='string' && id.length>0);
-          const candidateIdsDigest=candidates?crypto.createHash('sha256').update(JSON.stringify([...validIds].sort())).digest('hex'):null;
-          const report={schemaVersion:2,scope:'read-only authenticated current raw custody',archiveVerified:true,sourceInventoryVerified:true,learningFile:path.basename(file),learningBytes:stat.size,learningSha256:crypto.createHash('sha256').update(learningBuffer).digest('hex'),currentCandidateRecordCount:candidates?.length??null,currentCandidateIdsValid:validIds.length,currentCandidateIdsUnique:new Set(validIds).size,currentCandidateIdentityDigest:candidateIdsDigest,currentLearningVersionCount:Array.isArray(payload?.knowledgeVersions)?payload.knowledgeVersions.length:null,currentAuditEntryCount:Array.isArray(payload?.auditLog)?payload.auditLog.length:null,historicalClaimedCandidateCount:29799,historical29799Reconciled:false,reason:'Current raw custody learning records alone cannot establish historical total or missing-record count',plaintextRetained:false,mutationAuthorized:false,promotionAuthorized:false};
-          fs.writeFileSync('custody-inventory/learning-boundary.json',JSON.stringify(report,null,2)+'\n');
+          'use strict';
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const crypto = require('node:crypto');
+          const root = path.join(process.env.RUNNER_TEMP, 'custody', 'restored');
+          const manifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.json'), 'utf8'));
+          const learningFile = path.resolve(root, manifest.learningFile);
+          if (path.dirname(learningFile) !== root) throw new Error('Learning file path escapes authenticated root');
+          const learningBytes = fs.readFileSync(learningFile);
+          const sha256 = value => crypto.createHash('sha256').update(value).digest('hex');
+          if (sha256(learningBytes) !== manifest.learningSha256) throw new Error('Learning bytes differ from authenticated manifest');
+          const envelope = JSON.parse(learningBytes.toString('utf8'));
+          if (!envelope.payload || !Array.isArray(envelope.payload.candidateRecords)) throw new Error('Original candidate record schema absent');
+          const records = envelope.payload.candidateRecords;
+          const candidateIds = records.map(record => record?.candidate?.id);
+          const validIds = candidateIds.every(id => typeof id === 'string' && id.length > 0);
+          const uniqueIds = new Set(candidateIds);
+          if (!validIds || uniqueIds.size !== candidateIds.length) throw new Error('Original candidate IDs absent or duplicated; manual identity reconciliation required');
+          const queue = JSON.parse(fs.readFileSync(path.join(root, 'source-queue.json'), 'utf8'));
+          if (!Array.isArray(queue.documents) || !Array.isArray(queue.links)) throw new Error('Source queue schema unavailable');
+          const sources = [...queue.documents, ...queue.links];
+          const queuedIds = sources.flatMap(s => Array.isArray(s.claimExtraction?.candidateIds) ? s.claimExtraction.candidateIds : []);
+          const result = {
+            schemaVersion: 1,
+            mode: 'authenticated-read-only-raw-custody',
+            repository: process.env.GITHUB_REPOSITORY,
+            ref: process.env.GITHUB_REF,
+            revision: process.env.GITHUB_SHA,
+            learningSha256: sha256(learningBytes),
+            learningBytes: learningBytes.length,
+            candidateRecords: records.length,
+            distinctCandidateIds: uniqueIds.size,
+            candidateIdentityDigest: sha256(JSON.stringify([...uniqueIds].sort())),
+            sourceQueueRecords: sources.length,
+            sourceDocumentRecords: queue.documents.length,
+            sourceLinkRecords: queue.links.length,
+            extractionCandidateIdReferences: queuedIds.length,
+            distinctExtractionCandidateIds: new Set(queuedIds).size,
+            originalSourceFiles: manifest.sourceFiles?.length ?? null,
+            historicalTarget: 29799,
+            matchesHistoricalTarget: records.length === 29799,
+            historicalCompletenessVerified: false,
+            explanation: 'Counts only candidate records present in this authenticated raw bundle; historical total and other custody populations still require cross-corpus reconciliation.',
+            plaintextRetained: false,
+            originalCandidatesMutated: false,
+            promotionAuthorized: false,
+            r2RestartAuthorized: false
+          };
+          fs.writeFileSync('custody-inventory/candidate-counts.json', JSON.stringify(result, null, 2) + '\n', {flag:'wx',mode:0o600});
+          console.log(JSON.stringify({candidateRecords:result.candidateRecords,sourceQueueRecords:result.sourceQueueRecords,matchesHistoricalTarget:result.matchesHistoricalTarget,historicalCompletenessVerified:false}));
           JS
-      - name: Publish redacted recovery evidence before ephemeral runner disposal
+      - name: Retain bounded non-secret counts and custody verification
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: custody-inventory-${{ github.run_id }}
           path: custody-inventory/*.json
           if-no-files-found: error
           retention-days: 90
-      - name: Erase only this runner's temporary decrypted copy and deploy key
+      - name: Remove runner temporary plaintext and credentials
         if: always()
+        shell: bash
         run: rm -rf "$RUNNER_TEMP/custody" "$RUNNER_TEMP/state-ssh"
