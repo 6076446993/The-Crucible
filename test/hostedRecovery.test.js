@@ -29,7 +29,7 @@ async function corpus(root,name){
   bundle.splitEncrypted({input:encrypted,outputRoot:state});commit(state);return state;
 }
 test('authenticated corpus checkpoint survives source removal and encrypted-backup restoration on a fresh process',async t=>{
-  const root=rootFixture(t),keys=['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_VETTED_BUNDLE_KEY','CRUCIBLE_HOSTED_STORE_KEY'],prior=keys.map(k=>process.env[k]);
+  const root=rootFixture(t),keys=['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_VETTED_BUNDLE_KEY','CRUCIBLE_HOSTED_STORE_KEY','CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS','CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS'],prior=keys.map(k=>process.env[k]);
   keys.forEach(k=>process.env[k]=crypto.randomBytes(32).toString('base64'));
   t.after(()=>keys.forEach((k,i)=>{if(prior[i]===undefined)delete process.env[k];else process.env[k]=prior[i];}));
   const rawRoot=await corpus(root,'raw'),vettedRoot=await corpus(root,'vetted'),coreRoot=path.join(root,'core');init(coreRoot);
@@ -45,14 +45,20 @@ test('authenticated corpus checkpoint survives source removal and encrypted-back
   assert.equal(report.populations.raw.learning.candidates,1);assert.equal(report.populations.retained.learningVersions,1);assert.equal(report.researchCachesCaptured,1);
   assert.equal(report.independentStorageVerified,false);assert.equal(report.restartAuthorized,false);assert.equal(git(rawRoot,'status','--porcelain'),'');assert.equal(git(vettedRoot,'status','--porcelain'),'');
   const encrypted=path.join(root,'backup.enc');await recovery.seal({root:work,output:encrypted,repository,ref,reportFile});
+  const originalBackupHash=digest(fs.readFileSync(encrypted));await assert.rejects(()=>recovery.seal({root:work,output:encrypted,repository,ref,reportFile}),/fresh recovery capsule/);assert.equal(digest(fs.readFileSync(encrypted)),originalBackupHash);
   for(const key of ['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_VETTED_BUNDLE_KEY'])await assert.rejects(()=>bundle.decrypt({input:encrypted,output:path.join(root,`${key}-alone.tar.gz`),repository,ref,keyNames:[key]}));
-  const saved=process.env.CRUCIBLE_VETTED_BUNDLE_KEY;delete process.env.CRUCIBLE_VETTED_BUNDLE_KEY;
-  await assert.rejects(()=>recovery.restoreBackup({input:encrypted,root:path.join(root,'missing-family'),repository,ref,revision,reportFile:path.join(root,'missing.json')}),/two distinct/);process.env.CRUCIBLE_VETTED_BUNDLE_KEY=saved;
+  const saved=process.env.CRUCIBLE_VETTED_BUNDLE_KEY,savedPrevious=process.env.CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS;delete process.env.CRUCIBLE_VETTED_BUNDLE_KEY;delete process.env.CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS;
+  await assert.rejects(()=>recovery.restoreBackup({input:encrypted,root:path.join(root,'missing-family'),repository,ref,revision,reportFile:path.join(root,'missing.json')}),/two distinct/);process.env.CRUCIBLE_VETTED_BUNDLE_KEY=saved;process.env.CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS=savedPrevious;
   for(const item of [rawRoot,vettedRoot,coreRoot,retainedRoot,work,researchRoot])fs.rmSync(item,{recursive:true});
   const restored=await recovery.restoreBackup({input:encrypted,root:path.join(root,'fresh-runner'),repository,ref,revision,reportFile:path.join(root,'restored.json')});
   assert.equal(restored.state,'uploaded-backup-restored-and-replayed');assert.equal(restored.postDigest,report.preDigest);
   assert.equal(restored.populations.raw.sourceAndExtractionProgressDigest,report.populations.raw.sourceAndExtractionProgressDigest);
   assert.equal(restored.zeroKnowledgeLossVerified,false);assert.equal(restored.independentSecurityPrincipal,false);
+  const originalKeys=keys.map(k=>process.env[k]);
+  for(const base of ['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_VETTED_BUNDLE_KEY']){process.env[`${base}_PREVIOUS`]=process.env[base];process.env[base]=crypto.randomBytes(32).toString('base64');}
+  const rotated=await recovery.restoreBackup({input:encrypted,root:path.join(root,'rotated-restore'),repository,ref,revision,reportFile:path.join(root,'rotated.json')});
+  assert.equal(rotated.postDigest,report.preDigest);assert.deepEqual(rotated.recoveryKeyFamiliesUsed,['CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS','CRUCIBLE_VETTED_BUNDLE_KEY_PREVIOUS']);
+  keys.forEach((key,i)=>process.env[key]=originalKeys[i]);
   const altered=fs.readFileSync(encrypted);altered[altered.length-1]^=1;fs.writeFileSync(path.join(root,'tampered.enc'),altered);
   await assert.rejects(()=>recovery.restoreBackup({input:path.join(root,'tampered.enc'),root:path.join(root,'tampered-restore'),repository,ref,revision,reportFile:path.join(root,'bad-report.json')}));
 });
@@ -81,4 +87,11 @@ test('downloaded recovery artifact requires exactly two regular expected members
   const root=rootFixture(t);fs.writeFileSync(path.join(root,'recovery-custody.enc'),'encrypted fixture');fs.writeFileSync(path.join(root,'recovery-report.json'),'{}');
   recovery.validateDownloadedBackup(root);fs.writeFileSync(path.join(root,'unexpected'),'extra');assert.throws(()=>recovery.validateDownloadedBackup(root),/members differ/);
   fs.unlinkSync(path.join(root,'unexpected'));fs.unlinkSync(path.join(root,'recovery-report.json'));assert.throws(()=>recovery.validateDownloadedBackup(root),/members differ/);
+});
+test('artifact ZIP members at archive root restore with exact original bytes',t=>{
+  const root=rootFixture(t),archive=path.join(root,'artifact.zip'),target=path.join(root,'unpacked');
+  const python=process.env.CRUCIBLE_RECOVERY_PYTHON||(process.platform==='win32'?'python':'python3');
+  const code="import sys,zipfile\nwith zipfile.ZipFile(sys.argv[1],'w') as z:\n z.writestr('recovery-custody.enc',b'encrypted-original')\n z.writestr('recovery-report.json',b'{}')\n";
+  const made=spawnSync(python,['-c',code,archive],{encoding:'utf8'});assert.equal(made.status,0,made.stderr);
+  recovery.extract(archive,target,'backup-zip');assert.equal(fs.readFileSync(path.join(target,'recovery-custody.enc'),'utf8'),'encrypted-original');recovery.validateDownloadedBackup(target);
 });

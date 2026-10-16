@@ -24,13 +24,24 @@ function extract(archive, target, kind) {
   execute(process.env.CRUCIBLE_RECOVERY_PYTHON || (process.platform === 'win32' ? 'python' : 'python3'), [path.join(__dirname,'..','scripts','recoveryArchive.py'),archive,target,kind]);
 }
 function recoveryCrypto(action,input,output,repository,ref) {
-  const keys=['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_VETTED_BUNDLE_KEY'].map(n=>Buffer.from(process.env[n]||'','base64'));
-  if(keys.some(k=>k.length!==32)||keys[0].equals(keys[1]))fail('two distinct existing custody key families required');
-  const derived=Buffer.from(crypto.hkdfSync('sha256',Buffer.concat(keys),Buffer.from('CrucibleRecovery/v1'),Buffer.from(`${repository}:${ref}:dual-custody`),32)).toString('base64');
+  const families=['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_VETTED_BUNDLE_KEY'].map(base=>
+    (action==='encrypt'?[base]:[base,`${base}_PREVIOUS`]).map(name=>{
+      const value=process.env[name];if(!value)return null;const key=Buffer.from(value,'base64');
+      if(key.length!==32)fail('invalid existing custody key');return {name,key};
+    }).filter(Boolean));
+  if(families.some(f=>!f.length))fail('two distinct existing custody key families required');
   const args=[path.join(__dirname,'hostedSourceBundle.js'),action,'--input',input,'--output',output,'--repository',repository,'--ref',ref];
   if(action==='encrypt')args.push('--project-id',`github:${repository}`);else args.push('--keys','CRUCIBLE_SOURCE_BUNDLE_KEY');
-  // A child-only environment avoids changing either original key or process-global state.
-  return JSON.parse(execute(process.execPath,args,{timeout:600000,env:{...process.env,CRUCIBLE_SOURCE_BUNDLE_KEY:derived}}));
+  for(const raw of families[0])for(const vetted of families[1]){
+    if(raw.key.equals(vetted.key))continue;
+    const derived=Buffer.from(crypto.hkdfSync('sha256',Buffer.concat([raw.key,vetted.key]),Buffer.from('CrucibleRecovery/v1'),Buffer.from(`${repository}:${ref}:dual-custody`),32)).toString('base64');
+    try {
+      // Child-only derived environment; originals and parent environment never change.
+      const result=JSON.parse(execute(process.execPath,args,{timeout:600000,env:{...process.env,CRUCIBLE_SOURCE_BUNDLE_KEY:derived}}));
+      return {...result,recoveryKeyFamiliesUsed:[raw.name,vetted.name]};
+    } catch(error) {if(action==='encrypt')throw error;}
+  }
+  fail('no authorized existing custody key pair authenticated the recovery capsule');
 }
 function semanticState(payload) {
   if (!payload || !Array.isArray(payload.candidateRecords) || !Array.isArray(payload.knowledgeVersions)) fail('learning population schema unavailable');
@@ -157,6 +168,7 @@ async function capture({ root, repository, ref, revision, coreRoot, rawRoot, vet
 async function seal({root,output,repository,ref,reportFile=path.resolve('recovery-report.json')}) {
   if(repository!==REPOSITORY||ref!==REF)fail('recovery encryption identity differs');
   const archive=`${output}.plaintext.tar.gz`;
+  if(fs.existsSync(output)||fs.existsSync(archive))fail('fresh recovery capsule destination required');
   const complete=fs.readdirSync(path.join(root,'vault')).some(n=>/^[a-f0-9]{64}\.manifest\.json$/.test(n));
   if(fs.existsSync(reportFile))fs.copyFileSync(reportFile,path.join(root,'control','capture-report.json'),fs.constants.COPYFILE_EXCL);
   execute('tar',['-czf',archive,'-C',root,...(complete?['vault','control']:['population','vault','control'])],{timeout:600000});
@@ -166,8 +178,9 @@ async function seal({root,output,repository,ref,reportFile=path.resolve('recover
 async function restoreBackup({input,root,repository,ref,revision,reportFile}) {
   if(repository!==REPOSITORY||ref!==REF||!/^[a-f0-9]{40}$/.test(revision||'')||fs.existsSync(root))fail('fresh exact-development restore required');
   const archive=`${root}.tar.gz`;
+  if(fs.existsSync(archive))fail('fresh recovery plaintext destination required');
   try {
-    recoveryCrypto('decrypt',input,archive,repository,ref);
+    const opened=recoveryCrypto('decrypt',input,archive,repository,ref);
     extract(archive,root,'tar');
     const captured=JSON.parse(fs.readFileSync(path.join(root,'control','capture-report.json')));
     if(captured.schemaVersion!==2||captured.revision!==revision||captured.repository!==repository||captured.ref!==ref||captured.state!=='captured-and-isolated-restore-verified')fail('backup source capture incomplete or differs');
@@ -183,7 +196,7 @@ async function restoreBackup({input,root,repository,ref,revision,reportFile}) {
     // Exact replay in a fresh process must leave the restored population unchanged.
     execute(process.execPath,[path.join(__dirname,'recoverySystemCli.js'),'restore',configFile,captured.checkpointId,target],{timeout:600000});
     if(inventory(restored).digest!==observed.digest)fail('restoration replay differs');
-    const report={...captured,state:'uploaded-backup-restored-and-replayed',encryptedBackupSha256:sha256File(input),postDigest:observed.digest,separateRunnerRestoreVerified:true,independentSecurityPrincipal:false,independentStorageVerified:false,restartAuthorized:false,zeroKnowledgeLossVerified:false,finishedAt:new Date().toISOString()};
+    const report={...captured,state:'uploaded-backup-restored-and-replayed',recoveryKeyFamiliesUsed:opened.recoveryKeyFamiliesUsed,encryptedBackupSha256:sha256File(input),postDigest:observed.digest,separateRunnerRestoreVerified:true,independentSecurityPrincipal:false,independentStorageVerified:false,restartAuthorized:false,zeroKnowledgeLossVerified:false,finishedAt:new Date().toISOString()};
     fs.writeFileSync(reportFile,JSON.stringify(report,null,2)+'\n',{mode:0o600});return report;
   } finally {fs.rmSync(archive,{force:true});}
 }
