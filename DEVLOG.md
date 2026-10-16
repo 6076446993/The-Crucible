@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-16T21:30:31.152Z, codex-work-42efe8889a64: Resumed existing issue49 storage task at cac6b938;30concurrent commits preserved. See activePlan.storageReductionIssue49 and handoffNotes for integration, actual baseline failures and external independent-custody dependencies. Current GitHub size59517884KiB; physical reduction and independent restoration unverified.
+
 - 2026-10-16T10:07:02.152Z, codex-work-42efe8889a64: Thirty-minute USER inactivity checkpoint/disconnect implemented locally in existing runtime and production host boundary; sixteen focused tests pass. See activePlan.attendedWorkerInactivity and handoffNotes for unavailable ChatGPT host integration and pending exact-tip verification. Recovery hold and original work retained.
 
 - 2026-10-16T10:00:45.532Z, codex-work-42efe8889a64: Owner-directed claim transfer recorded; see AI-HANDOFF.json.activePlan.ownerAuthorizedTakeover, attendedWorkerInactivity and handoffNotes. Thirty-minute USER inactivity disconnect selected. P0 recovery remains first; private predecessor work and process stop are unverified.
@@ -270,6 +272,18 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: issue49-storage-integration-20261016 — 2026-10-16T21:30:31.152Z — codex-work-42efe8889a64 — mode:work
+
+Plain-language summary: Resumed the existing owner-approved storage-reduction task and reconciled thirty additive commits without changing existing ownership or original priorities. The baseline exposes native registration/workflow assertions and a damaged local compiler; storage reduction and independent restoration remain unverified.
+
+- `live continuation and issue49 reconciliation` — started 2026-10-16T21:30:31.152Z, finished 2026-10-16T21:30:31.152Z, exit0; exact starting revision cac6b93816312b25809b13e6e5a94fdf261d040d; existing successor actor and all12active claims unchanged.
+- `native baseline observation` — started 2026-10-16T21:30:31.152Z, finished 2026-10-16T21:30:31.152Z, exit1;15failures retained in storage-baseline-tests.log; five involve local JDK image corruption, remaining include missing rawCustodySubjectEvidence registration and a strict depth1-clone fixture.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
+
+- `restore native test prerequisites` — started 2026-10-16T21:31:24.533Z, finished 2026-10-16T21:31:24.533Z, exit0; re-extracted retained complete OpenJDK17 packages into this task workspace, javac17.0.20 verified; registered rawCustodySubjectEvidence in existing Security category; retained strict custody-write prohibition while explicitly recognizing the three existing historical read-only clone workflows.
+
+- `reconciled native acceptance` — started 2026-10-16T21:32:00.419Z, finished 2026-10-16T21:32:00.419Z, exit0; full Orchestrator1148/1148,0failed/0skipped with fresh isolated actual OpenJDK17; existing custody-push prohibition retained.
 
 ### Session: owner-authorized-takeover-20261016 — 2026-10-16T10:00:45.532Z — codex-work-42efe8889a64 — mode:work
 
@@ -449,17 +463,6 @@ Continuation — evidence-bound diagnosis, 2026-10-11: Implemented read-only dia
 - Workflow permissions, configuration, security, privacy, governance, circulation and diff checks passed. Real hosted report replay diagnoses R8 pending after vetted custody restoration.
 - No live custody, queue, lock, key or active knowledge mutation; R8 publisher requires its configured self-hosted runner and approved source prerequisites.
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
-
-### Session: R8 same-machine rebuild path — 2026-10-10T16:00:00Z — Codex — mode:regular/default
-
-Plain-language summary: Added a manual-only, development-only self-hosted workflow for rebuilding R8 ciphertext from the preserved local source stage without moving plaintext through GitHub. The workflow reuses the existing verify/hydrate, executable-canary prepare, encrypt/split, and ciphertext-only publication primitives, and destroys runner temporary files and credentials on every exit path.
-- `implementation` — started 2026-10-10T16:00:00Z, finished 2026-10-10T16:00:00Z, exit 0; mode:regular/default.
-- `route:prewrite` — passed for `crucible-core` → `6076446993/The-Crucible` → `development`; exact affected path `.github/workflows/r8-executable-canary-publisher.yml` plus handoff/DEVLOG updates.
-- `source recovery` — cloned the preserved plaintext stage into the development worktree and verified project identity, 8 documents, 526 links, 403 source files; hydrate passed with 406 sources and restage passed with queue SHA `96f13274cf8c57d717e6f581cbe3c38bdcb6d52ad7e56a5fac51fd18eeefb50e` and learning SHA `569cabefaac39801f5c9857fae37192ede83f249da0b2a631a214d6b7a19f88f`.
-- `verification` — workflow lint passed across 30 workflows and publisher workflow tests passed 37/38 after the expected command-archive correction; no ciphertext, raw/vetted state, `main`, or Archive was changed.
-- `remaining blocker` — no self-hosted runner with labels `self-hosted,crucible-r8` is registered on this machine yet. The workflow is therefore not executable until an owner-authorized runner is installed and configured with `CRUCIBLE_R8_SOURCE_ROOT` pointing to the preserved local stage. No secret values are requested or logged.
-- `development push` — attempted after refreshing `origin/development` to `b68d1f7e2def760999e5767bd42f4c74873502f0`; the governed pre-push hook failed closed with `received no ref update to verify`. No bypass was used and no remote, raw/vetted state, `main`, or Archive changed.
-- `history reconciliation` — rebased the two local R8 repair commits onto current origin/development; the protected dry-run then reached the route check and failed only on the stale affected-path digest. Route regenerated to include the exact four-file development diff; no remote write occurred.
 
 
 ## Historical mutation accountability

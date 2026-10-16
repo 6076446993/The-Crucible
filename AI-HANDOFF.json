@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T10:07:38.512Z"
+    "lastActionAt": "2026-10-16T21:32:00.419Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -217,7 +217,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "P0 recovery system only: preserve all committed knowledge and source custody across interruption, with independently verified restoration before restart authorization.",
-    "currentPrompt": "No if the user isn't active for a certain amount of time I want the worker to disconnect",
+    "currentPrompt": "THE CRUCIBLE — RESUME ORIGINAL WORK AND RETURN TO EXISTING PLAN\n\nRepository: \"6076446993/The-Crucible\"\nBranch: \"development\"\nExisting plan: https://github.com/6076446993/The-Crucible/issues/49\n\nThis is a continuation of existing authorized work, not a new project, worker, plan, or priority queue.\n\n1. Recover original execution state\n\nRead \"AGENTS.md\", the DEVLOG Shared AI handoff, \"AI-HANDOFF.json\", governing documents, active mutation claims, and the exact current development SHA.\n\nIdentify the original worker and its latest verified work. Reconcile concurrent changes and preserve all ownership boundaries.\n\nDo not create replacement workers, overwrite active claims, restart R2, promote to \"main\", or discard unfinished work.\n\n2. Complete the storage-reduction work\n\nFollow the consolidated requirements in Crucible issue #49.\n\nImplement and verify:\n\n- Stable evidence identities and preservation of legacy references.\n- Atomic queue, registry, and journal transactions.\n- Governed locking, crash recovery, and independent checkpoints.\n- Content-addressed encrypted storage and safe migration.\n- Signed custody continuity and redundant-publication prevention.\n- Independent restoration and complete evidence reconciliation.\n- Actual physical storage measurement and reduction below 45 GB, preferably 40 GB or less.\n- Full repository tests, security checks, hosted CI, and rollback verification.\n\nTreat all previously prepared local prototypes as unverified until integrated and independently tested. Do not assume any version milestone has been reached.\n\nContinue implementation until every authorized production acceptance gate passes or a genuine external blocker prevents further progress.\n\nNever delete evidence or rewrite history without the required independent restoration proof and owner authorization.\n\n3. Return to the previous work automatically\n\nOnce the storage-reduction task is verified complete:\n\n1. Update the existing DEVLOG, handoff records, and issue #49 with actual completion evidence.\n2. Recover the development plan and unfinished-work ordering from the previous Work-mode session.\n3. Resume the exact next unfinished task at its original position, preserving its age, priority, dependencies, research candidates, and custody.\n4. Continue through the original development and research plan without creating a new backlog, changing priorities, or asking for repeated authorization.\n\nIf storage reduction remains blocked, preserve its exact status and dependencies, then continue other authorized, nonconflicting work from the existing plan where governance permits.\n\n4. Completion reporting\n\nReport the exact development SHA, files changed, tests and CI results, measured storage before and after, independent restoration evidence, remaining blockers, and the original planned task resumed.\n\nDo not stop after creating a plan, prototype, handoff, or passing local tests. Do not claim production completion without verified production evidence.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T10:07:02.228Z",
-      "promptSha256": "a8df32cf4dd675c2f4f70336ae511db419f0e765b2b582ea3239935f5e8ae62d",
-      "affectedPathsSha256": "9654aadd093d4fb8239ac83c31fc6a7180d92419476763ca97815d7b1053e091"
+      "selectedAt": "2026-10-16T21:31:24.528Z",
+      "promptSha256": "c6705200a8e8e011990d5e0e0048af2fe5cc1732f45c3fc8f1fea2043daa7acd",
+      "affectedPathsSha256": "1ab8cc1c23466f2c61006ad44e597f35b267fcdc079ee805573015467e5febed"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -247,8 +247,8 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T10:07:38.512Z",
-    "currentStep": "Owner-authorized takeover and attended-worker inactivity disconnect; recovery-only hold retained.",
+    "lastUpdatedAt": "2026-10-16T21:32:00.419Z",
+    "currentStep": "Issue49: reconcile concurrent storage-audit commits and native acceptance failures, then integrate storage changes under existing P0 hold.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
       "currentClaim": "owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016",
@@ -4320,6 +4320,69 @@
         "java": "actual isolated OpenJDK17 compiler",
         "scope": "native software only"
       }
+    },
+    "storageReductionIssue49": {
+      "issue": "https://github.com/6076446993/The-Crucible/issues/49",
+      "priorCurrentPrompt": "No if the user isn't active for a certain amount of time I want the worker to disconnect",
+      "startingSha": "cac6b93816312b25809b13e6e5a94fdf261d040d",
+      "concurrentCommitsPreserved": [
+        "cac6b93816312b25809b13e6e5a94fdf261d040d",
+        "987d2a2e9912700bce8226f2926d84cd25d03f32",
+        "f0f54f933fac7f78a14c27ea608bd52fb6479fac",
+        "8f01aee9c18350f7724fb257e17a29510c13a98c",
+        "7e79e60b098e180407e361775ab67de33b37d40c",
+        "a18f5ceff73ba9d356eed98f5caf33e8c978e3f0",
+        "82eb501b67bf6f0f95e13ce3600e75b97911aeff",
+        "a42fc58c7230daf6fc2dc52df28299e068bd9437",
+        "7972b2df3cbb32ad8769d2d13d91e05564a377c7",
+        "b87285f99fc26f72a6824f182fd25024893943a1",
+        "722dc5955403a10c979d1a2ecb29a96cdb98fd3f",
+        "cb3ce7070a557874dc46816ef2c9fdb34d3fd849",
+        "6301796e6079ba27aca13ee8f3f6a3e4add26ba5",
+        "90f9596b196a55d472ce0fac49ff5d108bc1d1fc",
+        "3cbd307797750f22a587677926a978511feb6191",
+        "9e0e597a6f3e15902bdcaa832efd7e9aaa5ce4b5",
+        "17ab9068ae866b21748e22406fd2706a820f1bf5",
+        "5527b10c84cc26142ddb238d2831d06432c20cbc",
+        "d038d4872720f46ac2d9a004f899a981c479f9fc",
+        "dcfc08c281191cdfee8caee42928d457de062693",
+        "fd96fee67347f85bfdf3a163904a5ccb021c8fbd",
+        "258ac331ba6b79e7440723f484058bfba3aa24cb",
+        "74f021906d623f56aa3237fedda56d3f624e61bd",
+        "f7dbed897258934a77af45933a9cfabffc3cc027",
+        "aea839eb3110017d29c692086e1d31f2987e08dd",
+        "1fcc1c1f4f95ff907dfeb3ce078bc3cb4c0ecbe2",
+        "64d707de6c5a1a74919491b72f52ebd0e53235d1",
+        "b02fac94bb0983e7aa50f8a204ba4628a153421c",
+        "b10b9a8210ae19e2079600503610d8a246101f1f",
+        "235a78158b7f501c62dbc07b9bffa8a7cea99cf7"
+      ],
+      "status": "integration-in-progress-production-not-accepted",
+      "targetDecimalGB": 45,
+      "preferredDecimalGB": 40,
+      "baselineGithubKiB": 59517884,
+      "measuredPhysicalStorageBytes": null,
+      "independentColdRestoreVerified": false,
+      "historyRewriteAuthorized": false,
+      "sourceDeletionAuthorized": false,
+      "steps": [
+        "Reconcile governing records, routing, missing native test registration and read-only workflow boundary assertion.",
+        "Integrate native-queue stable evidence metadata, governed lock transactions, crash replay and independent checkpoint verification.",
+        "Integrate domain-isolated encrypted CAS and exact restoration/migration reconciliation without deleting original state.",
+        "Implement signed no-change decision verification for independent publisher adoption; preserve all distinct custody events.",
+        "Verify native/full/security/hosted checks, exact remote storage measurements and independent restoration; continue permitted original work if external custody blocks acceptance."
+      ],
+      "externalDependencies": [
+        "Independent protected retention store, recovery key custody and distinct security-principal cold restore remain unavailable.",
+        "Independent oversight publisher must own any vetted no-op publication control; recorded oversight repository currently returns404."
+      ],
+      "returnToOriginalOrder": "Retain existing workLedger; owner-file-live-intake originated2026-10-07 remains the oldest blocked item, dependent on P0 custody preservation.",
+      "reconciledNativeTests": {
+        "passed": 1148,
+        "failed": 0,
+        "skipped": 0,
+        "java": "fresh isolated complete OpenJDK17"
+      }
     }
   },
   "handoffNotes": {
@@ -4346,7 +4409,8 @@
       "2026-10-14 retained Archive reader ENOBUFS defect reproduced at1,176,257bytes; real-Git regression fails before fix and51focused checks pass after bounded reader fix. Exact-head hosted verification pending.",
       "P0 recovery: native preimage/intent/commit journals and exact replay, full-population snapshot/restore API and CLI, independent signed receipt preflight, existing orchestrator/production routing and held-request retry implemented locally. All prior plans, work ledger IDs and original priorities retained.",
       "2026-10-16: prepared explicit owner-authorized native transfer of all eleven active predecessor claims to codex-work-42efe8889a64; no private workspace export or host-process stop was observed.",
-      "2026-10-16: explicit owner-authorized takeover published at 5aafbb5652d1cb9c80f9203729da4f47fca82b77; hosted handoff/conflict/CodeQL passed and DEVLOG prune Archive job 116918898335 succeeded. Native thirty-minute user-inactivity disconnect is implemented locally with sixteen focused passing tests; actual ChatGPT host integration is not available."
+      "2026-10-16: explicit owner-authorized takeover published at 5aafbb5652d1cb9c80f9203729da4f47fca82b77; hosted handoff/conflict/CodeQL passed and DEVLOG prune Archive job 116918898335 succeeded. Native thirty-minute user-inactivity disconnect is implemented locally with sixteen focused passing tests; actual ChatGPT host integration is not available.",
+      "2026-10-16: resumed original codex-work-42efe8889a64 claims at cac6b938; preserved30concurrent commits and current issue49 requirements. Prototype bundle inspected as unverified source; observed caller-asserted locking and non-native queue schema. GitHub vetted size remains59517884KiB."
     ],
     "remaining": [
       "P0 follow-up only: publish macOS alias correction and current P0 operating hold, verify exact hosted OS matrix and resolve Windows durability without suppressing flush errors. Do not resume normal work or clear P0 merely because local tests pass.",
@@ -4366,7 +4430,8 @@
       "Downstream review publication/exact-head checks, PR34 eleven-path merge reconciliation and independent R8/security gates remain separate; PR36 rebased77d9555 CI fails security-read/monitor credential boundaries and collision with PR34.",
       "Implement and host-wire 30-minute user-inactivity checkpoint/disconnect; actual ChatGPT user activity and disconnect controls remain unavailable.",
       "Recover predecessor private unpublished work if its host becomes reachable; do not assume it is included in the repository.",
-      "Native idle disconnect requires actual trusted host activity and idempotent checkpoint/transport adapters. No ChatGPT platform disconnect was configured or observed; safe-boundary hung handlers require host supervision."
+      "Native idle disconnect requires actual trusted host activity and idempotent checkpoint/transport adapters. No ChatGPT platform disconnect was configured or observed; safe-boundary hung handlers require host supervision.",
+      "Issue49 production acceptance remains open: native integration, independent signed cold restoration, oversight-owned publication guard and actual physical reduction below45GB. No deletion/history rewrite is authorized."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -4389,7 +4454,8 @@
       "P0 recovery tests 18/18; source-only deletion regression fails without fix and passes with fix. Tracked-tree and Git-history drill restored431files/20directories/9361420bytes with identical pre/post digest and exact original plan/work-ledger fields. This is not live-corpus or independent-principal proof.",
       "Final recovery source npm run test:all1123/1123passed, zero failed/skipped, 2026-10-15T19:27:00.910Z through19:27:16.857Z. All10additional required local audits passed. Exact commands, timestamps and output hashes are in recovery-verification-20261015.json.",
       "Published0c651b413753787b3922242e2323977bcafad176 with exact tested tree5ec1c5a0afa36d4ad7d2f4a132d7592e50892540; manual pre-push hook and exact handoff-range check passed; Archive appendf077292f6b840a3ea722861fb605d42001bd127b preserved old ledger prefix and exact pre-prune DEVLOG. Hosted CodeQL38794379524 passed; Self-Test38794379421 has measured macOS alias and Windows directory-flush failures, not a completion pass.",
-      "2026-10-16 user-idle change: full native Orchestrator1145/1145,0failed/0skipped using real OpenJDK17; focused16/16; coordination, conflict governance, circulation57, docs consistency and configuration passed. Host disconnect deployment remains unavailable."
+      "2026-10-16 user-idle change: full native Orchestrator1145/1145,0failed/0skipped using real OpenJDK17; focused16/16; coordination, conflict governance, circulation57, docs consistency and configuration passed. Host disconnect deployment remains unavailable.",
+      "Issue49 continuation reconciliation: full native Orchestrator1148/1148,0failed/0skipped after registering the retained-source security test, preserving read-only historical workflow constraints and restoring the temporary JDK. No custody mutation or physical reduction."
     ]
   },
   "mutationOwnershipPolicy": {
