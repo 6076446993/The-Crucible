@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-16T21:48:27.987Z"
+    "lastActionAt": "2026-10-16T21:52:35.598Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-16T21:47:02.258Z",
+      "selectedAt": "2026-10-16T21:51:14.189Z",
       "promptSha256": "c6705200a8e8e011990d5e0e0048af2fe5cc1732f45c3fc8f1fea2043daa7acd",
-      "affectedPathsSha256": "3815730b220b41c41e19bbd974289572f0f7fdcf5e8eaf039de9c0b9d94166c0"
+      "affectedPathsSha256": "39c4abba5ff61568c8ce49262f86c096fc95057c85a40be7960a1292a35b7b42"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -247,7 +247,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-16T21:48:27.987Z",
+    "lastUpdatedAt": "2026-10-16T21:52:06.093Z",
     "currentStep": "Original P0 pipeline-backup: native recovery proposal integrated and verified; publish and monitor exact-tip hosted checks. Issue49 production acceptance remains externally blocked.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -4210,7 +4210,54 @@
         "workflowHoldCasesPassed": 6,
         "circulationDirectEdges": 57,
         "defaultBranchDeploymentVerified": false,
-        "normalActivityResumed": false
+        "normalActivityResumed": false,
+        "publishedSha": "93338bf4889844718ce046bb88a9157da6dba0c7",
+        "windowsHostedRegression": {
+          "runId": 38971901887,
+          "jobId": 117212026942,
+          "observed": "Windows forced termination returns null POSIX signal; two cut-point tests asserted SIGKILL.",
+          "fix": "Require synchronous exact cut marker, error-free spawn and nonzero termination; POSIX signal asserted on POSIX, null on Windows. All original journal/retained-byte/replay/fresh-process/competition checks retained.",
+          "focusedTestsPassed": 9,
+          "hostedFollowupRequired": true,
+          "fullNativeFollowup": {
+            "passed": 1167,
+            "failed": 0,
+            "skipped": 0
+          }
+        },
+        "sourcePlanRollbackVerification": {
+          "revision": "93338bf4889844718ce046bb88a9157da6dba0c7",
+          "checkpoint": "126b086ca7c54996cc3322ec196dee7dbd48d746c31b9458f9ce39f99f694894",
+          "files": 453,
+          "bytes": 10090127,
+          "inventorySha256": "a82db428cd9533a82f0ba64427d6a9e32a513050c56ae6a9f7f55612116abb99",
+          "comparison": {
+            "ok": true,
+            "missing": [],
+            "changed": [],
+            "added": []
+          },
+          "cleanProcessRestore": true,
+          "gitHistoryBundleVerified": true,
+          "originalPlanAndWorkLedgerPreserved": true,
+          "liveCustodyCovered": false,
+          "independentSecurityPrincipalVerified": false,
+          "cleanupAuthorized": false
+        },
+        "dependencyAudit": {
+          "command": "npm audit --json --fetch-timeout=15000 --fetch-retries=0",
+          "at": "2026-10-16T21:52:06.093Z",
+          "totalVulnerabilities": 0,
+          "liveCustodyOrKeysChanged": false
+        },
+        "hostedGovernance": {
+          "sourceSha": "93338bf4889844718ce046bb88a9157da6dba0c7",
+          "codeqlRun": 38971901927,
+          "handoffRun": 38971902053,
+          "conflictRun": 38971901797,
+          "archivePrunedSessionAppendJob": 117212075706,
+          "allListedPassed": true
+        }
       }
     },
     "recoveryContinuationPriorContext": {
