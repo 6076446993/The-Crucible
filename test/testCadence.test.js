@@ -34,6 +34,18 @@ const {
 } = require('../src/testCadence');
 const { GOVERNING_PRINCIPLES, AUTHORITATIVE_EVIDENCE_ORDER, reconcileDecision } = require('../src/governingDecision');
 
+test('empty test selection never certifies successful verification',()=>{
+  const selection={tests:[],categories:[],mainCategories:[],reason:'no executable proof',coverageComplete:true,unresolved:[]};
+  let calls=0;const result=runTestSelection(selection,()=>{calls++;return{status:0};});
+  assert.equal(calls,0,'must not fall back to unrelated implicit Node test discovery');assert.equal(result.ok,false);assert.equal(result.outcomes[0].ok,false);assert.equal(result.executionState,'not-executed');
+});
+test('lifecycle exclusion of every requested test remains a held proof with original reasons',t=>{
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-empty-proof-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));const registryFile=path.join(root,'lifecycle.json'),file='test/organismRuntime.test.js';
+  fs.writeFileSync(registryFile,JSON.stringify({schemaVersion:1,tests:[{test:file,state:'archived',hypothesisId:'prior-runtime',evidence:['retained historical fixture'],reason:'retained for historical replay',reviewedAt:'2026-10-16T00:00:00Z'}]}));
+  let calls=0;const result=runTestSelection({tests:[file],categories:['code'],mainCategories:['code'],reason:'bounded runtime verification',coverageComplete:true,unresolved:[]},()=>{calls++;return{status:0};},{registryFile});
+  assert.equal(result.ok,false);assert.equal(calls,0);assert.equal(result.selection.lifecycleSkipped[0].reason,'retained for historical replay');
+});
+
 test('Orchestrator progress updates are fixed at one minute and never exceed the one-minute-thirty maximum', () => {
   assert.equal(TEST_PROGRESS_INTERVAL_MS, 60_000);
   assert.equal(TEST_PROGRESS_MAX_INTERVAL_MS, 90_000);

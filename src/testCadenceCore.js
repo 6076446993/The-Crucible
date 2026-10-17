@@ -229,11 +229,12 @@ function runTestSelection(selection, run = spawnSync, lifecycleOptions = {}) {
   console.log(`[The Crucible] Orchestrator: selected main categories: ${selection.mainCategories.join(', ') || '(none)'}.`);
   console.log(`[The Crucible] Orchestrator: selected ${selection.tests.length}/${legacy.discoverTests().length} safe test subcategories: ${selection.categories.join(', ') || '(none)'}.`);
   if (selection.unresolved?.length) console.error(`[The Crucible] Orchestrator: isolated ${selection.unresolved.length} unresolved test(s): ${selection.unresolved.map((item) => item.file).join(', ')}. Complete coverage cannot be claimed.`);
-  const executionOk = selection.tests.length === 0 || runOne('selected tests', { executable: process.execPath, args: ['--test', ...selection.tests] }, run);
+  if(!selection.tests.length)console.error('[The Crucible] No executable tests selected; verification is held, not passed.');
+  const executionOk = selection.tests.length > 0 && runOne('selected tests', { executable: process.execPath, args: ['--test', ...selection.tests] }, run);
   const coverageComplete = selection.coverageComplete !== false && !(selection.unresolved?.length);
   const outcomes = [{ label: `selected tests (${selection.tests.length} file(s))`, ok: executionOk }];
   if (!coverageComplete) outcomes.push({ label: `classification coverage (${selection.unresolved.length} unresolved file(s))`, ok: false });
-  return { selection, unresolved: selection.unresolved || [], coverageComplete, outcomes, ok: executionOk && coverageComplete };
+  return { selection, unresolved: selection.unresolved || [], coverageComplete, executionState:selection.tests.length?'executed':'not-executed', outcomes, ok: executionOk && coverageComplete };
 }
 
 function runChanged(run = spawnSync, changedPaths = null) {
