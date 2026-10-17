@@ -78,6 +78,40 @@ test('unchanged completed windows are compared and skipped without duplicate ext
 test('a changed document hash restarts at page one while preserving prior revision custody',t=>{const source={...webSource(),mediaType:'application/pdf',pages:4};const {root,queueFile}=fixture(t,source);const windows=[];const worker=new ClaimExtractionWorker({queueFile,projectId:'github:owner/repo',learningRoot:root,pdfPagesPerBatch:2,extractText:(_source,start,end)=>{windows.push([start,end]);return `A compiler is tested for pages ${start} through ${end} and returns another representation.`;}});worker.run();const queue=JSON.parse(fs.readFileSync(queueFile,'utf8'));queue.documents[0].contentSha256='b'.repeat(64);new AtomicClaimExtractionQueue(queueFile,'github:owner/repo').write(queue);worker.run();const changed=JSON.parse(fs.readFileSync(queueFile,'utf8')).documents[0];assert.deepEqual(windows,[[1,2],[1,2]]);assert.equal(changed.claimExtraction.previousRevisions.length,1);assert.equal(changed.claimExtraction.sourceContentSha256,'b'.repeat(64));});
 test('normalized claim comparison deduplicates formatting-only repetitions',()=>{assert.equal(normalizedClaimSha256(' A function   returns a value. '),normalizedClaimSha256('a function returns a value.'));});
 
+test('case-distinct extracted assertions survive until legacy-ID conflict review',()=>{
+  const upper='The APIKEY identifier is a case-sensitive configuration name.';
+  const lower='The apikey identifier is a case-sensitive configuration name.';
+  assert.equal(normalizedClaimSha256(upper),normalizedClaimSha256(lower),'legacy comparator unchanged');
+  assert.deepEqual(boundedAssertions(`${upper} ${lower} ${upper}`),[upper,lower]);
+});
+
+test('changed claim under a retained legacy ID stays pending without replacing evidence',t=>{
+  const {root,queueFile}=fixture(t,webSource());
+  const worker=new ClaimExtractionWorker({queueFile,projectId:'github:owner/repo',learningRoot:root,
+    extractText:()=> 'The APIKEY identifier is a case-sensitive configuration name.'});
+  assert.equal(worker.run()[0].state,'claim-extraction-complete');
+  const prior=worker.store.read(),queued=worker.queue.read();
+  queued.links[0].state='claim-extraction-forced-pending';queued.links[0].claimExtraction.windows=[];
+  worker.queue.write(queued);worker.extractText=()=> 'The apikey identifier is a case-sensitive configuration name.';
+  const outcome=worker.run()[0];assert.equal(outcome.state,'blocked');
+  assert.match(outcome.reason,/Candidate id conflicts with retained evidence/);
+  assert.deepEqual(worker.store.read(),prior);
+  const after=worker.queue.read().links[0];assert.equal(after.state,'claim-extraction-forced-pending');
+  assert.deepEqual(after.claimExtraction.candidateIds,queued.links[0].claimExtraction.candidateIds);
+  assert.deepEqual(after.claimExtraction.windows,[]);
+});
+
+test('an exact extraction retry at a later processing time retains its original identity and evidence',t=>{
+  const {root,queueFile}=fixture(t,webSource());let time='2026-10-17T08:00:00.000Z';
+  const worker=new ClaimExtractionWorker({queueFile,projectId:'github:owner/repo',learningRoot:root,now:()=>time,
+    extractText:()=> 'The APIKEY identifier is a case-sensitive configuration name.'});
+  const first=worker.run()[0];const prior=worker.store.read().candidateRecords;
+  const queued=worker.queue.read();queued.links[0].state='claim-extraction-forced-pending';queued.links[0].claimExtraction.windows=[];
+  worker.queue.write(queued);time='2026-10-17T08:01:00.000Z';
+  const retry=worker.run()[0];assert.equal(retry.state,'claim-extraction-complete');
+  assert.deepEqual(retry.candidateIds,first.candidateIds);assert.deepEqual(worker.store.read().candidateRecords,prior);
+});
+
 // Extraction is the worst place for a tampered path to land: the file is read, shelled out to a
 // PDF extractor, and its sentences become candidate claims. The queue can arrive from a repository
 // Crucible does not control, so a declared path is a claim about where content lives rather than

@@ -157,6 +157,24 @@ test('durable candidate batches commit atomically and deduplicate restart-safe i
   assert.throws(() => store.ingestMany([first, first]), /duplicate ids/); assert.throws(() => store.ingestMany([{ ...second, id:'c-3', projectId:'project-b' }]), /Cross-project/);
 });
 
+test('retained candidate ID conflicts refuse the entire batch without changing prior evidence', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-identity-collision-'));
+  t.after(() => fs.rmSync(root, { recursive:true, force:true }));
+  const store = new DurableScientificLearningStore({ projectId:'project-a', root });
+  const original = candidate(); store.ingestMany([original]); const before = store.read();
+  for (const changed of [
+    { ...original, claim:original.claim.toUpperCase() },
+    { ...original, claim:original.claim.replace(' causes ', '  causes ') },
+    { ...original, claim:original.claim.replace(' causes ', ' does not cause ') },
+    { ...original, claimBoundary:'another source span' },
+    { ...original, provenance:{ ...original.provenance, contentSha256:sha('another source revision') } },
+  ]) {
+    assert.throws(() => store.ingestMany([candidate({ id:'new-before-conflict' }), changed]), /Candidate id conflicts with retained evidence/);
+    assert.deepEqual(store.read(), before, 'no preceding new sibling may be committed');
+  }
+  assert.equal(store.ingestMany([structuredClone(original)]).length, 0);
+});
+
 test('learning by doing records success and failure as candidate evidence without promotion', (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'crucible-experience-')); t.after(() => fs.rmSync(root, { recursive:true, force:true }));
   const store = new DurableScientificLearningStore({ projectId:'project-a', root });

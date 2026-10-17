@@ -36,7 +36,9 @@ function boundedAssertions(text) {
     // test, and furniture like that is exactly the text that repeats across independently
     // retrieved documents - so on the real corpus it was the only thing that corroborated.
     if (documentFurniture(sentence).furniture) continue;
-    const fingerprint = sha256(sentence.toLowerCase()); if (seen.has(fingerprint)) continue;
+    // Case can distinguish identifiers. Preserve distinct assertions so the existing
+    // legacy-ID conflict guard can hold ambiguity instead of silently dropping text.
+    const fingerprint = sha256(sentence); if (seen.has(fingerprint)) continue;
     seen.add(fingerprint); results.push(sentence);
   }
   return results;
