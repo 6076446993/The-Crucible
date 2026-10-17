@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-17T03:43:41.330Z"
+    "lastActionAt": "2026-10-17T03:49:43.498Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-17T03:42:24.904Z",
+      "selectedAt": "2026-10-17T03:48:34.777Z",
       "promptSha256": "bb1d2f0ac87b9144e9e627ca3616f9c92215beb7789e7dd389762efbd534d0d8",
-      "affectedPathsSha256": "2f715312d050573170fb7f91567f77f9f6f9e39160850de6d7316f73eb20046e"
+      "affectedPathsSha256": "da3b9661956ce970bb29b1993efd405ca9c5ba78533c932ef5f83deb4bce610f"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -659,7 +659,41 @@
         "failed": 0,
         "skipped": 0,
         "newRequiredCheckOrProtectionChange": false,
-        "existingCadenceAndWorkloadRetained": true
+        "existingCadenceAndWorkloadRetained": true,
+        "checkoutLineEndingFollowup": {
+          "observedAt": "2026-10-17T03:48:58.835Z",
+          "baselineRedCases": 1,
+          "change": "Contract exercises both LF and CRLF checkout text and accepts either name-line terminator while retaining unconditional full Orchestrator assertions.",
+          "nativeVerification": {
+            "workflowPassed": 39,
+            "fullRepositoryPassed": 1186,
+            "failed": 0,
+            "skipped": 0
+          },
+          "hostedBaselineFailure": {
+            "run": 39000026995,
+            "job": 117300793957,
+            "tests": 1186,
+            "passed": 1185,
+            "failed": 1,
+            "onlyFailure": "required Self-Test runs the complete repository through an unconditional Orchestrator step"
+          }
+        },
+        "sourcePlanRollback": {
+          "revision": "ed3cd94d7585a268a4f7485ba479bda3376db813",
+          "checkpoint": "acc0de4efede65ff347b6726f813cd0363b5f99ae8f9e79c6ca70ca0966fe309",
+          "files": 453,
+          "bytes": 10176373,
+          "inventorySha256": "7679769b1cd3918119c03651f65f16d52f55dae906d5c396dec3b746d7024394",
+          "missing": 0,
+          "changed": 0,
+          "added": 0,
+          "cleanProcessRestore": true,
+          "gitHistoryBundleVerified": true,
+          "liveCustodyCovered": false,
+          "independentSecurityPrincipalVerified": false,
+          "cleanupAuthorized": false
+        }
       },
       "originalTextCollisionAudit": {
         "sourceSha": "288293767dc2d667407c9f46cf007bed9cbcf97a",

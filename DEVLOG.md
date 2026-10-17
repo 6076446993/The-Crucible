@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-17T03:48:58.835Z, codex-work-42efe8889a64: Same original diagnostics continuation reproduced CRLF-only workflow-contract false refusal and corrected terminator recognition; both checkout forms exercised. See activePlan.diagnosticImprovements.fullHostedRepositoryProof. ed3cd94 restored all453source/plan/history files exactly; no independent live-corpus or physical storage proof. Hosted follow-up remains required.
+
 - 2026-10-17T03:43:41.330Z, codex-work-42efe8889a64: Original diagnostics now restores required unconditional full repository Orchestrator baseline after hosted logs proved narrower cadence/selection coverage. See activePlan.diagnosticImprovements.fullHostedRepositoryProof;53focused/1186native passed, stronger hosted follow-up pending. P0f686ee6 all9platform jobs passed; no independent live recovery/storage acceptance. Original case-fold collision confirmed read-only in issue49comment6229163062; no historic IDs changed.
 
 - 2026-10-17T03:35:58.592Z, codex-work-42efe8889a64: Original pipeline-diagnostics AUD-03 zero-execution success fixed after2native red cases;55focused/1185native pass, no lifecycle/cadence relaxation. See activePlan.diagnosticImprovements.emptyProofRefusal. Published P0 f686ee6 has453file exact source/plan/Git-history restoration; hosted matrix still authoritative. Additional4primary storage/recovery references logged in issue49comment6229112493; physical metrics/independent live restore still blocked.
@@ -372,6 +374,10 @@ Plain-language summary: Resumed issue49, reconciled concurrent work and integrat
 
 - `hosted proof coverage inspection; workflow contract red/green; full native verification` — started 2026-10-17T03:42:24.904Z, finished 2026-10-17T03:43:41.330Z, exit0; actualUbuntu22job117299322824 at2882937 ran585Code-cadence then146selected tests repeatedly, not full1185. Workflow had commented npmtest marker satisfying2historical regex assertions. Added meaningful active-step/full-all/unconditional contract: baseline failed1case. Existing required job now runs node src/testCadence.js all unconditionally, preserves Code cadence/request/audits/workload, removes misleading marker and strengthens2assertions against comments.53focused/1186native0failed0skipped;36workflows lint pass. No new required status/protection change. Prior P0f686ee6 all9matrix38999137747passed, CodeQL38999137769/handoff38999137753/conflict38999137900passed. Full-suite hosted follow-up required.
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
+
+- `LF/CRLF contract reproduction and correction; source/plan rollback receipt` — started 2026-10-17T03:48:58.835Z, finished 2026-10-17T03:48:58.835Z, exit 0; one real baseline assertion failure retained in scratch crlf-workflow-red.log, both checkout forms now exercised. ed3cd94 checkpoint acc0de4efede65ff347b6726f813cd0363b5f99ae8f9e79c6ca70ca0966fe309 restores453captured files with zero inventory differences; independent live acceptance remains false. Native workflow/pre-push and exact hosted follow-up required.
+
+- `node --test test/workflow.test.js; JAVA_HOME=<preserved-JDK17> npm run test:all; hosted job117300793957 logs` — started 2026-10-17T03:49:00Z, finished 2026-10-17T03:49:43.498Z, exit 0;39workflow/1186full native pass with0fail/0skip. Actual Windows22 hosted baseline confirms1185pass/1fail, the reproduced CRLF contract only; no assertion weakened. Exact fixed-source hosted check required.
 
 ### Session: owner-authorized-takeover-20261016 — 2026-10-16T10:00:45.532Z — codex-work-42efe8889a64 — mode:work
 
