@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "projectId": "github:6076446993/The-Crucible",
   "branch": "development",
-  "developmentSha": "a990f08e38a3dd6a42f5df600f58aa7eb36e4fb7",
-  "updatedAt": "2026-10-17T03:22:30.276Z",
+  "developmentSha": "60aedca3deff926c2df7614b930d85627bf92d6a",
+  "updatedAt": "2026-10-17T03:52:25.935Z",
   "rollingTarget": null,
   "rollingTargetState": "indeterminate-until-r3-r8-and-exact-tip-ci-pass",
   "timezone": "America/New_York",
@@ -339,5 +339,27 @@
     },
     "historicalEvidenceRule": "Historical R1/R2/R4-R7 receipts retain exact original scope/SHA/time. Do not erase them or inherit current-scope PASS from this plan.",
     "planReconciliation": "https://github.com/6076446993/The-Crucible/issues/41#issuecomment-6228942588"
+  },
+  "recoveryContinuationSoftwareEvidence": {
+    "sourceSha": "60aedca3deff926c2df7614b930d85627bf92d6a",
+    "observedAt": "2026-10-17T03:52:25.935Z",
+    "originalWorkIds": [
+      "pipeline-backup",
+      "pipeline-diagnostics"
+    ],
+    "nativeTests": {
+      "passed": 1186,
+      "failed": 0,
+      "skipped": 0
+    },
+    "hostedFullSuiteRun": 39000301685,
+    "completionEvidenceIssue49Comment": 6229273804,
+    "sourcePlanRestoredFiles": 453,
+    "sourcePlanInventorySha256": "7239743d017cc8e7fecebfe8849c234fcc98b56c8e67bd2a5ffb3213c0339f13",
+    "independentLiveRestorationAccepted": false,
+    "physicalBytesBefore": null,
+    "physicalBytesAfter": null,
+    "dependencyAuditVulnerabilities": 0,
+    "productionComplete": false
   }
 }
