@@ -26,7 +26,36 @@ These controls are implementation and candidate-learning scope, not an automatic
 - Movement rule: move the forecast forward when measured throughput or a blocker makes the current date unrealistic. Never move it earlier merely because a deadline is desired, and never weaken, waive, average, or reinterpret a gate to preserve a date.
 - Completion rule: stop rolling the date only after all gates pass, exact-tip hosted checks are green, owner approval is recorded, and the authorized promotion is verified. The plan itself never authorizes a push to `main`.
 
-## Mandatory gates
+## Approved architecture and ALL-plan reconciliation
+
+The existing development/research plan is issue #41; P0 no-loss recovery and physical storage acceptance remain issue #49. The complete reconciled requirement/dependency/acceptance map is [issue41comment6228942588](https://github.com/6076446993/The-Crucible/issues/41#issuecomment-6228942588), synchronized into `AI-HANDOFF.json.activePlan.planReconciliation`. It covers all eight open issues (#40, #41, #44–#49), all75original workLedger records and permanent draft PR11. Preserve original request ages, evidence, candidates, research scope and mutation ownership. A plan/prototype is not implementation or independent acceptance.
+
+One existing brain/orchestrator coordinates one Learning System, one Immune repair/recovery system and typed durable nervous signaling; independent Oversight keeps veto, publisher and separately executable restoration authority. Complete native ACK/retry/quarantine and atomic parent-completion plus all-child-intent commit/replay in the existing durable runtime. Use original pipeline-backup/P0 ordering; owner-file-live-intake (2026-10-07) remains oldest blocked. The 30-minute USER inactivity mechanism still requires trusted host adapters; background work does not renew activity.
+
+Exactly TWO primary logical stores remain the approved target: unvetted Research Pipeline Store (sources/candidates/experiments/registry/queues/provenance) and separately authorized Durable Learned-Knowledge Store (independently verified knowledge, immutable versions/proof/retrieval/rollback). Protected recovery/WORM replicas remain mandatory. Reuse existing managed raw/vetted key families for authenticated encrypted incremental immutable packs, gate state and exports; retain current per-object crypto until compatible replacement passes. Do not rotate/generate keys as a side effect or weaken mixed-capsule dual-key protection. Historical-generation key recoverability remains unverified; old keys/ciphertext must survive.
+
+Miner/discovery/manual PDFs/URLs/research backfill are adapters to ONE R1 acquisition/pre-intake mechanism using existing registry, queue and journal. Preserve #40 extreme-vetting and AI-origin controls at every ingress. PREPARED_NOT_ADMITTED cannot imply authenticated custody, LEE allocation, verification or learning. Reuse LEE and CRU/OPS canonical definitions with versioned references and distinct occurrences; never change namespaces or silently merge original text/identities. Same-source case/whitespace/negation/revision collisions require fail-first tests before identity changes.
+
+Research remains both task-coupled and cumulative: preserve 18subjects/108headings/6,600+planned units,750-paper scope,1,200unfinished units,7×50evaluation slots,14/50tranches,62DIAG concepts, SI separate from AGI, university/source catalogs and retained attachments. These counts overlap and are not additive completed sources. Reconcile canonical DOI/URL/version/content/rights plus subject/support/challenge and original IDs/ages. Keep reviewed/prepared/admitted/verified counts distinct with real receipts. Apply #48 upload-day/subject views from authenticated receipts (America/New_York plus UTC, DST/unknown/duplicate/cross-listing tests), not a new store. Complete #47 whole tracked-tree audit and #44–#46 research dispositions; native suite passes do not certify exhaustive audit coverage or scientific learning. Test consolidation requires measured fault-detection parity.
+
+Storage acceptance covers both stores plus archives/replicas: actual physical before/after <45decimalGB, preferably <=40; GitHub59517884KiB metadata is not physical measurement. Oversight-owned signed true-no-change checks precede encryption and bind worker plaintext AND decision/signer/revocation state/prior receipt. Matching report metadata alone is insufficient. Independent ALL-history cold restore, signed complete reconciliation, shadow/dual-read/canary and rollback precede any separately owner-authorized cleanup/history rewrite. No R2 restart or main promotion follows from this plan.
+
+### Versioned target gate presentation; no proof is waived
+
+The following is an approved target view, not an active schema migration. Existing unqualified operational R1–R11 records retain research/v1 meaning until reversible readers/writers and every consumer are tested. Do not reuse an unqualified ID for two meanings, relabel historical proof, copy/re-sign receipts or inherit a historical PASS for changed scope.
+
+| Target view | Retained legacy predicates |
+| --- | --- |
+| research/v2/R1 Acquisition & Pre-Intake | research/v1/R1 architecture, R2 extraction/failover, R3 scheduled-origin nonzero discovery, R4 real candidate custody |
+| research/v2/R2 Scientific Verification | research/v1/R5 preregistered controlled tests, contradiction and distinct verifier |
+| research/v2/R3 Learning & Knowledge Lifecycle | research/v1/R6 active verified-only retrieval, R7 supersession/rollback; independently measured learning usefulness is additional qualification |
+| research/v2/R4 Safety, Integrity & Release Assurance | research/v1/R8 live adversarial safety, R9 meaningful72–96h <=1000-record soak, R10 frozen exact-SHA qualification, R11 separate owner authorization |
+
+Safety, independent authority and custody apply across all four. Legacy R9 remains the soak after R2–R8; effectiveness research feeds qualification upstream and does not replace it. The status file preserves original historical evidence separately from current-scope recovery holds. Release requires every retained predicate, not an aggregate bitmask. PR11 is an OPEN permanent draft ci-monitor→main monitoring hook and must never be merged, closed, marked ready, retargeted or recreated. Its intentional block is not a repair target; actual checks and sync-tree equality require fresh verification.
+
+## Mandatory legacy operational gates (research/v1)
+
+Historical receipts below prove only their recorded source/corpus; changed architecture requires current-scope requalification and the P0 recovery hold remains. The status JSON contains later historical R4–R7 proof; older pending rows below must not erase it or imply current acceptance.
 
 | Gate | Required proof | Current state |
 | --- | --- | --- |
