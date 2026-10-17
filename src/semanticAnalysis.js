@@ -17,11 +17,12 @@ class SecureCompilerWorker{
       Object.assign(toolEnvironment,{USERPROFILE:temporaryRoot,APPDATA:path.join(temporaryRoot,'profile','roaming'),LOCALAPPDATA:path.join(temporaryRoot,'profile','local'),PROGRAMFILES:path.join(temporaryRoot,'machine','program-files'),'PROGRAMFILES(X86)':path.join(temporaryRoot,'machine','program-files-x86'),PROGRAMDATA:path.join(temporaryRoot,'machine','data'),ALLUSERSPROFILE:path.join(temporaryRoot,'machine','data'),NUGET_PACKAGES:path.join(temporaryRoot,'nuget','packages'),NUGET_HTTP_CACHE_PATH:path.join(temporaryRoot,'nuget','http-cache'),DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK:'1',MSBuildEnableWorkloadResolver:'false'});
       for(const key of ['USERPROFILE','APPDATA','LOCALAPPDATA','PROGRAMFILES','PROGRAMFILES(X86)','PROGRAMDATA','ALLUSERSPROFILE','NUGET_PACKAGES','NUGET_HTTP_CACHE_PATH'])fs.mkdirSync(toolEnvironment[key],{recursive:true,mode:0o700});
     }
-    return new Promise((resolve,reject)=>execFile(resolved,args,{cwd:workdir,shell:false,windowsHide:true,timeout:this.timeoutMs,maxBuffer:this.maxOutputBytes,env:{PATH:path.dirname(resolved),SystemRoot:process.env.SystemRoot||'',WINDIR:process.env.WINDIR||'',TEMP:process.env.TEMP||'',TMP:process.env.TMP||'',HOME:temporaryRoot,DOTNET_CLI_HOME:temporaryRoot,DOTNET_SKIP_FIRST_TIME_EXPERIENCE:'1',DOTNET_NOLOGO:'1',...toolEnvironment}},(error,stdout,stderr)=>{
+    const started=performance.now();
+    return new Promise((resolve,reject)=>{const child=execFile(resolved,args,{cwd:workdir,shell:false,windowsHide:true,timeout:this.timeoutMs,maxBuffer:this.maxOutputBytes,env:{PATH:path.dirname(resolved),SystemRoot:process.env.SystemRoot||'',WINDIR:process.env.WINDIR||'',TEMP:process.env.TEMP||'',TMP:process.env.TMP||'',HOME:temporaryRoot,DOTNET_CLI_HOME:temporaryRoot,DOTNET_SKIP_FIRST_TIME_EXPERIENCE:'1',DOTNET_NOLOGO:'1',...toolEnvironment}},(error,stdout,stderr)=>{
       const exitCode=error?error.code:0;
-      if(error&&(error.killed||error.signal||!Number.isInteger(exitCode)||!allowExitCodes.includes(exitCode)))return reject(new Error(`Compiler worker failed closed: ${error.message}\n${String(stdout).slice(-4000)}\n${String(stderr).slice(-4000)}`));
+      if(performance.now()-started>=this.timeoutMs||child.killed||(error&&(error.killed||error.signal||!Number.isInteger(exitCode)||!allowExitCodes.includes(exitCode))))return reject(new Error(`Compiler worker failed closed: ${error?.message||'deadline reached or execution interrupted'}\n${String(stdout).slice(-4000)}\n${String(stderr).slice(-4000)}`));
       resolve({stdout,stderr,exitCode,stdoutSha256:sha(stdout),stderrSha256:sha(stderr)});
-    }));
+    });});
   }
 }
 class TypeScriptSemanticAdapter{

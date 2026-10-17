@@ -1,5 +1,10 @@
 const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const os=require('node:os');const path=require('node:path');const {SecureCompilerWorker,TypeScriptSemanticAdapter,PythonSemanticAdapter,WebStandardsSemanticAdapter,ShellSemanticAdapter,PowerShellSemanticAdapter,ClangSemanticAdapter,RoslynSemanticAdapter,JavaSemanticAdapter,composeSemanticGraph,SemanticAnalysisCoordinator}=require('../src/semanticAnalysis');
 function fixture(){const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-semantic-'));const dynamicCall=['ev','al(value)'].join('');fs.writeFileSync(path.join(root,'sink.ts'),`export function dangerous(value: string) { return ${dynamicCall}; }`);fs.writeFileSync(path.join(root,'route.ts'),'import { dangerous } from "./sink"; export function route(req: string) { return dangerous(req); }');return root;}
+test('a timed-out compiler cannot turn graceful signal handling into successful proof',async t=>{
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-graceful-deadline-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+  const worker=new SecureCompilerWorker({root,allowExecutables:[process.execPath],timeoutMs:500});
+  await assert.rejects(worker.run(process.execPath,['-e',"process.on('SIGTERM',()=>process.exit(0));setInterval(()=>{},1000)"]),/Compiler worker failed closed/);
+});
 test('isolated tool execution supplies complete private .NET paths without inheriting parent secrets',async t=>{
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-tool-environment-')),toolHome=path.join(root,'home');fs.mkdirSync(toolHome);
   t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
