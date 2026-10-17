@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-17T08:25:19.148Z"
+    "lastActionAt": "2026-10-17T08:30:18.658Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-17T08:24:30.415Z",
+      "selectedAt": "2026-10-17T08:30:18.610Z",
       "promptSha256": "3c7f6f11bb6bbd05371aac10d75a5127fb9c944abf82a9ac15c97cb6cc438d2e",
-      "affectedPathsSha256": "6bef4c3c0ffb521a919a33d1d5ca00e266234ba5442af886de147bf3b3b551a2"
+      "affectedPathsSha256": "94ba672b6cc5a9947754e5b18f7e92edbf3b4fdada8797fe38966211c972d429"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -3694,7 +3694,13 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Meyer & Bolosky, *A Study of Practical Deduplication* (UBC/Microsoft, FAST 2011), https://www.usenix.org/conference/fast11/study-practical-deduplication | Whole-file dedup captured ~75% of most aggressive block-level savings for live file systems and 87% for backup images **in their dataset**, not ours. | First benchmark whole-object equality, unchanged-publication suppression, snapshots and sparse storage against more complex CDC. Do not infer Crucible savings from published ratios. |",
+              "| File-level and block-level dedup | Meyer & Bolosky, UBC/Microsoft, FAST 2011 https://www.usenix.org/conference/fast11/study-practical-deduplication ; Dong et al., Princeton/industry, FAST 2011 https://www.usenix.org/legacy/event/fast11/tech/ | Benchmark whole-file/content equality first; evaluate CDC and block reuse only on permitted plaintext inside each custody domain; prohibit cross-domain equality leakage. |",
+              "1. Meyer & Bolosky, University of British Columbia/Microsoft, *A Study of Practical Deduplication*, FAST 2011, https://www.usenix.org/conference/fast11/study-practical-deduplication : their 857-machine trace found whole-file dedup captured ~75% of aggressive block-level savings on live systems and 87% on backups; workload-specific, **not Crucible forecast**. Compare whole-object, exact-byte, domain-separated dedup before CDC."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-ae595f4318da51a240e0",
@@ -3725,7 +3731,12 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Xia et al., *FastCDC* (HUST / UT Arlington, USENIX ATC 2016), https://www.usenix.org/conference/atc16/technical-sessions/presentation/xia | CDC can identify unchanged sub-file regions after insertions/edits, with strong throughput in their experiments. | Benchmark chunking on **plaintext only inside the authorized encrypted boundary**, separately by raw/vetted domain, before encryption; immutable authenticated manifest; compare chunk size, metadata overhead, restoration latency and dedup ratio. No cross-domain oracle. |",
+              "| CDC and fragmentation | Xia et al., FastCDC, ATC 2016 https://www.usenix.org/conference/atc16/technical-sessions/presentation/xia ; Lillibridge et al., FAST 2013 https://www.usenix.org/conference/fast13/technical-sessions/presentation/lillibridge ; Cao et al., University of Minnesota, FAST 2019 https://www.usenix.org/conference/fast19/presentation/cao | Compare chunk boundaries, restore locality, index size, memory, read amplification, cold restore time and fragment amplification. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-e9921566dd5bf252d60f",
@@ -3755,7 +3766,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Truong et al., *Breaking and Fixing Content-Defined Chunking* (ETH Zurich, CCS 2025), https://www.research-collection.ethz.ch/entities/publication/4c4b7406-faf4-43f1-894e-86e1ffa591a7 | Chunk-length fingerprints and key recovery attacks against multiple keyed CDC implementations; encryption alone does not remove metadata leakage. | Threat-model length/frequency/equality leakage; avoid unreviewed keyed CDC and deterministic/convergent encryption; test privacy and hostile known-plaintext cases before selecting CDC. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-33f96b8334dd39a1b32d",
@@ -3785,7 +3800,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Sun et al., *Tapping the Potential: Secure Chunk-Based Deduplication of Encrypted Data for Cloud Backup* (Washington University in St. Louis / Virginia Tech, IEEE CNS 2018), https://profiles.wustl.edu/en/publications/tapping-the-potential-secure-chunk-based-deduplication-of-encrypt/ | Small-chunk brute-force susceptibility and client compromise change security properties. | Reject simple content-hash-as-encryption-key or shared-domain dedup; preserve existing key manager and independently held raw/vetted secrets; evaluate threat model before secure chunk reuse. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-0beded6105d1a2648883",
@@ -3815,7 +3834,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Fu et al., *Accelerating Restore and Garbage Collection...* (HUST / Virginia Commonwealth, USENIX ATC 2014), https://www.usenix.org/conference/atc14/technical-sessions/presentation/fu_min | Fragmentation can erode restore performance; history-aware placement improves restoration in their evaluated workloads. | Measure complete-history cold-restore throughput, seek count, chunk fan-out and GC metadata costs, not just bytes saved. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-7a3a44106bbe783bc169",
@@ -3847,7 +3870,13 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Douglis et al., *The Logic of Physical Garbage Collection in Deduplicating Storage* (University of Chicago / industry, FAST 2017), https://www.usenix.org/conference/fast17/technical-sessions/presentation/douglis | Logical deletion is not physical reclamation; reference liveness and physical GC require separate accounting. | Require reachability proofs and actual allocated bytes before/after; protect every retained history reference, backups and original provenance. |",
+              "| Backup/archive garbage collection | Douglis et al., FAST 2017 https://www.usenix.org/conference/fast17/technical-sessions/presentation/douglis ; Git gc https://git-scm.com/docs/git-gc ; Git cruft packs https://git-scm.com/docs/cruft-packs | Distinguish logical deletion, reachable Git history, retained off-Git ciphertext and actual allocated physical bytes. Never run history rewrite or cleanup before explicit owner authorization and independent full-history restoration. |",
+              "4. Douglis et al., including University of Chicago, *The Logic of Physical Garbage Collection in Deduplicating Storage*, FAST 2017, https://www.usenix.org/conference/fast17/technical-sessions/presentation/douglis : logical reference removal and physical reclamation are distinct; physical GC improved liveness traversal for evaluated workloads, not guaranteed Crucible savings. Prove reachability/reference safety before any collection."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-ff9e9f31d58b64c2488c",
@@ -3879,7 +3908,13 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Lillibridge et al., *Improving Restore Speed for Backup Systems that Use Inline Chunk-Based Deduplication* (FAST 2013), https://www.usenix.org/conference/fast13/technical-sessions/presentation/lillibridge | Aggressive dedup can fragment restores; strategic layout may trade some savings for better recovery. | Include maximum cold-restoration time and degraded-media recovery in acceptance, not only compression percentage. |",
+              "| CDC and fragmentation | Xia et al., FastCDC, ATC 2016 https://www.usenix.org/conference/atc16/technical-sessions/presentation/xia ; Lillibridge et al., FAST 2013 https://www.usenix.org/conference/fast13/technical-sessions/presentation/lillibridge ; Cao et al., University of Minnesota, FAST 2019 https://www.usenix.org/conference/fast19/presentation/cao | Compare chunk boundaries, restore locality, index size, memory, read amplification, cold restore time and fragment amplification. |",
+              "3. Lillibridge et al., *Improving Restore Speed for Backup Systems that Use Inline Chunk-Based Deduplication*, FAST 2013, https://www.usenix.org/conference/fast13/technical-sessions/presentation/lillibridge : fragmentation can severely reduce restore throughput; cache/container layout trades storage ratio for recovery speed. Benchmark worst-case full-history cold restore, not only dedup ratio."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-a49732b4087981f3df0e",
@@ -3912,7 +3947,14 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Git official garbage collection/cruft pack docs, https://git-scm.com/docs/git-gc and https://git-scm.com/docs/cruft-packs | Git reachable historical blobs remain in clone; GC does not magically delete reachable history; pruning races with writers. | Distinguish repository history from off-Git encrypted archival storage. **No history rewrite, force push, prune-now or deletion** absent independent cold restore, legal/custody checks and explicit owner approval. |",
+              "| Backup/archive garbage collection | Douglis et al., FAST 2017 https://www.usenix.org/conference/fast17/technical-sessions/presentation/douglis ; Git gc https://git-scm.com/docs/git-gc ; Git cruft packs https://git-scm.com/docs/cruft-packs | Distinguish logical deletion, reachable Git history, retained off-Git ciphertext and actual allocated physical bytes. Never run history rewrite or cleanup before explicit owner authorization and independent full-history restoration. |",
+              "**Evidence:** (1) RFC 8878 Zstandard lossless frames and dictionary support https://www.rfc-editor.org/rfc/rfc8878 ; native zstd training/levels documentation https://github.com/facebook/zstd/blob/dev/programs/zstd.1.md ; (2) RFC 7932 Brotli and static dictionary https://www.rfc-editor.org/rfc/rfc7932 ; (3) LZ4 high-throughput lossless design https://github.com/lz4/lz4 ; (4) Meister, Brinkmann & S\u00fc\u00df, Johannes Gutenberg University Mainz, *File Recipe Compression in Data Deduplication Systems*, FAST 2013 https://www.usenix.org/conference/fast13/technical-sessions/presentation/meister : dedup recipe metadata can itself consume substantial space; paper's up-to-93% simulated recipe reduction is **not** a prediction for Crucible; (5) Git gc/delta pack behavior https://git-scm.com/docs/git-gc : repacking cannot be assumed to reclaim reachable encrypted historical blobs; --aggressive needs workload-specific measurement.",
+              "5. Git official git-gc https://git-scm.com/docs/git-gc and cruft packs https://git-scm.com/docs/cruft-packs.html : reachable historical ciphertext remains live even if a newer commit repeats content; git gc does not erase reachable history. Concurrent aggressive prune can corrupt references; **no prune-now, history rewrite, force-push or GC with live writers**."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-5bdd2dd445fdf57bc7e3",
@@ -3943,7 +3985,13 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Git official garbage collection/cruft pack docs, https://git-scm.com/docs/git-gc and https://git-scm.com/docs/cruft-packs | Git reachable historical blobs remain in clone; GC does not magically delete reachable history; pruning races with writers. | Distinguish repository history from off-Git encrypted archival storage. **No history rewrite, force push, prune-now or deletion** absent independent cold restore, legal/custody checks and explicit owner approval. |",
+              "| Backup/archive garbage collection | Douglis et al., FAST 2017 https://www.usenix.org/conference/fast17/technical-sessions/presentation/douglis ; Git gc https://git-scm.com/docs/git-gc ; Git cruft packs https://git-scm.com/docs/cruft-packs | Distinguish logical deletion, reachable Git history, retained off-Git ciphertext and actual allocated physical bytes. Never run history rewrite or cleanup before explicit owner authorization and independent full-history restoration. |",
+              "5. Git official git-gc https://git-scm.com/docs/git-gc and cruft packs https://git-scm.com/docs/cruft-packs.html : reachable historical ciphertext remains live even if a newer commit repeats content; git gc does not erase reachable history. Concurrent aggressive prune can corrupt references; **no prune-now, history rewrite, force-push or GC with live writers**."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-b7bbd2f8ee4d1faba6f1",
@@ -3974,7 +4022,12 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| File-level and block-level dedup | Meyer & Bolosky, UBC/Microsoft, FAST 2011 https://www.usenix.org/conference/fast11/study-practical-deduplication ; Dong et al., Princeton/industry, FAST 2011 https://www.usenix.org/legacy/event/fast11/tech/ | Benchmark whole-file/content equality first; evaluate CDC and block reuse only on permitted plaintext inside each custody domain; prohibit cross-domain equality leakage. |",
+              "2. Dong et al., Princeton/industry, *Tradeoffs in Scalable Data Routing for Deduplication Clusters*, FAST 2011, https://www.usenix.org/legacy/event/fast11/tech/ : locality, index/routing tradeoffs matter for scale. Benchmark index RAM, locality and metadata costs before selecting global indexes."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-5b674aa4ce4b6767955f",
@@ -4004,7 +4057,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| CDC and fragmentation | Xia et al., FastCDC, ATC 2016 https://www.usenix.org/conference/atc16/technical-sessions/presentation/xia ; Lillibridge et al., FAST 2013 https://www.usenix.org/conference/fast13/technical-sessions/presentation/lillibridge ; Cao et al., University of Minnesota, FAST 2019 https://www.usenix.org/conference/fast19/presentation/cao | Compare chunk boundaries, restore locality, index size, memory, read amplification, cold restore time and fragment amplification. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-623c28fe82ef68b12cc4",
@@ -4035,7 +4092,12 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Compression and file optimization | Zstandard format RFC 8878 https://www.rfc-editor.org/rfc/rfc8878 ; content-addressed archive/manifests; immutable snapshot and incremental-pack literature | Test zstd levels, dictionaries, stream vs independent frames, metadata costs and random access **before encryption**, never expect high compression of ciphertext; preserve original bytes and reproducible restore. |",
+              "**Evidence:** (1) RFC 8878 Zstandard lossless frames and dictionary support https://www.rfc-editor.org/rfc/rfc8878 ; native zstd training/levels documentation https://github.com/facebook/zstd/blob/dev/programs/zstd.1.md ; (2) RFC 7932 Brotli and static dictionary https://www.rfc-editor.org/rfc/rfc7932 ; (3) LZ4 high-throughput lossless design https://github.com/lz4/lz4 ; (4) Meister, Brinkmann & S\u00fc\u00df, Johannes Gutenberg University Mainz, *File Recipe Compression in Data Deduplication Systems*, FAST 2013 https://www.usenix.org/conference/fast13/technical-sessions/presentation/meister : dedup recipe metadata can itself consume substantial space; paper's up-to-93% simulated recipe reduction is **not** a prediction for Crucible; (5) Git gc/delta pack behavior https://git-scm.com/docs/git-gc : repacking cannot be assumed to reclaim reachable encrypted historical blobs; --aggressive needs workload-specific measurement."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-d04e60bf36c69468f9f3",
@@ -4065,7 +4127,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Encrypted storage boundaries | NIST SP 800-111 https://csrc.nist.gov/pubs/sp/800/111/final ; NIST SP 800-38D https://csrc.nist.gov/pubs/sp/800/38/d/final | Distinguish encryption-at-rest volumes from authenticated end-to-end ciphertext exports, backups, Git objects and independent Oversight. Keep authenticated AEAD, unique nonces, correct original AAD, replay/version integrity and separate raw/vetted keys. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-af9273b0c48a3a0d14a9",
@@ -4095,7 +4161,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Encrypted storage boundaries | NIST SP 800-111 https://csrc.nist.gov/pubs/sp/800/111/final ; NIST SP 800-38D https://csrc.nist.gov/pubs/sp/800/38/d/final | Distinguish encryption-at-rest volumes from authenticated end-to-end ciphertext exports, backups, Git objects and independent Oversight. Keep authenticated AEAD, unique nonces, correct original AAD, replay/version integrity and separate raw/vetted keys. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-75713bd1d69725f8dd52",
@@ -4125,7 +4195,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Managed key lifecycle | NIST SP 800-57 Part 1 Rev 5 https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final ; Part 2 Rev 1 https://csrc.nist.gov/pubs/sp/800/57/pt2/r1/final ; NIST SP 800-111 | Inventory current authorized key-manager adapters without reading or exposing secret values; test previous-key restore, escrow, loss/unavailability, rotation/rewrap, least privilege, independent custodians, and recovery-only hold. No new uncontrolled master key. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-a33b4ef1c49243f497fa",
@@ -4155,7 +4229,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Managed key lifecycle | NIST SP 800-57 Part 1 Rev 5 https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final ; Part 2 Rev 1 https://csrc.nist.gov/pubs/sp/800/57/pt2/r1/final ; NIST SP 800-111 | Inventory current authorized key-manager adapters without reading or exposing secret values; test previous-key restore, escrow, loss/unavailability, rotation/rewrap, least privilege, independent custodians, and recovery-only hold. No new uncontrolled master key. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-f561a6295e1b6a094877",
@@ -4185,7 +4263,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "| Integrity, crash consistency and recovery | NIST SP 800-34 Rev 1 contingency planning https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final ; authenticated append-only manifests, durable transactional journaling, independent custody receipt designs | Fault inject power loss, concurrent writer, partial pack, torn manifest, stale lock, rollback, wrong key/AAD, truncated history, missing source, signed-receipt mismatch; verify exact all-history restore by independent principal. |"
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-e27c2ce8a31091d2f446",
@@ -4215,7 +4297,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "**Evidence:** (1) RFC 8878 Zstandard lossless frames and dictionary support https://www.rfc-editor.org/rfc/rfc8878 ; native zstd training/levels documentation https://github.com/facebook/zstd/blob/dev/programs/zstd.1.md ; (2) RFC 7932 Brotli and static dictionary https://www.rfc-editor.org/rfc/rfc7932 ; (3) LZ4 high-throughput lossless design https://github.com/lz4/lz4 ; (4) Meister, Brinkmann & S\u00fc\u00df, Johannes Gutenberg University Mainz, *File Recipe Compression in Data Deduplication Systems*, FAST 2013 https://www.usenix.org/conference/fast13/technical-sessions/presentation/meister : dedup recipe metadata can itself consume substantial space; paper's up-to-93% simulated recipe reduction is **not** a prediction for Crucible; (5) Git gc/delta pack behavior https://git-scm.com/docs/git-gc : repacking cannot be assumed to reclaim reachable encrypted historical blobs; --aggressive needs workload-specific measurement."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-8207537db70fd566518d",
@@ -4245,7 +4331,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "**Evidence:** (1) RFC 8878 Zstandard lossless frames and dictionary support https://www.rfc-editor.org/rfc/rfc8878 ; native zstd training/levels documentation https://github.com/facebook/zstd/blob/dev/programs/zstd.1.md ; (2) RFC 7932 Brotli and static dictionary https://www.rfc-editor.org/rfc/rfc7932 ; (3) LZ4 high-throughput lossless design https://github.com/lz4/lz4 ; (4) Meister, Brinkmann & S\u00fc\u00df, Johannes Gutenberg University Mainz, *File Recipe Compression in Data Deduplication Systems*, FAST 2013 https://www.usenix.org/conference/fast13/technical-sessions/presentation/meister : dedup recipe metadata can itself consume substantial space; paper's up-to-93% simulated recipe reduction is **not** a prediction for Crucible; (5) Git gc/delta pack behavior https://git-scm.com/docs/git-gc : repacking cannot be assumed to reclaim reachable encrypted historical blobs; --aggressive needs workload-specific measurement."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-a1bfe268bb82765a3ae4",
@@ -4275,7 +4365,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "**Evidence:** (1) RFC 8878 Zstandard lossless frames and dictionary support https://www.rfc-editor.org/rfc/rfc8878 ; native zstd training/levels documentation https://github.com/facebook/zstd/blob/dev/programs/zstd.1.md ; (2) RFC 7932 Brotli and static dictionary https://www.rfc-editor.org/rfc/rfc7932 ; (3) LZ4 high-throughput lossless design https://github.com/lz4/lz4 ; (4) Meister, Brinkmann & S\u00fc\u00df, Johannes Gutenberg University Mainz, *File Recipe Compression in Data Deduplication Systems*, FAST 2013 https://www.usenix.org/conference/fast13/technical-sessions/presentation/meister : dedup recipe metadata can itself consume substantial space; paper's up-to-93% simulated recipe reduction is **not** a prediction for Crucible; (5) Git gc/delta pack behavior https://git-scm.com/docs/git-gc : repacking cannot be assumed to reclaim reachable encrypted historical blobs; --aggressive needs workload-specific measurement."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-881776ce0fd24d68345d",
@@ -4305,7 +4399,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "**Evidence:** (1) RFC 8878 Zstandard lossless frames and dictionary support https://www.rfc-editor.org/rfc/rfc8878 ; native zstd training/levels documentation https://github.com/facebook/zstd/blob/dev/programs/zstd.1.md ; (2) RFC 7932 Brotli and static dictionary https://www.rfc-editor.org/rfc/rfc7932 ; (3) LZ4 high-throughput lossless design https://github.com/lz4/lz4 ; (4) Meister, Brinkmann & S\u00fc\u00df, Johannes Gutenberg University Mainz, *File Recipe Compression in Data Deduplication Systems*, FAST 2013 https://www.usenix.org/conference/fast13/technical-sessions/presentation/meister : dedup recipe metadata can itself consume substantial space; paper's up-to-93% simulated recipe reduction is **not** a prediction for Crucible; (5) Git gc/delta pack behavior https://git-scm.com/docs/git-gc : repacking cannot be assumed to reclaim reachable encrypted historical blobs; --aggressive needs workload-specific measurement."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "source-reference-9a6d93ffb7a861e45a29",
@@ -4335,7 +4433,11 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": [],
-            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation.",
+            "providedCitations": [
+              "5. Git official git-gc https://git-scm.com/docs/git-gc and cruft packs https://git-scm.com/docs/cruft-packs.html : reachable historical ciphertext remains live even if a newer commit repeats content; git gc does not erase reachable history. Concurrent aggressive prune can corrupt references; **no prune-now, history rewrite, force-push or GC with live writers**."
+            ],
+            "canonicalBibliographyUnverified": true
           },
           {
             "id": "identity-collision-code-src-scientificLearning.js",
@@ -4472,12 +4574,195 @@
               "baselineFailures": 3,
               "independentLiveAcceptance": false
             }
+          },
+          {
+            "id": "node-zlib-docs-22.16.0",
+            "url": "https://nodejs.org/download/release/v22.16.0/docs/api/zlib.html",
+            "title": "Zlib | Node.js v22.16.0 Documentation",
+            "author": "Node.js contributors",
+            "version": "22.16.0",
+            "kind": "official software API documentation; search-excerpt retrieval",
+            "accessedAt": "2026-10-17T08:30:18.658Z",
+            "publicationDate": "UNKNOWN",
+            "sha256": null,
+            "rights": "Official Node documentation; no full text copied",
+            "parentStudyIds": [
+              "CRU-RSCH-P0-COMP-20261017-01"
+            ],
+            "finding": "Convenience output bound and zstd level/checksum/window controls documented. Installed24.19functions/options verified; decoder exception is not complete-restoration proof.",
+            "limits": "Exact raw documentation bytes not obtained; latest-v24 URL open failed; version22.16/24.20 excerpts not a claim that all later features exist in24.19.",
+            "statuses": {
+              "researched": "API excerpts and installed functions inspected",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": "synthetic experiment only",
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": []
+          },
+          {
+            "id": "node-zlib-docs-24.20.0",
+            "url": "https://nodejs.org/download/release/v24.20.0/docs/api/zlib.html",
+            "title": "Zlib | Node.js v24.20.0 Documentation",
+            "author": "Node.js contributors",
+            "version": "24.20.0",
+            "kind": "official software API documentation; search-excerpt retrieval",
+            "accessedAt": "2026-10-17T08:30:18.658Z",
+            "publicationDate": "UNKNOWN",
+            "sha256": null,
+            "rights": "Official Node documentation; no full text copied",
+            "parentStudyIds": [
+              "CRU-RSCH-P0-COMP-20261017-01"
+            ],
+            "finding": "Convenience output bound and zstd level/checksum/window controls documented. Installed24.19functions/options verified; decoder exception is not complete-restoration proof.",
+            "limits": "Exact raw documentation bytes not obtained; latest-v24 URL open failed; version22.16/24.20 excerpts not a claim that all later features exist in24.19.",
+            "statuses": {
+              "researched": "API excerpts and installed functions inspected",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": "synthetic experiment only",
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": []
+          },
+          {
+            "id": "issue49-synthetic-compression-control-20261017",
+            "title": "Synthetic-only lossless codec and restoration-control experiment",
+            "author": "codex-work-42efe8889a64",
+            "version": "Node24.19.0; zstd1.5.7; zlib1.3.2.1-motley-3246f1b; Brotli1.2.0",
+            "publicationDate": "2026-10-17",
+            "accessedAt": "2026-10-17T08:30:18.658Z",
+            "url": "https://github.com/6076446993/The-Crucible/issues/49#issuecomment-6231755075",
+            "sourceSha256": "12e3bf485960a97ff1f491a3aadbace347613b73ba6baecaf087f29a0633332e",
+            "resultsSha256": "e4b938f2290910cb2c1f9bb423abe56a0b1766b3d8ecd7067a5339ddf8ddbbd5",
+            "rights": "Original experiment source/results preserved in existing issue; repository MIT context, no linked full text copied",
+            "relatedWorkIds": [
+              "pipeline-backup"
+            ],
+            "parentStudyIds": [
+              "CRU-RSCH-P0-COMP-20261017-01"
+            ],
+            "rows": 28,
+            "exactRoundtrips": 196,
+            "negativeControls": 56,
+            "p99Measured": false,
+            "negativeFinding": "Raw zstd1 half-frame decoder accepted partial output without exception. Manifest-bound expected length plus SHA256 rejected it. Initial failed source retained in scratch and negative finding preserved in6231745454.",
+            "selectedResults": [
+              {
+                "sample": "synthetic-jsonl",
+                "codec": "zstd-3",
+                "inputBytes": 272211,
+                "encodedBytes": 5208,
+                "manifestBytes": 221,
+                "totalFixtureBytes": 5429,
+                "ratioIncludingManifest": 0.019944087490953707,
+                "encodeP50ms": 0.22131800000001078,
+                "encodeObservedMaxMs": 0.4429969999999912,
+                "decodeP50ms": 0.12498499999999524,
+                "decodeObservedMaxMs": 0.16384399999999744,
+                "restoredSha256": "453f9b6fa34199c42b4c00df4f08c1b2cac1610c02be447ad0bf2be2e0e202b4",
+                "exactRoundtrips": 7,
+                "outputLimitRefused": true,
+                "truncationRefusedByManifest": true,
+                "rawTruncatedThrows": false,
+                "rawTruncatedBytes": 131072
+              },
+              {
+                "sample": "deterministic-random-control",
+                "codec": "zstd-3",
+                "inputBytes": 131072,
+                "encodedBytes": 131088,
+                "manifestBytes": 221,
+                "totalFixtureBytes": 131309,
+                "ratioIncludingManifest": 1.0018081665039062,
+                "encodeP50ms": 0.09798499999999422,
+                "encodeObservedMaxMs": 0.1241239999999948,
+                "decodeP50ms": 0.05556200000000899,
+                "decodeObservedMaxMs": 0.07600300000001425,
+                "restoredSha256": "a8503fe04def87fba26962511355086dac0bee8dfe25d48fb17eea65927cac5e",
+                "exactRoundtrips": 7,
+                "outputLimitRefused": true,
+                "truncationRefusedByManifest": true,
+                "rawTruncatedThrows": false,
+                "rawTruncatedBytes": 65532
+              },
+              {
+                "sample": "already-gzip-control",
+                "codec": "zstd-3",
+                "inputBytes": 11921,
+                "encodedBytes": 2645,
+                "manifestBytes": 220,
+                "totalFixtureBytes": 2865,
+                "ratioIncludingManifest": 0.2403321868970724,
+                "encodeP50ms": 0.03864799999999491,
+                "encodeObservedMaxMs": 0.055542000000002645,
+                "decodeP50ms": 0.024286000000017793,
+                "decodeObservedMaxMs": 0.03404000000000451,
+                "restoredSha256": "39a9954ef96f1cf682960915b76444690be2a887538ec7b6cff66797dd27264b",
+                "exactRoundtrips": 7,
+                "outputLimitRefused": true,
+                "truncationRefusedByManifest": true,
+                "rawTruncatedThrows": false,
+                "rawTruncatedBytes": 0
+              },
+              {
+                "sample": "synthetic-aes-gcm-control",
+                "codec": "zstd-3",
+                "inputBytes": 272239,
+                "encodedBytes": 272261,
+                "manifestBytes": 221,
+                "totalFixtureBytes": 272482,
+                "ratioIncludingManifest": 1.0008925980480388,
+                "encodeP50ms": 0.5082740000000285,
+                "encodeObservedMaxMs": 0.6500449999999773,
+                "decodeP50ms": 0.10908200000000079,
+                "decodeObservedMaxMs": 0.1450760000000173,
+                "restoredSha256": "25a19eb01255aeeccd3b025b30a12649f1fd70dbca6c76ba7ec0e928267260f2",
+                "exactRoundtrips": 7,
+                "outputLimitRefused": true,
+                "truncationRefusedByManifest": true,
+                "rawTruncatedThrows": false,
+                "rawTruncatedBytes": 136115
+              }
+            ],
+            "limitations": [
+              "no live or historic corpus",
+              "no managed or historical key read/rotation/substitution",
+              "no dictionary training",
+              "no LZ4/xz",
+              "no fsync/replica/index/Git allocated bytes",
+              "no independent-principal cold restore",
+              "no production codec selection or cleanup authority"
+            ],
+            "physicalBytesBefore": null,
+            "physicalBytesAfter": null,
+            "productionSavingsVerified": false,
+            "statuses": {
+              "researched": true,
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": "experimental control only; not production integration",
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": []
           }
         ],
         "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared. Public PDF sections were read through the research service; original PDF byte custody in the live corpus is not claimed.",
         "originalPdfBytesImportedIntoPrivateCorpus": false,
         "continuousCheckpoint": {
-          "observedAt": "2026-10-17T08:23:58.600Z",
+          "observedAt": "2026-10-17T08:30:18.658Z",
           "existingLedgerExtended": true,
           "sourceIssueComment": 6231692171,
           "studyRecords": 4,
@@ -4498,7 +4783,11 @@
             "failed": 0,
             "skipped": 0,
             "baselineRed": 3
-          }
+          },
+          "newOfficialApiReferences": 2,
+          "syntheticBenchmarkCaseCount": 28,
+          "syntheticResultsComment": 6231755075,
+          "sourceDevelopmentSha": "772d4d09bd3a40b66f95801ad09b6efbef936e32"
         }
       },
       "verificationBudgetCommit": "07048089487baef06c2f84312a66fe05b6984722",
@@ -5922,7 +6211,32 @@
         "legacyIdsRegenerated": false,
         "historicalRecordsMutated": false,
         "historicalMigrationAccepted": false,
-        "pendingWork": "Publish exact source, hosted full9platform matrix and CodeQL, source/plan rollback; independently reconcile historical collisions and exact original source spans/whitespace only after complete retained evidence mapping."
+        "pendingWork": "Publish exact source, hosted full9platform matrix and CodeQL, source/plan rollback; independently reconcile historical collisions and exact original source spans/whitespace only after complete retained evidence mapping.",
+        "publishedSha": "772d4d09bd3a40b66f95801ad09b6efbef936e32",
+        "hostedFullSuiteRun": 39017340489,
+        "hostedCodeqlRun": 39017340466,
+        "codeql": "passed",
+        "sourcePlanRollback": {
+          "revision": "772d4d09bd3a40b66f95801ad09b6efbef936e32",
+          "checkpoint": "105ea92c95bd1a1203956db85c248c6c7b29c26f97f29fc13d21c42fb2d2adc0",
+          "files": 453,
+          "bytes": 10241407,
+          "inventorySha256": "dab5b96c11dc07384fa2f13af15830ac13c2d9f70af98d3ca644909d5bb89e3d",
+          "comparison": {
+            "ok": true,
+            "missing": [],
+            "changed": [],
+            "added": []
+          },
+          "cleanProcessRestore": true,
+          "gitHistoryBundleVerified": true,
+          "originalPlanAndWorkLedgerPreserved": true,
+          "liveCustodyCovered": false,
+          "independentSecurityPrincipalVerified": false,
+          "cleanupAuthorized": false
+        },
+        "prepushTestsPassed": 429,
+        "hostedResultAuthority": "Read exact job/log results at recorded run; repository/production acceptance is distinct."
       }
     },
     "reconciliationPriorPrompts": [
