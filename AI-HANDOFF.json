@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-17T03:30:44.067Z"
+    "lastActionAt": "2026-10-17T03:35:58.592Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-17T03:28:39.222Z",
+      "selectedAt": "2026-10-17T03:35:58.582Z",
       "promptSha256": "bb1d2f0ac87b9144e9e627ca3616f9c92215beb7789e7dd389762efbd534d0d8",
-      "affectedPathsSha256": "9ce48c60ce55a3a4b5d503be6ec234877efcd17070ccd9ee1bd026d952c04495"
+      "affectedPathsSha256": "cd7be85452d836dedd2559a048cbf5facf10492c677c8a73a9517850e44f6200"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -464,7 +464,8 @@
         "Existing issue49 native foundation and original P0 pipeline-backup/diagnostics continuation published. Latest executable source7bb5a49:1169native,13/13dedicated hosted analyzers on both Windows/Linux, CodeQL/handoff/conflict passed; main matrix live at38974519596.453-file source/plan/Git-history clean-process restoration matched exactly. This is software evidence, not production migration/independent live recovery/storage reduction.",
         "Original pipeline-diagnostics continuation reproduced graceful timeout signal handling returning exit0; monotonic deadline/native killed state now reject. New regression red before fix;14semantic/1170native pass. Prior executable7bb5a49 all9Self-Test and Windows/Linux native analyzers passed; follow-up hosted verification pending.",
         "Owner-directed ALL-plan reconciliation includes all8open issues, permanent draft PR11, organism/recovery/outbox, two stores, managed encrypted packs, LEE/CRU/OPS, unified intake/miner, research accounting, upload grouping, whole-tree audit, diagnostics/test relevance and versioned gate crosswalk. Source issue41comment6228942588 read back; native document synchronization prepared. All75original workLedger records unchanged; no production acceptance.",
-        "Original pipeline-backup P0:5native fail-first signal/ACK/writer-lock failures reproduced; native fixes integrated,44focused/1183full tests pass. ActualSIGKILL at3journal publication stages and fresh-process child replay preserve parent/children/identities. Existing runtime/store/journal reused; no independent production acceptance."
+        "Original pipeline-backup P0:5native fail-first signal/ACK/writer-lock failures reproduced; native fixes integrated,44focused/1183full tests pass. ActualSIGKILL at3journal publication stages and fresh-process child replay preserve parent/children/identities. Existing runtime/store/journal reused; no independent production acceptance.",
+        "Existing pipeline-diagnostics AUD-03 reproduced2empty-execution false-success cases; public selector now reports not-executed/held and preserves lifecycle reasons.55focused/1185full native pass. Published P0 f686ee6 source/plans453file restore/Git-history bundle verified; independent live custody remains unverified."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -632,6 +633,18 @@
           },
           "hostedVerification": "Required for this follow-up; preceding source7bb5a49 all9Self-Test jobs and both13-test native jobs passed."
         }
+      },
+      "emptyProofRefusal": {
+        "originalWorkId": "pipeline-diagnostics",
+        "finding": "AUD-03",
+        "status": "native-verified-hosted-pending",
+        "baselineRegressionsFailed": 2,
+        "change": "Current public runTestSelection refuses an empty selection or lifecycle-filtered empty population without spawning unrelated implicit tests; retains skipped reasons and reports executionState not-executed.",
+        "focusedPassed": 55,
+        "nativePassed": 1185,
+        "failed": 0,
+        "skipped": 0,
+        "legacyScope": "Private legacy helper is not exported; speculative compatibility edit removed after public-path review. No lifecycle classification/cadence policy changed."
       }
     },
     "priorCurrentPrompt": "Keep working and remember oldest relevant work gets completed first",
@@ -4396,7 +4409,21 @@
         "independentPrincipalVerified": false,
         "productionRecoveryAccepted": false,
         "externalEffectsExactlyOnce": false,
-        "remaining": "Exact-source hosted CI/security and source/plan rollback; independent protected live restoration/key generations, Oversight adoption and physical-storage acceptance remain blocked."
+        "remaining": "Exact-source hosted CI/security and source/plan rollback; independent protected live restoration/key generations, Oversight adoption and physical-storage acceptance remain blocked.",
+        "publishedSha": "f686ee64bbb4df9e7b000b41c5962dd4445c70e1",
+        "sourcePlanRollback": {
+          "checkpoint": "6702f0297ee1637fab8291b2e13ed222a3635cc19e99b2e522661793bb1f6289",
+          "files": 453,
+          "bytes": 10156692,
+          "inventorySha256": "a4a3f5af41ee5bc27c9717c88b6f2e7b1c58aaa724230960297e11ec73f87bf0",
+          "missing": 0,
+          "changed": 0,
+          "added": 0,
+          "cleanProcessRestore": true,
+          "gitHistoryBundleVerified": true,
+          "independentPrincipalVerified": false,
+          "liveCustodyCovered": false
+        }
       }
     },
     "recoveryContinuationPriorContext": {
@@ -4769,6 +4796,18 @@
         "noNewStoreRegistryWorkerOrQueue": true,
         "physicalAcceptanceScope": "Both primary stores and all mandatory archives/replicas; <45 decimal GB, prefer <=40; actual physical measurement required.",
         "legacyGatePredicatesPreserved": true
+      },
+      "additionalPrimaryResearch": {
+        "issueComment": 6229112493,
+        "status": "reviewed-design-input-not-admitted-learning",
+        "urls": [
+          "https://restic.readthedocs.io/en/stable/100_references.html",
+          "https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html",
+          "https://www.sqlite.org/atomiccommit.html",
+          "https://www.sqlite.org/wal.html"
+        ],
+        "newDistinctPaperCountClaimed": false,
+        "vendorOrDatabaseMigrationAuthorized": false
       }
     },
     "reconciliationPriorPrompts": [
@@ -6920,6 +6959,26 @@
       "purpose": "Regenerate existing diagnostic catalog for reproduced CRU-0057 native delivery-retention defect; no independent diagnostic registry.",
       "status": "active",
       "acquiredAt": "2026-10-17T03:28:39.328Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "existing-diagnostics-zero-proof-20261017",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/testCadenceCore.js",
+          "test/testCadence.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Reproduce and fix existing AUD-03 zero-execution false success within original pipeline-diagnostics; retain existing test/classification and cadence policy.",
+      "status": "active",
+      "acquiredAt": "2026-10-17T03:33:46.877Z",
       "handedOffTo": null,
       "releasedAt": null
     }
