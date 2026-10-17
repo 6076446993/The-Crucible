@@ -240,3 +240,30 @@ protected retention and complete historical cold restoration. No deletion, histo
 rewrite, migration activation, recovery-hold release, R2 restart or main promotion is
 authorized by these primitives or their tests. Oversight publisher adoption remains
 within Oversight's separate ownership boundary.
+
+## Native signal retention and parent/child custody
+
+The transient circulation pump retains the original signal and payload digest until
+handler output and its delivery audit are valid. Failed or absent handlers retain
+work, concurrent pumps share one dispatch, and three unsuccessful attempts quarantine
+without deletion or freeing transient backpressure. CRU-0057 identifies the reproduced
+delivery-loss defect; it is not an authorization to repair or resume learning.
+This in-memory queue is not crash-durable by itself.
+
+DurableOrganismRuntime uses the existing native recovery writer lock around the
+complete read/modify/write, including initialization. Its existing preservedReplace
+journal commits parent completion, output digest, child-key references and every
+validated child intent in ONE generation. A bad sibling, foreign source/project,
+capacity refusal or independent STOP prevents the whole proposed ACK/child batch.
+Recovery-held parents stay queued with a retry time and reporting children in that
+same generation. Completed history is retained and does not consume active-work
+capacity. No second queue, store, orchestrator or receipt authority is introduced.
+
+Actual disposable-process SIGKILL tests at intent-durable, target-durable and
+commit-durable recover through native exact-hash replay, then restore all child
+intents in a fresh process while the completed parent is not dispatched again.
+Only disposable dead-owner lock mtimes are advanced in these tests; the native
+30-second reclamation floor is unchanged. Handler effects remain at-least-once
+when interruption precedes durable acknowledgement: effect adapters must be
+idempotent. These tests do not establish exactly-once external effects, an
+independent security principal, live deployment or permission to clear recovery hold.

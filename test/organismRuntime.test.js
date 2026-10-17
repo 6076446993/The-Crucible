@@ -1,5 +1,63 @@
 'use strict';const test=require('node:test'),assert=require('node:assert/strict'),crypto=require('node:crypto'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');const {ExternalOversightReflex,canonical}=require('../src/oversightReflex');const {DurableOrganismRuntime}=require('../src/organismRuntime');
 const at='2026-09-01T06:00:00.000Z';function fixture(){const root=fs.mkdtempSync(path.join(os.tmpdir(),'organism-runtime-')),{publicKey:oversightPublicKey,privateKey:oversightPrivateKey}=crypto.generateKeyPairSync('ed25519'),{publicKey:ownerPublicKey,privateKey:ownerPrivateKey}=crypto.generateKeyPairSync('ed25519'),calls=[],memory={retrieve:({boundary})=>[{boundary,claim:'active verified lesson'}]},organs={brain:async({payload,memory})=>{calls.push(['brain',payload,memory.length]);return{planned:true};},immune:async({payload})=>{calls.push(['immune',payload]);if(payload.fail)throw new Error('simulated verifier outage');return{contained:true,repair:'reversible',independentlyVerified:true};},reporting:async()=>({reported:true})},reflex=new ExternalOversightReflex({projectId:'p',oversightPublicKey,ownerPublicKey}),runtime=new DurableOrganismRuntime({projectId:'p',root,organs,learningStore:memory,oversightReflex:reflex,maximumQueue:2,now:()=>at});return{runtime,calls,oversightPrivateKey,ownerPrivateKey,root};}
+test('invalid sibling batch cannot acknowledge parent or partially admit children',async()=>{
+  const f=fixture();f.runtime.maximumQueue=5;
+  const child={id:'child',type:'report',sourceOrgan:'brain',targetOrgan:'reporting',boundary:'outbox',payload:{original:1}};
+  f.runtime.organs.brain=async()=>({signals:[child,{...child,id:'bad-child',type:'unregistered'}]});
+  f.runtime.submit({id:'parent',type:'work-request',sourceOrgan:'nerves',targetOrgan:'brain',boundary:'outbox',payload:{original:'parent'}});
+  await f.runtime.heartbeat().catch(()=>{});const state=f.runtime.read();assert.equal(state.queue[0].state,'queued');assert.equal(state.completedKeys.length,0);assert.equal(state.queue.length,1);
+});
+test('held recovery and its reporting child commit atomically without parent completion',async()=>{
+  const f=fixture();f.runtime.maximumQueue=4;
+  f.runtime.organs.brain=async()=>({recoveryHeld:true,result:{operationalCode:'OPS-0049'},signals:[{id:'held-report',type:'report',sourceOrgan:'brain',targetOrgan:'reporting',boundary:'outbox',payload:{held:true}}]});
+  f.runtime.submit({id:'parent',type:'work-request',sourceOrgan:'nerves',targetOrgan:'brain',boundary:'outbox',payload:{}});
+  const original=f.runtime.write.bind(f.runtime);let heldGeneration;
+  f.runtime.write=state=>{if(state.queue[0]?.notBefore&&!heldGeneration)heldGeneration=structuredClone(state);return original(state);};
+  await f.runtime.heartbeat();assert.equal(heldGeneration.queue[0].state,'queued');assert.equal(heldGeneration.completedKeys.length,0);assert.ok(heldGeneration.queue.some(q=>q.id==='held-report'));
+});
+test('native writer ownership encloses runtime read-modify-write and preserves old generation',()=>{
+  const f=fixture(),{acquireDurableLock}=require('../src/durableLock');const before=fs.readFileSync(f.runtime.file);const held=acquireDurableLock(f.runtime.file+'.lock');
+  try{assert.throws(()=>f.runtime.submit({id:'competing',type:'health',sourceOrgan:'nerves',targetOrgan:'brain',boundary:'lock',payload:{}}),/lock|held|running/i);assert.deepEqual(fs.readFileSync(f.runtime.file),before);}finally{held.release();}
+});
+test('real process interruption preserves parent ACK and every child through native journal replay',async t=>{
+  const cp=require('node:child_process'),recovery=require('../src/recoverySystem');
+  for(const phase of ['intent-durable','target-durable','commit-durable'])await t.test(phase,()=>{
+    const root=fs.mkdtempSync(path.join(os.tmpdir(),'crucible-outbox-cut-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));const marker=path.join(root,'cut-marker');
+    const script=`const fs=require('node:fs'),recovery=require(${JSON.stringify(require.resolve('../src/recoverySystem'))});
+      let armed=false;const original=recovery.preservedReplace;
+      recovery.preservedReplace=(file,bytes,publish)=>original(file,bytes,publish,stage=>{if(armed&&stage===process.argv[2]){fs.writeFileSync(process.argv[3],stage);process.kill(process.pid,'SIGKILL');}});
+      const {DurableOrganismRuntime}=require(${JSON.stringify(require.resolve('../src/organismRuntime'))});
+      const runtime=new DurableOrganismRuntime({projectId:'p',root:process.argv[1],organs:{brain:async()=>({signals:[{id:'child-one',type:'report',sourceOrgan:'brain',targetOrgan:'reporting',boundary:'outbox',payload:{original:'ONE'}},{id:'child-two',type:'report',sourceOrgan:'brain',targetOrgan:'reporting',boundary:'outbox',payload:{original:'two'}}]}),reporting:async()=>({reported:true})},learningStore:{retrieve:()=>[]},oversightReflex:{evaluate:()=>{throw Error('unused');}},maximumQueue:4});
+      runtime.submit({id:'parent',type:'work-request',sourceOrgan:'nerves',targetOrgan:'brain',boundary:'outbox',payload:{original:'Preserve parent'}});armed=true;
+      runtime.heartbeat(1).catch(error=>{console.error(error);process.exitCode=1;});`;
+    const killed=cp.spawnSync(process.execPath,['-e',script,root,phase,marker],{encoding:'utf8',timeout:15000});
+    assert.ifError(killed.error);assert.notEqual(killed.status,0,killed.stderr);assert.equal(fs.readFileSync(marker,'utf8'),phase);
+    const file=path.join(root,'organism-runtime.json'),journal=recovery.readJournal(file),intended=journal.at(-1).after;
+    if(phase!=='commit-durable')assert.throws(()=>recovery.assertFileRestart(file),/interrupted/);
+    // Only disposable dead-owner test locks have their age advanced; native 30s floor remains.
+    for(const lock of [file+'.lock',file+'.recovery.lock'])if(fs.existsSync(lock))fs.utimesSync(lock,new Date(0),new Date(0));
+    recovery.replayFile(file,intended);const state=JSON.parse(fs.readFileSync(file)).payload;
+    assert.equal(state.queue.find(q=>q.id==='parent').state,'completed');assert.equal(state.completedKeys.length,1);
+    assert.deepEqual(state.queue.filter(q=>q.state==='queued').map(q=>[q.id,q.payload.original]),[['child-one','ONE'],['child-two','two']]);
+    assert.deepEqual(state.queue[0].delivery.childKeys,state.queue.slice(1).map(q=>q.key));assert.match(state.queue[0].delivery.outputSha256,/^[a-f0-9]{64}$/);
+    const restarted=cp.spawnSync(process.execPath,['-e',`const fs=require('node:fs'),{DurableOrganismRuntime}=require(${JSON.stringify(require.resolve('../src/organismRuntime'))});const r=new DurableOrganismRuntime({projectId:'p',root:process.argv[1],organs:{brain:async()=>{throw Error('completed parent must not run');},reporting:async({payload})=>{fs.appendFileSync(process.argv[2],payload.original+'\\n');return{reported:true};}},learningStore:{retrieve:()=>[]},oversightReflex:{evaluate:()=>{}},maximumQueue:4});(async()=>{await r.heartbeat();const again=await r.heartbeat();if(again.processed!==0)throw Error('duplicate dispatch');console.log(JSON.stringify(r.read()));})().catch(e=>{console.error(e);process.exitCode=1;});`,root,path.join(root,'effects')],{encoding:'utf8',timeout:15000});
+    assert.equal(restarted.status,0,restarted.stderr);assert.equal(JSON.parse(restarted.stdout).completedKeys.length,3);assert.equal(fs.readFileSync(path.join(root,'effects'),'utf8'),'ONE\ntwo\n');
+  });
+});
+test('independent STOP during handler execution prevents parent ACK and child admission',async()=>{
+  const f=fixture();f.runtime.maximumQueue=4;let finish;
+  f.runtime.organs.brain=async()=>{await new Promise(resolve=>{finish=resolve;});return{signals:[{id:'child',type:'report',sourceOrgan:'brain',targetOrgan:'reporting',boundary:'stop',payload:{}}]};};
+  f.runtime.submit({id:'parent',type:'work-request',sourceOrgan:'nerves',targetOrgan:'brain',boundary:'stop',payload:{original:'preserve'}});
+  const running=f.runtime.heartbeat();await new Promise(resolve=>setImmediate(resolve));f.runtime.applyOversight(decision(f.runtime,f.oversightPrivateKey,null,'STOP'));finish();await running;
+  const state=f.runtime.read();assert.ok(state.stopped);assert.equal(state.queue.length,1);assert.equal(state.queue[0].state,'queued');assert.equal(state.completedKeys.length,0);assert.equal(f.runtime.health().state,'inhibited');
+});
+test('child origin spoof and capacity refusal retain parent and the full original sibling set',async()=>{
+  for(const kind of ['spoof','capacity']){
+    const f=fixture(),children=[{id:'one',type:'report',sourceOrgan:'brain',targetOrgan:'reporting',boundary:'outbox',payload:{original:1}},{id:'two',type:'report',sourceOrgan:kind==='spoof'?'forged':'brain',targetOrgan:'reporting',boundary:'outbox',payload:{original:2}}];
+    f.runtime.maximumQueue=kind==='capacity'?1:4;f.runtime.organs.brain=async()=>({signals:children});f.runtime.submit({id:'parent',type:'work-request',sourceOrgan:'nerves',targetOrgan:'brain',boundary:'outbox',payload:{original:'parent'}});
+    await f.runtime.heartbeat();const state=f.runtime.read();assert.equal(state.queue.length,1);assert.equal(state.queue[0].state,'queued');assert.equal(state.completedKeys.length,0);assert.deepEqual(state.queue[0].payload,{original:'parent'});
+  }
+});
 function decision(runtime,privateKey,ownerPrivateKey,type){const payload={schemaVersion:1,projectId:'p',decision:type,reason:type==='STOP'?'unsafe organism state':'owner-reviewed recovery',issuedAt:at,stateSha256:runtime.stateHash()},result={...payload,oversightSignature:crypto.sign(null,Buffer.from(canonical(payload)),privateKey).toString('base64')};if(type==='CLEAR')result.ownerSignature=crypto.sign(null,Buffer.from(canonical(payload)),ownerPrivateKey).toString('base64');return result;}
 function attendedFixture() {
   const f=fixture(),events=[];let time=Date.parse(at);

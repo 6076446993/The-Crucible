@@ -44,6 +44,12 @@ const OPERATIONAL_PATTERN = /OPS-\d{4}/g;
 // The registry. Each entry says what happened and what to do about it, in the words a person
 // reading a red CI job needs. `category` groups codes for reporting; it is not a severity.
 const FAILURE_CODES = Object.freeze({
+  'CRU-0057': {
+    code:'CRU-0057',category:'circulation-delivery-loss',
+    meaning:'A circulation handler failed or returned invalid output before a delivery could be acknowledged; original signal custody must remain retained.',
+    next:'Inspect the retained original signal and handler error, repair the owning path and verify bounded retry, quarantine and durable parent/child replay without discarding work.',
+    remedy:{kind:'guided',command:null,verifyWith:{tests:['test/organismCirculation.test.js','test/organismRuntime.test.js']},forbidden:'Never dequeue unacknowledged signals, silently discard quarantine, infer exactly-once effects or bypass independent oversight.'},
+  },
   'CRU-0056': {
     code: 'CRU-0056', category: 'learning-pipeline-handoff',
     meaning: 'The native Crucible learning pipeline observed a failed or stale Worker, independent Oversight, or durable-proof handoff and refused to advance it.',
@@ -731,6 +737,7 @@ const FAILURE_CODES = Object.freeze({
 });
 
 const CRU_CLASSIFICATION_CODES = Object.freeze(new Set([
+  'CRU-0057',
   'CRU-0002',
   'CRU-0006',
   'CRU-0008',

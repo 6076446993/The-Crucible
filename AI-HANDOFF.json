@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-17T03:25:01.632Z"
+    "lastActionAt": "2026-10-17T03:30:44.067Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-17T03:23:12.016Z",
+      "selectedAt": "2026-10-17T03:28:39.222Z",
       "promptSha256": "bb1d2f0ac87b9144e9e627ca3616f9c92215beb7789e7dd389762efbd534d0d8",
-      "affectedPathsSha256": "73f19a7190409ac997973e46308f9d476ef42dd56677a1fa03944cfc7bd148a6"
+      "affectedPathsSha256": "9ce48c60ce55a3a4b5d503be6ec234877efcd17070ccd9ee1bd026d952c04495"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -463,7 +463,8 @@
         "Original diagnostics follow-up: Windows native Roslyn job117216360499 exposed missing SDK profile/cache variables across sanitized child boundary. Real child regression fails before fix; explicit private paths and existing no-workload settings pass13semantic/1169native. Parent secrets remain excluded; exact Windows proof pending.",
         "Existing issue49 native foundation and original P0 pipeline-backup/diagnostics continuation published. Latest executable source7bb5a49:1169native,13/13dedicated hosted analyzers on both Windows/Linux, CodeQL/handoff/conflict passed; main matrix live at38974519596.453-file source/plan/Git-history clean-process restoration matched exactly. This is software evidence, not production migration/independent live recovery/storage reduction.",
         "Original pipeline-diagnostics continuation reproduced graceful timeout signal handling returning exit0; monotonic deadline/native killed state now reject. New regression red before fix;14semantic/1170native pass. Prior executable7bb5a49 all9Self-Test and Windows/Linux native analyzers passed; follow-up hosted verification pending.",
-        "Owner-directed ALL-plan reconciliation includes all8open issues, permanent draft PR11, organism/recovery/outbox, two stores, managed encrypted packs, LEE/CRU/OPS, unified intake/miner, research accounting, upload grouping, whole-tree audit, diagnostics/test relevance and versioned gate crosswalk. Source issue41comment6228942588 read back; native document synchronization prepared. All75original workLedger records unchanged; no production acceptance."
+        "Owner-directed ALL-plan reconciliation includes all8open issues, permanent draft PR11, organism/recovery/outbox, two stores, managed encrypted packs, LEE/CRU/OPS, unified intake/miner, research accounting, upload grouping, whole-tree audit, diagnostics/test relevance and versioned gate crosswalk. Source issue41comment6228942588 read back; native document synchronization prepared. All75original workLedger records unchanged; no production acceptance.",
+        "Original pipeline-backup P0:5native fail-first signal/ACK/writer-lock failures reproduced; native fixes integrated,44focused/1183full tests pass. ActualSIGKILL at3journal publication stages and fresh-process child replay preserve parent/children/identities. Existing runtime/store/journal reused; no independent production acceptance."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -4368,6 +4369,34 @@
           "archivePrunedSessionAppendJob": 117212075706,
           "allListedPassed": true
         }
+      },
+      "nativeSignalContinuity": {
+        "observedAt": "2026-10-17T03:30:44.067Z",
+        "status": "integrated-native-tested-hosted-pending",
+        "originalWorkId": "pipeline-backup",
+        "publishedPrerequisitePlanSha": "aeb8f34321570ea7ddf802f672b9136f5ce8f6c3",
+        "reproducedFailures": 5,
+        "fixes": [
+          "ACK-only removal; retain exact failed/missing/unauthorized payload and digest; serialized pumps; bounded quarantine/backpressure",
+          "Native writer lock encloses runtime initialization/read-modify-write",
+          "Parent ACK, output digest, all validated child intents/key references and held-parent retry/reporting publish in one native preserved generation",
+          "Invalid sibling/project/source/capacity or independent STOP cannot partially ACK/admit"
+        ],
+        "focusedTests": 44,
+        "nativeTests": 1183,
+        "failed": 0,
+        "skipped": 0,
+        "actualProcessCrashStages": [
+          "intent-durable",
+          "target-durable",
+          "commit-durable"
+        ],
+        "freshProcessChildReplayVerified": true,
+        "nativeLockStalenessFloorUnchanged": true,
+        "independentPrincipalVerified": false,
+        "productionRecoveryAccepted": false,
+        "externalEffectsExactlyOnce": false,
+        "remaining": "Exact-source hosted CI/security and source/plan rollback; independent protected live restoration/key generations, Oversight adoption and physical-storage acceptance remain blocked."
       }
     },
     "recoveryContinuationPriorContext": {
@@ -4828,7 +4857,8 @@
       "executionTransport": {
         "previouslyDisconnected": true,
         "restoredAt": "2026-10-17T03:22:30.276Z",
-        "unpublishedTimeoutCommitPreserved": "9fb4c5f650a51025a27e5573a5248c3babe5d710"
+        "unpublishedTimeoutCommitPreserved": "9fb4c5f650a51025a27e5573a5248c3babe5d710",
+        "currentlyAvailable": true
       },
       "nextExistingWork": {
         "id": "pipeline-backup",
@@ -6850,6 +6880,46 @@
       "purpose": "Sync all-plan, open-issue and open-PR reconciliation into existing release records without changing historical proof or original ordering.",
       "status": "active",
       "acquiredAt": "2026-10-17T03:21:37.893Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-circulation-retention-20261017",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "src/organismCirculation.js",
+          "test/organismCirculation.test.js",
+          "src/failureCodes.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Original pipeline-backup P0 native ACK retention, bounded retry/quarantine and coded delivery-loss fix; existing runtime claim retained.",
+      "status": "active",
+      "acquiredAt": "2026-10-17T03:25:59.628Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "p0-delivery-catalog-20261017",
+      "owner": {
+        "provider": "openai",
+        "model": null,
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "governingDocuments/cru-code-catalog.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Regenerate existing diagnostic catalog for reproduced CRU-0057 native delivery-retention defect; no independent diagnostic registry.",
+      "status": "active",
+      "acquiredAt": "2026-10-17T03:28:39.328Z",
       "handedOffTo": null,
       "releasedAt": null
     }
