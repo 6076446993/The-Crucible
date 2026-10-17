@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-17T03:30:44.067Z, codex-work-42efe8889a64: Original pipeline-backup native ACK retention/atomic outbox/writer-lock continuation now passes44focused/1183full tests, including actualSIGKILL at3native journal stages and fresh-process exact child replay. See activePlan.recoverySystem.nativeSignalContinuity. Plan reconciliation publishedaeb8f34; hosted source/rollback verification next. Independent live recovery, all-key-history custody and physical storage remain blocked; no R2/main/normal resumption.
+
 - 2026-10-17T03:22:30.276Z, codex-work-42efe8889a64: Execution transport restored; preserved local9fb4c5f timeout fix. ALL-plan/open8issue/permanentPR11 reconciliation now synchronized into activePlan.planReconciliation and existing release/status records; all75ledger entries unchanged. Approved four-gate/two-store/managed-pack target remains inactive. See existing source41comment6228942588. Publish synchronized plan then continue original pipeline-backup ACK/outbox P0; independent historic restore/keys/physical storage remain blocked, no normal resumption/R2/main.
 
 - 2026-10-16T22:31:10.964Z, codex-work-42efe8889a64: Original pipeline-diagnostics follow-up closes graceful timeout exit0 acceptance. See activePlan.diagnosticImprovements.compilerInterruption.gracefulDeadlineFollowup;14semantic/1170native pass, hosted follow-up pending. Prior7bb5a49 all9Self-Test jobs passed. Production issue49/recovery external gates and original ordering remain unchanged.
@@ -354,6 +356,10 @@ Plain-language summary: Resumed issue49, reconciled concurrent work and integrat
 
 
 - `exact-range handoff freshness correction` — started 2026-10-17T03:25:01.632Z, finished 2026-10-17T03:25:01.632Z, exit0; original evidence aged past24hours during continuation: pipeline-backup,pipeline-key-recovery,recovery-history-deduplication,recovery-capsule-key-boundary. Marked historical only; no observation timestamp, original age, priority, identity, status or verification reset. This is evidence labeling, not renewed proof. Full native1170/1170 and mandatory pre-push passed before this metadata-only correction; repeat exact range required.
+
+
+- `native circulation and runtime fail-first reproduction; governed narrow claims; ACK/outbox integration; native fault replay and complete tests` — started 2026-10-17T03:28:00.000Z, finished 2026-10-17T03:30:44.067Z, exit0;5new baseline failures reproduce removed failed/missing signals, concurrent pump disagreement, parent ACK before invalid sibling admission and ignored native writer ownership. Original scopes retained; narrow unclaimed circulation/catalog scope acquired by same actor. Reused native writer lock and preservedReplace journal for one parent+children generation, retained held-report/retry and exact output/key lineage. Actual childSIGKILL at intent-durable/target-durable/commit-durable then exact native replay/fresh-process child dispatch passed.44focused/1183full native0failed0skipped; circulation57direct edges unchanged, existing failure-code catalog regenerated for CRU-0057. Dead-owner lock age advanced only in disposable test roots;30sec floor retained. Host source verification pending. Earlier source-rollback helper invocation omitted required repo arg and failed before any backup; exact final clean-source rerun remains required.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
 
 ### Session: owner-authorized-takeover-20261016 — 2026-10-16T10:00:45.532Z — codex-work-42efe8889a64 — mode:work
 

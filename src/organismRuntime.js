@@ -1,4 +1,4 @@
-const { preservedReplace, assertFileRestart } = require('./recoverySystem');
+const { preservedReplace, assertFileRestart, withRecoveryWriterLock } = require('./recoverySystem');
 'use strict';const crypto=require('node:crypto'),fs=require('node:fs'),path=require('node:path');const {CardiopulmonaryCirculation}=require('./organismCirculation');const {repairOutcome}=require('./gradedOversightResponse');const {assessRecurrence,appendOutcome}=require('./findingLedger');
 const sha=(value)=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');const terminal=new Set(['completed','inhibited','rolled-back','quarantined','rejected']);
 class DurableOrganismRuntime{
@@ -68,10 +68,10 @@ class DurableOrganismRuntime{
     })();
     try{return await this.idleTransition;}finally{this.idleTransition=null;}
   }
-  constructor({projectId,root,organs,learningStore,oversightReflex,maximumQueue=100,staleAfterMs=15*60*1000,now=()=>new Date().toISOString()}){if(!projectId||!root||!organs||!learningStore?.retrieve||!oversightReflex?.evaluate)throw new Error('Organism runtime requires project, organs, memory, and oversight reflex.');this.projectId=projectId;this.root=path.resolve(root);this.file=path.join(this.root,'organism-runtime.json');this.findingLedger=path.join(this.root,'finding-ledger.json');this.organs=organs;this.learningStore=learningStore;this.oversightReflex=oversightReflex;this.maximumQueue=maximumQueue;this.staleAfterMs=staleAfterMs;this.now=now;fs.mkdirSync(this.root,{recursive:true});assertFileRestart(this.file);if(!fs.existsSync(this.file))this.write({schemaVersion:1,projectId,revision:0,stopped:null,queue:[],completedKeys:[],organs:Object.fromEntries(Object.keys(organs).map((id)=>[id,{state:'healthy',dependency:null,lastSeenAt:this.now()}])),events:[],escalations:[]});this.read();}
+  constructor({projectId,root,organs,learningStore,oversightReflex,maximumQueue=100,staleAfterMs=15*60*1000,now=()=>new Date().toISOString()}){if(!projectId||!root||!organs||!learningStore?.retrieve||!oversightReflex?.evaluate)throw new Error('Organism runtime requires project, organs, memory, and oversight reflex.');this.projectId=projectId;this.root=path.resolve(root);this.file=path.join(this.root,'organism-runtime.json');this.findingLedger=path.join(this.root,'finding-ledger.json');this.organs=organs;this.learningStore=learningStore;this.oversightReflex=oversightReflex;this.maximumQueue=maximumQueue;this.staleAfterMs=staleAfterMs;this.now=now;fs.mkdirSync(this.root,{recursive:true});withRecoveryWriterLock(this.file,()=>{assertFileRestart(this.file);if(!fs.existsSync(this.file))this.write({schemaVersion:1,projectId,revision:0,stopped:null,queue:[],completedKeys:[],organs:Object.fromEntries(Object.keys(organs).map((id)=>[id,{state:'healthy',dependency:null,lastSeenAt:this.now()}])),events:[],escalations:[]});this.read();});}
   read(){assertFileRestart(this.file);const envelope=JSON.parse(fs.readFileSync(this.file,'utf8'));if(envelope.sha256!==sha(envelope.payload)||envelope.payload.projectId!==this.projectId)throw new Error('Organism runtime state is corrupt or cross-project.');return structuredClone(envelope.payload);}
   write(payload){const temp=`${this.file}.${process.pid}.${crypto.randomUUID()}.tmp`;const bytes=`${JSON.stringify({payload,sha256:sha(payload)},null,2)}\n`;preservedReplace(this.file,bytes,()=>{fs.writeFileSync(temp,bytes,{flag:'wx',mode:0o600});const fd=fs.openSync(temp,'r+');try{fs.fsyncSync(fd);}finally{fs.closeSync(fd);}fs.renameSync(temp,this.file);});}
-  mutate(action,fn){const state=this.read(),next=fn(structuredClone(state));next.revision=state.revision+1;next.events.push({at:this.now(),action});this.write(next);return structuredClone(next);}
+  mutate(action,fn){return withRecoveryWriterLock(this.file,()=>{const state=this.read(),next=fn(structuredClone(state));next.revision=state.revision+1;next.events.push({at:this.now(),action});this.write(next);return structuredClone(next);});}
   stateHash(){return sha(this.read());}
   applyOversight(envelope){const decision=this.oversightReflex.evaluate(envelope);if(decision.stateSha256!==this.stateHash())throw new Error('Oversight decision does not bind the current organism state.');return this.mutate(`oversight:${decision.decision}`,(state)=>{if(decision.decision==='STOP'){state.stopped=decision;
     // The brake reaches every governed organ, not only the pump. An organism whose queue is
@@ -86,7 +86,44 @@ class DurableOrganismRuntime{
   setOrganAvailability(organId,available,dependency,authority){if(!this.organs[organId])throw new Error('Unknown organ.');const required=available?'governance+immune':'governance';if(authority!==required)throw new Error(`${required} authority is required to ${available?'recover':'inhibit'} an organ.`);return this.mutate(`organ:${organId}:${available?'recover':'unavailable'}`,(state)=>{state.organs[organId]={state:available?'healthy':'unavailable',dependency:available?null:(dependency||'unavailable dependency'),lastSeenAt:this.now()};return state;});}
   // Intake was already closed under a stop: submit refuses inside its own transaction. Left as
   // it was rather than duplicated here, where a second check would drift from the first.
-  submit({id,type,sourceOrgan,targetOrgan,boundary,payload}){if(!this.inFlight&&!this.attendedWorkAllowed())throw new Error('Attended worker is idle or disconnected; preserve work and reconnect through the session host.');if(!id||!targetOrgan||!boundary)throw new Error('Bounded work identity, target, and boundary are required.');return this.mutate(`submit:${id}`,(state)=>{if(state.stopped)throw new Error('Independent oversight STOP inhibits the organism.');const key=sha({id,type,sourceOrgan,targetOrgan,boundary,payload});if(state.completedKeys.includes(key)||state.queue.some((item)=>item.key===key))return state;if(state.queue.length>=this.maximumQueue)throw new Error('Heartbeat backpressure limit reached; work is inhibited, not dropped.');state.queue.push({id,key,type,sourceOrgan,targetOrgan,boundary,payload,submittedAt:this.now(),attempts:0,state:'queued'});return state;});}
+  appendSignal(state,signal,producer=null){
+    if(state.stopped)throw new Error('Independent oversight STOP inhibits the organism.');
+    if(!signal||typeof signal.id!=='string'||!signal.id.trim())throw new Error('Bounded work identity is required.');
+    if(signal.projectId!==undefined&&signal.projectId!==this.projectId)throw new Error('Cross-project circulation is forbidden.');
+    if(producer&&signal.sourceOrgan!==producer)throw new Error('Child source organ must bind the actual parent handler.');
+    const {id,type,sourceOrgan,targetOrgan,boundary,payload}=signal;
+    const validator=new CardiopulmonaryCirculation({projectId:this.projectId,maximumSignals:this.maximumQueue,now:this.now});
+    validator.admit({...signal,projectId:this.projectId},payload);
+    const key=sha({id,type,sourceOrgan,targetOrgan,boundary,payload});
+    if(state.completedKeys.includes(key)||state.queue.some(item=>item.key===key))return state;
+    if(state.queue.filter(item=>!terminal.has(item.state)).length>=this.maximumQueue)throw new Error('Heartbeat backpressure limit reached; work is inhibited, not dropped.');
+    state.queue.push({id,key,type,sourceOrgan,targetOrgan,boundary,payload:structuredClone(payload),submittedAt:this.now(),attempts:0,state:'queued'});
+    return state;
+  }
+  submit(signal){
+    if(!this.inFlight&&!this.attendedWorkAllowed())throw new Error('Attended worker is idle or disconnected; preserve work and reconnect through the session host.');
+    return this.mutate(`submit:${signal?.id}`,state=>this.appendSignal(state,signal));
+  }
+  commitDelivery(item,output){
+    if(output.signals!==undefined&&!Array.isArray(output.signals))throw new Error('Child signals must be a complete bounded batch.');
+    const children=output.signals||[];
+    if(children.length>this.maximumQueue)throw new Error('Child batch exceeds heartbeat backpressure capacity.');
+    return this.mutate(`${output.recoveryHeld===true?'recovery-held':'complete'}:${item.id}`,state=>{
+      if(state.stopped)throw new Error('Independent oversight STOP inhibits delivery ACK.');
+      const parent=state.queue.find(value=>value.key===item.key);
+      if(!parent||parent.state!=='queued')throw new Error('Parent generation is no longer queued; retain output for reconciliation.');
+      if(output.recoveryHeld===true){
+        parent.attempts++;parent.lastError=output.result?.operationalCode||'OPS-0049';parent.notBefore=new Date(Date.parse(this.now())+60000).toISOString();
+      }else{
+        parent.state='completed';parent.completedAt=this.now();state.completedKeys.push(item.key);state.organs[item.targetOrgan].lastSeenAt=this.now();
+      }
+      // All siblings validate in this private next generation. Any rejection discards
+      // the proposed ACK and every proposed child; preservedReplace publishes once.
+      for(const child of children)this.appendSignal(state,child,item.targetOrgan);
+      parent.delivery={outputSha256:sha(output),childKeys:children.map(({id,type,sourceOrgan,targetOrgan,boundary,payload})=>sha({id,type,sourceOrgan,targetOrgan,boundary,payload}))};
+      return state;
+    });
+  }
   async heartbeat(limit=25) {
     if(this.inFlight)throw new Error('A heartbeat is already executing in this worker.');
     await this.checkUserInactivity();
@@ -99,13 +136,10 @@ class DurableOrganismRuntime{
     if(failure)throw failure;
     return{...result,sessionState:this.read().attendedSession?.state||null};
   }
-  async processHeartbeat(limit=25){let state=this.read();if(state.stopped)return{state:'stopped-by-independent-oversight',processed:0,health:this.health()};const due=state.queue.filter((item)=>item.state==='queued'&&(!item.notBefore||Date.parse(item.notBefore)<=Date.parse(this.now()))).slice(0,limit),results=[];for(const item of due){if(!this.attendedWorkAllowed())break;state=this.read();const organ=state.organs[item.targetOrgan];if(!organ||organ.state!=='healthy'){this.mutate(`inhibit:${item.id}`,(next)=>{const queued=next.queue.find((value)=>value.key===item.key);queued.state='inhibited';queued.reason=organ?.dependency||'missing organ';return next;});results.push({id:item.id,state:'inhibited'});continue;}const circulation=new CardiopulmonaryCirculation({projectId:this.projectId,organs:{[item.targetOrgan]:async(envelope,payload)=>this.organs[item.targetOrgan]({envelope,payload,memory:this.learningStore.retrieve({boundary:item.boundary})})},maximumSignals:this.maximumQueue,now:this.now});circulation.admit({projectId:this.projectId,type:item.type,sourceOrgan:item.sourceOrgan,targetOrgan:item.targetOrgan,boundary:item.boundary},item.payload);try{const [result]=await circulation.pump();
-      if(result.output?.recoveryHeld===true){
-        this.mutate(`recovery-held:${item.id}`,(next)=>{const queued=next.queue.find(value=>value.key===item.key);queued.state='queued';queued.attempts++;queued.lastError=result.output.result?.operationalCode||'OPS-0049';queued.notBefore=new Date(Date.parse(this.now())+60000).toISOString();return next;});
-        results.push({id:item.id,state:'recovery-held',output:result.output});continue;
-      }
-      this.mutate(`complete:${item.id}`,(next)=>{const queued=next.queue.find((value)=>value.key===item.key);queued.state='completed';queued.completedAt=this.now();next.completedKeys.push(item.key);next.organs[item.targetOrgan].lastSeenAt=this.now();return next;});results.push({id:item.id,state:result.state,output:result.output});}catch(error){this.mutate(`failure:${item.id}`,(next)=>{const queued=next.queue.find((value)=>value.key===item.key);queued.attempts++;queued.lastError=String(error.message||error);if(queued.attempts>=3){queued.state='quarantined';next.organs[item.targetOrgan]={state:'degraded',dependency:queued.lastError,lastSeenAt:this.now()};}return next;});if(this.read().queue.find((value)=>value.key===item.key)?.state==='quarantined')this.escalateRecurringFault(item,String(error.message||error));results.push({id:item.id,state:'failed',reason:String(error.message||error)});}}
-    for(const result of results)if(result.output?.signals)for(const signal of result.output.signals)this.submit(signal);return{state:'heartbeat-complete',processed:results.length,results,health:this.health()};}
+  async processHeartbeat(limit=25){let state=this.read();if(state.stopped)return{state:'stopped-by-independent-oversight',processed:0,health:this.health()};const due=state.queue.filter((item)=>item.state==='queued'&&(!item.notBefore||Date.parse(item.notBefore)<=Date.parse(this.now()))).slice(0,limit),results=[];for(const item of due){if(!this.attendedWorkAllowed())break;state=this.read();if(state.stopped)break;if(state.queue.find(value=>value.key===item.key)?.state!=='queued')continue;const organ=state.organs[item.targetOrgan];if(!organ||organ.state!=='healthy'){this.mutate(`inhibit:${item.id}`,(next)=>{const queued=next.queue.find((value)=>value.key===item.key);queued.state='inhibited';queued.reason=organ?.dependency||'missing organ';return next;});results.push({id:item.id,state:'inhibited'});continue;}const circulation=new CardiopulmonaryCirculation({projectId:this.projectId,organs:{[item.targetOrgan]:async(envelope,payload)=>this.organs[item.targetOrgan]({envelope,payload,memory:this.learningStore.retrieve({boundary:item.boundary})})},maximumSignals:this.maximumQueue,now:this.now});circulation.admit({projectId:this.projectId,type:item.type,sourceOrgan:item.sourceOrgan,targetOrgan:item.targetOrgan,boundary:item.boundary},item.payload);try{const [result]=await circulation.pump();
+      this.commitDelivery(item,result.output);
+      results.push({id:item.id,state:result.output.recoveryHeld===true?'recovery-held':result.state,output:result.output});}catch(error){this.mutate(`failure:${item.id}`,(next)=>{const queued=next.queue.find((value)=>value.key===item.key);queued.attempts++;queued.lastError=String(error.message||error);if(queued.attempts>=3){queued.state='quarantined';next.organs[item.targetOrgan]={state:'degraded',dependency:queued.lastError,lastSeenAt:this.now()};}return next;});if(this.read().queue.find((value)=>value.key===item.key)?.state==='quarantined')this.escalateRecurringFault(item,String(error.message||error));results.push({id:item.id,state:'failed',reason:String(error.message||error)});}}
+    return{state:'heartbeat-complete',processed:results.length,results,health:this.health()};}
   // A quarantine is the moment a fault stops being an incident and becomes a pattern. The three
   // retries inside one run are the bounded repair attempt; whether that attempt *held* is a
   // question no single run can answer, so the fault is written down here and judged against

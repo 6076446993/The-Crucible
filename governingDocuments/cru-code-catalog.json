@@ -1020,6 +1020,25 @@
         },
         "forbidden": "Never mark a stale or failed stage successful, skip independent Oversight, or dispatch downstream proof from stale evidence."
       }
+    },
+    {
+      "code": "CRU-0057",
+      "status": "active-classification",
+      "operationalCode": null,
+      "category": "circulation-delivery-loss",
+      "meaning": "A circulation handler failed or returned invalid output before a delivery could be acknowledged; original signal custody must remain retained.",
+      "next": "Inspect the retained original signal and handler error, repair the owning path and verify bounded retry, quarantine and durable parent/child replay without discarding work.",
+      "remedy": {
+        "kind": "guided",
+        "command": null,
+        "verifyWith": {
+          "tests": [
+            "test/organismCirculation.test.js",
+            "test/organismRuntime.test.js"
+          ]
+        },
+        "forbidden": "Never dequeue unacknowledged signals, silently discard quarantine, infer exactly-once effects or bypass independent oversight."
+      }
     }
   ]
 }
