@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-17T03:49:43.498Z"
+    "lastActionAt": "2026-10-17T03:53:11.355Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-17T03:48:34.777Z",
+      "selectedAt": "2026-10-17T03:52:25.893Z",
       "promptSha256": "bb1d2f0ac87b9144e9e627ca3616f9c92215beb7789e7dd389762efbd534d0d8",
-      "affectedPathsSha256": "da3b9661956ce970bb29b1993efd405ca9c5ba78533c932ef5f83deb4bce610f"
+      "affectedPathsSha256": "11549f2c614227f2a408b9b64d59b7e9edee060fa879fe4fced180c235957026"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -476,7 +476,7 @@
         "Keep normal activity inhibited until independently accepted recovery and owner continuation; no main promotion or live R2 restart.",
         "Issue49: historical independent cold restoration, protected retention/key custody under distinct principal, Oversight publisher adoption, actual provider physical measurement and owner-authorized cleanup remain blocked; original P0 pipeline-backup continuation preserved.",
         "Existing issue49 acceptance remains blocked by independent protected retention/key custody, complete historical cold restoration/signed receipt, Oversight-owned publisher adoption and actual physical storage/owner-authorized cleanup. Preserve original ledger, October7live-intake age, P0 hold, excluded owner-file API contract and no R2/main resumption. Canonical Oversight repository access is resolved (trailing period).",
-        "Implement native no-loss circulation and atomic parent+children under existing pipeline-backup ownership after plan publication. All-history independent recovery/key retention and physical storage acceptance remain blocked. Preserve original oldest owner-file intake and research obligations; new architecture/crosswalk remains inactive until compatibility and independent tests pass."
+        "Native ACK retention and atomic parent+all-child outbox are integrated under original pipeline-backup ownership; verify hosted full-suite receipts and preserve independent external-effects limitations. All-history independent recovery/key retention and physical storage acceptance remain blocked. Preserve original oldest owner-file intake and research obligations; new architecture/crosswalk remains inactive until compatibility and independent tests pass."
       ]
     },
     "filesTouched": [
@@ -649,7 +649,7 @@
       },
       "fullHostedRepositoryProof": {
         "originalWorkId": "pipeline-diagnostics",
-        "status": "native-verified-hosted-followup-required",
+        "status": "native-verified-hosted-run-indexed-production-unaccepted",
         "observedAt": "2026-10-17T03:43:41.330Z",
         "evidence": "Actual job117299322824 ran585Code-cadence tests then146selected tests repeatedly, not all1185; commented npm test marker satisfied historical workflow regex assertions.",
         "reproducedBaselineFailures": 1,
@@ -680,19 +680,31 @@
           }
         },
         "sourcePlanRollback": {
-          "revision": "ed3cd94d7585a268a4f7485ba479bda3376db813",
-          "checkpoint": "acc0de4efede65ff347b6726f813cd0363b5f99ae8f9e79c6ca70ca0966fe309",
+          "revision": "60aedca3deff926c2df7614b930d85627bf92d6a",
+          "checkpoint": "e85dea9f9f1fdcd943e8459a7bbf665a93d1e6e3421a7062a0b2b3269ad19f4f",
           "files": 453,
-          "bytes": 10176373,
-          "inventorySha256": "7679769b1cd3918119c03651f65f16d52f55dae906d5c396dec3b746d7024394",
-          "missing": 0,
-          "changed": 0,
-          "added": 0,
+          "bytes": 10180811,
+          "inventorySha256": "7239743d017cc8e7fecebfe8849c234fcc98b56c8e67bd2a5ffb3213c0339f13",
+          "comparison": {
+            "ok": true,
+            "missing": [],
+            "changed": [],
+            "added": []
+          },
           "cleanProcessRestore": true,
           "gitHistoryBundleVerified": true,
+          "originalPlanAndWorkLedgerPreserved": true,
           "liveCustodyCovered": false,
           "independentSecurityPrincipalVerified": false,
           "cleanupAuthorized": false
+        },
+        "fixedSourceSha": "60aedca3deff926c2df7614b930d85627bf92d6a",
+        "hostedEvidenceIndex": {
+          "runId": 39000301685,
+          "sourceSha": "60aedca3deff926c2df7614b930d85627bf92d6a",
+          "authoritativeResults": "https://github.com/6076446993/The-Crucible/actions/runs/39000301685",
+          "progressAndCompletionRecord": "https://github.com/6076446993/The-Crucible/issues/49#issuecomment-6229273804",
+          "resultRecordedSeparatelyFromImmutableSource": true
         }
       },
       "originalTextCollisionAudit": {
@@ -4467,7 +4479,7 @@
         "independentPrincipalVerified": false,
         "productionRecoveryAccepted": false,
         "externalEffectsExactlyOnce": false,
-        "remaining": "Exact-source hosted CI/security and source/plan rollback; independent protected live restoration/key generations, Oversight adoption and physical-storage acceptance remain blocked.",
+        "remaining": "Independent protected live restoration/key generations, complete historical identity reconciliation, Oversight adoption, deployed roots and physical-storage acceptance remain blocked. Full-suite hosted evidence is indexed in diagnosticImprovements.fullHostedRepositoryProof and issue49.",
         "publishedSha": "f686ee64bbb4df9e7b000b41c5962dd4445c70e1",
         "sourcePlanRollback": {
           "checkpoint": "6702f0297ee1637fab8291b2e13ed222a3635cc19e99b2e522661793bb1f6289",
@@ -4876,6 +4888,18 @@
         ],
         "newDistinctPaperCountClaimed": false,
         "vendorOrDatabaseMigrationAuthorized": false
+      },
+      "continuationCheckpoint": {
+        "sourceSha": "60aedca3deff926c2df7614b930d85627bf92d6a",
+        "issue49EvidenceComment": 6229273804,
+        "filesChangedSinceA990": 18,
+        "nativeFullPassed": 1186,
+        "dependencyAuditVulnerabilities": 0,
+        "productionComplete": false,
+        "physicalBytesBefore": null,
+        "physicalBytesAfter": null,
+        "sourcePlanRestoreIndependent": false,
+        "noCleanupOrHistoryRewrite": true
       }
     },
     "reconciliationPriorPrompts": [
@@ -4960,7 +4984,7 @@
           "checksVerified": false
         }
       ],
-      "allPlanAcceptanceMapMarkdown": "Rows below reference existing work; they neither reset ages nor create another priority queue.\n\n| Existing work / source | Reconciled requirement and concrete missing implementation | Required next evidence |\n| --- | --- | --- |\n| **P0 preservation** \u2014 #49; pipeline-backup, recovery-history-deduplication; activePlan.recoverySystem | Inventory all original/operator/unpublished/cache roots and writer locks; retain exact sources, candidates, plans, research, journals, every distinct ciphertext version, signed custody and keys. Existing native preservation and local source roundtrips are partial software evidence. | Independent protected retention under a distinct principal; authenticated ALL-history cold restore and complete identity/hash/signature/alias reconciliation; no-loss signed acceptance before live replacement. |\n| **One brain / Learning / Immune / independent Oversight** \u2014 #41 organism contract; existing runtime/recovery/production modules | Coordinate existing components through one orchestrator, typed signaling, one Learning System and one Immune repair/recovery system. Preserve distinct detector, planner, executor, verifier and rollback identities. Brain and Oversight need separately executable, cross-reconciled recovery paths; policy-bound automatic brain recovery cannot clear independent STOP or approve its own restoration. | Native actual-module integration map, authorized-operation tests, brain-offline independent restore, stale/revoked signer and conflicting-generation cases, exact restored population and independent receipt. |\n| **Durable nervous system** \u2014 #49 circulation/outbox proposals; pipeline-backup | Current source still shifts a circulation message before awaiting its handler, and runtime parent completion precedes later child submissions. Integrate reviewed ACK/retention and atomic parent+all-children outbox into existing preserved runtime generation; bounded retry/quarantine, idempotent effects and retained failures. Prepared patches are NOT integrated. | Native red/green handler failure, missing/unauthorized handler, concurrent pump, crash before/after intent, target effect, parent/child commit and ACK; restart replay with original IDs/ages. Do not claim exactly-once external side effects from queue dedup. |\n| **Two primary logical stores** \u2014 #41/#49 owner architecture | Research Pipeline Store for source/candidate/experiment/provenance/queue/LEE custody; separately authorized Durable Learned-Knowledge Store for independently verified learning and immutable version/proof/retrieval/rollback. Recovery/WORM replicas are protections, not a third learning system. | Map each current repo/root/adapter to its store, owner, key family and rights. Preserve raw/vetted separation and all aliases; shadow/dual-read/canary plus rollback. No store per gate or competing registry. |\n| **Encryption and key custody** \u2014 #49 existing managed-key decision | Approved target is authenticated encrypted stores/incremental immutable packs and protected gate scratch/exports, not mandatory encryption wrapper per LEE. Keep current object crypto intact until tested replacement. Reuse existing key-manager families; do not generate/rotate keys or reencrypt history as a side effect. Current+previous alone does not establish all-generation recovery. | Inventory actual key IDs/fingerprints/AAD/version coverage without secrets; encrypted index scalable to actual corpus; wrong/missing/revoked/old key and orphan/partial-write tests; independent retained-generation recovery. Preserve current mixed-capsule dual-key requirement until a reviewed compatible replacement is proven. Volume encryption alone cannot protect exported Git/object backups. |\n| **Storage reduction and no-op publication** \u2014 #49 | Normalize/deduplicate exact content within authorized domain, optionally compress with bounds, encrypt only changed packs and reference immutable definitions/proofs. Oversight alone owns independent signed no-change guard BEFORE encryption/publication, bound to worker plaintext AND decision/revocation/signer state and prior receipt. | Actual provider physical before/after across BOTH stores plus retained archives/replicas; <45 decimal GB, preferably <=40. GitHub 59,517,884 KiB is metadata, not physical bytes. 130 same-metadata transitions changed worker digests; 425 raw source objects have no exact byte duplicates. Independent all-history restore then separate owner cleanup authorization. |\n| **LEE / CRU / OPS identity** \u2014 #49; failure-code-governance | Reuse existing registry/transactions: immutable identity, legacy aliases, reviewed subject/type codes, source independence and distinct claims. Reusable CRU class/OPS operational definition references must retain occurrence identity, definition version/digest and offline rendering. Do not invent OP namespace or replace native full-digest LEE identities with a chat display-code format. Resolve representation via reversible adapter and authoritative catalog. | Exact original-byte comparator and collision/alias/version/domain tests; preserve case, whitespace, punctuation, negation and revisions. Reproduce lowercasing/cleanText extraction collision risk before repair; never regenerate legacy IDs or silently merge historical claims. Reconcile competing diagnostic prototype filenames into ONE existing registry integration. |\n| **Unified acquisition/pre-intake** \u2014 #40/#41 | Miner, scheduled discovery, model pointers, manual PDFs/URLs and research backfill are adapters to one R1 mechanism. Shared immutable source descriptor, risk screening and durable admission transaction; no second miner/queue/journal or invented LEE IDs before authoritative admission. #40 extreme-vetting/AI-origin controls remain mandatory independent predicates. | All-ingress default-deny, independently attested origin/citation/receipt, bypass and replay/concurrency tests; HOLD unknown origin and ambiguous classification with explicit reasons; PREPARED_NOT_ADMITTED never counted as candidate custody or verified learning. Do not impose a new primary store from older standalone collector proposals. |\n| **Owner uploads and original intake** \u2014 #48; owner-file-live-intake (2026-10-07) | Preserve oldest blocked original PDF/catalog intake and transport work. Group authenticated receipts by original upload day in America/New_York AND subject, retaining UTC, unique source/candidate counts, cross-listing and explicit Unknown upload date / Needs subject classification. | Native receipt-derived view, DST/day rollover, duplicate uploads, multi-subject non-double-counting, missing metadata and restart idempotency. Grouping is a view, not semantic deduplication or admission. |\n| **Research execution and submissions** \u2014 #41/#44/#45/#46/#47; research-NMI, research-pipeline and DIAG records | Preserve 18 subjects /108 headings /6,600+ planned units, 750-paper scope, 1,200 unfinished units, 7\u00d750 evaluation slots, earlier 14/50 tranches, 62 DIAG concepts, SI separate from AGI, university research, Camunda/135-source and other retained attachment references. Task-coupled research accompanies safe implementation; broad subject work remains required. | Canonical DOI/URL/version/content/rights manifest linked to original source/work IDs; subject grouping plus multi-source support/challenge; planned/examined/reviewed/prepared/admitted/verified counts with real receipts. Do not add overlapping totals, reduce scope, reject solely \u201cno relationship\u201d, or call bibliographies/issue packets authenticated intake. Unread attachments stay review-pending. |\n| **Whole-repository audit and industry gaps** \u2014 #47; G01\u2013G09/H01\u2013H07/AUD findings | Complete tracked-file inventory and classify EXISTING/PARTIAL/MISSING/UNVERIFIED with exact blob/SHA; retain source-level hypotheses, reproduced failures and repairs separately. Audit every source/test/workflow/config/doc/dependency, including false-healthy oversight, duplicate extraction completion and zero-selected-tests paths. | File-specific coverage, meaningful red/green/negative/rollback tests, primary-source correction research, native plus exact-head hosted/security proof and independent acceptance. Passing the suite does not certify an exhaustive audit. |\n| **Diagnostics, repair, continuity and test cost** \u2014 pipeline-diagnostics, devlog-continuity, test-relevance; #44/#47 | Preserve original known failures and all work IDs/ages. Tie CRU occurrence\u2192investigation\u2192verified repair\u2192candidate learning\u2192independent prevention. Keep stale evidence labeled. Consolidate/cadence tests only after measured fault-detection equivalence, never by count alone. | Publish preserved timeout fix only after rechecking current source and required gates; exact-source CI; failure/repair/recurrence metrics, test replacement/coverage evidence, replayable continuity and no false-green empty selection. No silent unattended application repair or self-verification. |\n| **Worker operations and completion-driven execution** \u2014 attendedWorkerInactivity | Continue authorized implementation/research/repair/test/verification until actual completion or genuine blocker, with updates/checkpoints. Thirty minutes of USER inactivity triggers safe checkpoint then idempotent disconnect; background activity does not renew user presence. | Trusted host activity feed and disconnect adapters are still unavailable in this Work runtime. Native mechanism is not proof ChatGPT host is configured; claim transfer follows actual preservation/disconnection. No new automation or schedule created. |\n| **Release/gate compatibility** \u2014 release-plan/status; #41/#49 | Versioned four-gate TARGET: research/v2/R1 maps v1/R1\u2013R4; v2/R2\u2192v1/R5; v2/R3\u2192v1/R6\u2013R7; v2/R4\u2192v1/R8\u2013R11. Existing operational v1 records remain unchanged until reversible consumer migration. Preserve legacy R9=72\u201396h, <=1,000 observed meaningful records after R2\u2013R8; R10 frozen exact SHA; R11 explicit owner authorization. | Mechanical crosswalk completeness, stale/missing proof refusal, backward readers and independent authority tests. Keep historical R1/R2/R4\u2013R7 evidence scoped to original SHA/corpus; it is neither erased nor inherited as current-scope acceptance. Safety applies across all gates, not only v2/R4. |",
+      "allPlanAcceptanceMapMarkdown": "Rows below reference existing work; they neither reset ages nor create another priority queue.\n\n| Existing work / source | Reconciled requirement and concrete missing implementation | Required next evidence |\n| --- | --- | --- |\n| **P0 preservation** \u2014 #49; pipeline-backup, recovery-history-deduplication; activePlan.recoverySystem | Inventory all original/operator/unpublished/cache roots and writer locks; retain exact sources, candidates, plans, research, journals, every distinct ciphertext version, signed custody and keys. Existing native preservation and local source roundtrips are partial software evidence. | Independent protected retention under a distinct principal; authenticated ALL-history cold restore and complete identity/hash/signature/alias reconciliation; no-loss signed acceptance before live replacement. |\n| **One brain / Learning / Immune / independent Oversight** \u2014 #41 organism contract; existing runtime/recovery/production modules | Coordinate existing components through one orchestrator, typed signaling, one Learning System and one Immune repair/recovery system. Preserve distinct detector, planner, executor, verifier and rollback identities. Brain and Oversight need separately executable, cross-reconciled recovery paths; policy-bound automatic brain recovery cannot clear independent STOP or approve its own restoration. | Native actual-module integration map, authorized-operation tests, brain-offline independent restore, stale/revoked signer and conflicting-generation cases, exact restored population and independent receipt. |\n| **Durable nervous system** \u2014 #49 circulation/outbox proposals; pipeline-backup | Integrated in f686ee6: ACK-only removal with retained payload/digest, serialized pumps, bounded retry/quarantine, native writer-lock coverage and atomic parent ACK plus all validated child intents in one preserved generation. Native 44 focused/1,183 full tests and all nine original scoped hosted jobs passed; actual SIGKILL at three journal cuts and fresh-process child replay verified. Complete required baseline restored separately in ed3cd94/60aedca; production remains unaccepted. | Native red/green handler failure, missing/unauthorized handler, concurrent pump, crash before/after intent, target effect, parent/child commit and ACK; restart replay with original IDs/ages. Do not claim exactly-once external side effects from queue dedup. |\n| **Two primary logical stores** \u2014 #41/#49 owner architecture | Research Pipeline Store for source/candidate/experiment/provenance/queue/LEE custody; separately authorized Durable Learned-Knowledge Store for independently verified learning and immutable version/proof/retrieval/rollback. Recovery/WORM replicas are protections, not a third learning system. | Map each current repo/root/adapter to its store, owner, key family and rights. Preserve raw/vetted separation and all aliases; shadow/dual-read/canary plus rollback. No store per gate or competing registry. |\n| **Encryption and key custody** \u2014 #49 existing managed-key decision | Approved target is authenticated encrypted stores/incremental immutable packs and protected gate scratch/exports, not mandatory encryption wrapper per LEE. Keep current object crypto intact until tested replacement. Reuse existing key-manager families; do not generate/rotate keys or reencrypt history as a side effect. Current+previous alone does not establish all-generation recovery. | Inventory actual key IDs/fingerprints/AAD/version coverage without secrets; encrypted index scalable to actual corpus; wrong/missing/revoked/old key and orphan/partial-write tests; independent retained-generation recovery. Preserve current mixed-capsule dual-key requirement until a reviewed compatible replacement is proven. Volume encryption alone cannot protect exported Git/object backups. |\n| **Storage reduction and no-op publication** \u2014 #49 | Normalize/deduplicate exact content within authorized domain, optionally compress with bounds, encrypt only changed packs and reference immutable definitions/proofs. Oversight alone owns independent signed no-change guard BEFORE encryption/publication, bound to worker plaintext AND decision/revocation/signer state and prior receipt. | Actual provider physical before/after across BOTH stores plus retained archives/replicas; <45 decimal GB, preferably <=40. GitHub 59,517,884 KiB is metadata, not physical bytes. 130 same-metadata transitions changed worker digests; 425 raw source objects have no exact byte duplicates. Independent all-history restore then separate owner cleanup authorization. |\n| **LEE / CRU / OPS identity** \u2014 #49; failure-code-governance | Reuse existing registry/transactions: immutable identity, legacy aliases, reviewed subject/type codes, source independence and distinct claims. Reusable CRU class/OPS operational definition references must retain occurrence identity, definition version/digest and offline rendering. Do not invent OP namespace or replace native full-digest LEE identities with a chat display-code format. Resolve representation via reversible adapter and authoritative catalog. | Exact original-byte comparator and collision/alias/version/domain tests; preserve case, whitespace, punctuation, negation and revisions. Read-only case-fold collision reproduced in #49 comment 6229163062; exact APIKEY/apikey claims collapse under legacy normalization. Historical mapping and safe repair remain unresolved; never regenerate legacy IDs or silently merge historical claims. Reconcile competing diagnostic prototype filenames into ONE existing registry integration. |\n| **Unified acquisition/pre-intake** \u2014 #40/#41 | Miner, scheduled discovery, model pointers, manual PDFs/URLs and research backfill are adapters to one R1 mechanism. Shared immutable source descriptor, risk screening and durable admission transaction; no second miner/queue/journal or invented LEE IDs before authoritative admission. #40 extreme-vetting/AI-origin controls remain mandatory independent predicates. | All-ingress default-deny, independently attested origin/citation/receipt, bypass and replay/concurrency tests; HOLD unknown origin and ambiguous classification with explicit reasons; PREPARED_NOT_ADMITTED never counted as candidate custody or verified learning. Do not impose a new primary store from older standalone collector proposals. |\n| **Owner uploads and original intake** \u2014 #48; owner-file-live-intake (2026-10-07) | Preserve oldest blocked original PDF/catalog intake and transport work. Group authenticated receipts by original upload day in America/New_York AND subject, retaining UTC, unique source/candidate counts, cross-listing and explicit Unknown upload date / Needs subject classification. | Native receipt-derived view, DST/day rollover, duplicate uploads, multi-subject non-double-counting, missing metadata and restart idempotency. Grouping is a view, not semantic deduplication or admission. |\n| **Research execution and submissions** \u2014 #41/#44/#45/#46/#47; research-NMI, research-pipeline and DIAG records | Preserve 18 subjects /108 headings /6,600+ planned units, 750-paper scope, 1,200 unfinished units, 7\u00d750 evaluation slots, earlier 14/50 tranches, 62 DIAG concepts, SI separate from AGI, university research, Camunda/135-source and other retained attachment references. Task-coupled research accompanies safe implementation; broad subject work remains required. | Canonical DOI/URL/version/content/rights manifest linked to original source/work IDs; subject grouping plus multi-source support/challenge; planned/examined/reviewed/prepared/admitted/verified counts with real receipts. Do not add overlapping totals, reduce scope, reject solely \u201cno relationship\u201d, or call bibliographies/issue packets authenticated intake. Unread attachments stay review-pending. |\n| **Whole-repository audit and industry gaps** \u2014 #47; G01\u2013G09/H01\u2013H07/AUD findings | Complete tracked-file inventory and classify EXISTING/PARTIAL/MISSING/UNVERIFIED with exact blob/SHA; retain source-level hypotheses, reproduced failures and repairs separately. Audit every source/test/workflow/config/doc/dependency, including false-healthy oversight, duplicate extraction completion and zero-selected-tests paths. | File-specific coverage, meaningful red/green/negative/rollback tests, primary-source correction research, native plus exact-head hosted/security proof and independent acceptance. Passing the suite does not certify an exhaustive audit. |\n| **Diagnostics, repair, continuity and test cost** \u2014 pipeline-diagnostics, devlog-continuity, test-relevance; #44/#47 | Preserve original known failures and all work IDs/ages. Tie CRU occurrence\u2192investigation\u2192verified repair\u2192candidate learning\u2192independent prevention. Keep stale evidence labeled. Consolidate/cadence tests only after measured fault-detection equivalence, never by count alone. | Timeout fix published and native/Windows+Linux semantic proof verified. Native zero-execution refusal and full required suite restoration integrated; line-ending assertion repaired after real Windows failure. Verify full exact-source hosted matrix; failure/repair/recurrence metrics, test replacement/coverage evidence, replayable continuity and no false-green empty selection. No silent unattended application repair or self-verification. |\n| **Worker operations and completion-driven execution** \u2014 attendedWorkerInactivity | Continue authorized implementation/research/repair/test/verification until actual completion or genuine blocker, with updates/checkpoints. Thirty minutes of USER inactivity triggers safe checkpoint then idempotent disconnect; background activity does not renew user presence. | Trusted host activity feed and disconnect adapters are still unavailable in this Work runtime. Native mechanism is not proof ChatGPT host is configured; claim transfer follows actual preservation/disconnection. No new automation or schedule created. |\n| **Release/gate compatibility** \u2014 release-plan/status; #41/#49 | Versioned four-gate TARGET: research/v2/R1 maps v1/R1\u2013R4; v2/R2\u2192v1/R5; v2/R3\u2192v1/R6\u2013R7; v2/R4\u2192v1/R8\u2013R11. Existing operational v1 records remain unchanged until reversible consumer migration. Preserve legacy R9=72\u201396h, <=1,000 observed meaningful records after R2\u2013R8; R10 frozen exact SHA; R11 explicit owner authorization. | Mechanical crosswalk completeness, stale/missing proof refusal, backward readers and independent authority tests. Keep historical R1/R2/R4\u2013R7 evidence scoped to original SHA/corpus; it is neither erased nor inherited as current-scope acceptance. Safety applies across all gates, not only v2/R4. |",
       "executionTransport": {
         "previouslyDisconnected": true,
         "restoredAt": "2026-10-17T03:22:30.276Z",
@@ -4988,7 +5012,34 @@
         "pipeline-key-recovery",
         "recovery-history-deduplication",
         "recovery-capsule-key-boundary"
-      ]
+      ],
+      "implementationObservedAt": "2026-10-17T03:52:25.935Z",
+      "implementationSourceSha": "60aedca3deff926c2df7614b930d85627bf92d6a",
+      "ownerEnglishNamingCheck": {
+        "observedAt": "2026-10-17T03:52:25.935Z",
+        "trackedFiles": 452,
+        "cyrillicFilePaths": 0,
+        "cyrillicContentOccurrences": 2,
+        "location": "test/repositoryOperation.test.js:46-47",
+        "purpose": "Intentional Cyrillic lookalike-rejection security inputs; no Cyrillic code identifiers or names found by complete tracked-text scan.",
+        "sourceSha": "60aedca3deff926c2df7614b930d85627bf92d6a"
+      }
+    },
+    "ownerRefreshContinuation": {
+      "instruction": "5 hour run refreshes at 4:07 am if this chat stops restart then a d weekly restart is October 26",
+      "reportedAt": "2026-10-16T23:51:50-04:00",
+      "timezone": "America/New_York",
+      "fiveHourRefresh": "2026-10-17T04:07:00-04:00",
+      "weeklyResetReportedDate": "2026-10-26",
+      "existingAutomationId": "6ad2aa6c06e08191943a94f4833bf00a",
+      "enabled": true,
+      "scheduledAt": "2026-10-17T03:53:11.355Z",
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/New_York:20261017T040700\nEND:VEVENT",
+      "newWorkerOrNewPlanAuthorized": false,
+      "mustAvoidConcurrentOwner": true,
+      "actualChatRestartVerified": false,
+      "hostQuotaResetVerified": false,
+      "preserveTrustedUserInactivityDisconnect": true
     }
   },
   "handoffNotes": {
@@ -7671,22 +7722,22 @@
         "id": "pipeline-diagnostics",
         "deliverable": "Publish tested extraction and evidence-bound diagnosis upgrades",
         "status": "in-progress",
-        "evidence": "Published commit 53090052; hosted diagnose-proof succeeded in run 38156151294; handoff and conflict checks passed;2026-10-16 native compiler-timeout fail-open reproduced and fixed;12focused/1168native passed, exact-tip hosted pending.",
-        "nextAction": "Verify follow-up exact-tip CI including CodeQL",
+        "evidence": "Same original continuation: graceful compiler-timeout refusal, zero-execution proof refusal and required full-suite CI restoration published through60aedca;1186native tests pass. Hosted full matrix39000301685 is authoritative, results linked from existing issue49.",
+        "nextAction": "Read exact-source hosted full-suite/security results; preserve any failure, repair through the existing plan, and maintain production recovery hold.",
         "owner": "Codex",
-        "observedAt": "2026-10-16T22:00:53.337Z",
+        "observedAt": "2026-10-17T03:52:25.935Z",
         "maxEvidenceAgeHours": 24,
-        "freshness": "historical",
+        "freshness": "current",
         "originatedAt": "2026-10-11"
       },
       {
         "id": "pipeline-backup",
         "deliverable": "Preserve all pending/current live pipeline state before writes",
         "status": "in-progress",
-        "evidence": "Actual encrypted uploaded backup38841669400 restored and replayed on fresh runner,1290files/1701311962bytes, digest1278e7ffdb357d8a96ff9874efc0b6591dcd476f9c95650589f2024cf17ba23f. Distinct principal/protected retention remain unverified; dual-family encryption follow-up under verification.",
+        "evidence": "Actual encrypted uploaded backup38841669400 restored and replayed on fresh runner,1290files/1701311962bytes, digest1278e7ffdb357d8a96ff9874efc0b6591dcd476f9c95650589f2024cf17ba23f. Distinct principal/protected retention remain unverified; dual-family encryption follow-up under verification. Same original continuation f686ee6 integrates ACK retention/atomic outbox under native writer lock with three real crash cuts and clean-process child replay;60aedca source/plan/history checkpoint restores453files exactly. Neither proves independent all-history live recovery.",
         "nextAction": "Verify dual-family hosted capsule, preserve historical state/receipt coverage, obtain independent retention/key custody and signed acceptance before release.",
         "owner": "Codex",
-        "observedAt": "2026-10-16T02:50:47.198958Z",
+        "observedAt": "2026-10-17T03:52:25.935Z",
         "maxEvidenceAgeHours": 24,
         "freshness": "historical",
         "reason": "Proof artifact is not full pipeline backup",
