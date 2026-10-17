@@ -10,11 +10,13 @@ const root = path.resolve(__dirname, '..');
 
 test('required Self-Test runs the complete repository through an unconditional Orchestrator step',()=>{
   const source=fs.readFileSync(path.join(root,'.github/workflows/self-test.yml'),'utf8');
-  const active=source.split('\n').filter(line=>!/^\s*#/.test(line)).join('\n');
-  const full=active.split(/^      - /m).find(step=>step.startsWith('name: Run full repository proof through the existing Orchestrator\n'));
-  assert.ok(full,'commented historical commands and Code-only cadence cannot satisfy full repository proof');
-  assert.match(full,/^\s+run: node src\/testCadence\.js all\s*$/m);
-  assert.doesNotMatch(full,/^\s+(?:if|continue-on-error):/m,'the full baseline cannot be optional or failure-tolerant');
+  for (const checkout of [source.replace(/\r\n/g,'\n'),source.replace(/\r?\n/g,'\r\n')]) {
+    const active=checkout.split('\n').filter(line=>!/^\s*#/.test(line)).join('\n');
+    const full=active.split(/^      - /m).find(step=>/^name: Run full repository proof through the existing Orchestrator\r?\n/.test(step));
+    assert.ok(full,'commented historical commands and Code-only cadence cannot satisfy full repository proof');
+    assert.match(full,/^\s+run: node src\/testCadence\.js all\s*$/m);
+    assert.doesNotMatch(full,/^\s+(?:if|continue-on-error):/m,'the full baseline cannot be optional or failure-tolerant');
+  }
 });
 
 test('reusable workflow is read-only and uses the exact caller-supplied core ref', () => {
