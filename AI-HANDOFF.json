@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-17T03:35:58.592Z"
+    "lastActionAt": "2026-10-17T03:43:41.330Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-17T03:35:58.582Z",
+      "selectedAt": "2026-10-17T03:42:24.904Z",
       "promptSha256": "bb1d2f0ac87b9144e9e627ca3616f9c92215beb7789e7dd389762efbd534d0d8",
-      "affectedPathsSha256": "cd7be85452d836dedd2559a048cbf5facf10492c677c8a73a9517850e44f6200"
+      "affectedPathsSha256": "2f715312d050573170fb7f91567f77f9f6f9e39160850de6d7316f73eb20046e"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -465,7 +465,8 @@
         "Original pipeline-diagnostics continuation reproduced graceful timeout signal handling returning exit0; monotonic deadline/native killed state now reject. New regression red before fix;14semantic/1170native pass. Prior executable7bb5a49 all9Self-Test and Windows/Linux native analyzers passed; follow-up hosted verification pending.",
         "Owner-directed ALL-plan reconciliation includes all8open issues, permanent draft PR11, organism/recovery/outbox, two stores, managed encrypted packs, LEE/CRU/OPS, unified intake/miner, research accounting, upload grouping, whole-tree audit, diagnostics/test relevance and versioned gate crosswalk. Source issue41comment6228942588 read back; native document synchronization prepared. All75original workLedger records unchanged; no production acceptance.",
         "Original pipeline-backup P0:5native fail-first signal/ACK/writer-lock failures reproduced; native fixes integrated,44focused/1183full tests pass. ActualSIGKILL at3journal publication stages and fresh-process child replay preserve parent/children/identities. Existing runtime/store/journal reused; no independent production acceptance.",
-        "Existing pipeline-diagnostics AUD-03 reproduced2empty-execution false-success cases; public selector now reports not-executed/held and preserves lifecycle reasons.55focused/1185full native pass. Published P0 f686ee6 source/plans453file restore/Git-history bundle verified; independent live custody remains unverified."
+        "Existing pipeline-diagnostics AUD-03 reproduced2empty-execution false-success cases; public selector now reports not-executed/held and preserves lifecycle reasons.55focused/1185full native pass. Published P0 f686ee6 source/plans453file restore/Git-history bundle verified; independent live custody remains unverified.",
+        "P0f686ee6 all9hosted platform jobs plus CodeQL/handoff/conflict passed. Coverage audit of subsequent hosted logs exposed Code-only+selected proof behind historical commented npmtest marker;1meaningful contract regression failed before unconditional full Orchestrator baseline.53focused/1186native passed; stronger hosted full-suite follow-up required."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -645,6 +646,29 @@
         "failed": 0,
         "skipped": 0,
         "legacyScope": "Private legacy helper is not exported; speculative compatibility edit removed after public-path review. No lifecycle classification/cadence policy changed."
+      },
+      "fullHostedRepositoryProof": {
+        "originalWorkId": "pipeline-diagnostics",
+        "status": "native-verified-hosted-followup-required",
+        "observedAt": "2026-10-17T03:43:41.330Z",
+        "evidence": "Actual job117299322824 ran585Code-cadence tests then146selected tests repeatedly, not all1185; commented npm test marker satisfied historical workflow regex assertions.",
+        "reproducedBaselineFailures": 1,
+        "change": "Existing required Self-Test job now has unconditional node src/testCadence.js all before existing Code cadence/request/audits/workloads; contract assertions inspect active noncomment steps and forbid if/continue-on-error on baseline.",
+        "focusedPassed": 53,
+        "nativePassed": 1186,
+        "failed": 0,
+        "skipped": 0,
+        "newRequiredCheckOrProtectionChange": false,
+        "existingCadenceAndWorkloadRetained": true
+      },
+      "originalTextCollisionAudit": {
+        "sourceSha": "288293767dc2d667407c9f46cf007bed9cbcf97a",
+        "issueComment": 6229163062,
+        "status": "confirmed-native-readonly-no-live-count-or-id-migration",
+        "finding": "Case-distinct original assertions have distinct exact digests but equal normalized candidate identity; boundedAssertions emits only first. Whitespace cleaning is another original-text boundary.",
+        "nextAction": "Complete authenticated original/historical source-span/identity map and collision-family reconciliation before reversible identity-contract repair; preserve legacy IDs and hold ambiguous mappings.",
+        "liveCustodyReadOrWrite": false,
+        "r2Restart": false
       }
     },
     "priorCurrentPrompt": "Keep working and remember oldest relevant work gets completed first",
@@ -4385,7 +4409,7 @@
       },
       "nativeSignalContinuity": {
         "observedAt": "2026-10-17T03:30:44.067Z",
-        "status": "integrated-native-tested-hosted-pending",
+        "status": "native-and-all9-hosted-platform-jobs-verified-production-unaccepted",
         "originalWorkId": "pipeline-backup",
         "publishedPrerequisitePlanSha": "aeb8f34321570ea7ddf802f672b9136f5ce8f6c3",
         "reproducedFailures": 5,
@@ -4423,7 +4447,17 @@
           "gitHistoryBundleVerified": true,
           "independentPrincipalVerified": false,
           "liveCustodyCovered": false
-        }
+        },
+        "hostedSelfTest": {
+          "runId": 38999137747,
+          "sourceSha": "f686ee64bbb4df9e7b000b41c5962dd4445c70e1",
+          "passed": 9,
+          "failed": 0,
+          "coverage": "Original workflow cadence/impact proof, including native outbox regressions; not a claim that all repository tests ran in each job."
+        },
+        "codeqlRun": 38999137769,
+        "handoffRun": 38999137753,
+        "conflictRun": 38999137900
       }
     },
     "recoveryContinuationPriorContext": {

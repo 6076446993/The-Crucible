@@ -8,6 +8,15 @@ const { auditClutter } = require('../src/clutter');
 
 const root = path.resolve(__dirname, '..');
 
+test('required Self-Test runs the complete repository through an unconditional Orchestrator step',()=>{
+  const source=fs.readFileSync(path.join(root,'.github/workflows/self-test.yml'),'utf8');
+  const active=source.split('\n').filter(line=>!/^\s*#/.test(line)).join('\n');
+  const full=active.split(/^      - /m).find(step=>step.startsWith('name: Run full repository proof through the existing Orchestrator\n'));
+  assert.ok(full,'commented historical commands and Code-only cadence cannot satisfy full repository proof');
+  assert.match(full,/^\s+run: node src\/testCadence\.js all\s*$/m);
+  assert.doesNotMatch(full,/^\s+(?:if|continue-on-error):/m,'the full baseline cannot be optional or failure-tolerant');
+});
+
 test('reusable workflow is read-only and uses the exact caller-supplied core ref', () => {
   const workflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'the-crucible.yml'), 'utf8');
   assert.match(workflow, /workflow_call:/);
@@ -182,7 +191,8 @@ test('engine changes test across supported operating systems before adoption', (
   assert.match(workflow, /os: \[ubuntu-latest, windows-2022, macos-latest\]/);
   assert.match(workflow, /node: \[20, 22, 24\]/);
   assert.match(workflow, /Enforce canonical task route on development pushes[\s\S]*github\.event_name == 'push' && github\.ref == 'refs\/heads\/development'[\s\S]*CRUCIBLE_BASE_SHA: \$\{\{ github\.event\.before \}\}[\s\S]*npm run route:verify-ci/);
-  assert.match(workflow, /npm test[\s\S]*npm run validate[\s\S]*npm run audit:clutter[\s\S]*npm run audit:security[\s\S]*npm run precheck[\s\S]*npm run run/);
+  const active=workflow.split('\n').filter(line=>!/^\s*#/.test(line)).join('\n');
+  assert.match(active, /run: node src\/testCadence\.js all[\s\S]*npm run validate[\s\S]*npm run audit:clutter[\s\S]*npm run audit:security[\s\S]*npm run precheck[\s\S]*npm run run/);
 });
 
 test('GitHub hosts encrypted restart-safe R4-R8 proof without production authority', () => {
@@ -464,8 +474,9 @@ test('scheduled diagnostics run cadence tiers on a schedule without ever becomin
 test('the required Self-Test job runs an additive, non-blocking on-error diagnostic step on failure', () => {
   const workflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'self-test.yml'), 'utf8');
   assert.match(workflow, /if: failure\(\)\s*\n\s*continue-on-error: true\s*\n\s*run: node src\/testCadence\.js on-error self-test-failure/);
-  // The existing required steps (npm test, the audits, etc.) must be untouched.
-  assert.match(workflow, /- run: npm test\r?\n/);
+  // Required full proof and audits must be executable steps, not comments.
+  const active=workflow.split('\n').filter(line=>!/^\s*#/.test(line)).join('\n');
+  assert.match(active, /run: node src\/testCadence\.js all\r?\n/);
   assert.match(workflow, /- run: npm run validate\r?\n/);
   assert.match(workflow, /node src\/ciDiagnosticOrgan\.js capture-npm-ci/);
   assert.match(workflow, /node src\/ciDiagnosticOrgan\.js diagnose-local/);
