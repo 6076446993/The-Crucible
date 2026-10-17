@@ -135,7 +135,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-17T03:53:11.355Z"
+    "lastActionAt": "2026-10-17T08:25:19.148Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -217,7 +217,7 @@
   "activePlan": {
     "agent": "Codex",
     "objective": "P0 recovery system only: preserve all committed knowledge and source custody across interruption, with independently verified restoration before restart authorization.",
-    "currentPrompt": "Continue the work",
+    "currentPrompt": "# THE CRUCIBLE \u2014 ORIGINAL WORKER CONTINUATION HANDOFF\n \n**Repository:** `6076446993/The-Crucible`\n**Branch:** `development`\n**Existing master plan:** https://github.com/6076446993/The-Crucible/issues/49\n**Existing release/governance plan:** https://github.com/6076446993/The-Crucible/issues/41\n \n## 1. Resume existing ownership\n \nContinue the original authorized worker's unfinished work. This is not permission to create a replacement worker, new project, new priority queue, or competing mutation claim.\n \nBefore modifying files, inspect the latest `DEVLOG.md` Shared AI handoff, `AGENTS.md`, `AI-HANDOFF.json`, governing documents, current development SHA, active claims, open issues, PRs, and CI. Verify the current owner and follow repository routing/prewrite requirements.\n \n## 2. Mandatory continuous resource logging\n \n**Log every resource and research finding during execution, not just at completion.**\n \nUse the existing authorized research/resource ledger. Reconcile existing entries before adding new ones.\n \nRecord:\n \n- Research papers, university studies, standards, books, PDFs, websites, datasets, source code, tools, experiments, benchmarks, CI evidence, and repository references.\n- Original source identity, author, title, URL or file path, version, publication/access date, digest, rights, provenance, and relationship to the work.\n- Findings, limitations, contradictions, failed hypotheses, negative results, decisions, experiments, implementation impact, and verification results.\n- Related research subject, issue, work ID, worker, mutation claim, exact SHA, and timestamp.\n- Actual candidate/submission IDs, authenticated intake acknowledgments, independent verification, learned outcomes, and pending follow-ups.\n\n \nMaintain distinct statuses for **researched, prepared, submitted, acknowledged, admitted, verified learned, implemented, and independently tested**.\n \nNever claim research was ingested, learned, or implemented without corresponding evidence.\n \nIf authenticated intake is blocked, preserve the complete pending research packet and exact retry condition. Do not discard findings.\n \n## 3. Research requiring reconciliation\n \nIssue #49 includes separate compression and deduplication/reclamation studies, a storage optimization/encryption matrix, and university-level storage research.\n \nRegister each study separately through the existing governed research pipeline, preserving underlying source identities and provenance. Reconcile previously accumulated university research, pending PDFs, prepared candidates, subject-grouped research, and other existing research obligations.\n \nAll new research performed during implementation must enter the same logging and governed learning process.\n \n## 4. Continue original engineering priorities\n \nPrioritize verified zero-loss RAW/VETTED recovery, independent custody and restoration proof, original managed keys/AAD, signed receipts, durable ACK/replay, publication safeguards, and actual physical storage measurement.\n \nThen continue authorized compression, deduplication, encryption, storage reclamation, and remaining development/research work in the original dependency order.\n \nPreserve the proposed four research gates without losing existing safety controls. Keep release R9, R10, and R11 separate.\n \nDo not restart R2, overwrite another owner's changes, substitute historical encryption keys, merge locked PR #11, promote main, or delete historical custody data without required proof and authorization.\n \n## 5. Checkpoint requirements\n \nThroughout execution, maintain a durable continuation checkpoint containing:\n \n- Current branch/SHA and verified mutation owner.\n- Resources researched, logged, and still pending, with counts and IDs.\n- Actual intake acknowledgments and learning statuses.\n- Changes implemented and native/independent test evidence.\n- Measured physical storage usage and benchmark outcomes.\n- Failed approaches, unresolved contradictions, and blockers.\n- Exact next executable step, preserving original work priority.\n\n \n**Continue until the work is complete or an actual authorization, safety, or execution blocker prevents further progress. Do not substitute another plan for implementation.**\n \nReturn verified results to the existing authoritative Crucible handoff and issue records.",
     "executionMode": {
       "mode": "work",
       "agent": "Codex",
@@ -233,9 +233,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-17T03:52:25.893Z",
-      "promptSha256": "bb1d2f0ac87b9144e9e627ca3616f9c92215beb7789e7dd389762efbd534d0d8",
-      "affectedPathsSha256": "11549f2c614227f2a408b9b64d59b7e9edee060fa879fe4fced180c235957026"
+      "selectedAt": "2026-10-17T08:24:30.415Z",
+      "promptSha256": "3c7f6f11bb6bbd05371aac10d75a5127fb9c944abf82a9ac15c97cb6cc438d2e",
+      "affectedPathsSha256": "6bef4c3c0ffb521a919a33d1d5ca00e266234ba5442af886de147bf3b3b551a2"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -3507,10 +3507,999 @@
             "locations": "Sections3.5,3.6,4.3,4.4,5.1.5; data/functionality validation examples in appendices",
             "finding": "Maintain recoverable plans and configuration, protect alternate backup custody, exercise restoration, validate recovered data and function before normal operation, and retain after-action findings.",
             "limit": "Reference guidance; no NIST compliance or independent live recovery acceptance is claimed."
+          },
+          {
+            "id": "issue49-university-storage-tranche-20261017",
+            "title": "University-level storage-reduction research tranche \u2014 2026-10-17",
+            "kind": "issue-authored research synthesis; underlying external sources not automatically reviewed",
+            "url": "https://github.com/6076446993/The-Crucible/issues/49",
+            "sourceVersion": "issue body captured 2026-10-17T08:21Z",
+            "author": "UNKNOWN; preserve original GitHub contributor provenance",
+            "publishedAt": "2026-10-17",
+            "accessedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": "a91a8a6518714ccd6f5de75943f5a7d7c56c7059d576de3fb988ab8273753db0",
+            "hashBoundary": "UTF-8 from exact H2 heading to before next H2, retaining intervening whitespace/separators",
+            "previouslyListedSha256": null,
+            "originalDigestReconciled": null,
+            "rights": "Issue text only; linked full-text rights/licensing not acquired",
+            "provenance": "Existing #49 body and comment6231586154; current original actor codex-work-42efe8889a64; no independent custody receipt",
+            "relatedWorkIds": [
+              "pipeline-backup",
+              "recovery-history-deduplication"
+            ],
+            "mutationClaim": "p0-recovery-system-20261015-owner-20261016",
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "finding": "Preserve separate compression, dedup/reclamation, university and matrix obligations; exact-byte restoration and physical accounting precede any separately authorized cleanup.",
+            "limit": "Workload-specific external results are not a Crucible saving forecast; historic live corpus and original-key/AAD independent restoration remain unverified.",
+            "contradiction": "No external-paper verification inferred from issue synthesis.",
+            "statuses": {
+              "researched": "issue synthesis reviewed; external sources separately qualified",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "retryCondition": "Resolve exact original section boundary/version, reconcile against authenticated live queue hashes, then original owner-file transport only after independent all-history recovery and explicit recovery-only release.",
+            "sourceTextSha256NotAuthentication": true
+          },
+          {
+            "id": "issue49-storage-encryption-matrix-20261017",
+            "title": "Storage, file optimization and encryption research coverage matrix \u2014 2026-10-17",
+            "kind": "issue-authored research synthesis; underlying external sources not automatically reviewed",
+            "url": "https://github.com/6076446993/The-Crucible/issues/49",
+            "sourceVersion": "issue body captured 2026-10-17T08:21Z",
+            "author": "UNKNOWN; preserve original GitHub contributor provenance",
+            "publishedAt": "2026-10-17",
+            "accessedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": "62cae24fa5fcddee1f3be5dcb081b4a576482e411b13a97862b0cad0020eb869",
+            "hashBoundary": "UTF-8 from exact H2 heading to before next H2, retaining intervening whitespace/separators",
+            "previouslyListedSha256": null,
+            "originalDigestReconciled": null,
+            "rights": "Issue text only; linked full-text rights/licensing not acquired",
+            "provenance": "Existing #49 body and comment6231586154; current original actor codex-work-42efe8889a64; no independent custody receipt",
+            "relatedWorkIds": [
+              "pipeline-backup",
+              "recovery-history-deduplication"
+            ],
+            "mutationClaim": "p0-recovery-system-20261015-owner-20261016",
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "finding": "Preserve separate compression, dedup/reclamation, university and matrix obligations; exact-byte restoration and physical accounting precede any separately authorized cleanup.",
+            "limit": "Workload-specific external results are not a Crucible saving forecast; historic live corpus and original-key/AAD independent restoration remain unverified.",
+            "contradiction": "No external-paper verification inferred from issue synthesis.",
+            "statuses": {
+              "researched": "issue synthesis reviewed; external sources separately qualified",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "retryCondition": "Resolve exact original section boundary/version, reconcile against authenticated live queue hashes, then original owner-file transport only after independent all-history recovery and explicit recovery-only release.",
+            "sourceTextSha256NotAuthentication": true
+          },
+          {
+            "id": "CRU-RSCH-P0-COMP-20261017-01",
+            "title": "Detailed lossless file-compression research and controlled benchmark \u2014 2026-10-17",
+            "kind": "issue-authored research synthesis; underlying external sources not automatically reviewed",
+            "url": "https://github.com/6076446993/The-Crucible/issues/49",
+            "sourceVersion": "issue body captured 2026-10-17T08:21Z",
+            "author": "UNKNOWN; preserve original GitHub contributor provenance",
+            "publishedAt": "2026-10-17",
+            "accessedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": "742144a8a6642317eac08e26b45e27d57b901b67b0a1269e0645eca21ca49c27",
+            "hashBoundary": "UTF-8 from exact H2 heading to before next H2, retaining intervening whitespace/separators",
+            "previouslyListedSha256": "58c0e72bdea502affeaf68751119f5fd42802587090eb1b82dff26224bda3ef6",
+            "originalDigestReconciled": false,
+            "rights": "Issue text only; linked full-text rights/licensing not acquired",
+            "provenance": "Existing #49 body and comment6231586154; current original actor codex-work-42efe8889a64; no independent custody receipt",
+            "relatedWorkIds": [
+              "pipeline-backup",
+              "recovery-history-deduplication"
+            ],
+            "mutationClaim": "p0-recovery-system-20261015-owner-20261016",
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "finding": "Preserve separate compression, dedup/reclamation, university and matrix obligations; exact-byte restoration and physical accounting precede any separately authorized cleanup.",
+            "limit": "Workload-specific external results are not a Crucible saving forecast; historic live corpus and original-key/AAD independent restoration remain unverified.",
+            "contradiction": "Earlier manifest digest cannot be reproduced under explicit current boundary/whitespace variants; preserve both versions and hold exact-source verification.",
+            "statuses": {
+              "researched": "issue synthesis reviewed; external sources separately qualified",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "retryCondition": "Resolve exact original section boundary/version, reconcile against authenticated live queue hashes, then original owner-file transport only after independent all-history recovery and explicit recovery-only release.",
+            "sourceTextSha256NotAuthentication": true
+          },
+          {
+            "id": "CRU-RSCH-P0-DEDUP-20261017-02",
+            "title": "Dedicated deduplication and reclamation research \u2014 2026-10-17",
+            "kind": "issue-authored research synthesis; underlying external sources not automatically reviewed",
+            "url": "https://github.com/6076446993/The-Crucible/issues/49",
+            "sourceVersion": "issue body captured 2026-10-17T08:21Z",
+            "author": "UNKNOWN; preserve original GitHub contributor provenance",
+            "publishedAt": "2026-10-17",
+            "accessedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": "21ffc466ca1266d07e4949fab64159baa3a16dacacc73cf38ad2c322be19244d",
+            "hashBoundary": "UTF-8 from exact H2 heading to before next H2, retaining intervening whitespace/separators",
+            "previouslyListedSha256": "00f2dd4841f9e8fe81e3e61b83923f03bc34cdd6aa63c08350a95937da1debff",
+            "originalDigestReconciled": false,
+            "rights": "Issue text only; linked full-text rights/licensing not acquired",
+            "provenance": "Existing #49 body and comment6231586154; current original actor codex-work-42efe8889a64; no independent custody receipt",
+            "relatedWorkIds": [
+              "pipeline-backup",
+              "recovery-history-deduplication"
+            ],
+            "mutationClaim": "p0-recovery-system-20261015-owner-20261016",
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "finding": "Preserve separate compression, dedup/reclamation, university and matrix obligations; exact-byte restoration and physical accounting precede any separately authorized cleanup.",
+            "limit": "Workload-specific external results are not a Crucible saving forecast; historic live corpus and original-key/AAD independent restoration remain unverified.",
+            "contradiction": "Earlier manifest digest cannot be reproduced under explicit current boundary/whitespace variants; preserve both versions and hold exact-source verification.",
+            "statuses": {
+              "researched": "issue synthesis reviewed; external sources separately qualified",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "retryCondition": "Resolve exact original section boundary/version, reconcile against authenticated live queue hashes, then original owner-file transport only after independent all-history recovery and explicit recovery-only release.",
+            "sourceTextSha256NotAuthentication": true
+          },
+          {
+            "id": "source-reference-592aebb7e1e73e7415b9",
+            "url": "https://www.usenix.org/conference/fast11/study-practical-deduplication",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-university-storage-tranche-20261017",
+              "issue49-storage-encryption-matrix-20261017",
+              "CRU-RSCH-P0-DEDUP-20261017-02"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-ae595f4318da51a240e0",
+            "url": "https://www.usenix.org/conference/atc16/technical-sessions/presentation/xia",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-university-storage-tranche-20261017",
+              "issue49-storage-encryption-matrix-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-e9921566dd5bf252d60f",
+            "url": "https://www.research-collection.ethz.ch/entities/publication/4c4b7406-faf4-43f1-894e-86e1ffa591a7",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-university-storage-tranche-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-33f96b8334dd39a1b32d",
+            "url": "https://profiles.wustl.edu/en/publications/tapping-the-potential-secure-chunk-based-deduplication-of-encrypt/",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-university-storage-tranche-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-0beded6105d1a2648883",
+            "url": "https://www.usenix.org/conference/atc14/technical-sessions/presentation/fu_min",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-university-storage-tranche-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-7a3a44106bbe783bc169",
+            "url": "https://www.usenix.org/conference/fast17/technical-sessions/presentation/douglis",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-university-storage-tranche-20261017",
+              "issue49-storage-encryption-matrix-20261017",
+              "CRU-RSCH-P0-DEDUP-20261017-02"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-ff9e9f31d58b64c2488c",
+            "url": "https://www.usenix.org/conference/fast13/technical-sessions/presentation/lillibridge",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-university-storage-tranche-20261017",
+              "issue49-storage-encryption-matrix-20261017",
+              "CRU-RSCH-P0-DEDUP-20261017-02"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-a49732b4087981f3df0e",
+            "url": "https://git-scm.com/docs/git-gc",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-university-storage-tranche-20261017",
+              "issue49-storage-encryption-matrix-20261017",
+              "CRU-RSCH-P0-COMP-20261017-01",
+              "CRU-RSCH-P0-DEDUP-20261017-02"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-5bdd2dd445fdf57bc7e3",
+            "url": "https://git-scm.com/docs/cruft-packs",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-university-storage-tranche-20261017",
+              "issue49-storage-encryption-matrix-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-b7bbd2f8ee4d1faba6f1",
+            "url": "https://www.usenix.org/legacy/event/fast11/tech/",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-storage-encryption-matrix-20261017",
+              "CRU-RSCH-P0-DEDUP-20261017-02"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-5b674aa4ce4b6767955f",
+            "url": "https://www.usenix.org/conference/fast19/presentation/cao",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-storage-encryption-matrix-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-623c28fe82ef68b12cc4",
+            "url": "https://www.rfc-editor.org/rfc/rfc8878",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-storage-encryption-matrix-20261017",
+              "CRU-RSCH-P0-COMP-20261017-01"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-d04e60bf36c69468f9f3",
+            "url": "https://csrc.nist.gov/pubs/sp/800/111/final",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-storage-encryption-matrix-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-af9273b0c48a3a0d14a9",
+            "url": "https://csrc.nist.gov/pubs/sp/800/38/d/final",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-storage-encryption-matrix-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-75713bd1d69725f8dd52",
+            "url": "https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-storage-encryption-matrix-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-a33b4ef1c49243f497fa",
+            "url": "https://csrc.nist.gov/pubs/sp/800/57/pt2/r1/final",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-storage-encryption-matrix-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-f561a6295e1b6a094877",
+            "url": "https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "issue49-storage-encryption-matrix-20261017"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-e27c2ce8a31091d2f446",
+            "url": "https://github.com/facebook/zstd/blob/dev/programs/zstd.1.md",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "CRU-RSCH-P0-COMP-20261017-01"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-8207537db70fd566518d",
+            "url": "https://www.rfc-editor.org/rfc/rfc7932",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "CRU-RSCH-P0-COMP-20261017-01"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-a1bfe268bb82765a3ae4",
+            "url": "https://github.com/lz4/lz4",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "CRU-RSCH-P0-COMP-20261017-01"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-881776ce0fd24d68345d",
+            "url": "https://www.usenix.org/conference/fast13/technical-sessions/presentation/meister",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "CRU-RSCH-P0-COMP-20261017-01"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "source-reference-9a6d93ffb7a861e45a29",
+            "url": "https://git-scm.com/docs/cruft-packs.html",
+            "title": "UNKNOWN; bibliographic reference retained in linked issue study",
+            "author": "UNKNOWN until primary-source retrieval",
+            "version": "UNKNOWN",
+            "publicationDate": "UNKNOWN",
+            "accessedAt": null,
+            "referencedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": null,
+            "rights": "UNKNOWN; no full text copied",
+            "kind": "underlying source reference; not independently retrieved in this continuation",
+            "parentStudyIds": [
+              "CRU-RSCH-P0-DEDUP-20261017-02"
+            ],
+            "sourceDevelopmentSha": "f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "statuses": {
+              "researched": false,
+              "prepared": "reference metadata only",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "followup": "Retrieve canonical primary source, resolve title/authors/version/rights and exact digest, compare against existing university/PDF/source register and subject groups before bounded candidate preparation."
+          },
+          {
+            "id": "identity-collision-code-src-scientificLearning.js",
+            "kind": "implementation/test source artifact under original claimed repair",
+            "path": "src/scientificLearning.js",
+            "author": "codex-work-42efe8889a64",
+            "title": "src/scientificLearning.js",
+            "version": "working tree based on f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "accessedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": "406dddda5edd35cfe3f4d6e81e3a56f02878301fcccdeedacc23846ab1b3db2a",
+            "rights": "Repository MIT; preserve repository/source history",
+            "relatedWorkIds": [
+              "pipeline-backup"
+            ],
+            "finding": "Refuse same retained ID with changed evidence atomically; preserve exact case; allow exact replay with processing time change.",
+            "limitations": "Existing legacy IDs/normalized comparator unchanged; original source whitespace extraction and historical alias migration unresolved. No live-corpus use.",
+            "statuses": {
+              "researched": "native source inspected",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": true,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "verification": {
+              "focusedPassed": 77,
+              "fullNativePassed": 1190,
+              "baselineFailures": 3,
+              "independentLiveAcceptance": false
+            }
+          },
+          {
+            "id": "identity-collision-code-src-claimExtractionWorker.js",
+            "kind": "implementation/test source artifact under original claimed repair",
+            "path": "src/claimExtractionWorker.js",
+            "author": "codex-work-42efe8889a64",
+            "title": "src/claimExtractionWorker.js",
+            "version": "working tree based on f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "accessedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": "825f3c6d1db671aff50ccb74de7041f8e124bd2f88694fb48a3caa4358494aa9",
+            "rights": "Repository MIT; preserve repository/source history",
+            "relatedWorkIds": [
+              "pipeline-backup"
+            ],
+            "finding": "Refuse same retained ID with changed evidence atomically; preserve exact case; allow exact replay with processing time change.",
+            "limitations": "Existing legacy IDs/normalized comparator unchanged; original source whitespace extraction and historical alias migration unresolved. No live-corpus use.",
+            "statuses": {
+              "researched": "native source inspected",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": true,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "verification": {
+              "focusedPassed": 77,
+              "fullNativePassed": 1190,
+              "baselineFailures": 3,
+              "independentLiveAcceptance": false
+            }
+          },
+          {
+            "id": "identity-collision-code-test-scientificLearning.test.js",
+            "kind": "implementation/test source artifact under original claimed repair",
+            "path": "test/scientificLearning.test.js",
+            "author": "codex-work-42efe8889a64",
+            "title": "test/scientificLearning.test.js",
+            "version": "working tree based on f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "accessedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": "007bfc31178a64bb6ab4d30ae82729c1a8be1efd379f39eb896278997a1a7671",
+            "rights": "Repository MIT; preserve repository/source history",
+            "relatedWorkIds": [
+              "pipeline-backup"
+            ],
+            "finding": "Refuse same retained ID with changed evidence atomically; preserve exact case; allow exact replay with processing time change.",
+            "limitations": "Existing legacy IDs/normalized comparator unchanged; original source whitespace extraction and historical alias migration unresolved. No live-corpus use.",
+            "statuses": {
+              "researched": "native source inspected",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": true,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "verification": {
+              "focusedPassed": 77,
+              "fullNativePassed": 1190,
+              "baselineFailures": 3,
+              "independentLiveAcceptance": false
+            }
+          },
+          {
+            "id": "identity-collision-code-test-claimExtractionWorker.test.js",
+            "kind": "implementation/test source artifact under original claimed repair",
+            "path": "test/claimExtractionWorker.test.js",
+            "author": "codex-work-42efe8889a64",
+            "title": "test/claimExtractionWorker.test.js",
+            "version": "working tree based on f6b28589e257eaa13900c22ce230c2659f3228e6",
+            "accessedAt": "2026-10-17T08:23:58.600Z",
+            "sha256": "84499e6e81f404df2dc00d17bbe29bed93067340fee612bb59493ed0b22ece2c",
+            "rights": "Repository MIT; preserve repository/source history",
+            "relatedWorkIds": [
+              "pipeline-backup"
+            ],
+            "finding": "Refuse same retained ID with changed evidence atomically; preserve exact case; allow exact replay with processing time change.",
+            "limitations": "Existing legacy IDs/normalized comparator unchanged; original source whitespace extraction and historical alias migration unresolved. No live-corpus use.",
+            "statuses": {
+              "researched": "native source inspected",
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": true,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": [],
+            "verification": {
+              "focusedPassed": 77,
+              "fullNativePassed": 1190,
+              "baselineFailures": 3,
+              "independentLiveAcceptance": false
+            }
           }
         ],
         "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared. Public PDF sections were read through the research service; original PDF byte custody in the live corpus is not claimed.",
-        "originalPdfBytesImportedIntoPrivateCorpus": false
+        "originalPdfBytesImportedIntoPrivateCorpus": false,
+        "continuousCheckpoint": {
+          "observedAt": "2026-10-17T08:23:58.600Z",
+          "existingLedgerExtended": true,
+          "sourceIssueComment": 6231692171,
+          "studyRecords": 4,
+          "separatePendingStudyManifests": 2,
+          "underlyingDistinctReferencedUrls": 22,
+          "newExternalPapersReadInThisContinuation": 0,
+          "actualSubmissions": 0,
+          "actualAcknowledgments": 0,
+          "actualAdmissions": 0,
+          "actualVerifiedLearned": 0,
+          "previousUniversitiesAndPdfs": "Original750paper/18subject/108heading/6600+units,1200unfinished,seven50slots and pending PDFs/subject grouping remain in original plan; full bytes/populations unavailable here and not recounted as zero.",
+          "sourceDigestConflicts": 2,
+          "physicalBytesBefore": null,
+          "physicalBytesAfter": null,
+          "nativeIdentityTests": {
+            "focused": 77,
+            "full": 1190,
+            "failed": 0,
+            "skipped": 0,
+            "baselineRed": 3
+          }
+        }
       },
       "verificationBudgetCommit": "07048089487baef06c2f84312a66fe05b6984722",
       "directoryRestoreFix": {
@@ -4788,7 +5777,13 @@
         "handoffRun": 38974519809,
         "conflictRun": 38974519605,
         "handoffAndConflictPassed": true,
-        "observedAt": "2026-10-16T22:21:33.903Z"
+        "observedAt": "2026-10-16T22:21:33.903Z",
+        "latestContinuationNative": {
+          "passed": 1190,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "Source/native only; no independent live corpus or production acceptance"
+        }
       },
       "sourcePlanRollbackVerification": {
         "revision": "7bb5a494cedb113495446345208544d7b0cba027",
@@ -4900,13 +5895,42 @@
         "physicalBytesAfter": null,
         "sourcePlanRestoreIndependent": false,
         "noCleanupOrHistoryRewrite": true
+      },
+      "candidateIdentityCollisionRefusal": {
+        "observedAt": "2026-10-17T08:21:59.428Z",
+        "originalWorkId": "pipeline-backup",
+        "status": "native-verified-hosted-followup-required",
+        "mechanism": "Existing ingestMany ignores same ID with different evidence; boundedAssertions discards case-distinct claims before admission.",
+        "constraints": "Preserve legacy IDs and records; conflicting evidence stays pending; no historical migration or independent acceptance.",
+        "baselineFailed": 3,
+        "focusedPassed": 77,
+        "failed": 0,
+        "skipped": 0,
+        "timestampCompatibility": "Only candidate and evidencePacket processing-createdAt excluded from equality; original stored time retained. Exact claim, span, source version, provenance and packet content still compared.",
+        "independentLiveAcceptance": false,
+        "failedApproaches": [
+          {
+            "reason": "Routing prompt changed while currentPrompt was stale; required test caught mismatch.",
+            "tests": 1190,
+            "passed": 1189,
+            "failed": 1,
+            "knownBug": "KB-local-b11194389e",
+            "resolution": "Preserved original prior prompt; recorded owner continuation verbatim and reran native prewrite against same full prompt and all7affected paths."
+          }
+        ],
+        "nativeFullPassed": 1190,
+        "legacyIdsRegenerated": false,
+        "historicalRecordsMutated": false,
+        "historicalMigrationAccepted": false,
+        "pendingWork": "Publish exact source, hosted full9platform matrix and CodeQL, source/plan rollback; independently reconcile historical collisions and exact original source spans/whitespace only after complete retained evidence mapping."
       }
     },
     "reconciliationPriorPrompts": [
       {
         "prompt": "THE CRUCIBLE \u2014 RESUME ORIGINAL WORK AND RETURN TO EXISTING PLAN\n\nRepository: \"6076446993/The-Crucible\"\nBranch: \"development\"\nExisting plan: https://github.com/6076446993/The-Crucible/issues/49\n\nThis is a continuation of existing authorized work, not a new project, worker, plan, or priority queue.\n\n1. Recover original execution state\n\nRead \"AGENTS.md\", the DEVLOG Shared AI handoff, \"AI-HANDOFF.json\", governing documents, active mutation claims, and the exact current development SHA.\n\nIdentify the original worker and its latest verified work. Reconcile concurrent changes and preserve all ownership boundaries.\n\nDo not create replacement workers, overwrite active claims, restart R2, promote to \"main\", or discard unfinished work.\n\n2. Complete the storage-reduction work\n\nFollow the consolidated requirements in Crucible issue #49.\n\nImplement and verify:\n\n- Stable evidence identities and preservation of legacy references.\n- Atomic queue, registry, and journal transactions.\n- Governed locking, crash recovery, and independent checkpoints.\n- Content-addressed encrypted storage and safe migration.\n- Signed custody continuity and redundant-publication prevention.\n- Independent restoration and complete evidence reconciliation.\n- Actual physical storage measurement and reduction below 45 GB, preferably 40 GB or less.\n- Full repository tests, security checks, hosted CI, and rollback verification.\n\nTreat all previously prepared local prototypes as unverified until integrated and independently tested. Do not assume any version milestone has been reached.\n\nContinue implementation until every authorized production acceptance gate passes or a genuine external blocker prevents further progress.\n\nNever delete evidence or rewrite history without the required independent restoration proof and owner authorization.\n\n3. Return to the previous work automatically\n\nOnce the storage-reduction task is verified complete:\n\n1. Update the existing DEVLOG, handoff records, and issue #49 with actual completion evidence.\n2. Recover the development plan and unfinished-work ordering from the previous Work-mode session.\n3. Resume the exact next unfinished task at its original position, preserving its age, priority, dependencies, research candidates, and custody.\n4. Continue through the original development and research plan without creating a new backlog, changing priorities, or asking for repeated authorization.\n\nIf storage reduction remains blocked, preserve its exact status and dependencies, then continue other authorized, nonconflicting work from the existing plan where governance permits.\n\n4. Completion reporting\n\nReport the exact development SHA, files changed, tests and CI results, measured storage before and after, independent restoration evidence, remaining blockers, and the original planned task resumed.\n\nDo not stop after creating a plan, prototype, handoff, or passing local tests. Do not claim production completion without verified production evidence.",
         "retainedAt": "2026-10-17T03:22:30.276Z"
-      }
+      },
+      "Continue the work"
     ],
     "planReconciliation": {
       "status": "approved-plan-synced-implementation-and-production-acceptance-pending",
@@ -7098,6 +8122,24 @@
       "purpose": "Reproduce and fix existing AUD-03 zero-execution false success within original pipeline-diagnostics; retain existing test/classification and cadence policy.",
       "status": "active",
       "acquiredAt": "2026-10-17T03:33:46.877Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "existing-candidate-identity-regression-20261017",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-42efe8889a64"
+      },
+      "scope": {
+        "paths": [
+          "test/scientificLearning.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Existing issue49/pipeline-backup evidence identity: retained-ID collision refusal without regenerating legacy identities.",
+      "status": "active",
+      "acquiredAt": "2026-10-17T08:21:59.428Z",
       "handedOffTo": null,
       "releasedAt": null
     }

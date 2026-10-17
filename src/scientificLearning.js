@@ -40,6 +40,16 @@ function canonical(value) {
 }
 function sha(value) { return crypto.createHash('sha256').update(typeof value === 'string' ? value : canonical(value)).digest('hex'); }
 
+// A retry can have a later processing timestamp, but cannot redefine retained evidence.
+// Keep the original record and legacy ID; exact claims, boundaries, provenance and packet
+// content must agree inside the same durable transaction before any batch sibling commits.
+function candidateEvidenceIdentity(candidate) {
+  const evidence = structuredClone(candidate);
+  delete evidence.createdAt;
+  if (evidence.evidencePacket) delete evidence.evidencePacket.createdAt;
+  return canonical(evidence);
+}
+
 function validateCandidate(candidate) {
   exactKeys(candidate, CANDIDATE_KEYS, 'candidate');
   if (candidate.schemaVersion !== 1) throw new Error('candidate.schemaVersion must be 1.');
@@ -287,8 +297,12 @@ class DurableScientificLearningStore {
     if (new Set(checked.map((candidate) => candidate.id)).size !== checked.length) throw new Error('Candidate batch contains duplicate ids.');
     const accepted = [];
     this.transact((next) => {
-      const known = new Set(next.candidateRecords.map((item) => item.candidate.id));
-      for (const candidate of checked) if (!known.has(candidate.id)) { next.candidateRecords.push(newRecord(candidate)); known.add(candidate.id); accepted.push(candidate.id); }
+      const known = new Map(next.candidateRecords.map((item) => [item.candidate.id, item.candidate]));
+      for (const candidate of checked) {
+        const prior = known.get(candidate.id);
+        if (prior && candidateEvidenceIdentity(prior) !== candidateEvidenceIdentity(candidate)) throw new Error('Candidate id conflicts with retained evidence; preserve both sources for identity review.');
+        if (!prior) { next.candidateRecords.push(newRecord(candidate)); known.set(candidate.id, candidate); accepted.push(candidate.id); }
+      }
       return next;
     }, { at:checked[0].createdAt, action:`candidate-batch:${checked.length}:ingest` });
     const payload = this.read(); return payload.candidateRecords.filter((item) => accepted.includes(item.candidate.id)).map((item) => structuredClone(item));
