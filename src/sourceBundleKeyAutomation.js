@@ -11,6 +11,29 @@ const { assertExecutionContext, recoveryManifest } = require('./keyManagerPolicy
 
 function keyId(family, sha256) { return `crucible-${family}-${sha256.slice(0, 16)}`; }
 
+const SHA256 = /^[a-f0-9]{64}$/;
+function registeredIdentity(entry, family) {
+  if (!entry || !entry.current || typeof entry.current.id !== 'string' ||
+      typeof entry.current.sha256 !== 'string') {
+    throw new Error(`KEY_MANAGER_REGISTRY_INVALID:${family}`);
+  }
+  const { id, sha256 } = entry.current;
+  if (id.startsWith('REQUIRED_') && sha256.startsWith('REQUIRED_')) return null;
+  if (!id || id.startsWith('REQUIRED_') || !SHA256.test(sha256)) {
+    throw new Error(`KEY_MANAGER_PARTIAL_CURRENT_METADATA:${family}`);
+  }
+  return { id, sha256 };
+}
+function validatePreviousMetadata(entry, family) {
+  if (entry.previous == null) return null;
+  const previous = entry.previous;
+  if (typeof previous.id !== 'string' || !previous.id || previous.id.startsWith('REQUIRED_') ||
+      typeof previous.sha256 !== 'string' || !SHA256.test(previous.sha256)) {
+    throw new Error(`KEY_MANAGER_PREVIOUS_METADATA_INVALID:${family}`);
+  }
+  return previous;
+}
+
 function generateKey(randomBytes = crypto.randomBytes) {
   const key = randomBytes(32);
   if (!Buffer.isBuffer(key) || key.length !== 32) throw new Error('KEY_MANAGER_RANDOM_SOURCE_INVALID');
@@ -18,9 +41,19 @@ function generateKey(randomBytes = crypto.randomBytes) {
   return { key, base64: key.toString('base64'), sha256 };
 }
 
-function familyPlan(name, env, registry, { allowInvalidReplacement = false } = {}) {
+function familyPlan(name, env, registry, { mode, allowInvalidReplacement = false } = {}) {
   const family = FAMILIES[name];
   const registered = registry.families[family.registry];
+  const currentIdentity = registeredIdentity(registered, name);
+  const historicalIdentity = validatePreviousMetadata(registered, name);
+  if (mode === 'bootstrap' && (currentIdentity || historicalIdentity)) {
+    throw new Error(`KEY_MANAGER_BOOTSTRAP_HISTORY_EXISTS:${family.current}`);
+  }
+  if (mode === 'rotate' && historicalIdentity) {
+    // Existing registry tracks one previous generation and the workflow retains
+    // only one previous secret. Rotation here could strand older ciphertext.
+    throw new Error(`KEY_MANAGER_ROTATION_HISTORICAL_CUSTODY_REQUIRED:${family.current}`);
+  }
   let existing = null;
   let replacedInvalid = false;
   if (env[family.current]) {
@@ -33,8 +66,23 @@ function familyPlan(name, env, registry, { allowInvalidReplacement = false } = {
       replacedInvalid = true;
     }
   }
+  if (mode === 'bootstrap' && existing) {
+    throw new Error(`KEY_MANAGER_BOOTSTRAP_REGISTER_EXISTING_FIRST:${family.current}`);
+  }
+  if (mode === 'rotate') {
+    if (!existing) throw new Error(`KEY_MANAGER_ROTATION_REQUIRES_EXISTING_KEY:${family.current}`);
+    if (!currentIdentity) throw new Error(`KEY_MANAGER_ROTATION_REQUIRES_REGISTERED_KEY:${family.current}`);
+    if (fingerprint(existing) !== currentIdentity.sha256) {
+      throw new Error(`KEY_MANAGER_CURRENT_MISMATCH:${family.current}`);
+    }
+    // Do not move an untracked prior secret out of reach.
+    if (env[family.previous]) throw new Error(`KEY_MANAGER_ROTATION_PREVIOUS_SECRET_UNRECONCILED:${family.previous}`);
+  }
   const next = generateKey();
-  const previous = existing ? { key: existing, base64: existing.toString('base64'), sha256: fingerprint(existing), id: registered.current.id } : null;
+  const previous = existing ? {
+    key: existing, base64: existing.toString('base64'),
+    sha256: fingerprint(existing), id: currentIdentity.id
+  } : null;
   return {
     registryName: family.registry,
     currentSecret: family.current,
@@ -51,19 +99,31 @@ function registerFamilyPlan(name, env, registry) {
   const existing = decodeKey(env[family.current], family.current);
   if (!existing) throw new Error(`KEY_MANAGER_REGISTER_REQUIRES_EXISTING_KEY:${family.current}`);
   const sha256 = fingerprint(existing);
+  const currentIdentity = registeredIdentity(registered, name);
+  const historicalIdentity = validatePreviousMetadata(registered, name);
+  if (currentIdentity && sha256 !== currentIdentity.sha256) {
+    throw new Error(`KEY_MANAGER_REGISTER_CURRENT_MISMATCH:${family.current}`);
+  }
+  const priorKey = decodeKey(env[family.previous], family.previous);
+  if (priorKey && !historicalIdentity) {
+    throw new Error(`KEY_MANAGER_PREVIOUS_UNREGISTERED:${family.previous}`);
+  }
+  if (priorKey && fingerprint(priorKey) !== historicalIdentity.sha256) {
+    throw new Error(`KEY_MANAGER_PREVIOUS_MISMATCH:${family.previous}`);
+  }
   return {
     registryName: family.registry,
     currentSecret: family.current,
     previousSecret: family.previous,
     current: {
-      id: registered.current?.id && !registered.current.id.startsWith('REQUIRED_')
-        ? registered.current.id
-        : keyId(name, sha256),
+      id: currentIdentity ? currentIdentity.id : keyId(name, sha256),
       sha256,
       key: existing,
       base64: existing.toString('base64'),
     },
-    previous: null,
+    // A missing previous secret is NOT evidence that old custody disappeared.
+    // Metadata is deliberately preserved by applyRegistry in register mode.
+    previous: priorKey ? { id: historicalIdentity.id, sha256: historicalIdentity.sha256 } : null,
   };
 }
 
@@ -74,7 +134,7 @@ function buildPlan({ env = process.env, registryFile, mode = 'bootstrap', family
   const names = family ? [family] : ['raw', 'vetted'];
   const plans = names.map(name => mode === 'register'
     ? registerFamilyPlan(name, env, registry)
-    : familyPlan(name, env, registry, { allowInvalidReplacement: mode === 'bootstrap' && allowInvalidReplacement }));
+    : familyPlan(name, env, registry, { mode, allowInvalidReplacement: mode === 'bootstrap' && allowInvalidReplacement }));
   if (mode === 'rotate') {
     for (const plan of plans) if (!plan.previous) throw new Error(`KEY_MANAGER_ROTATION_REQUIRES_EXISTING_KEY:${plan.currentSecret}`);
   }
@@ -84,6 +144,16 @@ function buildPlan({ env = process.env, registryFile, mode = 'bootstrap', family
 function applyRegistry(plan) {
   for (const item of plan.plans) {
     const entry = plan.registry.families[item.registryName];
+    if (plan.mode === 'register') {
+      const recorded = registeredIdentity(entry, item.registryName);
+      validatePreviousMetadata(entry, item.registryName);
+      if (recorded && (recorded.id !== item.current.id || recorded.sha256 !== item.current.sha256)) {
+        throw new Error(`KEY_MANAGER_REGISTER_CURRENT_MISMATCH:${item.currentSecret}`);
+      }
+      entry.current = { id: item.current.id, sha256: item.current.sha256 };
+      // Never reset `previous` or `rotation` during registration.
+      continue;
+    }
     entry.previous = item.previous ? { id: item.previous.id, sha256: item.previous.sha256 } : null;
     entry.current = { id: item.current.id, sha256: item.current.sha256 };
     entry.rotation = { status: plan.mode === 'rotate' ? 'rotated-by-automated-key-manager' : 'bootstrapped-by-automated-key-manager', dualKeyWindowRequired: true };

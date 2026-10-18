@@ -15,8 +15,33 @@ function registryFile() {
   return { dir, file };
 }
 
+// Use isolated synthetic registries: production raw custody already has a
+// registered prior generation and must not be used as a bootstrap fixture.
+function emptyRegistryFile() {
+  const result = registryFile();
+  const value = JSON.parse(fs.readFileSync(result.file, 'utf8'));
+  for (const entry of Object.values(value.families)) {
+    entry.current = { id: 'REQUIRED_OWNER_KEY_ID', sha256: 'REQUIRED_64_HEX_FINGERPRINT' };
+    entry.previous = null;
+    entry.rotation = { status: 'blocked' };
+  }
+  fs.writeFileSync(result.file, JSON.stringify(value));
+  return result;
+}
+function registeredRegistryFile(keys) {
+  const result = emptyRegistryFile();
+  const value = JSON.parse(fs.readFileSync(result.file, 'utf8'));
+  for (const [family, bytes] of Object.entries(keys)) {
+    const name = family === 'raw' ? 'raw-intake' : 'oversight-vetted';
+    const sha256 = crypto.createHash('sha256').update(Buffer.from(bytes, 'base64')).digest('hex');
+    value.families[name].current = { id: `crucible-${family}-${sha256.slice(0,16)}`, sha256 };
+  }
+  fs.writeFileSync(result.file, JSON.stringify(value));
+  return result;
+}
+
 test('bootstrap generates two 32-byte keys and redacted metadata', () => {
-  const { dir, file } = registryFile();
+  const { dir, file } = emptyRegistryFile();
   const plan = buildPlan({ registryFile: file, env: {}, mode: 'bootstrap' });
   assert.equal(plan.plans.length, 2);
   for (const item of plan.plans) {
@@ -33,9 +58,9 @@ test('bootstrap generates two 32-byte keys and redacted metadata', () => {
 });
 
 test('rotation requires existing keys and moves current metadata to previous', () => {
-  const { file } = registryFile();
   const raw = crypto.randomBytes(32).toString('base64');
   const vetted = crypto.randomBytes(32).toString('base64');
+  const { file } = registeredRegistryFile({raw,vetted});
   const plan = buildPlan({ registryFile: file, env: { CRUCIBLE_SOURCE_BUNDLE_KEY: raw, CRUCIBLE_VETTED_BUNDLE_KEY: vetted }, mode: 'rotate' });
   const updated = applyRegistry(plan);
   assert.equal(updated.families['raw-intake'].previous.sha256, crypto.createHash('sha256').update(Buffer.from(raw, 'base64')).digest('hex'));
@@ -43,12 +68,12 @@ test('rotation requires existing keys and moves current metadata to previous', (
 });
 
 test('rotation fails closed when either current key is unavailable', () => {
-  const { file } = registryFile();
+  const { file } = registeredRegistryFile({raw: crypto.randomBytes(32).toString('base64')});
   assert.throws(() => buildPlan({ registryFile: file, env: {}, mode: 'rotate' }), /KEY_MANAGER_ROTATION_REQUIRES_EXISTING_KEY/);
 });
 
 test('bootstrap fails closed on malformed existing material unless replacement is explicitly authorized', () => {
-  const { file } = registryFile();
+  const { file } = emptyRegistryFile();
   const env = { CRUCIBLE_SOURCE_BUNDLE_KEY: 'not-a-32-byte-key' };
   assert.throws(() => buildPlan({ registryFile: file, env, mode: 'bootstrap', family: 'raw' }), /KEY_MANAGER_BOOTSTRAP_REQUIRES_EXPLICIT_INVALID_REPLACEMENT/);
   const plan = buildPlan({ registryFile: file, env, mode: 'bootstrap', family: 'raw', allowInvalidReplacement: true });
@@ -57,8 +82,8 @@ test('bootstrap fails closed on malformed existing material unless replacement i
 });
 
 test('register fingerprints an existing raw key without replacing or persisting it', () => {
-  const { dir, file } = registryFile();
   const raw = crypto.randomBytes(32).toString('base64');
+  const { dir, file } = registeredRegistryFile({raw});
   const plan = buildPlan({ registryFile: file, env: { CRUCIBLE_SOURCE_BUNDLE_KEY: raw }, mode: 'register', family: 'raw' });
   assert.equal(plan.plans.length, 1);
   const updated = applyRegistry(plan);
@@ -79,7 +104,7 @@ test('register requires an existing key and an explicit family', () => {
 });
 
 test('plan output contains no key material or R8 behavior', () => {
-  const { file } = registryFile();
+  const { file } = emptyRegistryFile();
   const plan = buildPlan({ registryFile: file, env: {}, mode: 'bootstrap' });
   const text = JSON.stringify({ mode: plan.mode, families: plan.plans.map(p => ({ id: p.current.id, sha256: p.current.sha256 })) });
   assert.doesNotMatch(text, /R8|executable|base64/i);
