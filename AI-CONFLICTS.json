@@ -126,6 +126,38 @@
         "decidedBy": "repository-owner",
         "decidedAt": "2026-09-04"
       }
+    },
+    {
+      "id": "owner-directed-claim-transfer-20261018",
+      "status": "resolved",
+      "detectedAt": "2026-10-18",
+      "contestedAction": "Transfer existing exclusive claims from codex-work-42efe8889a64 to this current Work execution.",
+      "rationaleSummary": "Original worker cannot be resumed/messaged through exposed tools. Owner explicitly authorizes taking the existing work; native handOffClaim preserves predecessor records, exact scopes and task ages without overlap.",
+      "evidence": [
+        "Can you override and take it or find the original owner",
+        "development at 65aa1c3e0e2690c289b2327d4d1f1192974134d0; 20 active predecessor claims; no successor recorded.",
+        "Original remote process state and private uncommitted work remain unknown."
+      ],
+      "sides": [
+        {
+          "source": "Initial owner continuation request",
+          "instruction": "Do not create a replacement worker, override mutation claims, change priorities, restart R2 or promote to main."
+        },
+        {
+          "source": "Owner follow-up 2026-10-18",
+          "instruction": "Can you override and take it or find the original owner"
+        }
+      ],
+      "alternatives": [
+        "Continue read-only until original worker can receive a handoff.",
+        "Use explicit owner-directed native handoff for current repository execution and preserve predecessor history."
+      ],
+      "resolution": {
+        "decision": "Proceed with owner-authorized native handoff of existing repository mutation claims; preserve all other recovery restrictions.",
+        "rationaleSummary": "The follow-up directly resolves the recorded ownership blocker. It grants repository work takeover, not proof of old-process termination or recovery acceptance.",
+        "decidedBy": "repository-owner",
+        "decidedAt": "2026-10-18"
+      }
     }
   ]
 }
