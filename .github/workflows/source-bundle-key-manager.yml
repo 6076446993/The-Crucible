@@ -66,6 +66,11 @@ jobs:
           private-key: ${{ secrets.CRUCIBLE_KEY_MANAGER_PRIVATE_KEY || secrets.CRUCIBLE_MONITOR_APP_PRIVATE_KEY }}
           owner: 6076446993
           repositories: The-Crucible
+      - name: Fail closed until versioned KMS escrow and independent recovery are proven
+        env:
+          CRUCIBLE_KEY_MANAGER_MODE: ${{ inputs.mode }}
+        run: node src/keyPublicationSafety.js
+        # Expected exit 2 refuses all current secret/registry mutation.
       - name: Register, generate, or rotate custody keys
         env:
           CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}

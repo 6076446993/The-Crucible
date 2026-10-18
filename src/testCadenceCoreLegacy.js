@@ -98,6 +98,8 @@ const TEST_MAIN_CATEGORIES = {
     'test/sourceBundleKeyManager.test.js',
     'test/sourceBundleKeyDashboard.test.js',
     'test/sourceBundleKeyAutomation.test.js',
+    'test/keyLineageRegression.test.js',
+    'test/keyPublicationSafety.test.js',
     'test/historical-key-readiness.test.js',
     'test/key-workflow-order.test.js',
     'test/recovery-proof-readiness.test.js',

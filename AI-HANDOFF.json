@@ -135,11 +135,12 @@
     "src/repairWorkshop.js": "Owner-requested recovery workshop/testing adapter; proposals and test observations only, no activation, proof or promotion authority.",
     "src/orchestratorToolBuilder.js": "Owner-requested recovery workshop/testing adapter; proposals and test observations only, no activation, proof or promotion authority.",
     "src/testingToolSuite.js": "Owner-requested recovery workshop/testing adapter; proposals and test observations only, no activation, proof or promotion authority.",
-    "src/recoveryTestIntegration.js": "Owner-requested recovery workshop/testing adapter; proposals and test observations only, no activation, proof or promotion authority."
+    "src/recoveryTestIntegration.js": "Owner-requested recovery workshop/testing adapter; proposals and test observations only, no activation, proof or promotion authority.",
+    "src/keyPublicationSafety.js": "Emergency fail-closed guard for all legacy key-manager workflow modes; cannot authorize keys, publication or recovery acceptance."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-18T05:22:55.544Z"
+    "lastActionAt": "2026-10-18T05:37:03.555Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -237,9 +238,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-18T05:23:08.327Z",
+      "selectedAt": "2026-10-18T05:28:48.216Z",
       "promptSha256": "a86844ae4f4afc396e6ce02ef994db94d741acbf3d1d55d663ced9edf4db2065",
-      "affectedPathsSha256": "f90c7195324afded059d2a83f65a342cdb30afa53d27a978e4aa9eb66866b384"
+      "affectedPathsSha256": "47cd42f81c616e66d38d9c24aa4a8854afef2d0a2835c44be5f7993664f67283"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -251,7 +252,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-18T05:22:55.544Z",
+    "lastUpdatedAt": "2026-10-18T05:37:03.555Z",
     "currentStep": "Production acceptance externally blocked: preserve independent retention/restoration/publication/physical-reduction gates and original task order; permitted P0 backup/diagnostics implementation and restoration evidence recorded.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -324,7 +325,7 @@
       "handedOverAt": "2026-09-15T09:20:00Z",
       "note": "Codex advanced development from 259cf60 to d21be9a. No claim was held by either agent across that handover."
     },
-    "verificationStatus": "Owner transfer prepared; isolated artifact tests pass. Repository integration/hosted follow-up and real independent recovery are not accepted.",
+    "verificationStatus": "Testing Organ integration ebf609a verified by9/9hosted Self-Test and CodeQL/handoff/conflict. Key containment native1281/1281 and126focused pass; exact source-tip hosted outcome authority is existing issue49checkpoint6246082002. Real provider-backed versioned keys and independent historical recovery remain BLOCKED.",
     "historicalBlockers": [
       {
         "id": "oversight-refusal-was-not-honoured",
@@ -449,7 +450,7 @@
         "detail": "No distinct security principal has restored the live corpus and signed its exact state. No independent gate is set passed."
       }
     ],
-    "nextAction": "Publish exact-byte checkout fix and verify full hosted source tip; then emergency key guard/lineage repair. External protected versioned key custody and independent history restoration remain blocked.",
+    "nextAction": "After ordered exact-tip native/hosted software verification, obtain actual protected versioned-key backend and distinct authorized historical-key/cold-restoration/Oversight evidence. Keep recovery-only; no rotation, migration, deletion, R2 or main.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -470,7 +471,8 @@
         "Owner-directed ALL-plan reconciliation includes all8open issues, permanent draft PR11, organism/recovery/outbox, two stores, managed encrypted packs, LEE/CRU/OPS, unified intake/miner, research accounting, upload grouping, whole-tree audit, diagnostics/test relevance and versioned gate crosswalk. Source issue41comment6228942588 read back; native document synchronization prepared. All75original workLedger records unchanged; no production acceptance.",
         "Original pipeline-backup P0:5native fail-first signal/ACK/writer-lock failures reproduced; native fixes integrated,44focused/1183full tests pass. ActualSIGKILL at3journal publication stages and fresh-process child replay preserve parent/children/identities. Existing runtime/store/journal reused; no independent production acceptance.",
         "Existing pipeline-diagnostics AUD-03 reproduced2empty-execution false-success cases; public selector now reports not-executed/held and preserves lifecycle reasons.55focused/1185full native pass. Published P0 f686ee6 source/plans453file restore/Git-history bundle verified; independent live custody remains unverified.",
-        "P0f686ee6 all9hosted platform jobs plus CodeQL/handoff/conflict passed. Coverage audit of subsequent hosted logs exposed Code-only+selected proof behind historical commented npmtest marker;1meaningful contract regression failed before unconditional full Orchestrator baseline.53focused/1186native passed; stronger hosted full-suite follow-up required."
+        "P0f686ee6 all9hosted platform jobs plus CodeQL/handoff/conflict passed. Coverage audit of subsequent hosted logs exposed Code-only+selected proof behind historical commented npmtest marker;1meaningful contract regression failed before unconditional full Orchestrator baseline.53focused/1186native passed; stronger hosted full-suite follow-up required.",
+        "2026-10-18 owner-authorized existing-claim takeover and Testing Organ workshop integration:20predecessor scopes preserved, integration ebf609a full9platform/CodeQL/governance pass; emergency key-publication stop and lineage-preservation repair implemented with1281native/126focused passes. No real key mutation or recovery acceptance."
       ],
       "remaining": [
         "Provision complete authenticated live corpus/root/native-lock inventory without resetting or recreating tracked stores.",
@@ -480,7 +482,8 @@
         "Keep normal activity inhibited until independently accepted recovery and owner continuation; no main promotion or live R2 restart.",
         "Issue49: historical independent cold restoration, protected retention/key custody under distinct principal, Oversight publisher adoption, actual provider physical measurement and owner-authorized cleanup remain blocked; original P0 pipeline-backup continuation preserved.",
         "Existing issue49 acceptance remains blocked by independent protected retention/key custody, complete historical cold restoration/signed receipt, Oversight-owned publisher adoption and actual physical storage/owner-authorized cleanup. Preserve original ledger, October7live-intake age, P0 hold, excluded owner-file API contract and no R2/main resumption. Canonical Oversight repository access is resolved (trailing period).",
-        "Native ACK retention and atomic parent+all-child outbox are integrated under original pipeline-backup ownership; verify hosted full-suite receipts and preserve independent external-effects limitations. All-history independent recovery/key retention and physical storage acceptance remain blocked. Preserve original oldest owner-file intake and research obligations; new architecture/crosswalk remains inactive until compatibility and independent tests pass."
+        "Native ACK retention and atomic parent+all-child outbox are integrated under original pipeline-backup ownership; verify hosted full-suite receipts and preserve independent external-effects limitations. All-history independent recovery/key retention and physical storage acceptance remain blocked. Preserve original oldest owner-file intake and research obligations; new architecture/crosswalk remains inactive until compatibility and independent tests pass.",
+        "P0 real external dependencies: approved protected versioned-key vault/CAS/escrow contract, independently authorized custodian and original all-history RAW/VETTED keys/ciphertext/population, independent cold restore/Oversight receipts and explicit owner recovery acceptance. Recovery-only remains mandatory."
       ]
     },
     "filesTouched": [
@@ -4780,7 +4783,19 @@
               "independentlyTested": false
             },
             "actualCandidateIds": [],
-            "intakeAcknowledgments": []
+            "intakeAcknowledgments": [],
+            "keyContainmentReview": {
+              "at": "2026-10-18T05:28:48.068Z",
+              "nativeBaselineRegression": {
+                "tests": 13,
+                "passed": 3,
+                "failed": 10
+              },
+              "patchedFocused": 126,
+              "patchedFullNative": 1281,
+              "realVersionedKmsInstalled": false,
+              "independentRecoveryAccepted": false
+            }
           }
         ],
         "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared. Public PDF sections were read through the research service; original PDF byte custody in the live corpus is not claimed.",
@@ -6067,7 +6082,9 @@
         "lookupCorrection": "Earlier404 omitted the trailing period. Canonical installed-repository discovery succeeded; access is not a current blocker.",
         "policy": "OVERSIGHT-POLICY.md explicitly withholds Crucible write/configuration/trigger/verifier-identity authority and disallows importing Crucible runtime modules.",
         "source": "independent-oversight.yml always encrypts approved merged custody before signed publication; independent no-change adoption remains required.",
-        "oversightMutated": false
+        "oversightMutated": false,
+        "recheckedAt": "2026-10-18T05:37:03.555Z",
+        "currentPolicyConfirmation": "Oversight head remains78764a0171e255e264ced52033da544259fc494e. Current OVERSIGHT-POLICY.md explicitly denies Crucible trigger/configuration/verifier/write/approval authority; no independent all-history acceptance inferred. DEVLOG/AGENTS/AI-HANDOFF paths return404, not repository access denial."
       },
       "softwareVerification": {
         "sourceSha": "7bb5a494cedb113495446345208544d7b0cba027",
@@ -6596,7 +6613,7 @@
         "localGitPush": "failed: local HTTPS write authentication unavailable; connected GitHub publication attempted only after executing unchanged native pre-push hook."
       },
       "integration": {
-        "status": "implemented-local",
+        "status": "verified-software",
         "focused": {
           "passed": 128,
           "failed": 0,
@@ -6612,7 +6629,17 @@
         "scope": "Four additive proposal/registry/Testing Organ adapters; six pinned read-only check tools; existing test selector/cadence preserved; Nexus application code excluded.",
         "rollback": "Revert this source integration commit with both handoff documents; predecessor claim transfer and recovery-only policy remain intact.",
         "nativePinCheck": "Original Testing Organ and cadence Git-blob pins matched; category proposal narrowed to installed recovery tests only.",
-        "hostedVerification": "pending publication exact-SHA",
+        "hostedVerification": {
+          "sourceSha": "ebf609a3140bc1c1dc67d89ba884e70e5cb15c61",
+          "selfTestRun": 39100386339,
+          "matrixPassed": 9,
+          "matrixFailed": 0,
+          "codeqlRun": 39100386336,
+          "codeql": "success",
+          "handoff": "success",
+          "conflict": "success",
+          "verifiedAt": "2026-10-18T05:37:03.555Z"
+        },
         "publicationGuardApplied": false,
         "initialFullNative": {
           "passed": 1252,
@@ -6642,9 +6669,71 @@
             "passed": 20,
             "failed": 0
           },
-          "hosted": "pending publication",
+          "hosted": {
+            "sourceSha": "ebf609a3140bc1c1dc67d89ba884e70e5cb15c61",
+            "selfTestRun": 39100386339,
+            "matrixPassed": 9,
+            "matrixFailed": 0,
+            "codeqlRun": 39100386336,
+            "codeql": "success",
+            "handoff": "success",
+            "conflict": "success",
+            "verifiedAt": "2026-10-18T05:37:03.555Z"
+          },
           "guardAndLineageStatus": "Still next ordered step; not applied while first native integration awaits exact-tip platform verification."
         }
+      },
+      "keyContainment": {
+        "status": "implemented-custody-blocked",
+        "workflowGuard": "Exit2 before generation, gh secret set and Git metadata publication for register/bootstrap/rotate; current legacy workflow remains deliberately blocked even with forged acceptance flags.",
+        "lineageRepair": "Exact prepared patch applied to native source/tests: preserve previous/rotation metadata during registration, reject current/prior fingerprint mismatches, prevent registered bootstrap or unsafe one-previous rotation.",
+        "focused": {
+          "passed": 126,
+          "failed": 0,
+          "skipped": 0
+        },
+        "fullNative": {
+          "passed": 1281,
+          "failed": 0,
+          "skipped": 0
+        },
+        "workflowPermissionsLint": true,
+        "circulationDirectEdges": 57,
+        "realKeyMutation": false,
+        "registryMetadataMutation": false,
+        "historicalCiphertextMutation": false,
+        "versionedTransaction": {
+          "status": "BLOCKED",
+          "reason": "No approved provider-backed protected versioned vault/CAS transaction contract or independent custodian signer/escrow is available. Supplied coordinator intentionally accepts synthetic backend only;20synthetic tests are not real KMS proof.",
+          "prototypeTestsPassed": 20,
+          "productionProviderInstalled": false
+        },
+        "next": "Finish exact-tip hosted software verification, then obtain independently authorized actual historical key/ciphertext inventory and full cold-restore/Oversight receipts; keep recovery-only.",
+        "precedingIntegrationVerified": {
+          "sourceSha": "ebf609a3140bc1c1dc67d89ba884e70e5cb15c61",
+          "selfTestRun": 39100386339,
+          "matrixPassed": 9,
+          "matrixFailed": 0,
+          "codeqlRun": 39100386336,
+          "codeql": "success",
+          "handoff": "success",
+          "conflict": "success",
+          "verifiedAt": "2026-10-18T05:37:03.555Z"
+        },
+        "syntheticFixtureCleanup": true,
+        "exactTipHostedEvidenceRecord": "https://github.com/6076446993/The-Crucible/issues/49#issuecomment-6246082002",
+        "hostedVerificationAuthority": "Full exact-SHA Self-Test and CodeQL outcomes are recorded in the linked existing issue checkpoint after execution; native tests and this source record do not assert a hosted pass or independent custody acceptance."
+      },
+      "independentRecoveryBlockers": {
+        "rawHistoricalKeysVerified": false,
+        "vettedHistoricalKeysVerified": false,
+        "oldestRawIdentityResolved": false,
+        "fullHistoricalPopulationAuthenticated": false,
+        "independentCustodianVerified": false,
+        "independentOversightAccepted": false,
+        "ownerRecoveryAccepted": false,
+        "normalWorkResumptionAuthorized": false,
+        "reason": "This worker cannot act as its own independent custodian/Oversight. Actual protected original key versions, immutable ciphertext and signer-bound backend are not available through the execution interfaces."
       }
     }
   },
@@ -6673,7 +6762,8 @@
       "P0 recovery: native preimage/intent/commit journals and exact replay, full-population snapshot/restore API and CLI, independent signed receipt preflight, existing orchestrator/production routing and held-request retry implemented locally. All prior plans, work ledger IDs and original priorities retained.",
       "2026-10-16: prepared explicit owner-authorized native transfer of all eleven active predecessor claims to codex-work-42efe8889a64; no private workspace export or host-process stop was observed.",
       "2026-10-16: explicit owner-authorized takeover published at 5aafbb5652d1cb9c80f9203729da4f47fca82b77; hosted handoff/conflict/CodeQL passed and DEVLOG prune Archive job 116918898335 succeeded. Native thirty-minute user-inactivity disconnect is implemented locally with sixteen focused passing tests; actual ChatGPT host integration is not available.",
-      "2026-10-16: resumed original codex-work-42efe8889a64 claims at cac6b938; preserved30concurrent commits and current issue49 requirements. Prototype bundle inspected as unverified source; observed caller-asserted locking and non-native queue schema. GitHub vetted size remains59517884KiB."
+      "2026-10-16: resumed original codex-work-42efe8889a64 claims at cac6b938; preserved30concurrent commits and current issue49 requirements. Prototype bundle inspected as unverified source; observed caller-asserted locking and non-native queue schema. GitHub vetted size remains59517884KiB.",
+      "2026-10-18 owner-authorized existing-claim takeover and Testing Organ workshop integration:20predecessor scopes preserved, integration ebf609a full9platform/CodeQL/governance pass; emergency key-publication stop and lineage-preservation repair implemented with1281native/126focused passes. No real key mutation or recovery acceptance."
     ],
     "remaining": [
       "P0 follow-up only: publish macOS alias correction and current P0 operating hold, verify exact hosted OS matrix and resolve Windows durability without suppressing flush errors. Do not resume normal work or clear P0 merely because local tests pass.",
@@ -6694,7 +6784,8 @@
       "Implement and host-wire 30-minute user-inactivity checkpoint/disconnect; actual ChatGPT user activity and disconnect controls remain unavailable.",
       "Recover predecessor private unpublished work if its host becomes reachable; do not assume it is included in the repository.",
       "Native idle disconnect requires actual trusted host activity and idempotent checkpoint/transport adapters. No ChatGPT platform disconnect was configured or observed; safe-boundary hung handlers require host supervision.",
-      "Issue49 production acceptance remains open: native integration, independent signed cold restoration, oversight-owned publication guard and actual physical reduction below45GB. No deletion/history rewrite is authorized."
+      "Issue49 production acceptance remains open: native integration, independent signed cold restoration, oversight-owned publication guard and actual physical reduction below45GB. No deletion/history rewrite is authorized.",
+      "P0 real external dependencies: approved protected versioned-key vault/CAS/escrow contract, independently authorized custodian and original all-history RAW/VETTED keys/ciphertext/population, independent cold restore/Oversight receipts and explicit owner recovery acceptance. Recovery-only remains mandatory."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -6718,7 +6809,8 @@
       "Final recovery source npm run test:all1123/1123passed, zero failed/skipped, 2026-10-15T19:27:00.910Z through19:27:16.857Z. All10additional required local audits passed. Exact commands, timestamps and output hashes are in recovery-verification-20261015.json.",
       "Published0c651b413753787b3922242e2323977bcafad176 with exact tested tree5ec1c5a0afa36d4ad7d2f4a132d7592e50892540; manual pre-push hook and exact handoff-range check passed; Archive appendf077292f6b840a3ea722861fb605d42001bd127b preserved old ledger prefix and exact pre-prune DEVLOG. Hosted CodeQL38794379524 passed; Self-Test38794379421 has measured macOS alias and Windows directory-flush failures, not a completion pass.",
       "2026-10-16 user-idle change: full native Orchestrator1145/1145,0failed/0skipped using real OpenJDK17; focused16/16; coordination, conflict governance, circulation57, docs consistency and configuration passed. Host disconnect deployment remains unavailable.",
-      "Issue49 continuation reconciliation: full native Orchestrator1148/1148,0failed/0skipped after registering the retained-source security test, preserving read-only historical workflow constraints and restoring the temporary JDK. No custody mutation or physical reduction."
+      "Issue49 continuation reconciliation: full native Orchestrator1148/1148,0failed/0skipped after registering the retained-source security test, preserving read-only historical workflow constraints and restoring the temporary JDK. No custody mutation or physical reduction.",
+      "Exact integration ebf609a:Self-Test39100386339 all9pass,CodeQL39100386336success. Containment source exact-tip hosted results tracked in existing issue49comment6246082002; native1281/1281,guard all3modes exit2,unchanged pre-push gate."
     ]
   },
   "mutationOwnershipPolicy": {
@@ -9302,6 +9394,28 @@
       "purpose": "Continue existing owner-requested P0 workshop/Testing Organ adapter; no new runner or activation authority.",
       "status": "active",
       "acquiredAt": "2026-10-18T05:13:54.121Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "key-publication-containment-20261018",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-e6f97bc625e2"
+      },
+      "scope": {
+        "paths": [
+          "src/keyPublicationSafety.js",
+          "src/sourceBundleKeyAutomation.js",
+          "test/keyPublicationSafety.test.js",
+          "test/keyLineageRegression.test.js",
+          ".github/workflows/source-bundle-key-manager.yml"
+        ],
+        "regions": []
+      },
+      "purpose": "Existing recovery priority: emergency publication stop and native historical key-lineage preservation; no actual key/custody writes or real-KMS acceptance.",
+      "status": "active",
+      "acquiredAt": "2026-10-18T05:26:54.189Z",
       "handedOffTo": null,
       "releasedAt": null
     }
