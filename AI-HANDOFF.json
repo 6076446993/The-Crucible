@@ -139,7 +139,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-18T05:17:53.117Z"
+    "lastActionAt": "2026-10-18T05:22:55.544Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -237,9 +237,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-18T05:16:21.165Z",
+      "selectedAt": "2026-10-18T05:23:08.327Z",
       "promptSha256": "a86844ae4f4afc396e6ce02ef994db94d741acbf3d1d55d663ced9edf4db2065",
-      "affectedPathsSha256": "b8ee9b1f5d6462a44d535c4fa306fc42bcca89f9b21d9a2a0ca0f5fda3efdb74"
+      "affectedPathsSha256": "f90c7195324afded059d2a83f65a342cdb30afa53d27a978e4aa9eb66866b384"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -251,7 +251,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-18T05:17:53.117Z",
+    "lastUpdatedAt": "2026-10-18T05:22:55.544Z",
     "currentStep": "Production acceptance externally blocked: preserve independent retention/restoration/publication/physical-reduction gates and original task order; permitted P0 backup/diagnostics implementation and restoration evidence recorded.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -449,7 +449,7 @@
         "detail": "No distinct security principal has restored the live corpus and signed its exact state. No independent gate is set passed."
       }
     ],
-    "nextAction": "Run exact-tip hosted Self-Test/CodeQL for Testing Organ integration, repair any actual regression, then apply reviewed emergency key-publication guard and key-lineage repair. No live key mutation.",
+    "nextAction": "Publish exact-byte checkout fix and verify full hosted source tip; then emergency key guard/lineage repair. External protected versioned key custody and independent history restoration remain blocked.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -6625,7 +6625,26 @@
           "failed": 0
         },
         "fixtureEncoding": "Original patch bytes retained as base64 JSON under test/fixtures; exact decoded SHA unchanged. Avoids whitespace corruption and unregistered root fixture paths.",
-        "initialPrepushFailure": "Route refused unregistered root fixtures; moved new fixtures into registered test/fixtures, no routing policy widened. Next prepush reproduced Java environment failure; corrected with real compiler module."
+        "initialPrepushFailure": "Route refused unregistered root fixtures; moved new fixtures into registered test/fixtures, no routing policy widened. Next prepush reproduced Java environment failure; corrected with real compiler module.",
+        "checkoutByteRepair": {
+          "observedCommit": "b9a4be71efa68af14a25f5117e9689f09e75a6b1",
+          "failedRun": 39100105661,
+          "failedJob": 117594462208,
+          "rootCause": "Windows core.autocrlf checkout changed raw tool/test bytes and strict manifest hashes correctly refused them.",
+          "fix": "Directory-local .gitattributes enforce LF for six pinned tool/test files. Manifest hashes unchanged; no text normalization in verifier.",
+          "regression": "Real disposable Git checkout with core.autocrlf=true failed before attributes and passes afterward.",
+          "native": {
+            "passed": 1259,
+            "failed": 0,
+            "skipped": 0
+          },
+          "focused": {
+            "passed": 20,
+            "failed": 0
+          },
+          "hosted": "pending publication",
+          "guardAndLineageStatus": "Still next ordered step; not applied while first native integration awaits exact-tip platform verification."
+        }
       }
     }
   },
@@ -9274,7 +9293,9 @@
           "test/testingOrgan.test.js",
           "fixtures/key-lineage-fix.json",
           "test/fixtures/key-lineage-fix.json",
-          "test/fixtures/historical-key-registry-history.json"
+          "test/fixtures/historical-key-registry-history.json",
+          "test/.gitattributes",
+          "tools/testing/.gitattributes"
         ],
         "regions": []
       },
