@@ -34,6 +34,25 @@ test('runs existing tests when every named file is already on disk', () => {
   assert.deepEqual(selection.tests, ['test/beta.test.js']);
 });
 
+test('registered recovery checks use the native selector and refuse mixed or missing selectors', () => {
+  const available = ['test/historical-key-readiness.test.js'];
+  assert.deepEqual(selectRequestedTests({ toolIds: ['historical-key-readiness'] }, available).tests, available);
+  assert.throws(() => selectRequestedTests({ toolIds: ['historical-key-readiness'], tests: available }, available), /Mixed testing selector refused/);
+  assert.throws(() => selectRequestedTests({ toolIds: ['unregistered-recovery-check'] }, available), /unregistered tool/);
+  assert.throws(() => selectRequestedTests({ toolIds: ['historical-key-readiness'] }, AVAILABLE), /test not registered/);
+});
+
+test('native Testing Organ dispatches a registered check through its existing runner', async () => {
+  const { run, calls } = recordingRunner();
+  const organ = createTestingOrgan({ run, available: ['test/historical-key-readiness.test.js'] });
+  const observation = await organ({ payload: { request: { toolIds: ['historical-key-readiness'] } }, envelope });
+  assert.ok(calls.some(call => call.args.includes('test/historical-key-readiness.test.js')));
+  assert.equal(observation.result.passed, true);
+  assert.equal(observation.result.authoredAnyTest, false);
+  assert.equal(observation.proofStageSatisfied, false);
+  assert.equal(observation.promotionAuthorized, false);
+});
+
 test('a request that names nothing to select on is refused rather than guessed at', () => {
   assert.throws(() => selectRequestedTests({}, AVAILABLE), /must name changed paths, a main category, or explicit existing tests/);
 });

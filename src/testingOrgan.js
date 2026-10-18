@@ -19,12 +19,17 @@
 // the whole proof boundary of this project exists to prevent exactly that. Authoring is a
 // separate decision the owner has not taken; until then this refuses rather than guesses.
 const { discoverTests, selectTestsForCategory, selectTestsForChanges, runTestSelection } = require('./testCadenceCore');
+const { toTestingOrganRequest } = require('./testingToolSuite');
 
 // A request names either changed paths or explicit test files. Anything that is not already a
 // discovered test is refused by name rather than silently dropped, so a request to run a test
 // that does not exist can never be reported as a run that passed.
 function selectRequestedTests(request = {}, available = discoverTests()) {
   const known = new Set(available);
+  if (Object.hasOwn(request, 'toolIds')) {
+    if (request.tests || request.mainCategory || request.changedPaths) throw new Error('Mixed testing selector refused.');
+    return selectRequestedTests(toTestingOrganRequest(request.toolIds, { available }), available);
+  }
   if (Array.isArray(request.tests) && request.tests.length) {
     const unknown = request.tests.filter((file) => !known.has(file));
     if (unknown.length) {

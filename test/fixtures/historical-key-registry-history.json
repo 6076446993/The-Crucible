@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "6076446993/The-Crucible",
+  "sourceBranch": "development",
+  "inspectedHead": "65aa1c3e0e2690c289b2327d4d1f1192974134d0",
+  "path": "governingDocuments/source-bundle-key-registry.json",
+  "scope": "GitHub-visible nonsecret registry commits only; no live keys or decryptions verified",
+  "revisions": [
+    {"sha": "35d58c26b36b490e50743409dbeb505af6111758", "timestamp": "2026-10-09T18:25:44Z", "rawCurrent": null, "rawPrevious": null, "vettedCurrent": null, "vettedPrevious": null},
+    {"sha": "dea8ca996fdfcb057610f2ad307d9c3991e03bce", "timestamp": "2026-10-09T22:36:00Z", "rawCurrent": null, "rawPrevious": null, "vettedCurrent": null, "vettedPrevious": null},
+    {"sha": "4112d78d2425a0a3c5f5f7b599face10080e13f9", "timestamp": "2026-10-09T22:39:15Z", "rawCurrent": null, "rawPrevious": null, "vettedCurrent": null, "vettedPrevious": null},
+    {"sha": "1199af5cb36166b997345bb9b0e5c5931713c75e", "timestamp": "2026-10-10T10:13:47Z", "rawCurrent": {"id": "crucible-raw-918e00cbfc8c98ab", "sha256": "918e00cbfc8c98abb6f7f38c9db9e1cc675aae3aa417000ab2b01f7911298535"}, "rawPrevious": {"id": "REQUIRED_OWNER_KEY_ID", "sha256": "ae53e21b8a1641af61fa7e53c5ccfe90e1fb50b6680baed5bc39eac4ba1c8bb5"}, "vettedCurrent": null, "vettedPrevious": null},
+    {"sha": "b68d1f7e2def760999e5767bd42f4c74873502f0", "timestamp": "2026-10-10T11:33:49Z", "rawCurrent": {"id": "crucible-raw-3c38a04e631031df", "sha256": "3c38a04e631031dfa98e2d96937f32ac8a997e60aa879ff289718e29c4e85ea8"}, "rawPrevious": {"id": "crucible-raw-918e00cbfc8c98ab", "sha256": "918e00cbfc8c98abb6f7f38c9db9e1cc675aae3aa417000ab2b01f7911298535"}, "vettedCurrent": null, "vettedPrevious": null}
+  ]
+}
