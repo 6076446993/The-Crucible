@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-18T05:10:20.095Z, codex-work-e6f97bc625e2: Owner-authorized claim handoff recorded; see dev plan AI-HANDOFF.json.activePlan.ownerTransfer20261018 and unchanged original work ledger. Actual ZIP hash and isolated167Node/4Python checks verified. Existing scopes transferred through native handOffClaim; no old-process termination, private-work recovery or independent custody acceptance claimed.
+
 - 2026-10-17T08:30:18.658Z, codex-work-42efe8889a64: Same P0 identity containment published772d4d0;1190native/77focused/429prepush pass, CodeQL passed, full hosted matrix39017340489authoritative.453-file source/plan/history restore exact. Existing recoveryResearch.sources now preserves22underlying provided citations,2official API references and synthetic compression experiment6231755075:28cases/196exact roundtrips/56negative controls, raw truncated zstd partial-output finding retained. No live corpus/key changes, physical savings, research admissions or independent restoration acceptance. Original study digests remain qualified; see continuousCheckpoint and candidateIdentityCollisionRefusal.
 
 - 2026-10-17T08:23:58.600Z, codex-work-42efe8889a64: Resumed original actor after local snapshot rollback; verified old-history bundle and restored publishedf6b2858, whose full9platform matrix/CodeQL pass. Same issue49 P0 identity repair now3real baseline failures/77focused/1190full native pass; exact hosted follow-up required. Extended existing recoveryResearch.sources with4separate study/matrix records and linked references, preserving2unresolved source-digest qualifications. No authenticated research ACK/admission, historical replay, independent live recovery or physical savings. See activePlan.storageReductionIssue49.candidateIdentityCollisionRefusal and recoveryResearch.continuousCheckpoint.
@@ -304,6 +306,19 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: owner-directed-transfer-20261018 — 2026-10-18T05:10:20.095Z — codex-work-e6f97bc625e2 — mode:work
+
+Plain-language summary: Took responsibility for the existing recovery work on the owner’s explicit instruction while retaining the previous ownership history and every recovery hold. Verified the supplied repair package in isolation; live integration and independent recovery remain unaccepted.
+
+- `ground-truth/read-only clone/npm ci/route:prewrite/native handOffClaim` — started 2026-10-18T05:08:05Z, finished 2026-10-18T05:10:20.095Z, exit 0; inspected current SHA, Shared AI handoff, owner rules, claim/coordination and recovery boundaries; locked dependencies installed. category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
+- `artifact verification` — started 2026-10-18T05:06:05Z, finished 2026-10-18T05:10:20.095Z, exit 0; ZIP SHA matches,83file hashes match,167Node/4Python isolated passes, guard exit2 expected. No repository integration or hosted CI pass claimed.
+- `native ownership transfer` — started 2026-10-18T05:10:20.095Z, finished 2026-10-18T05:10:20.095Z, exit 0; predecessor→successor mapping: owner-file-transport-20261008-resumed-after-nvidia-20261011-owner-20261016 -> owner-transfer-20261018-6c3643b48a7d; p0-recovery-system-20261015-owner-20261016 -> owner-transfer-20261018-869edc5de8c7; p0-recovery-research-writers-20261015-owner-20261016 -> owner-transfer-20261018-921107038cad; p0-recovery-orchestrator-20261015-owner-20261016 -> owner-transfer-20261018-b628b5a21cd5; p0-recovery-route-contract-20261015-owner-20261016 -> owner-transfer-20261018-7dce59ad3099; p0-recovery-production-route-20261015-owner-20261016 -> owner-transfer-20261018-f0c75e2a3f96; p0-recovery-evidence-20261015-owner-20261016 -> owner-transfer-20261018-be976ee69c61; p0-recovery-normal-activity-hold-20261015-owner-20261016 -> owner-transfer-20261018-83df5d0e86a1; p0-recovery-intake-cli-hold-20261015-owner-20261016 -> owner-transfer-20261018-a7079c132d2a; p0-hosted-recovery-custody-20261016-owner-20261016 -> owner-transfer-20261018-b73ed5867c7b; p0-recovery-windows-workload-budget-20261016-owner-20261016 -> owner-transfer-20261018-39fa34edad5b; worker-idle-disconnect-20261016 -> owner-transfer-20261018-76db3f05e11c; issue49-native-evidence-storage-20261016 -> owner-transfer-20261018-75e87b36600c; p0-native-recovery-proposal-integration-20261016 -> owner-transfer-20261018-0a8a28d6b889; pipeline-diagnostics-compiler-timeout-20261016 -> owner-transfer-20261018-16ae38a9cdc6; existing-plan-reconciliation-20261017 -> owner-transfer-20261018-83f87bc7d481; p0-circulation-retention-20261017 -> owner-transfer-20261018-14e6d6eda588; p0-delivery-catalog-20261017 -> owner-transfer-20261018-8037cfe69246; existing-diagnostics-zero-proof-20261017 -> owner-transfer-20261018-1bfa3b607f3b; existing-candidate-identity-regression-20261017 -> owner-transfer-20261018-d3a95dc823b3. Old process stop/private-state recovery unverified.
+
+
+- `npm run test:all; AI conflict/coordination/chain audits` — started 2026-10-18T05:10:20.095Z, finished 2026-10-18T05:10:58.210Z, exit 1 full-suite/0 governance;1190tests1184pass6fail0skip because real Java/JDK absent (OPS0054); native Orchestrator preserved failure in existing known-bug ledger. No assertion weakened; hosted complete-toolchain proof remains required.
+
+- `unchanged .githooks/pre-push with exact proposed refs` — started 2026-10-18T05:12:00Z, finished 2026-10-18T05:11:53.451Z, exit 0;429tests passed; workflow lint/docs/config/clutter/privacy/security passed. Direct git push failed authentication before publication; connected GitHub Git-data route selected with unchanged gates and expected-head lease.
 
 ### Session: issue49-storage-integration-20261016 — 2026-10-16T21:30:31.152Z — codex-work-42efe8889a64 — mode:work
 
@@ -556,23 +571,7 @@ Plain-language summary: Continue the owner's archive replacement using the alrea
 - preflight, isolated checkout and retained plaintext comparison — started 2026-10-11T20:53:00Z, finished 2026-10-11T21:04:48.669Z; exact development route verified; historical candidate IDs and source hashes preserved.
 - implementation and verification — started 2026-10-11T21:04:48.669Z, finished 2026-10-11T21:37:56.650Z; implementation 2db7a44293f9108bad0b4ad4403601b0216b471a passed 194 local tests, all nine hosted self-tests, CodeQL, handoff and conflict gates. Rebuild 38176876189 published state e627a695b1898ea7bcc24f884d066bf835868a30 with existing raw key and isolated restore; independent authentication 38176984983 matched the approved archive hash. Old manifest/chunks retained, temporary transport secret removed. R8 remains separately pending; no promotion.
 
-### Session: R8 protected push and live dispatch — 2026-10-11T03:55:00Z — Codex — mode:work
 
-Plain-language summary: Reconciled the R8 repair onto the current development tip, regenerated the exact route record, passed the protected local checks, pushed only to development, and dispatched the existing manual R8 publisher. The repair is now hosted at exact SHA `5a78404e9e40c895b881c6e208ba20eaca71a3a4`; hosted run `38109749249` is queued because no owner-controlled runner with labels `self-hosted,crucible-r8` is registered. No canary, raw/vetted custody, `main`, or `Archive` changed.
-- `session` — started 2026-10-11T03:51:37Z, finished 2026-10-11T03:55:00Z, exit 0 after protected push and dispatch; subsequent route/DEVLOG corrections remain in the same checkpoint.
-- `git push origin development` — protected route verification passed; local pre-push verification passed workflow lint, docs, changed-test orchestration (104/104), validation, clutter, privacy, and security audits; remote advanced from `b68d1f7e2def760999e5767bd42f4c74873502f0` to `5a78404e9e40c895b881c6e208ba20eaca71a3a4`.
-- `gh workflow run 377913299 --ref development` — dispatched `38109749249` at the exact SHA; job `114382668947` remains queued with zero steps, confirming the self-hosted runner capability blocker before any custody action.
-- Status/handoff — recorded the exact SHA, run, and unchanged R3/R9/R10/R11 blockers; no gate was weakened or marked complete.
-- `test/ownerFileTransport.test.js` — normalized Windows tar paths before the archive command, fixing the deterministic `Cannot connect to C: resolve failed` harness failure without changing custody behavior; focused retest passed locally and the protected push is being rerun.
-- Hosted exact-tip follow-up — run `38110513574` exposed the legacy `activePlan.status` value `in-progress`; changed only the handoff state to governed `active`, with no custody or gate-state change.
-- Exact-tip continuation — repaired the route digest for the handoff-only follow-up, protected push advanced development to `eee72b4a6cff1fa9dac321d63401d5f35c30e365`, and hosted AI handoff policy passed. Fresh R8 dispatch `38110712781` remains pending before any job step because no `self-hosted,crucible-r8` runner accepted it; no canary or custody write occurred.
-
-
-Continuation — evidence-bound diagnosis, 2026-10-11: Implemented read-only diagnosis from exact-run GitHub job evidence so a later proof failure does not become an invented decryption failure. Preserved existing local timeout/atomic-publication work and all live pipeline state.
-- Validation continuation: `node --test test/ciDiagnosticOrgan.test.js test/hostedSourceBundle.test.js test/workflow.test.js` passed 65/65; `JAVA_HOME=/workspace/scratch/0010ebf4b64c/java-tools npm run test:all` passed 1058/1058, zero skipped. Java compiler was the real installed jdk.compiler module (17.0.20), not a simulated result.
-- Workflow permissions, configuration, security, privacy, governance, circulation and diff checks passed. Real hosted report replay diagnoses R8 pending after vetted custody restoration.
-- No live custody, queue, lock, key or active knowledge mutation; R8 publisher requires its configured self-hosted runner and approved source prerequisites.
-- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Affected paths select crucible-core.
 
 
 ## Historical mutation accountability
