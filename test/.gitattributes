@@ -1,0 +1,7 @@
+# These exact test bytes are pinned by tools/testing/registry.json.
+historical-key-readiness.test.js text eol=lf
+key-workflow-order.test.js text eol=lf
+recovery-proof-readiness.test.js text eol=lf
+key-lineage-patch-audit.test.js text eol=lf
+signed-recovery-receipt.test.js text eol=lf
+repair-regression-evidence.test.js text eol=lf

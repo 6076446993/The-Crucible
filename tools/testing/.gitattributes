@@ -1,0 +1,2 @@
+# Registry digests bind these tool files to their exact LF bytes on every host.
+*.js text eol=lf
