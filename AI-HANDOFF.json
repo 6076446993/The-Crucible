@@ -131,11 +131,15 @@
     "src/recoveryController.js": "Existing orchestrator recovery adapter: registered exact operations, durable diagnostic hold, no arbitrary paths, no proof or promotion authority.",
     "governingDocuments/recovery-system.md": "Recovery operating contract, scope, evidence limits and live prerequisites.",
     "governingDocuments/recovery-operation-policy.json": "Owner P0 recovery-only operating hold. Normal Crucible activity remains inhibited until independently accepted recovery and a governed owner resumption decision; recovery and read-only diagnosis remain available.",
-    "src/hostedRecovery.js": "Recovery-only authenticated custody snapshots, registered checkpoint and encrypted uploaded-backup restoration; never normal proof, publication or restart authority."
+    "src/hostedRecovery.js": "Recovery-only authenticated custody snapshots, registered checkpoint and encrypted uploaded-backup restoration; never normal proof, publication or restart authority.",
+    "src/repairWorkshop.js": "Owner-requested recovery workshop/testing adapter; proposals and test observations only, no activation, proof or promotion authority.",
+    "src/orchestratorToolBuilder.js": "Owner-requested recovery workshop/testing adapter; proposals and test observations only, no activation, proof or promotion authority.",
+    "src/testingToolSuite.js": "Owner-requested recovery workshop/testing adapter; proposals and test observations only, no activation, proof or promotion authority.",
+    "src/recoveryTestIntegration.js": "Owner-requested recovery workshop/testing adapter; proposals and test observations only, no activation, proof or promotion authority."
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-18T05:11:53.451Z"
+    "lastActionAt": "2026-10-18T05:17:53.117Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -233,9 +237,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-18T05:10:58.151Z",
+      "selectedAt": "2026-10-18T05:16:21.165Z",
       "promptSha256": "a86844ae4f4afc396e6ce02ef994db94d741acbf3d1d55d663ced9edf4db2065",
-      "affectedPathsSha256": "8a8bc21b4e6b9202dbb0f7d836dfd7385947c124980330b3474eb650ae641792"
+      "affectedPathsSha256": "b8ee9b1f5d6462a44d535c4fa306fc42bcca89f9b21d9a2a0ca0f5fda3efdb74"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -247,7 +251,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-18T05:11:53.451Z",
+    "lastUpdatedAt": "2026-10-18T05:17:53.117Z",
     "currentStep": "Production acceptance externally blocked: preserve independent retention/restoration/publication/physical-reduction gates and original task order; permitted P0 backup/diagnostics implementation and restoration evidence recorded.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -445,7 +449,7 @@
         "detail": "No distinct security principal has restored the live corpus and signed its exact state. No independent gate is set passed."
       }
     ],
-    "nextAction": "Integrate prepared Testing Organ adapter under exact-path route and claims, run native and exact-tip hosted checks; then guarded key-lineage/versioned-key work. Independent original historical keys and recovery acceptance remain blocked.",
+    "nextAction": "Run exact-tip hosted Self-Test/CodeQL for Testing Organ integration, repair any actual regression, then apply reviewed emergency key-publication guard and key-lineage repair. No live key mutation.",
     "evidenceReferences": {
       "plan": "Owner-supplied ChatGPT share 6aa654ab-27f4-83ea-857d-a81324160ea6, title 'Work Refresh Probe 6:04', 726 messages spanning 2026-09-07 to 2026-09-13.",
       "mergedPromotion": "Pull request 19 merged 2026-09-15T09:29Z; main is 8162707."
@@ -4757,6 +4761,26 @@
             },
             "actualCandidateIds": [],
             "intakeAcknowledgments": []
+          },
+          {
+            "id": "p0-workshop-package-20261018",
+            "title": "Owner-provided original-worker P0 continuation package",
+            "accessedAt": "2026-10-18T05:15:36.791Z",
+            "sourceSha256": "6f31bc06edac41440b218c0430148526bbd7dfa7441c3daf2dfe744a1b8679ea",
+            "sourceLocation": "Owner-supplied Crucible-Workless-P0-Continuation-2026-10-18.zip",
+            "finding": "Registered checks and bounded repair proposal construction integrated locally through existing Testing Organ and cadence; no proof or promotion power.",
+            "limits": "Synthetic and software verification only; real KMS/historical secrets, all-history restoration and independent Oversight unavailable.",
+            "statuses": {
+              "prepared": true,
+              "implemented": "native integration local; hosted pending",
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": []
           }
         ],
         "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared. Public PDF sections were read through the research service; original PDF byte custody in the live corpus is not claimed.",
@@ -6570,6 +6594,38 @@
         "tests": 429,
         "fullNativeJavaFailuresPreserved": true,
         "localGitPush": "failed: local HTTPS write authentication unavailable; connected GitHub publication attempted only after executing unchanged native pre-push hook."
+      },
+      "integration": {
+        "status": "implemented-local",
+        "focused": {
+          "passed": 128,
+          "failed": 0,
+          "skipped": 0
+        },
+        "fullNative": {
+          "passed": 1258,
+          "failed": 0,
+          "skipped": 0,
+          "runtime": "Node24.19/OpenJDK17.0.20 real compiler module; project-scoped temporary javac launcher. No test or compiler substitute.",
+          "command": "JAVA_HOME=<disposable project-scoped launcher root> npm run test:all"
+        },
+        "scope": "Four additive proposal/registry/Testing Organ adapters; six pinned read-only check tools; existing test selector/cadence preserved; Nexus application code excluded.",
+        "rollback": "Revert this source integration commit with both handoff documents; predecessor claim transfer and recovery-only policy remain intact.",
+        "nativePinCheck": "Original Testing Organ and cadence Git-blob pins matched; category proposal narrowed to installed recovery tests only.",
+        "hostedVerification": "pending publication exact-SHA",
+        "publicationGuardApplied": false,
+        "initialFullNative": {
+          "passed": 1252,
+          "failed": 6,
+          "skipped": 0,
+          "reason": "Same six missing-Java/JDK failures as baseline; no added failure."
+        },
+        "finalFixtureTests": {
+          "passed": 20,
+          "failed": 0
+        },
+        "fixtureEncoding": "Original patch bytes retained as base64 JSON under test/fixtures; exact decoded SHA unchanged. Avoids whitespace corruption and unregistered root fixture paths.",
+        "initialPrepushFailure": "Route refused unregistered root fixtures; moved new fixtures into registered test/fixtures, no routing policy widened. Next prepush reproduced Java environment failure; corrected with real compiler module."
       }
     }
   },
@@ -9183,6 +9239,50 @@
       "releasedAt": null,
       "originalAcquiredAt": "2026-10-17T08:21:59.428Z",
       "predecessorTaskId": "existing-candidate-identity-regression-20261017"
+    },
+    {
+      "taskId": "testing-workshop-integration-20261018",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-e6f97bc625e2"
+      },
+      "scope": {
+        "paths": [
+          "src/repairWorkshop.js",
+          "src/orchestratorToolBuilder.js",
+          "src/testingToolSuite.js",
+          "src/recoveryTestIntegration.js",
+          "tools/testing/registry.json",
+          "fixtures/key-lineage-fix.patch",
+          "fixtures/historical-key-registry-history.json",
+          "test/repairWorkshop.test.js",
+          "test/recoveryTestIntegration.test.js",
+          "test/testing-tool-suite.test.js",
+          "tools/testing/historical-key-readiness.js",
+          "test/historical-key-readiness.test.js",
+          "tools/testing/key-workflow-order.js",
+          "test/key-workflow-order.test.js",
+          "tools/testing/recovery-proof-readiness.js",
+          "test/recovery-proof-readiness.test.js",
+          "tools/testing/key-lineage-patch-audit.js",
+          "test/key-lineage-patch-audit.test.js",
+          "tools/testing/signed-recovery-receipt.js",
+          "test/signed-recovery-receipt.test.js",
+          "tools/testing/repair-regression-evidence.js",
+          "test/repair-regression-evidence.test.js",
+          "src/testingOrgan.js",
+          "test/testingOrgan.test.js",
+          "fixtures/key-lineage-fix.json",
+          "test/fixtures/key-lineage-fix.json",
+          "test/fixtures/historical-key-registry-history.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Continue existing owner-requested P0 workshop/Testing Organ adapter; no new runner or activation authority.",
+      "status": "active",
+      "acquiredAt": "2026-10-18T05:13:54.121Z",
+      "handedOffTo": null,
+      "releasedAt": null
     }
   ],
   "ownerDecisions": [

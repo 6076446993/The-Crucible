@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "policy": "Existing testingOrgan and testCadence only; native tests auto-discovered and explicitly classified by original holder; manifest does not grant execution or promotion authority.",
+  "tools": [
+    {
+      "id": "historical-key-readiness",
+      "mode": "read-only",
+      "proofAuthority": false,
+      "promotionAuthority": false,
+      "category": "security",
+      "ownerScope": "recovery-p0",
+      "code": "tools/testing/historical-key-readiness.js",
+      "test": "test/historical-key-readiness.test.js",
+      "codeSha256": "8e64bdb33fd25e72da02bd070765f50dd35a1ac5c0fb36aaf20fad9f5a9f35f4",
+      "testSha256": "258618877fd12cddaef12f8cbb501593f7c9aa5958e92e2c8fa1208c68553cba",
+      "evidenceRequirements": [
+        "Original registry revisions",
+        "Verified distinct historical key material",
+        "Independent old-ciphertext decrypt receipts"
+      ],
+      "description": "Reconstruct immutable raw/vetted key IDs and report unproven histories"
+    },
+    {
+      "id": "key-workflow-order",
+      "mode": "read-only",
+      "proofAuthority": false,
+      "promotionAuthority": false,
+      "category": "security",
+      "ownerScope": "recovery-p0",
+      "code": "tools/testing/key-workflow-order.js",
+      "test": "test/key-workflow-order.test.js",
+      "codeSha256": "15484a00437084b634b29086748047a08f9d08902716a30f381cefd2fe01acb0",
+      "testSha256": "6cec55d2c29c748aee9d035c2886641b0ae847cb90e19287e3c8d20321dd9f49",
+      "evidenceRequirements": [
+        "Existing workflow SHA",
+        "Snapshot of gh secret set and git push order",
+        "Governed rollback/preimage strategy"
+      ],
+      "description": "Detect unsafe secret update and metadata commit order without dispatching workflows"
+    },
+    {
+      "id": "recovery-proof-readiness",
+      "mode": "read-only",
+      "proofAuthority": false,
+      "promotionAuthority": false,
+      "category": "security",
+      "ownerScope": "recovery-p0",
+      "code": "tools/testing/recovery-proof-readiness.js",
+      "test": "test/recovery-proof-readiness.test.js",
+      "codeSha256": "f0b723df43e2e430e1aa1c1d2c1d7101cf6928e2c15cdc37335f930e388188ef",
+      "testSha256": "2f45e3c115fe14d7dacc45f193ad821a045330d216927ff3dacbb27723e54aca",
+      "evidenceRequirements": [
+        "Historical key-generation inventory",
+        "Immutable raw/vetted ciphertext manifests",
+        "Distinct-custodian signed decrypt and cold-restore receipts"
+      ],
+      "description": "Refuse self-certified all-history recovery when independent proof is absent"
+    },
+    {
+      "id": "key-lineage-patch-audit",
+      "mode": "read-only",
+      "proofAuthority": false,
+      "promotionAuthority": false,
+      "category": "security",
+      "ownerScope": "recovery-p0",
+      "code": "tools/testing/key-lineage-patch-audit.js",
+      "test": "test/key-lineage-patch-audit.test.js",
+      "codeSha256": "4a781b3e246ca560e7e8aa4e7b02f54cdc03685b1311d4284f650878f5317818",
+      "testSha256": "1cc6721a1cd3b0e7384a6b5f8a2b6e6b298cd4d9047b40c3998dc7a44e6b6a2f",
+      "evidenceRequirements": [
+        "Original Git blob identity checked by original owner",
+        "Staged patch SHA-256 verified",
+        "Focused native and hosted regression tests"
+      ],
+      "description": "Verify isolated key-lineage patch file identity without applying a mutation or checking actual secrets"
+    },
+    {
+      "id": "signed-recovery-receipt",
+      "mode": "read-only",
+      "proofAuthority": false,
+      "promotionAuthority": false,
+      "category": "security",
+      "ownerScope": "recovery-p0",
+      "code": "tools/testing/signed-recovery-receipt.js",
+      "test": "test/signed-recovery-receipt.test.js",
+      "codeSha256": "f0c9d0a8055141c8cb7d1ab9eaa62b290eac971f1a1e84d8e9c82ec3412a441e",
+      "testSha256": "9a20e0e44121c5a673f0e9ac5f54e948e63edc0e0fe777364c988c70037c5074",
+      "evidenceRequirements": [
+        "Independently pinned public verification key",
+        "Exact-hash bound signed raw receipt bytes",
+        "Separate proof of actual historical decryption and custodial restore"
+      ],
+      "description": "Verify independent Ed25519 receipt signature over exact bytes; no custody acceptance"
+    },
+    {
+      "id": "repair-regression-evidence",
+      "mode": "read-only",
+      "proofAuthority": false,
+      "promotionAuthority": false,
+      "category": "code",
+      "ownerScope": "recovery-p0",
+      "code": "tools/testing/repair-regression-evidence.js",
+      "test": "test/repair-regression-evidence.test.js",
+      "codeSha256": "11bfd976e6887bb5cb5dfd3b4b9aeb409503331f11984d4ef4d2914a620b3e7e",
+      "testSha256": "cda1ab83a5835d6f442090665b3d276acafcedd71c5cebc676c1dbe24192a4f5",
+      "evidenceRequirements": [
+        "Before/after immutable hashes",
+        "Explicit native test results",
+        "Independent verifier and signed receipt"
+      ],
+      "description": "Classify repair retest and independent verification readiness without running repairs"
+    }
+  ]
+}

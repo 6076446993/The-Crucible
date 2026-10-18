@@ -151,6 +151,10 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-18T05:17:53.117Z, codex-work-e6f97bc625e2: Existing workshop/Testing Organ integration now1258/1258native pass,0fail0skip after real installed JDK compiler-module launcher resolved missing javac. No compiler/test substitution; no host installation. Fixture bytes retained in exact-hash encoded test/fixtures. See activePlan.ownerTransfer20261018.integration for initial refusals, native evidence and pending exact-tip hosted acceptance.
+
+- 2026-10-18T05:15:36.791Z, codex-work-e6f97bc625e2: Published owner transfer274a88a; native Testing Organ workshop adapter now128focused pass and1252/1258full native (same6missing-Java baseline failures), circulation57unchanged. See dev plan AI-HANDOFF.json.activePlan.ownerTransfer20261018.integration; exact-tip hosted integration pending. Recovery-only and independent key/cold-restore holds unchanged.
+
 - 2026-10-18T05:10:20.095Z, codex-work-e6f97bc625e2: Owner-authorized claim handoff recorded; see dev plan AI-HANDOFF.json.activePlan.ownerTransfer20261018 and unchanged original work ledger. Actual ZIP hash and isolated167Node/4Python checks verified. Existing scopes transferred through native handOffClaim; no old-process termination, private-work recovery or independent custody acceptance claimed.
 
 - 2026-10-17T08:30:18.658Z, codex-work-42efe8889a64: Same P0 identity containment published772d4d0;1190native/77focused/429prepush pass, CodeQL passed, full hosted matrix39017340489authoritative.453-file source/plan/history restore exact. Existing recoveryResearch.sources now preserves22underlying provided citations,2official API references and synthetic compression experiment6231755075:28cases/196exact roundtrips/56negative controls, raw truncated zstd partial-output finding retained. No live corpus/key changes, physical savings, research admissions or independent restoration acceptance. Original study digests remain qualified; see continuousCheckpoint and candidateIdentityCollisionRefusal.
@@ -319,6 +323,10 @@ Plain-language summary: Took responsibility for the existing recovery work on th
 - `npm run test:all; AI conflict/coordination/chain audits` — started 2026-10-18T05:10:20.095Z, finished 2026-10-18T05:10:58.210Z, exit 1 full-suite/0 governance;1190tests1184pass6fail0skip because real Java/JDK absent (OPS0054); native Orchestrator preserved failure in existing known-bug ledger. No assertion weakened; hosted complete-toolchain proof remains required.
 
 - `unchanged .githooks/pre-push with exact proposed refs` — started 2026-10-18T05:12:00Z, finished 2026-10-18T05:11:53.451Z, exit 0;429tests passed; workflow lint/docs/config/clutter/privacy/security passed. Direct git push failed authentication before publication; connected GitHub Git-data route selected with unchanged gates and expected-head lease.
+
+- `exact-blob generator/native claim and route/copy six recovery checks/native adapter tests/full suite/audits` — started 2026-10-18T05:15:00Z, finished 2026-10-18T05:15:36.791Z, exit 0 focused128tests; full suite exit1 with1252pass6fail0skip, same missing-Java errors as baseline. First focused run exposed stale category snapshot; explicit four-bucket expectations synchronized with installed tests; classification not weakened. Existing organ tests exercise registered check dispatch, mixed selector/unknown tool/unavailable test refusal. Generated tool test now uses disposable OS-temp tree. New proposal/adapters registered to existing organs;57direct bypass edges unchanged. Package resource logged in existing recoveryResearch.sources; no new research ingestion/learning ACK.
+
+- `fixture exact-byte encoding/registered test-root correction/real compiler-module launcher/full native rerun` — started 2026-10-18T05:15:55.966Z, finished 2026-10-18T05:17:53.117Z, exit 0 final;20fixture tests pass; installed OpenJDK17.0.20 provides jdk.compiler but no javac launcher. Disposable workspace launcher executes actual com.sun.tools.javac.Main;13real harness tests and1258/1258full native pass,0fail0skip. Initial hook route refusal and Java refusal preserved; neither gate nor test was weakened.
 
 ### Session: issue49-storage-integration-20261016 — 2026-10-16T21:30:31.152Z — codex-work-42efe8889a64 — mode:work
 

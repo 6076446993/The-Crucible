@@ -1,0 +1,11 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const {assessRepairEvidence}=require('../tools/testing/repair-regression-evidence');
+const sha='a'.repeat(40),digest='b'.repeat(64);
+const full=()=>({baseCommit:sha,repairCommit:'c'.repeat(40),beforeDiagnosisSha256:digest,afterDiagnosisSha256:'d'.repeat(64),requestedTests:['test/repair.test.js'],testRuns:[{test:'test/repair.test.js',ok:true,skipped:false,outputSha256:digest}],independentVerifier:true,rollbackTested:true,negativeTestsPassed:true,signedReceiptSha256:digest});
+test('fully shaped evidence is review ready but cannot self-certify',()=>{let x=assessRepairEvidence(full());assert.equal(x.status,'EVIDENCE_REVIEW_READY');assert.equal(x.repairAuthorized,false);assert.equal(x.proofStageSatisfied,false);});
+test('missing independent verifier blocks',()=>assert.equal(assessRepairEvidence({...full(),independentVerifier:false}).status,'INSUFFICIENT_EVIDENCE'));
+test('skipped test is not passing execution',()=>assert.match(assessRepairEvidence({...full(),testRuns:[{...full().testRuns[0],skipped:true}]}).missing.join(','),/native test/));
+test('stale unchanged diagnosis blocks',()=>assert.match(assessRepairEvidence({...full(),afterDiagnosisSha256:digest}).missing.join(','),/changed diagnosis/));
+test('wrong or unrequested result blocks',()=>assert.match(assessRepairEvidence({...full(),testRuns:[{test:'test/other.test.js',ok:true,outputSha256:digest}]}).missing.join(','),/native test/));
+test('no receipt, rollback or negative tests blocks',()=>{let x=assessRepairEvidence({...full(),signedReceiptSha256:null,rollbackTested:false,negativeTestsPassed:false});assert.equal(x.missing.length,3);});
