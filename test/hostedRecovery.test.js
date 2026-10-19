@@ -30,6 +30,8 @@ test('historical RAW audit covers retained manifests, missing keys and every adv
   const report=await recovery.authenticateRawHistory({stateRoot:state,root:path.join(root,'history'),repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'report.json')});
   assert.equal(report.state,'held');assert.equal(report.coverageComplete,true);assert.equal(report.commits,2);
   assert.equal(report.distinctCiphertexts,2);assert.equal(report.authenticatedVersions,1);assert.equal(report.failedVersions,1);
+  assert.equal(report.keySlots.find(k=>k.name===names[0]).fingerprint,digest(Buffer.from(process.env[names[0]],'base64')));
+  assert.equal(report.keySlots.find(k=>k.name===names[1]).configured,false);
   assert.ok(report.occurrences.some(x=>x.manifestPath.startsWith('rebuild-incoming/')));
   assert.ok(report.occurrences.some(x=>x.manifestPath==='encrypted-manifest-retained.json'));
   assert.equal(report.occurrences.find(x=>x.manifestPath==='encrypted-manifest-retained.json').manifestSha256,digest(oldManifest));
@@ -43,7 +45,7 @@ test('historical RAW audit covers retained manifests, missing keys and every adv
   assert.equal(recovered.state,'authenticated-advertised-raw-history');assert.equal(recovered.authenticatedVersions,2);
   assert.equal(recovered.versions.find(v=>v.decryptedWith===names[1]).population.learning.candidates,1);
   assert.equal(recovered.completeHistoricalRecoveryVerified,false);
-  const cleanupRoot=path.join(root,'cleanup-failure'),originalRemove=fs.rmSync;
+  const cleanupRoot=path.join(fs.realpathSync(root),'cleanup-failure'),originalRemove=fs.rmSync;
   fs.rmSync=(target,...args)=>{if(target===cleanupRoot)throw new Error('synthetic cleanup refusal');return originalRemove(target,...args);};
   try {
     await assert.rejects(()=>recovery.authenticateRawHistory({stateRoot:state,root:cleanupRoot,repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'cleanup-failure.json')}));

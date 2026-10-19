@@ -5,6 +5,8 @@ on:
     branches: [development]
     paths:
       - .github/workflows/retained-custody-inventory.yml
+      - src/hostedRecovery.js
+      - test/hostedRecovery.test.js
   workflow_dispatch:
 
 permissions:
