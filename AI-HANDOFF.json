@@ -140,7 +140,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-19T05:04:39.606Z"
+    "lastActionAt": "2026-10-19T05:10:52.371Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -238,9 +238,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-19T05:04:03.302Z",
+      "selectedAt": "2026-10-19T05:06:25.243Z",
       "promptSha256": "5a9da3a4775a649880a4d28e2f01b117c7aa5f646b0a40dae768d95ba4896843",
-      "affectedPathsSha256": "122ac49dded2d006a253d6b9eb0f391edb3f5448e100c73baf1abd85e30959fa"
+      "affectedPathsSha256": "bc5e1633259169f252e4244fd1f076b27f372a8a04aa338d3896c8ce3a0c03d9"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -252,7 +252,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-19T05:04:39.606Z",
+    "lastUpdatedAt": "2026-10-19T05:10:52.371Z",
     "currentStep": "Production acceptance externally blocked: preserve independent retention/restoration/publication/physical-reduction gates and original task order; permitted P0 backup/diagnostics implementation and restoration evidence recorded.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -3496,7 +3496,7 @@
         }
       },
       "recoveryResearch": {
-        "reviewedAt": "2026-10-15T19:57:31.690Z",
+        "reviewedAt": "2026-10-19T05:10:05.196Z",
         "status": "design-reference-only-not-promoted-knowledge",
         "sources": [
           {
@@ -4799,6 +4799,78 @@
               "realVersionedKmsInstalled": false,
               "independentRecoveryAccepted": false
             }
+          },
+          {
+            "id": "p0-historical-custody-inventory-20261018",
+            "url": "https://github.com/6076446993/The-Crucible/issues/49#issuecomment-6246556078",
+            "title": "Historical custody inventory and gap analysis",
+            "accessedAt": "2026-10-19T05:10:05.196Z",
+            "finding": "Prior metadata inventory reports6RAW ciphertext versions; active restore does not authenticate retained alternate manifests or original key history.",
+            "relatedWorkIds": [
+              "pipeline-backup"
+            ],
+            "sourceIdentity": "Existing original issue/comment; no new source ID minted",
+            "rights": "Repository-authenticated metadata review; external rights unresolved",
+            "statuses": {
+              "researched": true,
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": "historical RAW diagnostic only; hosted pending",
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": []
+          },
+          {
+            "id": "p0-historical-key-gap-20261018",
+            "url": "https://github.com/6076446993/The-Crucible/issues/49#issuecomment-6246582777",
+            "title": "Absent RAW-key recovery investigation",
+            "accessedAt": "2026-10-19T05:10:05.196Z",
+            "finding": "Oldest RAW fingerprint remains an unresolved historical-secret candidate; independent Oversight retains its own key but latest39186379079fails before decryption.",
+            "relatedWorkIds": [
+              "pipeline-backup"
+            ],
+            "sourceIdentity": "Existing original issue/comment; no new source ID minted",
+            "rights": "Repository-authenticated metadata review; external rights unresolved",
+            "statuses": {
+              "researched": true,
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": "historical RAW diagnostic only; hosted pending",
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": []
+          },
+          {
+            "id": "research-r1-78-pointers-20261019",
+            "url": "https://github.com/6076446993/The-Crucible/issues/41#issuecomment-6259897690",
+            "title": "Owner-authorized78source pointers",
+            "accessedAt": "2026-10-19T05:10:05.196Z",
+            "finding": "78unique URL strings across12families;0native intake performed; recovery-only hold preserved.",
+            "relatedWorkIds": [
+              "pipeline-backup"
+            ],
+            "sourceIdentity": "Existing original issue/comment; no new source ID minted",
+            "rights": "Repository-authenticated metadata review; external rights unresolved",
+            "statuses": {
+              "researched": true,
+              "prepared": true,
+              "submitted": false,
+              "acknowledged": false,
+              "admitted": false,
+              "verifiedLearned": false,
+              "implemented": false,
+              "independentlyTested": false
+            },
+            "actualCandidateIds": [],
+            "intakeAcknowledgments": []
           }
         ],
         "pipelineDisposition": "Recorded in governed development source log while normal research/intake/extraction remains P0-held; no production candidate was ingested and no proof gate was cleared. Public PDF sections were read through the research service; original PDF byte custody in the live corpus is not claimed.",
@@ -4829,7 +4901,15 @@
           "newOfficialApiReferences": 2,
           "syntheticBenchmarkCaseCount": 28,
           "syntheticResultsComment": 6231755075,
-          "sourceDevelopmentSha": "772d4d09bd3a40b66f95801ad09b6efbef936e32"
+          "sourceDevelopmentSha": "772d4d09bd3a40b66f95801ad09b6efbef936e32",
+          "at": "2026-10-19T05:10:05.196Z",
+          "actor": "codex-work-7c11b0701d1a",
+          "developmentParent": "1fdfb53a1a296ef2d0d0856eb10453a212c1040f",
+          "historicalRawAudit": "implemented-local; exact-SHA hosted pending",
+          "nativeFullPassed": 1283,
+          "sourcePopulationDecryptionVerified": false,
+          "normalActivityResumed": false,
+          "originalWorkOrderPreserved": true
         }
       },
       "verificationBudgetCommit": "07048089487baef06c2f84312a66fe05b6984722",
@@ -6761,7 +6841,41 @@
         "scopeReview": "Full owner/branch/claim/routing/constitution/recovery/key-policy and relevant source review; complete semantic re-review of unrelated 1.76MB governing corpus not claimed within owner preflight resource limit."
       },
       "nextAction": "Authenticate historical RAW ciphertext with existing authorized key slots through the current recovery diagnostics; preserve missing-key failures. No new worker or queue.",
-      "previousPrompt": "Can you override and take it or find the original owner"
+      "previousPrompt": "Can you override and take it or find the original owner",
+      "historicalRawAudit": {
+        "status": "implemented-local",
+        "missingBehavior": "Existing inventory authenticates only the active current-tree bundle; historical and retained alternate manifests have no complete per-version AES-GCM/population audit.",
+        "scope": "RAW advertised refs and retained manifests only; VETTED all-history, independent custody, physical savings and normal operations remain held.",
+        "rollback": "Revert only this diagnostic implementation and paired handoff updates; retain predecessor ownership history, failed evidence and recovery-only policy.",
+        "verification": {
+          "focused": {
+            "passed": 8,
+            "failed": 0,
+            "skipped": 0
+          },
+          "fullNative": {
+            "passed": 1283,
+            "failed": 0,
+            "skipped": 0
+          },
+          "firstFail": "authenticateRawHistory missing; historical RAW regression failed before implementation.",
+          "pathIsolationRegression": "Symlink/junction alias into original custody was not rejected; test failed before canonical-ancestor validation and passes afterward.",
+          "hosted": "pending exact implementation SHA",
+          "historicalLiveAuthentication": "not yet executed",
+          "cleanupRegression": "Injected temporary cleanup failure incorrectly left successful report state; first failed, then report held/cleanupVerified=false and nonzero execution."
+        },
+        "files": [
+          "src/hostedRecovery.js",
+          "test/hostedRecovery.test.js",
+          ".github/workflows/retained-custody-inventory.yml",
+          "governingDocuments/recovery-system.md"
+        ],
+        "actualIntakeAcknowledgments": 0,
+        "heldResearchPointers": 78,
+        "physicalStorageSavingsVerified": false,
+        "independentRecoveryAccepted": false,
+        "normalWorkResumptionAuthorized": false
+      }
     }
   },
   "handoffNotes": {
@@ -6790,7 +6904,8 @@
       "2026-10-16: prepared explicit owner-authorized native transfer of all eleven active predecessor claims to codex-work-42efe8889a64; no private workspace export or host-process stop was observed.",
       "2026-10-16: explicit owner-authorized takeover published at 5aafbb5652d1cb9c80f9203729da4f47fca82b77; hosted handoff/conflict/CodeQL passed and DEVLOG prune Archive job 116918898335 succeeded. Native thirty-minute user-inactivity disconnect is implemented locally with sixteen focused passing tests; actual ChatGPT host integration is not available.",
       "2026-10-16: resumed original codex-work-42efe8889a64 claims at cac6b938; preserved30concurrent commits and current issue49 requirements. Prototype bundle inspected as unverified source; observed caller-asserted locking and non-native queue schema. GitHub vetted size remains59517884KiB.",
-      "2026-10-18 owner-authorized existing-claim takeover and Testing Organ workshop integration:20predecessor scopes preserved, integration ebf609a full9platform/CodeQL/governance pass; emergency key-publication stop and lineage-preservation repair implemented with1281native/126focused passes. No real key mutation or recovery acceptance."
+      "2026-10-18 owner-authorized existing-claim takeover and Testing Organ workshop integration:20predecessor scopes preserved, integration ebf609a full9platform/CodeQL/governance pass; emergency key-publication stop and lineage-preservation repair implemented with1281native/126focused passes. No real key mutation or recovery acceptance.",
+      "Owner order transferred22original scopes using native handOffClaim; predecessor records and75work items retained. Historical RAW diagnostic extends hostedRecovery and existing retained-custody workflow;8focused/1283full native tests passed,0fail0skip."
     ],
     "remaining": [
       "P0 follow-up only: publish macOS alias correction and current P0 operating hold, verify exact hosted OS matrix and resolve Windows durability without suppressing flush errors. Do not resume normal work or clear P0 merely because local tests pass.",
@@ -6812,7 +6927,8 @@
       "Recover predecessor private unpublished work if its host becomes reachable; do not assume it is included in the repository.",
       "Native idle disconnect requires actual trusted host activity and idempotent checkpoint/transport adapters. No ChatGPT platform disconnect was configured or observed; safe-boundary hung handlers require host supervision.",
       "Issue49 production acceptance remains open: native integration, independent signed cold restoration, oversight-owned publication guard and actual physical reduction below45GB. No deletion/history rewrite is authorized.",
-      "P0 real external dependencies: approved protected versioned-key vault/CAS/escrow contract, independently authorized custodian and original all-history RAW/VETTED keys/ciphertext/population, independent cold restore/Oversight receipts and explicit owner recovery acceptance. Recovery-only remains mandatory."
+      "P0 real external dependencies: approved protected versioned-key vault/CAS/escrow contract, independently authorized custodian and original all-history RAW/VETTED keys/ciphertext/population, independent cold restore/Oversight receipts and explicit owner recovery acceptance. Recovery-only remains mandatory.",
+      "Check exact implementation SHA Self-Test/CodeQL/handoff/conflict and actual historical RAW report. Missing historical key or independent Oversight/custody acceptance remains held;78source pointers not admitted."
     ],
     "verification": [
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
@@ -10057,6 +10173,24 @@
       "releasedAt": null,
       "originalAcquiredAt": "2026-10-18T05:26:54.189Z",
       "predecessorTaskId": "key-publication-containment-20261018"
+    },
+    {
+      "taskId": "p0-raw-history-authentication-20261019",
+      "owner": {
+        "provider": "openai",
+        "agent": "codex-work-7c11b0701d1a"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/retained-custody-inventory.yml"
+        ],
+        "regions": []
+      },
+      "purpose": "Extend existing read-only RAW custody inventory to authenticate historical retained ciphertext without publication or intake",
+      "status": "active",
+      "acquiredAt": "2026-10-19T05:06:25.305Z",
+      "handedOffTo": null,
+      "releasedAt": null
     }
   ],
   "ownerDecisions": [

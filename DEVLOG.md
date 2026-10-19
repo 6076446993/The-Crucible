@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-19T05:10:05.196Z, codex-work-7c11b0701d1a: Existing hostedRecovery/retained-custody inventory now authenticates advertised RAW historical and alternate manifests with existing key slots;8focused/1283full native passed. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019.historicalRawAudit for red tests, limitations and hosted-pending status. Recovery-only, original P0 order and78source hold retained.
+
 - 2026-10-19T05:04:39.606Z, codex-work-7c11b0701d1a: Owner-directed native handoff transferred22existing scopes with predecessor records and all75work-ledger items unchanged. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019. Existing containment598ffab4 software/CI already verified; recovery-only and independent custody holds retained.
 
 - 2026-10-18T05:37:03.555Z, codex-work-e6f97bc625e2: Native workshop/Testing Organ integration ebf609a passed all9Self-Test jobs39100386339,CodeQL39100386336 and handoff/conflict. Key containment source is now prepared for exact-tip publication with1281native/126focused passes and synthetic-fixture cleanup. See activePlan.ownerTransfer20261018 plus existing issue49checkpoint6246082002 for exact containment hosted outcomes. Actual protected versioned backend/custodian/history/Oversight acceptance remain blocked; no key/ciphertext mutations or recovery release.
@@ -328,6 +330,12 @@ Plain-language summary: Recorded Jon's explicit takeover order and continued the
 - Reconciled598ffab4Self-Test39101210617(all9passed),CodeQL39101210621, latest held proof39184903024/OPS-0049 and Oversight39186379079/pre-decryption manifest refusal. Correct exact Oversight repository has a trailing period; no Oversight mutation or dispatch — started 2026-10-19T05:04:39.606Z, finished 2026-10-19T05:04:39.606Z, exit 0.
 - Existing isolated guard/lineage22tests passed in preceding read-only review; no historical key or complete-population recovery inferred.
 - [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
+- Native missing-history test failed before implementation; symlink/junction isolation red test failed before canonical-ancestor repair; final8focused and1283full native tests0fail0skip. Real installed Java compiler module used through disposable launcher — started 2026-10-19T05:10:05.196Z, finished 2026-10-19T05:10:05.196Z, exit 0.
+- Implemented existing hostedRecovery historical RAW operation and existing inventory workflow with all advertised refs, per-occurrence hashes, original AES-GCM/AAD, source/candidate reconciliation, failure checkpoints and no acceptance authority; circulation57direct edges unchanged — started 2026-10-19T05:10:05.196Z, finished 2026-10-19T05:10:05.196Z, exit 0.
+- Published owner transfer1fdfb53 after full unchanged native pre-push checks(108selected tests); local HTTPS authentication unavailable; connected API tree matched72f9136c7e9d79f1c23a6311b7adf0e4eac71d43exactly. All75work-ledger items retained; claim p0-raw-history-authentication-20261019 covers existing inventory workflow only — started 2026-10-19T05:10:05.196Z, finished 2026-10-19T05:10:05.196Z, exit 0.
+
+- Injected temporary-cleanup refusal reproduced a misleading successful diagnostic state; fixed report to held/cleanupVerified=false with nonzero execution. Final verification repeated after repair — started 2026-10-19T05:10:52.371Z, finished 2026-10-19T05:10:52.371Z, exit 0.
+
 ### Session: owner-directed-transfer-20261018 — 2026-10-18T05:10:20.095Z — codex-work-e6f97bc625e2 — mode:work
 
 Plain-language summary: Took responsibility for the existing recovery work on the owner’s explicit instruction while retaining the previous ownership history and every recovery hold. Verified the supplied repair package in isolation; live integration and independent recovery remain unaccepted.

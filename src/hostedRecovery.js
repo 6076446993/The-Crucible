@@ -7,7 +7,7 @@ const os = require('node:os');
 const { spawnSync } = require('node:child_process');
 const { RecoveryController } = require('./recoveryController');
 const { inventory, compare } = require('./recoverySystem');
-const { joinEncrypted, decrypt, verifyRestored, sha256File } = require('./hostedSourceBundle');
+const { joinEncrypted, decrypt, verifyRestored, sha256File, chunkFile } = require('./hostedSourceBundle');
 const { decryptWeeklyEnvelope, sha } = require('./scientificLearning');
 const { learningBinding, STATE_CONTEXT } = require('./hostedLearningProof');
 const { operationalError } = require('./failureCodes');
@@ -15,6 +15,112 @@ const REPOSITORY = '6076446993/The-Crucible', REF = 'refs/heads/development';
 const ROLES = ['knowledge','research-source-logs','original-material','candidates','evidence','custody','learning-versions','extraction-progress','unfinished-work','plans'];
 const digest = value => crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const fail = message => { throw operationalError('OPS-0049', `Hosted recovery refused: ${message}`); };
+// Audit the existing RAW repository only. All outputs are disposable projections;
+// neither successful decryption nor this worker's report grants custody acceptance.
+async function authenticateRawHistory({stateRoot,root,repository,ref,revision,reportFile}) {
+  const contains=(parent,child)=>child===parent||child.startsWith(parent+path.sep);
+  const canonicalDestination=value=>{
+    let current=path.resolve(value);const missing=[];
+    while(!fs.existsSync(current)){missing.unshift(path.basename(current));const parent=path.dirname(current);if(parent===current)fail('history destination cannot be resolved');current=parent;}
+    return path.join(fs.realpathSync(current),...missing);
+  };
+  stateRoot=fs.realpathSync(stateRoot);root=canonicalDestination(root);reportFile=canonicalDestination(reportFile);
+  if(repository!==REPOSITORY||ref!==REF||!/^[a-f0-9]{40}$/.test(revision||'')||
+    contains(stateRoot,root)||contains(root,stateRoot)||contains(stateRoot,reportFile)||contains(root,reportFile)||
+    fs.existsSync(root)||fs.existsSync(reportFile))fail('fresh isolated history paths and exact development identity required');
+  const git=(...args)=>execute('git',['--no-replace-objects','-C',stateRoot,...args]);
+  const remote=git('remote','get-url','origin');
+  if(!['git@github.com:6076446993/Crucible-Learning-State.git','https://github.com/6076446993/Crucible-Learning-State.git'].includes(remote))fail('RAW history repository differs');
+  if(git('rev-parse','--is-shallow-repository')!=='false'||git('for-each-ref','--format=%(refname)','refs/replace'))fail('shallow or replaced history is not complete advertised history');
+  const grafts=git('rev-parse','--git-path','info/grafts');
+  if(fs.existsSync(path.resolve(stateRoot,grafts)))fail('grafted history is not accepted');
+  fs.mkdirSync(root,{recursive:true,mode:0o700});
+  fs.mkdirSync(path.dirname(reportFile),{recursive:true});
+  fs.writeFileSync(reportFile,'{}\n',{flag:'wx',mode:0o600});
+  const report={schemaVersion:1,repository,ref,revision,state:'held',startedAt:new Date().toISOString(),
+    scope:'RAW commits reachable from captured locally advertised refs and HEAD, including retained alternate manifests; deleted, hidden and unreachable history excluded',
+    custodyRepository:'6076446993/Crucible-Learning-State',coverageComplete:false,commits:0,occurrences:[],versions:[],
+    distinctCiphertexts:0,authenticatedVersions:0,failedVersions:0,failedOccurrences:0,
+    independentRecoveryAccepted:false,normalWorkResumptionAuthorized:false,completeHistoricalRecoveryVerified:false,
+    independentOversightSignatureVerified:false,independentStorageVerified:false,sourceMutationPerformed:false,cleanupVerified:false};
+  const checkpoint=()=>{report.finishedAt=new Date().toISOString();fs.writeFileSync(reportFile,JSON.stringify(report,null,2)+'\n',{mode:0o600});};
+  const versions=new Map();
+  try {
+    report.advertisedRefs=git('for-each-ref','--format=%(refname) %(objectname)','refs/heads','refs/remotes','refs/tags').split('\n').filter(Boolean);
+    report.head=git('rev-parse','HEAD');
+    const tips=[report.head,...report.advertisedRefs.map(line=>line.split(' ')[1])];
+    const commits=git('rev-list','--topo-order',...new Set(tips)).split('\n').filter(Boolean);
+    if(!commits.length||commits.length>1000||commits.some(c=>!/^[a-f0-9]{40}$/.test(c)))fail('RAW history exceeds bounded complete inventory');
+    report.commits=commits.length;checkpoint();
+    for(const commit of commits){
+      const names=git('ls-tree','-r','--name-only',commit).split('\n').filter(n=>/(^|\/)encrypted-(?:chunks|manifest-[A-Za-z0-9_-]+)\.json$/.test(n));
+      if(!names.length)report.occurrences.push({commit,state:'no-ciphertext-manifest'});
+      for(const manifestPath of names){
+        const occurrence={commit,manifestPath,state:'held',phase:'manifest'};report.occurrences.push(occurrence);
+        const stage=path.join(root,'attempt');fs.mkdirSync(stage,{mode:0o700});
+        try {
+          if(!/^[A-Za-z0-9_./-]+$/.test(manifestPath)||manifestPath.split('/').some(n=>n==='..'||!n))fail('unsafe historical manifest path');
+          const blob=spawnSync('git',['--no-replace-objects','-C',stateRoot,'show',`${commit}:${manifestPath}`],{encoding:'utf8',timeout:120000,maxBuffer:1024*1024,windowsHide:true});
+          if(blob.error||blob.status!==0)fail('historical manifest unavailable or oversized');
+          const bytes=blob.stdout,manifest=JSON.parse(bytes);
+          occurrence.manifestSha256=crypto.createHash('sha256').update(bytes).digest('hex');
+          const hex=/^[a-f0-9]{64}$/;
+          if(!hex.test(manifest.encryptedSha256||'')||!Number.isSafeInteger(manifest.encryptedBytes)||manifest.encryptedBytes<1||manifest.encryptedBytes>2*1024**3||
+            !Array.isArray(manifest.chunks)||!manifest.chunks.length||manifest.chunks.length>32||
+            manifest.chunks.some(c=>!Number.isSafeInteger(c.bytes)||c.bytes<1||c.bytes>96*1024**2||!hex.test(c.sha256||''))||
+            new Set(manifest.chunks.map(c=>c.name)).size!==manifest.chunks.length||manifest.chunks.reduce((n,c)=>n+c.bytes,0)!==manifest.encryptedBytes)fail('invalid historical chunk contract');
+          occurrence.encryptedSha256=manifest.encryptedSha256;occurrence.phase='ciphertext';
+          fs.writeFileSync(path.join(stage,'encrypted-chunks.json'),bytes,{flag:'wx',mode:0o600});
+          const directory=path.posix.dirname(manifestPath);
+          for(const chunk of manifest.chunks){
+            const target=chunkFile(stage,chunk.name);
+            const member=directory==='.'?chunk.name:`${directory}/${chunk.name}`;
+            if(git('cat-file','-s',`${commit}:${member}`)!==String(chunk.bytes))fail('historical chunk byte count differs');
+            // Stream Git bytes to a private file; never buffer or log private corpus.
+            const fd=fs.openSync(target,'wx',0o600);
+            try {
+              const result=spawnSync('git',['--no-replace-objects','-C',stateRoot,'show',`${commit}:${member}`],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:600000,maxBuffer:1024*1024,windowsHide:true});
+              if(result.error||result.status!==0)fail('historical ciphertext member unavailable');
+            }finally{fs.closeSync(fd);}
+          }
+          const cipher=path.join(stage,'authenticated.enc');joinEncrypted({inputRoot:stage,output:cipher});
+          occurrence.ciphertextHashesVerified=true;
+          let version=versions.get(manifest.encryptedSha256);
+          if(!version){
+            version={encryptedSha256:manifest.encryptedSha256,encryptedBytes:manifest.encryptedBytes,state:'held'};
+            versions.set(manifest.encryptedSha256,version);
+            occurrence.phase='authentication';
+            try {
+              const archive=path.join(stage,'authenticated.tar.gz');
+              const opened=await decrypt({input:cipher,output:archive,repository,ref,keyNames:['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS']});
+              if(opened.provenance!=='raw-intake')fail('historical custody family differs');
+              version.aesGcmAuthenticated=true;version.decryptedWith=opened.decryptedWith;
+              version.authenticatedKeyFingerprint=crypto.createHash('sha256').update(Buffer.from(process.env[opened.decryptedWith],'base64')).digest('hex');
+              occurrence.phase='population';extract(archive,path.join(stage,'restored'),'tar');
+              version.population=corpusState(path.join(stage,'restored'),'raw-intake');
+              version.plaintextSha256=opened.plaintextSha256;version.state='authenticated-population';
+            }catch(error){version.failureCode='OPS-0049';version.failedPhase=occurrence.phase;version.reason='Historical authentication or population verification refused; wrong key and altered ciphertext are not distinguished.';}
+          }
+          occurrence.state=version.state;occurrence.phase=version.failedPhase||'verified';
+        }catch(error){occurrence.failureCode='OPS-0049';occurrence.reason='Historical manifest, ciphertext or population verification refused; private detail withheld.';}
+        finally{fs.rmSync(stage,{recursive:true,force:true});
+          report.versions=[...versions.values()];report.distinctCiphertexts=versions.size;
+          report.authenticatedVersions=report.versions.filter(v=>v.state==='authenticated-population').length;
+          report.failedVersions=versions.size-report.authenticatedVersions;
+          report.failedOccurrences=report.occurrences.filter(v=>!['authenticated-population','no-ciphertext-manifest'].includes(v.state)).length;checkpoint();}
+      }
+    }
+    if(git('for-each-ref','--format=%(refname) %(objectname)','refs/heads','refs/remotes','refs/tags').split('\n').filter(Boolean).join('\n')!==report.advertisedRefs.join('\n')||git('rev-parse','HEAD')!==report.head)fail('history refs changed during audit');
+    report.coverageComplete=true;
+    if(report.distinctCiphertexts>0&&!report.failedVersions&&!report.failedOccurrences)report.state='authenticated-advertised-raw-history';
+    return report;
+  }catch(error){report.failureCode='OPS-0049';report.reason='Complete bounded historical audit refused; private detail withheld.';throw error;}
+  finally{
+    try{fs.rmSync(root,{recursive:true,force:true});report.cleanupVerified=true;}
+    catch(error){report.state='held';report.failureCode='OPS-0049';report.reason='Temporary historical workspace cleanup refused.';throw error;}
+    finally{checkpoint();}
+  }
+}
 function execute(command, args, options = {}) {
   const result = spawnSync(command, args, { encoding:'utf8', shell:false, windowsHide:true, timeout:120000, maxBuffer:1024*1024, ...options });
   if (result.error || result.status !== 0) fail('bounded recovery subprocess failed; private detail withheld');
@@ -202,10 +308,14 @@ async function restoreBackup({input,root,repository,ref,revision,reportFile}) {
 }
 async function main(argv=process.argv.slice(2)) {
   const [action]=argv, env=process.env, root=path.join(env.RUNNER_TEMP || '', 'crucible-recovery-capture');
+  if(action==='authenticate-raw-history'){
+    const report=await authenticateRawHistory({stateRoot:path.join(env.RUNNER_TEMP,'raw-history/repo'),root:path.join(env.RUNNER_TEMP,'raw-history/scratch'),repository:env.GITHUB_REPOSITORY,ref:env.GITHUB_REF,revision:env.GITHUB_SHA,reportFile:path.resolve('custody-history/raw-authentication.json')});
+    if(report.state==='held')process.exitCode=1;return report;
+  }
   if(action==='capture')return capture({root,repository:env.GITHUB_REPOSITORY,ref:env.GITHUB_REF,revision:env.GITHUB_SHA,coreRoot:process.cwd(),rawRoot:path.join(env.RUNNER_TEMP,'recovery-input/raw'),vettedRoot:path.join(env.RUNNER_TEMP,'recovery-input/vetted'),retainedRoot:path.join(env.RUNNER_TEMP,'recovery-retained'),researchRoots:['.hosted-pointer-research-6076446993','.hosted-perplexity-research'].map(p=>path.resolve(p)),reportFile:path.resolve('recovery-report.json')});
   if(action==='seal')return seal({root,output:path.resolve('recovery-custody.enc'),repository:env.GITHUB_REPOSITORY,ref:env.GITHUB_REF});
   if(action==='restore-backup'){validateDownloadedBackup(path.join(env.RUNNER_TEMP,'recovery-downloaded'));return restoreBackup({input:path.join(env.RUNNER_TEMP,'recovery-downloaded','recovery-custody.enc'),root:path.join(env.RUNNER_TEMP,'crucible-backup-restoration'),repository:env.GITHUB_REPOSITORY,ref:env.GITHUB_REF,revision:env.GITHUB_SHA,reportFile:path.resolve('recovery-restoration-report.json')});}
   fail('unsupported hosted recovery operation');
 }
-module.exports={validateDownloadedBackup,semanticState,corpusState,retainedState,capture,seal,restoreBackup,extract};
+module.exports={authenticateRawHistory,validateDownloadedBackup,semanticState,corpusState,retainedState,capture,seal,restoreBackup,extract};
 if(require.main===module)main().then(r=>console.log(JSON.stringify({state:r.state||'encrypted',restartAuthorized:false}))).catch(()=>{console.error('[OPS-0049] Hosted recovery held; inspect bounded report.');process.exitCode=1;});
