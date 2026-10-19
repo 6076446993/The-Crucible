@@ -140,7 +140,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-19T05:10:52.371Z"
+    "lastActionAt": "2026-10-19T05:14:19.910Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -238,9 +238,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-19T05:06:25.243Z",
+      "selectedAt": "2026-10-19T05:13:45.642Z",
       "promptSha256": "5a9da3a4775a649880a4d28e2f01b117c7aa5f646b0a40dae768d95ba4896843",
-      "affectedPathsSha256": "bc5e1633259169f252e4244fd1f076b27f372a8a04aa338d3896c8ce3a0c03d9"
+      "affectedPathsSha256": "2f2ca12dfe9ae2413ae7079dc560acfa3db0ba9be45ce5c7c34e9e39f85e1340"
     },
     "steps": [
       "Complete recovery-only implementation in native stores, research logs and existing orchestrator; retain all previous work in recoveryPriorState.",
@@ -252,7 +252,7 @@
     ],
     "status": "active",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-19T05:10:52.371Z",
+    "lastUpdatedAt": "2026-10-19T05:14:19.910Z",
     "currentStep": "Production acceptance externally blocked: preserve independent retention/restoration/publication/physical-reduction gates and original task order; permitted P0 backup/diagnostics implementation and restoration evidence recorded.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
@@ -4902,14 +4902,25 @@
           "syntheticBenchmarkCaseCount": 28,
           "syntheticResultsComment": 6231755075,
           "sourceDevelopmentSha": "772d4d09bd3a40b66f95801ad09b6efbef936e32",
-          "at": "2026-10-19T05:10:05.196Z",
+          "at": "2026-10-19T05:14:19.910Z",
           "actor": "codex-work-7c11b0701d1a",
           "developmentParent": "1fdfb53a1a296ef2d0d0856eb10453a212c1040f",
-          "historicalRawAudit": "implemented-local; exact-SHA hosted pending",
+          "historicalRawAudit": "ad476e9 hosted1authenticated/5failed versions; independent historical recovery held; macOS fixture repair awaiting hosted proof",
           "nativeFullPassed": 1283,
           "sourcePopulationDecryptionVerified": false,
           "normalActivityResumed": false,
-          "originalWorkOrderPreserved": true
+          "originalWorkOrderPreserved": true,
+          "rawCommits": 7,
+          "rawManifestOccurrences": 10,
+          "rawDistinctCiphertexts": 6,
+          "authenticatedRawVersions": 1,
+          "failedRawVersions": 5,
+          "authenticatedCurrentPopulation": {
+            "sourceRecords": 541,
+            "originalSourceFiles": 425,
+            "candidates": 29799
+          },
+          "oversightManifestNameMismatchVerified": true
         }
       },
       "verificationBudgetCommit": "07048089487baef06c2f84312a66fe05b6984722",
@@ -6862,7 +6873,15 @@
           "pathIsolationRegression": "Symlink/junction alias into original custody was not rejected; test failed before canonical-ancestor validation and passes afterward.",
           "hosted": "pending exact implementation SHA",
           "historicalLiveAuthentication": "not yet executed",
-          "cleanupRegression": "Injected temporary cleanup failure incorrectly left successful report state; first failed, then report held/cleanupVerified=false and nonzero execution."
+          "cleanupRegression": "Injected temporary cleanup failure incorrectly left successful report state; first failed, then report held/cleanupVerified=false and nonzero execution.",
+          "firstHostedFailure": {
+            "runId": 39203243484,
+            "jobId": 117900489127,
+            "sourceSha": "ad476e9b0baa1d3189a26fbcdc1cc4826ca31645",
+            "failure": "macOS cleanup failure fixture compares lexical /var path with canonical /private/var path; injected refusal never occurs",
+            "repair": "Canonicalize only the disposable expected cleanup fixture path with fs.realpathSync; retain rejection/held/cleanupVerified assertions."
+          },
+          "keySlotFollowup": "Missing non-secret per-slot diagnostic reproduced in native test; report now includes configured/valid32byte/fingerprint without key values and authenticated original header identity. Exact hosted follow-up required."
         },
         "files": [
           "src/hostedRecovery.js",
@@ -6874,7 +6893,217 @@
         "heldResearchPointers": 78,
         "physicalStorageSavingsVerified": false,
         "independentRecoveryAccepted": false,
-        "normalWorkResumptionAuthorized": false
+        "normalWorkResumptionAuthorized": false,
+        "firstHostedReport": {
+          "schemaVersion": 1,
+          "repository": "6076446993/The-Crucible",
+          "ref": "refs/heads/development",
+          "revision": "ad476e9b0baa1d3189a26fbcdc1cc4826ca31645",
+          "state": "held",
+          "startedAt": "2026-10-19T05:11:41.357Z",
+          "scope": "RAW commits reachable from captured locally advertised refs and HEAD, including retained alternate manifests; deleted, hidden and unreachable history excluded",
+          "custodyRepository": "6076446993/Crucible-Learning-State",
+          "coverageComplete": true,
+          "commits": 7,
+          "occurrences": [
+            {
+              "commit": "e627a695b1898ea7bcc24f884d066bf835868a30",
+              "manifestPath": "encrypted-chunks.json",
+              "state": "authenticated-population",
+              "phase": "verified",
+              "manifestSha256": "3e125f9eab5733e15abb22dc2e8013be3e65415cda922b0d6dc64f6af4f063e0",
+              "encryptedSha256": "738822930f5b86dc90de20e0c1112fedaa6af0b7857b9bc454491190c4539549",
+              "ciphertextHashesVerified": true
+            },
+            {
+              "commit": "e627a695b1898ea7bcc24f884d066bf835868a30",
+              "manifestPath": "encrypted-manifest-6af9cb479311e0240f4f03298f6d0e32be724d553202176263a16792552ae27f.json",
+              "state": "held",
+              "phase": "authentication",
+              "manifestSha256": "6af9cb479311e0240f4f03298f6d0e32be724d553202176263a16792552ae27f",
+              "encryptedSha256": "11a8bc63005d38a93218b28642ae396425c2bb3916f47e2f5577629ef942b9df",
+              "ciphertextHashesVerified": true
+            },
+            {
+              "commit": "e627a695b1898ea7bcc24f884d066bf835868a30",
+              "manifestPath": "rebuild-incoming/d2859cfbd9e4411fa5d20a7e568ccebdc2f465bf06748d2a73e6c35ffbca614d/encrypted-chunks.json",
+              "state": "held",
+              "phase": "authentication",
+              "manifestSha256": "7d2a694c595971c629ed9bff28fcca72cc0522cfa1806d54cbff161d3332b9b8",
+              "encryptedSha256": "d2859cfbd9e4411fa5d20a7e568ccebdc2f465bf06748d2a73e6c35ffbca614d",
+              "ciphertextHashesVerified": true
+            },
+            {
+              "commit": "0eca33c77328109743d9c184dcaeb08ac62c0f4a",
+              "manifestPath": "encrypted-chunks.json",
+              "state": "held",
+              "phase": "authentication",
+              "manifestSha256": "6af9cb479311e0240f4f03298f6d0e32be724d553202176263a16792552ae27f",
+              "encryptedSha256": "11a8bc63005d38a93218b28642ae396425c2bb3916f47e2f5577629ef942b9df",
+              "ciphertextHashesVerified": true
+            },
+            {
+              "commit": "0eca33c77328109743d9c184dcaeb08ac62c0f4a",
+              "manifestPath": "rebuild-incoming/d2859cfbd9e4411fa5d20a7e568ccebdc2f465bf06748d2a73e6c35ffbca614d/encrypted-chunks.json",
+              "state": "held",
+              "phase": "authentication",
+              "manifestSha256": "7d2a694c595971c629ed9bff28fcca72cc0522cfa1806d54cbff161d3332b9b8",
+              "encryptedSha256": "d2859cfbd9e4411fa5d20a7e568ccebdc2f465bf06748d2a73e6c35ffbca614d",
+              "ciphertextHashesVerified": true
+            },
+            {
+              "commit": "625e91ffb782eb00325629f7b506ba95ac0e1d5e",
+              "manifestPath": "encrypted-chunks.json",
+              "state": "held",
+              "phase": "authentication",
+              "manifestSha256": "6af9cb479311e0240f4f03298f6d0e32be724d553202176263a16792552ae27f",
+              "encryptedSha256": "11a8bc63005d38a93218b28642ae396425c2bb3916f47e2f5577629ef942b9df",
+              "ciphertextHashesVerified": true
+            },
+            {
+              "commit": "cb8a431f0cff09e3fbe37d5014e464f431238cbe",
+              "manifestPath": "encrypted-chunks.json",
+              "state": "held",
+              "phase": "authentication",
+              "manifestSha256": "6af9cb479311e0240f4f03298f6d0e32be724d553202176263a16792552ae27f",
+              "encryptedSha256": "11a8bc63005d38a93218b28642ae396425c2bb3916f47e2f5577629ef942b9df",
+              "ciphertextHashesVerified": true
+            },
+            {
+              "commit": "bfe5dc083cc4bd58f4d7a8855d25dccc106d2b8f",
+              "manifestPath": "encrypted-chunks.json",
+              "state": "held",
+              "phase": "authentication",
+              "manifestSha256": "49e82454f7cb985fd349a9300cd48a2a7784ae802e3848f825d4e6fd9817bd04",
+              "encryptedSha256": "f62ca13bcff98a44cebf041ffe2cd064fa1d7fa0e89203834a7981390ecb28e6",
+              "ciphertextHashesVerified": true
+            },
+            {
+              "commit": "9ab04e4e0ed6a3496fbfa68ac4e0ddabe5f61933",
+              "manifestPath": "encrypted-chunks.json",
+              "state": "held",
+              "phase": "authentication",
+              "manifestSha256": "103b3e419d748bdce5abe03db21da2c9aaca3a61fb9e57bcf7471ec19a096a26",
+              "encryptedSha256": "822faf3fb828f56c59e74dab60c7709e38d4463523dd42890edee66427b84afc",
+              "ciphertextHashesVerified": true
+            },
+            {
+              "commit": "c2dfffeea3c343a6993fdc97b8147261177dac15",
+              "manifestPath": "encrypted-chunks.json",
+              "state": "held",
+              "phase": "authentication",
+              "manifestSha256": "99d2fc22bea3914101d984c9b26aecb63fe41a256ec062b8f86de6844aca862b",
+              "encryptedSha256": "c4c98ddc3ba5ff7b3089193767340908c3cf9ff43a342b844d735196a9fb48da",
+              "ciphertextHashesVerified": true
+            }
+          ],
+          "versions": [
+            {
+              "encryptedSha256": "738822930f5b86dc90de20e0c1112fedaa6af0b7857b9bc454491190c4539549",
+              "encryptedBytes": 239117224,
+              "state": "authenticated-population",
+              "aesGcmAuthenticated": true,
+              "decryptedWith": "CRUCIBLE_SOURCE_BUNDLE_KEY",
+              "authenticatedKeyFingerprint": "3c38a04e631031dfa98e2d96937f32ac8a997e60aa879ff289718e29c4e85ea8",
+              "population": {
+                "provenance": "raw-intake",
+                "sources": 541,
+                "sourceIdentityDigest": "0a4587773a9ee7ff0972df9d78925801388247742dc9849f59b2be23e5e1505b",
+                "sourceAndExtractionProgressDigest": "d1a5ab7cab98893fa10f3a4bb314192e80e887316d9e16fbfff2d4024dcb8296",
+                "originalSourceDigest": "cadeee896710718dd097d833f9302c565bababdcff2b832e16d592a55c1044f2",
+                "originalSourceFiles": 425,
+                "learning": {
+                  "projectId": "github:jonathanblunt1214-lgtm/The-Crucible",
+                  "revision": 2564,
+                  "candidates": 29799,
+                  "candidateIdentityDigest": "c18f1385cde3eb0b6930d52894e7296588a7f9a840b2b07695c14e36f7ad67e5",
+                  "candidateAndEvidenceDigest": "e2237f5c223070c64151ce1ad23a7841f93432359f6fbc0d14da18ba0eddcfd9",
+                  "learningVersions": 1,
+                  "learningVersionDigest": "14ae27cfd66dc8b5993dd2fce5d8c8cf1ba2987dfec1604953ea6471b808e106",
+                  "completePayloadDigest": "8e80dc1092086a51f8c5f05b564adf595d886e6f3cc9aaa3dea25577321a64a1"
+                }
+              },
+              "plaintextSha256": "db3cd7e095ccecf19fecce0ba8ab1e14ff7cafded13eecc4e0f5c589fec3044b"
+            },
+            {
+              "encryptedSha256": "11a8bc63005d38a93218b28642ae396425c2bb3916f47e2f5577629ef942b9df",
+              "encryptedBytes": 232461512,
+              "state": "held",
+              "failureCode": "OPS-0049",
+              "failedPhase": "authentication",
+              "reason": "Historical authentication or population verification refused; wrong key and altered ciphertext are not distinguished."
+            },
+            {
+              "encryptedSha256": "d2859cfbd9e4411fa5d20a7e568ccebdc2f465bf06748d2a73e6c35ffbca614d",
+              "encryptedBytes": 239117224,
+              "state": "held",
+              "failureCode": "OPS-0049",
+              "failedPhase": "authentication",
+              "reason": "Historical authentication or population verification refused; wrong key and altered ciphertext are not distinguished."
+            },
+            {
+              "encryptedSha256": "f62ca13bcff98a44cebf041ffe2cd064fa1d7fa0e89203834a7981390ecb28e6",
+              "encryptedBytes": 232461512,
+              "state": "held",
+              "failureCode": "OPS-0049",
+              "failedPhase": "authentication",
+              "reason": "Historical authentication or population verification refused; wrong key and altered ciphertext are not distinguished."
+            },
+            {
+              "encryptedSha256": "822faf3fb828f56c59e74dab60c7709e38d4463523dd42890edee66427b84afc",
+              "encryptedBytes": 232461512,
+              "state": "held",
+              "failureCode": "OPS-0049",
+              "failedPhase": "authentication",
+              "reason": "Historical authentication or population verification refused; wrong key and altered ciphertext are not distinguished."
+            },
+            {
+              "encryptedSha256": "c4c98ddc3ba5ff7b3089193767340908c3cf9ff43a342b844d735196a9fb48da",
+              "encryptedBytes": 232461512,
+              "state": "held",
+              "failureCode": "OPS-0049",
+              "failedPhase": "authentication",
+              "reason": "Historical authentication or population verification refused; wrong key and altered ciphertext are not distinguished."
+            }
+          ],
+          "distinctCiphertexts": 6,
+          "authenticatedVersions": 1,
+          "failedVersions": 5,
+          "failedOccurrences": 9,
+          "independentRecoveryAccepted": false,
+          "normalWorkResumptionAuthorized": false,
+          "completeHistoricalRecoveryVerified": false,
+          "independentOversightSignatureVerified": false,
+          "independentStorageVerified": false,
+          "sourceMutationPerformed": false,
+          "cleanupVerified": true,
+          "advertisedRefs": [
+            "refs/heads/main e627a695b1898ea7bcc24f884d066bf835868a30",
+            "refs/remotes/origin/HEAD e627a695b1898ea7bcc24f884d066bf835868a30",
+            "refs/remotes/origin/main e627a695b1898ea7bcc24f884d066bf835868a30"
+          ],
+          "head": "e627a695b1898ea7bcc24f884d066bf835868a30",
+          "finishedAt": "2026-10-19T05:12:28.260Z"
+        },
+        "firstHostedEvidence": {
+          "sourceSha": "ad476e9b0baa1d3189a26fbcdc1cc4826ca31645",
+          "runId": 39203243529,
+          "jobId": 117900489399,
+          "outcome": "HELD:1of6historical RAW ciphertext versions authenticated;5failed authentication; all10manifest occurrence ciphertext hashes verified;7commits covered; cleanup completed",
+          "acceptedHistoricalRecovery": false
+        },
+        "oversightCompatibility": {
+          "encryptedSha256": "738822930f5b86dc90de20e0c1112fedaa6af0b7857b9bc454491190c4539549",
+          "chunkNames": [
+            "source-bundle-4331b2f9a8cc5f73c1ad07edad8a675a3fa02877157fb5a5f8b881f304be8ab2.enc",
+            "source-bundle-97cf6874306113e6941df3a1d3f2408a71980e345a3fcc18c72b10c955144ce7.enc",
+            "source-bundle-9ad67470569ebfbc68eb0f11dc7858ff219f14f08e43f22f2faa28dc9d0e9683.enc"
+          ],
+          "sourceSha": "78764a0171e255e264ced52033da544259fc494e",
+          "oversightRun": 39186379079,
+          "failedBeforeDecryption": true,
+          "finding": "Independent joinChunks at78764a0permits only source-bundle.part-NNNN.enc; all3active RAW content-addressed filenames are rejected before decryption. Independent Oversight owns any change or execution; no such mutation authorized here."
+        }
       }
     }
   },
@@ -6953,7 +7182,8 @@
       "Published0c651b413753787b3922242e2323977bcafad176 with exact tested tree5ec1c5a0afa36d4ad7d2f4a132d7592e50892540; manual pre-push hook and exact handoff-range check passed; Archive appendf077292f6b840a3ea722861fb605d42001bd127b preserved old ledger prefix and exact pre-prune DEVLOG. Hosted CodeQL38794379524 passed; Self-Test38794379421 has measured macOS alias and Windows directory-flush failures, not a completion pass.",
       "2026-10-16 user-idle change: full native Orchestrator1145/1145,0failed/0skipped using real OpenJDK17; focused16/16; coordination, conflict governance, circulation57, docs consistency and configuration passed. Host disconnect deployment remains unavailable.",
       "Issue49 continuation reconciliation: full native Orchestrator1148/1148,0failed/0skipped after registering the retained-source security test, preserving read-only historical workflow constraints and restoring the temporary JDK. No custody mutation or physical reduction.",
-      "Exact integration ebf609a:Self-Test39100386339 all9pass,CodeQL39100386336success. Containment source exact-tip hosted results tracked in existing issue49comment6246082002; native1281/1281,guard all3modes exit2,unchanged pre-push gate."
+      "Exact integration ebf609a:Self-Test39100386339 all9pass,CodeQL39100386336success. Containment source exact-tip hosted results tracked in existing issue49comment6246082002; native1281/1281,guard all3modes exit2,unchanged pre-push gate.",
+      "ad476e9historical RAW job117900489399/run39203243529:7commits10occurrences6versions;1authenticated/5failed;541source records425original files29799candidates in active version; not independent recovery acceptance."
     ]
   },
   "mutationOwnershipPolicy": {

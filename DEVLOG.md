@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-19T05:14:19.910Z, codex-work-7c11b0701d1a: ad476e9actual historical RAW scan39203243529authenticated1of6versions,5failed,7commits10manifest occurrences; ciphertext hashes verified and cleanup completed. Current authenticated population29799candidates/541source records/425original files. macOS fixture failure and non-secret key-slot follow-up recorded in dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019.historicalRawAudit. Independent recovery and78source intake remain held.
+
 - 2026-10-19T05:10:05.196Z, codex-work-7c11b0701d1a: Existing hostedRecovery/retained-custody inventory now authenticates advertised RAW historical and alternate manifests with existing key slots;8focused/1283full native passed. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019.historicalRawAudit for red tests, limitations and hosted-pending status. Recovery-only, original P0 order and78source hold retained.
 
 - 2026-10-19T05:04:39.606Z, codex-work-7c11b0701d1a: Owner-directed native handoff transferred22existing scopes with predecessor records and all75work-ledger items unchanged. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019. Existing containment598ffab4 software/CI already verified; recovery-only and independent custody holds retained.
@@ -335,6 +337,9 @@ Plain-language summary: Recorded Jon's explicit takeover order and continued the
 - Published owner transfer1fdfb53 after full unchanged native pre-push checks(108selected tests); local HTTPS authentication unavailable; connected API tree matched72f9136c7e9d79f1c23a6311b7adf0e4eac71d43exactly. All75work-ledger items retained; claim p0-raw-history-authentication-20261019 covers existing inventory workflow only — started 2026-10-19T05:10:05.196Z, finished 2026-10-19T05:10:05.196Z, exit 0.
 
 - Injected temporary-cleanup refusal reproduced a misleading successful diagnostic state; fixed report to held/cleanupVerified=false with nonzero execution. Final verification repeated after repair — started 2026-10-19T05:10:52.371Z, finished 2026-10-19T05:10:52.371Z, exit 0.
+
+- Read actual historical RAW run39203243529/job117900489399 report and current inventory117900489214; preserved full bounded report in the existing plan. Independently owned Oversight39186379079fails before decrypt because strict numbered-chunk names reject current hashed names. No key lost/recovered verdict inferred — started 2026-10-19T05:14:19.910Z, finished 2026-10-19T05:14:19.910Z, exit 0.
+- macOS run39203243484/job117900489127 exposed cleanup-test path alias mismatch; corrected disposable fixture expected path, retained all assertions. Missing key-slot diagnostic failed natively before follow-up implementation — started 2026-10-19T05:14:19.910Z, finished 2026-10-19T05:14:19.910Z, exit 0.
 
 ### Session: owner-directed-transfer-20261018 — 2026-10-18T05:10:20.095Z — codex-work-e6f97bc625e2 — mode:work
 

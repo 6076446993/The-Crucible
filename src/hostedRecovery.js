@@ -38,6 +38,10 @@ async function authenticateRawHistory({stateRoot,root,repository,ref,revision,re
   fs.mkdirSync(path.dirname(reportFile),{recursive:true});
   fs.writeFileSync(reportFile,'{}\n',{flag:'wx',mode:0o600});
   const report={schemaVersion:1,repository,ref,revision,state:'held',startedAt:new Date().toISOString(),
+    keySlots:['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS'].map(name=>{
+      const value=process.env[name]||'',bytes=Buffer.from(value,'base64');
+      return {name,configured:Boolean(value),validKeyBytes:bytes.length===32,fingerprint:bytes.length===32?crypto.createHash('sha256').update(bytes).digest('hex'):null};
+    }),
     scope:'RAW commits reachable from captured locally advertised refs and HEAD, including retained alternate manifests; deleted, hidden and unreachable history excluded',
     custodyRepository:'6076446993/Crucible-Learning-State',coverageComplete:false,commits:0,occurrences:[],versions:[],
     distinctCiphertexts:0,authenticatedVersions:0,failedVersions:0,failedOccurrences:0,
@@ -95,6 +99,7 @@ async function authenticateRawHistory({stateRoot,root,repository,ref,revision,re
               const opened=await decrypt({input:cipher,output:archive,repository,ref,keyNames:['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS']});
               if(opened.provenance!=='raw-intake')fail('historical custody family differs');
               version.aesGcmAuthenticated=true;version.decryptedWith=opened.decryptedWith;
+              version.authenticatedHeaderIdentity={projectId:opened.projectId,repository:opened.repository,ref:opened.ref};
               version.authenticatedKeyFingerprint=crypto.createHash('sha256').update(Buffer.from(process.env[opened.decryptedWith],'base64')).digest('hex');
               occurrence.phase='population';extract(archive,path.join(stage,'restored'),'tar');
               version.population=corpusState(path.join(stage,'restored'),'raw-intake');
