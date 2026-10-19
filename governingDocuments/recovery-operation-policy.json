@@ -6,6 +6,7 @@
   "independentRecoveryAccepted": false,
   "source": "Owner P0 recovery-only instruction on 2026-10-15",
   "normalWorkResumptionAuthorized": false,
-  "permitted": ["read-only diagnostics", "registered recovery operations", "isolated recovery verification"],
-  "releaseRequires": ["independent live recovery acceptance evidence", "governed owner decision recorded with the original pending work preserved"]
+  "permitted": ["read-only diagnostics", "registered recovery operations", "isolated recovery verification", "recovery-scoped research logged in the existing resource ledger"],
+  "firstUnresolvedPrerequisite": "versioned-escrow",
+  "releaseRequires": ["independently verified protected versioned escrow for every available original key generation and its ciphertext mapping", "independent full-history live recovery acceptance evidence", "governed owner decision recorded with the original pending work preserved"]
 }

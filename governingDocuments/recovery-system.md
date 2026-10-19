@@ -1,5 +1,34 @@
 # P0 recovery system
 
+## Versioned escrow first; research while executing
+
+Owner instruction on 2026-10-19 makes independently protected versioned escrow the
+first unresolved prerequisite before normal work resumes. Preserve every available
+original RAW/VETTED key and exact generation/ciphertext mapping; do not replace a
+retained Oversight key to resolve a current decryption mismatch. Required evidence
+includes provider-bound version inventory, retention, worker deletion denial,
+separate custodian authority, wrapping-key survival and a real recovery drill.
+Escrow protects available keys; historical keys still missing remain unresolved.
+No provider has been selected or installed by this policy change.
+
+Research remains scoped to recovery while the hold is active. Record new findings
+continuously in the existing recovery research ledger; reuse original IDs and
+sources. The existing handoff validator checks a dated execution-research checkpoint,
+resolved source references or a reason no new research was needed, decision,
+limitations, and escrow-first ordering. It rejects silently removing that required
+policy. These are traceability checks, not source-authenticity or escrow proof.
+The key-publication stop, independent full-history recovery, Oversight/owner
+acceptance and all native intake/release gates remain in force.
+
+Primary-source research: AWS documents that unlabeled deprecated secret versions
+may be removed once there are more than 100 versions
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/whats-in-a-secret.html).
+Google documents delayed version destruction
+(https://docs.cloud.google.com/secret-manager/docs/delay-destruction-of-secret-versions).
+Therefore versioning or delayed deletion alone is insufficient evidence of durable,
+independently protected escrow. These observations select no new backend and admit
+no sources into the live learning corpus.
+
 ## Historical RAW authentication diagnostic
 
 The existing retained-custody inventory additionally invokes

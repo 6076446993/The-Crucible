@@ -37,8 +37,29 @@ function validateWorkLedger(current, previous = null, now = Date.now()) {
   return { ok:true, message:'Work ledger retains every tracked deliverable and labels stale evidence.' };
 }
 
+function validateExecutionResearch(plan) {
+  const policy = plan.executionResearchPolicy;
+  if (policy === undefined) return { ok:true };
+  if (!policy || policy.schemaVersion !== 1 || policy.required !== true || typeof policy.escrowFirst !== 'boolean') return { ok:false, message:'Invalid required execution research policy.' };
+  const checkpoint = plan.activePlan?.executionResearch;
+  if (!checkpoint || !Number.isFinite(Date.parse(checkpoint.observedAt))) return { ok:false, message:'Execution research requires a dated checkpoint.' };
+  for (const field of ['decision','limitations']) if (typeof checkpoint[field] !== 'string' || !checkpoint[field].trim()) return { ok:false, message:`Execution research requires ${field}.` };
+  if (!Array.isArray(checkpoint.sourceRefs) || checkpoint.sourceRefs.some(id => typeof id !== 'string' || !id.trim()) || new Set(checkpoint.sourceRefs).size !== checkpoint.sourceRefs.length) return { ok:false, message:'Execution research requires unique original resource references.' };
+  if (!checkpoint.sourceRefs.length && (typeof checkpoint.noNewResearchReason !== 'string' || !checkpoint.noNewResearchReason.trim())) return { ok:false, message:'Execution research requires logged references or a reason no new research was needed.' };
+  const sources = plan.activePlan?.recoverySystem?.recoveryResearch?.sources || [];
+  if (!Array.isArray(sources)) return { ok:false, message:'Execution research must use the existing resource ledger.' };
+  for (const id of checkpoint.sourceRefs) {
+    const matches = sources.filter(source => source.id === id);
+    if (matches.length !== 1 || typeof matches[0].finding !== 'string' || !matches[0].finding.trim() || !(matches[0].url || matches[0].sourceIdentity)) return { ok:false, message:`Execution research reference ${id} must resolve to one original resource with a finding and provenance.` };
+  }
+  if (policy.escrowFirst && checkpoint.nextPrerequisite !== 'versioned-escrow') return { ok:false, message:'Independently verified versioned escrow remains the first prerequisite; ordinary work cannot advance this checkpoint.' };
+  return { ok:true, message:'Research traceability recorded; source truth, learning admission and actual escrow are not established by this check.' };
+}
+
 function validateHandoffPlan(plan) {
   if (!plan || typeof plan !== 'object' || Array.isArray(plan) || plan.schemaVersion !== 1) return { ok:false, message:'AI-HANDOFF.json must be an object with schemaVersion 1.' };
+  const research = validateExecutionResearch(plan);
+  if (!research.ok) return research;
   const work = validateWorkLedger(plan.workLedger);
   if (!work.ok) return work;
   const active = plan.activePlan;
@@ -275,6 +296,15 @@ function checkHandoffRange(baseSha, headSha, run = spawnSync) {
   if (basePlanResult.status !== 0) return { ok:false, message:'Unable to read previous work ledger.' };
   let previous;
   try { previous = JSON.parse(basePlanResult.stdout); } catch (_) { return { ok:false, message:'Invalid previous handoff JSON.' }; }
+  if (previous.executionResearchPolicy?.required === true && plan.executionResearchPolicy?.required !== true) return { ok:false, message:'Required execution research policy cannot be removed.' };
+  if (previous.executionResearchPolicy?.escrowFirst === true && plan.executionResearchPolicy?.escrowFirst !== true) return { ok:false, message:'Escrow-first priority requires a separately reviewed policy change; it cannot silently disappear.' };
+  if (plan.executionResearchPolicy?.escrowFirst === true) {
+    const operating = run('git', ['show', `${headSha}:governingDocuments/recovery-operation-policy.json`], { encoding:'utf8', shell:false });
+    let policy;
+    try { if (operating.status !== 0) throw new Error(); policy = JSON.parse(operating.stdout); }
+    catch { return { ok:false, message:'Escrow-first recovery operating policy is missing or invalid.' }; }
+    if (policy.mode !== 'recovery-only' || policy.independentRecoveryAccepted !== false || policy.normalWorkResumptionAuthorized !== false || policy.firstUnresolvedPrerequisite !== 'versioned-escrow') return { ok:false, message:'Versioned escrow is not independently installed and verified; recovery-only flags and escrow-first ordering must remain in force.' };
+  }
   const continuity = validateWorkLedger(plan.workLedger, previous.workLedger);
   if (!continuity.ok) return continuity;
   const devlogResult = run('git', ['show', `${headSha}:DEVLOG.md`], { encoding:'utf8', shell:false });

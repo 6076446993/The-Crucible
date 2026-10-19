@@ -33,6 +33,57 @@ function devlogWithSessions(count) {
 
 const DEVLOG_OK = devlogWithSessions(1);
 
+function researchPlan() {
+  const plan = structuredClone(PLAN);
+  plan.executionResearchPolicy = { schemaVersion:1, required:true, escrowFirst:true };
+  plan.workLedger = { schemaVersion:1, items:[] };
+  plan.activePlan.recoverySystem = { recoveryResearch:{ sources:[{id:'official-versioning',url:'https://example.org/versions',finding:'Versioning alone does not prove escrow.'}] } };
+  plan.activePlan.executionResearch = { observedAt:'2026-10-19T05:56:00Z', sourceRefs:['official-versioning'], decision:'Preserve original key generations before resumption.', limitations:'Provider custody and independent restoration remain unverified.', nextPrerequisite:'versioned-escrow' };
+  return plan;
+}
+
+test('required execution research cannot omit its checkpoint', () => {
+  const plan=researchPlan(); delete plan.activePlan.executionResearch;
+  assert.equal(validateHandoffPlan(plan).ok,false);
+});
+test('execution research resolves original resource references rather than accepting invented citations', () => {
+  const plan=researchPlan(); assert.equal(validateHandoffPlan(plan).ok,true);
+  plan.activePlan.executionResearch.sourceRefs=['invented'];
+  assert.equal(validateHandoffPlan(plan).ok,false);
+});
+test('routine work may explain reuse or no new research without a mandatory web call', () => {
+  const plan=researchPlan(); plan.activePlan.executionResearch.sourceRefs=[];
+  assert.equal(validateHandoffPlan(plan).ok,false);
+  plan.activePlan.executionResearch.noNewResearchReason='Only rechecking unchanged CI; existing source findings still apply.';
+  assert.equal(validateHandoffPlan(plan).ok,true);
+});
+test('escrow-first checkpoint cannot advance to ordinary intake', () => {
+  const plan=researchPlan(); plan.activePlan.executionResearch.nextPrerequisite='r1-intake';
+  assert.equal(validateHandoffPlan(plan).ok,false);
+});
+test('an existing required research policy cannot silently disappear across a commit range', () => {
+  const previous=researchPlan(); const plan=structuredClone(previous); delete plan.executionResearchPolicy;
+  const result=checkHandoffRange(SHA_A,SHA_B,(_command,args)=>{
+    if(args[0]==='diff') return {status:0,stdout:'AI-HANDOFF.json\nDEVLOG.md\n'};
+    if(args[1]===`${SHA_A}:AI-HANDOFF.json`) return {status:0,stdout:JSON.stringify(previous)};
+    if(args[1]===`${SHA_B}:AI-HANDOFF.json`) return {status:0,stdout:JSON.stringify(plan)};
+    return {status:0,stdout:DEVLOG_OK};
+  });
+  assert.equal(result.ok,false);
+});
+test('escrow-first check refuses a policy-only normal-work resumption even with a valid research checkpoint', () => {
+  const plan=researchPlan();
+  const check=policy=>checkHandoffRange(SHA_A,SHA_B,(_command,args)=>{
+    if(args[0]==='diff') return {status:0,stdout:'AI-HANDOFF.json\nDEVLOG.md\n'};
+    if(args[1]?.endsWith(':AI-HANDOFF.json')) return {status:0,stdout:JSON.stringify(plan)};
+    if(args[1]?.endsWith('/recovery-operation-policy.json')) return {status:0,stdout:JSON.stringify(policy)};
+    return {status:0,stdout:DEVLOG_OK};
+  });
+  const held={mode:'recovery-only',independentRecoveryAccepted:false,normalWorkResumptionAuthorized:false,firstUnresolvedPrerequisite:'versioned-escrow'};
+  assert.equal(check(held).ok,true,JSON.stringify(check(held)));
+  for(const patch of [{mode:'normal'},{independentRecoveryAccepted:true},{normalWorkResumptionAuthorized:true},{firstUnresolvedPrerequisite:'r1-intake'}]) assert.equal(check({...held,...patch}).ok,false);
+});
+
 test('passes only when a project change updates both handoff surfaces', () => {
   assert.equal(evaluateHandoffChanges(['src/app.js', 'DEVLOG.md', 'AI-HANDOFF.json']).ok, true);
   assert.equal(evaluateHandoffChanges(['src/app.js', 'DEVLOG.md']).ok, false);
