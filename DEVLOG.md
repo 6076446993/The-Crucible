@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-19T06:00:40.983Z, codex-work-7c11b0701d1a: Owner instruction now places protected versioned escrow FIRST before normal resumption. Existing handoff check requires dated research traceability, original resource references or a no-new-research reason, decision/limitations and escrow-first hold continuity. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019.researchAndEscrowFirst.38focused pass after5red regressions; hosted pending. Real escrow not provisioned;78pointers remain0submissions/0ACKs.
+
 - 2026-10-19T05:42:27.459Z, codex-work-7c11b0701d1a: Owner repair order integrated existing OversightPR5 ascc2f242e after7red custody cases/37Node+2Python passing tests. Independent main39205734250now verifies current hashed chunks/exact migrated identity, then fails actual AES-GCM authentication with its retained key; no vetted publication. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019.oversightCompatibilityRepair. Historical-key/cold-restore acceptance and78source intake remain held.
 
 - 2026-10-19T05:20:41.290Z, codex-work-7c11b0701d1a: Exact179f8e2 RAW history scan39203552123verified both existing slots(3c38a04e/918e00cb), only1of6ciphertext populations; all7commits10manifest occurrences and failed evidence preserved. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019.historicalRawAudit and authoritative exact-SHA execution checkpoint https://github.com/6076446993/The-Crucible/issues/49#issuecomment-6260263873. Oldest ae53key, full-history/independent recovery and all78pointer admissions remain held. No storage savings or release claimed.
@@ -351,6 +353,10 @@ Plain-language summary: Recorded Jon's explicit takeover order and continued the
 - Final audit:coordination and audit:ai-conflict-governance — started 2026-10-19T05:20:41.353Z, finished 2026-10-19T05:20:41.756Z, exit 0.
 
 - Owner requested exact follow-up: `Can you fix it and then do te research and architecture?`. Reviewed and merged existing OversightPR5 through native expected-head merge under owner maintenance order; no branch, secret, signer or independent acceptance changed. Original main reproduced7failed/8passed custody cases; exact repair37Node/2Python tests passed. HostedPR38270274755passed; mergedcc2f242e independent39205734250regression passed, archive passed, actual custody AES-GCM failed and return publication skipped. Verified chunk/final ciphertext commitments before failure. Connected API Actions-secret metadata unsupported; versioned-key/custodian boundary remains held. Observation recorded 2026-10-19T05:42:27.459Z; per-command elapsed timings not captured and not claimed.
+
+- Native acquireClaim added only previously unclaimed AGENTS.md under execution-research-escrow-first-20261019 for the existing holder; all23prior scopes and75original work items retained. Prewrite routed7paths to development. Official AWS/Google version-retention findings logged immediately in existing recoveryResearch.sources before implementation.5original research/priority regressions failed before extension; final38focused tests pass after correcting an isolated mock path. AGENTS and existing handoff checks now enforce traceability and escrow-first recovery-only continuity. Observation recorded 2026-10-19T06:00:40.983Z; individual earlier command durations not captured and not claimed.
+
+- Full native test:all passed1289/1289,0fail0skip; unchanged real JDK compiler-module launcher used. Final coordination/conflict checks — started 2026-10-19T06:01:29.339Z, finished 2026-10-19T06:01:29.770Z, exit0. Required hosted exact-SHA verification remains pending publication.
 
 ### Session: owner-directed-transfer-20261018 — 2026-10-18T05:10:20.095Z — codex-work-e6f97bc625e2 — mode:work
 

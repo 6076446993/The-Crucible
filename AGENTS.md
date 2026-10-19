@@ -124,6 +124,32 @@ cannot verify that literally every command in a session is listed -
 that is on the agent's own honesty, the same as every other rule in
 this file.
 
+## Research during execution and escrow-first recovery
+
+Research the current blocker as work proceeds. Reuse existing verified sources and
+exact checkpoint evidence before browsing again. Log each new source and finding
+immediately in the existing research/resource ledger, preserving original dates,
+IDs, provenance, negative findings and uncertainty. Connect findings to the code
+or decision they inform. A pointer or research note is not a native intake ACK,
+admitted knowledge, independent verification or production acceptance. Routine
+changes may explain why no new research was needed; a web call is not required
+for every edit. Keep preflight near 5% of resources, normally below 8%, never
+above 10%; at the limit record uncertainty and continue safely actionable work.
+
+Versioned escrow is the first unresolved recovery prerequisite. Protect every
+available original RAW/VETTED key generation and its exact ciphertext/version
+mapping under independent custody before normal work resumes. Verify retention,
+worker deletion denial, recoverability and underlying wrapping-key survival;
+current/previous secret slots and fingerprints alone are not escrow. New escrow
+does not recover a missing historical key. Recovery research, preservation and
+isolated tests may continue; normal intake, architecture activation, rotation,
+cleanup and release remain held. Full historical authentication, protected cold
+restoration, Oversight and owner acceptance remain necessary after escrow.
+
+The existing handoff check enforces dated research traceability and escrow-first
+checkpoint ordering through `AI-HANDOFF.json.executionResearchPolicy`. Keep it
+enabled. Passing this check does not prove source correctness or provision escrow.
+
 ## README brevity
 
 Keep README changes concise and operator-facing. Summarize capabilities, setup, and boundaries; put detailed architecture, threat models, proof rules, implementation rationale, and edge cases in the relevant governing document, source documentation, or tests. Do not turn the README into a design-history narrative.
