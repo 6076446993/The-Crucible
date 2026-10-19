@@ -158,6 +158,38 @@
         "decidedBy": "repository-owner",
         "decidedAt": "2026-10-18"
       }
+    },
+    {
+      "id": "owner-directed-claim-transfer-20261019",
+      "status": "resolved",
+      "detectedAt": "2026-10-19",
+      "contestedAction": "Transfer the existing 22 exclusive scopes to this continuing Work session.",
+      "rationaleSummary": "Direct owner order resolves the previously reported inability to resume the recorded holder. Native handoff preserves history and exact scopes; no process death or custody approval is inferred.",
+      "evidence": [
+        "Take it on my order then do",
+        "Live development598ffab4 and22active claims held by codex-work-e6f97bc625e2.",
+        "Original worker process and unpublished private changes remain unknown."
+      ],
+      "sides": [
+        {
+          "source": "Continuation handoff section1",
+          "instruction": "If the recorded owner cannot be resumed or authenticated, preserve its claims, perform safe read-only work, and report the precise blocker."
+        },
+        {
+          "source": "Direct owner order 2026-10-19",
+          "instruction": "Take it on my order then do"
+        }
+      ],
+      "alternatives": [
+        "Remain read-only while awaiting inaccessible original session.",
+        "Apply explicitly owner-authorized native claim handoff, retaining every predecessor record."
+      ],
+      "resolution": {
+        "decision": "Apply native handOffClaim to continue the existing execution stream under the current session identity; preserve every recovery restriction.",
+        "rationaleSummary": "Owner expressly orders takeover following the verified ownership blocker. Independent custody and release powers remain withheld.",
+        "decidedBy": "repository-owner",
+        "decidedAt": "2026-10-19"
+      }
     }
   ]
 }
