@@ -15,6 +15,58 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  historical-raw-authentication:
+    if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Install locked dependencies before recovery credentials
+        run: npm ci --ignore-scripts
+      - name: Read all advertised RAW refs without checking out or publishing custody
+        env:
+          RAW_READ_KEY: ${{ secrets.CRUCIBLE_LEARNING_STATE_DEPLOY_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$RAW_READ_KEY"
+          mkdir -p "$RUNNER_TEMP/raw-history/ssh"
+          printf '%s\n' "$RAW_READ_KEY" > "$RUNNER_TEMP/raw-history/ssh/key"
+          chmod 600 "$RUNNER_TEMP/raw-history/ssh/key"
+          printf '%s\n' 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$RUNNER_TEMP/raw-history/ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/raw-history/ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/raw-history/ssh/known_hosts -o StrictHostKeyChecking=yes"
+          git clone --filter=blob:none --no-checkout --no-single-branch git@github.com:6076446993/Crucible-Learning-State.git "$RUNNER_TEMP/raw-history/repo"
+          git -C "$RUNNER_TEMP/raw-history/repo" fetch origin '+refs/pull/*/head:refs/remotes/pull/*'
+      - name: Authenticate historical versions with existing RAW key slots only
+        env:
+          CRUCIBLE_SOURCE_BUNDLE_KEY: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY }}
+          CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS: ${{ secrets.CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          export GIT_SSH_COMMAND="ssh -i $RUNNER_TEMP/raw-history/ssh/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$RUNNER_TEMP/raw-history/ssh/known_hosts -o StrictHostKeyChecking=yes"
+          node src/hostedRecovery.js authenticate-raw-history
+      - name: Record bounded historical diagnostics without source content
+        if: always()
+        run: |
+          node -e 'const f=require("node:fs"),p="custody-history/raw-authentication.json";if(f.existsSync(p))console.log(f.readFileSync(p,"utf8"));'
+      - name: Retain bounded per-version recovery evidence including failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: raw-history-authentication-${{ github.run_id }}
+          path: custody-history/raw-authentication.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Remove only this runner's temporary historical copies and credentials
+        if: always()
+        shell: bash
+        run: rm -rf "$RUNNER_TEMP/raw-history"
   inventory:
     if: github.repository == '6076446993/The-Crucible' && github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest

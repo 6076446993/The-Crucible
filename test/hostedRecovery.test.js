@@ -12,6 +12,66 @@ function commit(root){git(root,'add','.');git(root,'-c','user.name=Recovery test
 function rootFixture(t){const root=fs.mkdtempSync(path.join(os.tmpdir(),'hosted-recovery-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));return root;}
 function init(root){fs.mkdirSync(root);git(root,'init','--initial-branch=main');}
 function payload(){return {projectId,revision:7,candidateRecords:[{candidate:{id:'retained-candidate',source:{id:'retained-source',hash:'b'.repeat(64)}},state:'candidate',evidence:[{id:'retained-evidence'}]}],knowledgeVersions:[{version:1,candidateId:'retained-candidate',status:'superseded'}],unfinishedWork:[{id:'original-plan',status:'pending'}]};}
+test('historical RAW audit covers retained manifests, missing keys and every advertised branch without mutating custody',async t=>{
+  const root=rootFixture(t),names=['CRUCIBLE_SOURCE_BUNDLE_KEY','CRUCIBLE_SOURCE_BUNDLE_KEY_PREVIOUS'];
+  const saved=names.map(n=>process.env[n]);t.after(()=>names.forEach((n,i)=>{if(saved[i]===undefined)delete process.env[n];else process.env[n]=saved[i];}));
+  process.env[names[0]]=crypto.randomBytes(32).toString('base64');delete process.env[names[1]];
+  const state=await corpus(root,'raw');git(state,'remote','add','origin','git@github.com:6076446993/Crucible-Learning-State.git');
+  const first=git(state,'rev-parse','HEAD');
+  const oldManifest=fs.readFileSync(path.join(state,'encrypted-chunks.json'));
+  const oldKey=process.env[names[0]];
+  process.env[names[0]]=crypto.randomBytes(32).toString('base64');
+  const newer=path.join(root,'newer.enc');await bundle.encrypt({input:path.join(root,'raw.tar.gz'),output:newer,projectId,repository,ref});
+  const staged=path.join(state,'rebuild-incoming','retained');fs.mkdirSync(staged,{recursive:true});
+  bundle.splitEncrypted({input:newer,outputRoot:staged});
+  fs.writeFileSync(path.join(state,'encrypted-manifest-retained.json'),oldManifest);const second=commit(state);
+  git(state,'update-ref','refs/remotes/origin/main',second);git(state,'update-ref','refs/remotes/origin/retained',first);
+  const before=git(state,'status','--porcelain'),tree=git(state,'rev-parse','HEAD^{tree}');
+  const report=await recovery.authenticateRawHistory({stateRoot:state,root:path.join(root,'history'),repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'report.json')});
+  assert.equal(report.state,'held');assert.equal(report.coverageComplete,true);assert.equal(report.commits,2);
+  assert.equal(report.distinctCiphertexts,2);assert.equal(report.authenticatedVersions,1);assert.equal(report.failedVersions,1);
+  assert.ok(report.occurrences.some(x=>x.manifestPath.startsWith('rebuild-incoming/')));
+  assert.ok(report.occurrences.some(x=>x.manifestPath==='encrypted-manifest-retained.json'));
+  assert.equal(report.occurrences.find(x=>x.manifestPath==='encrypted-manifest-retained.json').manifestSha256,digest(oldManifest));
+  assert.equal(report.independentRecoveryAccepted,false);assert.equal(report.normalWorkResumptionAuthorized,false);
+  assert.equal(report.completeHistoricalRecoveryVerified,false);assert.equal(report.independentOversightSignatureVerified,false);
+  assert.ok(!JSON.stringify(report).includes(oldKey));assert.ok(!JSON.stringify(report).includes(process.env[names[0]]));
+  assert.equal(git(state,'status','--porcelain'),before);assert.equal(git(state,'rev-parse','HEAD^{tree}'),tree);
+  assert.equal(fs.existsSync(path.join(root,'history')),false);
+  process.env[names[1]]=oldKey;
+  const recovered=await recovery.authenticateRawHistory({stateRoot:state,root:path.join(root,'complete'),repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'complete.json')});
+  assert.equal(recovered.state,'authenticated-advertised-raw-history');assert.equal(recovered.authenticatedVersions,2);
+  assert.equal(recovered.versions.find(v=>v.decryptedWith===names[1]).population.learning.candidates,1);
+  assert.equal(recovered.completeHistoricalRecoveryVerified,false);
+  const cleanupRoot=path.join(root,'cleanup-failure'),originalRemove=fs.rmSync;
+  fs.rmSync=(target,...args)=>{if(target===cleanupRoot)throw new Error('synthetic cleanup refusal');return originalRemove(target,...args);};
+  try {
+    await assert.rejects(()=>recovery.authenticateRawHistory({stateRoot:state,root:cleanupRoot,repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'cleanup-failure.json')}));
+    const failedCleanup=JSON.parse(fs.readFileSync(path.join(root,'cleanup-failure.json')));
+    assert.equal(failedCleanup.state,'held');assert.equal(failedCleanup.cleanupVerified,false);
+  }finally{fs.rmSync=originalRemove;}
+  assert.equal(fs.readFileSync(path.join(state,'encrypted-chunks.json'),'utf8'),oldManifest.toString());
+  const shallowFile=path.join(state,'.git','shallow');fs.writeFileSync(shallowFile,first+'\n');
+  await assert.rejects(()=>recovery.authenticateRawHistory({stateRoot:state,root:path.join(root,'shallow'),repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'shallow.json')}),/shallow/);
+  fs.unlinkSync(shallowFile);
+  await assert.rejects(()=>recovery.authenticateRawHistory({stateRoot:state,root:state,repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'unsafe.json')}),/fresh isolated/);
+  const alias=path.join(root,'custody-alias');fs.symlinkSync(state,alias,process.platform==='win32'?'junction':'dir');
+  await assert.rejects(()=>recovery.authenticateRawHistory({stateRoot:state,root:path.join(alias,'scratch'),repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'alias-report.json')}),/fresh isolated/);
+  await assert.rejects(()=>recovery.authenticateRawHistory({stateRoot:state,root:path.join(root,'overwrite'),repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'report.json')}),/fresh isolated/);
+  const chunk=JSON.parse(oldManifest).chunks[0].name;fs.appendFileSync(path.join(state,chunk),'tampered');commit(state);
+  const damaged=await recovery.authenticateRawHistory({stateRoot:state,root:path.join(root,'damaged'),repository,ref,revision:'a'.repeat(40),reportFile:path.join(root,'damaged.json')});
+  assert.equal(damaged.state,'held');assert.ok(damaged.failedOccurrences>0);
+  assert.ok(damaged.occurrences.some(o=>o.failureCode==='OPS-0049'&&o.phase==='ciphertext'));
+  assert.equal(git(state,'status','--porcelain'),'');
+});
+test('historical diagnostic workflow stays RAW-only read-only and does not export plaintext or keys',()=>{
+  const workflow=fs.readFileSync(path.join(__dirname,'..','.github/workflows/retained-custody-inventory.yml'),'utf8').split('  inventory:')[0];
+  assert.match(workflow,/authenticate-raw-history/);assert.match(workflow,/--no-checkout --no-single-branch/);
+  assert.match(workflow,/refs\/pull\/\*\/head/);assert.match(workflow,/persist-credentials: false/);
+  assert.match(workflow,/npm ci --ignore-scripts/);assert.match(workflow,/if: always\(\)/);
+  assert.doesNotMatch(workflow,/git push|gh secret set|VETTED_BUNDLE_KEY|contents: write|learning:|r2FailoverProof/);
+  assert.match(workflow,/path: custody-history\/raw-authentication\.json/);
+});
 async function corpus(root,name){
   const plain=path.join(root,`${name}-plain`),state=path.join(root,name);fs.mkdirSync(plain);fs.mkdirSync(path.join(plain,'sources'));init(state);
   const original=Buffer.from('Original recovery source; no instruction is executed.'),hash=digest(original),sourceName=`${hash}.txt`;

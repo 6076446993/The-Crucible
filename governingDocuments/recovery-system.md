@@ -1,5 +1,29 @@
 # P0 recovery system
 
+## Historical RAW authentication diagnostic
+
+The existing retained-custody inventory additionally invokes
+`hostedRecovery authenticate-raw-history` against a disposable, full-depth RAW
+clone. It pins all locally advertised branch/tag/PR-head refs and HEAD, refuses
+shallow/replaced/grafted history, enumerates their reachable commits, and checks
+every active or retained alternate chunk manifest. Each occurrence's exact
+manifest bytes, chunk lengths/hashes and reconstructed ciphertext hash are
+verified. Every distinct ciphertext is authenticated with only the existing
+RAW current/previous slots, safely extracted and passed through the original
+source/candidate/provenance population checks. The report binds successful
+decryptions to the actual key fingerprint; a registry date is never used to
+guess which key encrypted a version.
+
+Failures remain in the per-occurrence report and keep the job failed. Wrong-key
+and altered-ciphertext authentication failures remain indistinguishable. The
+report is checkpointed during the bounded scan; plaintext and temporary copies
+are removed without changing original custody. No receipt signer, new key,
+native intake, publisher or queue is introduced. Hidden/deleted/unreachable
+history, all-history VETTED recovery, independent immutable protection,
+Oversight signatures, production acceptance and actual physical savings remain
+outside this diagnostic. Even a fully successful advertised-RAW scan leaves
+recovery acceptance and normal-work authorization false.
+
 Owner scope: recovery only, on `6076446993/The-Crucible:development`.
 R2, queues, live candidate custody and `main` must not be restarted, reset,
 discarded or promoted by implementation or verification. Local passing tests
