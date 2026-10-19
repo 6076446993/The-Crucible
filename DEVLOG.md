@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-19T05:04:39.606Z, codex-work-7c11b0701d1a: Owner-directed native handoff transferred22existing scopes with predecessor records and all75work-ledger items unchanged. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019. Existing containment598ffab4 software/CI already verified; recovery-only and independent custody holds retained.
+
 - 2026-10-18T05:37:03.555Z, codex-work-e6f97bc625e2: Native workshop/Testing Organ integration ebf609a passed all9Self-Test jobs39100386339,CodeQL39100386336 and handoff/conflict. Key containment source is now prepared for exact-tip publication with1281native/126focused passes and synthetic-fixture cleanup. See activePlan.ownerTransfer20261018 plus existing issue49checkpoint6246082002 for exact containment hosted outcomes. Actual protected versioned backend/custodian/history/Oversight acceptance remain blocked; no key/ciphertext mutations or recovery release.
 
 - 2026-10-18T05:28:48.068Z, codex-work-e6f97bc625e2: Original ordered P0 continuation now locally applies reviewed key-publication stop before generation/secret/metadata writes and native key-lineage preservation.126focused/1281full native0fail0skip; guard all3modes exit2 and malformed-config diagnostics redact contents. See dev plan AI-HANDOFF.json.activePlan.ownerTransfer20261018.keyContainment/independentRecoveryBlockers. Publication held behind preceding exact-tip integration checks; real provider-backed versioned escrow, original historical keys/ciphertext and independent cold restore/Oversight remain blocked.
@@ -317,6 +319,15 @@ Released mutation claims remain durable facts even after their detailed session 
 
 ## Command log archive
 
+### Session: owner-directed-transfer-20261019 — 2026-10-19T05:04:39.606Z — codex-work-7c11b0701d1a — mode:work
+
+Plain-language summary: Recorded Jon's explicit takeover order and continued the original recovery stream without changing custody, keys or recovery acceptance.
+
+- Native handOffClaim transferred exactly22scopes; predecessor records retained: `owner-transfer-20261018-6c3643b48a7d`, `owner-transfer-20261018-869edc5de8c7`, `owner-transfer-20261018-921107038cad`, `owner-transfer-20261018-b628b5a21cd5`, `owner-transfer-20261018-7dce59ad3099`, `owner-transfer-20261018-f0c75e2a3f96`, `owner-transfer-20261018-be976ee69c61`, `owner-transfer-20261018-83df5d0e86a1`, `owner-transfer-20261018-a7079c132d2a`, `owner-transfer-20261018-b73ed5867c7b`, `owner-transfer-20261018-39fa34edad5b`, `owner-transfer-20261018-76db3f05e11c`, `owner-transfer-20261018-75e87b36600c`, `owner-transfer-20261018-0a8a28d6b889`, `owner-transfer-20261018-16ae38a9cdc6`, `owner-transfer-20261018-83f87bc7d481`, `owner-transfer-20261018-14e6d6eda588`, `owner-transfer-20261018-8037cfe69246`, `owner-transfer-20261018-1bfa3b607f3b`, `owner-transfer-20261018-d3a95dc823b3`, `testing-workshop-integration-20261018`, `key-publication-containment-20261018` — started 2026-10-19T05:04:39.606Z, finished 2026-10-19T05:04:39.606Z, exit 0.
+- Prewrite selected crucible-core repository1344890806 development for AI-HANDOFF.json, DEVLOG.md and AI-CONFLICTS.json; all75original work-ledger items retained — started 2026-10-19T05:04:39.606Z, finished 2026-10-19T05:04:39.606Z, exit 0.
+- Reconciled598ffab4Self-Test39101210617(all9passed),CodeQL39101210621, latest held proof39184903024/OPS-0049 and Oversight39186379079/pre-decryption manifest refusal. Correct exact Oversight repository has a trailing period; no Oversight mutation or dispatch — started 2026-10-19T05:04:39.606Z, finished 2026-10-19T05:04:39.606Z, exit 0.
+- Existing isolated guard/lineage22tests passed in preceding read-only review; no historical key or complete-population recovery inferred.
+- [task-routing] category=crucible-core; repositoryId=1344890806; repository=6076446993/The-Crucible; branch=development; reason=Explicit repository and branch instruction selected 6076446993/The-Crucible:development.
 ### Session: owner-directed-transfer-20261018 — 2026-10-18T05:10:20.095Z — codex-work-e6f97bc625e2 — mode:work
 
 Plain-language summary: Took responsibility for the existing recovery work on the owner’s explicit instruction while retaining the previous ownership history and every recovery hold. Verified the supplied repair package in isolation; live integration and independent recovery remain unaccepted.
@@ -583,15 +594,6 @@ Plain-language summary: Repaired the missing R8 execution path and verified a re
 - resume verification — 2026-10-13T04:12:49.754Z; host Git confirms intact checkout; policy matches independent receipt; 32 focused R8 tests passed; unregistered synthetic key refused before output; latest hosted VETTED decryption succeeds but R8 refusal remains missing. Full encrypted copies are downloading on D:; no scientific gate advanced.
 
 - publication repair — 2026-10-13T04:16:53Z; initial required pre-push refused an inconsistent returned agent identity before remote changes. Restored actual holder Codex; all 38 workflow tests now pass. Five-minute delay before publication retry retained.
-
-### Session: encrypted raw archive replacement — 2026-10-11T21:04:48.669Z — Codex — mode:work
-
-Plain-language summary: Continue the owner's archive replacement using the already configured key and preserved real sources; encrypted transfer and hosted restore remain under verification.
-
-- preflight, isolated checkout and retained plaintext comparison — started 2026-10-11T20:53:00Z, finished 2026-10-11T21:04:48.669Z; exact development route verified; historical candidate IDs and source hashes preserved.
-- implementation and verification — started 2026-10-11T21:04:48.669Z, finished 2026-10-11T21:37:56.650Z; implementation 2db7a44293f9108bad0b4ad4403601b0216b471a passed 194 local tests, all nine hosted self-tests, CodeQL, handoff and conflict gates. Rebuild 38176876189 published state e627a695b1898ea7bcc24f884d066bf835868a30 with existing raw key and isolated restore; independent authentication 38176984983 matched the approved archive hash. Old manifest/chunks retained, temporary transport secret removed. R8 remains separately pending; no promotion.
-
-
 
 
 ## Historical mutation accountability
