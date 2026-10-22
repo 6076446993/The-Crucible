@@ -190,6 +190,47 @@
         "decidedBy": "repository-owner",
         "decidedAt": "2026-10-19"
       }
+    },
+    {
+      "id": "owner-directed-runner-transfer-20261022",
+      "timestamp": "2026-10-22T00:18:07.409Z",
+      "detectedAt": "2026-10-22",
+      "type": "ownership-transfer",
+      "status": "resolved",
+      "contestedAction": "Transfer existing claims without a predecessor runtime acknowledgment.",
+      "contestedScope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "AI-CONFLICTS.json",
+          "DEVLOG.md"
+        ]
+      },
+      "rationaleSummary": "Owner explicitly instructed this already-existing session to find the worker or take it over. No host resume interface is exposed; process death is not inferred.",
+      "evidence": [
+        "Owner: Write it and find the worker or take it over",
+        "Runtime CODEX_SESSION_ID and CODEX_THREAD_ID exactly equal 01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "Native records:24active claims held by codex-work-7c11b0701d1a; head fd18b2a6244818697d776cf402297c01a180fed6."
+      ],
+      "sides": [
+        {
+          "source": "Existing claims",
+          "instruction": "Mutation ownership remains exclusive until explicit release or handoff."
+        },
+        {
+          "source": "Repository owner, current conversation",
+          "instruction": "Write it and find the worker or take it over"
+        }
+      ],
+      "alternatives": [
+        "Keep waiting without a reachable original-session control surface.",
+        "Apply owner-directed native handoff preserving every predecessor and existing priority."
+      ],
+      "resolution": {
+        "decision": "Record explicit owner-directed native handOffClaim transfers; no process-stop, private-work recovery or host-fencing assertion.",
+        "rationaleSummary": "Owner decision authorizes transfer; historical original session and successor remain distinct identities.",
+        "decidedBy": "repository-owner",
+        "decidedAt": "2026-10-22"
+      }
     }
   ]
 }

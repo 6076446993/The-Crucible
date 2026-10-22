@@ -151,6 +151,8 @@ Plain-language summary: The Crucible PR monitor is now the aggregate PR gate wit
 
 ## Shared AI handoff
 
+- 2026-10-22T00:18:07.409Z, 01a15f5f-9f1a-71eb-bf6d-31d0462920e7: Owner-directed transfer of24existing claims recorded through native handOffClaim. See dev plan AI-HANDOFF.json.activePlan.ownerDirectedRunnerTakeover20261022. Exact session differs from original. Old process/private state and canonical chat attachment remain unverified; all recovery/escrow-first holds retained. Detector isolated,30tests passed,not activated. Transferred predecessor task IDs: owner-transfer-20261019-c64271426470, owner-transfer-20261019-b7fd20483cff, owner-transfer-20261019-733af0096c98, owner-transfer-20261019-ffe0dd25bb54, owner-transfer-20261019-bb7b10d8ac7b, owner-transfer-20261019-434458a72af3, owner-transfer-20261019-1c041d2a362a, owner-transfer-20261019-af3d6114a6cd, owner-transfer-20261019-1a2c3126f2d7, owner-transfer-20261019-3b85ad4946d8, owner-transfer-20261019-a99e38efbc29, owner-transfer-20261019-22f3289b8ce5, owner-transfer-20261019-95ba712a76a7, owner-transfer-20261019-741d3f77ef3f, owner-transfer-20261019-caf4755999da, owner-transfer-20261019-9f23636205f4, owner-transfer-20261019-85ac88a7a5c4, owner-transfer-20261019-8d01ee050da9, owner-transfer-20261019-79a788c96d1a, owner-transfer-20261019-5228e04adb85, owner-transfer-20261019-093f798c7242, owner-transfer-20261019-3a323cb84076, p0-raw-history-authentication-20261019, execution-research-escrow-first-20261019.
+
 - 2026-10-19T06:00:40.983Z, codex-work-7c11b0701d1a: Owner instruction now places protected versioned escrow FIRST before normal resumption. Existing handoff check requires dated research traceability, original resource references or a no-new-research reason, decision/limitations and escrow-first hold continuity. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019.researchAndEscrowFirst.38focused pass after5red regressions; hosted pending. Real escrow not provisioned;78pointers remain0submissions/0ACKs.
 
 - 2026-10-19T05:42:27.459Z, codex-work-7c11b0701d1a: Owner repair order integrated existing OversightPR5 ascc2f242e after7red custody cases/37Node+2Python passing tests. Independent main39205734250now verifies current hashed chunks/exact migrated identity, then fails actual AES-GCM authentication with its retained key; no vetted publication. See dev plan AI-HANDOFF.json.activePlan.ownerTakeover20261019.oversightCompatibilityRepair. Historical-key/cold-restore acceptance and78source intake remain held.
@@ -328,6 +330,13 @@ Released mutation claims remain durable facts even after their detailed session 
 - ci-snapshot-reference-repair-20260929 — full original record retained in pre-prune DEVLOG history/Archive; indexed here for shallow hosted checkouts.
 
 ## Command log archive
+
+### Session: Exact runner identity and owner-directed takeover — 2026-10-22T00:18:07.409Z — 01a15f5f-9f1a-71eb-bf6d-31d0462920e7 — mode:work
+
+Plain-language summary: Recorded the owner's transfer of existing work to this different session; the original worker could not be reached through available interfaces. Kept the detection implementation isolated and retained every operational hold.
+- Current remote inspection and native claim/routing review — started 2026-10-22T00:11:13Z, finished 2026-10-22T00:18:07.409Z, exit 0; one clone follow-up initially ran outside its new directory (exit128), then corrected without changing the source checkout.
+- Isolated node --test runnerIdentity.test.js — started 2026-10-22T00:11:13Z, finished 2026-10-22T00:18:07.409Z, exit 0;30pass/0fail. These timestamps bound the activity; exact individual command times were not retained.
+- Native handOffClaim and handoff preparation — started 2026-10-22T00:18:07.409Z, finished 2026-10-22T00:18:07.409Z, exit 0;24scopes transferred in the prepared state, workLedger unchanged. Publication and hosted verification tracked separately.
 
 ### Session: owner-directed-transfer-20261019 — 2026-10-19T05:04:39.606Z — codex-work-7c11b0701d1a — mode:work
 
@@ -611,19 +620,6 @@ Plain-language summary: The actual custody owner explicitly paused overlapping w
 - `bounded ownership return` — observed 2026-10-12T03:11:48.728Z; owner-file-transport-20261008-nvidia-handoff handed off through native claim rules to owner-file-transport-20261008-resumed-after-nvidia-20261011, original Codex holder thread 01a12c93-41fd-7511-93f7-58c69a3ed622, restoring only its original 40-path custody scope and original task age. Root ceases repository mutations after atomic return publication. Independent Oversight/entitlement hold remains; Issue #40 open and separate, R3/R8 pending, R9 held.
 
 - `final handoff governance tests` — started 2026-10-12T03:11:48.9856721Z, finished 2026-10-12T03:11:49.2916307Z, exit 0; 58/58 passed, zero skipped.
-
-### Session: R8 live executable refusal repair — 2026-10-11T21:51:43.911Z — Codex — mode:work
-
-Plain-language summary: Repaired the missing R8 execution path and verified a real executable refusal in isolated local custody. Hosted and independent gate verification are pending.
-
-- policy, exact state and primary-source research — started 2026-10-11T21:41:26Z, finished 2026-10-11T21:51:43.911Z; nonexistent self-hosted runner and absent canary settings confirmed; superseded queued/pending runs cancelled before new execution.
-- implementation and focused verification — started 2026-10-11T21:45:00Z, finished 2026-10-11T21:51:43.911Z; signature-only unsupported-MIME rejection, hosted rollback-safe custody publisher and preservation checks implemented; 31 custody/retrieval tests passed. Live isolated network refusal at 2026-10-11T21:49:10.813Z retained no executable source bytes.
-- publication and hosted independent proof — pending; no R8 gate completion is claimed.
-
-
-- resume verification — 2026-10-13T04:12:49.754Z; host Git confirms intact checkout; policy matches independent receipt; 32 focused R8 tests passed; unregistered synthetic key refused before output; latest hosted VETTED decryption succeeds but R8 refusal remains missing. Full encrypted copies are downloading on D:; no scientific gate advanced.
-
-- publication repair — 2026-10-13T04:16:53Z; initial required pre-push refused an inconsistent returned agent identity before remote changes. Restored actual holder Codex; all 38 workflow tests now pass. Five-minute delay before publication retry retained.
 
 
 ## Historical mutation accountability

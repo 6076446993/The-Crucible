@@ -140,7 +140,7 @@
   },
   "sessionPolicy": {
     "recheckGoverningDocuments": "Re-read every file listed in governingDocuments at the start of every session and again any time more than 10 minutes have passed since lastActionAt, even if it is the same agent continuing the same conversation.",
-    "lastActionAt": "2026-10-19T06:01:29.770Z"
+    "lastActionAt": "2026-10-22T00:18:39.250Z"
   },
   "repairSelectionPolicy": {
     "rule": "Always select the correct fix, never the one that merely makes the symptom go away. 'It works now' is not the standard; 'this is the right change, and here is why the alternatives are wrong' is.",
@@ -220,16 +220,16 @@
     "productionBoundary": "Never touch production directly, widen authority, weaken gates, expose credentials, modify unrelated work, invent business logic, or silently resolve governance conflicts."
   },
   "activePlan": {
-    "agent": "codex-work-7c11b0701d1a",
+    "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
     "objective": "P0 recovery system only: preserve all committed knowledge and source custody across interruption, with independently verified restoration before restart authorization.",
-    "currentPrompt": "Take it on my order then do # THE CRUCIBLE — ORIGINAL WORKER CONTINUATION HANDOFF\n \n**Date:** 2026-10-19\n \n**Repository:** `6076446993/The-Crucible`\n**Working branch:** `development`\n**Last verified HEAD:** `598ffab4d5b2a1e196fb36eb4ec324c8ec9288a0`\n**Current claim holder:** `codex-work-e6f97bc625e2`\n**Historical original session:** `01a12c93-41fd-7511-93f7-58c69a3ed622`\n \n**Master P0:** https://github.com/6076446993/The-Crucible/issues/49\n**Architecture and research:** https://github.com/6076446993/The-Crucible/issues/41\n \n## 1. Resume original ownership and execution\n \nContinue the existing authorized worker, preserving all original work IDs, claims, priorities, evidence, and unfinished tasks. Do not create a competing worker or replace the existing execution stream.\n \nAt the 2026-10-19 00:56 EDT checkpoint:\n \n- `development` HEAD was `598ffab4...`.\n- 22 active mutation claims belonged to `codex-work-e6f97bc625e2`.\n- The repository remained in `recovery-only` mode.\n- Independent recovery acceptance and normal-work resumption authorization were both false.\n\n \nRecheck these facts before acting. Read `DEVLOG.md` Shared AI handoff, `AGENTS.md`, `AI-HANDOFF.json`, all listed governing documents, active claims, repository routing, branch SHA, relevant CI, and unfinished worker checkpoints.\n \nUse existing prewrite and governance checks before mutation. If the recorded owner cannot be resumed or authenticated, preserve its claims, perform safe read-only work, and report the precise blocker. Never impersonate the holder or seize its paths.\n \n## 2. Resume P0 recovery first — Issue #49\n \nContinue from the latest verified code and evidence. Do not redo completed native workshop/Testing Organ work or previously integrated journal/outbox repairs.\n \nRequired sequence:\n \n1. Reconcile the key-publication fail-closed guard and historical key-lineage changes against live HEAD, tests and CI.\n2. Preserve every original RAW/VETTED key generation, ciphertext version, signing identity, provenance record, AAD, source ID, candidate age and existing LEE mapping.\n3. Investigate the remaining historical RAW-key gap using authorized key-management, versioned secret and independent custody evidence. Do not generate substitute historical keys or fabricate decryption success.\n4. Authenticate actual historical decryption and recovery, including the retained source population.\n5. Execute independent, protected, full-history cold restoration under distinct authorization and Oversight.\n6. Verify signed no-op publication suppression while ensuring changed content or custody metadata is never incorrectly discarded.\n7. Only after recovery acceptance and appropriate owner approval, undertake reversible storage migration, deduplication, retention changes and measured physical reduction.\n\n \nPreserve the existing target of below 45 GB where feasible, with a preferred lower target only if recovery and retention obligations remain satisfied. Count all protected replicas, indexes, historical versions, backups and archives.\n \nNo destructive cleanup, R2 restart, unauthorized key rotation, release promotion or recovery-policy bypass.\n \n## 3. Submit the 78 researched source pointers through existing R1\n \n**Authoritative submission manifest:**\n \nhttps://github.com/6076446993/The-Crucible/issues/41#issuecomment-6259897690\n \n**Recovery dependency record:**\n \nhttps://github.com/6076446993/The-Crucible/issues/49#issuecomment-6259914845\n \nThe owner has authorized submission and integration of 78 researched URL pointers across 12 topic families:\n \nOutSystems, Veeam, Wiz, Object First, Splunk, LogicGate, Datadog, Fin, Voices.com, Redis Inc., Ping Identity and Airtable.\n \nThe manifest is a planned native intake batch, NOT 78 authenticated queue ACKs or 78 verified knowledge records.\n \nOnce recovery-only restrictions are legitimately lifted:\n \n- Reconcile every pointer with existing source IDs, prior research batches, URL/finalURL, content hashes, rights, original dates and provenance.\n- Submit eligible sources using the existing `learning:admit-source-url` command and native queue, not a new intake mechanism.\n- Preserve original IDs and use reusable LEE/CRU/OPS references for cross-subject associations.\n- Perform governed retrieval, extraction, independent verification, classification, knowledge lifecycle and Oversight.\n- Record actual native ACK, reuse, quarantine or rejection for every submitted pointer.\n- Preserve failures and valid negative lessons with evidence.\n\n \nDo not bypass trusted-source, licensing, source-authenticity or independent-verification checks.\n \n## 4. Integrate approved architecture upgrades in place\n \nUse the existing four research gates, preserving all necessary historical R1–R11 proof/release obligations.\n \n**A. Research intake and evidence graph:** Improve canonical source identity, many-to-many LEE/subject links, consent, rights and provenance.\n \n**B. Security and authorization:** Extend existing scoped agent permissions, mutation claims, risk relationships, key-management safeguards and independently enforced authorization. No parallel policy engine.\n \n**C. Testing Organ and repair workshop:** Add reproducible evaluations, actual repair tools, independent retests, negative learning, exact deployed-SHA correlation and observed-effect checks. Missing telemetry is not success.\n \n**D. Logging and diagnostics:** Modernize the existing authoritative event vocabulary, append-only recovery journals and bounded rebuildable indexes. Correlate incident, source, work, LEE, subject, test and custody identities. No second logging system.\n \n**E. Storage and historical knowledge:** Maintain exactly two active protected systems in `6076446993/Crucible-database`: `In pipeline database` and `Verified learning database`. The existing empty `Intake database` placeholder is designated for governed rename to `historicalArchive`, an on-demand historical archive, not a third active primary. Preserve the approved backend and database main-only governance constraints.\n \n**F. Orchestrator and research views:** Add rights-aware, freshness-labeled, read-only evidence views, research progress, repair outcomes, worker ownership and storage metrics without adding a third database or parallel queue.\n \nUpgrade existing components instead of duplicating them.\n \n## 5. Verification and release requirements\n \nFor every implemented change, establish:\n \n- First-failing test or a demonstrated missing behavior.\n- Exact source identity, original research reference and code change.\n- Passing native and hosted tests at the exact SHA.\n- Separate security, custody and Oversight verification wherever required.\n- Reversible rollback and restart-safe recovery.\n- Actual physical storage measurements rather than estimated savings.\n- Updated original handoff records and research/resource ledger.\n\n \nPreserve R9 soak, R10 release-candidate proof and R11 explicit release authorization where required by the existing plans.\n \nNo code-level success substitutes for independent historical recovery or production acceptance.\n \n## 6. Execution and reporting\n \nWork autonomously through every safely actionable step without repeatedly requesting already-granted approval. Reuse existing worker claims and completed work. Do not start downstream research ingestion before its recovery gate passes.\n \nUpdate research/resource logs continuously, reconcile duplicates, and maintain the existing handoff and DEVLOG chain of custody.\n \nReport:\n \n1. Latest verified HEAD and actual authorized execution holder.\n2. What was completed and its exact commit/test/CI evidence.\n3. P0 recovery state and remaining historical key/custody blockers.\n4. The 78-source batch's true native intake count, including duplicates and holds.\n5. Architectural changes actually integrated versus merely prepared.\n6. Remaining tasks in the original priority sequence.\n\n \n**Completion means verified implemented behavior, not simply adding another plan or GitHub comment. Preserve everything unfinished for the original worker.**\n\nOwner repair follow-up (2026-10-19):\nCan you fix it and then do te research and architecture?\n\nOwner research/escrow-first instruction (2026-10-19):\nWould it help to research as we work like we have been? Also would it be possible to write that into the codex or maybe add it to the checks themselves i think versioned escrow should be done first before we resume current work",
+    "currentPrompt": "Write it and find the worker or take it over",
     "executionMode": {
       "mode": "work",
-      "agent": "codex-work-7c11b0701d1a",
-      "purpose": "Recovery implementation and fault injection",
+      "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+      "purpose": "Owner-directed recovery continuation claim transfer and exact runner identity candidate",
       "reason": "Multi-file durability changes and restoration proof require sustained execution.",
       "distinction": "Execution mode is separate from agent identity and workflow name.",
-      "selectionReason": "Continue original sustained P0 recovery in existing development stream under explicit owner-directed succession."
+      "selectionReason": "Explicit request to write detection and locate or take over existing execution; preserve existing P0 hold."
     },
     "taskRouting": {
       "category": "crucible-core",
@@ -238,9 +238,9 @@
       "branch": "development",
       "reason": "Explicit repository and branch instruction selected 6076446993/The-Crucible:development.",
       "explicitOverride": true,
-      "selectedAt": "2026-10-19T05:58:33.292Z",
-      "promptSha256": "e9c45803e488a1e42e9d6ed541032a10ba25746e16581d9677f8175f4caca861",
-      "affectedPathsSha256": "dbcdbea0ad07b6dc3f41bfa97df71ba2e376f6ec1179da1f8a6091a6fc467d11"
+      "selectedAt": "2026-10-22T00:18:07.409Z",
+      "promptSha256": "72617f8af699b0ada3ad229bc2f09cb667060b96ae5c2751f351d6cfffdf14b5",
+      "affectedPathsSha256": "122ac49dded2d006a253d6b9eb0f391edb3f5448e100c73baf1abd85e30959fa"
     },
     "steps": [
       "FIRST unresolved prerequisite: independently protected versioned escrow and real recovery evidence; only recovery-scoped research, preservation and isolated verification may proceed.",
@@ -253,11 +253,11 @@
     ],
     "status": "handoff-ready",
     "startedAt": "2026-10-15T19:04:36.000Z",
-    "lastUpdatedAt": "2026-10-19T06:01:29.770Z",
+    "lastUpdatedAt": "2026-10-22T00:18:07.409Z",
     "currentStep": "Production acceptance externally blocked: preserve independent retention/restoration/publication/physical-reduction gates and original task order; permitted P0 backup/diagnostics implementation and restoration evidence recorded.",
     "priority": "Preserve candidate-only research boundaries while making human and machine credential risks explicit.",
     "ownership": {
-      "currentClaim": "owner-transfer-20261018-6c3643b48a7d",
+      "currentClaim": "owner-transfer-20261022-05b1731fd439",
       "owner": {
         "provider": "openai",
         "agent": "codex-work-e6f97bc625e2"
@@ -304,12 +304,12 @@
         "test/r8ExecutableCanaryPublisher.test.js",
         "src/rawCustodyPublisher.js"
       ],
-      "rule": "Owner-authorized native claim handoff on 2026-10-18. Preserve predecessor history and original task ages; old holder must re-read live ownership before mutation.",
+      "rule": "Owner-directed explicit native handoff. Exact host session identity required; alias and chat title cannot establish identity. Predecessor must re-read live claims before mutation.",
       "originalTaskId": "owner-file-transport-20261008",
       "originalAcquiredAt": "2026-10-08T04:06:58.715Z",
-      "currentAuthorizedExecution": "codex-work-7c11b0701d1a",
-      "previousAuthorizedExecution": "codex-work-e6f97bc625e2",
-      "ownerOrderAt": "2026-10-19T05:04:39.606Z"
+      "currentAuthorizedExecution": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+      "previousAuthorizedExecution": "codex-work-7c11b0701d1a",
+      "ownerOrderAt": "2026-10-22T00:18:07.409Z"
     },
     "trustedBoundary": {
       "commit": "259cf60ce2fc9127a2a8277df172dff39d3b59a0",
@@ -7578,19 +7578,167 @@
       }
     },
     "executionResearch": {
-      "observedAt": "2026-10-19T06:00:40.983Z",
-      "sourceRefs": [
-        "escrow-aws-secret-version-retention",
-        "escrow-google-version-destruction"
-      ],
-      "decision": "Make independently protected versioned escrow the first unresolved prerequisite. Continuously log recovery research and reuse it in implementation without claiming native submission or learned knowledge.",
-      "limitations": "Provider versioning alone does not establish retention or independent escrow. No approved provider contract, protected account or independently authorized custodian is available here. No original missing key is recovered by these checks.",
+      "observedAt": "2026-10-22T00:18:07.409Z",
+      "sourceRefs": [],
+      "noNewResearchReason": "Recovery ownership repair uses exact current repository native handoff, coordination and claim code plus owner instruction; no external technical facts needed.",
+      "decision": "Use native handOffClaim to preserve predecessors and transfer the same scopes after explicit owner authorization; keep detector isolated until host integration and independent review.",
+      "limitations": "Old host liveness, private work, session-to-chat mapping, host attestation and hard fencing unavailable. Full governing inventory not re-read under bounded preflight; no operational gate release.",
       "nextPrerequisite": "versioned-escrow"
     },
-    "escrowFirstPreviousNextAction": "Independent key custodian must authenticate retained original RAW generations using the retained Oversight key and authorized versioned keys; preserve all failures. Protected full RAW/VETTED historical custody and distinct-principal cold restoration, signed Oversight/owner acceptance precede signed no-op and reversible physical reduction. All78intake pointers remain held."
+    "escrowFirstPreviousNextAction": "Independent key custodian must authenticate retained original RAW generations using the retained Oversight key and authorized versioned keys; preserve all failures. Protected full RAW/VETTED historical custody and distinct-principal cold restoration, signed Oversight/owner acceptance precede signed no-op and reversible physical reduction. All78intake pointers remain held.",
+    "ownerDirectedRunnerTakeover20261022": {
+      "ownerInstruction": "Write it and find the worker or take it over",
+      "identityRuleOwnerInstruction": "We need better runner detection and if the Id's aren't exact then you aren't the worker, its like a fingerprint",
+      "at": "2026-10-22T00:18:07.409Z",
+      "previousClaimOwner": "codex-work-7c11b0701d1a",
+      "previousHistoricalSessionId": "01a12c93-41fd-7511-93f7-58c69a3ed622",
+      "successor": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "transfers": [
+        {
+          "previous": "owner-transfer-20261019-c64271426470",
+          "successor": "owner-transfer-20261022-05b1731fd439"
+        },
+        {
+          "previous": "owner-transfer-20261019-b7fd20483cff",
+          "successor": "owner-transfer-20261022-22e615042c34"
+        },
+        {
+          "previous": "owner-transfer-20261019-733af0096c98",
+          "successor": "owner-transfer-20261022-0357b9719774"
+        },
+        {
+          "previous": "owner-transfer-20261019-ffe0dd25bb54",
+          "successor": "owner-transfer-20261022-1b939b153508"
+        },
+        {
+          "previous": "owner-transfer-20261019-bb7b10d8ac7b",
+          "successor": "owner-transfer-20261022-22d3969ee40a"
+        },
+        {
+          "previous": "owner-transfer-20261019-434458a72af3",
+          "successor": "owner-transfer-20261022-9ebfdb63ae25"
+        },
+        {
+          "previous": "owner-transfer-20261019-1c041d2a362a",
+          "successor": "owner-transfer-20261022-edec43b3a185"
+        },
+        {
+          "previous": "owner-transfer-20261019-af3d6114a6cd",
+          "successor": "owner-transfer-20261022-254f6b4243ca"
+        },
+        {
+          "previous": "owner-transfer-20261019-1a2c3126f2d7",
+          "successor": "owner-transfer-20261022-3161be8d5eb2"
+        },
+        {
+          "previous": "owner-transfer-20261019-3b85ad4946d8",
+          "successor": "owner-transfer-20261022-9db3a284e1ab"
+        },
+        {
+          "previous": "owner-transfer-20261019-a99e38efbc29",
+          "successor": "owner-transfer-20261022-cdb6c133fc67"
+        },
+        {
+          "previous": "owner-transfer-20261019-22f3289b8ce5",
+          "successor": "owner-transfer-20261022-84f273315fd2"
+        },
+        {
+          "previous": "owner-transfer-20261019-95ba712a76a7",
+          "successor": "owner-transfer-20261022-48ae9af8d081"
+        },
+        {
+          "previous": "owner-transfer-20261019-741d3f77ef3f",
+          "successor": "owner-transfer-20261022-e580b0c4c15d"
+        },
+        {
+          "previous": "owner-transfer-20261019-caf4755999da",
+          "successor": "owner-transfer-20261022-4c0a1bdfd36f"
+        },
+        {
+          "previous": "owner-transfer-20261019-9f23636205f4",
+          "successor": "owner-transfer-20261022-f8cfd9acb581"
+        },
+        {
+          "previous": "owner-transfer-20261019-85ac88a7a5c4",
+          "successor": "owner-transfer-20261022-38d3bd95ddc9"
+        },
+        {
+          "previous": "owner-transfer-20261019-8d01ee050da9",
+          "successor": "owner-transfer-20261022-59edf08364a4"
+        },
+        {
+          "previous": "owner-transfer-20261019-79a788c96d1a",
+          "successor": "owner-transfer-20261022-04a030155133"
+        },
+        {
+          "previous": "owner-transfer-20261019-5228e04adb85",
+          "successor": "owner-transfer-20261022-ee7e61c25964"
+        },
+        {
+          "previous": "owner-transfer-20261019-093f798c7242",
+          "successor": "owner-transfer-20261022-2d32551ea5e1"
+        },
+        {
+          "previous": "owner-transfer-20261019-3a323cb84076",
+          "successor": "owner-transfer-20261022-1b70d767d3ea"
+        },
+        {
+          "previous": "p0-raw-history-authentication-20261019",
+          "successor": "owner-transfer-20261022-db8785e2a037"
+        },
+        {
+          "previous": "execution-research-escrow-first-20261019",
+          "successor": "owner-transfer-20261022-9b8c0cc6b173"
+        }
+      ],
+      "previousRuntimeStatus": "unknown",
+      "previousProcessTerminationVerified": false,
+      "privatePredecessorWorkRecovered": false,
+      "hostResumeCapability": "unavailable in exposed tools; codex command unavailable on execution-host PATH",
+      "canonicalWorkChat": "https://chatgpt.com/c/6ababd8b-bc14-83ea-8f5b-1603ac2eb023",
+      "canonicalChatReassigned": false,
+      "sessionToChatBinding": "unverified; no host routing or transfer API available",
+      "detectorStatus": "isolated candidate: 30 local tests pass; native host integration and independent review pending",
+      "detectorActivationAuthorized": false,
+      "hardFencingEnforced": false,
+      "restriction": "Record the owner-directed native claim handoff only. Old host liveness remains unknown; compliant writers must fetch and re-read live claims. No normal intake, recovery release, key rotation, escrow provisioning, cleanup, R2 rerun, or architecture activation.",
+      "priorCurrentPrompt": "Take it on my order then do # THE CRUCIBLE — ORIGINAL WORKER CONTINUATION HANDOFF\n \n**Date:** 2026-10-19\n \n**Repository:** `6076446993/The-Crucible`\n**Working branch:** `development`\n**Last verified HEAD:** `598ffab4d5b2a1e196fb36eb4ec324c8ec9288a0`\n**Current claim holder:** `codex-work-e6f97bc625e2`\n**Historical original session:** `01a12c93-41fd-7511-93f7-58c69a3ed622`\n \n**Master P0:** https://github.com/6076446993/The-Crucible/issues/49\n**Architecture and research:** https://github.com/6076446993/The-Crucible/issues/41\n \n## 1. Resume original ownership and execution\n \nContinue the existing authorized worker, preserving all original work IDs, claims, priorities, evidence, and unfinished tasks. Do not create a competing worker or replace the existing execution stream.\n \nAt the 2026-10-19 00:56 EDT checkpoint:\n \n- `development` HEAD was `598ffab4...`.\n- 22 active mutation claims belonged to `codex-work-e6f97bc625e2`.\n- The repository remained in `recovery-only` mode.\n- Independent recovery acceptance and normal-work resumption authorization were both false.\n\n \nRecheck these facts before acting. Read `DEVLOG.md` Shared AI handoff, `AGENTS.md`, `AI-HANDOFF.json`, all listed governing documents, active claims, repository routing, branch SHA, relevant CI, and unfinished worker checkpoints.\n \nUse existing prewrite and governance checks before mutation. If the recorded owner cannot be resumed or authenticated, preserve its claims, perform safe read-only work, and report the precise blocker. Never impersonate the holder or seize its paths.\n \n## 2. Resume P0 recovery first — Issue #49\n \nContinue from the latest verified code and evidence. Do not redo completed native workshop/Testing Organ work or previously integrated journal/outbox repairs.\n \nRequired sequence:\n \n1. Reconcile the key-publication fail-closed guard and historical key-lineage changes against live HEAD, tests and CI.\n2. Preserve every original RAW/VETTED key generation, ciphertext version, signing identity, provenance record, AAD, source ID, candidate age and existing LEE mapping.\n3. Investigate the remaining historical RAW-key gap using authorized key-management, versioned secret and independent custody evidence. Do not generate substitute historical keys or fabricate decryption success.\n4. Authenticate actual historical decryption and recovery, including the retained source population.\n5. Execute independent, protected, full-history cold restoration under distinct authorization and Oversight.\n6. Verify signed no-op publication suppression while ensuring changed content or custody metadata is never incorrectly discarded.\n7. Only after recovery acceptance and appropriate owner approval, undertake reversible storage migration, deduplication, retention changes and measured physical reduction.\n\n \nPreserve the existing target of below 45 GB where feasible, with a preferred lower target only if recovery and retention obligations remain satisfied. Count all protected replicas, indexes, historical versions, backups and archives.\n \nNo destructive cleanup, R2 restart, unauthorized key rotation, release promotion or recovery-policy bypass.\n \n## 3. Submit the 78 researched source pointers through existing R1\n \n**Authoritative submission manifest:**\n \nhttps://github.com/6076446993/The-Crucible/issues/41#issuecomment-6259897690\n \n**Recovery dependency record:**\n \nhttps://github.com/6076446993/The-Crucible/issues/49#issuecomment-6259914845\n \nThe owner has authorized submission and integration of 78 researched URL pointers across 12 topic families:\n \nOutSystems, Veeam, Wiz, Object First, Splunk, LogicGate, Datadog, Fin, Voices.com, Redis Inc., Ping Identity and Airtable.\n \nThe manifest is a planned native intake batch, NOT 78 authenticated queue ACKs or 78 verified knowledge records.\n \nOnce recovery-only restrictions are legitimately lifted:\n \n- Reconcile every pointer with existing source IDs, prior research batches, URL/finalURL, content hashes, rights, original dates and provenance.\n- Submit eligible sources using the existing `learning:admit-source-url` command and native queue, not a new intake mechanism.\n- Preserve original IDs and use reusable LEE/CRU/OPS references for cross-subject associations.\n- Perform governed retrieval, extraction, independent verification, classification, knowledge lifecycle and Oversight.\n- Record actual native ACK, reuse, quarantine or rejection for every submitted pointer.\n- Preserve failures and valid negative lessons with evidence.\n\n \nDo not bypass trusted-source, licensing, source-authenticity or independent-verification checks.\n \n## 4. Integrate approved architecture upgrades in place\n \nUse the existing four research gates, preserving all necessary historical R1–R11 proof/release obligations.\n \n**A. Research intake and evidence graph:** Improve canonical source identity, many-to-many LEE/subject links, consent, rights and provenance.\n \n**B. Security and authorization:** Extend existing scoped agent permissions, mutation claims, risk relationships, key-management safeguards and independently enforced authorization. No parallel policy engine.\n \n**C. Testing Organ and repair workshop:** Add reproducible evaluations, actual repair tools, independent retests, negative learning, exact deployed-SHA correlation and observed-effect checks. Missing telemetry is not success.\n \n**D. Logging and diagnostics:** Modernize the existing authoritative event vocabulary, append-only recovery journals and bounded rebuildable indexes. Correlate incident, source, work, LEE, subject, test and custody identities. No second logging system.\n \n**E. Storage and historical knowledge:** Maintain exactly two active protected systems in `6076446993/Crucible-database`: `In pipeline database` and `Verified learning database`. The existing empty `Intake database` placeholder is designated for governed rename to `historicalArchive`, an on-demand historical archive, not a third active primary. Preserve the approved backend and database main-only governance constraints.\n \n**F. Orchestrator and research views:** Add rights-aware, freshness-labeled, read-only evidence views, research progress, repair outcomes, worker ownership and storage metrics without adding a third database or parallel queue.\n \nUpgrade existing components instead of duplicating them.\n \n## 5. Verification and release requirements\n \nFor every implemented change, establish:\n \n- First-failing test or a demonstrated missing behavior.\n- Exact source identity, original research reference and code change.\n- Passing native and hosted tests at the exact SHA.\n- Separate security, custody and Oversight verification wherever required.\n- Reversible rollback and restart-safe recovery.\n- Actual physical storage measurements rather than estimated savings.\n- Updated original handoff records and research/resource ledger.\n\n \nPreserve R9 soak, R10 release-candidate proof and R11 explicit release authorization where required by the existing plans.\n \nNo code-level success substitutes for independent historical recovery or production acceptance.\n \n## 6. Execution and reporting\n \nWork autonomously through every safely actionable step without repeatedly requesting already-granted approval. Reuse existing worker claims and completed work. Do not start downstream research ingestion before its recovery gate passes.\n \nUpdate research/resource logs continuously, reconcile duplicates, and maintain the existing handoff and DEVLOG chain of custody.\n \nReport:\n \n1. Latest verified HEAD and actual authorized execution holder.\n2. What was completed and its exact commit/test/CI evidence.\n3. P0 recovery state and remaining historical key/custody blockers.\n4. The 78-source batch's true native intake count, including duplicates and holds.\n5. Architectural changes actually integrated versus merely prepared.\n6. Remaining tasks in the original priority sequence.\n\n \n**Completion means verified implemented behavior, not simply adding another plan or GitHub comment. Preserve everything unfinished for the original worker.**\n\nOwner repair follow-up (2026-10-19):\nCan you fix it and then do te research and architecture?\n\nOwner research/escrow-first instruction (2026-10-19):\nWould it help to research as we work like we have been? Also would it be possible to write that into the codex or maybe add it to the checks themselves i think versioned escrow should be done first before we resume current work",
+      "priorExecutionResearch": {
+        "observedAt": "2026-10-19T06:00:40.983Z",
+        "sourceRefs": [
+          "escrow-aws-secret-version-retention",
+          "escrow-google-version-destruction"
+        ],
+        "decision": "Make independently protected versioned escrow the first unresolved prerequisite. Continuously log recovery research and reuse it in implementation without claiming native submission or learned knowledge.",
+        "limitations": "Provider versioning alone does not establish retention or independent escrow. No approved provider contract, protected account or independently authorized custodian is available here. No original missing key is recovered by these checks.",
+        "nextPrerequisite": "versioned-escrow"
+      },
+      "preflight": "Delta inspection capped under owner resource policy. Current remote exact tip, shared handoff, AGENTS/constitution, native claims/coordination/routing checked. Full governing inventory was not re-read; operational mutation and detector activation remain held."
+    },
+    "runnerIdentity": {
+      "schemaVersion": 1,
+      "provider": "openai",
+      "namespace": "codex-session",
+      "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+      "claimOwner": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+      "repositoryId": 1344890806,
+      "branch": "development",
+      "epoch": 1,
+      "recordedAt": "2026-10-22T00:18:07.409Z",
+      "runtimeStatus": "unverified-external",
+      "identitySource": "current CODEX_SESSION_ID and CODEX_THREAD_ID exact equality; not a cryptographic host attestation",
+      "heartbeatEndpoint": null,
+      "canonicalChatBindingVerified": false,
+      "hostFencingEnforced": false
+    }
   },
   "handoffNotes": {
     "completed": [
+      "Owner-directed native claim transfer of 24 existing scopes from codex-work-7c11b0701d1a to exact session 01a15f5f-9f1a-71eb-bf6d-31d0462920e7; preserves predecessor records, original ledger and recovery-only holds. Detector candidate passed30local tests; not integrated.",
       "Raw archive replaced under the existing registered key: hosted encryption and isolated restore run 38176876189; independent published-archive authentication run 38176984983; state e627a695b1898ea7bcc24f884d066bf835868a30. All originals and historical source/candidate IDs retained; temporary transport secret removed.",
       "Reused completed pilot run 37567402124 without repeating or changing live queues. R2 remains passed.",
       "Implemented exact-register-hash bounded raw custody publication with separate immutable original snapshot, candidate-only extraction, no-change suppression, queue/candidate/active-knowledge preservation checks and encrypted rollback copies.",
@@ -7619,6 +7767,7 @@
       "Owner order transferred22original scopes using native handOffClaim; predecessor records and75work items retained. Historical RAW diagnostic extends hostedRecovery and existing retained-custody workflow;8focused/1283full native tests passed,0fail0skip."
     ],
     "remaining": [
+      "Runner detection: independently review isolated candidate, wire trusted host session/challenge/heartbeat registry and durable fencing at writer boundaries; canonical chat routing and predecessor private state remain unavailable. Preserve existing escrow-first P0 priorities.",
       "P0 follow-up only: publish macOS alias correction and current P0 operating hold, verify exact hosted OS matrix and resolve Windows durability without suppressing flush errors. Do not resume normal work or clear P0 merely because local tests pass.",
       "P0 recovery only: finish exact-source local gates, development publication and hosted checks; then obtain actual configured live custody, independently protected encrypted recovery storage and pinned independent verifier, complete live restore/power-failure/permission proof and universal restart-entry wiring. Zero knowledge loss is NOT VERIFIED. Preserve all earlier pending work; do not resume it before recovery acceptance.",
       "R8 executable-content quarantine proof remains pending in exact implementation run 38176245684; archive replacement does not satisfy scientific or promotion gates.",
@@ -7643,6 +7792,7 @@
       "Authoritative current execution checkpoint: https://github.com/6076446993/The-Crucible/issues/49#issuecomment-6260263873; follow its exact-SHA CI outcomes and original historical-key/independent-custody blockers. No unrelated work reprioritized."
     ],
     "verification": [
+      "Runner identity candidate:30pass/0fail; native mutationClaims/handoffPolicy/aiHandoffContinuation/aiConflictLedger:63pass/0fail; audit:coordination139claims/24active/115accounted; AI conflict governance6records pass. Same-author local evidence, no independent host liveness proof.",
       "node src/testCadence.js all: 2026-10-07T04:25:08.6826779Z through 04:25:49.0915264Z; exit 0; 1008/1008; zero skipped.",
       "node src/testRunGovernance.js verifyKnownBugFix: 43/43 pass and governed resolution. Prior failure was missing local TypeScript plus stale recorded prompt, not a live runtime failure.",
       "Workflow lint, validation, docs, circulation (57, none added), privacy, security, failure codes and coordination passed locally; hosted security authority remains unverified.",
@@ -10393,10 +10543,14 @@
         "regions": []
       },
       "purpose": "Return original custody scope to its actual holder after bounded NVIDIA integration; no new authority or automatic activation",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-6c3643b48a7d"
     },
@@ -10417,10 +10571,14 @@
         "regions": []
       },
       "purpose": "Owner-directed P0 recovery system only; preserve existing original custody claim and priorities",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-869edc5de8c7"
     },
@@ -10440,10 +10598,14 @@
         "regions": []
       },
       "purpose": "Close native research-log and discovery queue bypasses of recovery journaling",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-921107038cad"
     },
@@ -10462,10 +10624,14 @@
         "regions": []
       },
       "purpose": "Owner-directed autonomous recovery through existing orchestrator; preserve unfinished runtime queue and refuse restart without verified custody",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-b628b5a21cd5"
     },
@@ -10482,10 +10648,14 @@
         "regions": []
       },
       "purpose": "Verify existing supported explicit task route for owner recovery request whose forbidden promotion wording is misclassified automatically",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-7dce59ad3099"
     },
@@ -10502,10 +10672,14 @@
         "regions": []
       },
       "purpose": "Wire bounded autonomous recovery to existing production circulation and retain held recovery requests for retry",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-f0c75e2a3f96"
     },
@@ -10522,10 +10696,14 @@
         "regions": []
       },
       "purpose": "Retain exact recovery verification, restoration and unresolved-dependency evidence without asserting live-corpus recovery",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-be976ee69c61"
     },
@@ -10546,10 +10724,14 @@
         "regions": []
       },
       "purpose": "Enforce owner P0 recovery-only hold before live normal activity while preserving read-only diagnostics and recovery execution",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-83df5d0e86a1"
     },
@@ -10566,10 +10748,14 @@
         "regions": []
       },
       "purpose": "Place normal owner intake hold at live operator entry point while retaining isolated snapshot verification APIs",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-a7079c132d2a"
     },
@@ -10589,10 +10775,14 @@
         "regions": []
       },
       "purpose": "Finish authenticated retained-corpus recovery capture, encrypted preservation and isolated restart verification without resuming normal learning",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-b73ed5867c7b"
     },
@@ -10613,10 +10803,14 @@
         "regions": []
       },
       "purpose": "Bound Windows recovery flush verification from measured parallel progress; preserve all workers cycles assertions and other platform deadlines",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-39fa34edad5b"
     },
@@ -10635,10 +10829,14 @@
         "regions": []
       },
       "purpose": "Owner-authorized inactivity disconnect verification and explicit takeover decision record",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T10:00:45.532Z",
       "predecessorTaskId": "owner-transfer-20261018-76db3f05e11c"
     },
@@ -10656,10 +10854,14 @@
         "regions": []
       },
       "purpose": "Existing issue49 native stable evidence identities, encrypted immutable objects, exact restoration and signed checkpoint verification",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T21:33:28.435Z",
       "predecessorTaskId": "owner-transfer-20261018-75e87b36600c"
     },
@@ -10683,10 +10885,14 @@
         "regions": []
       },
       "purpose": "Resume existing pipeline-backup recovery proposal in original order while issue49 independent custody and physical reduction gates are externally blocked.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T21:47:02.353Z",
       "predecessorTaskId": "owner-transfer-20261018-0a8a28d6b889"
     },
@@ -10704,10 +10910,14 @@
         "regions": []
       },
       "purpose": "Existing pipeline-diagnostics exact-tip CI investigation: reject interrupted compiler commands misreported as exit zero; no task reprioritization or production proof restart.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-16T21:59:37.467Z",
       "predecessorTaskId": "owner-transfer-20261018-16ae38a9cdc6"
     },
@@ -10725,10 +10935,14 @@
         "regions": []
       },
       "purpose": "Sync all-plan, open-issue and open-PR reconciliation into existing release records without changing historical proof or original ordering.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-17T03:21:37.893Z",
       "predecessorTaskId": "owner-transfer-20261018-83f87bc7d481"
     },
@@ -10747,10 +10961,14 @@
         "regions": []
       },
       "purpose": "Original pipeline-backup P0 native ACK retention, bounded retry/quarantine and coded delivery-loss fix; existing runtime claim retained.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-17T03:25:59.628Z",
       "predecessorTaskId": "owner-transfer-20261018-14e6d6eda588"
     },
@@ -10767,10 +10985,14 @@
         "regions": []
       },
       "purpose": "Regenerate existing diagnostic catalog for reproduced CRU-0057 native delivery-retention defect; no independent diagnostic registry.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-17T03:28:39.328Z",
       "predecessorTaskId": "owner-transfer-20261018-8037cfe69246"
     },
@@ -10788,10 +11010,14 @@
         "regions": []
       },
       "purpose": "Reproduce and fix existing AUD-03 zero-execution false success within original pipeline-diagnostics; retain existing test/classification and cadence policy.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-17T03:33:46.877Z",
       "predecessorTaskId": "owner-transfer-20261018-1bfa3b607f3b"
     },
@@ -10808,10 +11034,14 @@
         "regions": []
       },
       "purpose": "Existing issue49/pipeline-backup evidence identity: retained-ID collision refusal without regenerating legacy identities.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-17T08:21:59.428Z",
       "predecessorTaskId": "owner-transfer-20261018-d3a95dc823b3"
     },
@@ -10856,10 +11086,14 @@
         "regions": []
       },
       "purpose": "Continue existing owner-requested P0 workshop/Testing Organ adapter; no new runner or activation authority.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-18T05:13:54.121Z",
       "predecessorTaskId": "testing-workshop-integration-20261018"
     },
@@ -10880,10 +11114,14 @@
         "regions": []
       },
       "purpose": "Existing recovery priority: emergency publication stop and native historical key-lineage preservation; no actual key/custody writes or real-KMS acceptance.",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:04:39.606Z",
-      "handedOffTo": null,
-      "releasedAt": null,
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z",
       "originalAcquiredAt": "2026-10-18T05:26:54.189Z",
       "predecessorTaskId": "key-publication-containment-20261018"
     },
@@ -10900,10 +11138,14 @@
         "regions": []
       },
       "purpose": "Extend existing read-only RAW custody inventory to authenticate historical retained ciphertext without publication or intake",
-      "status": "active",
+      "status": "handed-off",
       "acquiredAt": "2026-10-19T05:06:25.305Z",
-      "handedOffTo": null,
-      "releasedAt": null
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z"
     },
     {
       "taskId": "execution-research-escrow-first-20261019",
@@ -10918,8 +11160,576 @@
         "regions": []
       },
       "purpose": "Owner-requested continuous research instructions and escrow-first priority in the original P0 stream",
+      "status": "handed-off",
+      "acquiredAt": "2026-10-19T05:58:33.203Z",
+      "handedOffTo": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "releasedAt": "2026-10-22T00:18:07.409Z"
+    },
+    {
+      "taskId": "owner-transfer-20261022-05b1731fd439",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "AI-HANDOFF.json",
+          "DEVLOG.md",
+          "src/ownerFileTransport.js",
+          "test/ownerFileTransport.test.js",
+          ".github/workflows/owner-file-intake.yml",
+          "src/circulationLinkage.js",
+          "src/testCadenceCoreLegacy.js",
+          "test/_testCadenceCore.js",
+          "governingDocuments/owner-file-transport.md",
+          "test/workflow.test.js",
+          "governingDocuments/known-bugs/KNOWN-BUGS.json",
+          "governingDocuments/owner-file-intake-release.json",
+          "governingDocuments/owner-file-intake-main-compatibility.patch",
+          "src/hostedSourceBundle.js",
+          "test/hostedSourceBundle.test.js",
+          ".github/workflows/self-test.yml",
+          "src/claimExtractionWorker.js",
+          "test/claimExtractionWorker.test.js",
+          "test/pdfTextExtraction.test.js",
+          "src/ciDiagnosticOrgan.js",
+          "test/ciDiagnosticOrgan.test.js",
+          ".github/workflows/hosted-learning-proof.yml",
+          "src/handoffPolicy.js",
+          "src/testLifecycle.js",
+          "test/handoffPolicy.test.js",
+          "test/testLifecycle.test.js",
+          "test/sourceBundleKeyAutomation.test.js",
+          "src/aiHandoffContinuation.js",
+          "test/aiHandoffContinuation.test.js",
+          ".github/workflows/hosted-source-bootstrap.yml",
+          "test/rawCustodyRebuildWorkflow.test.js",
+          "README.md",
+          ".github/workflows/raw-custody-publisher.yml",
+          "test/rawCustodyPublisher.test.js",
+          ".github/workflows/r8-executable-canary-publisher.yml",
+          "src/safeInformationRetrieval.js",
+          "test/safeInformationRetrieval.test.js",
+          "src/r8ExecutableCanaryPublisher.js",
+          "test/r8ExecutableCanaryPublisher.test.js",
+          "src/rawCustodyPublisher.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Return original custody scope to its actual holder after bounded NVIDIA integration; no new authority or automatic activation",
       "status": "active",
-      "acquiredAt": "2026-10-19T05:58:33.203Z"
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-22e615042c34",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/recoverySystem.js",
+          "src/recoverySystemCli.js",
+          "test/recoverySystem.test.js",
+          "src/scientificLearning.js",
+          "governingDocuments/recovery-system.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-directed P0 recovery system only; preserve existing original custody claim and priorities",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-0357b9719774",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/automatedGoogleResearch.js",
+          "src/automatedPerplexityResearch.js",
+          "src/automatedModelPointerResearch.js",
+          "src/monthlyKnowledgeRefresh.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Close native research-log and discovery queue bypasses of recovery journaling",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-1b939b153508",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/learningOrchestrator.js",
+          "src/organismRuntime.js",
+          "src/recoveryController.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-directed autonomous recovery through existing orchestrator; preserve unfinished runtime queue and refuse restart without verified custody",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-22d3969ee40a",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "test/taskRouting.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Verify existing supported explicit task route for owner recovery request whose forbidden promotion wording is misclassified automatically",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-9ebfdb63ae25",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/productionOrganism.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Wire bounded autonomous recovery to existing production circulation and retain held recovery requests for retry",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-edec43b3a185",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "governingDocuments/recovery-verification-20261015.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Retain exact recovery verification, restoration and unresolved-dependency evidence without asserting live-corpus recovery",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-254f6b4243ca",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/sourceRetrievalWorker.js",
+          "src/ownerFileIntake.js",
+          "src/scientificLearningCli.js",
+          "src/hostedLearningProof.js",
+          "governingDocuments/recovery-operation-policy.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Enforce owner P0 recovery-only hold before live normal activity while preserving read-only diagnostics and recovery execution",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-3161be8d5eb2",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/ownerFileIntakeCli.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Place normal owner intake hold at live operator entry point while retaining isolated snapshot verification APIs",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-9db3a284e1ab",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/hostedRecovery.js",
+          "scripts/recoveryArchive.py",
+          "test/hostedRecovery.test.js",
+          ".github/workflows/recovery-custody.yml"
+        ],
+        "regions": []
+      },
+      "purpose": "Finish authenticated retained-corpus recovery capture, encrypted preservation and isolated restart verification without resuming normal learning",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-cdb6c133fc67",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/config.js",
+          "src/runner.js",
+          ".thecrucible.json",
+          ".thecrucible.schema.json",
+          "test/config.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Bound Windows recovery flush verification from measured parallel progress; preserve all workers cycles assertions and other platform deadlines",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-84f273315fd2",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "AI-CONFLICTS.json",
+          "test/organismRuntime.test.js",
+          "test/productionOrganism.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-authorized inactivity disconnect verification and explicit takeover decision record",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-48ae9af8d081",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/evidenceStorage.js",
+          "test/evidenceStorage.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Existing issue49 native stable evidence identities, encrypted immutable objects, exact restoration and signed checkpoint verification",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-e580b0c4c15d",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/auto-repair-learning.yml",
+          "src/adaptiveLearning.js",
+          "src/securityLearning.js",
+          "src/securityLearningCli.js",
+          "src/sourceRetrievalWorkerCli.js",
+          "test/adaptiveLearning.test.js",
+          "test/securityLearning.test.js",
+          "test/sourceRetrievalWorker.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Resume existing pipeline-backup recovery proposal in original order while issue49 independent custody and physical reduction gates are externally blocked.",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-4c0a1bdfd36f",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/semanticAnalysis.js",
+          "test/semanticAnalysis.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Existing pipeline-diagnostics exact-tip CI investigation: reject interrupted compiler commands misreported as exit zero; no task reprioritization or production proof restart.",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-f8cfd9acb581",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "governingDocuments/scientific-learning-release-plan.md",
+          "governingDocuments/scientific-learning-release-status.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Sync all-plan, open-issue and open-PR reconciliation into existing release records without changing historical proof or original ordering.",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-38d3bd95ddc9",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/organismCirculation.js",
+          "test/organismCirculation.test.js",
+          "src/failureCodes.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Original pipeline-backup P0 native ACK retention, bounded retry/quarantine and coded delivery-loss fix; existing runtime claim retained.",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-59edf08364a4",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "governingDocuments/cru-code-catalog.json"
+        ],
+        "regions": []
+      },
+      "purpose": "Regenerate existing diagnostic catalog for reproduced CRU-0057 native delivery-retention defect; no independent diagnostic registry.",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-04a030155133",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/testCadenceCore.js",
+          "test/testCadence.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Reproduce and fix existing AUD-03 zero-execution false success within original pipeline-diagnostics; retain existing test/classification and cadence policy.",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-ee7e61c25964",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "test/scientificLearning.test.js"
+        ],
+        "regions": []
+      },
+      "purpose": "Existing issue49/pipeline-backup evidence identity: retained-ID collision refusal without regenerating legacy identities.",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-2d32551ea5e1",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/repairWorkshop.js",
+          "src/orchestratorToolBuilder.js",
+          "src/testingToolSuite.js",
+          "src/recoveryTestIntegration.js",
+          "tools/testing/registry.json",
+          "fixtures/key-lineage-fix.patch",
+          "fixtures/historical-key-registry-history.json",
+          "test/repairWorkshop.test.js",
+          "test/recoveryTestIntegration.test.js",
+          "test/testing-tool-suite.test.js",
+          "tools/testing/historical-key-readiness.js",
+          "test/historical-key-readiness.test.js",
+          "tools/testing/key-workflow-order.js",
+          "test/key-workflow-order.test.js",
+          "tools/testing/recovery-proof-readiness.js",
+          "test/recovery-proof-readiness.test.js",
+          "tools/testing/key-lineage-patch-audit.js",
+          "test/key-lineage-patch-audit.test.js",
+          "tools/testing/signed-recovery-receipt.js",
+          "test/signed-recovery-receipt.test.js",
+          "tools/testing/repair-regression-evidence.js",
+          "test/repair-regression-evidence.test.js",
+          "src/testingOrgan.js",
+          "test/testingOrgan.test.js",
+          "fixtures/key-lineage-fix.json",
+          "test/fixtures/key-lineage-fix.json",
+          "test/fixtures/historical-key-registry-history.json",
+          "test/.gitattributes",
+          "tools/testing/.gitattributes"
+        ],
+        "regions": []
+      },
+      "purpose": "Continue existing owner-requested P0 workshop/Testing Organ adapter; no new runner or activation authority.",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-1b70d767d3ea",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "src/keyPublicationSafety.js",
+          "src/sourceBundleKeyAutomation.js",
+          "test/keyPublicationSafety.test.js",
+          "test/keyLineageRegression.test.js",
+          ".github/workflows/source-bundle-key-manager.yml"
+        ],
+        "regions": []
+      },
+      "purpose": "Existing recovery priority: emergency publication stop and native historical key-lineage preservation; no actual key/custody writes or real-KMS acceptance.",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-db8785e2a037",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          ".github/workflows/retained-custody-inventory.yml"
+        ],
+        "regions": []
+      },
+      "purpose": "Extend existing read-only RAW custody inventory to authenticate historical retained ciphertext without publication or intake",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
+    },
+    {
+      "taskId": "owner-transfer-20261022-9b8c0cc6b173",
+      "owner": {
+        "provider": "openai",
+        "agent": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7",
+        "sessionId": "01a15f5f-9f1a-71eb-bf6d-31d0462920e7"
+      },
+      "scope": {
+        "paths": [
+          "AGENTS.md"
+        ],
+        "regions": []
+      },
+      "purpose": "Owner-requested continuous research instructions and escrow-first priority in the original P0 stream",
+      "status": "active",
+      "acquiredAt": "2026-10-22T00:18:07.409Z",
+      "handedOffTo": null,
+      "releasedAt": null
     }
   ],
   "ownerDecisions": [
